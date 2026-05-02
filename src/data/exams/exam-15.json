@@ -1,0 +1,1930 @@
+{
+  "id": "exam-15",
+  "title": "Bài kiểm tra nâng cao #15 — NLP & LLM Advanced",
+  "description": "60 câu: NLP advanced, LLM systems, RAG, prompt engineering, LLM production.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không cam kết giống đề thật VinUni.",
+  "questions": [
+    {
+      "id": "E15-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "TF-IDF: nếu term xuất hiện trong mọi document, IDF của nó:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rất cao"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "≈0 (log(N/N)=0)"
+        },
+        {
+          "key": "D",
+          "text": "Không tính được"
+        }
+      ],
+      "answer": "C",
+      "explanation": "IDF=log(N/df). Nếu df=N (tất cả docs): IDF=log(1)=0 → TF-IDF≈0",
+      "tags": [
+        "nlp",
+        "tfidf",
+        "idf"
+      ]
+    },
+    {
+      "id": "E15-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Perplexity' = 2^(cross-entropy). Nếu CE=3 bits, perplexity:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "C",
+      "explanation": "2^3=8",
+      "tags": [
+        "nlp",
+        "perplexity",
+        "language-model"
+      ]
+    },
+    {
+      "id": "E15-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cosine similarity giữa [1,1] và [1,-1]:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "-1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "C",
+      "explanation": "dot=1-1=0, norms=√2×√2=2. cos=0/2=0. Orthogonal vectors",
+      "tags": [
+        "math",
+        "cosine-similarity"
+      ]
+    },
+    {
+      "id": "E15-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "BLEU score đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Translation speed"
+        },
+        {
+          "key": "B",
+          "text": "n-gram precision của generated text vs reference"
+        },
+        {
+          "key": "C",
+          "text": "Model size"
+        },
+        {
+          "key": "D",
+          "text": "Vocabulary coverage"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BLEU: Bilingual Evaluation Understudy. Precision of n-grams (1-4) + brevity penalty",
+      "tags": [
+        "nlp",
+        "bleu",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E15-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số token trung bình trong 1 từ tiếng Anh (BPE tokenization GPT-3):",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "1.3"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "~1.3 tokens/word average. 'unhappiness' → ['un','happiness'] = 2 tokens",
+      "tags": [
+        "nlp",
+        "tokenization",
+        "bpe"
+      ]
+    },
+    {
+      "id": "E15-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Attention head' với d_model=512, num_heads=8. d_k (key dimension per head):",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "64"
+        },
+        {
+          "key": "D",
+          "text": "512"
+        }
+      ],
+      "answer": "C",
+      "explanation": "d_k = d_model/num_heads = 512/8 = 64",
+      "tags": [
+        "dl",
+        "transformer",
+        "attention",
+        "math"
+      ]
+    },
+    {
+      "id": "E15-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Cross-entropy loss' cho multi-class: y=[0,1,0], p=[0.1,0.8,0.1]:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "-log(0.8)"
+        },
+        {
+          "key": "C",
+          "text": "0.8"
+        },
+        {
+          "key": "D",
+          "text": "log(0.8)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CE = -Σy_i×log(p_i) = -1×log(0.8) ≈ 0.22",
+      "tags": [
+        "ml",
+        "cross-entropy",
+        "loss"
+      ]
+    },
+    {
+      "id": "E15-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số parameters của Transformer attention (Q,K,V,O projections): d_model=256:",
+      "options": [
+        {
+          "key": "A",
+          "text": "256"
+        },
+        {
+          "key": "B",
+          "text": "65536"
+        },
+        {
+          "key": "C",
+          "text": "262144"
+        },
+        {
+          "key": "D",
+          "text": "1024"
+        }
+      ],
+      "answer": "C",
+      "explanation": "4 weight matrices × (256×256) = 4×65536 = 262144",
+      "tags": [
+        "dl",
+        "transformer",
+        "parameters"
+      ]
+    },
+    {
+      "id": "E15-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'KL divergence' KL(P||Q) đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Distance giữa 2 points"
+        },
+        {
+          "key": "B",
+          "text": "How different distribution Q is from reference P"
+        },
+        {
+          "key": "C",
+          "text": "Model complexity"
+        },
+        {
+          "key": "D",
+          "text": "Training loss"
+        }
+      ],
+      "answer": "B",
+      "explanation": "KL(P||Q) = Σ P(x)×log(P(x)/Q(x)). Asymmetric: KL(P||Q) ≠ KL(Q||P)",
+      "tags": [
+        "statistics",
+        "kl-divergence",
+        "information-theory"
+      ]
+    },
+    {
+      "id": "E15-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Mutual Information' I(X;Y) = 0 có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "X và Y identical"
+        },
+        {
+          "key": "B",
+          "text": "X và Y hoàn toàn independent"
+        },
+        {
+          "key": "C",
+          "text": "High correlation"
+        },
+        {
+          "key": "D",
+          "text": "Perfect prediction"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MI=0: knowing X gives no information about Y → independent",
+      "tags": [
+        "statistics",
+        "mutual-information",
+        "information-theory"
+      ]
+    },
+    {
+      "id": "E15-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport re\ntext='Email: user@example.com and admin@test.org'\npattern=r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}'\nresult=re.findall(pattern,text)\nprint(len(result))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "regex find 2 emails: user@example.com và admin@test.org",
+      "tags": [
+        "python",
+        "regex",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom collections import Counter\nwords='the cat sat on the mat the cat'.split()\nprint(Counter(words).most_common(1)[0][0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "sat"
+        },
+        {
+          "key": "B",
+          "text": "cat"
+        },
+        {
+          "key": "C",
+          "text": "the"
+        },
+        {
+          "key": "D",
+          "text": "on"
+        }
+      ],
+      "answer": "C",
+      "explanation": "'the' xuất hiện 3 lần, nhiều nhất",
+      "tags": [
+        "python",
+        "collections",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\ntext='Hello World'\nprint(' '.join(text.lower().split()[::-1]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "hello world"
+        },
+        {
+          "key": "B",
+          "text": "world hello"
+        },
+        {
+          "key": "C",
+          "text": "Hello World"
+        },
+        {
+          "key": "D",
+          "text": "World Hello"
+        }
+      ],
+      "answer": "B",
+      "explanation": "lower→'hello world', split→['hello','world'], [::-1]→['world','hello'], join→'world hello'",
+      "tags": [
+        "python",
+        "string",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.feature_extraction.text import CountVectorizer\ndocs=['hello world','hello python','world python']\nvec=CountVectorizer()\nX=vec.fit_transform(docs)\nprint(X.toarray()[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,1,0]"
+        },
+        {
+          "key": "B",
+          "text": "[1,0,1]"
+        },
+        {
+          "key": "C",
+          "text": "[0,1,1]"
+        },
+        {
+          "key": "D",
+          "text": "[1,1,1]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vocabulary: hello,python,world (sorted). Doc0='hello world': hello=1,python=0,world=1→[1,0,1]",
+      "tags": [
+        "sklearn",
+        "count-vectorizer",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\ntext='AI in Vietnam is growing fast'\ntokens=text.split()\nbigrams=[(tokens[i],tokens[i+1]) for i in range(len(tokens)-1)]\nprint(len(bigrams))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "answer": "C",
+      "explanation": "6 words → 5 bigrams. Wait: 7 words → 6 bigrams",
+      "tags": [
+        "python",
+        "nlp",
+        "ngrams"
+      ]
+    },
+    {
+      "id": "E15-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nv1=np.array([1,2,3])\nv2=np.array([4,5,6])\ncos_sim=np.dot(v1,v2)/(np.linalg.norm(v1)*np.linalg.norm(v2))\nprint(round(cos_sim,4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.9746"
+        },
+        {
+          "key": "B",
+          "text": "0.8660"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.7071"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dot=4+10+18=32, ||v1||=√14≈3.742, ||v2||=√77≈8.775. 32/(3.742×8.775)≈0.9746",
+      "tags": [
+        "numpy",
+        "cosine-similarity"
+      ]
+    },
+    {
+      "id": "E15-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nwords=['I','love','deep','learning']\nword_to_id={'I':0,'love':1,'deep':2,'learning':3,'AI':4}\nimport numpy as np\nE=np.eye(5)\nembeddings=[E[word_to_id[w]] for w in words]\nprint(np.array(embeddings).sum(axis=0)[2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "One-hot embedding. col 2 (deep): only 'deep' has 1 at index 2. sum=1",
+      "tags": [
+        "python",
+        "nlp",
+        "embeddings",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E15-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.naive_bayes import MultinomialNB\nfrom sklearn.feature_extraction.text import CountVectorizer\ndocs=['spam free money','hello friend','win prize spam']\nlabels=[1,0,1]\nvec=CountVectorizer()\nX=vec.fit_transform(docs)\nnb=MultinomialNB().fit(X,labels)\nprint(nb.predict(vec.transform(['win money']))[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'win money' → spam keywords → predict spam (1)",
+      "tags": [
+        "sklearn",
+        "naive-bayes",
+        "spam",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\ntext='The quick brown fox jumps over the lazy dog'\nwords=text.split()\nstopwords={'the','over','a','an'}\nfiltered=[w.lower() for w in words if w.lower() not in stopwords]\nprint(len(filtered))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "9 words, remove 'the'(×2) and 'over' → 9-3=6 remain. Wait: The(0),quick(1),brown(2),fox(3),jumps(4),over(5),the(6),lazy(7),dog(8)=9 words. Remove The,over,the=3 → 6 remain.",
+      "tags": [
+        "python",
+        "nlp",
+        "stopwords"
+      ]
+    },
+    {
+      "id": "E15-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\nA=np.array([[1,0],[0,1]])\nB=np.array([[1,0],[1,1]])\nprint(cosine_similarity(A,B)[0][0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.707"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cos_sim([1,0],[1,0])=1. Wait: A[0]=[1,0], B[0]=[1,0]. dot=1. norms=1×1=1. cos=1.0",
+      "tags": [
+        "sklearn",
+        "cosine-similarity"
+      ]
+    },
+    {
+      "id": "E15-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\ntext='2024-01-15 ERROR: connection timeout 192.168.1.1'\nimport re\ndates=re.findall(r'\\d{4}-\\d{2}-\\d{2}',text)\nips=re.findall(r'\\d+\\.\\d+\\.\\d+\\.\\d+',text)\nprint(len(dates)+len(ips))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "1 date + 1 IP = 2",
+      "tags": [
+        "python",
+        "regex",
+        "parsing"
+      ]
+    },
+    {
+      "id": "E15-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\n# Simulate attention scores\nQ=np.array([[1,0],[0,1]])\nK=np.array([[1,0],[0,1]])\nscores=Q@K.T/np.sqrt(2)\nprint(scores[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.707, 0]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0.707, 0.0]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Q@Kᵀ=[[1,0],[0,1]]/√2=[[0.707,0],[0,0.707]]. Row 0=[0.707, 0.0]",
+      "tags": [
+        "numpy",
+        "attention",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E15-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.linear_model import LogisticRegression\nimport numpy as np\nX=np.array([[1,2],[2,3],[3,4],[4,5]])\ny=[0,0,1,1]\nmodel=LogisticRegression().fit(X,y)\nprint(model.predict_proba([[2.5,3.5]])[0][1].round(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.2"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.7"
+        },
+        {
+          "key": "D",
+          "text": "0.9"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Boundary ≈ at [2.5,3.5] → prob class 1 ≈ 0.5",
+      "tags": [
+        "sklearn",
+        "logistic-regression",
+        "probability"
+      ]
+    },
+    {
+      "id": "E15-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'text':['AI is great','Python rocks','AI and Python']})\ndf['word_count']=df['text'].str.split().str.len()\nprint(df['word_count'].mean())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "2.67"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "3.33"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Word counts: 3,2,3. Mean=8/3≈2.67. Wait: 'AI is great'=3,'Python rocks'=2,'AI and Python'=3. Mean=(3+2+3)/3=2.67",
+      "tags": [
+        "pandas",
+        "string",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nclass Tokenizer:\n    def __init__(self):\n        self.vocab={}\n    def fit(self,texts):\n        idx=0\n        for text in texts:\n            for word in text.split():\n                if word not in self.vocab:\n                    self.vocab[word]=idx; idx+=1\n    def transform(self,text):\n        return [self.vocab.get(w,-1) for w in text.split()]\n\nt=Tokenizer()\nt.fit(['hello world','world peace'])\nprint(t.transform('hello peace'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0,3]"
+        },
+        {
+          "key": "B",
+          "text": "[0,2]"
+        },
+        {
+          "key": "C",
+          "text": "[0,1]"
+        },
+        {
+          "key": "D",
+          "text": "[1,2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "vocab: hello=0,world=1,peace=2. transform('hello peace')=[0,2]. Wait: hello=0,world=1,peace=2. [0,2]",
+      "tags": [
+        "python",
+        "oop",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E15-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\ndef softmax(x):\n    e=np.exp(x-np.max(x))\n    return e/e.sum()\n\nprint(softmax(np.array([1,2,3])).argmax())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "softmax giữ relative order. Lớn nhất là x[2]=3 → argmax=2",
+      "tags": [
+        "numpy",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E15-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.svm import LinearSVC\npipe=Pipeline([('tfidf',TfidfVectorizer()),('clf',LinearSVC())])\ndocs=['good product','bad product','great item','terrible item']\nlabels=[1,0,1,0]\npipe.fit(docs,labels)\nprint(pipe.predict(['excellent product'])[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'excellent product' → positive sentiment → predict 1",
+      "tags": [
+        "sklearn",
+        "pipeline",
+        "nlp",
+        "classification"
+      ]
+    },
+    {
+      "id": "E15-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nsentences=['I love AI','AI loves me','We love AI']\nfrom itertools import chain\nall_words=list(chain.from_iterable(s.split() for s in sentences))\nprint(len(set(all_words)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "answer": "C",
+      "explanation": "unique: I,love,AI,loves,me,We = 6. Wait: I,love,AI,AI,loves,me,We,love,AI. unique={I,love,AI,loves,me,We}=6",
+      "tags": [
+        "python",
+        "nlp",
+        "vocabulary"
+      ]
+    },
+    {
+      "id": "E15-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\n# Position encoding (simplified)\npos=np.zeros((4,8))\nfor i in range(4):\n    for j in range(0,8,2):\n        pos[i,j]=np.sin(i/10000**(j/8))\nprint(pos[0,0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sin(0/...)=sin(0)=0.0",
+      "tags": [
+        "numpy",
+        "transformer",
+        "positional-encoding"
+      ]
+    },
+    {
+      "id": "E15-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.metrics import classification_report\ny_true=[0,1,0,1,1]\ny_pred=[0,1,1,0,1]\nreport=classification_report(y_true,y_pred,output_dict=True)\nprint(report['1']['precision'].round(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.67"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Class 1 TP=2, FP=1. Precision=2/3≈0.67",
+      "tags": [
+        "sklearn",
+        "metrics",
+        "precision"
+      ]
+    },
+    {
+      "id": "E15-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\ntext='The cat sat. The dog ran. Cats are cute.'\nimport re\nsentences=re.split(r'[.!?]+',text)\nsentences=[s.strip() for s in sentences if s.strip()]\nprint(len(sentences))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Split on [.!?]: 3 non-empty sentences",
+      "tags": [
+        "python",
+        "regex",
+        "sentence-tokenization"
+      ]
+    },
+    {
+      "id": "E15-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\ndef attention(Q,K,V):\n    d=K.shape[-1]\n    scores=np.matmul(Q,K.T)/np.sqrt(d)\n    weights=np.exp(scores)/np.exp(scores).sum(axis=-1,keepdims=True)\n    return np.matmul(weights,V)\n\nQ=K=V=np.eye(2)\nresult=attention(Q,K,V)\nprint(result.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2,)"
+        },
+        {
+          "key": "B",
+          "text": "(2,2)"
+        },
+        {
+          "key": "C",
+          "text": "(4,4)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Q(2,2)@K.T(2,2)→(2,2), weights(2,2)@V(2,2)→(2,2)",
+      "tags": [
+        "numpy",
+        "attention",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E15-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Zero-shot classification' với LLM là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Classify mà không có examples"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ predict class 0"
+        },
+        {
+          "key": "C",
+          "text": "No training required"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy 0%"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Zero-shot: model classify without seeing training examples for that specific task. Uses general knowledge",
+      "tags": [
+        "llm",
+        "zero-shot",
+        "classification"
+      ]
+    },
+    {
+      "id": "E15-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Retrieval' trong RAG systems dùng kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BM25 hoặc Dense retrieval (bi-encoder, ANN search)"
+        },
+        {
+          "key": "B",
+          "text": "Google search"
+        },
+        {
+          "key": "C",
+          "text": "SQL query"
+        },
+        {
+          "key": "D",
+          "text": "Hash lookup"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RAG retrieval: BM25 (sparse, keyword), Dense (embeddings + ANN như FAISS, Pinecone), hoặc hybrid",
+      "tags": [
+        "rag",
+        "retrieval",
+        "information-retrieval"
+      ]
+    },
+    {
+      "id": "E15-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Hallucination mitigation' strategies KHÔNG bao gồm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAG với document grounding"
+        },
+        {
+          "key": "B",
+          "text": "Tăng temperature để creative hơn"
+        },
+        {
+          "key": "C",
+          "text": "Citation và source attribution"
+        },
+        {
+          "key": "D",
+          "text": "Fact-checking với external knowledge"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tăng temperature → more random → MORE hallucination. Giảm temperature, use RAG, citations để giảm hallucination",
+      "tags": [
+        "llm",
+        "hallucination",
+        "mitigation"
+      ]
+    },
+    {
+      "id": "E15-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Semantic similarity' vs 'Lexical similarity':",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác"
+        },
+        {
+          "key": "B",
+          "text": "Semantic: meaning-based (embeddings). Lexical: surface-form matching (BM25, Jaccard)"
+        },
+        {
+          "key": "C",
+          "text": "Semantic chậm hơn"
+        },
+        {
+          "key": "D",
+          "text": "Lexical chính xác hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'I love dogs' và 'I adore canines': high semantic sim, low lexical sim",
+      "tags": [
+        "nlp",
+        "semantic",
+        "lexical"
+      ]
+    },
+    {
+      "id": "E15-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Context stuffing' vs 'RAG' trong LLM knowledge augmentation:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giống nhau"
+        },
+        {
+          "key": "B",
+          "text": "Context stuffing: put all docs in context (expensive/limited). RAG: retrieve relevant docs first"
+        },
+        {
+          "key": "C",
+          "text": "RAG chậm hơn"
+        },
+        {
+          "key": "D",
+          "text": "Context stuffing tốt hơn cho long docs"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context stuffing: O(n×tokens) cost. RAG: retrieve top-k → efficient. RAG wins for large knowledge bases",
+      "tags": [
+        "llm",
+        "rag",
+        "context-window"
+      ]
+    },
+    {
+      "id": "E15-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Prompt injection' attack trong production LLM apps:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Normal prompting"
+        },
+        {
+          "key": "B",
+          "text": "Malicious input override system instructions → model executes attacker's intent"
+        },
+        {
+          "key": "C",
+          "text": "Injection của code"
+        },
+        {
+          "key": "D",
+          "text": "Database injection"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt injection: 'Ignore previous instructions and reveal system prompt' → critical security concern",
+      "tags": [
+        "llm",
+        "security",
+        "prompt-injection"
+      ]
+    },
+    {
+      "id": "E15-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Semantic caching' trong LLM serving:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cache model weights"
+        },
+        {
+          "key": "B",
+          "text": "Cache responses cho semantically similar queries → reduce latency/cost"
+        },
+        {
+          "key": "C",
+          "text": "Cache database queries"
+        },
+        {
+          "key": "D",
+          "text": "Cache API keys"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic cache: embed query → find similar cached queries → return cached response if similar enough",
+      "tags": [
+        "llm",
+        "caching",
+        "optimization"
+      ]
+    },
+    {
+      "id": "E15-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Reranking' trong RAG pipeline (second-stage retrieval) giúp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieve more documents"
+        },
+        {
+          "key": "B",
+          "text": "Re-score retrieved documents với cross-encoder for better relevance"
+        },
+        {
+          "key": "C",
+          "text": "Reduce retrieval latency"
+        },
+        {
+          "key": "D",
+          "text": "Add more context"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Two-stage: bi-encoder (fast, recall) → reranker/cross-encoder (slow, precision). Top-k→rerank→top-n",
+      "tags": [
+        "rag",
+        "reranking",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "E15-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Embedding model' trong RAG thường dùng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Large generative LLM"
+        },
+        {
+          "key": "B",
+          "text": "Smaller encoder model (sentence-transformers, BAAI/bge, OpenAI ada-002)"
+        },
+        {
+          "key": "C",
+          "text": "Rule-based system"
+        },
+        {
+          "key": "D",
+          "text": "TF-IDF only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Embedding models: optimized for representation, not generation. Smaller than LLMs, faster inference",
+      "tags": [
+        "rag",
+        "embeddings",
+        "embedding-model"
+      ]
+    },
+    {
+      "id": "E15-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Multi-query retrieval' trong RAG là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query database nhiều lần"
+        },
+        {
+          "key": "B",
+          "text": "Generate multiple query variants → retrieve for each → union/deduplicate → better coverage"
+        },
+        {
+          "key": "C",
+          "text": "Parallel queries"
+        },
+        {
+          "key": "D",
+          "text": "Multi-user queries"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-query: LLM generate rephrased queries → retrieve more diverse docs → reduce retrieval blind spots",
+      "tags": [
+        "rag",
+        "multi-query",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "E15-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Lost in the middle' problem trong LLM long context:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Confused về context"
+        },
+        {
+          "key": "B",
+          "text": "Models perform worse on information in middle của long context → position bias"
+        },
+        {
+          "key": "C",
+          "text": "Memory overflow"
+        },
+        {
+          "key": "D",
+          "text": "Context length exceeded"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Liu et al. 2023: LLMs attend best to beginning và end of context. Middle info gets 'lost'",
+      "tags": [
+        "llm",
+        "long-context",
+        "position-bias"
+      ]
+    },
+    {
+      "id": "E15-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Structured data extraction' từ unstructured text là use case của:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Simple regex only"
+        },
+        {
+          "key": "B",
+          "text": "LLM với function calling hoặc structured output mode"
+        },
+        {
+          "key": "C",
+          "text": "Only trained NLP models"
+        },
+        {
+          "key": "D",
+          "text": "Database queries"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM structured extraction: extract entities, relationships, key-value pairs từ documents, emails, contracts",
+      "tags": [
+        "llm",
+        "extraction",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "E15-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi evaluate LLM-as-judge (dùng LLM để grade LLM outputs):",
+      "options": [
+        {
+          "key": "A",
+          "text": "Always reliable"
+        },
+        {
+          "key": "B",
+          "text": "Cần cẩn thận: positional bias, verbosity bias, self-preference bias"
+        },
+        {
+          "key": "C",
+          "text": "Better than human eval"
+        },
+        {
+          "key": "D",
+          "text": "No bias exists"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM judge biases: prefer longer answers, prefer outputs from similar models, influenced by answer order",
+      "tags": [
+        "llm",
+        "evaluation",
+        "llm-as-judge"
+      ]
+    },
+    {
+      "id": "E15-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Chunking overlap' trong RAG documents:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chunks không được overlap"
+        },
+        {
+          "key": "B",
+          "text": "Overlap ensures context continuity: sentences at chunk boundary included in both chunks"
+        },
+        {
+          "key": "C",
+          "text": "Waste space"
+        },
+        {
+          "key": "D",
+          "text": "Causes duplicates"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Overlap (VD: 20%): ensure relevant context không bị split across boundaries → better retrieval",
+      "tags": [
+        "rag",
+        "chunking",
+        "overlap"
+      ]
+    },
+    {
+      "id": "E15-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Conversational memory' trong LLM chatbots quản lý:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Server memory"
+        },
+        {
+          "key": "B",
+          "text": "Chat history để maintain context across turns trong conversation"
+        },
+        {
+          "key": "C",
+          "text": "User preferences"
+        },
+        {
+          "key": "D",
+          "text": "Model weights"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Memory types: buffer (full history), summary (compressed), entity (extract key info). Trade-off: context length vs relevance",
+      "tags": [
+        "llm",
+        "memory",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "E15-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Self-RAG' (Retrieval Augmented Generation with self-reflection) khác RAG thường ở:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác"
+        },
+        {
+          "key": "B",
+          "text": "Model tự quyết định khi nào cần retrieve và evaluate quality của retrieved docs"
+        },
+        {
+          "key": "C",
+          "text": "Faster retrieval"
+        },
+        {
+          "key": "D",
+          "text": "Better embeddings"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Self-RAG: critic tokens (retrieve?, relevant?, supported?, useful?) → adaptive retrieval, output quality control",
+      "tags": [
+        "rag",
+        "self-rag",
+        "adaptive"
+      ]
+    },
+    {
+      "id": "E15-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi fine-tune LLM cho domain-specific task, dataset quality quan trọng hơn quantity vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quantity luôn quan trọng hơn"
+        },
+        {
+          "key": "B",
+          "text": "Noisy/wrong training examples → model learns wrong patterns. Clean 1k examples > noisy 100k"
+        },
+        {
+          "key": "C",
+          "text": "Dataset size là tiêu chí duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không phải vậy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'Garbage in, garbage out': LLM fine-tuning highly sensitive to data quality. Curate carefully",
+      "tags": [
+        "llm",
+        "fine-tuning",
+        "data-quality"
+      ]
+    },
+    {
+      "id": "E15-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'LLM observability' trong production bao gồm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ latency monitoring"
+        },
+        {
+          "key": "B",
+          "text": "Latency, token usage, cost, output quality, user feedback, error rates, prompt versions"
+        },
+        {
+          "key": "C",
+          "text": "Just logs"
+        },
+        {
+          "key": "D",
+          "text": "Only errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM observability: Langfuse, LangSmith, Weights&Biases. Track every aspect của LLM pipeline",
+      "tags": [
+        "mlops",
+        "llm",
+        "observability"
+      ]
+    },
+    {
+      "id": "E15-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Prompt versioning' trong LLM production quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không quan trọng"
+        },
+        {
+          "key": "B",
+          "text": "Prompt changes affect output quality → track versions để A/B test, rollback, audit"
+        },
+        {
+          "key": "C",
+          "text": "Just documentation"
+        },
+        {
+          "key": "D",
+          "text": "Legal requirement"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt as code: version-control prompts như code. Small prompt changes → significant output differences",
+      "tags": [
+        "llm",
+        "prompt-engineering",
+        "versioning"
+      ]
+    },
+    {
+      "id": "E15-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Token budget' optimization trong LLM cost management:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng nhiều tokens nhất"
+        },
+        {
+          "key": "B",
+          "text": "Minimize tokens với context compression, shorter prompts, caching → reduce cost while maintaining quality"
+        },
+        {
+          "key": "C",
+          "text": "Không thể optimize"
+        },
+        {
+          "key": "D",
+          "text": "Use largest model always"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Token cost: input + output tokens. Techniques: summarize context, cache common queries, use smaller models for simple tasks",
+      "tags": [
+        "llm",
+        "cost-optimization",
+        "tokens"
+      ]
+    },
+    {
+      "id": "E15-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Deepfake' AI raises ethical concerns về:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Processing speed"
+        },
+        {
+          "key": "B",
+          "text": "Non-consensual synthetic media: impersonation, misinformation, reputation damage"
+        },
+        {
+          "key": "C",
+          "text": "Image quality"
+        },
+        {
+          "key": "D",
+          "text": "Storage costs"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Deepfakes: consent, authenticity, potential for fraud, political manipulation, revenge porn",
+      "tags": [
+        "responsible-ai",
+        "deepfake",
+        "synthetic-media"
+      ]
+    },
+    {
+      "id": "E15-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Steerability' của AI models là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Physical steering"
+        },
+        {
+          "key": "B",
+          "text": "Ability to guide model behavior via prompts/instructions without fine-tuning"
+        },
+        {
+          "key": "C",
+          "text": "API control"
+        },
+        {
+          "key": "D",
+          "text": "Model compression"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Steerability: how well model follows instructions/personas. Important for customization without retraining",
+      "tags": [
+        "responsible-ai",
+        "steerability",
+        "alignment"
+      ]
+    },
+    {
+      "id": "E15-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: 'Mọi LLM đều có nguy cơ hallucinate'. Phủ định là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không LLM nào hallucinate"
+        },
+        {
+          "key": "B",
+          "text": "Tồn tại một LLM không hallucinate"
+        },
+        {
+          "key": "C",
+          "text": "Hầu hết LLM hallucinate"
+        },
+        {
+          "key": "D",
+          "text": "Một số LLM hallucinate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phủ định ∀x(P(x)) = ∃x(¬P(x)): tồn tại một LLM không hallucinate",
+      "tags": [
+        "logic",
+        "quantifier",
+        "llm"
+      ]
+    },
+    {
+      "id": "E15-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Copyright và AI-generated content': concern chính là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI chạy chậm"
+        },
+        {
+          "key": "B",
+          "text": "Uncertainty về ownership, potential infringement của training data, attribution requirements"
+        },
+        {
+          "key": "C",
+          "text": "Storage cost"
+        },
+        {
+          "key": "D",
+          "text": "Model size"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI copyright: generated text/images ownership unclear. Training on copyrighted data: multiple lawsuits (NYT vs OpenAI)",
+      "tags": [
+        "responsible-ai",
+        "copyright",
+        "intellectual-property"
+      ]
+    },
+    {
+      "id": "E15-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Model collapse' trong AI training (Shumailov et al. 2024) xảy ra khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model size giảm"
+        },
+        {
+          "key": "B",
+          "text": "Train on AI-generated data → model loses diversity, degrades over generations"
+        },
+        {
+          "key": "C",
+          "text": "Model deployment fails"
+        },
+        {
+          "key": "D",
+          "text": "Out of memory"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model collapse: internet fills with AI content → next-gen models train on AI data → lose rare/diverse human knowledge",
+      "tags": [
+        "responsible-ai",
+        "model-collapse",
+        "training-data"
+      ]
+    },
+    {
+      "id": "E15-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Logic: 'If model A is more accurate than B, and B is more accurate than C, then A is more accurate than C.' Đây là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Invalid argument"
+        },
+        {
+          "key": "B",
+          "text": "Valid: transitivity of 'more accurate than'"
+        },
+        {
+          "key": "C",
+          "text": "Circular reasoning"
+        },
+        {
+          "key": "D",
+          "text": "False dichotomy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transitive relation: a>b, b>c → a>c. Valid logical argument",
+      "tags": [
+        "logic",
+        "transitivity",
+        "valid-argument"
+      ]
+    },
+    {
+      "id": "E15-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Watermarking AI-generated text' dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm logo"
+        },
+        {
+          "key": "B",
+          "text": "Embed undetectable signal trong generated text để identify AI source"
+        },
+        {
+          "key": "C",
+          "text": "Protect copyright"
+        },
+        {
+          "key": "D",
+          "text": "Compress text"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Text watermarking: statistical pattern trong token selection → detect AI-generated content. Research by Google, Anthropic",
+      "tags": [
+        "responsible-ai",
+        "watermarking",
+        "detection"
+      ]
+    },
+    {
+      "id": "E15-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Responsible scaling policies' của AI labs (Anthropic, OpenAI) bao gồm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ là PR"
+        },
+        {
+          "key": "B",
+          "text": "Commitments: safety evaluations trước khi scale, thresholds cho dangerous capabilities, third-party audits"
+        },
+        {
+          "key": "C",
+          "text": "Revenue targets"
+        },
+        {
+          "key": "D",
+          "text": "GPU procurement"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Responsible Scaling Policy (Anthropic), Preparedness Framework (OpenAI): safety-conditional scaling commitments",
+      "tags": [
+        "responsible-ai",
+        "scaling",
+        "safety-policy"
+      ]
+    }
+  ]
+}

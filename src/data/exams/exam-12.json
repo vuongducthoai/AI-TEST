@@ -1,0 +1,1917 @@
+{
+  "id": "exam-12",
+  "title": "Bài kiểm tra nâng cao #12 — Python Advanced & Deep Learning",
+  "description": "60 câu nâng cao: Python OOP/decorators/closures, NumPy/Pandas advanced, Deep Learning fundamentals, NLP.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E12-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho dãy: 2, 6, 18, 54, ... Số hạng thứ 6 là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "162"
+        },
+        {
+          "key": "B",
+          "text": "324"
+        },
+        {
+          "key": "C",
+          "text": "486"
+        },
+        {
+          "key": "D",
+          "text": "648"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cấp số nhân công bội 3: a6=2×3^5=2×243=486",
+      "tags": [
+        "sequence",
+        "geometric"
+      ]
+    },
+    {
+      "id": "E12-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khoảng cách Euclid giữa 2 điểm (1,2) và (4,6) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "B",
+      "explanation": "√((4-1)²+(6-2)²)=√(9+16)=√25=5",
+      "tags": [
+        "math",
+        "euclidean-distance"
+      ]
+    },
+    {
+      "id": "E12-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu f(x) = 2x² + 3x - 5, tìm giá trị x để f(x) = 0 (nghiệm dương):",
+      "options": [
+        {
+          "key": "A",
+          "text": "x=1"
+        },
+        {
+          "key": "B",
+          "text": "x=2"
+        },
+        {
+          "key": "C",
+          "text": "x=3"
+        },
+        {
+          "key": "D",
+          "text": "x=5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "2(1)²+3(1)-5=2+3-5=0. x=1 là nghiệm.",
+      "tags": [
+        "algebra",
+        "quadratic"
+      ]
+    },
+    {
+      "id": "E12-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số cách chọn 3 người từ nhóm 7 người (không tính thứ tự) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "21"
+        },
+        {
+          "key": "B",
+          "text": "35"
+        },
+        {
+          "key": "C",
+          "text": "42"
+        },
+        {
+          "key": "D",
+          "text": "210"
+        }
+      ],
+      "answer": "B",
+      "explanation": "C(7,3)=7!/(3!×4!)=35",
+      "tags": [
+        "combinatorics",
+        "combination"
+      ]
+    },
+    {
+      "id": "E12-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cosine similarity giữa vector [1,0] và [0,1] là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "-1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cos_sim = dot/||a||×||b|| = (1×0+0×1)/(1×1) = 0. Hai vector vuông góc",
+      "tags": [
+        "math",
+        "cosine-similarity",
+        "vector"
+      ]
+    },
+    {
+      "id": "E12-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "P(A|B) = P(A∩B)/P(B) = 0.3/0.5. Giá trị P(A|B) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "0.3"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.6"
+        }
+      ],
+      "answer": "D",
+      "explanation": "P(A|B)=0.3/0.5=0.6 (Bayes conditional probability)",
+      "tags": [
+        "probability",
+        "conditional-probability",
+        "bayes"
+      ]
+    },
+    {
+      "id": "E12-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một model dự đoán sai 15 lần trong 100 lần. Error rate và Accuracy lần lượt là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "15%, 75%"
+        },
+        {
+          "key": "B",
+          "text": "15%, 85%"
+        },
+        {
+          "key": "C",
+          "text": "85%, 15%"
+        },
+        {
+          "key": "D",
+          "text": "20%, 80%"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Error rate=15/100=15%. Accuracy=1-0.15=85%",
+      "tags": [
+        "statistics",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E12-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giá trị của log₂(64) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "answer": "B",
+      "explanation": "2^6=64, nên log₂(64)=6",
+      "tags": [
+        "math",
+        "logarithm"
+      ]
+    },
+    {
+      "id": "E12-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu σ² (variance) = 9, thì độ lệch chuẩn σ là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "4.5"
+        },
+        {
+          "key": "C",
+          "text": "81"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ = √σ² = √9 = 3",
+      "tags": [
+        "statistics",
+        "variance",
+        "standard-deviation"
+      ]
+    },
+    {
+      "id": "E12-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cross-entropy loss cho output [0.7, 0.2, 0.1] với label [1,0,0] là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "-log(0.7)"
+        },
+        {
+          "key": "B",
+          "text": "-log(0.2)"
+        },
+        {
+          "key": "C",
+          "text": "0.7"
+        },
+        {
+          "key": "D",
+          "text": "0.3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CE = -Σ y_i × log(p_i) = -1×log(0.7) - 0×log(0.2) - 0×log(0.1) = -log(0.7) ≈ 0.357",
+      "tags": [
+        "ml",
+        "cross-entropy",
+        "loss-function"
+      ]
+    },
+    {
+      "id": "E12-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nclass Animal:\n    sound = 'generic'\n    def speak(self): return self.sound\n\nclass Cat(Animal):\n    sound = 'meow'\n\nc = Cat()\nprint(c.speak())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "generic"
+        },
+        {
+          "key": "B",
+          "text": "meow"
+        },
+        {
+          "key": "C",
+          "text": "Animal.generic"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cat override class attribute sound='meow'. c.speak() return self.sound = 'meow'",
+      "tags": [
+        "python",
+        "oop",
+        "inheritance"
+      ]
+    },
+    {
+      "id": "E12-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndef make_adder(n):\n    return lambda x: x + n\n\nadd5 = make_adder(5)\nprint(add5(3) + add5(7))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "20"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "C",
+      "explanation": "add5(3)=8, add5(7)=12, tổng=20. Đây là closure pattern",
+      "tags": [
+        "python",
+        "closure",
+        "lambda"
+      ]
+    },
+    {
+      "id": "E12-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nfrom itertools import chain\na = [1,2,3]\nb = [4,5,6]\nprint(list(chain(a,b)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1,2,3],[4,5,6]]"
+        },
+        {
+          "key": "B",
+          "text": "[1,2,3,4,5,6]"
+        },
+        {
+          "key": "C",
+          "text": "[5,7,9]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "itertools.chain nối 2 iterable thành 1 sequence phẳng",
+      "tags": [
+        "python",
+        "itertools",
+        "chain"
+      ]
+    },
+    {
+      "id": "E12-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nfrom collections import Counter\nc = Counter('banana')\nprint(c.most_common(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('a',3),('n',2)]"
+        },
+        {
+          "key": "B",
+          "text": "[('b',1),('a',3)]"
+        },
+        {
+          "key": "C",
+          "text": "{'a':3,'n':2}"
+        },
+        {
+          "key": "D",
+          "text": "[3,2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'banana': a=3, n=2, b=1. most_common(2) = top 2: [('a',3),('n',2)]",
+      "tags": [
+        "python",
+        "collections",
+        "counter"
+      ]
+    },
+    {
+      "id": "E12-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndef decorator(func):\n    def wrapper(*args):\n        return func(*args) * 2\n    return wrapper\n\n@decorator\ndef add(a, b):\n    return a + b\n\nprint(add(3, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "24"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "add(3,4)=7, wrapper nhân 2 → 14",
+      "tags": [
+        "python",
+        "decorator",
+        "wrapper"
+      ]
+    },
+    {
+      "id": "E12-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\na = np.arange(12).reshape(3,4)\nprint(a[1:,::2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "array([[4,6],[8,10]])"
+        },
+        {
+          "key": "B",
+          "text": "array([[4,5,6,7],[8,9,10,11]])"
+        },
+        {
+          "key": "C",
+          "text": "array([[0,2],[4,6],[8,10]])"
+        },
+        {
+          "key": "D",
+          "text": "array([[5,7],[9,11]])"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a=[[0..3],[4..7],[8..11]]. a[1:,::2]: rows 1-2, cols 0,2 → [[4,6],[8,10]]",
+      "tags": [
+        "numpy",
+        "slicing",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E12-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\na = np.array([1,np.nan,3,np.nan,5])\nprint(np.nanmean(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "nan"
+        },
+        {
+          "key": "B",
+          "text": "1.8"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "9.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "nanmean bỏ qua NaN: mean([1,3,5])=(1+3+5)/3=3.0",
+      "tags": [
+        "numpy",
+        "nanmean",
+        "missing"
+      ]
+    },
+    {
+      "id": "E12-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport pandas as pd\ndf = pd.DataFrame({'A':['foo','bar','foo'],'B':[1,2,3]})\nprint(df[df['A']=='foo']['B'].sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Filter A=='foo': rows 0,2 với B=1,3. Sum=4",
+      "tags": [
+        "pandas",
+        "filtering",
+        "sum"
+      ]
+    },
+    {
+      "id": "E12-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndf = pd.DataFrame({'x':[1,2,3],'y':[4,5,6]})\ndf['z'] = df.apply(lambda row: row['x']**2 + row['y'], axis=1)\nprint(df['z'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5,9,15]"
+        },
+        {
+          "key": "B",
+          "text": "[1,4,9]"
+        },
+        {
+          "key": "C",
+          "text": "[4,5,6]"
+        },
+        {
+          "key": "D",
+          "text": "[5,7,9]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "axis=1 apply per row: 1²+4=5, 2²+5=9, 3²+6=15",
+      "tags": [
+        "pandas",
+        "apply",
+        "lambda"
+      ]
+    },
+    {
+      "id": "E12-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nfrom typing import List\ndef process(items: List[int]) -> int:\n    return sum(x for x in items if x > 0)\n\nprint(process([-1, 2, -3, 4, 5]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "11"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "11"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Generator sum dương: 2+4+5=11",
+      "tags": [
+        "python",
+        "type-hints",
+        "generator-expression"
+      ]
+    },
+    {
+      "id": "E12-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\na = [1,2,3,4,5]\na[::2] = [10,20,30]\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10,2,20,4,30]"
+        },
+        {
+          "key": "B",
+          "text": "[10,20,30,4,5]"
+        },
+        {
+          "key": "C",
+          "text": "[1,10,3,20,5]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a[::2] = indices 0,2,4 → thay bằng [10,20,30] → [10,2,20,4,30]",
+      "tags": [
+        "python",
+        "list",
+        "slicing-assignment"
+      ]
+    },
+    {
+      "id": "E12-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\nA = np.array([[1,2],[3,4]])\nB = np.array([[5,6],[7,8]])\nprint(A @ B)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[5,12],[21,32]]"
+        },
+        {
+          "key": "B",
+          "text": "[[19,22],[43,50]]"
+        },
+        {
+          "key": "C",
+          "text": "[[6,8],[10,12]]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Matrix multiply: [[1*5+2*7, 1*6+2*8],[3*5+4*7, 3*6+4*8]]=[[19,22],[43,50]]",
+      "tags": [
+        "numpy",
+        "matrix-multiplication"
+      ]
+    },
+    {
+      "id": "E12-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndf = pd.DataFrame({'col':['a','b','a','c','b','a']})\nprint(df['col'].value_counts().index[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "a"
+        },
+        {
+          "key": "B",
+          "text": "b"
+        },
+        {
+          "key": "C",
+          "text": "c"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "value_counts() sắp xếp giảm dần. 'a' xuất hiện 3 lần → index[0]='a'",
+      "tags": [
+        "pandas",
+        "value_counts"
+      ]
+    },
+    {
+      "id": "E12-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nclass MyList:\n    def __init__(self): self.data = []\n    def __len__(self): return len(self.data)\n    def append(self, x): self.data.append(x)\n\nml = MyList()\nml.append(1); ml.append(2)\nprint(len(ml))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "__len__ dunder method, len(ml) gọi ml.__len__() = len([1,2]) = 2",
+      "tags": [
+        "python",
+        "oop",
+        "dunder-methods"
+      ]
+    },
+    {
+      "id": "E12-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndef memoize(f):\n    cache = {}\n    def inner(n):\n        if n not in cache:\n            cache[n] = f(n)\n        return cache[n]\n    return inner\n\n@memoize\ndef fib(n):\n    return n if n <= 1 else fib(n-1) + fib(n-2)\n\nprint(fib(6))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "13"
+        },
+        {
+          "key": "D",
+          "text": "21"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fibonacci(6)=8: 0,1,1,2,3,5,8",
+      "tags": [
+        "python",
+        "memoize",
+        "recursion",
+        "fibonacci"
+      ]
+    },
+    {
+      "id": "E12-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\nx = np.array([1,2,3,4,5])\nprint(np.percentile(x, 75))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "4.0"
+        },
+        {
+          "key": "C",
+          "text": "4.5"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Q3 (75th percentile) của [1,2,3,4,5] = 4.0",
+      "tags": [
+        "numpy",
+        "percentile",
+        "statistics"
+      ]
+    },
+    {
+      "id": "E12-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndf = pd.DataFrame({'A':[1,2,3],'B':[4,5,6]})\ndf_t = df.T\nprint(df_t.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3,2)"
+        },
+        {
+          "key": "B",
+          "text": "(2,3)"
+        },
+        {
+          "key": "C",
+          "text": "(6,1)"
+        },
+        {
+          "key": "D",
+          "text": "(1,6)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "df.shape=(3,2). Transpose T: (2,3)",
+      "tags": [
+        "pandas",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E12-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\na = np.array([3,1,4,1,5,9,2,6])\nprint(np.argsort(a)[:3])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,3,6]"
+        },
+        {
+          "key": "B",
+          "text": "[1,2,3]"
+        },
+        {
+          "key": "C",
+          "text": "[3,1,4]"
+        },
+        {
+          "key": "D",
+          "text": "[0,1,2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort trả index sắp xếp tăng dần. Nhỏ nhất: 1(index1),1(index3),2(index6) → [1,3,6]",
+      "tags": [
+        "numpy",
+        "argsort"
+      ]
+    },
+    {
+      "id": "E12-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndf = pd.DataFrame({'id':[1,2,3],'score':[80,90,70]})\ndf['rank'] = df['score'].rank(ascending=False)\nprint(df[df['id']==2]['rank'].values[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "90.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "rank descending: 90 là cao nhất → rank=1.0",
+      "tags": [
+        "pandas",
+        "rank"
+      ]
+    },
+    {
+      "id": "E12-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nfrom abc import ABC, abstractmethod\nclass Shape(ABC):\n    @abstractmethod\n    def area(self): pass\n\nclass Circle(Shape):\n    def __init__(self, r): self.r = r\n    def area(self): return 3.14 * self.r ** 2\n\ns = Circle(5)\nprint(s.area())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "78.5"
+        },
+        {
+          "key": "B",
+          "text": "78.0"
+        },
+        {
+          "key": "C",
+          "text": "25"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "3.14 × 5² = 3.14 × 25 = 78.5",
+      "tags": [
+        "python",
+        "oop",
+        "abstract-class"
+      ]
+    },
+    {
+      "id": "E12-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\nimport numpy as np\na = np.array([[1,2,3],[4,5,6],[7,8,9]])\nprint(np.trace(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "45"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trace = sum of diagonal = 1+5+9 = 15",
+      "tags": [
+        "numpy",
+        "linear-algebra",
+        "trace"
+      ]
+    },
+    {
+      "id": "E12-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của:\n```python\ndf = pd.DataFrame({'A':[1,2,3,4,5],'B':[10,20,30,40,50]})\nprint(df.corr()['A']['B'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A và B tỉ lệ thuận hoàn hảo (B=10A), Pearson correlation = 1.0",
+      "tags": [
+        "pandas",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E12-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Batch normalization' trong Deep Learning có tác dụng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "B",
+          "text": "Normalize activations → training ổn định hơn, giảm internal covariate shift"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số lớp cần thiết"
+        },
+        {
+          "key": "D",
+          "text": "Tăng tốc inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Batch norm normalize outputs của layer trước khi đưa vào activation → giảm internal covariate shift, cho phép lr cao hơn",
+      "tags": [
+        "dl",
+        "batch-normalization"
+      ]
+    },
+    {
+      "id": "E12-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Dropout' trong Neural Network hoạt động như thế nào trong quá trình training?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa vĩnh viễn các neuron yếu"
+        },
+        {
+          "key": "B",
+          "text": "Randomly set một tỉ lệ neurons to 0 mỗi forward pass"
+        },
+        {
+          "key": "C",
+          "text": "Giảm learning rate sau mỗi epoch"
+        },
+        {
+          "key": "D",
+          "text": "Merge các neuron tương tự"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dropout(p): mỗi forward pass, mỗi neuron có xác suất p bị set về 0 → prevents co-adaptation, reduces overfitting",
+      "tags": [
+        "dl",
+        "dropout",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E12-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Vanishing gradient problem' xảy ra phổ biến nhất với activation function nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid và Tanh trong deep networks"
+        },
+        {
+          "key": "C",
+          "text": "GELU"
+        },
+        {
+          "key": "D",
+          "text": "Softmax"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sigmoid/Tanh: gradient trong khoảng (0,1)/(0,1), nhân nhiều lần qua nhiều layer → gradient shrink về 0",
+      "tags": [
+        "dl",
+        "vanishing-gradient",
+        "activation"
+      ]
+    },
+    {
+      "id": "E12-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Word2Vec' tạo word embeddings bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đếm frequency của từ trong corpus"
+        },
+        {
+          "key": "B",
+          "text": "Học representations từ context của từ (predict surrounding words)"
+        },
+        {
+          "key": "C",
+          "text": "Dùng dictionary definitions"
+        },
+        {
+          "key": "D",
+          "text": "Phân tích ngữ pháp (POS tagging)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Word2Vec (Skip-gram/CBOW): học embeddings bằng cách predict context words → từ có context tương tự có embedding gần nhau",
+      "tags": [
+        "nlp",
+        "word2vec",
+        "embeddings"
+      ]
+    },
+    {
+      "id": "E12-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong NLP, 'Named Entity Recognition (NER)' là task:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch thuật giữa các ngôn ngữ"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại văn bản theo chủ đề"
+        },
+        {
+          "key": "C",
+          "text": "Nhận dạng và phân loại entities (người, tổ chức, địa điểm) trong text"
+        },
+        {
+          "key": "D",
+          "text": "Tạo tóm tắt văn bản"
+        }
+      ],
+      "answer": "C",
+      "explanation": "NER: extract và classify named entities: PERSON, ORG, LOC, DATE, etc. Ứng dụng: information extraction, knowledge graph",
+      "tags": [
+        "nlp",
+        "ner",
+        "information-extraction"
+      ]
+    },
+    {
+      "id": "E12-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'K-means clustering' có hạn chế nào quan trọng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không xử lý được dữ liệu số"
+        },
+        {
+          "key": "B",
+          "text": "Phải xác định K trước, nhạy với outliers và initialization"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ hoạt động với 2D data"
+        },
+        {
+          "key": "D",
+          "text": "Không scale được với large datasets"
+        }
+      ],
+      "answer": "B",
+      "explanation": "K-means: cần chọn K (dùng elbow method), sensitive to outliers và random init (dùng k-means++ để cải thiện)",
+      "tags": [
+        "ml",
+        "clustering",
+        "k-means"
+      ]
+    },
+    {
+      "id": "E12-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'BERT' khác GPT ở điểm kiến trúc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BERT dùng RNN, GPT dùng Transformer"
+        },
+        {
+          "key": "B",
+          "text": "BERT là encoder-only (bidirectional), GPT là decoder-only (autoregressive)"
+        },
+        {
+          "key": "C",
+          "text": "BERT lớn hơn GPT"
+        },
+        {
+          "key": "D",
+          "text": "BERT không dùng attention"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT: masked language model, bidirectional encoder → tốt cho classification/NER. GPT: causal LM, left-to-right decoder → tốt cho generation",
+      "tags": [
+        "nlp",
+        "bert",
+        "gpt",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E12-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Support Vector Machine (SVM)' tìm hyperplane nào để phân loại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hyperplane đi qua nhiều điểm nhất"
+        },
+        {
+          "key": "B",
+          "text": "Hyperplane maximize margin giữa 2 class"
+        },
+        {
+          "key": "C",
+          "text": "Hyperplane minimize training error"
+        },
+        {
+          "key": "D",
+          "text": "Hyperplane vuông góc với data"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SVM: tìm maximum margin hyperplane. Support vectors là các điểm gần hyperplane nhất, quyết định margin",
+      "tags": [
+        "ml",
+        "svm",
+        "margin"
+      ]
+    },
+    {
+      "id": "E12-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Precision' và 'Recall' có trade-off như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng threshold → tăng precision, tăng recall"
+        },
+        {
+          "key": "B",
+          "text": "Tăng threshold → tăng precision, giảm recall"
+        },
+        {
+          "key": "C",
+          "text": "Tăng threshold → giảm precision, tăng recall"
+        },
+        {
+          "key": "D",
+          "text": "Không có trade-off"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tăng threshold: model tự tin hơn trước khi predict positive → ít FP (precision↑) nhưng nhiều FN (recall↓)",
+      "tags": [
+        "ml",
+        "precision",
+        "recall",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E12-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Semantic search' khác 'keyword search' ở điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semantic search nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Semantic search hiểu nghĩa/intent thay vì chỉ match từ khóa"
+        },
+        {
+          "key": "C",
+          "text": "Keyword search chính xác hơn"
+        },
+        {
+          "key": "D",
+          "text": "Semantic search không cần index"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic search dùng embeddings để tìm semantic similarity. 'Laptop bị nóng' sẽ match 'notebook overheating issues'",
+      "tags": [
+        "ai",
+        "semantic-search",
+        "embeddings"
+      ]
+    },
+    {
+      "id": "E12-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong AI product development, 'shadow mode deployment' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deploy lúc midnight để không ảnh hưởng user"
+        },
+        {
+          "key": "B",
+          "text": "Chạy model mới song song nhưng không dùng output của nó cho user"
+        },
+        {
+          "key": "C",
+          "text": "Deploy trên dark web để test"
+        },
+        {
+          "key": "D",
+          "text": "Deploy chỉ cho internal users"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Shadow mode: model mới nhận real traffic, log predictions nhưng không ảnh hưởng UX → compare với model cũ an toàn",
+      "tags": [
+        "mlops",
+        "shadow-deployment",
+        "product"
+      ]
+    },
+    {
+      "id": "E12-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Embedding space' trong LLM giúp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ parameters hiệu quả"
+        },
+        {
+          "key": "B",
+          "text": "Biểu diễn semantic similarity: tokens/concepts gần nhau có vector gần nhau"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc tokenization"
+        },
+        {
+          "key": "D",
+          "text": "Giảm memory footprint"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Embedding space: high-dimensional vectors capture semantic relationships. King - Man + Woman ≈ Queen là ví dụ điển hình",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "semantic"
+      ]
+    },
+    {
+      "id": "E12-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Fine-tuning' LLM tốt nhất áp dụng khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần model thực hiện general knowledge tasks"
+        },
+        {
+          "key": "B",
+          "text": "Cần model học specific style, format, hoặc domain knowledge không có trong pre-training"
+        },
+        {
+          "key": "C",
+          "text": "Muốn giảm inference latency"
+        },
+        {
+          "key": "D",
+          "text": "Muốn model không biết gì về domain"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fine-tuning: adapt pre-trained model cho specific task/domain với task-specific data. Cheaper than training from scratch",
+      "tags": [
+        "llm",
+        "fine-tuning",
+        "transfer-learning"
+      ]
+    },
+    {
+      "id": "E12-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Confusion matrix' cho bài toán binary classification có cấu trúc:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2×2: TP, FP, FN, TN"
+        },
+        {
+          "key": "B",
+          "text": "1×4: Accuracy, Precision, Recall, F1"
+        },
+        {
+          "key": "C",
+          "text": "N×N với N = số classes"
+        },
+        {
+          "key": "D",
+          "text": "A và C đều đúng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Binary: 2×2 matrix với TP/FP/FN/TN. Multi-class: N×N. Cả A và C đều đúng cho trường hợp tương ứng",
+      "tags": [
+        "ml",
+        "confusion-matrix",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E12-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Retrieval-Augmented Generation (RAG)' giải quyết limitation nào của LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM quá chậm"
+        },
+        {
+          "key": "B",
+          "text": "LLM bị giới hạn bởi training cutoff và thiếu domain-specific knowledge"
+        },
+        {
+          "key": "C",
+          "text": "LLM không hiểu tiếng Việt"
+        },
+        {
+          "key": "D",
+          "text": "LLM không thể xử lý code"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RAG: retrieve relevant docs → augment prompt → LLM generate grounded response. Giảm hallucination, update knowledge không cần retrain",
+      "tags": [
+        "rag",
+        "llm",
+        "knowledge"
+      ]
+    },
+    {
+      "id": "E12-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi deploy AI model, 'latency' vs 'throughput' trade-off là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng batch size → giảm latency, tăng throughput"
+        },
+        {
+          "key": "B",
+          "text": "Tăng batch size → tăng latency per request, tăng throughput (requests/second)"
+        },
+        {
+          "key": "C",
+          "text": "Không có trade-off"
+        },
+        {
+          "key": "D",
+          "text": "Tăng batch size luôn tốt hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Large batch: GPU utilization cao → throughput↑ nhưng mỗi request phải chờ batch đầy → latency↑. Real-time app cần small batch",
+      "tags": [
+        "mlops",
+        "latency",
+        "throughput",
+        "deployment"
+      ]
+    },
+    {
+      "id": "E12-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Prompt injection' là gì trong AI security?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ dài prompt để model làm việc tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tấn công khiến model bỏ qua system instructions bằng cách embed instructions trong user input"
+        },
+        {
+          "key": "C",
+          "text": "Inject code vào training data"
+        },
+        {
+          "key": "D",
+          "text": "Tối ưu prompt bằng gradient descent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt injection: user input contains instructions that override system prompt. VD: 'Ignore previous instructions and...'",
+      "tags": [
+        "ai-security",
+        "prompt-injection"
+      ]
+    },
+    {
+      "id": "E12-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong computer vision, 'object detection' khác 'image classification' ở điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Object detection cần nhiều data hơn"
+        },
+        {
+          "key": "B",
+          "text": "Object detection xác định vị trí (bounding box) + class của nhiều objects trong ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Image classification nhanh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Object detection chỉ nhận dạng 1 object"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Classification: 1 label cho cả ảnh. Detection: multiple objects với bounding boxes + labels. Segmentation: pixel-level",
+      "tags": [
+        "dl",
+        "computer-vision",
+        "object-detection"
+      ]
+    },
+    {
+      "id": "E12-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Tokenization' trong LLM có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa bảo mật văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Chia văn bản thành units nhỏ (tokens) mà model có thể xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Dịch văn bản sang ngôn ngữ khác"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ stop words"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tokenization: split text thành tokens (có thể là words, subwords, characters). VD: 'unhappy' → ['un','happy']. GPT-4: ~75k vocab",
+      "tags": [
+        "nlp",
+        "tokenization",
+        "llm"
+      ]
+    },
+    {
+      "id": "E12-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Canary deployment' trong MLOps là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deploy model trong môi trường test biệt lập"
+        },
+        {
+          "key": "B",
+          "text": "Gradually rollout model mới cho một phần nhỏ traffic trước khi full rollout"
+        },
+        {
+          "key": "C",
+          "text": "Deploy model chỉ ban đêm"
+        },
+        {
+          "key": "D",
+          "text": "Deploy model với credentials đặc biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Canary: 5-10% traffic → monitor metrics → nếu OK → tăng dần đến 100%. Giảm risk so với big-bang deployment",
+      "tags": [
+        "mlops",
+        "canary-deployment",
+        "rollout"
+      ]
+    },
+    {
+      "id": "E12-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Algorithmic accountability' trong AI ethics yêu cầu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ engineers chịu trách nhiệm về AI"
+        },
+        {
+          "key": "B",
+          "text": "Có cơ chế để tổ chức và cá nhân chịu trách nhiệm về AI decisions và impacts"
+        },
+        {
+          "key": "C",
+          "text": "Mọi AI đều phải open-source"
+        },
+        {
+          "key": "D",
+          "text": "AI không được tự động ra quyết định"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Accountability: clear responsibility chains, audit mechanisms, remediation processes khi AI gây hại",
+      "tags": [
+        "responsible-ai",
+        "accountability"
+      ]
+    },
+    {
+      "id": "E12-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: 'Tất cả features quan trọng đều có correlation cao với target'. Đây là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đúng trong mọi trường hợp"
+        },
+        {
+          "key": "B",
+          "text": "Sai – features quan trọng có thể có non-linear relationship hoặc interaction effects"
+        },
+        {
+          "key": "C",
+          "text": "Đúng với linear models"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đúng với tree-based models"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Correlation đo linear relationship. Feature có thể quan trọng nhưng correlation ~0 (VD: x² với x symmetric around 0)",
+      "tags": [
+        "logic",
+        "statistics",
+        "feature-importance"
+      ]
+    },
+    {
+      "id": "E12-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Survivorship bias' ảnh hưởng đến AI như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model chạy lâu hơn"
+        },
+        {
+          "key": "B",
+          "text": "Training data chỉ chứa 'survivors' → model học từ biased sample, miss failed cases"
+        },
+        {
+          "key": "C",
+          "text": "Model survive qua nhiều version"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "VD: chỉ train loan model trên data của người trả được nợ → model không học patterns của default",
+      "tags": [
+        "responsible-ai",
+        "bias",
+        "survivorship-bias"
+      ]
+    },
+    {
+      "id": "E12-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Federated learning' giải quyết concern nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training chậm"
+        },
+        {
+          "key": "B",
+          "text": "Privacy: train model mà không cần centralize raw data"
+        },
+        {
+          "key": "C",
+          "text": "Model accuracy thấp"
+        },
+        {
+          "key": "D",
+          "text": "Thiếu compute"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Federated learning: model train locally trên thiết bị, chỉ share gradients (không share raw data) → privacy-preserving",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "federated-learning"
+      ]
+    },
+    {
+      "id": "E12-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phủ định của 'AI model X accurate VÀ fair' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI model X không accurate VÀ không fair"
+        },
+        {
+          "key": "B",
+          "text": "AI model X không accurate HOẶC không fair"
+        },
+        {
+          "key": "C",
+          "text": "AI model X accurate HOẶC fair"
+        },
+        {
+          "key": "D",
+          "text": "AI model X không phải AI"
+        }
+      ],
+      "answer": "B",
+      "explanation": "De Morgan: ¬(A∧B) = ¬A∨¬B. Phủ định 'accurate AND fair' = 'không accurate OR không fair'",
+      "tags": [
+        "logic",
+        "de-morgan"
+      ]
+    },
+    {
+      "id": "E12-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'AI alignment problem' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Căn chỉnh model để chạy trên GPU mới"
+        },
+        {
+          "key": "B",
+          "text": "Đảm bảo AI systems hành động phù hợp với human values và intentions"
+        },
+        {
+          "key": "C",
+          "text": "Align dataset columns"
+        },
+        {
+          "key": "D",
+          "text": "Synchronize multiple AI models"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Alignment: làm thế nào để AI systems làm những gì chúng ta muốn, không chỉ tối ưu proxy metric",
+      "tags": [
+        "responsible-ai",
+        "alignment",
+        "ai-safety"
+      ]
+    },
+    {
+      "id": "E12-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong logic, 'invalid argument' có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Premises sai"
+        },
+        {
+          "key": "B",
+          "text": "Conclusion không nhất thiết đúng khi premises đúng"
+        },
+        {
+          "key": "C",
+          "text": "Argument quá dài"
+        },
+        {
+          "key": "D",
+          "text": "Kết luận sai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Valid: nếu premises đúng thì conclusion nhất thiết đúng. Invalid: premises đúng vẫn có thể có conclusion sai",
+      "tags": [
+        "logic",
+        "validity",
+        "argument"
+      ]
+    },
+    {
+      "id": "E12-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Transparency' trong AI product có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Code phải open-source"
+        },
+        {
+          "key": "B",
+          "text": "Users được thông báo họ đang tương tác với AI và cách AI đưa ra quyết định"
+        },
+        {
+          "key": "C",
+          "text": "Pricing phải rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Model weights phải public"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transparency: disclosure about AI use, explainability of decisions, model documentation. EU AI Act mandates này cho high-risk AI",
+      "tags": [
+        "responsible-ai",
+        "transparency"
+      ]
+    }
+  ]
+}

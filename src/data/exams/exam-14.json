@@ -1,0 +1,1897 @@
+{
+  "id": "exam-14",
+  "title": "Bài kiểm tra nâng cao #14 — Data Science & Statistical Analysis",
+  "description": "60 câu: statistics, EDA, sklearn, feature engineering, product analytics.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không cam kết giống đề thật VinUni.",
+  "questions": [
+    {
+      "id": "E14-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pearson r=-0.85 cho thấy:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có quan hệ"
+        },
+        {
+          "key": "B",
+          "text": "Strong negative linear relationship"
+        },
+        {
+          "key": "C",
+          "text": "Moderate positive"
+        },
+        {
+          "key": "D",
+          "text": "Weak negative"
+        }
+      ],
+      "answer": "B",
+      "explanation": "r gần -1: strong negative linear correlation",
+      "tags": [
+        "statistics",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E14-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "p-value=0.03, α=0.05. Kết luận:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không reject H0"
+        },
+        {
+          "key": "B",
+          "text": "Reject H0"
+        },
+        {
+          "key": "C",
+          "text": "Cần thêm data"
+        },
+        {
+          "key": "D",
+          "text": "H0 đúng 97%"
+        }
+      ],
+      "answer": "B",
+      "explanation": "p<α → reject null hypothesis. Statistical significance",
+      "tags": [
+        "statistics",
+        "p-value"
+      ]
+    },
+    {
+      "id": "E14-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "R²=0.65 nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model accuracy 65%"
+        },
+        {
+          "key": "B",
+          "text": "65% variance của Y được explain"
+        },
+        {
+          "key": "C",
+          "text": "35% sai"
+        },
+        {
+          "key": "D",
+          "text": "Correlation 0.65"
+        }
+      ],
+      "answer": "B",
+      "explanation": "R²: proportion of variance explained by model",
+      "tags": [
+        "statistics",
+        "r-squared"
+      ]
+    },
+    {
+      "id": "E14-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Box plot KHÔNG hiển thị điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Median"
+        },
+        {
+          "key": "B",
+          "text": "Mean"
+        },
+        {
+          "key": "C",
+          "text": "IQR"
+        },
+        {
+          "key": "D",
+          "text": "Outliers"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Box plot: min,Q1,median,Q3,max,outliers. Mean KHÔNG được display (cần dùng mean marker riêng)",
+      "tags": [
+        "statistics",
+        "visualization",
+        "box-plot"
+      ]
+    },
+    {
+      "id": "E14-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Right-skewed distribution: mean so với median:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mean < Median"
+        },
+        {
+          "key": "B",
+          "text": "Mean ≈ Median"
+        },
+        {
+          "key": "C",
+          "text": "Mean > Median"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Right skew: long tail bên phải → outliers pull mean lên trên median",
+      "tags": [
+        "statistics",
+        "skewness"
+      ]
+    },
+    {
+      "id": "E14-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Confidence interval 95%: (45, 55). Đúng nhất là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "True mean chắc chắn trong (45,55)"
+        },
+        {
+          "key": "B",
+          "text": "95% of such intervals sẽ contain true mean"
+        },
+        {
+          "key": "C",
+          "text": "Mean = 50 chắc chắn"
+        },
+        {
+          "key": "D",
+          "text": "p-value = 0.05"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Frequentist CI: 95% repeated sampling CIs contain true parameter",
+      "tags": [
+        "statistics",
+        "confidence-interval"
+      ]
+    },
+    {
+      "id": "E14-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Multicollinearity' trong regression xảy ra khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Target có outliers"
+        },
+        {
+          "key": "B",
+          "text": "Independent variables có strong correlation với nhau"
+        },
+        {
+          "key": "C",
+          "text": "Too many data points"
+        },
+        {
+          "key": "D",
+          "text": "Non-normal residuals"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multicollinearity: correlated features → unstable coefficients. Check với VIF",
+      "tags": [
+        "statistics",
+        "regression",
+        "multicollinearity"
+      ]
+    },
+    {
+      "id": "E14-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "P(A)=0.1, P(B|A)=0.9, P(B)=0.15. P(A|B) theo Bayes = ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6"
+        },
+        {
+          "key": "B",
+          "text": "0.7"
+        },
+        {
+          "key": "C",
+          "text": "0.8"
+        },
+        {
+          "key": "D",
+          "text": "0.9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P(A|B)=P(B|A)P(A)/P(B)=0.9×0.1/0.15=0.6",
+      "tags": [
+        "probability",
+        "bayes"
+      ]
+    },
+    {
+      "id": "E14-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Type I error' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reject H0 khi H0 đúng (false positive)"
+        },
+        {
+          "key": "B",
+          "text": "Fail to reject H0 khi H0 sai (false negative)"
+        },
+        {
+          "key": "C",
+          "text": "Model error"
+        },
+        {
+          "key": "D",
+          "text": "Sample error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Type I: α error = false positive. Type II: β error = false negative. Power = 1-β",
+      "tags": [
+        "statistics",
+        "hypothesis-testing",
+        "type-i-error"
+      ]
+    },
+    {
+      "id": "E14-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Effect size' (Cohen's d) đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sample size cần thiết"
+        },
+        {
+          "key": "B",
+          "text": "Practical significance: magnitude của difference giữa groups"
+        },
+        {
+          "key": "C",
+          "text": "p-value của test"
+        },
+        {
+          "key": "D",
+          "text": "Confidence level"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Effect size: practical importance, independent of sample size. Large n → tiny difference có thể significant nhưng trivial",
+      "tags": [
+        "statistics",
+        "effect-size"
+      ]
+    },
+    {
+      "id": "E14-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'x':[1,2,3,4,5],'y':[2,4,5,4,5]})\nprint(round(df['x'].corr(df['y']),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.85"
+        },
+        {
+          "key": "B",
+          "text": "0.90"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pearson correlation của x và y ≈ 0.90",
+      "tags": [
+        "pandas",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E14-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\nX=np.array([[1,2],[3,4],[5,6]])\ns=StandardScaler().fit(X)\nprint(s.mean_)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.,4.]"
+        },
+        {
+          "key": "B",
+          "text": "[1.,2.]"
+        },
+        {
+          "key": "C",
+          "text": "[5.,6.]"
+        },
+        {
+          "key": "D",
+          "text": "[2.,4.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Column means: (1+3+5)/3=3, (2+4+6)/3=4",
+      "tags": [
+        "sklearn",
+        "standardscaler"
+      ]
+    },
+    {
+      "id": "E14-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.feature_extraction.text import TfidfVectorizer\ncorpus=['I love AI','I love Python','AI is great']\nvec=TfidfVectorizer()\nX=vec.fit_transform(corpus)\nprint(X.shape[1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Unique tokens: I,love,AI,Python,is,great = 6",
+      "tags": [
+        "sklearn",
+        "tfidf",
+        "nlp"
+      ]
+    },
+    {
+      "id": "E14-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'x':range(5),'y':range(5)})\nprint(df.sample(frac=0.6,random_state=0).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3,2)"
+        },
+        {
+          "key": "B",
+          "text": "(2,2)"
+        },
+        {
+          "key": "C",
+          "text": "(4,2)"
+        },
+        {
+          "key": "D",
+          "text": "(5,2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "frac=0.6: 60% of 5 = 3 rows. shape=(3,2)",
+      "tags": [
+        "pandas",
+        "sample"
+      ]
+    },
+    {
+      "id": "E14-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.decomposition import PCA\nimport numpy as np\nX=np.random.randn(100,20)\npca=PCA(n_components=5)\nX_new=pca.fit_transform(X)\nprint(X_new.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(100,20)"
+        },
+        {
+          "key": "B",
+          "text": "(100,5)"
+        },
+        {
+          "key": "C",
+          "text": "(5,20)"
+        },
+        {
+          "key": "D",
+          "text": "(20,5)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PCA n_components=5: 100 samples × 5 components",
+      "tags": [
+        "sklearn",
+        "pca"
+      ]
+    },
+    {
+      "id": "E14-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.impute import SimpleImputer\nimport numpy as np\nX=np.array([[1,np.nan],[np.nan,3],[4,5]])\nimp=SimpleImputer(strategy='mean')\nprint(imp.fit_transform(X)[1][0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "4.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "col0 mean=(1+4)/2=2.5. impute NaN → 2.5",
+      "tags": [
+        "sklearn",
+        "imputer"
+      ]
+    },
+    {
+      "id": "E14-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'A':[1,2,3],'B':[4,5,6],'C':[7,8,9]})\nprint(df[['A','C']].sum(axis=1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5,7,9]"
+        },
+        {
+          "key": "B",
+          "text": "[8,10,12]"
+        },
+        {
+          "key": "C",
+          "text": "[12,15,18]"
+        },
+        {
+          "key": "D",
+          "text": "[6,15,24]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A+C per row: [1+7,2+8,3+9]=[8,10,12]",
+      "tags": [
+        "pandas",
+        "sum"
+      ]
+    },
+    {
+      "id": "E14-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.metrics import mean_absolute_error\ny_true=[3,5,7,9]\ny_pred=[2.5,5,8,9.5]\nprint(mean_absolute_error(y_true,y_pred))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MAE=mean([0.5,0,1,0.5])=0.5",
+      "tags": [
+        "sklearn",
+        "mae"
+      ]
+    },
+    {
+      "id": "E14-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'grp':['A','A','B'],'v':[10,20,30]})\ndf2=df.groupby('grp').agg(total=('v','sum'),count=('v','count'))\nprint(df2.loc['A','count'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Group A: 2 records → count=2",
+      "tags": [
+        "pandas",
+        "groupby",
+        "agg"
+      ]
+    },
+    {
+      "id": "E14-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.linear_model import LinearRegression\nimport numpy as np\nX=np.array([[1],[2],[3],[4],[5]])\ny=np.array([2,4,6,8,10])\nm=LinearRegression().fit(X,y)\nprint(m.coef_[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "y=2x: slope=2",
+      "tags": [
+        "sklearn",
+        "linear-regression"
+      ]
+    },
+    {
+      "id": "E14-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.tree import DecisionTreeClassifier\nimport numpy as np\nX=np.random.randn(50,5)\ny=np.random.randint(0,2,50)\nscores=cross_val_score(DecisionTreeClassifier(),X,y,cv=5)\nprint(len(scores))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "50"
+        }
+      ],
+      "answer": "B",
+      "explanation": "cv=5: 5-fold CV → 5 scores",
+      "tags": [
+        "sklearn",
+        "cross-validation"
+      ]
+    },
+    {
+      "id": "E14-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\na=np.array([1,4,9,16,25])\nprint(np.sqrt(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,3,4,5]"
+        },
+        {
+          "key": "B",
+          "text": "[1.,2.,3.,4.,5.]"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "[1,4,9,16,25]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "sqrt element-wise: [1.,2.,3.,4.,5.]",
+      "tags": [
+        "numpy",
+        "sqrt"
+      ]
+    },
+    {
+      "id": "E14-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'A':range(5),'B':range(5,10)})\nprint(df.describe()['A']['std'].round(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.41"
+        },
+        {
+          "key": "B",
+          "text": "1.58"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "std của [0,1,2,3,4] với ddof=1 ≈ 1.581",
+      "tags": [
+        "pandas",
+        "describe",
+        "std"
+      ]
+    },
+    {
+      "id": "E14-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nx=np.array([1,2,3,4,5])\nprint(np.cumsum(x)[-1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cumsum=[1,3,6,10,15]. Last element=15",
+      "tags": [
+        "numpy",
+        "cumsum"
+      ]
+    },
+    {
+      "id": "E14-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.preprocessing import PolynomialFeatures\nimport numpy as np\nX=np.array([[2,3]])\npoly=PolynomialFeatures(degree=2)\nprint(poly.fit_transform(X).shape[1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "answer": "C",
+      "explanation": "degree=2, 2 features: [1,x1,x2,x1²,x1x2,x2²] = 6",
+      "tags": [
+        "sklearn",
+        "polynomial"
+      ]
+    },
+    {
+      "id": "E14-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'a':['x','y','z'],'b':[1,2,3]})\nprint(df.set_index('a').loc['z','b'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "set_index('a').loc['z','b']=3",
+      "tags": [
+        "pandas",
+        "loc"
+      ]
+    },
+    {
+      "id": "E14-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\na=np.array([[1,2,3],[4,5,6],[7,8,9]])\nprint(np.trace(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "45"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "trace=sum diagonal=1+5+9=15",
+      "tags": [
+        "numpy",
+        "trace"
+      ]
+    },
+    {
+      "id": "E14-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.preprocessing import LabelEncoder\nle=LabelEncoder()\nenc=le.fit_transform(['cat','dog','bird','cat'])\nprint(enc.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,0,1]"
+        },
+        {
+          "key": "B",
+          "text": "[0,1,2,0]"
+        },
+        {
+          "key": "C",
+          "text": "[2,1,0,2]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Alphabetical: bird=0,cat=1,dog=2. [cat,dog,bird,cat]→[1,2,0,1]",
+      "tags": [
+        "sklearn",
+        "label-encoder"
+      ]
+    },
+    {
+      "id": "E14-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'x':[10,20,30,40,50]})\ndf['r']=df['x'].rolling(3).mean()\nprint(df['r'].iloc[2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "20"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rolling(3).mean() tại index 2: mean([10,20,30])=20.0",
+      "tags": [
+        "pandas",
+        "rolling"
+      ]
+    },
+    {
+      "id": "E14-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.metrics import roc_auc_score\ny_true=[0,0,1,1]\ny_scores=[0.1,0.4,0.35,0.8]\nprint(roc_auc_score(y_true,y_scores))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.75"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.25"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AUC=0.75 cho distribution này",
+      "tags": [
+        "sklearn",
+        "auc-roc"
+      ]
+    },
+    {
+      "id": "E14-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nX=np.array([[1,2],[3,4]])\nprint(np.linalg.inv(X))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[-2,1],[1.5,-0.5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[4,-2],[-3,1]]"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "[[0.5,0],[0,0.25]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "inv([[1,2],[3,4]])=[[-2,1],[1.5,-0.5]]",
+      "tags": [
+        "numpy",
+        "linalg",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E14-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.feature_selection import VarianceThreshold\nimport numpy as np\nX=np.array([[0,2,0],[0,1,4],[0,1,1]])\nsel=VarianceThreshold(threshold=0)\nX_new=sel.fit_transform(X)\nprint(X_new.shape[1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "col0: all zeros, var=0 → removed. 2 cols remain",
+      "tags": [
+        "sklearn",
+        "feature-selection"
+      ]
+    },
+    {
+      "id": "E14-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'A/B/n testing' trong product analytics là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Test với n users"
+        },
+        {
+          "key": "B",
+          "text": "Simultaneously test n variants để find optimal version"
+        },
+        {
+          "key": "C",
+          "text": "Test algorithm O(n)"
+        },
+        {
+          "key": "D",
+          "text": "Test n times"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A/B/n: multi-variant test. More variants → find optimal faster nhưng cần more traffic",
+      "tags": [
+        "product",
+        "ab-testing"
+      ]
+    },
+    {
+      "id": "E14-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Novelty effect' trong A/B testing là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Test quá mới lẻ"
+        },
+        {
+          "key": "B",
+          "text": "Users engage more với new variant simply because it's new"
+        },
+        {
+          "key": "C",
+          "text": "First-test effect"
+        },
+        {
+          "key": "D",
+          "text": "Statistical artifact"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Novelty effect: initial lift disappears → run test long enough, analyze exposure cohorts",
+      "tags": [
+        "product",
+        "ab-testing",
+        "novelty-effect"
+      ]
+    },
+    {
+      "id": "E14-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Feature interaction' trong ML là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 features cùng format"
+        },
+        {
+          "key": "B",
+          "text": "Combined effect của 2+ features lớn hơn sum of individual effects"
+        },
+        {
+          "key": "C",
+          "text": "Features interact qua API"
+        },
+        {
+          "key": "D",
+          "text": "Feature cross-reference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Interaction: x1×x2 term. Linear model cần explicit feature engineering hoặc dùng tree-based models",
+      "tags": [
+        "ml",
+        "feature-engineering",
+        "interaction"
+      ]
+    },
+    {
+      "id": "E14-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Holdout set' khác 'validation set' như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác"
+        },
+        {
+          "key": "B",
+          "text": "Holdout = final test set (chỉ dùng 1 lần sau model selection)"
+        },
+        {
+          "key": "C",
+          "text": "Holdout dùng để tune hyperparams"
+        },
+        {
+          "key": "D",
+          "text": "Validation lớn hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Validation: tune hyperparams. Holdout/test: final unbiased evaluation. Dùng test set nhiều lần → leakage",
+      "tags": [
+        "ml",
+        "evaluation",
+        "holdout"
+      ]
+    },
+    {
+      "id": "E14-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Funnel analysis' trong product metrics phân tích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Revenue funnel"
+        },
+        {
+          "key": "B",
+          "text": "Conversion qua các bước: View→Cart→Checkout→Purchase"
+        },
+        {
+          "key": "C",
+          "text": "User support funnel"
+        },
+        {
+          "key": "D",
+          "text": "Funnel visualization"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Funnel: track users through conversion steps. Drop-off at each step → identify friction points",
+      "tags": [
+        "product",
+        "funnel-analysis",
+        "conversion"
+      ]
+    },
+    {
+      "id": "E14-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Cohort analysis' trong product analytics phân tích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "All users cùng lúc"
+        },
+        {
+          "key": "B",
+          "text": "Users nhóm theo shared characteristic để track behavior over time"
+        },
+        {
+          "key": "C",
+          "text": "Model cohorts"
+        },
+        {
+          "key": "D",
+          "text": "Geographic cohorts"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cohort: track retention, LTV của users acquired trong same period → understand lifecycle",
+      "tags": [
+        "product",
+        "cohort-analysis",
+        "analytics"
+      ]
+    },
+    {
+      "id": "E14-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi build fraud detection model, metric quan trọng nhất thường là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Recall (minimize missed fraud) với acceptable Precision"
+        },
+        {
+          "key": "C",
+          "text": "Precision only"
+        },
+        {
+          "key": "D",
+          "text": "AUC only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fraud: high cost of missing fraud → maximize Recall. Balance với Precision dựa trên business cost",
+      "tags": [
+        "ml",
+        "fraud-detection",
+        "recall"
+      ]
+    },
+    {
+      "id": "E14-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Batch prediction' phù hợp khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần real-time response < 100ms"
+        },
+        {
+          "key": "B",
+          "text": "Non-time-sensitive predictions cho large datasets"
+        },
+        {
+          "key": "C",
+          "text": "Edge deployment"
+        },
+        {
+          "key": "D",
+          "text": "Mobile real-time"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Batch: score millions offline, store results → query when needed. Cost-efficient cho non-RT use cases",
+      "tags": [
+        "ml",
+        "deployment",
+        "batch-prediction"
+      ]
+    },
+    {
+      "id": "E14-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Multi-arm bandit' vs A/B test:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác"
+        },
+        {
+          "key": "B",
+          "text": "MAB: adaptively allocate traffic to better variants (explore-exploit)"
+        },
+        {
+          "key": "C",
+          "text": "MAB luôn tốt hơn"
+        },
+        {
+          "key": "D",
+          "text": "MAB chỉ cho recommendation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MAB: Thompson Sampling, UCB1 → reduce regret. A/B: simpler, cleaner statistical inference",
+      "tags": [
+        "ml",
+        "multi-arm-bandit",
+        "exploration"
+      ]
+    },
+    {
+      "id": "E14-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Precision@K' trong information retrieval đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Overall precision"
+        },
+        {
+          "key": "B",
+          "text": "Fraction of top-K retrieved items that are relevant"
+        },
+        {
+          "key": "C",
+          "text": "Recall trong top K"
+        },
+        {
+          "key": "D",
+          "text": "Precision với K decimals"
+        }
+      ],
+      "answer": "B",
+      "explanation": "P@K: of top K recommendations, how many are relevant? Quan trọng cho search và recommendation",
+      "tags": [
+        "ml",
+        "evaluation",
+        "precision-at-k"
+      ]
+    },
+    {
+      "id": "E14-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Data flywheel' trong AI product là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Infinite data storage"
+        },
+        {
+          "key": "B",
+          "text": "More users → more data → better model → better product (virtuous cycle)"
+        },
+        {
+          "key": "C",
+          "text": "Data pipeline loop"
+        },
+        {
+          "key": "D",
+          "text": "Automated collection"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data flywheel: network effect của data. Large user base → continuous improvement advantage",
+      "tags": [
+        "product",
+        "data-flywheel"
+      ]
+    },
+    {
+      "id": "E14-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Survival analysis' trong AI phù hợp với:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Track server uptime"
+        },
+        {
+          "key": "B",
+          "text": "Predict time until event (churn, failure) với censored data"
+        },
+        {
+          "key": "C",
+          "text": "Time series forecasting"
+        },
+        {
+          "key": "D",
+          "text": "Event logs analysis"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Survival analysis: Kaplan-Meier, Cox PH → churn prediction với time component, equipment failure",
+      "tags": [
+        "ml",
+        "survival-analysis",
+        "churn"
+      ]
+    },
+    {
+      "id": "E14-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'NDCG' (Normalized Discounted Cumulative Gain) đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Network bandwidth"
+        },
+        {
+          "key": "B",
+          "text": "Ranking quality: considers both relevance và position của items"
+        },
+        {
+          "key": "C",
+          "text": "Number of correct predictions"
+        },
+        {
+          "key": "D",
+          "text": "Data completeness"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NDCG: penalizes relevant items at lower positions. DCG = Σ rel_i/log₂(i+1). Normalize by ideal DCG",
+      "tags": [
+        "ml",
+        "evaluation",
+        "ndcg",
+        "ranking"
+      ]
+    },
+    {
+      "id": "E14-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Heterogeneous treatment effects' trong A/B testing là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Treat differently"
+        },
+        {
+          "key": "B",
+          "text": "Treatment effect varies across user subgroups → cần segment analysis"
+        },
+        {
+          "key": "C",
+          "text": "Technical heterogeneity"
+        },
+        {
+          "key": "D",
+          "text": "Multi-treatment setup"
+        }
+      ],
+      "answer": "B",
+      "explanation": "HTE: treatment có thể help một số users nhưng harm others → critical để avoid harming subgroups",
+      "tags": [
+        "statistics",
+        "ab-testing",
+        "hte"
+      ]
+    },
+    {
+      "id": "E14-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Resampling' trong imbalanced classification: SMOTE tạo synthetic samples bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Copy existing minority samples"
+        },
+        {
+          "key": "B",
+          "text": "Interpolate giữa minority samples trong feature space"
+        },
+        {
+          "key": "C",
+          "text": "Generate từ noise"
+        },
+        {
+          "key": "D",
+          "text": "Random augmentation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SMOTE: chọn minority sample, find k-NN, interpolate → synthetic sample along the line segment",
+      "tags": [
+        "ml",
+        "imbalanced",
+        "smote"
+      ]
+    },
+    {
+      "id": "E14-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Calibration curve' trong ML đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Learning rate calibration"
+        },
+        {
+          "key": "B",
+          "text": "Alignment giữa predicted probability và actual fraction of positives"
+        },
+        {
+          "key": "C",
+          "text": "Model size calibration"
+        },
+        {
+          "key": "D",
+          "text": "Feature scaling"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Calibration: perfect model → khi predict P=0.8, 80% thực sự positive. Dùng reliability diagram",
+      "tags": [
+        "ml",
+        "calibration",
+        "probability"
+      ]
+    },
+    {
+      "id": "E14-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Stratified sampling' trong data collection đảm bảo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sample nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi subgroup được represent proportionally trong sample"
+        },
+        {
+          "key": "C",
+          "text": "Larger sample"
+        },
+        {
+          "key": "D",
+          "text": "Random selection"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Stratified: divide population into strata, sample from each → reduce sampling bias, better estimates per group",
+      "tags": [
+        "statistics",
+        "sampling",
+        "stratified"
+      ]
+    },
+    {
+      "id": "E14-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Uplift modeling' trong marketing đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Total revenue"
+        },
+        {
+          "key": "B",
+          "text": "Incremental impact của treatment trên individual level"
+        },
+        {
+          "key": "C",
+          "text": "Average order value"
+        },
+        {
+          "key": "D",
+          "text": "Customer satisfaction"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Uplift = P(convert|treatment) - P(convert|control). Target persuadables not sure-things or lost-causes",
+      "tags": [
+        "ml",
+        "uplift-modeling",
+        "causal"
+      ]
+    },
+    {
+      "id": "E14-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Online learning' vs 'Batch learning':",
+      "options": [
+        {
+          "key": "A",
+          "text": "Online tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Online: update model incrementally với each new data point → adapt to concept drift"
+        },
+        {
+          "key": "C",
+          "text": "Batch: always online"
+        },
+        {
+          "key": "D",
+          "text": "Online: larger batches"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Online learning: SGD per sample → adapt to streaming data, concept drift. Batch: retrain from scratch periodically",
+      "tags": [
+        "ml",
+        "online-learning",
+        "streaming"
+      ]
+    },
+    {
+      "id": "E14-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Bayesian optimization' cho hyperparameter tuning sử dụng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Random search"
+        },
+        {
+          "key": "B",
+          "text": "Surrogate model (Gaussian Process/TPE) để guide search efficiently"
+        },
+        {
+          "key": "C",
+          "text": "Grid search"
+        },
+        {
+          "key": "D",
+          "text": "Manual tuning"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bayesian opt: model P(metric|hyperparams) → acquisition function chọn hyperparams promising nhất → fewer evaluations",
+      "tags": [
+        "ml",
+        "hyperparameter",
+        "bayesian-optimization"
+      ]
+    },
+    {
+      "id": "E14-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Reproducibility crisis' trong AI research liên quan đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI reproduce human art"
+        },
+        {
+          "key": "B",
+          "text": "Papers không thể reproduce vì unreported details, cherry-picking"
+        },
+        {
+          "key": "C",
+          "text": "Copy other research"
+        },
+        {
+          "key": "D",
+          "text": "AI reproduce any result"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reproducibility: missing code, data, hyperparams. Solution: open-source, model cards, benchmarks",
+      "tags": [
+        "responsible-ai",
+        "reproducibility"
+      ]
+    },
+    {
+      "id": "E14-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Automation bias' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI làm việc tự động"
+        },
+        {
+          "key": "B",
+          "text": "Humans over-rely on automated decisions, ignoring contradicting evidence"
+        },
+        {
+          "key": "C",
+          "text": "AI biased"
+        },
+        {
+          "key": "D",
+          "text": "Robot bias"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Automation bias: dangerous khi AI wrong nhưng human trust it. Important trong medical, aviation HITL systems",
+      "tags": [
+        "responsible-ai",
+        "automation-bias"
+      ]
+    },
+    {
+      "id": "E14-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân tích logic: 'A→B, B đúng'. Kết luận về A?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A đúng"
+        },
+        {
+          "key": "B",
+          "text": "A không đúng"
+        },
+        {
+          "key": "C",
+          "text": "Không thể kết luận"
+        },
+        {
+          "key": "D",
+          "text": "A có thể đúng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Affirming the consequent fallacy: A→B, B đúng KHÔNG → A đúng. B có thể true vì reasons khác",
+      "tags": [
+        "logic",
+        "fallacy"
+      ]
+    },
+    {
+      "id": "E14-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Environmental cost' của AI (carbon footprint) quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI không tốn điện"
+        },
+        {
+          "key": "B",
+          "text": "Training large models → enormous energy → CO2. Sustainability must balance với capability"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ là PR"
+        },
+        {
+          "key": "D",
+          "text": "Không đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GPT-3 training ≈ 552 tấn CO2. Responsible AI: consider efficiency, use renewable energy, model compression",
+      "tags": [
+        "responsible-ai",
+        "sustainability"
+      ]
+    },
+    {
+      "id": "E14-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Negative externalities' của AI products là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sản phẩm không profitable"
+        },
+        {
+          "key": "B",
+          "text": "Costs borne by society không reflected trong pricing (VD: misinformation, job displacement)"
+        },
+        {
+          "key": "C",
+          "text": "Negative reviews"
+        },
+        {
+          "key": "D",
+          "text": "Low NPS"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Externalities: social media AI amplifying misinformation, gig economy reducing worker protections",
+      "tags": [
+        "responsible-ai",
+        "externalities"
+      ]
+    },
+    {
+      "id": "E14-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: 'P hoặc Q. Không phải P. Vậy...'",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không phải Q"
+        },
+        {
+          "key": "B",
+          "text": "Q đúng"
+        },
+        {
+          "key": "C",
+          "text": "P đúng"
+        },
+        {
+          "key": "D",
+          "text": "P và Q đều sai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Disjunctive syllogism: P∨Q, ¬P → Q",
+      "tags": [
+        "logic",
+        "disjunctive-syllogism"
+      ]
+    },
+    {
+      "id": "E14-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Trustworthy AI' theo EU guidelines yêu cầu. Điều nào KHÔNG có trong 7 yêu cầu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Technical robustness"
+        },
+        {
+          "key": "B",
+          "text": "Maximum profit optimization"
+        },
+        {
+          "key": "C",
+          "text": "Human agency"
+        },
+        {
+          "key": "D",
+          "text": "Societal wellbeing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "EU Trustworthy AI 7 keys: Human agency, Robustness, Privacy, Transparency, Diversity, Societal wellbeing, Accountability",
+      "tags": [
+        "responsible-ai",
+        "eu-trustworthy-ai"
+      ]
+    },
+    {
+      "id": "E14-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Long-termism' trong AI safety tập trung vào:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term metrics"
+        },
+        {
+          "key": "B",
+          "text": "Long-term risks từ advanced AI: misalignment, catastrophic outcomes"
+        },
+        {
+          "key": "C",
+          "text": "Long-term profitability"
+        },
+        {
+          "key": "D",
+          "text": "Career longevity"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI safety: existential risk from AGI, instrumental convergence, value alignment challenges as AI scales",
+      "tags": [
+        "responsible-ai",
+        "ai-safety",
+        "long-term"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1912 @@
+{
+  "id": "exam-13",
+  "title": "Bài kiểm tra nâng cao #13 — Deep Learning & LLM",
+  "description": "60 câu tập trung Deep Learning, Transformer, LLM applications, AI deployment.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E13-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Softmax([3,1,0]): giá trị lớn nhất ≈",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.665"
+        },
+        {
+          "key": "B",
+          "text": "0.844"
+        },
+        {
+          "key": "C",
+          "text": "0.950"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "B",
+      "explanation": "e³/(e³+e¹+e⁰)=20.09/22.81≈0.844",
+      "tags": [
+        "softmax",
+        "activation",
+        "math"
+      ]
+    },
+    {
+      "id": "E13-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Learning rate quá cao trong gradient descent gây ra:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Converge nhanh"
+        },
+        {
+          "key": "B",
+          "text": "Diverge hoặc oscillate"
+        },
+        {
+          "key": "C",
+          "text": "Underfitting"
+        },
+        {
+          "key": "D",
+          "text": "Overfit nhanh hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bước update quá lớn → vượt qua minimum, không converge",
+      "tags": [
+        "ml",
+        "gradient-descent",
+        "learning-rate"
+      ]
+    },
+    {
+      "id": "E13-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Conv 32×32, kernel 5×5, padding=0, stride=1. Output size:",
+      "options": [
+        {
+          "key": "A",
+          "text": "28×28"
+        },
+        {
+          "key": "B",
+          "text": "30×30"
+        },
+        {
+          "key": "C",
+          "text": "27×27"
+        },
+        {
+          "key": "D",
+          "text": "32×32"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(32-5)/1+1=28. Output 28×28",
+      "tags": [
+        "dl",
+        "cnn",
+        "convolution"
+      ]
+    },
+    {
+      "id": "E13-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "FC layer: input 512, output 256. Số parameters (bao gồm bias):",
+      "options": [
+        {
+          "key": "A",
+          "text": "131072"
+        },
+        {
+          "key": "B",
+          "text": "131328"
+        },
+        {
+          "key": "C",
+          "text": "256"
+        },
+        {
+          "key": "D",
+          "text": "512"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Weights: 512×256=131072. Bias: 256. Total=131328",
+      "tags": [
+        "dl",
+        "parameters"
+      ]
+    },
+    {
+      "id": "E13-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "L1 regularization thêm penalty nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "λΣw²"
+        },
+        {
+          "key": "B",
+          "text": "λΣ|w|"
+        },
+        {
+          "key": "C",
+          "text": "λmax(w)"
+        },
+        {
+          "key": "D",
+          "text": "λΣw²/n"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L1 (Lasso): λΣ|w|. Promotes sparsity (nhiều w=0)",
+      "tags": [
+        "ml",
+        "regularization",
+        "l1"
+      ]
+    },
+    {
+      "id": "E13-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Derivative của ReLU(x) khi x > 0:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "x"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ReLU'(x) = 1 khi x>0, 0 khi x<0",
+      "tags": [
+        "dl",
+        "activation",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E13-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "MaxPool 4×4 với kernel 2×2 stride 2. Output size:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4×4"
+        },
+        {
+          "key": "B",
+          "text": "2×2"
+        },
+        {
+          "key": "C",
+          "text": "3×3"
+        },
+        {
+          "key": "D",
+          "text": "1×1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(4-2)/2+1=2. Output 2×2",
+      "tags": [
+        "dl",
+        "pooling",
+        "cnn"
+      ]
+    },
+    {
+      "id": "E13-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số parameters của Embedding layer: vocab_size=10000, embed_dim=300:",
+      "options": [
+        {
+          "key": "A",
+          "text": "300"
+        },
+        {
+          "key": "B",
+          "text": "10000"
+        },
+        {
+          "key": "C",
+          "text": "3000000"
+        },
+        {
+          "key": "D",
+          "text": "10300"
+        }
+      ],
+      "answer": "C",
+      "explanation": "10000×300=3,000,000",
+      "tags": [
+        "dl",
+        "embedding",
+        "parameters"
+      ]
+    },
+    {
+      "id": "E13-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Adam optimizer: learning rate mặc định phổ biến nhất là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "0.01"
+        },
+        {
+          "key": "C",
+          "text": "0.001"
+        },
+        {
+          "key": "D",
+          "text": "0.0001"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Adam default lr=1e-3=0.001. Phổ biến trong hầu hết DL frameworks",
+      "tags": [
+        "dl",
+        "adam",
+        "hyperparameter"
+      ]
+    },
+    {
+      "id": "E13-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sau 5 epochs với lr=0.1 và cosine annealing, lr cuối tiệm cận:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "0.05"
+        },
+        {
+          "key": "C",
+          "text": "~0"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cosine annealing: lr giảm dần theo cosine → tiệm cận 0 ở cuối",
+      "tags": [
+        "dl",
+        "lr-schedule",
+        "cosine-annealing"
+      ]
+    },
+    {
+      "id": "E13-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\na=np.array([1,2,3,4])\nprint(a[a%2==0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,3]"
+        },
+        {
+          "key": "B",
+          "text": "[2,4]"
+        },
+        {
+          "key": "C",
+          "text": "[True,False,True,False]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Boolean indexing: lấy phần tử chẵn → [2,4]",
+      "tags": [
+        "numpy",
+        "boolean-indexing"
+      ]
+    },
+    {
+      "id": "E13-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nprint(np.zeros((2,3)).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2,)"
+        },
+        {
+          "key": "B",
+          "text": "(3,2)"
+        },
+        {
+          "key": "C",
+          "text": "(2,3)"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "C",
+      "explanation": "np.zeros((2,3)): array shape (2,3)",
+      "tags": [
+        "numpy",
+        "zeros",
+        "shape"
+      ]
+    },
+    {
+      "id": "E13-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\nX=np.array([[1,2],[3,4],[5,6]])\ns=StandardScaler()\ns.fit(X)\nprint(s.mean_)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.,4.]"
+        },
+        {
+          "key": "B",
+          "text": "[1.,2.]"
+        },
+        {
+          "key": "C",
+          "text": "[5.,6.]"
+        },
+        {
+          "key": "D",
+          "text": "[2.,4.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "mean_ = column means: col0=(1+3+5)/3=3, col1=(2+4+6)/3=4",
+      "tags": [
+        "sklearn",
+        "standardscaler"
+      ]
+    },
+    {
+      "id": "E13-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.datasets import make_classification\nX,y=make_classification(n_samples=100,n_features=5,random_state=42)\nprint(X.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(100,)"
+        },
+        {
+          "key": "B",
+          "text": "(5,100)"
+        },
+        {
+          "key": "C",
+          "text": "(100,5)"
+        },
+        {
+          "key": "D",
+          "text": "(100,1)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "n_samples=100, n_features=5 → shape (100,5)",
+      "tags": [
+        "sklearn",
+        "dataset"
+      ]
+    },
+    {
+      "id": "E13-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nA=np.array([[1,2,3],[4,5,6],[7,8,9]])\nprint(A.diagonal())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,5,9]"
+        },
+        {
+          "key": "B",
+          "text": "[3,5,7]"
+        },
+        {
+          "key": "C",
+          "text": "[1,4,7]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diagonal() lấy main diagonal: A[0,0]=1, A[1,1]=5, A[2,2]=9",
+      "tags": [
+        "numpy",
+        "diagonal",
+        "matrix"
+      ]
+    },
+    {
+      "id": "E13-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.metrics import f1_score\ny_true=[1,0,1,1,0,1]\ny_pred=[1,0,0,1,0,1]\nprint(round(f1_score(y_true,y_pred),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "0.80"
+        },
+        {
+          "key": "C",
+          "text": "0.83"
+        },
+        {
+          "key": "D",
+          "text": "0.67"
+        }
+      ],
+      "answer": "C",
+      "explanation": "TP=3,FP=0,FN=1. P=3/3=1. R=3/4=0.75. F1=2*1*0.75/1.75≈0.857≈0.86. Actually F1=2TP/(2TP+FP+FN)=6/7≈0.857",
+      "tags": [
+        "sklearn",
+        "f1-score",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E13-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'x':[1,2,3],'y':[4,5,6]})\nprint(df.values.sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "21"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tổng tất cả values: 1+2+3+4+5+6=21",
+      "tags": [
+        "pandas",
+        "values",
+        "sum"
+      ]
+    },
+    {
+      "id": "E13-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nx=np.array([1,2,3,4,5])\nprint(np.var(x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "4.0"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "mean=3, var=((4+1+0+1+4)/5)=10/5=2.0",
+      "tags": [
+        "numpy",
+        "variance"
+      ]
+    },
+    {
+      "id": "E13-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom scipy.spatial.distance import cosine\na=[1,0,0]\nb=[0,1,0]\nprint(cosine(a,b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cosine distance (not similarity) = 1 - cos_sim = 1-0 = 1.0 (orthogonal vectors)",
+      "tags": [
+        "scipy",
+        "cosine-distance"
+      ]
+    },
+    {
+      "id": "E13-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\na=np.array([[1,2],[3,4]])\nb=np.array([[5],[6]])\nprint((a@b).flatten())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5,6]"
+        },
+        {
+          "key": "B",
+          "text": "[17,39]"
+        },
+        {
+          "key": "C",
+          "text": "[23,34]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "a@b = [[1*5+2*6],[3*5+4*6]]= [[17],[39]]. flatten=[17,39]",
+      "tags": [
+        "numpy",
+        "matrix-multiply"
+      ]
+    },
+    {
+      "id": "E13-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\npipe=Pipeline([('sc',StandardScaler()),('lr',LogisticRegression())])\nprint(pipe.steps[1][0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "sc"
+        },
+        {
+          "key": "B",
+          "text": "lr"
+        },
+        {
+          "key": "C",
+          "text": "StandardScaler"
+        },
+        {
+          "key": "D",
+          "text": "LogisticRegression"
+        }
+      ],
+      "answer": "B",
+      "explanation": "steps[1] = ('lr', LogisticRegression()). steps[1][0]='lr'",
+      "tags": [
+        "sklearn",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "E13-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\ndf2=df.rename(columns={'a':'x','b':'y'})\nprint(list(df2.columns))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a','b']"
+        },
+        {
+          "key": "B",
+          "text": "['x','y']"
+        },
+        {
+          "key": "C",
+          "text": "['a','b','x','y']"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rename columns: a→x, b→y → ['x','y']",
+      "tags": [
+        "pandas",
+        "rename",
+        "columns"
+      ]
+    },
+    {
+      "id": "E13-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nx=np.array([1,4,9,16,25])\nprint(np.sqrt(x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,3,4,5]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0,2.0,3.0,4.0,5.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1,4,9,16,25]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "sqrt([1,4,9,16,25])=[1.,2.,3.,4.,5.]",
+      "tags": [
+        "numpy",
+        "sqrt"
+      ]
+    },
+    {
+      "id": "E13-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.neighbors import KNeighborsClassifier\nX=[[0,0],[1,1],[2,2],[3,3]]\ny=[0,0,1,1]\nknn=KNeighborsClassifier(n_neighbors=3)\nknn.fit(X,y)\nprint(knn.predict([[1.5,1.5]]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0]"
+        },
+        {
+          "key": "B",
+          "text": "[1]"
+        },
+        {
+          "key": "C",
+          "text": "[0.5]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1.5,1.5 gần nhất với 3 điểm: (1,1),(0,0),(2,2). Majority vote: 2×class0 vs 1×class1 → [0]",
+      "tags": [
+        "sklearn",
+        "knn"
+      ]
+    },
+    {
+      "id": "E13-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'a':['x','y','x'],'b':[1,2,3]})\nprint(df.groupby('a').sum().reset_index()['b'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,5]"
+        },
+        {
+          "key": "B",
+          "text": "[3,2]"
+        },
+        {
+          "key": "C",
+          "text": "[4,2]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "x: 1+3=4, y: 2. sort by 'a': x→4, y→2 → [4,2]",
+      "tags": [
+        "pandas",
+        "groupby",
+        "sum"
+      ]
+    },
+    {
+      "id": "E13-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\na=np.array([3,1,4,1,5,9,2,6])\nprint(np.unique(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,3,4,5,6,9]"
+        },
+        {
+          "key": "B",
+          "text": "[3,1,4,1,5,9,2,6]"
+        },
+        {
+          "key": "C",
+          "text": "[9,6,5,4,3,2,1]"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "unique() trả sorted unique values: [1,2,3,4,5,6,9]",
+      "tags": [
+        "numpy",
+        "unique"
+      ]
+    },
+    {
+      "id": "E13-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.ensemble import RandomForestClassifier\nrf=RandomForestClassifier(n_estimators=10,random_state=42)\nX=[[1,2],[3,4],[5,6],[7,8]]\ny=[0,0,1,1]\nrf.fit(X,y)\nprint(len(rf.estimators_))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "100"
+        }
+      ],
+      "answer": "C",
+      "explanation": "n_estimators=10 → 10 cây → estimators_ có 10 phần tử",
+      "tags": [
+        "sklearn",
+        "random-forest"
+      ]
+    },
+    {
+      "id": "E13-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'cat':pd.Categorical(['a','b','a'],categories=['a','b','c'])})\nprint(len(df['cat'].cat.categories))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Categorical với categories=['a','b','c'] → 3 categories dù chỉ 'a','b' xuất hiện",
+      "tags": [
+        "pandas",
+        "categorical"
+      ]
+    },
+    {
+      "id": "E13-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport numpy as np\nA=np.array([[1,0],[0,1]])\nprint(np.linalg.inv(A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1,0],[0,1]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0,1],[1,0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0,0],[0,0]]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Inverse của identity matrix = identity matrix",
+      "tags": [
+        "numpy",
+        "linalg",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E13-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'val':[10,20,30,40,50]})\ndf['pct_change']=df['val'].pct_change()\nprint(round(df['pct_change'].iloc[1],2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "0.1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "pct_change: (20-10)/10=1.0 (100% increase)",
+      "tags": [
+        "pandas",
+        "pct_change",
+        "finance"
+      ]
+    },
+    {
+      "id": "E13-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nfrom sklearn.linear_model import Ridge\nimport numpy as np\nX=np.array([[1],[2],[3],[4],[5]])\ny=np.array([1.1,2.0,3.1,3.9,5.0])\nmodel=Ridge(alpha=0)\nmodel.fit(X,y)\nprint(round(model.coef_[0],1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "alpha=0: Ridge ≈ OLS. y≈x → coef≈1.0",
+      "tags": [
+        "sklearn",
+        "ridge",
+        "regression"
+      ]
+    },
+    {
+      "id": "E13-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "```python\nimport pandas as pd\ndf=pd.DataFrame({'A':[1,2,3],'B':[4,5,6]})\nprint(df.apply(lambda x: x.max()-x.min()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "A 2\\nB 2"
+        },
+        {
+          "key": "B",
+          "text": "A 2\\nB 2"
+        },
+        {
+          "key": "C",
+          "text": "A 1\\nB 1"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "max-min của A=[1,2,3]=2, B=[4,5,6]=2 → Series A:2, B:2",
+      "tags": [
+        "pandas",
+        "apply",
+        "lambda"
+      ]
+    },
+    {
+      "id": "E13-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Attention mechanism' trong Transformer tính output như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Output = mean(values)"
+        },
+        {
+          "key": "B",
+          "text": "Output = softmax(QKᵀ/√d) × V"
+        },
+        {
+          "key": "C",
+          "text": "Output = Q + K + V"
+        },
+        {
+          "key": "D",
+          "text": "Output = max(Q,K,V)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention: scores=QKᵀ/√dk, softmax → weights, multiply V → attended output",
+      "tags": [
+        "dl",
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "E13-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Residual connection' (skip connection) trong ResNet thực hiện:",
+      "options": [
+        {
+          "key": "A",
+          "text": "y = F(x)"
+        },
+        {
+          "key": "B",
+          "text": "y = F(x) + x"
+        },
+        {
+          "key": "C",
+          "text": "y = F(x) × x"
+        },
+        {
+          "key": "D",
+          "text": "y = F(x) - x"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Identity shortcut: y=F(x)+x. Gradient có thể flow qua addition → solve vanishing gradient",
+      "tags": [
+        "dl",
+        "resnet",
+        "skip-connection"
+      ]
+    },
+    {
+      "id": "E13-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'LSTM' giải quyết vanishing gradient bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng hidden size"
+        },
+        {
+          "key": "B",
+          "text": "Cell state với forget/input/output gates kiểm soát information flow"
+        },
+        {
+          "key": "C",
+          "text": "Dùng ReLU thay vì sigmoid"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số layers"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LSTM gates: forget gate (loại bỏ), input gate (thêm), output gate (đọc). Cell state: gradient highway",
+      "tags": [
+        "dl",
+        "lstm",
+        "vanishing-gradient"
+      ]
+    },
+    {
+      "id": "E13-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Tokenizer' BPE (Byte Pair Encoding) hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Split theo whitespace"
+        },
+        {
+          "key": "B",
+          "text": "Iteratively merge most frequent byte pairs → subword vocabulary"
+        },
+        {
+          "key": "C",
+          "text": "Sử dụng WordNet"
+        },
+        {
+          "key": "D",
+          "text": "Character-level splitting"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BPE: start với characters, iteratively merge most frequent pairs → subwords. Balance vocabulary size vs coverage",
+      "tags": [
+        "nlp",
+        "bpe",
+        "tokenization"
+      ]
+    },
+    {
+      "id": "E13-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Prompt engineering' kỹ thuật 'Chain-of-Thought' yêu cầu model:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trả lời ngắn gọn"
+        },
+        {
+          "key": "B",
+          "text": "Hiển thị step-by-step reasoning trước khi đưa ra answer final"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng bullet points"
+        },
+        {
+          "key": "D",
+          "text": "Hỏi clarifying questions"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CoT prompting: 'Let's think step by step' → model reason through → better accuracy cho complex tasks",
+      "tags": [
+        "llm",
+        "chain-of-thought",
+        "prompting"
+      ]
+    },
+    {
+      "id": "E13-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Vector database' (Pinecone, Weaviate, Chroma) dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Store relational data"
+        },
+        {
+          "key": "B",
+          "text": "Store và search high-dimensional embeddings cho semantic search/RAG"
+        },
+        {
+          "key": "C",
+          "text": "Cache ML model responses"
+        },
+        {
+          "key": "D",
+          "text": "Store training datasets"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vector DB: index embeddings, support ANN (Approximate Nearest Neighbor) search → core of RAG systems",
+      "tags": [
+        "rag",
+        "vector-database",
+        "embeddings"
+      ]
+    },
+    {
+      "id": "E13-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'ONNX' (Open Neural Network Exchange) format dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train models nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Export và deploy models cross-framework và cross-platform"
+        },
+        {
+          "key": "C",
+          "text": "Store training data"
+        },
+        {
+          "key": "D",
+          "text": "Visualize model architecture"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ONNX: interoperability standard. Train PyTorch → export ONNX → deploy với TensorRT, ONNX Runtime, etc.",
+      "tags": [
+        "mlops",
+        "onnx",
+        "deployment"
+      ]
+    },
+    {
+      "id": "E13-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Perplexity' trong language model evaluation đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số lượng parameters"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ 'ngạc nhiên' của model với text - lower = better model"
+        },
+        {
+          "key": "C",
+          "text": "Training accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Inference speed"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Perplexity=e^(cross-entropy loss). Low perplexity: model assign high prob to actual text → good language model",
+      "tags": [
+        "nlp",
+        "perplexity",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E13-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Semantic chunking' trong RAG tốt hơn 'fixed-size chunking' vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Chunk theo semantic boundaries (sentences, paragraphs) → preserve context và meaning"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic chunking dùng sentence embeddings để detect topic shifts → coherent chunks",
+      "tags": [
+        "rag",
+        "chunking",
+        "semantic"
+      ]
+    },
+    {
+      "id": "E13-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Instruction tuning' của LLM là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train model theo instructions của Nvidia"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune LLM trên dataset của (instruction, response) pairs để follow instructions tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Update model weights theo user instructions"
+        },
+        {
+          "key": "D",
+          "text": "Tune hardware instructions"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Instruction tuning (FLAN, T5): diverse tasks formatted as instructions → general-purpose instruction following",
+      "tags": [
+        "llm",
+        "instruction-tuning",
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "E13-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Langchain' framework trong AI development dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train LLMs từ scratch"
+        },
+        {
+          "key": "B",
+          "text": "Build applications kết hợp LLMs với tools, memory, và data sources theo chains/agents"
+        },
+        {
+          "key": "C",
+          "text": "Visualize neural networks"
+        },
+        {
+          "key": "D",
+          "text": "Data preprocessing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Langchain: chains (LLM + tools), agents (autonomous), memory, document loaders → rapid LLM app development",
+      "tags": [
+        "llm",
+        "langchain",
+        "application"
+      ]
+    },
+    {
+      "id": "E13-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Function calling' trong OpenAI API cho phép:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gọi Python functions"
+        },
+        {
+          "key": "B",
+          "text": "LLM quyết định khi nào và cách gọi external functions/tools dựa trên user intent"
+        },
+        {
+          "key": "C",
+          "text": "Define custom tokens"
+        },
+        {
+          "key": "D",
+          "text": "Stream responses"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Function calling: LLM → structured JSON output → app calls function → result back to LLM → final response",
+      "tags": [
+        "llm",
+        "function-calling",
+        "tool-use"
+      ]
+    },
+    {
+      "id": "E13-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Guardrails' trong LLM deployment là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn context length"
+        },
+        {
+          "key": "B",
+          "text": "Mechanisms để prevent harmful outputs: safety filters, topic restrictions, output validation"
+        },
+        {
+          "key": "C",
+          "text": "Rate limiting"
+        },
+        {
+          "key": "D",
+          "text": "Load balancing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Guardrails: Nvidia NeMo Guardrails, LlamaGuard → prevent hallucination, harmful content, off-topic responses",
+      "tags": [
+        "llm",
+        "safety",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "E13-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Semantic versioning' của AI models quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ là convention đặt tên"
+        },
+        {
+          "key": "B",
+          "text": "Track breaking changes: new model có thể behave khác → downstream applications bị ảnh hưởng"
+        },
+        {
+          "key": "C",
+          "text": "Giảm model size"
+        },
+        {
+          "key": "D",
+          "text": "Tăng accuracy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model v1.0→v2.0: semantic changes. Applications need to test compatibility. Critical cho production stability",
+      "tags": [
+        "mlops",
+        "versioning",
+        "deployment"
+      ]
+    },
+    {
+      "id": "E13-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Streaming inference' trong LLM serving là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xử lý batch requests"
+        },
+        {
+          "key": "B",
+          "text": "Trả về tokens ngay khi được generate (word-by-word) thay vì đợi full response"
+        },
+        {
+          "key": "C",
+          "text": "Stream training data"
+        },
+        {
+          "key": "D",
+          "text": "Distributed inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Streaming: token-by-token → better UX (user thấy response nhanh hơn). Server-Sent Events hoặc WebSocket",
+      "tags": [
+        "llm",
+        "streaming",
+        "inference"
+      ]
+    },
+    {
+      "id": "E13-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Context window' của LLM ảnh hưởng đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training speed"
+        },
+        {
+          "key": "B",
+          "text": "Lượng text model có thể process trong 1 request - giới hạn max input+output tokens"
+        },
+        {
+          "key": "C",
+          "text": "Number of parameters"
+        },
+        {
+          "key": "D",
+          "text": "GPU memory"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context window: GPT-4=128k tokens, Claude=200k. Longer context → more expensive, slower, nhưng process longer docs",
+      "tags": [
+        "llm",
+        "context-window",
+        "tokens"
+      ]
+    },
+    {
+      "id": "E13-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Structured output' (JSON mode) trong LLM inference:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Format training data"
+        },
+        {
+          "key": "B",
+          "text": "Force LLM output valid JSON → easier parsing cho downstream applications"
+        },
+        {
+          "key": "C",
+          "text": "Compress output"
+        },
+        {
+          "key": "D",
+          "text": "Encrypt output"
+        }
+      ],
+      "answer": "B",
+      "explanation": "JSON mode: constrained decoding ensure valid JSON. Critical cho tool use, data extraction, API integrations",
+      "tags": [
+        "llm",
+        "structured-output",
+        "json"
+      ]
+    },
+    {
+      "id": "E13-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Agents' trong AI systems (ReAct, AutoGPT) có điểm đặc trưng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ generate text"
+        },
+        {
+          "key": "B",
+          "text": "Autonomous planning và execution: LLM quyết định actions, use tools, observe results, iterate"
+        },
+        {
+          "key": "C",
+          "text": "Pre-programmed automation"
+        },
+        {
+          "key": "D",
+          "text": "Supervised learning"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent loop: Reason→Act→Observe→Repeat. Tools: web search, code execution, APIs → autonomous task completion",
+      "tags": [
+        "llm",
+        "agents",
+        "autonomous"
+      ]
+    },
+    {
+      "id": "E13-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên dùng 'fine-tuning' thay vì 'prompt engineering'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn luôn fine-tune"
+        },
+        {
+          "key": "B",
+          "text": "Khi cần consistent behavior, specific format, hoặc domain knowledge không thể fit trong context"
+        },
+        {
+          "key": "C",
+          "text": "Khi có ít data"
+        },
+        {
+          "key": "D",
+          "text": "Khi muốn giảm latency ngay lập tức"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fine-tune: specific style, consistent format, proprietary domain knowledge. Prompt eng: general tasks, fast iteration",
+      "tags": [
+        "llm",
+        "fine-tuning",
+        "prompt-engineering"
+      ]
+    },
+    {
+      "id": "E13-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Constitutional AI' (Anthropic) là approach:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI được viết hiến pháp"
+        },
+        {
+          "key": "B",
+          "text": "Train AI với set of principles để self-critique và revise responses → reduce harmful outputs"
+        },
+        {
+          "key": "C",
+          "text": "Legal framework cho AI"
+        },
+        {
+          "key": "D",
+          "text": "AI governance framework"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Constitutional AI: RLHF with AI feedback. Model critique own outputs using principles → less human labeling needed",
+      "tags": [
+        "llm",
+        "constitutional-ai",
+        "safety",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "E13-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI system dùng để nhận diện khuôn mặt ở nơi công cộng, theo EU AI Act là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Minimal risk"
+        },
+        {
+          "key": "B",
+          "text": "Limited risk"
+        },
+        {
+          "key": "C",
+          "text": "High risk"
+        },
+        {
+          "key": "D",
+          "text": "Unacceptable risk (cấm)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Biometric surveillance tại nơi công cộng: EU AI Act liệt vào unacceptable risk, bị cấm (với exceptions rất hạn chế)",
+      "tags": [
+        "responsible-ai",
+        "eu-ai-act",
+        "surveillance",
+        "biometric"
+      ]
+    },
+    {
+      "id": "E13-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Fairness through unawareness' (không dùng protected attributes):",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đảm bảo fairness"
+        },
+        {
+          "key": "B",
+          "text": "Không đảm bảo fairness vì proxy features có thể correlate với protected attributes"
+        },
+        {
+          "key": "C",
+          "text": "Tốt hơn demographic parity"
+        },
+        {
+          "key": "D",
+          "text": "Yêu cầu ít data hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Proxy discrimination: zip code correlate với race, name correlate với gender → 'colorblind' không đủ",
+      "tags": [
+        "responsible-ai",
+        "fairness",
+        "proxy-discrimination"
+      ]
+    },
+    {
+      "id": "E13-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Informed consent' trong AI data collection yêu cầu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần privacy policy"
+        },
+        {
+          "key": "B",
+          "text": "User hiểu rõ data được dùng như thế nào VÀ freely agree (không bị ép buộc)"
+        },
+        {
+          "key": "C",
+          "text": "Opt-out option"
+        },
+        {
+          "key": "D",
+          "text": "Annual renewal"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Valid consent: specific, informed, freely given, unambiguous. Pre-ticked boxes không valid theo GDPR",
+      "tags": [
+        "responsible-ai",
+        "consent",
+        "gdpr"
+      ]
+    },
+    {
+      "id": "E13-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phủ định của: 'Một số AI systems có thể giải thích decisions của chúng'",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tất cả AI systems có thể giải thích"
+        },
+        {
+          "key": "B",
+          "text": "Không có AI systems nào có thể giải thích"
+        },
+        {
+          "key": "C",
+          "text": "Một số AI không thể"
+        },
+        {
+          "key": "D",
+          "text": "Hầu hết AI có thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phủ định ∃x(P(x)) = ∀x(¬P(x)): Không tồn tại AI có thể giải thích = Không AI nào có thể giải thích",
+      "tags": [
+        "logic",
+        "quantifier",
+        "negation"
+      ]
+    },
+    {
+      "id": "E13-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Red-teaming' trong AI safety là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhóm phát triển AI đỏ"
+        },
+        {
+          "key": "B",
+          "text": "Adversarial testing: tìm vulnerabilities và failure modes trước khi release"
+        },
+        {
+          "key": "C",
+          "text": "Team fix bugs"
+        },
+        {
+          "key": "D",
+          "text": "Security team màu đỏ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Red-teaming: systematic adversarial probing để find jailbreaks, harmful outputs, biases trước khi public release",
+      "tags": [
+        "responsible-ai",
+        "red-teaming",
+        "safety-testing"
+      ]
+    },
+    {
+      "id": "E13-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Chilling effect' trong AI surveillance có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống AI bị lỗi do nhiệt độ"
+        },
+        {
+          "key": "B",
+          "text": "People change behavior (self-censor) khi biết đang bị monitored → suppress free speech/association"
+        },
+        {
+          "key": "C",
+          "text": "AI làm môi trường lạnh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Cooling system của AI hardware"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chilling effect: surveillance → behavioral change. Mass surveillance threatens freedom of expression/assembly",
+      "tags": [
+        "responsible-ai",
+        "surveillance",
+        "privacy",
+        "chilling-effect"
+      ]
+    },
+    {
+      "id": "E13-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong logic, 'modus ponens' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "A→B, B đúng → A đúng"
+        },
+        {
+          "key": "B",
+          "text": "A→B, A đúng → B đúng"
+        },
+        {
+          "key": "C",
+          "text": "A→B, B sai → A sai"
+        },
+        {
+          "key": "D",
+          "text": "A→B, A sai → B sai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Modus ponens: A→B, A ⊢ B. Quy tắc suy luận cơ bản nhất",
+      "tags": [
+        "logic",
+        "modus-ponens",
+        "deduction"
+      ]
+    },
+    {
+      "id": "E13-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Participatory design' trong AI ethics là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho users tham gia beta test"
+        },
+        {
+          "key": "B",
+          "text": "Involve affected communities trong design process để ensure AI serves their needs"
+        },
+        {
+          "key": "C",
+          "text": "Crowd-source model training"
+        },
+        {
+          "key": "D",
+          "text": "User voting cho features"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Participatory/inclusive design: stakeholders (đặc biệt marginalized groups) co-design → more equitable AI systems",
+      "tags": [
+        "responsible-ai",
+        "participatory-design",
+        "inclusion"
+      ]
+    }
+  ]
+}
