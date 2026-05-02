@@ -1,0 +1,1894 @@
+{
+  "id": "exam-16",
+  "title": "Bai kiem tra nang cao #16 - MLOps & AI Systems",
+  "description": "60 cau: MLOps, deployment, monitoring, CI/CD, production AI systems.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "disclaimer": "De cuong on tap cong dong, khong cam ket giong de that VinUni.",
+  "questions": [
+    {
+      "id": "E16-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "SLA 99.9% uptime cho phep downtime toi da per year:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 gio"
+        },
+        {
+          "key": "B",
+          "text": "8.76 gio"
+        },
+        {
+          "key": "C",
+          "text": "87.6 gio"
+        },
+        {
+          "key": "D",
+          "text": "876 gio"
+        }
+      ],
+      "answer": "B",
+      "explanation": "99.9% -> 0.1% downtime. 365x24x0.001=8.76h/year",
+      "tags": [
+        "mlops",
+        "sla"
+      ]
+    },
+    {
+      "id": "E16-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "P99 latency nghia la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "99% requests nhanh hon gia tri nay"
+        },
+        {
+          "key": "B",
+          "text": "1% requests nhanh nhat"
+        },
+        {
+          "key": "C",
+          "text": "99 ms"
+        },
+        {
+          "key": "D",
+          "text": "99 concurrent requests"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P99 = 99th percentile. 99% requests complete within this time",
+      "tags": [
+        "mlops",
+        "latency"
+      ]
+    },
+    {
+      "id": "E16-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Error budget trong SRE = ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So bugs cho phep"
+        },
+        {
+          "key": "B",
+          "text": "1 - SLO (bao nhieu downtime/errors duoc phep)"
+        },
+        {
+          "key": "C",
+          "text": "Total errors"
+        },
+        {
+          "key": "D",
+          "text": "Debug time"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Error budget = 1 - SLO. VD: 99.9% SLO -> 0.1% error budget",
+      "tags": [
+        "mlops",
+        "sre"
+      ]
+    },
+    {
+      "id": "E16-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "PSI > 0.2 trong drift monitoring co nghia:",
+      "options": [
+        {
+          "key": "A",
+          "text": "No drift"
+        },
+        {
+          "key": "B",
+          "text": "Severe distribution shift - can investigate/retrain"
+        },
+        {
+          "key": "C",
+          "text": "Moderate drift"
+        },
+        {
+          "key": "D",
+          "text": "Acceptable drift"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PSI thresholds: <0.1 stable, 0.1-0.2 moderate, >0.2 significant shift",
+      "tags": [
+        "mlops",
+        "psi"
+      ]
+    },
+    {
+      "id": "E16-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Throughput trong ML serving la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Latency per request"
+        },
+        {
+          "key": "B",
+          "text": "Requests processed per second"
+        },
+        {
+          "key": "C",
+          "text": "GPU utilization"
+        },
+        {
+          "key": "D",
+          "text": "Memory usage"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Throughput = requests/second. Latency = time per request.",
+      "tags": [
+        "mlops",
+        "throughput"
+      ]
+    },
+    {
+      "id": "E16-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model staleness risk trong production:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model kem moi"
+        },
+        {
+          "key": "B",
+          "text": "Training distribution shifts from production -> degraded predictions"
+        },
+        {
+          "key": "C",
+          "text": "Old code"
+        },
+        {
+          "key": "D",
+          "text": "Outdated docs"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Staleness: world changes, model does not -> decisions based on outdated patterns",
+      "tags": [
+        "mlops",
+        "staleness"
+      ]
+    },
+    {
+      "id": "E16-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "P95 latency vs P99 latency:",
+      "options": [
+        {
+          "key": "A",
+          "text": "P95 > P99"
+        },
+        {
+          "key": "B",
+          "text": "P99 >= P95 (higher percentile = higher value)"
+        },
+        {
+          "key": "C",
+          "text": "Both equal"
+        },
+        {
+          "key": "D",
+          "text": "Random"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Higher percentile = stricter threshold. P99 >= P95 always",
+      "tags": [
+        "mlops",
+        "latency",
+        "percentile"
+      ]
+    },
+    {
+      "id": "E16-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Golden dataset trong ML evaluation la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tat ca labeled data"
+        },
+        {
+          "key": "B",
+          "text": "Carefully curated high-quality test set -> reliable comparison"
+        },
+        {
+          "key": "C",
+          "text": "Largest dataset"
+        },
+        {
+          "key": "D",
+          "text": "Most expensive data"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Golden set: expert-labeled, diverse, representative. Not contaminated",
+      "tags": [
+        "mlops",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E16-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AB test rollout 90/10 co nghia:",
+      "options": [
+        {
+          "key": "A",
+          "text": "90% new model"
+        },
+        {
+          "key": "B",
+          "text": "10% new model, 90% old model"
+        },
+        {
+          "key": "C",
+          "text": "Equal split"
+        },
+        {
+          "key": "D",
+          "text": "Random split"
+        }
+      ],
+      "answer": "B",
+      "explanation": "10% canary: small traffic to new model -> monitor -> increase if good",
+      "tags": [
+        "mlops",
+        "rollout"
+      ]
+    },
+    {
+      "id": "E16-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model performance drop 20% trong production, first action:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Immediately rollback"
+        },
+        {
+          "key": "B",
+          "text": "Investigate root cause: data pipeline? feature drift? business change?"
+        },
+        {
+          "key": "C",
+          "text": "Retrain immediately"
+        },
+        {
+          "key": "D",
+          "text": "Alert all users"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Root cause first. Often data/pipeline bugs not model issues",
+      "tags": [
+        "mlops",
+        "debugging"
+      ]
+    },
+    {
+      "id": "E16-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "32"
+        },
+        {
+          "key": "C",
+          "text": "64"
+        },
+        {
+          "key": "D",
+          "text": "128"
+        }
+      ],
+      "answer": "C",
+      "explanation": "SHA256: 64 hex characters",
+      "tags": [
+        "python",
+        "hashing"
+      ]
+    },
+    {
+      "id": "E16-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "MODEL_PATH"
+        },
+        {
+          "key": "B",
+          "text": "default"
+        },
+        {
+          "key": "C",
+          "text": "model.pkl"
+        },
+        {
+          "key": "D",
+          "text": "path"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Default path last segment: model.pkl",
+      "tags": [
+        "python",
+        "os",
+        "config"
+      ]
+    },
+    {
+      "id": "E16-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "64"
+        }
+      ],
+      "answer": "C",
+      "explanation": "max_batch default = 32",
+      "tags": [
+        "python",
+        "dataclass",
+        "config"
+      ]
+    },
+    {
+      "id": "E16-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": ">=0.5: 0.9 va 0.7 -> sum=2",
+      "tags": [
+        "numpy",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E16-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LRU cache: first call computes, 4 subsequent cache hits. count=1",
+      "tags": [
+        "python",
+        "lru_cache",
+        "caching"
+      ]
+    },
+    {
+      "id": "E16-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "str"
+        },
+        {
+          "key": "B",
+          "text": "float"
+        },
+        {
+          "key": "C",
+          "text": "int"
+        },
+        {
+          "key": "D",
+          "text": "dict"
+        }
+      ],
+      "answer": "C",
+      "explanation": "json preserves Python types: 10 -> int",
+      "tags": [
+        "python",
+        "json",
+        "config"
+      ]
+    },
+    {
+      "id": "E16-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "0.45 va 0.51 -> 2 low confidence",
+      "tags": [
+        "numpy",
+        "monitoring",
+        "confidence"
+      ]
+    },
+    {
+      "id": "E16-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7"
+        },
+        {
+          "key": "B",
+          "text": "0.8125"
+        },
+        {
+          "key": "C",
+          "text": "0.85"
+        },
+        {
+          "key": "D",
+          "text": "0.9"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(0.8+0.9+0.7+0.85)/4=0.8125",
+      "tags": [
+        "python",
+        "oop",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E16-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "max=3: first 3 True, then 2 False. sum=3",
+      "tags": [
+        "python",
+        "rate-limiting",
+        "api"
+      ]
+    },
+    {
+      "id": "E16-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "model_v0"
+        },
+        {
+          "key": "B",
+          "text": "model_v2"
+        },
+        {
+          "key": "C",
+          "text": "model_v4"
+        },
+        {
+          "key": "D",
+          "text": "model_v3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Max value 40 at model_v4",
+      "tags": [
+        "python",
+        "dict",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "E16-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "C",
+      "explanation": "coef has 3 elements",
+      "tags": [
+        "python",
+        "pickle",
+        "serialization"
+      ]
+    },
+    {
+      "id": "E16-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "Result: 16 then 16"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "Result: 16"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Decorator prints \"Result: 16\", then print(val) prints 16",
+      "tags": [
+        "python",
+        "decorator",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E16-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "-1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Batch norm: normalized mean = 0.0",
+      "tags": [
+        "numpy",
+        "batch-norm"
+      ]
+    },
+    {
+      "id": "E16-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "B",
+      "explanation": "10 flipped -> accuracy=0.9",
+      "tags": [
+        "sklearn",
+        "metrics",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E16-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "None*2 -> TypeError suppressed. Others work: 1->2, \"hello\"->\"hellohello\", 3->6, 5->10. len=4",
+      "tags": [
+        "python",
+        "contextlib"
+      ]
+    },
+    {
+      "id": "E16-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Small noise -> low MSE. Large noise -> high MSE. True",
+      "tags": [
+        "sklearn",
+        "mse",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E16-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "C",
+      "explanation": "n_splits=4 -> 4 splits",
+      "tags": [
+        "sklearn",
+        "time-series-split"
+      ]
+    },
+    {
+      "id": "E16-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "sc"
+        },
+        {
+          "key": "B",
+          "text": "StandardScaler"
+        },
+        {
+          "key": "C",
+          "text": "model"
+        },
+        {
+          "key": "D",
+          "text": "Ridge"
+        }
+      ],
+      "answer": "C",
+      "explanation": "steps[-1] = (\"model\", Ridge()). steps[-1][0]=\"model\"",
+      "tags": [
+        "sklearn",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "E16-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "v1"
+        },
+        {
+          "key": "B",
+          "text": "v2"
+        },
+        {
+          "key": "C",
+          "text": "v3"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "acc/latency: v1=0.85/50=0.017, v2=0.9/120=0.0075, v3=0.88/60=0.0147. Max=v1",
+      "tags": [
+        "python",
+        "lambda",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "E16-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only warning"
+        },
+        {
+          "key": "B",
+          "text": "Only error (logged to stderr) + done"
+        },
+        {
+          "key": "C",
+          "text": "done"
+        },
+        {
+          "key": "D",
+          "text": "Error + done"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Level=ERROR: warning suppressed, error logged, then print done",
+      "tags": [
+        "python",
+        "logging"
+      ]
+    },
+    {
+      "id": "E16-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lock prevents race condition. 10 threads -> counter=10",
+      "tags": [
+        "python",
+        "threading",
+        "concurrency"
+      ]
+    },
+    {
+      "id": "E16-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.9,0.85,0.88]"
+        },
+        {
+          "key": "B",
+          "text": "[0.85,0.88,0.72]"
+        },
+        {
+          "key": "C",
+          "text": "[0.88,0.72,0.95]"
+        },
+        {
+          "key": "D",
+          "text": "[0.72,0.95,0.9]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "maxlen=3: keeps last 3. After all: [0.88,0.72,0.95]",
+      "tags": [
+        "python",
+        "deque",
+        "sliding-window",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E16-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Blue-green deployment trong MLOps la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 model versions"
+        },
+        {
+          "key": "B",
+          "text": "Run 2 identical environments. Switch traffic blue to green. Instant rollback"
+        },
+        {
+          "key": "C",
+          "text": "2 teams"
+        },
+        {
+          "key": "D",
+          "text": "Dual serving"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Blue-green: zero-downtime. Rollback = switch traffic back to blue environment",
+      "tags": [
+        "mlops",
+        "blue-green"
+      ]
+    },
+    {
+      "id": "E16-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "CI/CD trong ML them vao DevOps pipeline:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Code tests only"
+        },
+        {
+          "key": "B",
+          "text": "Data validation + model training + evaluation + deployment gates"
+        },
+        {
+          "key": "C",
+          "text": "Just Docker"
+        },
+        {
+          "key": "D",
+          "text": "Just Git"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MLOps CI/CD: data CI + model CI (train/evaluate) + CD (deploy safely)",
+      "tags": [
+        "mlops",
+        "cicd"
+      ]
+    },
+    {
+      "id": "E16-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model registry giai quyet:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Code repository"
+        },
+        {
+          "key": "B",
+          "text": "Centralized: model versions, metrics, artifacts, lineage, deployment status"
+        },
+        {
+          "key": "C",
+          "text": "Data storage"
+        },
+        {
+          "key": "D",
+          "text": "API gateway"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model registry: MLflow, SageMaker, Vertex AI. Single source of truth",
+      "tags": [
+        "mlops",
+        "model-registry"
+      ]
+    },
+    {
+      "id": "E16-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Feature store giai quyet training-serving skew bang:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cache features"
+        },
+        {
+          "key": "B",
+          "text": "Single feature computation cho both training va serving -> consistent"
+        },
+        {
+          "key": "C",
+          "text": "Faster compute"
+        },
+        {
+          "key": "D",
+          "text": "More features"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Training-serving skew: features computed differently. Feature store eliminates inconsistency",
+      "tags": [
+        "mlops",
+        "feature-store"
+      ]
+    },
+    {
+      "id": "E16-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Shadow mode testing la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Night testing"
+        },
+        {
+          "key": "B",
+          "text": "New model receives real traffic nhung predictions khong served -> safe comparison"
+        },
+        {
+          "key": "C",
+          "text": "Dark web test"
+        },
+        {
+          "key": "D",
+          "text": "Internal only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Shadow mode: run new model -> compare predictions offline -> build confidence before live",
+      "tags": [
+        "mlops",
+        "shadow-mode"
+      ]
+    },
+    {
+      "id": "E16-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Canary deployment route traffic nhu the nao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "50/50"
+        },
+        {
+          "key": "B",
+          "text": "Small % (5-10%) to new model -> monitor -> gradually increase"
+        },
+        {
+          "key": "C",
+          "text": "100% immediately"
+        },
+        {
+          "key": "D",
+          "text": "Random"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Canary: low-risk incremental rollout. Catch issues early with limited blast radius",
+      "tags": [
+        "mlops",
+        "canary"
+      ]
+    },
+    {
+      "id": "E16-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Experiment tracking (MLflow, WandB) luu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Final model only"
+        },
+        {
+          "key": "B",
+          "text": "Hyperparams, metrics, artifacts, code version, environment -> full reproducibility"
+        },
+        {
+          "key": "C",
+          "text": "Only metrics"
+        },
+        {
+          "key": "D",
+          "text": "Only accuracy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Complete reproducibility: who trained what, when, with what data/config",
+      "tags": [
+        "mlops",
+        "experiment-tracking"
+      ]
+    },
+    {
+      "id": "E16-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Feedback loop trong production ML:",
+      "options": [
+        {
+          "key": "A",
+          "text": "User feedback form"
+        },
+        {
+          "key": "B",
+          "text": "Capture actual outcomes (labels) -> monitor performance -> trigger retraining"
+        },
+        {
+          "key": "C",
+          "text": "Positive only"
+        },
+        {
+          "key": "D",
+          "text": "Automatic"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Feedback: outcomes become ground truth -> compare predictions -> detect drift -> improve",
+      "tags": [
+        "mlops",
+        "feedback-loop"
+      ]
+    },
+    {
+      "id": "E16-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Infrastructure as Code trong MLOps:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Natural language infra"
+        },
+        {
+          "key": "B",
+          "text": "Version-control infrastructure programmatically -> reproducible environments"
+        },
+        {
+          "key": "C",
+          "text": "Manual server setup"
+        },
+        {
+          "key": "D",
+          "text": "Infra training"
+        }
+      ],
+      "answer": "B",
+      "explanation": "IaC (Terraform, CloudFormation): consistent, reproducible across dev/staging/prod",
+      "tags": [
+        "mlops",
+        "iac"
+      ]
+    },
+    {
+      "id": "E16-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chaos engineering trong MLOps la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Random training"
+        },
+        {
+          "key": "B",
+          "text": "Intentionally inject failures -> test system resilience -> find weaknesses before incidents"
+        },
+        {
+          "key": "C",
+          "text": "Bug injection"
+        },
+        {
+          "key": "D",
+          "text": "Random testing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chaos: simulate prod failures in controlled way. Netflix Chaos Monkey approach",
+      "tags": [
+        "mlops",
+        "chaos-engineering"
+      ]
+    },
+    {
+      "id": "E16-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi deploy model to edge (mobile/IoT), critical:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Just accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Model compression: quantization/pruning/distillation -> reduce size, latency, power"
+        },
+        {
+          "key": "C",
+          "text": "Just copy model"
+        },
+        {
+          "key": "D",
+          "text": "Same as cloud"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Edge: TFLite, ONNX Runtime. float32 -> int8: 4x smaller. Works offline",
+      "tags": [
+        "mlops",
+        "edge-deployment"
+      ]
+    },
+    {
+      "id": "E16-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Monitoring dashboard cho production ML can:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Data drift + prediction distribution + business metrics + latency + errors"
+        },
+        {
+          "key": "C",
+          "text": "Just latency"
+        },
+        {
+          "key": "D",
+          "text": "Just cost"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Comprehensive: technical (latency, errors) + model (drift) + business (conversion, revenue)",
+      "tags": [
+        "mlops",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E16-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Multi-armed bandit trong online model selection:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Static AB test"
+        },
+        {
+          "key": "B",
+          "text": "Adaptively allocate traffic to better-performing models -> reduces regret vs fixed AB"
+        },
+        {
+          "key": "C",
+          "text": "Always explore"
+        },
+        {
+          "key": "D",
+          "text": "Always exploit"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MAB: Thompson Sampling, UCB1. Better than fixed A/B for continuous optimization",
+      "tags": [
+        "mlops",
+        "multi-armed-bandit"
+      ]
+    },
+    {
+      "id": "E16-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data version control (DVC) trong ML:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Git for data"
+        },
+        {
+          "key": "B",
+          "text": "Track dataset versions like code -> reproducibility, experiment lineage"
+        },
+        {
+          "key": "C",
+          "text": "Database backup"
+        },
+        {
+          "key": "D",
+          "text": "Data compression"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DVC: version datasets alongside model code. Know which data trained which model",
+      "tags": [
+        "mlops",
+        "data-versioning"
+      ]
+    },
+    {
+      "id": "E16-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trigger cho model retraining pho bien:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only manual"
+        },
+        {
+          "key": "B",
+          "text": "Performance degradation + data drift + new labeled data + scheduled periodic"
+        },
+        {
+          "key": "C",
+          "text": "Weekly only"
+        },
+        {
+          "key": "D",
+          "text": "User request"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multiple triggers: scheduled (staleness), drift-based (PSI), performance-based (metric drop)",
+      "tags": [
+        "mlops",
+        "retraining"
+      ]
+    },
+    {
+      "id": "E16-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cold start trong ML serving la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model first deployed"
+        },
+        {
+          "key": "B",
+          "text": "Container/model loads from storage -> high initial latency. Mitigation: pre-warm"
+        },
+        {
+          "key": "C",
+          "text": "Database cold"
+        },
+        {
+          "key": "D",
+          "text": "User first request"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cold start: model binary needs loading -> 5-30s. Mitigation: scheduled warmup, keep-alive",
+      "tags": [
+        "mlops",
+        "cold-start",
+        "serving"
+      ]
+    },
+    {
+      "id": "E16-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Online feature computation vs offline feature computation:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Identical"
+        },
+        {
+          "key": "B",
+          "text": "Online: compute at inference time (recent actions). Offline: pre-compute historical aggregations"
+        },
+        {
+          "key": "C",
+          "text": "Online slower always"
+        },
+        {
+          "key": "D",
+          "text": "Offline always better"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Online: real-time features (current cart). Offline: 7-day purchase history, LTV",
+      "tags": [
+        "mlops",
+        "feature-store",
+        "online-offline"
+      ]
+    },
+    {
+      "id": "E16-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Serving latency optimization techniques:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only scale up"
+        },
+        {
+          "key": "B",
+          "text": "Model quantization + batching + caching + hardware acceleration + async serving"
+        },
+        {
+          "key": "C",
+          "text": "Just more servers"
+        },
+        {
+          "key": "D",
+          "text": "Reduce accuracy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Latency: quantize (int8), batch requests, cache warm, GPU/TPU, distill smaller model",
+      "tags": [
+        "mlops",
+        "latency",
+        "optimization"
+      ]
+    },
+    {
+      "id": "E16-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AB test requires minimum sample size calculation based on:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Just 100 users"
+        },
+        {
+          "key": "B",
+          "text": "Effect size + baseline rate + statistical power (0.8) + significance (0.05)"
+        },
+        {
+          "key": "C",
+          "text": "1000 users always"
+        },
+        {
+          "key": "D",
+          "text": "Random choice"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Power analysis determines n. Smaller effect -> larger sample. Use statsmodels or online calculators",
+      "tags": [
+        "mlops",
+        "ab-testing",
+        "sample-size"
+      ]
+    },
+    {
+      "id": "E16-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model explainability audit trail trong regulated industries:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Optional"
+        },
+        {
+          "key": "B",
+          "text": "Log AI decisions with explanations -> regulatory compliance, user appeals, debugging"
+        },
+        {
+          "key": "C",
+          "text": "Just accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Only for errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GDPR Art22, fair lending: document every automated decision with explanation",
+      "tags": [
+        "mlops",
+        "explainability",
+        "compliance"
+      ]
+    },
+    {
+      "id": "E16-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Technical debt trong ML systems:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Normal debt"
+        },
+        {
+          "key": "B",
+          "text": "Shortcuts: undocumented features, missing tests, glue code -> expensive to maintain"
+        },
+        {
+          "key": "C",
+          "text": "Finance debt"
+        },
+        {
+          "key": "D",
+          "text": "Comments"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ML technical debt (Sculley et al.): configuration debt, data dependencies, feedback loops",
+      "tags": [
+        "responsible-ai",
+        "technical-debt"
+      ]
+    },
+    {
+      "id": "E16-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model governance bao gom:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Just docs"
+        },
+        {
+          "key": "B",
+          "text": "Policies, processes, tools: development to deployment to monitoring to retirement"
+        },
+        {
+          "key": "C",
+          "text": "Just versioning"
+        },
+        {
+          "key": "D",
+          "text": "Just data governance"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model governance: approval workflows, audit trails, performance monitoring, incident response",
+      "tags": [
+        "responsible-ai",
+        "model-governance"
+      ]
+    },
+    {
+      "id": "E16-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Logic: If data clean then model good. Data not clean. Conclusion?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model good"
+        },
+        {
+          "key": "B",
+          "text": "Model not good"
+        },
+        {
+          "key": "C",
+          "text": "Cannot conclude about model"
+        },
+        {
+          "key": "D",
+          "text": "Model might be good"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Denying antecedent fallacy: A->B, not-A does NOT imply not-B",
+      "tags": [
+        "logic",
+        "fallacy",
+        "denying-antecedent"
+      ]
+    },
+    {
+      "id": "E16-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Right to erasure anh huong den ML nhu the nao:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khong anh huong"
+        },
+        {
+          "key": "B",
+          "text": "User delete request -> model trained on their data may need updating (machine unlearning)"
+        },
+        {
+          "key": "C",
+          "text": "Just database"
+        },
+        {
+          "key": "D",
+          "text": "Only storage"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Machine unlearning: emerging field. GDPR compliance without full model retraining",
+      "tags": [
+        "responsible-ai",
+        "gdpr"
+      ]
+    },
+    {
+      "id": "E16-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sycophancy trong LLM la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI ninh bot"
+        },
+        {
+          "key": "B",
+          "text": "Model agrees with user even when wrong -> dangerous for high-stakes decisions"
+        },
+        {
+          "key": "C",
+          "text": "Sync issues"
+        },
+        {
+          "key": "D",
+          "text": "Latency"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sycophancy: RLHF may train models to please users -> changes answer based on user pushback",
+      "tags": [
+        "responsible-ai",
+        "sycophancy",
+        "alignment"
+      ]
+    },
+    {
+      "id": "E16-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sufficient condition A cho B bieu dien logic:",
+      "options": [
+        {
+          "key": "A",
+          "text": "B->A"
+        },
+        {
+          "key": "B",
+          "text": "A->B"
+        },
+        {
+          "key": "C",
+          "text": "A<->B"
+        },
+        {
+          "key": "D",
+          "text": "A and B"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sufficient: A enough to guarantee B. A->B",
+      "tags": [
+        "logic",
+        "sufficient-condition"
+      ]
+    },
+    {
+      "id": "E16-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vendor lock-in trong AI platform la:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Normal business"
+        },
+        {
+          "key": "B",
+          "text": "Dependence on proprietary AI services -> switching costly -> reduces flexibility and competition"
+        },
+        {
+          "key": "C",
+          "text": "Technical spec"
+        },
+        {
+          "key": "D",
+          "text": "Procurement issue"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vendor lock-in: proprietary APIs/formats -> migration expensive. ONNX/MLflow reduce this",
+      "tags": [
+        "responsible-ai",
+        "vendor-lock-in"
+      ]
+    },
+    {
+      "id": "E16-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Logic A and not-A co truth value:",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "Undefined"
+        },
+        {
+          "key": "D",
+          "text": "Depends"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Contradiction: P and not-P is always False",
+      "tags": [
+        "logic",
+        "contradiction"
+      ]
+    }
+  ]
+}

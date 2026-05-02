@@ -1,0 +1,1942 @@
+{
+  "id": "exam-20",
+  "title": "Mock Test 3 - Grand Final",
+  "description": "Thi thử cuối cùng: Tổng hợp toàn bộ kiến thức. Đây là bài thi mô phỏng sát nhất với VinUni AI test.",
+  "module": "Mixed",
+  "difficulty": "expert",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "20-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the result of applying softmax to logits [2, 1, 0.1]? Which class has highest probability?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Class C (0.1)"
+        },
+        {
+          "key": "B",
+          "text": "Class B (1)"
+        },
+        {
+          "key": "C",
+          "text": "Class A (2)"
+        },
+        {
+          "key": "D",
+          "text": "All equal"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Softmax preserves ordering: highest logit gets highest probability. Class A with logit 2 has the highest probability.",
+      "tags": [
+        "softmax",
+        "classification",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A vector space has basis {[1,0,0], [0,1,0], [0,0,1]}. The dimension of this space is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "Infinite"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The number of basis vectors equals the dimension of the vector space. 3 basis vectors -> dimension 3.",
+      "tags": [
+        "linear-algebra",
+        "basis",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the derivative of the sigmoid function sigma(x)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "sigma(x)"
+        },
+        {
+          "key": "B",
+          "text": "1 - sigma(x)"
+        },
+        {
+          "key": "C",
+          "text": "sigma(x) * (1 - sigma(x))"
+        },
+        {
+          "key": "D",
+          "text": "sigma(x)^2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "d/dx sigma(x) = sigma(x) * (1 - sigma(x)). This is why sigmoid causes vanishing gradients in deep nets.",
+      "tags": [
+        "calculus",
+        "sigmoid",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A random variable X ~ Binomial(n=10, p=0.3). What is E[X]?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "7.0"
+        },
+        {
+          "key": "D",
+          "text": "1.45"
+        }
+      ],
+      "answer": "B",
+      "explanation": "For Binomial distribution, E[X] = n*p = 10*0.3 = 3.0.",
+      "tags": [
+        "probability",
+        "binomial",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does it mean for two events A and B to be mutually exclusive?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(A) * P(B) = P(A and B)"
+        },
+        {
+          "key": "B",
+          "text": "P(A and B) = 0; they cannot both occur"
+        },
+        {
+          "key": "C",
+          "text": "P(A|B) = P(A)"
+        },
+        {
+          "key": "D",
+          "text": "P(A or B) = 1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mutually exclusive: A and B cannot occur simultaneously, so P(A and B) = 0 and P(A or B) = P(A) + P(B).",
+      "tags": [
+        "probability",
+        "mutually-exclusive",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "The ROC curve plots True Positive Rate (TPR) against False Positive Rate (FPR). An AUC of 0.5 means:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Perfect classifier"
+        },
+        {
+          "key": "B",
+          "text": "Random classifier (no better than chance)"
+        },
+        {
+          "key": "C",
+          "text": "Good classifier"
+        },
+        {
+          "key": "D",
+          "text": "Terrible classifier needing flip"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AUC=0.5 indicates the model performs at chance level, like random guessing. AUC=1.0 is perfect.",
+      "tags": [
+        "ml-evaluation",
+        "auc-roc",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In hypothesis testing, Type II error (False Negative) means:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rejecting a true null hypothesis"
+        },
+        {
+          "key": "B",
+          "text": "Failing to reject a false null hypothesis"
+        },
+        {
+          "key": "C",
+          "text": "Incorrectly calculating p-value"
+        },
+        {
+          "key": "D",
+          "text": "Testing with wrong sample size"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Type II error (beta): failing to reject H0 when it is actually false. Power = 1 - beta.",
+      "tags": [
+        "statistics",
+        "hypothesis-testing",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the L1 norm of vector [3, -4, 0, 2]?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "9.0"
+        },
+        {
+          "key": "C",
+          "text": "25.0"
+        },
+        {
+          "key": "D",
+          "text": "7.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L1 norm = sum of absolute values = |3| + |-4| + |0| + |2| = 3 + 4 + 0 + 2 = 9.",
+      "tags": [
+        "linear-algebra",
+        "norms",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In Bayes theorem, the \"prior\" refers to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(data | hypothesis)"
+        },
+        {
+          "key": "B",
+          "text": "P(hypothesis | data)"
+        },
+        {
+          "key": "C",
+          "text": "P(hypothesis) before observing data"
+        },
+        {
+          "key": "D",
+          "text": "P(data)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Prior = P(hypothesis) before seeing data. Posterior = P(hypothesis|data) after updating with evidence via likelihood.",
+      "tags": [
+        "probability",
+        "bayes",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the gradient of MSE loss L = (y_pred - y_true)^2 with respect to y_pred?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "2*(y_pred - y_true)"
+        },
+        {
+          "key": "C",
+          "text": "(y_pred - y_true)^2"
+        },
+        {
+          "key": "D",
+          "text": "y_pred - y_true"
+        }
+      ],
+      "answer": "B",
+      "explanation": "dL/d(y_pred) = 2*(y_pred - y_true) by chain rule. This drives gradient descent updates.",
+      "tags": [
+        "calculus",
+        "loss",
+        "gradient",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Two events have P(A)=0.5, P(B)=0.5, and they are independent. What is P(A and B)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.25"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "For independent events: P(A and B) = P(A) * P(B) = 0.5 * 0.5 = 0.25.",
+      "tags": [
+        "probability",
+        "independence",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "If a neural network has a single hidden layer with ReLU activation, what class of functions can it represent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only linear functions"
+        },
+        {
+          "key": "B",
+          "text": "Piecewise linear functions"
+        },
+        {
+          "key": "C",
+          "text": "Smooth nonlinear functions only"
+        },
+        {
+          "key": "D",
+          "text": "Polynomial functions only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReLU creates piecewise linear functions. Stacking ReLU layers allows approximation of any continuous function (universal approximation).",
+      "tags": [
+        "neural-networks",
+        "relu",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "The interquartile range (IQR) is used to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Measure the average spread"
+        },
+        {
+          "key": "B",
+          "text": "Measure spread in the middle 50% of data, resistant to outliers"
+        },
+        {
+          "key": "C",
+          "text": "Measure the total range"
+        },
+        {
+          "key": "D",
+          "text": "Calculate the standard deviation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "IQR = Q3 - Q1. It measures spread of the central 50% of data and is robust to outliers.",
+      "tags": [
+        "statistics",
+        "iqr",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which equation represents exponential growth?",
+      "options": [
+        {
+          "key": "A",
+          "text": "y = mx + b"
+        },
+        {
+          "key": "B",
+          "text": "y = x^2 + c"
+        },
+        {
+          "key": "C",
+          "text": "y = a * e^(bx)"
+        },
+        {
+          "key": "D",
+          "text": "y = a/x"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Exponential growth: y = a*e^(bx) where b > 0. Compound interest, population growth, and virus spread follow this pattern.",
+      "tags": [
+        "mathematics",
+        "exponential",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A model has precision=0.8 and recall=0.6. What is the F1 score?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.686"
+        },
+        {
+          "key": "B",
+          "text": "0.7"
+        },
+        {
+          "key": "C",
+          "text": "0.72"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "F1 = 2 * (precision * recall) / (precision + recall) = 2*(0.8*0.6)/(0.8+0.6) = 0.96/1.4 = 0.686.",
+      "tags": [
+        "ml-evaluation",
+        "f1",
+        "module-A"
+      ]
+    },
+    {
+      "id": "20-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does the following Python code print?\n\nclass Counter:\n    count = 0\n    def __init__(self):\n        Counter.count += 1\na = Counter()\nb = Counter()\nc = Counter()\nprint(Counter.count)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Counter.count is a class variable. Each __init__ call increments it. After 3 instances, Counter.count = 3.",
+      "tags": [
+        "python",
+        "oop",
+        "class-variables",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which numpy function computes element-wise exponential?",
+      "options": [
+        {
+          "key": "A",
+          "text": "np.pow"
+        },
+        {
+          "key": "B",
+          "text": "np.exp"
+        },
+        {
+          "key": "C",
+          "text": "np.log"
+        },
+        {
+          "key": "D",
+          "text": "np.sqrt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.exp(x) computes e^x element-wise. np.power(base,exp) computes arbitrary powers.",
+      "tags": [
+        "numpy",
+        "math",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the output?\n\nimport pandas as pd\ndf = pd.DataFrame({\"a\":[1,2,None],\"b\":[4,None,6]})\nprint(df.isnull().sum().sum())",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "B",
+      "explanation": "There are 2 null values total (df[\"a\"][2]=None, df[\"b\"][1]=None). isnull().sum() per column, .sum() of that = 2.",
+      "tags": [
+        "pandas",
+        "missing-data",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which keyword makes a Python generator pause and return a value?",
+      "options": [
+        {
+          "key": "A",
+          "text": "return"
+        },
+        {
+          "key": "B",
+          "text": "break"
+        },
+        {
+          "key": "C",
+          "text": "yield"
+        },
+        {
+          "key": "D",
+          "text": "pause"
+        }
+      ],
+      "answer": "C",
+      "explanation": "yield pauses generator execution and returns a value. The generator resumes from that point on next() call.",
+      "tags": [
+        "python",
+        "generators",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does np.cumsum([1,2,3,4]) return?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,3,4]"
+        },
+        {
+          "key": "B",
+          "text": "[1,3,6,10]"
+        },
+        {
+          "key": "C",
+          "text": "[10,9,7,4]"
+        },
+        {
+          "key": "D",
+          "text": "[0,1,3,6]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cumulative sum: [1, 1+2, 1+2+3, 1+2+3+4] = [1, 3, 6, 10].",
+      "tags": [
+        "numpy",
+        "cumsum",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which sklearn metric function computes the area under the ROC curve?",
+      "options": [
+        {
+          "key": "A",
+          "text": "sklearn.metrics.f1_score"
+        },
+        {
+          "key": "B",
+          "text": "sklearn.metrics.roc_auc_score"
+        },
+        {
+          "key": "C",
+          "text": "sklearn.metrics.accuracy_score"
+        },
+        {
+          "key": "D",
+          "text": "sklearn.metrics.roc_curve"
+        }
+      ],
+      "answer": "B",
+      "explanation": "roc_auc_score(y_true, y_score) computes the AUC-ROC metric directly.",
+      "tags": [
+        "sklearn",
+        "metrics",
+        "auc",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the output of:\n\nprint({1,2,3} & {2,3,4})",
+      "options": [
+        {
+          "key": "A",
+          "text": "{1,2,3,4}"
+        },
+        {
+          "key": "B",
+          "text": "{2,3}"
+        },
+        {
+          "key": "C",
+          "text": "{1,4}"
+        },
+        {
+          "key": "D",
+          "text": "{1,2,3}"
+        }
+      ],
+      "answer": "B",
+      "explanation": "& on sets is intersection. {1,2,3} intersect {2,3,4} = {2,3}.",
+      "tags": [
+        "python",
+        "sets",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does pd.concat([df1, df2], axis=1) do?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Stacks DataFrames vertically (adds rows)"
+        },
+        {
+          "key": "B",
+          "text": "Stacks DataFrames horizontally (adds columns)"
+        },
+        {
+          "key": "C",
+          "text": "Merges on common column"
+        },
+        {
+          "key": "D",
+          "text": "Creates a MultiIndex"
+        }
+      ],
+      "answer": "B",
+      "explanation": "axis=1 concatenates along columns (horizontally). axis=0 (default) concatenates rows.",
+      "tags": [
+        "pandas",
+        "concat",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In Python, what does the walrus operator \":=\" do?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Comparison operator"
+        },
+        {
+          "key": "B",
+          "text": "Assigns a value and also returns it in an expression"
+        },
+        {
+          "key": "C",
+          "text": "Augmented assignment (like +=)"
+        },
+        {
+          "key": "D",
+          "text": "Creates a named tuple"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The walrus operator (assignment expression) allows assignment inside expressions: while chunk := f.read(1024): ...",
+      "tags": [
+        "python",
+        "walrus",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the output of:\nnp.array([1,2,3]) * np.array([1,2,3])",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,4,9]"
+        },
+        {
+          "key": "B",
+          "text": "14 (scalar)"
+        },
+        {
+          "key": "C",
+          "text": "[1,2,3,1,2,3]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Element-wise multiplication: [1*1, 2*2, 3*3] = [1, 4, 9]. Use np.dot or @ for dot product.",
+      "tags": [
+        "numpy",
+        "operations",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which pandas method applies a function along rows or columns?",
+      "options": [
+        {
+          "key": "A",
+          "text": "df.map()"
+        },
+        {
+          "key": "B",
+          "text": "df.apply()"
+        },
+        {
+          "key": "C",
+          "text": "df.transform()"
+        },
+        {
+          "key": "D",
+          "text": "df.pipe()"
+        }
+      ],
+      "answer": "B",
+      "explanation": "df.apply(func, axis=0) applies func along columns; axis=1 applies along rows. Returns Series or DataFrame.",
+      "tags": [
+        "pandas",
+        "apply",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does \"if __name__ == '__main__'\" guard do?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Makes the code faster"
+        },
+        {
+          "key": "B",
+          "text": "Runs the block only when the script is executed directly, not when imported"
+        },
+        {
+          "key": "C",
+          "text": "Defines the main class"
+        },
+        {
+          "key": "D",
+          "text": "Prevents syntax errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "This idiom ensures code inside only runs when the file is the main script, not when imported as a module.",
+      "tags": [
+        "python",
+        "modules",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which Python built-in function returns an enumerate object pairing index with item?",
+      "options": [
+        {
+          "key": "A",
+          "text": "zip"
+        },
+        {
+          "key": "B",
+          "text": "map"
+        },
+        {
+          "key": "C",
+          "text": "enumerate"
+        },
+        {
+          "key": "D",
+          "text": "iter"
+        }
+      ],
+      "answer": "C",
+      "explanation": "enumerate(iterable) yields (index, value) pairs. enumerate([\"a\",\"b\",\"c\"]) -> (0,\"a\"),(1,\"b\"),(2,\"c\").",
+      "tags": [
+        "python",
+        "enumerate",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the output of:\n\nfrom itertools import chain\nlist(chain([1,2],[3,4],[5]))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1,2],[3,4],[5]]"
+        },
+        {
+          "key": "B",
+          "text": "[1,2,3,4,5]"
+        },
+        {
+          "key": "C",
+          "text": "(1,2,3,4,5)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "itertools.chain flattens multiple iterables into a single iterator: [1,2,3,4,5].",
+      "tags": [
+        "python",
+        "itertools",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which numpy indexing returns a VIEW (not a copy) of the original array?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fancy indexing: arr[[0,1,2]]"
+        },
+        {
+          "key": "B",
+          "text": "Boolean indexing: arr[arr>0]"
+        },
+        {
+          "key": "C",
+          "text": "Slice indexing: arr[1:5]"
+        },
+        {
+          "key": "D",
+          "text": "All indexing returns copies"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Basic slice indexing returns a view. Fancy indexing (integer arrays) and boolean indexing return copies.",
+      "tags": [
+        "numpy",
+        "indexing",
+        "views",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does sklearn.preprocessing.LabelEncoder().fit_transform([\"cat\",\"dog\",\"cat\",\"bird\"]) return?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0,1,0,2] or similar integer encoding"
+        },
+        {
+          "key": "B",
+          "text": "[\"0\",\"1\",\"0\",\"2\"]"
+        },
+        {
+          "key": "C",
+          "text": "One-hot encoded array"
+        },
+        {
+          "key": "D",
+          "text": "Error - needs numeric input"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LabelEncoder maps each unique string label to an integer. cat=0 (or 1), dog=2 (or whatever), bird=0/1. Order depends on sort.",
+      "tags": [
+        "sklearn",
+        "label-encoding",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does pd.DataFrame.pivot_table(values=\"sales\", index=\"region\", columns=\"product\", aggfunc=\"sum\") create?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A long-format DataFrame"
+        },
+        {
+          "key": "B",
+          "text": "A cross-tabulation with regions as rows, products as columns, summed sales as values"
+        },
+        {
+          "key": "C",
+          "text": "A sorted DataFrame"
+        },
+        {
+          "key": "D",
+          "text": "A multi-level indexed Series"
+        }
+      ],
+      "answer": "B",
+      "explanation": "pivot_table creates a 2D summary table: rows=region, columns=product, cells=sum of sales.",
+      "tags": [
+        "pandas",
+        "pivot-table",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does the following return?\n\nimport numpy as np\nnp.unique(np.array([3,1,2,1,3,4,2]))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3,1,2,1,3,4,2]"
+        },
+        {
+          "key": "B",
+          "text": "[1,2,3,4]"
+        },
+        {
+          "key": "C",
+          "text": "[1,1,2,2,3,3,4]"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.unique returns sorted unique values: [1,2,3,4].",
+      "tags": [
+        "numpy",
+        "unique",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which Python statement correctly creates a namedtuple for a Point with x and y coordinates?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Point = namedtuple('Point', ['x','y'])"
+        },
+        {
+          "key": "B",
+          "text": "Point = namedtuple(['x','y'])"
+        },
+        {
+          "key": "C",
+          "text": "Point = tuple('x','y')"
+        },
+        {
+          "key": "D",
+          "text": "Point = NamedTuple(x=int, y=int)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "collections.namedtuple takes the type name and a list (or string) of field names.",
+      "tags": [
+        "python",
+        "namedtuple",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the output of:\n\nprint(bool(0), bool(\"\"), bool([]), bool(None), bool(1))",
+      "options": [
+        {
+          "key": "A",
+          "text": "True True True True True"
+        },
+        {
+          "key": "B",
+          "text": "False False False False True"
+        },
+        {
+          "key": "C",
+          "text": "True False True True True"
+        },
+        {
+          "key": "D",
+          "text": "False False False False False"
+        }
+      ],
+      "answer": "B",
+      "explanation": "In Python: 0, empty string, empty list, and None are all falsy. 1 is truthy.",
+      "tags": [
+        "python",
+        "truthy-falsy",
+        "module-B"
+      ]
+    },
+    {
+      "id": "20-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the primary advantage of XGBoost over a standard decision tree?",
+      "options": [
+        {
+          "key": "A",
+          "text": "XGBoost is faster to train on small datasets"
+        },
+        {
+          "key": "B",
+          "text": "XGBoost uses boosting to sequentially correct errors, achieving better generalization"
+        },
+        {
+          "key": "C",
+          "text": "XGBoost requires no hyperparameter tuning"
+        },
+        {
+          "key": "D",
+          "text": "XGBoost uses random subsets like Random Forest"
+        }
+      ],
+      "answer": "B",
+      "explanation": "XGBoost is a gradient boosting framework that builds trees sequentially, each correcting the previous ensemble's errors.",
+      "tags": [
+        "ensemble",
+        "xgboost",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In NLP, what is named entity recognition (NER)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generating names for entities"
+        },
+        {
+          "key": "B",
+          "text": "Identifying and classifying named entities (persons, places, organizations) in text"
+        },
+        {
+          "key": "C",
+          "text": "Linking entities across documents"
+        },
+        {
+          "key": "D",
+          "text": "Coreference resolution"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NER identifies spans in text and classifies them into predefined categories like PERSON, ORG, LOC, DATE.",
+      "tags": [
+        "nlp",
+        "ner",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does \"early stopping\" in neural network training prevent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Underfitting"
+        },
+        {
+          "key": "B",
+          "text": "Overfitting by stopping training when validation loss starts increasing"
+        },
+        {
+          "key": "C",
+          "text": "Learning rate decay"
+        },
+        {
+          "key": "D",
+          "text": "Vanishing gradients"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Early stopping monitors validation loss and stops training before the model overfits to training data.",
+      "tags": [
+        "deep-learning",
+        "early-stopping",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is \"zero-shot learning\" in the context of LLMs?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training a model from scratch"
+        },
+        {
+          "key": "B",
+          "text": "Using an LLM for a task without any task-specific examples in the prompt"
+        },
+        {
+          "key": "C",
+          "text": "A model that fails to generalize"
+        },
+        {
+          "key": "D",
+          "text": "Training with zero labeled data only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Zero-shot: ask the model to perform a task with only a description, no examples. Few-shot provides k examples.",
+      "tags": [
+        "llm",
+        "zero-shot",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which deep learning architecture is best suited for image classification tasks?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RNN"
+        },
+        {
+          "key": "B",
+          "text": "Transformer"
+        },
+        {
+          "key": "C",
+          "text": "CNN (Convolutional Neural Network)"
+        },
+        {
+          "key": "D",
+          "text": "MLP only"
+        }
+      ],
+      "answer": "C",
+      "explanation": "CNNs use convolutional layers to learn spatially local features, making them highly effective for images.",
+      "tags": [
+        "deep-learning",
+        "cnn",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In a product funnel, \"conversion rate\" is calculated as:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Total visits / Total purchases"
+        },
+        {
+          "key": "B",
+          "text": "Users completing a desired action / Total users who started that funnel step"
+        },
+        {
+          "key": "C",
+          "text": "Monthly active users / Daily active users"
+        },
+        {
+          "key": "D",
+          "text": "Number of features used / Total features"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Conversion rate = completions / starts at a funnel step. E.g., purchases / cart-adds.",
+      "tags": [
+        "product-ai",
+        "funnel",
+        "metrics",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does \"semantic segmentation\" in computer vision produce?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A bounding box around each object"
+        },
+        {
+          "key": "B",
+          "text": "A class label for every pixel in the image"
+        },
+        {
+          "key": "C",
+          "text": "A list of detected objects with confidence scores"
+        },
+        {
+          "key": "D",
+          "text": "A description of the image in natural language"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic segmentation assigns a class label to each pixel (e.g., road, sky, car, person) creating a dense pixel map.",
+      "tags": [
+        "computer-vision",
+        "segmentation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In the context of LLMs, what are \"tokens\"?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Complete words only"
+        },
+        {
+          "key": "B",
+          "text": "Subword units that text is split into for processing"
+        },
+        {
+          "key": "C",
+          "text": "Sentences"
+        },
+        {
+          "key": "D",
+          "text": "Individual characters only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLMs tokenize text into subword units (tokens). \"playing\" might be one token or split into \"play\" + \"ing\" depending on tokenizer.",
+      "tags": [
+        "llm",
+        "tokenization",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the primary use of FAISS in AI applications?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Text generation"
+        },
+        {
+          "key": "B",
+          "text": "Efficient similarity search over large vector collections"
+        },
+        {
+          "key": "C",
+          "text": "Model training acceleration"
+        },
+        {
+          "key": "D",
+          "text": "Data augmentation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FAISS (Facebook AI Similarity Search) enables fast approximate nearest neighbor search over high-dimensional vectors.",
+      "tags": [
+        "embeddings",
+        "vector-search",
+        "faiss",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which of these is a \"model-agnostic\" interpretability method?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Decision tree visualization"
+        },
+        {
+          "key": "B",
+          "text": "CNN saliency maps"
+        },
+        {
+          "key": "C",
+          "text": "LIME (Local Interpretable Model-agnostic Explanations)"
+        },
+        {
+          "key": "D",
+          "text": "Attention visualization"
+        }
+      ],
+      "answer": "C",
+      "explanation": "LIME fits a local interpretable model (linear) around any black-box prediction, making it model-agnostic.",
+      "tags": [
+        "explainability",
+        "lime",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is \"online learning\" in machine learning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Learning from internet data"
+        },
+        {
+          "key": "B",
+          "text": "Updating model parameters incrementally as each new data point arrives"
+        },
+        {
+          "key": "C",
+          "text": "Learning from unlabeled data"
+        },
+        {
+          "key": "D",
+          "text": "Training on a GPU cluster"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Online learning updates the model with each new observation rather than retraining from scratch on all data.",
+      "tags": [
+        "ml-fundamentals",
+        "online-learning",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is the role of the \"encoder\" in a sequence-to-sequence model?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generates the output sequence"
+        },
+        {
+          "key": "B",
+          "text": "Compresses the input sequence into a context representation"
+        },
+        {
+          "key": "C",
+          "text": "Applies attention to the output"
+        },
+        {
+          "key": "D",
+          "text": "Decodes the latent space"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The encoder processes the input sequence and produces a context vector (or encoder states). The decoder generates output from this.",
+      "tags": [
+        "deep-learning",
+        "seq2seq",
+        "encoder-decoder",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In a recommendation system A/B test, the control (A) has CTR=0.10, treatment (B) has CTR=0.12. What statistic determines if this difference is significant?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The absolute difference (0.02)"
+        },
+        {
+          "key": "B",
+          "text": "Whether p-value < chosen significance level from a proportions z-test"
+        },
+        {
+          "key": "C",
+          "text": "Whether the CTR difference > 1%"
+        },
+        {
+          "key": "D",
+          "text": "The sample mean"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Statistical significance requires hypothesis testing. With sufficient sample size, a proportions z-test gives a p-value to compare against alpha.",
+      "tags": [
+        "product-ai",
+        "ab-testing",
+        "statistics",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is \"multi-task learning\" in deep learning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training multiple models for different tasks separately"
+        },
+        {
+          "key": "B",
+          "text": "Training a single model on multiple tasks simultaneously using shared representations"
+        },
+        {
+          "key": "C",
+          "text": "Ensembling models from different tasks"
+        },
+        {
+          "key": "D",
+          "text": "Training on multiple datasets sequentially"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-task learning shares model parameters across tasks, allowing related tasks to improve each other through shared representations.",
+      "tags": [
+        "deep-learning",
+        "multi-task",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which evaluation metric is used specifically for machine translation quality?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ROUGE"
+        },
+        {
+          "key": "B",
+          "text": "BLEU (Bilingual Evaluation Understudy)"
+        },
+        {
+          "key": "C",
+          "text": "Perplexity"
+        },
+        {
+          "key": "D",
+          "text": "NDCG"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BLEU measures n-gram overlap between machine translation and reference translations, widely used for MT evaluation.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "bleu",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What distinguishes a \"vector database\" from a traditional relational database?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector databases are slower"
+        },
+        {
+          "key": "B",
+          "text": "Vector databases are optimized for storing and querying high-dimensional vector embeddings by similarity"
+        },
+        {
+          "key": "C",
+          "text": "Vector databases use SQL"
+        },
+        {
+          "key": "D",
+          "text": "Vector databases cannot store text"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vector DBs (Pinecone, Weaviate, Chroma) support approximate nearest neighbor search over dense embeddings, unlike SQL's exact match.",
+      "tags": [
+        "vector-database",
+        "embeddings",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What is \"hallucination\" in LLMs?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The model running slowly"
+        },
+        {
+          "key": "B",
+          "text": "The model generating plausible-sounding but factually incorrect or fabricated information"
+        },
+        {
+          "key": "C",
+          "text": "The model refusing to answer"
+        },
+        {
+          "key": "D",
+          "text": "The model repeating input"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM hallucination: confident generation of incorrect, fabricated, or misleading content not grounded in facts or source material.",
+      "tags": [
+        "llm",
+        "hallucination",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "In the attention mechanism, what do Q, K, and V represent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Queue, Key, Value (data structure)"
+        },
+        {
+          "key": "B",
+          "text": "Query, Key, Value - vectors used to compute attention weights and aggregate information"
+        },
+        {
+          "key": "C",
+          "text": "Quantization, Kernel, Vector parameters"
+        },
+        {
+          "key": "D",
+          "text": "Quality, Knowledge, Vocabulary matrices"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention(Q,K,V) = softmax(QK^T/sqrt(d_k))V. Q queries against K keys to produce weights applied to V values.",
+      "tags": [
+        "transformer",
+        "attention",
+        "module-C"
+      ]
+    },
+    {
+      "id": "20-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "An AI content moderation system over-removes content from minority language speakers due to lower training data. The most appropriate remedy is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accept this as an inherent limitation"
+        },
+        {
+          "key": "B",
+          "text": "Collect more diverse training data and perform bias audits across language groups"
+        },
+        {
+          "key": "C",
+          "text": "Only deploy in majority language markets"
+        },
+        {
+          "key": "D",
+          "text": "Increase the confidence threshold for all users equally"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Addressing data imbalance through more diverse, representative training data and fairness audits is the responsible approach.",
+      "tags": [
+        "responsible-ai",
+        "fairness",
+        "bias",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "What does \"privacy by design\" mean in AI system development?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Adding privacy features after system completion"
+        },
+        {
+          "key": "B",
+          "text": "Integrating privacy protections as a foundational element throughout the design and development process"
+        },
+        {
+          "key": "C",
+          "text": "Making all model weights private"
+        },
+        {
+          "key": "D",
+          "text": "Encrypting database passwords only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Privacy by design (Ann Cavoukian) means embedding privacy controls proactively into system architecture from the start.",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which is an example of the \"slippery slope\" logical fallacy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"If we allow self-driving cars, soon machines will control everything and humans will be enslaved.\""
+        },
+        {
+          "key": "B",
+          "text": "\"AI systems can be biased because training data is biased.\""
+        },
+        {
+          "key": "C",
+          "text": "\"Deep learning is powerful because it has many layers.\""
+        },
+        {
+          "key": "D",
+          "text": "\"GPT-4 passed the bar exam; therefore it understands law.\""
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slippery slope: assumes one step inevitably leads to extreme consequences without evidence of the intermediate steps.",
+      "tags": [
+        "logic",
+        "fallacies",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Under what circumstances should an AI system be taken offline or paused?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only when it fails completely"
+        },
+        {
+          "key": "B",
+          "text": "When it exhibits harmful or unexpected behavior that cannot be immediately explained or corrected"
+        },
+        {
+          "key": "C",
+          "text": "When a newer model becomes available"
+        },
+        {
+          "key": "D",
+          "text": "When usage drops below a threshold"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Responsible AI deployment includes maintaining human oversight with ability to pause/rollback systems showing harmful or unexplained behavior.",
+      "tags": [
+        "responsible-ai",
+        "human-oversight",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "The logical form \"P or Q; not P; therefore Q\" is known as:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Modus ponens"
+        },
+        {
+          "key": "B",
+          "text": "Modus tollens"
+        },
+        {
+          "key": "C",
+          "text": "Disjunctive syllogism"
+        },
+        {
+          "key": "D",
+          "text": "Hypothetical syllogism"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Disjunctive syllogism: given (P or Q) and (not P), we can conclude Q. This is a valid logical argument form.",
+      "tags": [
+        "logic",
+        "syllogism",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Which principle states that AI systems should work as intended and be able to be corrected?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transparency"
+        },
+        {
+          "key": "B",
+          "text": "Fairness"
+        },
+        {
+          "key": "C",
+          "text": "Reliability and safety"
+        },
+        {
+          "key": "D",
+          "text": "Privacy"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Reliability and safety principles require AI systems to perform as specified and have mechanisms for correction when errors occur.",
+      "tags": [
+        "responsible-ai",
+        "reliability",
+        "module-D"
+      ]
+    },
+    {
+      "id": "20-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "An organization claims their AI hiring tool is fair because it was trained on historical hiring decisions. What is the fundamental flaw in this reasoning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Historical data is always accurate"
+        },
+        {
+          "key": "B",
+          "text": "If historical decisions were biased, the model will learn and perpetuate that bias"
+        },
+        {
+          "key": "C",
+          "text": "The tool needs more data to be fair"
+        },
+        {
+          "key": "D",
+          "text": "Only government entities can evaluate fairness"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Garbage in, garbage out. Historically biased hiring data contains and encodes historical discrimination, which the model replicates.",
+      "tags": [
+        "responsible-ai",
+        "bias",
+        "historical-bias",
+        "module-D"
+      ]
+    }
+  ]
+}
