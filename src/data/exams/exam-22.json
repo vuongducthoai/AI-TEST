@@ -1,0 +1,1929 @@
+{
+  "id": "exam-22",
+  "title": "Deep Learning nền tảng (Tiếng Việt)",
+  "description": "Kiến thức nền tảng về Deep Learning, Neural Networks, và các kỹ thuật cốt lõi. Câu hỏi bằng tiếng Việt.",
+  "module": "Mixed",
+  "difficulty": "basic",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "22-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Convolution layer với kernel 3×3, stride=1, padding=0 áp dụng lên ảnh 5×5 cho ra output kích thước:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5×5"
+        },
+        {
+          "key": "B",
+          "text": "4×4"
+        },
+        {
+          "key": "C",
+          "text": "3×3"
+        },
+        {
+          "key": "D",
+          "text": "6×6"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Output = (Input - Kernel + 2*Padding)/Stride + 1 = (5-3+0)/1 + 1 = 3. Vậy output là 3×3.",
+      "tags": [
+        "deep-learning",
+        "convolution",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hàm Softmax biến đổi vector logit thành:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector với giá trị âm và dương"
+        },
+        {
+          "key": "B",
+          "text": "Vector xác suất có tổng bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "Vector chuẩn hóa về [0,1] từng phần tử"
+        },
+        {
+          "key": "D",
+          "text": "Vector nhị phân 0 hoặc 1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Softmax(x_i) = e^(x_i) / Σe^(x_j). Mỗi phần tử trong (0,1) và tổng = 1 → phân phối xác suất.",
+      "tags": [
+        "deep-learning",
+        "activation",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong backpropagation, chain rule được áp dụng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính toán độ chính xác mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Lan truyền gradient ngược qua các lớp từ output về input"
+        },
+        {
+          "key": "C",
+          "text": "Cập nhật kiến trúc mạng"
+        },
+        {
+          "key": "D",
+          "text": "Tính kích thước batch"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Backprop dùng chain rule: ∂L/∂w = ∂L/∂output × ∂output/∂w, lan truyền gradient từ loss về từng trọng số.",
+      "tags": [
+        "deep-learning",
+        "backpropagation",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Max Pooling 2×2 với stride=2 áp dụng lên ma trận 4×4 cho output kích thước:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4×4"
+        },
+        {
+          "key": "B",
+          "text": "2×2"
+        },
+        {
+          "key": "C",
+          "text": "3×3"
+        },
+        {
+          "key": "D",
+          "text": "1×1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Max Pooling 2×2, stride=2: output = (4-2)/2 + 1 = 2. Kích thước output: 2×2.",
+      "tags": [
+        "deep-learning",
+        "pooling",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "L2 regularization thêm vào loss function số hạng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "λ × Σ|w|"
+        },
+        {
+          "key": "B",
+          "text": "λ × Σw²"
+        },
+        {
+          "key": "C",
+          "text": "λ × (Σw)²"
+        },
+        {
+          "key": "D",
+          "text": "λ / Σw²"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L2 (Ridge): thêm λ×Σw² vào loss. Khuyến khích trọng số nhỏ nhưng không bằng 0, giảm overfitting.",
+      "tags": [
+        "regularization",
+        "l2",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số tham số của một fully connected layer với 100 đầu vào và 50 đầu ra (kể cả bias) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5000"
+        },
+        {
+          "key": "B",
+          "text": "5050"
+        },
+        {
+          "key": "C",
+          "text": "150"
+        },
+        {
+          "key": "D",
+          "text": "4950"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Weights: 100×50 = 5000. Bias: 50. Tổng = 5050.",
+      "tags": [
+        "deep-learning",
+        "parameters",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Learning rate quá lớn trong gradient descent sẽ gây ra:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hội tụ chậm"
+        },
+        {
+          "key": "B",
+          "text": "Không hội tụ, loss dao động mạnh hoặc tăng"
+        },
+        {
+          "key": "C",
+          "text": "Overfitting"
+        },
+        {
+          "key": "D",
+          "text": "Underfitting"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Learning rate quá lớn: bước nhảy quá to, \"nhảy qua\" điểm cực tiểu, loss không hội tụ được.",
+      "tags": [
+        "optimization",
+        "learning-rate",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Batch normalization được áp dụng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sau khi tính loss"
+        },
+        {
+          "key": "B",
+          "text": "Trước hoặc sau activation function, chuẩn hóa output của mỗi layer"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ ở lớp đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ trong giai đoạn inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Batch norm chuẩn hóa activation (thường trước/sau activation function) để ổn định training, cho phép learning rate cao hơn.",
+      "tags": [
+        "deep-learning",
+        "batch-norm",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cross-entropy loss cho bài toán phân loại nhị phân với y=1, ŷ=0.9 là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "-ln(0.9)"
+        },
+        {
+          "key": "C",
+          "text": "-ln(0.1)"
+        },
+        {
+          "key": "D",
+          "text": "0.9"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Binary cross-entropy: L = -y×ln(ŷ) = -1×ln(0.9) = -ln(0.9) ≈ 0.105.",
+      "tags": [
+        "deep-learning",
+        "loss-function",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vanishing gradient problem (vấn đề gradient biến mất) xảy ra khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gradient quá lớn"
+        },
+        {
+          "key": "B",
+          "text": "Gradient trở nên cực nhỏ ở các lớp đầu, khiến các lớp đó học rất chậm"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu quá ít"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong mạng sâu, gradient nhân qua nhiều lớp bằng sigmoid (max gradient 0.25) → gradient → 0 ở lớp đầu.",
+      "tags": [
+        "deep-learning",
+        "vanishing-gradient",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong thuật toán Adam optimizer, \"m\" và \"v\" đại diện cho:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Momentum và variance"
+        },
+        {
+          "key": "B",
+          "text": "Ước lượng moment bậc 1 (mean gradient) và moment bậc 2 (variance gradient)"
+        },
+        {
+          "key": "C",
+          "text": "Maximum và minimum"
+        },
+        {
+          "key": "D",
+          "text": "Mean và variance của dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Adam theo dõi m = exponential moving average of gradients, v = exponential moving average of squared gradients.",
+      "tags": [
+        "optimization",
+        "adam",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Receptive field của một neuron trong CNN là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kích thước kernel"
+        },
+        {
+          "key": "B",
+          "text": "Vùng của ảnh đầu vào ảnh hưởng đến giá trị của neuron đó"
+        },
+        {
+          "key": "C",
+          "text": "Số kênh của feature map"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước của feature map"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Receptive field là vùng pixel input mà một neuron \"nhìn thấy\". Tăng dần theo chiều sâu của mạng.",
+      "tags": [
+        "computer-vision",
+        "cnn",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì xảy ra khi giảm dropout rate từ 0.5 xuống 0.1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình ít overfitting hơn"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình có nhiều khả năng overfitting hơn"
+        },
+        {
+          "key": "C",
+          "text": "Training nhanh hơn nhưng kém chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Không có sự khác biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dropout rate thấp hơn → ít neuron bị dropout → mô hình ít được regularize → dễ overfitting hơn.",
+      "tags": [
+        "deep-learning",
+        "dropout",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Transfer learning hiệu quả nhất khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bài toán mới hoàn toàn khác biệt và có rất nhiều dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán mới tương tự và có ít dữ liệu labeled"
+        },
+        {
+          "key": "C",
+          "text": "Luôn hiệu quả hơn training từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho bài toán NLP"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transfer learning tận dụng kiến thức từ domain tương tự. Đặc biệt hữu ích khi dữ liệu labeled ít.",
+      "tags": [
+        "transfer-learning",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số feature map đầu ra của một conv layer phụ thuộc vào:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kích thước ảnh đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Số filter/kernel được định nghĩa trong layer đó"
+        },
+        {
+          "key": "C",
+          "text": "Stride của convolution"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước kernel"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi filter tạo ra một feature map. Nếu layer có 32 filter → output có 32 feature maps (channels).",
+      "tags": [
+        "cnn",
+        "feature-maps",
+        "module-A"
+      ]
+    },
+    {
+      "id": "22-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nX = np.array([[1,2],[3,4],[5,6]])\nprint(X.shape)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(6,)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 6)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mảng có 3 hàng và 2 cột → shape là (3, 2).",
+      "tags": [
+        "numpy",
+        "shape",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code dưới đây tính toán gì?\n\nimport numpy as np\nw = np.array([0.5, -0.3, 0.8])\nx = np.array([1.0, 2.0, 3.0])\nresult = np.dot(w, x)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích vô hướng của w và x"
+        },
+        {
+          "key": "B",
+          "text": "Tích có hướng của w và x"
+        },
+        {
+          "key": "C",
+          "text": "Ma trận tích"
+        },
+        {
+          "key": "D",
+          "text": "Norm của w"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.dot(w, x) = 0.5×1 + (-0.3)×2 + 0.8×3 = 0.5 - 0.6 + 2.4 = 2.3. Đây là tích vô hướng (dot product).",
+      "tags": [
+        "numpy",
+        "dot-product",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hàm activation ReLU bằng Python:\n\nimport numpy as np\ndef relu(x):\n    return ___\n\nĐiền vào chỗ trống:",
+      "options": [
+        {
+          "key": "A",
+          "text": "np.abs(x)"
+        },
+        {
+          "key": "B",
+          "text": "np.maximum(0, x)"
+        },
+        {
+          "key": "C",
+          "text": "1 / (1 + np.exp(-x))"
+        },
+        {
+          "key": "D",
+          "text": "np.clip(x, -1, 1)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReLU = max(0, x). np.maximum(0, x) áp dụng element-wise, trả về 0 nếu x<0, x nếu x>=0.",
+      "tags": [
+        "numpy",
+        "activation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\nprint(a + b)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 7, 9]"
+        },
+        {
+          "key": "B",
+          "text": "[4, 10, 18]"
+        },
+        {
+          "key": "C",
+          "text": "[[1,4],[2,5],[3,6]]"
+        },
+        {
+          "key": "D",
+          "text": "14"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NumPy cộng element-wise: [1+4, 2+5, 3+6] = [5, 7, 9].",
+      "tags": [
+        "numpy",
+        "operations",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sklearn dưới đây thực hiện gì?\n\nfrom sklearn.preprocessing import StandardScaler\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuẩn hóa X về [0,1]"
+        },
+        {
+          "key": "B",
+          "text": "Chuẩn hóa X về mean=0, std=1 (z-score normalization)"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ outlier trong X"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước X"
+        }
+      ],
+      "answer": "B",
+      "explanation": "StandardScaler áp dụng z-score: X_scaled = (X - mean) / std. Kết quả có mean≈0, std≈1.",
+      "tags": [
+        "sklearn",
+        "preprocessing",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\na = np.array([[1,2,3],[4,5,6]])\nprint(a.sum(axis=0))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 7, 9]"
+        },
+        {
+          "key": "B",
+          "text": "[6, 15]"
+        },
+        {
+          "key": "C",
+          "text": "[1,2,3,4,5,6]"
+        },
+        {
+          "key": "D",
+          "text": "21"
+        }
+      ],
+      "answer": "A",
+      "explanation": "axis=0 tính tổng theo chiều dọc (cột). Cột 1: 1+4=5, Cột 2: 2+5=7, Cột 3: 3+6=9.",
+      "tags": [
+        "numpy",
+        "axis",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sklearn, LogisticRegression được dùng cho bài toán:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hồi quy để dự đoán giá trị liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại nhị phân hoặc đa lớp"
+        },
+        {
+          "key": "C",
+          "text": "Phân cụm dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Giảm chiều dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mặc dù tên có \"Regression\", LogisticRegression là thuật toán phân loại dùng sigmoid để ước tính xác suất lớp.",
+      "tags": [
+        "sklearn",
+        "classification",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\nimport numpy as np\nx = np.array([1.0, 2.0, 3.0])\ne_x = np.exp(x)\nresult = e_x / e_x.sum()\nprint(result)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid của x"
+        },
+        {
+          "key": "B",
+          "text": "Softmax của x"
+        },
+        {
+          "key": "C",
+          "text": "ReLU của x"
+        },
+        {
+          "key": "D",
+          "text": "Normalize L2 của x"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là công thức softmax: exp(x_i) / sum(exp(x)). Biến đổi vector thành phân phối xác suất.",
+      "tags": [
+        "numpy",
+        "softmax",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom sklearn.model_selection import train_test_split\nX = list(range(100))\nX_train, X_test = train_test_split(X, test_size=0.2, random_state=42)\nprint(len(X_train), len(X_test))",
+      "options": [
+        {
+          "key": "A",
+          "text": "80 20"
+        },
+        {
+          "key": "B",
+          "text": "20 80"
+        },
+        {
+          "key": "C",
+          "text": "90 10"
+        },
+        {
+          "key": "D",
+          "text": "70 30"
+        }
+      ],
+      "answer": "A",
+      "explanation": "test_size=0.2 → 20% test = 20 mẫu, 80% train = 80 mẫu.",
+      "tags": [
+        "sklearn",
+        "train-test-split",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code dưới đây thực hiện gì?\n\nimport numpy as np\nX = np.random.randn(100, 5)\nprint(X.shape)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo vector 100 chiều"
+        },
+        {
+          "key": "B",
+          "text": "Tạo ma trận 100×5 với giá trị phân phối chuẩn ngẫu nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Tạo 5 vector 100 chiều riêng biệt"
+        },
+        {
+          "key": "D",
+          "text": "In kích thước của X là 500"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.random.randn(100, 5) tạo mảng 2D với 100 mẫu × 5 feature, phân phối chuẩn N(0,1).",
+      "tags": [
+        "numpy",
+        "random",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport pandas as pd\ndf = pd.DataFrame({\"A\":[1,2,3],\"B\":[4,5,6]})\nprint(df[\"A\"].sum())",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "df[\"A\"] = [1,2,3]. .sum() = 1+2+3 = 6.",
+      "tags": [
+        "pandas",
+        "aggregation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Để tính độ chính xác (accuracy) của mô hình trong sklearn, ta dùng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "from sklearn.metrics import accuracy_score"
+        },
+        {
+          "key": "B",
+          "text": "from sklearn.metrics import precision_score"
+        },
+        {
+          "key": "C",
+          "text": "from sklearn.metrics import recall_score"
+        },
+        {
+          "key": "D",
+          "text": "from sklearn.metrics import f1_score"
+        }
+      ],
+      "answer": "A",
+      "explanation": "accuracy_score(y_true, y_pred) = số dự đoán đúng / tổng số mẫu.",
+      "tags": [
+        "sklearn",
+        "metrics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\na = np.array([5, 3, 8, 1, 9, 2])\nprint(np.argmin(a))",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.argmin trả về index của phần tử nhỏ nhất. Nhỏ nhất là 1, ở index 3.",
+      "tags": [
+        "numpy",
+        "argmin",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau dùng để làm gì?\n\nfrom sklearn.linear_model import LinearRegression\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện và dự đoán bằng hồi quy tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "Phân cụm dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LinearRegression().fit() học đường thẳng y = wX + b tốt nhất. .predict() dự đoán giá trị liên tục.",
+      "tags": [
+        "sklearn",
+        "regression",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nweights = [0.1, 0.3, 0.6]\nprint(sum(weights))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "0.1 + 0.3 + 0.6 = 1.0. (Đây là ví dụ vector xác suất softmax output.)",
+      "tags": [
+        "python",
+        "math",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\na = np.array([[1,2,3],[4,5,6]])\nprint(a.reshape(3, 2))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1,2],[3,4],[5,6]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1,4],[2,5],[3,6]]"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "[[1,2,3,4,5,6]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reshape(3,2) sắp xếp lại 6 phần tử theo hàng thành ma trận 3×2: [[1,2],[3,4],[5,6]].",
+      "tags": [
+        "numpy",
+        "reshape",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Để vẽ biểu đồ loss theo epoch trong training, ta thường dùng thư viện:",
+      "options": [
+        {
+          "key": "A",
+          "text": "numpy"
+        },
+        {
+          "key": "B",
+          "text": "pandas"
+        },
+        {
+          "key": "C",
+          "text": "matplotlib"
+        },
+        {
+          "key": "D",
+          "text": "sklearn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "matplotlib.pyplot.plot() thường dùng để vẽ learning curve, loss curve trong AI.",
+      "tags": [
+        "python",
+        "visualization",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\nprint(np.arange(0, 1, 0.25))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0.25, 0.5, 0.75]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 0.25, 0.5, 0.75, 1.0]"
+        },
+        {
+          "key": "C",
+          "text": "[0.25, 0.5, 0.75, 1.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.arange(start, stop, step) tạo array từ 0 đến <1 với bước 0.25: [0, 0.25, 0.5, 0.75].",
+      "tags": [
+        "numpy",
+        "arange",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sklearn sau dùng để làm gì?\n\nfrom sklearn.metrics import confusion_matrix\ncm = confusion_matrix(y_true, y_pred)\nprint(cm)",
+      "options": [
+        {
+          "key": "A",
+          "text": "In ra accuracy của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "In ra ma trận nhầm lẫn, hiển thị TP, FP, FN, TN"
+        },
+        {
+          "key": "C",
+          "text": "Vẽ ROC curve"
+        },
+        {
+          "key": "D",
+          "text": "In ra precision và recall"
+        }
+      ],
+      "answer": "B",
+      "explanation": "confusion_matrix trả về ma trận [[TN, FP],[FN, TP]] cho thấy phân bố dự đoán đúng/sai theo lớp.",
+      "tags": [
+        "sklearn",
+        "evaluation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\nx = np.array([1, 0, -1, 2, -2])\nprint((x > 0).sum())",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "x > 0 trả về [True, False, False, True, False]. .sum() đếm True = 2.",
+      "tags": [
+        "numpy",
+        "boolean",
+        "module-B"
+      ]
+    },
+    {
+      "id": "22-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LSTM (Long Short-Term Memory) được tạo ra để giải quyết vấn đề gì của RNN truyền thống?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá nhiều tham số"
+        },
+        {
+          "key": "B",
+          "text": "Vanishing gradient khi xử lý chuỗi dài, khiến mô hình không nhớ được thông tin xa"
+        },
+        {
+          "key": "C",
+          "text": "Quá chậm khi training"
+        },
+        {
+          "key": "D",
+          "text": "Không xử lý được văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LSTM dùng cơ chế gating (input, forget, output gate) để kiểm soát luồng thông tin, giải quyết vanishing gradient trong chuỗi dài.",
+      "tags": [
+        "deep-learning",
+        "lstm",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Attention mechanism trong Transformer cho phép mô hình:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ training"
+        },
+        {
+          "key": "B",
+          "text": "Tập trung vào các phần quan trọng của chuỗi đầu vào khi xử lý từng vị trí"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Xử lý ảnh tốt hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention tính trọng số cho từng vị trí input, cho phép mô hình \"chú ý\" đến các từ liên quan bất kể khoảng cách.",
+      "tags": [
+        "deep-learning",
+        "attention",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ResNet giải quyết vấn đề gì khi xây dựng mạng rất sâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "B",
+          "text": "Degradation problem: mạng sâu đôi khi kém hơn mạng nông bằng cách thêm skip connections"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc inference"
+        },
+        {
+          "key": "D",
+          "text": "Giảm overfitting"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ResNet dùng residual/skip connections: F(x) + x. Cho phép gradient lan truyền trực tiếp, giải quyết degradation.",
+      "tags": [
+        "computer-vision",
+        "resnet",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Word Embedding (như Word2Vec, GloVe) biểu diễn từ dưới dạng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số nguyên đơn lẻ"
+        },
+        {
+          "key": "B",
+          "text": "Vector số thực dày đặc (dense) trong không gian nhiều chiều"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi ký tự"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận one-hot"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Word embeddings ánh xạ từ → dense vector. Từ có nghĩa tương tự nằm gần nhau trong không gian vector.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data Augmentation trong Computer Vision thường bao gồm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa bớt dữ liệu training"
+        },
+        {
+          "key": "B",
+          "text": "Lật, xoay, crop, thay đổi độ sáng ảnh để tạo thêm dữ liệu training đa dạng"
+        },
+        {
+          "key": "C",
+          "text": "Thêm nhiều lớp vào mạng"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Augmentation tăng đa dạng dữ liệu bằng biến đổi hình học/màu sắc, giúp mô hình robust hơn với các biến thể.",
+      "tags": [
+        "computer-vision",
+        "data-augmentation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "K-Means clustering phân cụm dữ liệu bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xây dựng cây quyết định"
+        },
+        {
+          "key": "B",
+          "text": "Lặp đi lặp lại: gán điểm vào cụm gần nhất, cập nhật tâm cụm, cho đến khi hội tụ"
+        },
+        {
+          "key": "C",
+          "text": "Tính xác suất posterior"
+        },
+        {
+          "key": "D",
+          "text": "Dùng siêu phẳng để phân chia"
+        }
+      ],
+      "answer": "B",
+      "explanation": "K-Means: (1) Khởi tạo k tâm cụm ngẫu nhiên, (2) Gán mỗi điểm vào tâm gần nhất, (3) Cập nhật tâm = mean của cụm, lặp lại.",
+      "tags": [
+        "unsupervised",
+        "clustering",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Early stopping trong training neural network dừng khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loss trên train set bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Validation loss bắt đầu tăng lại sau khi đã giảm"
+        },
+        {
+          "key": "C",
+          "text": "Đã chạy đủ số epoch cố định"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate giảm xuống 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Early stopping theo dõi validation loss. Khi nó tăng lại (mô hình bắt đầu overfit), dừng training và lấy model tốt nhất.",
+      "tags": [
+        "training",
+        "early-stopping",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Principal Component Analysis (PCA) được dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Giảm chiều dữ liệu trong khi giữ lại nhiều phương sai nhất có thể"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số feature"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PCA tìm các trục chính (principal components) theo hướng phương sai lớn nhất, chiếu dữ liệu lên k chiều ít nhất.",
+      "tags": [
+        "dimensionality-reduction",
+        "pca",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình GAN (Generative Adversarial Network) gồm hai thành phần chính:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encoder và Decoder"
+        },
+        {
+          "key": "B",
+          "text": "Generator (sinh dữ liệu giả) và Discriminator (phân biệt thật/giả)"
+        },
+        {
+          "key": "C",
+          "text": "Attention và Feed-forward"
+        },
+        {
+          "key": "D",
+          "text": "Convolution và Pooling"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GAN gồm Generator cố gắng tạo data giả đánh lừa Discriminator, và Discriminator cố phân biệt thật/giả. Hai mạng cạnh tranh nhau.",
+      "tags": [
+        "generative-ai",
+        "gan",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Object Detection, IoU (Intersection over Union) đo lường:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ xử lý ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Độ chồng lấp giữa bounding box dự đoán và ground truth"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng đối tượng phát hiện được"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước của bounding box"
+        }
+      ],
+      "answer": "B",
+      "explanation": "IoU = diện tích giao nhau / diện tích hợp nhau. IoU > 0.5 thường được coi là dự đoán đúng.",
+      "tags": [
+        "computer-vision",
+        "object-detection",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Autoencoder được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Học biểu diễn nén (compressed representation) của dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Dịch ngôn ngữ"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện đối tượng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Autoencoder gồm Encoder (nén) + Decoder (giải nén). Học cách biểu diễn dữ liệu trong không gian latent thấp chiều.",
+      "tags": [
+        "deep-learning",
+        "autoencoder",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong NLP, \"one-hot encoding\" biểu diễn từ bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector số thực dày đặc"
+        },
+        {
+          "key": "B",
+          "text": "Vector nhị phân với 1 ở vị trí của từ trong từ điển, 0 ở tất cả vị trí còn lại"
+        },
+        {
+          "key": "C",
+          "text": "ID số nguyên của từ"
+        },
+        {
+          "key": "D",
+          "text": "Embedding vector học được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "One-hot: từ điển có V từ → vector V chiều, từng từ có 1 tại vị trí của nó, còn lại là 0.",
+      "tags": [
+        "nlp",
+        "encoding",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật \"Fine-tuning\" trong transfer learning là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training mô hình từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Tiếp tục training một phần hoặc toàn bộ mô hình pretrained trên dữ liệu của bài toán mới"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ thêm lớp mới, đóng băng tất cả lớp cũ"
+        },
+        {
+          "key": "D",
+          "text": "Xóa các lớp cũ và thêm lớp mới"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fine-tuning: load pretrained weights, unfreeze một số/tất cả lớp, tiếp tục training với learning rate nhỏ trên dữ liệu mới.",
+      "tags": [
+        "transfer-learning",
+        "fine-tuning",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Confusion matrix của bài toán phân loại nhị phân có kích thước:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1×1"
+        },
+        {
+          "key": "B",
+          "text": "2×2"
+        },
+        {
+          "key": "C",
+          "text": "n×n với n là số class"
+        },
+        {
+          "key": "D",
+          "text": "4×4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phân loại nhị phân (2 class) có confusion matrix 2×2: [[TN, FP], [FN, TP]].",
+      "tags": [
+        "evaluation",
+        "confusion-matrix",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Stochastic Gradient Descent (SGD) khác Batch Gradient Descent ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SGD dùng toàn bộ dataset để tính gradient mỗi bước"
+        },
+        {
+          "key": "B",
+          "text": "SGD cập nhật trọng số sau mỗi mẫu (hoặc mini-batch nhỏ) thay vì toàn bộ dataset"
+        },
+        {
+          "key": "C",
+          "text": "SGD không dùng gradient"
+        },
+        {
+          "key": "D",
+          "text": "SGD chỉ dùng cho linear model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SGD tính gradient trên 1 hoặc mini-batch nhỏ → cập nhật thường xuyên hơn, nhanh hơn nhưng noise hơn Batch GD.",
+      "tags": [
+        "optimization",
+        "sgd",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hyperparameter trong Machine Learning là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tham số được học tự động từ dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Tham số do người dùng đặt trước khi training, không được học từ dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Giá trị của neuron trong mạng"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số cuối cùng sau training"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hyperparameters (learning rate, num_layers, batch_size) do người đặt. Parameters (weights, bias) được học từ dữ liệu.",
+      "tags": [
+        "ml-fundamentals",
+        "hyperparameters",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật \"Ensemble\" trong Machine Learning kết hợp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều dataset khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều mô hình khác nhau để cải thiện hiệu suất chung"
+        },
+        {
+          "key": "C",
+          "text": "Nhiều loss function khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Nhiều optimizer khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ensemble (Bagging, Boosting, Stacking) kết hợp predictions của nhiều mô hình, thường cho kết quả tốt hơn mô hình đơn lẻ.",
+      "tags": [
+        "ensemble",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong phân cụm, \"silhouette score\" đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kích thước của cụm"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ một điểm thuộc về cụm của nó so với cụm khác (chất lượng phân cụm)"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng cụm tối ưu"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ hội tụ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Silhouette score từ -1 đến 1: giá trị cao = điểm nằm sâu trong cụm đúng; giá trị thấp = điểm ở ranh giới giữa các cụm.",
+      "tags": [
+        "clustering",
+        "evaluation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "22-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi một AI bác sĩ đưa ra chẩn đoán sai gây hại cho bệnh nhân, trách nhiệm thuộc về:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không ai chịu trách nhiệm vì AI tự quyết định"
+        },
+        {
+          "key": "B",
+          "text": "Bác sĩ dùng AI và/hoặc công ty phát triển AI, tùy theo cơ chế quản lý"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ bệnh nhân vì đã đồng ý dùng AI"
+        },
+        {
+          "key": "D",
+          "text": "Chính phủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI không có tư cách pháp lý. Trách nhiệm thuộc người dùng (bác sĩ) và/hoặc nhà phát triển, tùy vào mức độ tự chủ của AI và quy định.",
+      "tags": [
+        "responsible-ai",
+        "accountability",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu P → Q và Q → R, thì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "P → R (hypothetical syllogism)"
+        },
+        {
+          "key": "B",
+          "text": "R → P"
+        },
+        {
+          "key": "C",
+          "text": "P và R không liên quan"
+        },
+        {
+          "key": "D",
+          "text": "Q sai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hypothetical syllogism: nếu P→Q và Q→R thì P→R. Đây là quy tắc kéo theo bắc cầu.",
+      "tags": [
+        "logic",
+        "hypothetical-syllogism",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nói \"AI quyết định hoàn toàn khách quan vì dựa trên dữ liệu\", câu này:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoàn toàn đúng"
+        },
+        {
+          "key": "B",
+          "text": "Sai vì dữ liệu có thể chứa bias từ lịch sử và quyết định con người"
+        },
+        {
+          "key": "C",
+          "text": "Đúng với deep learning nhưng sai với ML cổ điển"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đúng với dữ liệu số, không đúng với văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dữ liệu phản ánh thế giới thực với đầy đủ thiên lệch. AI học bias từ dữ liệu, không tự nhiên \"khách quan\".",
+      "tags": [
+        "responsible-ai",
+        "bias",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề nào là contrapositive (phủ định đảo) của \"Nếu mô hình overfitting, thì train loss < test loss\"?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu train loss >= test loss, thì mô hình không overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Nếu mô hình không overfitting, thì train loss >= test loss"
+        },
+        {
+          "key": "C",
+          "text": "Nếu train loss < test loss, thì mô hình overfitting"
+        },
+        {
+          "key": "D",
+          "text": "Nếu test loss < train loss, thì mô hình overfitting"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Contrapositive của P→Q là ¬Q→¬P. Phủ định đảo của mệnh đề gốc là mệnh đề A.",
+      "tags": [
+        "logic",
+        "contrapositive",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Privacy by Design trong phát triển AI có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ẩn giấu dữ liệu người dùng sau khi thu thập"
+        },
+        {
+          "key": "B",
+          "text": "Tích hợp bảo vệ quyền riêng tư vào hệ thống từ giai đoạn thiết kế, không phải thêm vào sau"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ bảo vệ dữ liệu nhạy cảm như số CMND"
+        },
+        {
+          "key": "D",
+          "text": "Mã hóa database"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Privacy by Design: quyền riêng tư là yêu cầu thiết kế cốt lõi, không phải tính năng bổ sung sau. Gồm data minimization, anonymization v.v.",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một mô hình AI trong hệ thống tự lái xe phạm lỗi gây tai nạn. Điều nào là KHÔNG hợp lý?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần điều tra nguyên nhân kỹ thuật và dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Nhà sản xuất xe hoàn toàn không có trách nhiệm vì AI tự quyết định"
+        },
+        {
+          "key": "C",
+          "text": "Cần xem xét quy trình test và deployment"
+        },
+        {
+          "key": "D",
+          "text": "Có thể cần cập nhật quy định pháp lý về xe tự lái"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhà sản xuất chịu trách nhiệm về sản phẩm của họ. AI không loại bỏ trách nhiệm pháp lý và đạo đức của công ty.",
+      "tags": [
+        "responsible-ai",
+        "accountability",
+        "module-D"
+      ]
+    },
+    {
+      "id": "22-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc \"Explainability\" (khả năng giải thích) quan trọng nhất trong lĩnh vực nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI cho game giải trí"
+        },
+        {
+          "key": "B",
+          "text": "AI trong y tế, tài chính, tư pháp - nơi quyết định ảnh hưởng lớn đến cuộc sống người dùng"
+        },
+        {
+          "key": "C",
+          "text": "AI để đề xuất nhạc nghe"
+        },
+        {
+          "key": "D",
+          "text": "AI để tối ưu hóa quảng cáo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Explainability (SHAP, LIME, attention visualization) đặc biệt quan trọng trong high-stakes domains: y tế, cho vay, phán quyết tòa án.",
+      "tags": [
+        "responsible-ai",
+        "explainability",
+        "module-D"
+      ]
+    }
+  ]
+}

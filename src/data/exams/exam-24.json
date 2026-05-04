@@ -1,0 +1,1930 @@
+{
+  "id": "exam-24",
+  "title": "Thống kê & Xác suất trong AI (Tiếng Việt)",
+  "description": "Thống kê ứng dụng, xác suất, và đánh giá mô hình ML. Câu hỏi bằng tiếng Việt.",
+  "module": "Mixed",
+  "difficulty": "intermediate",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "24-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân phối chuẩn (Normal Distribution) có hai tham số đặc trưng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Min và Max"
+        },
+        {
+          "key": "B",
+          "text": "Mean (μ) và Standard Deviation (σ)"
+        },
+        {
+          "key": "C",
+          "text": "Median và Mode"
+        },
+        {
+          "key": "D",
+          "text": "Variance và Range"
+        }
+      ],
+      "answer": "B",
+      "explanation": "N(μ,σ²): μ xác định vị trí trung tâm, σ² xác định độ rộng (phân tán) của phân phối.",
+      "tags": [
+        "statistics",
+        "normal-distribution",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy tắc 68-95-99.7 trong phân phối chuẩn có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "68% dữ liệu nằm ngoài 1σ"
+        },
+        {
+          "key": "B",
+          "text": "68% trong 1σ, 95% trong 2σ, 99.7% trong 3σ tính từ mean"
+        },
+        {
+          "key": "C",
+          "text": "95% dữ liệu luôn là ngoại lệ"
+        },
+        {
+          "key": "D",
+          "text": "Tất cả dữ liệu trong 3σ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "68% trong [μ-σ, μ+σ], 95% trong [μ-2σ, μ+2σ], 99.7% trong [μ-3σ, μ+3σ]. Dùng để phát hiện outlier.",
+      "tags": [
+        "statistics",
+        "normal-distribution",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "P-value trong kiểm định giả thuyết bằng 0.03 có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất giả thuyết H0 đúng là 3%"
+        },
+        {
+          "key": "B",
+          "text": "Nếu H0 đúng, xác suất quan sát dữ liệu cực đoan như vậy hoặc hơn là 3%"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình có 97% độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Kết quả không có ý nghĩa thống kê"
+        }
+      ],
+      "answer": "B",
+      "explanation": "p-value = P(data | H0). p < α (thường 0.05) → bác bỏ H0. Không phải xác suất H0 đúng.",
+      "tags": [
+        "statistics",
+        "hypothesis-testing",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Covariance dương giữa X và Y có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "X và Y không liên quan"
+        },
+        {
+          "key": "B",
+          "text": "Khi X tăng, Y có xu hướng tăng"
+        },
+        {
+          "key": "C",
+          "text": "Khi X tăng, Y giảm"
+        },
+        {
+          "key": "D",
+          "text": "X bằng Y"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cov(X,Y) > 0: X và Y tăng giảm cùng chiều. Cov < 0: ngược chiều. Cov ≈ 0: không tuyến tính liên quan.",
+      "tags": [
+        "statistics",
+        "covariance",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khoảng tin cậy 95% (confidence interval) cho mean của một mẫu có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "95% dữ liệu mẫu nằm trong khoảng này"
+        },
+        {
+          "key": "B",
+          "text": "Nếu lặp lại thí nghiệm nhiều lần, 95% khoảng được tính sẽ chứa true mean"
+        },
+        {
+          "key": "C",
+          "text": "True mean chính xác 95% là giá trị trung tâm"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình đúng 95% thời gian"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CI 95%: trong 100 lần lấy mẫu, khoảng được xây dựng từ 95 mẫu sẽ chứa tham số thực.",
+      "tags": [
+        "statistics",
+        "confidence-interval",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân phối Poisson phù hợp để mô hình hóa:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả của n phép thử Bernoulli"
+        },
+        {
+          "key": "B",
+          "text": "Số sự kiện độc lập xảy ra trong khoảng thời gian/không gian cố định với tỷ lệ trung bình biết trước"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối của giá trị trung bình mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Biến liên tục trong [0,1]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Poisson: đếm sự kiện hiếm trong khoảng cố định. Ví dụ: số email spam mỗi giờ, số giao dịch gian lận mỗi ngày.",
+      "tags": [
+        "statistics",
+        "poisson",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "R² (R-squared) trong hồi quy tuyến tính đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ số tương quan"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ phương sai của biến phụ thuộc được giải thích bởi mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Tổng sai số bình phương"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng tham số của mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "R² ∈ [0,1]: 0 = mô hình không giải thích gì, 1 = mô hình giải thích hoàn toàn biến thiên của Y.",
+      "tags": [
+        "statistics",
+        "regression",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Central Limit Theorem (Định lý giới hạn trung tâm) phát biểu rằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi phân phối đều là chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình mẫu của bất kỳ phân phối nào sẽ tiến đến phân phối chuẩn khi cỡ mẫu đủ lớn"
+        },
+        {
+          "key": "C",
+          "text": "Phương sai luôn nhỏ hơn mean"
+        },
+        {
+          "key": "D",
+          "text": "Mẫu ngẫu nhiên luôn đại diện cho tổng thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CLT: với n đủ lớn (n≥30), X̄ ~ N(μ, σ²/n) bất kể phân phối gốc. Nền tảng của statistical inference.",
+      "tags": [
+        "statistics",
+        "clt",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Overfitting có thể được phát hiện khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train accuracy thấp và test accuracy thấp"
+        },
+        {
+          "key": "B",
+          "text": "Train accuracy cao nhưng test accuracy thấp đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "Train accuracy thấp nhưng test accuracy cao"
+        },
+        {
+          "key": "D",
+          "text": "Train accuracy và test accuracy đều cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Overfitting: mô hình ghi nhớ training data. Train accuracy gần 100% nhưng test accuracy thấp hơn nhiều (high variance).",
+      "tags": [
+        "ml-fundamentals",
+        "overfitting",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong phân phối Binomial B(n,p), variance bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "np"
+        },
+        {
+          "key": "B",
+          "text": "np(1-p)"
+        },
+        {
+          "key": "C",
+          "text": "n²p"
+        },
+        {
+          "key": "D",
+          "text": "(np)²"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Var[X] = np(1-p) với X ~ B(n,p). E[X] = np.",
+      "tags": [
+        "statistics",
+        "binomial",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mutual Information giữa hai biến ngẫu nhiên X và Y đo lường:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiệu entropy của X và Y"
+        },
+        {
+          "key": "B",
+          "text": "Lượng thông tin chia sẻ giữa X và Y, hay lượng uncertainty về X giảm đi khi biết Y"
+        },
+        {
+          "key": "C",
+          "text": "Độ tương quan tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách giữa hai phân phối"
+        }
+      ],
+      "answer": "B",
+      "explanation": "I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X). Đo lường sự phụ thuộc thống kê giữa X và Y.",
+      "tags": [
+        "information-theory",
+        "mutual-information",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong kiểm định t-test, ta so sánh:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai phương sai"
+        },
+        {
+          "key": "B",
+          "text": "Hai trung bình mẫu để xem có khác nhau đáng kể về mặt thống kê không"
+        },
+        {
+          "key": "C",
+          "text": "Hai phân phối"
+        },
+        {
+          "key": "D",
+          "text": "Hai khoảng tin cậy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "t-test kiểm định H0: μ1 = μ2. Thường dùng trong A/B testing để kiểm tra sự khác biệt trung bình giữa 2 nhóm.",
+      "tags": [
+        "statistics",
+        "t-test",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân phối Bernoulli là phân phối đặc biệt của Binomial với:",
+      "options": [
+        {
+          "key": "A",
+          "text": "n = 100"
+        },
+        {
+          "key": "B",
+          "text": "n = 1 (một phép thử duy nhất với kết quả 0 hoặc 1)"
+        },
+        {
+          "key": "C",
+          "text": "p = 0.5"
+        },
+        {
+          "key": "D",
+          "text": "n = vô cùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bernoulli(p): một phép thử, X ∈ {0,1}, P(X=1)=p. Binomial(n,p) là tổng n Bernoulli độc lập.",
+      "tags": [
+        "statistics",
+        "bernoulli",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong regression, homoscedasticity có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các biến độc lập không tương quan với nhau"
+        },
+        {
+          "key": "B",
+          "text": "Phương sai của phần dư (residual) không đổi với tất cả giá trị của biến độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối chuẩn của phần dư"
+        },
+        {
+          "key": "D",
+          "text": "Không có outlier trong dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Homoscedasticity (phương sai đồng đều): điều kiện của OLS regression. Vi phạm → heteroscedasticity.",
+      "tags": [
+        "statistics",
+        "regression",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi AUC-ROC = 0.5, điều đó có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình hoàn hảo"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình tốt hơn random một chút"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình không tốt hơn phân loại ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình đang bị underfitting"
+        }
+      ],
+      "answer": "C",
+      "explanation": "AUC=0.5: đường ROC nằm trên đường chéo → model dự đoán như tung đồng xu (random).",
+      "tags": [
+        "ml-evaluation",
+        "auc-roc",
+        "module-A"
+      ]
+    },
+    {
+      "id": "24-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\ndata = np.array([2, 4, 4, 4, 5, 5, 7, 9])\nprint(np.var(data))\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "4.0"
+        },
+        {
+          "key": "C",
+          "text": "5.0"
+        },
+        {
+          "key": "D",
+          "text": "16.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mean=5. Var = mean của (x-mean)²: [(9+1+1+1+0+0+4+16)/8] = 32/8 = 4.0.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import scipy.stats as stats\nt_stat, p_val = stats.ttest_ind([1,2,3,4,5], [2,3,4,5,6])\nprint(p_val > 0.05)\n\nNếu True, nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai nhóm có sự khác biệt có ý nghĩa thống kê"
+        },
+        {
+          "key": "B",
+          "text": "Không đủ bằng chứng để bác bỏ H0: hai nhóm có mean bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình chính xác hơn 95%"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu bị lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "p > 0.05: không đủ bằng chứng bác bỏ H0 (mean bằng nhau). Hai mẫu có thể đến từ phân phối cùng mean.",
+      "tags": [
+        "scipy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nX = np.array([1,2,3,4,5])\ny = np.array([2,4,5,4,5])\ncorr = np.corrcoef(X, y)[0,1]\nprint(corr > 0)\n\nKết quả là gì và nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "False - tương quan âm"
+        },
+        {
+          "key": "B",
+          "text": "True - tương quan dương giữa X và y"
+        },
+        {
+          "key": "C",
+          "text": "False - không có tương quan"
+        },
+        {
+          "key": "D",
+          "text": "True - tương quan hoàn hảo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi X tăng, y cũng tăng (2→4→5→4→5). Pearson correlation dương → True.",
+      "tags": [
+        "numpy",
+        "correlation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({\"x\": np.random.randn(100)})\nprint(df.describe()[\"x\"][\"std\"] > 0)\n\nKết quả gần như chắc chắn là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "Phụ thuộc vào random seed"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.random.randn tạo dữ liệu N(0,1) với std≈1. Std của 100 mẫu random hầu như chắc chắn > 0.",
+      "tags": [
+        "pandas",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from scipy.stats import norm\nprint(norm.cdf(0))\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "norm.cdf(0) = P(X ≤ 0) với X ~ N(0,1). Vì phân phối chuẩn đối xứng quanh 0, P(X≤0) = 0.5.",
+      "tags": [
+        "scipy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\ndata = [2, 4, 4, 4, 5, 5, 7, 9]\nq75 = np.percentile(data, 75)\nq25 = np.percentile(data, 25)\nprint(q75 - q25)\n\nĐây là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Range"
+        },
+        {
+          "key": "B",
+          "text": "IQR (Interquartile Range) = Q3 - Q1"
+        },
+        {
+          "key": "C",
+          "text": "Standard deviation"
+        },
+        {
+          "key": "D",
+          "text": "Variance"
+        }
+      ],
+      "answer": "B",
+      "explanation": "IQR = Q3 - Q1 = percentile(75) - percentile(25). Đo spread của 50% dữ liệu giữa, robust với outlier.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n# Tính Bayes\np_disease = 0.01\np_pos_given_disease = 0.95\np_pos_given_no_disease = 0.10\np_pos = p_disease * p_pos_given_disease + (1-p_disease) * p_pos_given_no_disease\np_disease_given_pos = (p_pos_given_disease * p_disease) / p_pos\nprint(round(p_disease_given_pos, 3))\n\nKết quả gần đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.950"
+        },
+        {
+          "key": "B",
+          "text": "0.087"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.010"
+        }
+      ],
+      "answer": "B",
+      "explanation": "P(D|+) = 0.95×0.01 / (0.95×0.01+0.10×0.99) = 0.0095/0.1085 ≈ 0.0876 ≈ 0.088.",
+      "tags": [
+        "python",
+        "bayes",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\ndf = pd.DataFrame({\"group\": [\"A\",\"A\",\"B\",\"B\"], \"value\": [10,20,30,40]})\nresult = df.groupby(\"group\")[\"value\"].mean()\nprint(result[\"A\"])\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "20"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "30"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Group A có value = [10, 20]. Mean = (10+20)/2 = 15.",
+      "tags": [
+        "pandas",
+        "groupby",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.metrics import mean_squared_error\ny_true = [3, -0.5, 2, 7]\ny_pred = [2.5, 0.0, 2, 8]\nprint(mean_squared_error(y_true, y_pred))\n\nMSE gần đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.375"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MSE = mean([(3-2.5)², (-0.5-0)², (2-2)², (7-8)²]) = mean([0.25, 0.25, 0, 1]) = 1.5/4 = 0.375.",
+      "tags": [
+        "sklearn",
+        "metrics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nnp.random.seed(42)\nsamples = np.random.normal(loc=5, scale=2, size=10000)\nprint(abs(samples.mean() - 5) < 0.1)\n\nKết quả gần như chắc chắn là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "Error"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định"
+        }
+      ],
+      "answer": "B",
+      "explanation": "10000 mẫu từ N(5,4), theo CLT mean mẫu rất gần 5. |mean-5| < 0.1 hầu như chắc chắn True.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\ndf = pd.DataFrame({\"score\": [85,90,78,92,88]})\nprint(df[\"score\"].quantile(0.5))\n\nĐây tính toán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá trị trung bình"
+        },
+        {
+          "key": "B",
+          "text": "Giá trị lớn nhất"
+        },
+        {
+          "key": "C",
+          "text": "Median (50th percentile)"
+        },
+        {
+          "key": "D",
+          "text": "Standard deviation"
+        }
+      ],
+      "answer": "C",
+      "explanation": "quantile(0.5) = 50th percentile = median. Sắp xếp: [78,85,88,90,92] → median = 88.",
+      "tags": [
+        "pandas",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.preprocessing import MinMaxScaler\nimport numpy as np\nX = np.array([[1],[5],[10]])\nscaler = MinMaxScaler()\nX_scaled = scaler.fit_transform(X)\nprint(X_scaled[0][0])\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MinMaxScaler: X_scaled = (X - min)/(max - min). X[0]=1: (1-1)/(10-1) = 0/9 = 0.0.",
+      "tags": [
+        "sklearn",
+        "preprocessing",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\ncov_matrix = np.cov(np.array([[1,2,3],[4,5,6]]))\nprint(cov_matrix.shape)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3,3)"
+        },
+        {
+          "key": "B",
+          "text": "(2,2)"
+        },
+        {
+          "key": "C",
+          "text": "(2,3)"
+        },
+        {
+          "key": "D",
+          "text": "(3,2)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.cov với ma trận (2×3): 2 biến, tính ma trận covariance 2×2.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from scipy.stats import pearsonr\nx = [1,2,3,4,5]\ny = [5,4,3,2,1]\ncorr, p = pearsonr(x, y)\nprint(corr)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "-1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "x và y hoàn toàn nghịch biến (khi x tăng, y giảm đều). Pearson r = -1.0.",
+      "tags": [
+        "scipy",
+        "correlation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nx = np.array([1,2,3,4,5])\nprint(np.std(x))\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "1.41"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "2.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mean=3. Variance=[(4+1+0+1+4)/5]=2. Std=√2≈1.414.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\ndf = pd.DataFrame({\"x\":[1,2,2,3,3,3,4,4,4,4]})\nprint(df[\"x\"].value_counts().index[0])\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "D",
+      "explanation": "value_counts() đếm tần suất, sắp xếp giảm dần. 4 xuất hiện 4 lần (nhiều nhất) → index[0] = 4.",
+      "tags": [
+        "pandas",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.model_selection import cross_val_score\nfrom sklearn.linear_model import LogisticRegression\nscores = cross_val_score(LogisticRegression(), X, y, cv=5)\nprint(scores.mean())\n\nĐây tính toán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Cross-validated accuracy trung bình qua 5 fold"
+        },
+        {
+          "key": "C",
+          "text": "Test accuracy trên một tập test cố định"
+        },
+        {
+          "key": "D",
+          "text": "Loss function"
+        }
+      ],
+      "answer": "B",
+      "explanation": "cross_val_score với cv=5: chia data thành 5 folds, train trên 4, test trên 1, lặp 5 lần. .mean() = average accuracy.",
+      "tags": [
+        "sklearn",
+        "cross-validation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nX = np.array([[1,2],[3,4],[5,6]])\nprint(X.mean(axis=1))\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1.5, 3.5, 5.5]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[9, 12]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "axis=1 tính mean theo hàng: row1:(1+2)/2=1.5, row2:(3+4)/2=3.5, row3:(5+6)/2=5.5.",
+      "tags": [
+        "numpy",
+        "axis",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from scipy.stats import chi2_contingency\n# Kiểm định chi-squared dùng khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh hai mean liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Kiểm tra sự độc lập giữa hai biến phân loại trong bảng tần số"
+        },
+        {
+          "key": "C",
+          "text": "So sánh phương sai"
+        },
+        {
+          "key": "D",
+          "text": "Tính correlation giữa biến liên tục"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chi-squared test of independence: kiểm tra xem hai categorical variable có độc lập không (H0: độc lập).",
+      "tags": [
+        "scipy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\ndata = np.array([1,2,3,100,4,5])\nprint(np.median(data))\n\nSo với mean, median tốt hơn trong trường hợp này vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.5 — median robust hơn mean với outlier (100)"
+        },
+        {
+          "key": "B",
+          "text": "3.5 — median luôn bằng mean"
+        },
+        {
+          "key": "C",
+          "text": "19.17 — mean tốt hơn"
+        },
+        {
+          "key": "D",
+          "text": "3.0 — median loại bỏ outlier"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Median = (3+4)/2 = 3.5. Mean = 115/6 ≈ 19.17. Giá trị outlier 100 kéo mean lên cao nhưng không ảnh hưởng median.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "24-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A/B Testing trong phát triển sản phẩm AI được dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm tra A trước rồi B"
+        },
+        {
+          "key": "B",
+          "text": "So sánh hai phiên bản (A=control, B=treatment) bằng cách chia ngẫu nhiên người dùng để đo tác động thực sự"
+        },
+        {
+          "key": "C",
+          "text": "Kiểm tra mô hình A hoặc B tốt hơn về mặt kỹ thuật"
+        },
+        {
+          "key": "D",
+          "text": "Debug lỗi trong hệ thống"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A/B testing = randomized controlled experiment. Đo causal effect của một thay đổi, tránh confounding bias.",
+      "tags": [
+        "product-ai",
+        "ab-testing",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong học máy, \"bias-variance tradeoff\" có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải chọn giữa tốc độ và độ chính xác"
+        },
+        {
+          "key": "B",
+          "text": "High bias = underfitting, high variance = overfitting; cần cân bằng để tổng error tối thiểu"
+        },
+        {
+          "key": "C",
+          "text": "Bias và variance luôn cùng chiều"
+        },
+        {
+          "key": "D",
+          "text": "Cần thêm nhiều dữ liệu để giải quyết cả hai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Total error = Bias² + Variance + Irreducible noise. Mô hình đơn giản: high bias, low variance. Phức tạp: ngược lại.",
+      "tags": [
+        "ml-fundamentals",
+        "bias-variance",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Feature importance trong Random Forest được tính bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ sâu của cây"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ mỗi feature làm giảm impurity (Gini/entropy) trung bình qua tất cả các cây"
+        },
+        {
+          "key": "C",
+          "text": "Tần suất feature xuất hiện"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số tương quan với target"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RF feature importance = mean decrease in impurity khi feature được dùng để phân tách node, trung bình qua tất cả cây.",
+      "tags": [
+        "random-forest",
+        "feature-importance",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Imbalanced dataset (dữ liệu mất cân bằng) trong phân loại được xử lý bằng các kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa dữ liệu của lớp đa số cho đến khi cân bằng (undersampling), hoặc tạo thêm mẫu lớp thiểu số (SMOTE/oversampling), hoặc điều chỉnh class weights"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Thêm nhiều lớp vào mạng"
+        },
+        {
+          "key": "D",
+          "text": "Dùng accuracy thay vì F1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kỹ thuật cân bằng: Oversampling (SMOTE sinh mẫu tổng hợp), Undersampling (bỏ mẫu đa số), class_weight={0:1,1:10}.",
+      "tags": [
+        "imbalanced-data",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong đánh giá mô hình phân loại, khi nào nên ưu tiên Precision cao hơn Recall?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi bỏ sót positive rất nguy hiểm (ví dụ: bệnh ung thư)"
+        },
+        {
+          "key": "B",
+          "text": "Khi false positive rất tốn kém (ví dụ: spam filter quá mạnh gây mất email quan trọng)"
+        },
+        {
+          "key": "C",
+          "text": "Luôn luôn"
+        },
+        {
+          "key": "D",
+          "text": "Khi dữ liệu cân bằng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Precision = TP/(TP+FP). Ưu tiên khi FP tốn kém: spam filter (FP = email quan trọng bị chặn), kết quả test dương tính giả.",
+      "tags": [
+        "evaluation",
+        "precision-recall",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giá trị nào của AUC-ROC được coi là \"tốt\" trong thực tế?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5 - 0.6"
+        },
+        {
+          "key": "B",
+          "text": "0.7 - 0.9 trở lên"
+        },
+        {
+          "key": "C",
+          "text": "Luôn phải bằng 1.0"
+        },
+        {
+          "key": "D",
+          "text": "Phụ thuộc vào số lớp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AUC: 0.5=random, 0.7-0.8=acceptable, 0.8-0.9=excellent, >0.9=outstanding. Giá trị thực tế tốt thường 0.75-0.95.",
+      "tags": [
+        "evaluation",
+        "auc-roc",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hồi quy, khi nào dùng Ridge (L2) thay vì Lasso (L1)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi muốn feature selection (đưa một số weight về 0)"
+        },
+        {
+          "key": "B",
+          "text": "Khi muốn co nhỏ tất cả weights đều đặn và không cần loại feature"
+        },
+        {
+          "key": "C",
+          "text": "Khi dữ liệu ít chiều"
+        },
+        {
+          "key": "D",
+          "text": "Khi không có multicollinearity"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L1 (Lasso): một số weight → 0 (feature selection). L2 (Ridge): tất cả weight nhỏ đều đặn, giữ tất cả features.",
+      "tags": [
+        "regularization",
+        "ridge-lasso",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Stratified sampling trong train/test split đảm bảo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu được sắp xếp theo thứ tự"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ các lớp trong train và test xấp xỉ giống nhau với tập gốc"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ lấy mẫu từ các lớp thiểu số"
+        },
+        {
+          "key": "D",
+          "text": "Random hoàn toàn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Stratified split: nếu dataset có 90% class A, 10% class B, thì cả train và test sẽ có tỷ lệ tương tự.",
+      "tags": [
+        "ml-fundamentals",
+        "sampling",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong multiclass classification, macro-average F1 và weighted-average F1 khác nhau ở:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có sự khác biệt"
+        },
+        {
+          "key": "B",
+          "text": "Macro: trung bình đơn giản qua các lớp; Weighted: trung bình có trọng số theo số mẫu mỗi lớp"
+        },
+        {
+          "key": "C",
+          "text": "Macro chỉ dùng cho 2 lớp"
+        },
+        {
+          "key": "D",
+          "text": "Weighted tốt hơn trong mọi trường hợp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Macro-F1 không quan tâm class size (thiên lớp hiếm). Weighted-F1 tính trọng số theo support, phản ánh tổng thể.",
+      "tags": [
+        "evaluation",
+        "multiclass",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bootstrapping trong statistics và ensemble learning là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xây dựng bootstrap (khởi động) cho máy tính"
+        },
+        {
+          "key": "B",
+          "text": "Lấy mẫu ngẫu nhiên có hoàn lại từ dataset để ước lượng phân phối hoặc xây dựng ensemble (như Bagging)"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ outlier khỏi dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bootstrap: lấy mẫu n lần có hoàn lại từ n mẫu gốc → sample khác nhau cho mỗi cây trong Bagging/Random Forest.",
+      "tags": [
+        "statistics",
+        "ensemble",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Novelty effect (hiệu ứng mới lạ) trong A/B testing là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình mới tốt hơn thật sự"
+        },
+        {
+          "key": "B",
+          "text": "Người dùng dùng feature mới nhiều hơn ban đầu chỉ vì nó lạ, không phải vì nó tốt hơn — cần đợi đủ lâu"
+        },
+        {
+          "key": "C",
+          "text": "Bug trong hệ thống tracking"
+        },
+        {
+          "key": "D",
+          "text": "Bias của người review A/B test"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Novelty effect: sự tăng engagement ban đầu do mới lạ, sẽ giảm theo thời gian. A/B test cần đủ dài để thấy steady state.",
+      "tags": [
+        "product-ai",
+        "ab-testing",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi mô hình ML hoạt động tốt trên training và validation nhưng tệ khi deploy thực tế, nguyên nhân thường là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quá đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Distribution shift: phân phối dữ liệu thực tế khác với dữ liệu training/validation"
+        },
+        {
+          "key": "C",
+          "text": "Quá nhiều tham số"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate sai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Distribution shift / data drift: data thực tế khác data training. Cần monitoring và periodic retraining.",
+      "tags": [
+        "mlops",
+        "distribution-shift",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Recall cao hơn là quan trọng hơn trong bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống lọc spam email"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện ung thư từ hình ảnh y tế"
+        },
+        {
+          "key": "C",
+          "text": "Đề xuất phim cho người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại cảm xúc review"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong y tế, bỏ sót bệnh nhân ung thư (FN) nguy hiểm hơn nhiều xét nghiệm thêm (FP). → Maximize recall.",
+      "tags": [
+        "evaluation",
+        "medical-ai",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong đánh giá mô hình dự đoán thời gian chuỗi (time series), ta cần:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng random train/test split như thường"
+        },
+        {
+          "key": "B",
+          "text": "Dùng time-ordered split: train trên dữ liệu cũ, test trên dữ liệu mới hơn (không nhìn vào tương lai)"
+        },
+        {
+          "key": "C",
+          "text": "Dùng k-fold cross-validation như thường"
+        },
+        {
+          "key": "D",
+          "text": "Không cần test set"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Time series: tuyệt đối không để test set chứa dữ liệu cũ hơn train set (data leakage từ tương lai).",
+      "tags": [
+        "ml-fundamentals",
+        "time-series",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Population Stability Index (PSI) dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo kích thước dữ liệu production"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện sự thay đổi phân phối của feature giữa training và production — PSI > 0.2 báo hiệu drift lớn"
+        },
+        {
+          "key": "C",
+          "text": "Tính toán sample size cho A/B test"
+        },
+        {
+          "key": "D",
+          "text": "Đo variance của mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PSI theo dõi distribution shift. PSI < 0.1: ổn, 0.1-0.2: cần chú ý, >0.2: drift nghiêm trọng cần retrain.",
+      "tags": [
+        "mlops",
+        "monitoring",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong metric đánh giá cho recommendation system, Precision@K là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Precision của top K recommendation"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ item relevant trong K item đầu tiên được recommend"
+        },
+        {
+          "key": "C",
+          "text": "Recall của top K recommendation"
+        },
+        {
+          "key": "D",
+          "text": "F1 của K recommendation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Precision@K = số item relevant trong top K / K. Đo chất lượng của top-K recommendations.",
+      "tags": [
+        "recommender-systems",
+        "evaluation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Calibration trong mô hình phân loại đề cập đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điều chỉnh learning rate"
+        },
+        {
+          "key": "B",
+          "text": "Sự đồng nhất giữa xác suất dự đoán và tần suất thực tế của sự kiện"
+        },
+        {
+          "key": "C",
+          "text": "Cân bằng giữa precision và recall"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Calibrated model: khi predict p=0.7 cho nhiều mẫu, ~70% thực sự là positive. Quan trọng khi dùng probability output.",
+      "tags": [
+        "ml-evaluation",
+        "calibration",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Learning curve (đường học tập) trong ML cho thấy:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lịch sử thay đổi learning rate"
+        },
+        {
+          "key": "B",
+          "text": "Cách training và validation performance thay đổi theo số lượng training samples hoặc epochs"
+        },
+        {
+          "key": "C",
+          "text": "Loss theo thời gian tính bằng giây"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số của mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Learning curve: plot train/val accuracy vs training size hoặc epochs. Dùng để chẩn đoán underfitting/overfitting.",
+      "tags": [
+        "ml-fundamentals",
+        "learning-curve",
+        "module-C"
+      ]
+    },
+    {
+      "id": "24-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi sử dụng kết quả A/B test để đưa ra quyết định kinh doanh, điều quan trọng cần nhớ là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả test là bằng chứng tuyệt đối"
+        },
+        {
+          "key": "B",
+          "text": "Cần xem xét practical significance (ý nghĩa thực tiễn) chứ không chỉ statistical significance"
+        },
+        {
+          "key": "C",
+          "text": "Luôn chọn phương án có p-value nhỏ nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không cần sample size lớn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Statistical significant ≠ practically important. Effect size nhỏ có thể có ý nghĩa thống kê với n lớn nhưng vô nghĩa trong thực tế.",
+      "tags": [
+        "statistics",
+        "decision-making",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề logic: \"Tất cả AI tốt đều có dữ liệu tốt. Mô hình này không có dữ liệu tốt.\"\nKết luận đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình này là AI tốt"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình này không phải AI tốt"
+        },
+        {
+          "key": "C",
+          "text": "Không đủ thông tin để kết luận"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình này cần nhiều dữ liệu hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Modus tollens: P→Q, ¬Q → ¬P. \"Dữ liệu tốt\" là điều kiện cần của \"AI tốt\". Không có dữ liệu tốt → không phải AI tốt.",
+      "tags": [
+        "logic",
+        "modus-tollens",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sử dụng kết quả kiểm định thống kê để kết luận mà không xem xét kích thước mẫu (sample size) là sai vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sample size không quan trọng"
+        },
+        {
+          "key": "B",
+          "text": "Với n lớn, gần như bất kỳ sự khác biệt nhỏ nào cũng có thể statistically significant dù không có ý nghĩa thực tế"
+        },
+        {
+          "key": "C",
+          "text": "Sample size ảnh hưởng đến p-value theo cách không thể đoán"
+        },
+        {
+          "key": "D",
+          "text": "Kết quả với n nhỏ luôn chính xác hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Power và p-value phụ thuộc vào n. n=1000000 có thể reject H0 với difference 0.001%, không có practical significance.",
+      "tags": [
+        "statistics",
+        "sample-size",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reproducibility crisis (khủng hoảng tái lập) trong AI research liên quan đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI models tái tạo dữ liệu quá tốt"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều kết quả nghiên cứu AI không thể được tái lập do thiếu code, data, hoặc chi tiết thực nghiệm"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình AI học lại từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi trong quá trình deployment"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhiều paper AI khó tái lập vì thiếu: open source code, training data, compute resources, hyperparameter details.",
+      "tags": [
+        "responsible-ai",
+        "reproducibility",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều nào đúng về việc dùng accuracy để đánh giá mô hình phát hiện gian lận (fraud detection) với 99.9% giao dịch bình thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accuracy là metric tốt nhất cho bài này"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy gây hiểu nhầm: model dự đoán \"bình thường\" cho tất cả đạt accuracy 99.9% nhưng bắt được 0 gian lận"
+        },
+        {
+          "key": "C",
+          "text": "Nên dùng accuracy vì cao là tốt"
+        },
+        {
+          "key": "D",
+          "text": "Fraud detection không cần metric"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Imbalanced problem: model ngây thơ đạt accuracy cao nhưng recall=0. Dùng Precision-Recall, F1, AUC-ROC thay thế.",
+      "tags": [
+        "responsible-ai",
+        "evaluation",
+        "imbalanced",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: \"Một số mô hình AI có thể giải thích được. XAI (explainable AI) tồn tại.\"\n\"Không phải tất cả mô hình AI đều không thể giải thích.\" Đây có phải mâu thuẫn không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có mâu thuẫn"
+        },
+        {
+          "key": "B",
+          "text": "Không mâu thuẫn — hai mệnh đề này nhất quán với nhau"
+        },
+        {
+          "key": "C",
+          "text": "Cần thêm thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Phụ thuộc vào định nghĩa AI"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai mệnh đề nhất quán: \"Một số AI giải thích được\" và \"Không phải tất cả AI không giải thích được\" đều nói một số AI là explainable.",
+      "tags": [
+        "logic",
+        "module-D"
+      ]
+    },
+    {
+      "id": "24-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi báo cáo kết quả mô hình AI cho stakeholders, điều quan trọng nhất là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ báo cáo con số tốt nhất để gây ấn tượng"
+        },
+        {
+          "key": "B",
+          "text": "Báo cáo đầy đủ: độ chính xác, điều kiện test, giới hạn, failure cases và rủi ro tiềm ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Dùng thuật ngữ kỹ thuật phức tạp để tăng uy tín"
+        },
+        {
+          "key": "D",
+          "text": "Tránh đề cập đến hạn chế của mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tính trung thực và đầy đủ trong báo cáo AI là trách nhiệm đạo đức. Cherry-picking metrics gây quyết định sai và xói mòn niềm tin.",
+      "tags": [
+        "responsible-ai",
+        "transparency",
+        "module-D"
+      ]
+    }
+  ]
+}

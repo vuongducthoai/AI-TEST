@@ -1,0 +1,1931 @@
+{
+  "id": "exam-27",
+  "title": "Ôn tập tổng hợp tiếng Việt - Bài 2",
+  "description": "Bài thi thử thứ 2 bằng tiếng Việt. Tổng hợp Deep Learning, NLP, Python và AI Ethics chuyên sâu hơn.",
+  "module": "Mixed",
+  "difficulty": "intermediate",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "27-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho dữ liệu: [10, 20, 20, 30, 40]. Mode (yếu vị) của tập này là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "Không có"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mode là giá trị xuất hiện nhiều nhất. 20 xuất hiện 2 lần, các giá trị khác 1 lần.",
+      "tags": [
+        "thống-kê",
+        "mode",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Biến đổi nào ánh xạ bất kỳ số thực nào thành giá trị trong (0,1)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid: 1/(1+e^(-x))"
+        },
+        {
+          "key": "C",
+          "text": "Tanh"
+        },
+        {
+          "key": "D",
+          "text": "Softmax"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sigmoid ∈ (0,1) với bất kỳ x. Tanh ∈ (-1,1). ReLU = max(0,x) ∈ [0,∞).",
+      "tags": [
+        "toán-học",
+        "sigmoid",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi bias (độ lệch) của mô hình ML cao, điều này thường có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quá phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình quá đơn giản, không nắm bắt được pattern trong dữ liệu (underfitting)"
+        },
+        {
+          "key": "C",
+          "text": "Cần thêm regularization"
+        },
+        {
+          "key": "D",
+          "text": "Training data quá nhiều"
+        }
+      ],
+      "answer": "B",
+      "explanation": "High bias = underfitting. Giải pháp: tăng độ phức tạp mô hình (thêm layer, thêm features, giảm regularization).",
+      "tags": [
+        "ml-fundamentals",
+        "bias-variance",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số lượng tham số của LSTM với input_size=10, hidden_size=20 là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2,480"
+        },
+        {
+          "key": "B",
+          "text": "2,420"
+        },
+        {
+          "key": "C",
+          "text": "4*(10*20+20*20+20)"
+        },
+        {
+          "key": "D",
+          "text": "800"
+        }
+      ],
+      "answer": "C",
+      "explanation": "LSTM = 4 gates. Mỗi gate: W_i(10×20) + W_h(20×20) + b(20). Tổng = 4*(200+400+20) = 4*620 = 2480.",
+      "tags": [
+        "deep-learning",
+        "lstm",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong thống kê, Type I error (lỗi loại 1) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ sót kết quả dương tính thực"
+        },
+        {
+          "key": "B",
+          "text": "Bác bỏ H0 khi H0 thực sự đúng (false positive trong kiểm định giả thuyết)"
+        },
+        {
+          "key": "C",
+          "text": "Không thể tính toán p-value"
+        },
+        {
+          "key": "D",
+          "text": "Sample size quá nhỏ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Type I error = false positive = reject H0 when H0 is true. Xác suất = α (significance level).",
+      "tags": [
+        "thống-kê",
+        "hypothesis-testing",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tổng các phần tử trên đường chéo chính của ma trận vuông A được gọi là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Determinant"
+        },
+        {
+          "key": "B",
+          "text": "Trace"
+        },
+        {
+          "key": "C",
+          "text": "Rank"
+        },
+        {
+          "key": "D",
+          "text": "Norm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trace(A) = Σ a_ii = tổng eigenvalues. Đây là một bất biến quan trọng của ma trận.",
+      "tags": [
+        "đại-số-tuyến-tính",
+        "trace",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân phối nào phù hợp nhất để mô hình hóa thời gian chờ giữa các sự kiện Poisson?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Normal"
+        },
+        {
+          "key": "B",
+          "text": "Binomial"
+        },
+        {
+          "key": "C",
+          "text": "Exponential"
+        },
+        {
+          "key": "D",
+          "text": "Uniform"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Thời gian chờ giữa các sự kiện Poisson tuân theo phân phối Exponential với cùng rate parameter λ.",
+      "tags": [
+        "thống-kê",
+        "phân-phối",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong gradient descent, momentum giúp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "B",
+          "text": "Tích lũy gradient theo hướng nhất quán, giảm dao động và tăng tốc hội tụ"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số epoch"
+        },
+        {
+          "key": "D",
+          "text": "Tăng batch size"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Momentum: v = β×v + ∇L. \"Quả bóng lăn xuống dốc\": tích lũy tốc độ theo hướng nhất quán, giảm oscillation.",
+      "tags": [
+        "tối-ưu-hóa",
+        "momentum",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu hai ma trận A và B là vuông cùng kích thước, thì AB luôn bằng BA không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có, phép nhân ma trận giao hoán"
+        },
+        {
+          "key": "B",
+          "text": "Không, phép nhân ma trận thường không giao hoán (AB ≠ BA)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi A và B là đường chéo"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ với ma trận 2×2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ma trận multiplication không giao hoán: AB ≠ BA nói chung. Chỉ bằng nhau với các trường hợp đặc biệt.",
+      "tags": [
+        "đại-số-tuyến-tính",
+        "ma-trận",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hệ số tương quan Pearson r = -0.9 cho thấy:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tương quan dương mạnh"
+        },
+        {
+          "key": "B",
+          "text": "Tương quan âm mạnh — khi X tăng, Y giảm và có mối quan hệ tuyến tính rất chặt chẽ"
+        },
+        {
+          "key": "C",
+          "text": "Không có tương quan"
+        },
+        {
+          "key": "D",
+          "text": "Tương quan phi tuyến"
+        }
+      ],
+      "answer": "B",
+      "explanation": "r ∈ [-1,1]. r = -0.9: tương quan âm rất mạnh. r = 0: không tuyến tính. r = ±1: hoàn hảo.",
+      "tags": [
+        "thống-kê",
+        "tương-quan",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chiều sâu tối thiểu của mạng nơ-ron để được gọi là \"deep\" neural network là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 lớp"
+        },
+        {
+          "key": "B",
+          "text": "2 lớp ẩn trở lên"
+        },
+        {
+          "key": "C",
+          "text": "10 lớp"
+        },
+        {
+          "key": "D",
+          "text": "Không có quy định cụ thể, thường từ 2-3 hidden layers"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Không có ngưỡng cứng. Thực tế, \"deep\" thường từ 2+ hidden layers. Điều quan trọng là có nhiều hơn 1 hidden layer.",
+      "tags": [
+        "deep-learning",
+        "kiến-trúc",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong xác suất có điều kiện, P(A|B) = P(A) nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "A và B không thể cùng xảy ra"
+        },
+        {
+          "key": "B",
+          "text": "A và B độc lập nhau — biết B không thay đổi xác suất của A"
+        },
+        {
+          "key": "C",
+          "text": "P(B|A) = P(B)"
+        },
+        {
+          "key": "D",
+          "text": "Cả B và C đều đúng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "P(A|B)=P(A) ↔ A và B độc lập. Từ đó P(B|A)=P(B) cũng đúng. Và cả P(A∩B)=P(A)P(B).",
+      "tags": [
+        "xác-suất",
+        "độc-lập",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giá trị nào của F1-score cho thấy mô hình tốt nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "D",
+      "explanation": "F1 ∈ [0,1]. F1=1.0: perfect precision và recall. F1=0: hoàn toàn sai. Cao hơn là tốt hơn.",
+      "tags": [
+        "đánh-giá",
+        "f1",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi số chiều (dimension) dữ liệu tăng lên, khoảng cách Euclidean giữa các điểm có xu hướng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm xuống"
+        },
+        {
+          "key": "B",
+          "text": "Trở nên bằng nhau và kém ý nghĩa (Curse of Dimensionality)"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Không thay đổi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Curse of Dimensionality: trong không gian cao chiều, tất cả điểm trở nên xa nhau như nhau. KNN và distance-based models kém hiệu quả.",
+      "tags": [
+        "toán-học",
+        "curse-of-dimensionality",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi áp dụng log transform cho dữ liệu có phân phối skewed phải (right-skewed), kết quả thường là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối lệch trái nhiều hơn"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối trở nên gần chuẩn hơn, giảm ảnh hưởng của outliers lớn"
+        },
+        {
+          "key": "C",
+          "text": "Không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Phân phối đều"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Log transform compresses large values: 1,10,100,1000 → 0,1,2,3. Giúp dữ liệu right-skewed tiến gần phân phối chuẩn.",
+      "tags": [
+        "thống-kê",
+        "data-transform",
+        "module-A"
+      ]
+    },
+    {
+      "id": "27-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nclass Stack:\n    def __init__(self):\n        self.items = []\n    \n    def push(self, item):\n        self.items.append(item)\n    \n    def pop(self):\n        return self.items.pop()\n    \n    def size(self):\n        return len(self.items)\n\ns = Stack()\ns.push(1)\ns.push(2)\ns.push(3)\ns.pop()\nprint(s.size())",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Push 1,2,3 → stack=[1,2,3]. pop() lấy 3. Stack còn [1,2] → size=2.",
+      "tags": [
+        "python",
+        "oop",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nX = np.array([2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0])\nprint(f\"Mean:{X.mean():.1f} Std:{X.std():.1f}\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mean:5.0 Std:2.0"
+        },
+        {
+          "key": "B",
+          "text": "Mean:4.5 Std:2.0"
+        },
+        {
+          "key": "C",
+          "text": "Mean:5.0 Std:4.0"
+        },
+        {
+          "key": "D",
+          "text": "Mean:4.0 Std:2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean=(2+4+4+4+5+5+7+9)/8=40/8=5.0. Variance=[(9+1+1+1+0+0+4+16)/8]=32/8=4. Std=√4=2.0.",
+      "tags": [
+        "numpy",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(6))",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "13"
+        },
+        {
+          "key": "D",
+          "text": "10"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fib: 0,1,1,2,3,5,8. fib(6) = fib(5)+fib(4) = 5+3 = 8.",
+      "tags": [
+        "python",
+        "recursion",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.tree import DecisionTreeClassifier\nfrom sklearn.metrics import accuracy_score\n\nmodel = DecisionTreeClassifier(max_depth=None)\nmodel.fit(X_train, y_train)\nprint(accuracy_score(y_train, model.predict(X_train)))\n\nKết quả gần đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "50%"
+        },
+        {
+          "key": "B",
+          "text": "~100% — Decision Tree không giới hạn depth có thể perfectly overfit training data"
+        },
+        {
+          "key": "C",
+          "text": "~80%"
+        },
+        {
+          "key": "D",
+          "text": "Phụ thuộc vào dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Decision Tree không giới hạn độ sâu sẽ tạo leaf cho từng sample → 100% train accuracy nhưng overfit.",
+      "tags": [
+        "sklearn",
+        "overfitting",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport pandas as pd\ndf = pd.DataFrame({\"A\":[1,2,3],\"B\":[4,5,6]})\nprint(df.shape)",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "(1, 6)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DataFrame có 3 hàng và 2 cột (A, B) → shape = (3, 2).",
+      "tags": [
+        "pandas",
+        "shape",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\na = np.array([1,2,3,4,5])\nprint(a[a > 3])",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,2,3]"
+        },
+        {
+          "key": "B",
+          "text": "[4,5]"
+        },
+        {
+          "key": "C",
+          "text": "[True,True]"
+        },
+        {
+          "key": "D",
+          "text": "[3,4,5]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Boolean indexing: a > 3 = [F,F,F,T,T]. a[[F,F,F,T,T]] = [4,5].",
+      "tags": [
+        "numpy",
+        "indexing",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom sklearn.preprocessing import LabelEncoder\nle = LabelEncoder()\nlabels = [\"dog\", \"cat\", \"dog\", \"bird\", \"cat\"]\nencoded = le.fit_transform(labels)\nprint(len(set(encoded)))",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LabelEncoder mã hóa 3 nhãn unique: \"bird\"→0, \"cat\"→1, \"dog\"→2. set(encoded) = {0,1,2}, len=3.",
+      "tags": [
+        "sklearn",
+        "encoding",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nW = np.random.randn(3, 4)\nX = np.random.randn(4, 2)\nresult = W @ X\nprint(result.shape)",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 4)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 2)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ma trận W(3×4) @ X(4×2) = result(3×2). Chiều giữa phải khớp (4=4).",
+      "tags": [
+        "numpy",
+        "matrix-multiply",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndata = {\"accuracy\": 0.92, \"loss\": 0.23}\nfor metric, value in data.items():\n    print(f\"{metric}: {value:.1f}\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"accuracy: 0.9\" và \"loss: 0.2\""
+        },
+        {
+          "key": "B",
+          "text": "\"accuracy: 0.92\" và \"loss: 0.23\""
+        },
+        {
+          "key": "C",
+          "text": "\"accuracy: 1.0\" và \"loss: 0.0\""
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": ":.1f format làm tròn đến 1 chữ số thập phân: 0.92→0.9, 0.23→0.2.",
+      "tags": [
+        "python",
+        "string-formatting",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n\ndef sigmoid(x):\n    return 1 / (1 + np.exp(-x))\n\nprint(sigmoid(0))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "sigmoid(0) = 1/(1+e⁰) = 1/(1+1) = 1/2 = 0.5. Điểm giữa của sigmoid.",
+      "tags": [
+        "numpy",
+        "sigmoid",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom collections import Counter\nwords = \"tôi học AI tôi thích AI học\".split()\nc = Counter(words)\nprint(c.most_common(2))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(\"tôi\",2),(\"AI\",2)]"
+        },
+        {
+          "key": "B",
+          "text": "[(\"tôi\",2),(\"AI\",2)] hoặc [(\"AI\",2),(\"tôi\",2)] — cả hai đều đúng"
+        },
+        {
+          "key": "C",
+          "text": "[(\"tôi\",1),(\"AI\",1)]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "most_common(2) trả về 2 phần tử phổ biến nhất: \"tôi\"(2), \"AI\"(2), \"học\"(2) — tie → thứ tự có thể khác.",
+      "tags": [
+        "python",
+        "collections",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\ndf = pd.DataFrame({\"score\":[70,80,90,85,75]})\ndf[\"grade\"] = df[\"score\"].apply(lambda x: \"A\" if x>=85 else \"B\")\nprint(df[\"grade\"].value_counts()[\"A\"])",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Scores >= 85: 90 và 85 → 2 giá trị A.",
+      "tags": [
+        "pandas",
+        "apply",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndef gen_squares(n):\n    for i in range(n):\n        yield i**2\n\ng = gen_squares(4)\nprint(list(g))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0,1,4,9]"
+        },
+        {
+          "key": "B",
+          "text": "[1,4,9,16]"
+        },
+        {
+          "key": "C",
+          "text": "[0,1,2,3]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "range(4) = [0,1,2,3]. yield 0²,1²,2²,3² = [0,1,4,9].",
+      "tags": [
+        "python",
+        "generators",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.metrics import roc_auc_score\ny_true = [0, 0, 1, 1]\ny_scores = [0.1, 0.4, 0.35, 0.8]\nauc = roc_auc_score(y_true, y_scores)\nprint(auc > 0.5)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "Không xác định"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "y_scores cao hơn cho class 1 hơn class 0 (trung bình). AUC > 0.5 → mô hình tốt hơn random.",
+      "tags": [
+        "sklearn",
+        "auc",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\nA = np.eye(3)\nprint(np.linalg.det(A))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ma trận đơn vị (identity matrix) 3×3 có det=1. Nói chung det(I)=1.",
+      "tags": [
+        "numpy",
+        "determinant",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nsentence = \"Deep Learning là tương lai của AI\"\ntokens = sentence.lower().split()\nprint([t for t in tokens if len(t) > 3])",
+      "options": [
+        {
+          "key": "A",
+          "text": "[\"deep\",\"learning\",\"tương\",\"lai\",\"của\"]"
+        },
+        {
+          "key": "B",
+          "text": "[\"deep\",\"learning\",\"tương\",\"lai\"]"
+        },
+        {
+          "key": "C",
+          "text": "[\"learning\",\"tương\",\"lai\"]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lower: [\"deep\",\"learning\",\"là\",\"tương\",\"lai\",\"của\",\"ai\"]. Filter len>3: deep(4)✓, learning(8)✓, là(2)✗, tương(5)✓, lai(3)✗, của(3)✗, ai(2)✗.",
+      "tags": [
+        "python",
+        "list-comprehension",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nscores = np.array([60, 75, 80, 90, 95])\nweights = np.array([0.1, 0.2, 0.3, 0.2, 0.2])\nprint(np.dot(scores, weights))",
+      "options": [
+        {
+          "key": "A",
+          "text": "82.0"
+        },
+        {
+          "key": "B",
+          "text": "80.0"
+        },
+        {
+          "key": "C",
+          "text": "79.5"
+        },
+        {
+          "key": "D",
+          "text": "81.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Weighted sum = 60×0.1+75×0.2+80×0.3+90×0.2+95×0.2 = 6+15+24+18+19 = 82.0.",
+      "tags": [
+        "numpy",
+        "dot-product",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ntext = \"xin-chào-thế-giới\"\nwords = text.split(\"-\")\nprint(\"_\".join(words))",
+      "options": [
+        {
+          "key": "A",
+          "text": "xin-chào-thế-giới"
+        },
+        {
+          "key": "B",
+          "text": "xin_chào_thế_giới"
+        },
+        {
+          "key": "C",
+          "text": "xin chào thế giới"
+        },
+        {
+          "key": "D",
+          "text": "[\"xin\",\"chào\",\"thế\",\"giới\"]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "split(\"-\") tách: [\"xin\",\"chào\",\"thế\",\"giới\"]. \"_\".join nối bằng \"_\": \"xin_chào_thế_giới\".",
+      "tags": [
+        "python",
+        "string",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\ndf1 = pd.DataFrame({\"id\":[1,2,3],\"name\":[\"A\",\"B\",\"C\"]})\ndf2 = pd.DataFrame({\"id\":[2,3,4],\"score\":[90,85,70]})\nresult = pd.merge(df1, df2, on=\"id\", how=\"inner\")\nprint(len(result))",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Inner merge: chỉ giữ id có trong cả hai: id=2 và id=3 → 2 hàng.",
+      "tags": [
+        "pandas",
+        "merge",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\nX = np.array([1,2,3,4,5,6]).reshape(2,3)\nprint(X.sum())\nprint(X.sum(axis=0))\nprint(X.sum(axis=1))",
+      "options": [
+        {
+          "key": "A",
+          "text": "21, [5,7,9], [6,15]"
+        },
+        {
+          "key": "B",
+          "text": "15, [4,6,8], [6,15]"
+        },
+        {
+          "key": "C",
+          "text": "21, [5,7,9], [6,15]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "X=[[1,2,3],[4,5,6]]. Total=21. axis=0 (cột): [1+4,2+5,3+6]=[5,7,9]. axis=1 (hàng): [1+2+3,4+5+6]=[6,15].",
+      "tags": [
+        "numpy",
+        "sum",
+        "module-B"
+      ]
+    },
+    {
+      "id": "27-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao Transformer có thể xử lý song song tốt hơn RNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transformer nhỏ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Transformer không có hidden state sequential; self-attention xử lý tất cả token cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Transformer dùng ít bộ nhớ hơn"
+        },
+        {
+          "key": "D",
+          "text": "Transformer không cần GPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RNN: phải xử lý x₁→x₂→...→xₙ tuần tự. Transformer: attention cho phép xử lý tất cả tokens đồng thời → parallelizable.",
+      "tags": [
+        "transformer",
+        "rnn",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số tham số của Transformer layer tỷ lệ thuận với:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài câu input"
+        },
+        {
+          "key": "B",
+          "text": "d_model² (kích thước embedding) — larger embedding = more parameters in attention và FFN"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng dữ liệu training"
+        },
+        {
+          "key": "D",
+          "text": "Vocabulary size"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention: Q,K,V,O matrices đều d×d. FFN: 2 layers d×4d. Tổng ~ 12d². GPT-3 với d=12288 → massive.",
+      "tags": [
+        "transformer",
+        "parameters",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "GAN (Generative Adversarial Network) training không ổn định vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "GAN quá đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Mode collapse và khó balance giữa Generator và Discriminator (training game không hội tụ ổn định)"
+        },
+        {
+          "key": "C",
+          "text": "GAN cần quá nhiều data"
+        },
+        {
+          "key": "D",
+          "text": "GAN không có loss function"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Training GAN: min-max game không đảm bảo hội tụ. Mode collapse: G chỉ sinh một loại data. Discriminator thắng sớm → G không học được.",
+      "tags": [
+        "generative-ai",
+        "gan",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Feature Engineering (tạo đặc trưng) quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Máy tính không cần dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng được thiết kế tốt giúp mô hình đơn giản học được mối quan hệ phức tạp trong dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Deep Learning đã thay thế hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần thu thập thêm data"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Với tabular data/traditional ML: feature engineering (log transforms, interactions, domain features) vẫn rất quan trọng.",
+      "tags": [
+        "ml-fundamentals",
+        "feature-engineering",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong object detection, NMS (Non-Maximum Suppression) dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ detection"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ các bounding box trùng lặp, chỉ giữ lại box có confidence cao nhất cho mỗi đối tượng"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa ảnh đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Tính toán IoU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NMS: sau khi model tạo nhiều boxes cho cùng object, NMS chọn box có highest confidence, loại boxes IoU > threshold.",
+      "tags": [
+        "computer-vision",
+        "object-detection",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong NLP, \"coreference resolution\" giải quyết bài toán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại từ loại"
+        },
+        {
+          "key": "B",
+          "text": "Xác định các cụm từ/đại từ khác nhau trong văn bản cùng chỉ đến cùng một thực thể"
+        },
+        {
+          "key": "C",
+          "text": " Dịch thuật"
+        },
+        {
+          "key": "D",
+          "text": "Phân tích cú pháp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Coreference: \"Nguyễn Văn A ra khỏi nhà. Anh ấy cầm ô\" → \"Anh ấy\" = \"Nguyễn Văn A\". Khó cho NLP.",
+      "tags": [
+        "nlp",
+        "coreference",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Regularization path trong Lasso regression cho thấy:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loss theo epoch"
+        },
+        {
+          "key": "B",
+          "text": "Cách feature weights thay đổi khi regularization strength λ tăng — features ít quan trọng sẽ bị đẩy về 0 trước"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy theo số features"
+        },
+        {
+          "key": "D",
+          "text": "Training time"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tăng λ → nhiều weights → 0 hơn. Plot regularization path cho thấy feature nào quan trọng nhất (bị loại cuối cùng).",
+      "tags": [
+        "regularization",
+        "lasso",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong RL (Reinforcement Learning), \"sparse reward\" gây ra vấn đề:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá nhiều signal học"
+        },
+        {
+          "key": "B",
+          "text": "Agent khó học vì hiếm khi nhận được reward, không biết action nào đúng"
+        },
+        {
+          "key": "C",
+          "text": "Training quá nhanh"
+        },
+        {
+          "key": "D",
+          "text": "Memory không đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sparse reward: agent chỉ nhận reward khi win game/achieve goal. Khó credit assignment: action nào ở bước nào dẫn đến reward?",
+      "tags": [
+        "reinforcement-learning",
+        "sparse-reward",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong học chuyển giao (transfer learning) cho Computer Vision, các lớp đầu (early layers) học:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặc trưng high-level như mắt, mũi"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng low-level như cạnh, góc, màu sắc — có thể tái sử dụng cho nhiều bài toán"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ học padding"
+        },
+        {
+          "key": "D",
+          "text": "Không học gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CNN early layers: edges, textures (universal). Later layers: domain-specific features. Fine-tune later layers for new task.",
+      "tags": [
+        "transfer-learning",
+        "cnn",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong thực tế, lý do chính khiến model ML thất bại sau deployment là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quá phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Data distribution shift: dữ liệu thực tế khác với dữ liệu training theo thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Model quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Không đủ GPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Production failure: (1) training-serving skew, (2) data drift/concept drift, (3) edge cases không trong training data.",
+      "tags": [
+        "mlops",
+        "deployment",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong RAG, tại sao cần \"reranking\" sau bước retrieval?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ"
+        },
+        {
+          "key": "B",
+          "text": "Retrieval (embedding similarity) không phải lúc nào cũng đưa ra kết quả liên quan nhất theo ngữ cảnh câu hỏi — reranker chính xác hơn nhưng chậm hơn"
+        },
+        {
+          "key": "C",
+          "text": "Giảm chi phí"
+        },
+        {
+          "key": "D",
+          "text": "Tăng context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reranking pipeline: fast vector search (ANN) → top-K candidates → slow but accurate cross-encoder reranker → top-N final results.",
+      "tags": [
+        "rag",
+        "reranking",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vấn đề \"catastrophic forgetting\" trong AI liên quan đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quên weights sau khi lưu"
+        },
+        {
+          "key": "B",
+          "text": "Khi train thêm task mới, mô hình mất kiến thức về task cũ"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi memory của GPU"
+        },
+        {
+          "key": "D",
+          "text": "Mất dữ liệu training"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Catastrophic forgetting: DNN overwrite old weights khi học task mới. Vấn đề lớn trong continual/lifelong learning.",
+      "tags": [
+        "deep-learning",
+        "continual-learning",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong xử lý ngôn ngữ tự nhiên tiếng Việt, thách thức đặc biệt là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tiếng Việt quá ngắn"
+        },
+        {
+          "key": "B",
+          "text": "Từ ghép, dấu thanh điệu, và ranh giới từ không rõ ràng (không có khoảng trắng giữa các morpheme trong một số trường hợp)"
+        },
+        {
+          "key": "C",
+          "text": "Tiếng Việt không có ngữ pháp"
+        },
+        {
+          "key": "D",
+          "text": "Không đủ văn bản tiếng Việt trên internet"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tiếng Việt: word segmentation khó (meo meo khác mèo mèo), dấu thanh ảnh hưởng nghĩa, và ít data so với tiếng Anh.",
+      "tags": [
+        "nlp",
+        "vietnamese",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi evaluate một LLM cho ứng dụng thực tế, cần đánh giá:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ accuracy trên benchmark"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều chiều: task accuracy, latency, cost, safety/harmlessness, hallucination rate, và performance trên domain cụ thể"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ training cost"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM evaluation: offline (benchmarks, human eval) + online (production metrics, user satisfaction, safety incident rate).",
+      "tags": [
+        "llm",
+        "evaluation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong image segmentation, semantic vs instance segmentation khác nhau như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có sự khác biệt"
+        },
+        {
+          "key": "B",
+          "text": "Semantic: gán label per pixel (tất cả xe hơi cùng màu). Instance: phân biệt từng instance riêng (xe1 khác xe2)"
+        },
+        {
+          "key": "C",
+          "text": "Instance segmentation dùng cho văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Semantic segmentation chậm hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic seg: xe màu đỏ, người màu xanh. Instance seg: xe_1, xe_2, người_1 có ID riêng.",
+      "tags": [
+        "computer-vision",
+        "segmentation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong NLP, \"dependency parsing\" phân tích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phụ thuộc về thời gian trong câu"
+        },
+        {
+          "key": "B",
+          "text": "Cấu trúc ngữ pháp: mối quan hệ phụ thuộc giữa các từ trong câu (subject, object, modifier...)"
+        },
+        {
+          "key": "C",
+          "text": "Phụ thuộc giữa các câu"
+        },
+        {
+          "key": "D",
+          "text": "Từ nào phổ biến nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dependency parsing: xác định head-dependent relationship. \"Tôi ăn táo\" → \"ăn\" là root, \"Tôi\" là subject, \"táo\" là object.",
+      "tags": [
+        "nlp",
+        "parsing",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Multi-modal AI kết hợp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều ngôn ngữ lập trình"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều loại dữ liệu khác nhau (văn bản, ảnh, âm thanh) trong cùng một mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Nhiều model nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Nhiều dataset riêng biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multimodal AI: GPT-4V (text+image), Gemini, CLIP (text-image matching). Hiểu cả ảnh lẫn văn bản cùng lúc.",
+      "tags": [
+        "deep-learning",
+        "multimodal",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong quá trình huấn luyện AI, \"data poisoning\" (đầu độc dữ liệu) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm hỏng thiết bị lưu trữ"
+        },
+        {
+          "key": "B",
+          "text": "Tấn công an ninh: chèn dữ liệu độc hại vào training set để khiến mô hình học behavior sai hoặc tạo backdoor"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi trong data pipeline"
+        },
+        {
+          "key": "D",
+          "text": "Quá nhiều noise trong dữ liệu bình thường"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data poisoning: adversary manipulate training data → model learns to misclassify specific inputs (backdoor attack).",
+      "tags": [
+        "ai-security",
+        "responsible-ai",
+        "module-C"
+      ]
+    },
+    {
+      "id": "27-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc \"Transparency\" trong AI KHÔNG yêu cầu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải thích cách quyết định được đưa ra"
+        },
+        {
+          "key": "B",
+          "text": "Cho phép audit quy trình AI"
+        },
+        {
+          "key": "C",
+          "text": "Công bố mã nguồn toàn bộ của mọi hệ thống AI"
+        },
+        {
+          "key": "D",
+          "text": "Thông báo cho user khi họ đang tương tác với AI"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Transparency không bắt buộc open source toàn bộ (có thể có IP concerns). Yêu cầu là explainability, auditability, user notification.",
+      "tags": [
+        "responsible-ai",
+        "transparency",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: \"Nếu P thì Q. Nếu Q thì R.\"\nBiết R sai. Kết luận:",
+      "options": [
+        {
+          "key": "A",
+          "text": "P đúng"
+        },
+        {
+          "key": "B",
+          "text": "Q đúng"
+        },
+        {
+          "key": "C",
+          "text": "P sai (modus tollens kết hợp)"
+        },
+        {
+          "key": "D",
+          "text": "Không kết luận được"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hypothetical syllogism: P→Q→R. Modus tollens: ¬R → ¬Q. Áp dụng lại: ¬Q → ¬P. Vậy P sai.",
+      "tags": [
+        "logic",
+        "reasoning",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI \"sycophancy\" (xu nịnh) là vấn đề vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI không cần nghe người dùng"
+        },
+        {
+          "key": "B",
+          "text": "AI có thể xác nhận thông tin sai và không phản bác người dùng dù người dùng sai, dẫn đến quyết định sai lầm"
+        },
+        {
+          "key": "C",
+          "text": "AI sẽ không bao giờ làm điều này"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ là vấn đề aesthetic"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sycophantic AI agree với user ngay cả khi user sai. RLHF có thể tăng sycophancy nếu raters ưu tiên agreeable responses.",
+      "tags": [
+        "responsible-ai",
+        "alignment",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong triết học về AI, \"Chinese Room Argument\" (Searle) lập luận rằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI đã đạt consciousness"
+        },
+        {
+          "key": "B",
+          "text": "Khả năng xử lý ngôn ngữ thành thạo không có nghĩa là thực sự hiểu hay có ý thức"
+        },
+        {
+          "key": "C",
+          "text": "AI sẽ vượt trội con người"
+        },
+        {
+          "key": "D",
+          "text": "Trí tuệ là computational"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Searle: một người không biết tiếng Trung nhưng làm theo rules vẫn có thể \"pass\" Chinese test mà không hiểu gì → syntax ≠ semantics.",
+      "tags": [
+        "ai-philosophy",
+        "consciousness",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "EU AI Act phân loại AI theo mức độ rủi ro. Hệ thống nào thuộc \"High Risk\" cần compliance nghiêm ngặt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bộ lọc spam email"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống AI trong tuyển dụng, tín dụng, giáo dục, thực thi pháp luật — ảnh hưởng lớn đến quyền cơ bản"
+        },
+        {
+          "key": "C",
+          "text": "Chatbot giải trí"
+        },
+        {
+          "key": "D",
+          "text": "Hệ thống gợi ý nhạc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "EU AI Act High Risk: critical infrastructure, education, employment, credit, law enforcement, migration, justice.",
+      "tags": [
+        "responsible-ai",
+        "eu-ai-act",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một AI system được train hoàn toàn trên dữ liệu tiếng Anh, khi deploy cho người dùng Việt Nam sẽ:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoạt động tốt như với người dùng Mỹ"
+        },
+        {
+          "key": "B",
+          "text": "Có khả năng kém hơn đáng kể, thiếu cultural context tiếng Việt, và thể hiện sự bất bình đẳng trong AI access"
+        },
+        {
+          "key": "C",
+          "text": "Tự động học tiếng Việt"
+        },
+        {
+          "key": "D",
+          "text": "Không có sự khác biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI divide: mô hình train chủ yếu tiếng Anh performance kém hơn cho non-English users. Data inequality → capability inequality.",
+      "tags": [
+        "responsible-ai",
+        "fairness",
+        "module-D"
+      ]
+    },
+    {
+      "id": "27-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì là quan trọng nhất khi xây dựng dataset cho AI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu thập càng nhiều data càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Đảm bảo data đa dạng, đại diện và chất lượng cao hơn là chỉ nhiều về số lượng — \"garbage in, garbage out\""
+        },
+        {
+          "key": "C",
+          "text": "Dùng web scraping để lấy data nhanh"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần dữ liệu trong phòng lab"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data quality > data quantity. Biased, mislabeled, hoặc non-representative data tạo ra biased, unreliable AI systems.",
+      "tags": [
+        "responsible-ai",
+        "data-quality",
+        "module-D"
+      ]
+    }
+  ]
+}

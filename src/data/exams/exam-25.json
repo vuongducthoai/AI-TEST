@@ -1,0 +1,1931 @@
+{
+  "id": "exam-25",
+  "title": "AI trong thực tế & Product AI (Tiếng Việt)",
+  "description": "AI trong sản phẩm thực tế, MLOps cơ bản, metrics sản phẩm, và ứng dụng AI trong các ngành. Câu hỏi bằng tiếng Việt.",
+  "module": "Mixed",
+  "difficulty": "intermediate",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "25-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "DAU/MAU (Daily Active Users / Monthly Active Users) là chỉ số đo:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Doanh thu hàng ngày"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ \"dính\" (stickiness) của sản phẩm — người dùng tháng có quay lại hàng ngày không"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng bug mỗi ngày"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí vận hành"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DAU/MAU = 0.3 nghĩa là 30% monthly users quay lại mỗi ngày. Facebook ~0.6, app thông thường ~0.1-0.2.",
+      "tags": [
+        "product-ai",
+        "metrics",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống recommendation, \"cold start problem\" xảy ra khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Server bị lạnh"
+        },
+        {
+          "key": "B",
+          "text": "Không đủ dữ liệu về người dùng mới hoặc sản phẩm mới để đưa ra gợi ý tốt"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình cần khởi động lại"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu training quá cũ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cold start: user mới chưa có history → không biết sở thích. Giải pháp: onboarding survey, popularity-based, content-based.",
+      "tags": [
+        "recommender-systems",
+        "cold-start",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Latency (độ trễ) trong hệ thống AI là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kích thước model"
+        },
+        {
+          "key": "B",
+          "text": "Thời gian từ khi nhận request đến khi trả về response"
+        },
+        {
+          "key": "C",
+          "text": "Tỷ lệ lỗi của model"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng request mỗi giây"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Latency (p50, p95, p99): thời gian xử lý request. p99 = 99th percentile = worst case cho 99% requests.",
+      "tags": [
+        "mlops",
+        "performance",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong A/B testing, sample size cần đủ lớn để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng doanh thu"
+        },
+        {
+          "key": "B",
+          "text": "Đảm bảo đủ statistical power để phát hiện sự khác biệt nhỏ nếu có, giảm false positive/negative"
+        },
+        {
+          "key": "C",
+          "text": "Chạy test nhanh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Giảm chi phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Insufficient sample size → underpowered test → không phát hiện được real effect (Type II error) hoặc over-estimates.",
+      "tags": [
+        "statistics",
+        "ab-testing",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Throughput (thông lượng) trong hệ thống AI là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kích thước input"
+        },
+        {
+          "key": "B",
+          "text": "Số lượng request có thể xử lý mỗi giây (QPS - Queries Per Second)"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian training"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Throughput = QPS. Quan trọng khi scale: cần đủ throughput để phục vụ tất cả users đồng thời.",
+      "tags": [
+        "mlops",
+        "performance",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Retention rate (tỷ lệ giữ chân) D7 = 40% có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "40% người dùng trả tiền sau 7 ngày"
+        },
+        {
+          "key": "B",
+          "text": "40% người dùng đăng ký trong ngày D0 quay lại sử dụng sau 7 ngày"
+        },
+        {
+          "key": "C",
+          "text": "40% tính năng hoạt động"
+        },
+        {
+          "key": "D",
+          "text": "40% bug được sửa sau 7 ngày"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Retention D7 = (users active on Day 7) / (users who first used on Day 0). Đo khả năng giữ chân của sản phẩm.",
+      "tags": [
+        "product-ai",
+        "retention",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong MLOps, canary deployment là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Triển khai trong điều kiện đặc biệt"
+        },
+        {
+          "key": "B",
+          "text": "Phát hành model mới cho một phần nhỏ traffic (ví dụ 5%) để test an toàn trước khi rollout toàn bộ"
+        },
+        {
+          "key": "C",
+          "text": "Triển khai model cho team nội bộ"
+        },
+        {
+          "key": "D",
+          "text": "Cài đặt model trên nhiều server"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Canary deployment: route 5% traffic → new model, 95% → old model. Giám sát metrics, nếu tốt thì tăng dần.",
+      "tags": [
+        "mlops",
+        "deployment",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model drift (model staleness) xảy ra khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model được train trên GPU cũ"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối dữ liệu thực tế thay đổi theo thời gian, làm model ngày càng kém chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Quá nhiều users dùng model cùng lúc"
+        },
+        {
+          "key": "D",
+          "text": "Model quá phức tạp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Drift: user behavior thay đổi, xu hướng thay đổi, data distribution shifts → model predictions trở nên stale.",
+      "tags": [
+        "mlops",
+        "monitoring",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Feature store trong MLOps giải quyết vấn đề:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ model weights"
+        },
+        {
+          "key": "B",
+          "text": "Training-serving skew: đảm bảo feature trong training và serving được tính toán nhất quán, tái sử dụng được"
+        },
+        {
+          "key": "C",
+          "text": "Cân bằng tải (load balancing)"
+        },
+        {
+          "key": "D",
+          "text": "Quản lý phiên bản code"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Feature store: centralized repository cho features. Tránh \"same feature, different computation\" giữa training và online serving.",
+      "tags": [
+        "mlops",
+        "feature-store",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong User Journey Funnel, \"conversion rate\" từ bước A sang bước B là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng số users ở bước B"
+        },
+        {
+          "key": "B",
+          "text": "Số users hoàn thành bước B / Số users bắt đầu bước A × 100%"
+        },
+        {
+          "key": "C",
+          "text": "Thời gian trung bình từ A đến B"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí mỗi conversion"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Conversion rate = completions / starts. Funnel analysis tìm điểm drop-off lớn nhất để cải thiện.",
+      "tags": [
+        "product-ai",
+        "funnel",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi cần scale ML model phục vụ hàng triệu requests, giải pháp kỹ thuật phổ biến là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng model nhỏ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Horizontal scaling: chạy nhiều instance song song đằng sau load balancer"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Giảm model accuracy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Horizontal scaling: nhiều instances xử lý parallel. Kết hợp caching, model compression, và batching để tối ưu.",
+      "tags": [
+        "mlops",
+        "scaling",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "NDCG (Normalized Discounted Cumulative Gain) trong ranking đo lường:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Chất lượng thứ tự kết quả — item liên quan nhất nên đứng đầu danh sách"
+        },
+        {
+          "key": "C",
+          "text": "Số kết quả trả về"
+        },
+        {
+          "key": "D",
+          "text": "Độ chính xác phân loại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NDCG tính điểm ranking có discount theo vị trí (vị trí 1 quan trọng hơn vị trí 10). Dùng nhiều trong search, recommendation.",
+      "tags": [
+        "recommender-systems",
+        "ranking",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Error budget trong SLA (Service Level Agreement) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngân sách cho sửa lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ downtime/error cho phép tối đa trong một khoảng thời gian (ví dụ: 99.9% uptime = 8.7 giờ downtime/năm)"
+        },
+        {
+          "key": "C",
+          "text": "Số lỗi model prediction cho phép"
+        },
+        {
+          "key": "D",
+          "text": "Ngân sách nghiên cứu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SLA 99.9% = 99.9% availability. Error budget = 100% - 99.9% = 0.1% = 8.7 giờ/năm cho phép downtime.",
+      "tags": [
+        "mlops",
+        "sla",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống AI thực tế, \"shadow mode\" deployment là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ẩn tính năng AI với user"
+        },
+        {
+          "key": "B",
+          "text": "Chạy model mới song song với model cũ, model mới chỉ log predictions không hiển thị cho user, để so sánh"
+        },
+        {
+          "key": "C",
+          "text": "Triển khai vào ban đêm"
+        },
+        {
+          "key": "D",
+          "text": "Chạy model với test data"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Shadow mode: model mới nhận traffic thực nhưng không ảnh hưởng user experience. Dùng để kiểm tra chất lượng trước deployment.",
+      "tags": [
+        "mlops",
+        "deployment",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi tính sample size cho A/B test, cần xác định:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần xác định duration"
+        },
+        {
+          "key": "B",
+          "text": "Statistical power (1-β), significance level (α), minimum detectable effect (MDE), và baseline conversion rate"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần có 1000 users"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng engineer trong team"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sample size = f(α, power, MDE, baseline). Smaller MDE → cần nhiều samples hơn để detect effect nhỏ hơn.",
+      "tags": [
+        "statistics",
+        "ab-testing",
+        "module-A"
+      ]
+    },
+    {
+      "id": "25-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì trong pipeline ML?\n\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.svm import SVC\n\npipe = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", SVC())\n])\npipe.fit(X_train, y_train)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ chạy StandardScaler"
+        },
+        {
+          "key": "B",
+          "text": "Chuẩn hóa dữ liệu xong train SVM trong một pipeline ngăn data leakage"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ train SVM"
+        },
+        {
+          "key": "D",
+          "text": "Tạo 2 mô hình độc lập"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pipeline: scaler.fit_transform(X_train) → SVC.fit(X_scaled_train). Test: scaler chỉ dùng train stats để transform X_test.",
+      "tags": [
+        "sklearn",
+        "pipeline",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import joblib\nmodel = ...  # trained model\njoblib.dump(model, \"model.pkl\")\nloaded = joblib.load(\"model.pkl\")\n\nĐoạn code này dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo mô hình mới"
+        },
+        {
+          "key": "B",
+          "text": "Lưu (serialize) và tải lại (deserialize) mô hình để reuse không cần train lại"
+        },
+        {
+          "key": "C",
+          "text": "Kiểm tra độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Visualize mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "joblib.dump/load: persist model ra file. Dùng trong production: train một lần, load và serve nhiều lần.",
+      "tags": [
+        "sklearn",
+        "model-persistence",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau phát hiện vấn đề gì?\n\nimport pandas as pd\ndf = pd.read_csv(\"data.csv\")\nprint(df.isnull().sum() / len(df) * 100)\n",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm outlier"
+        },
+        {
+          "key": "B",
+          "text": "Tính % missing values theo mỗi cột"
+        },
+        {
+          "key": "C",
+          "text": "Tìm duplicate rows"
+        },
+        {
+          "key": "D",
+          "text": "Tính mean của mỗi cột"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tính tỷ lệ % giá trị null mỗi cột. Quan trọng trong data quality check, EDA (Exploratory Data Analysis).",
+      "tags": [
+        "pandas",
+        "data-quality",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import time\nstart = time.time()\n# model inference\nprediction = model.predict(X_test)\nelapsed = time.time() - start\nprint(f\"Latency: {elapsed*1000:.2f}ms\")\n\nĐoạn code này đo lường gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Thời gian inference (latency) của model"
+        },
+        {
+          "key": "C",
+          "text": "Memory usage"
+        },
+        {
+          "key": "D",
+          "text": "Throughput"
+        }
+      ],
+      "answer": "B",
+      "explanation": "time.time() trước và sau inference → elapsed time. Nhân 1000 để chuyển giây sang milliseconds.",
+      "tags": [
+        "python",
+        "performance",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.metrics import classification_report\nprint(classification_report(y_true, y_pred))\n\nOutput bao gồm những metric nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ accuracy"
+        },
+        {
+          "key": "B",
+          "text": "precision, recall, f1-score cho mỗi lớp và macro/weighted averages"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ confusion matrix"
+        },
+        {
+          "key": "D",
+          "text": "AUC-ROC score"
+        }
+      ],
+      "answer": "B",
+      "explanation": "classification_report in ra precision, recall, F1 và support cho từng lớp, cùng macro/weighted averages.",
+      "tags": [
+        "sklearn",
+        "evaluation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n\ndef calculate_ctr(clicks, impressions):\n    return clicks / impressions * 100\n\nctr = calculate_ctr(150, 10000)\nprint(f\"CTR: {ctr:.2f}%\")\n\nCTR là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Click Through Rate: tỷ lệ % người nhìn thấy quảng cáo/đề xuất và click vào"
+        },
+        {
+          "key": "B",
+          "text": "Conversion to Revenue"
+        },
+        {
+          "key": "C",
+          "text": "Customer Trust Rating"
+        },
+        {
+          "key": "D",
+          "text": "Content Type Ratio"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CTR = clicks/impressions × 100%. 150/10000 = 1.5%. Metric quan trọng trong recommendation và quảng cáo.",
+      "tags": [
+        "product-ai",
+        "metrics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"user_id\": [1,1,1,2,2],\n    \"item_id\": [10,20,30,10,40],\n    \"rating\": [5,3,4,2,5]\n})\nprint(df.groupby(\"user_id\")[\"rating\"].mean())\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "user_id 1: 5.0, user_id 2: 5.0"
+        },
+        {
+          "key": "B",
+          "text": "user_id 1: 4.0, user_id 2: 3.5"
+        },
+        {
+          "key": "C",
+          "text": "user_id 1: 12, user_id 2: 7"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "User 1 ratings: [5,3,4] mean=4.0. User 2 ratings: [2,5] mean=3.5.",
+      "tags": [
+        "pandas",
+        "groupby",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import os\napi_key = os.environ.get(\"OPENAI_API_KEY\")\nif not api_key:\n    raise ValueError(\"API key không tồn tại!\")\n\nTại sao dùng os.environ thay vì hardcode API key?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì hardcode nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì security: không nên lưu credential trong source code, dùng environment variables để bảo mật"
+        },
+        {
+          "key": "C",
+          "text": "Vì os.environ dễ đọc hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì API key thay đổi mỗi giây"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Security best practice: hardcode secrets trong code rất nguy hiểm. Dùng env vars, secrets manager (AWS Secrets), hay .env file.",
+      "tags": [
+        "python",
+        "security",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement gì?\n\nfrom functools import lru_cache\n\n@lru_cache(maxsize=1000)\ndef get_embedding(text: str):\n    # gọi API để lấy embedding\n    return api.embed(text)\n",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rate limiting"
+        },
+        {
+          "key": "B",
+          "text": "Cache kết quả embedding để tránh gọi API lặp lại với cùng input"
+        },
+        {
+          "key": "C",
+          "text": "Logging requests"
+        },
+        {
+          "key": "D",
+          "text": "Authentication"
+        }
+      ],
+      "answer": "B",
+      "explanation": "lru_cache cache kết quả function theo input. Tránh gọi API (tốn tiền/thời gian) nhiều lần cho cùng một text.",
+      "tags": [
+        "python",
+        "caching",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n\ncohort_retention = {\n    \"Week1\": [100, 45, 30, 25],\n    \"Week2\": [100, 50, 35, 28]\n}\n\nfor cohort, rates in cohort_retention.items():\n    print(f\"{cohort} D7 retention: {rates[-1]}%\")\n\nKết quả in ra là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Week1 D7 retention: 45%\nWeek2 D7 retention: 50%"
+        },
+        {
+          "key": "B",
+          "text": "Week1 D7 retention: 25%\nWeek2 D7 retention: 28%"
+        },
+        {
+          "key": "C",
+          "text": "Week1 D7 retention: 100%\nWeek2 D7 retention: 100%"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rates[-1] lấy phần tử cuối cùng của list. Week1: 25, Week2: 28.",
+      "tags": [
+        "python",
+        "product-analytics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.model_selection import GridSearchCV\n\nparam_grid = {\"max_depth\": [3,5,7], \"n_estimators\": [50,100,200]}\ngrid_search = GridSearchCV(RandomForestClassifier(), param_grid, cv=5)\ngrid_search.fit(X_train, y_train)\nprint(grid_search.best_params_)\n\nĐoạn code này thực hiện:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training 1 random forest với param cố định"
+        },
+        {
+          "key": "B",
+          "text": "Tìm kiếm hyperparameter tốt nhất qua grid search + 5-fold CV, thử tất cả 9 tổ hợp"
+        },
+        {
+          "key": "C",
+          "text": "Tối ưu hóa model bằng gradient descent"
+        },
+        {
+          "key": "D",
+          "text": "Feature selection"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GridSearchCV thử 3×3=9 tổ hợp params, mỗi tổ hợp dùng 5-fold CV. Tổng = 45 models được train.",
+      "tags": [
+        "sklearn",
+        "hyperparameter-tuning",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import logging\nlogging.basicConfig(level=logging.INFO)\nlogger = logging.getLogger(__name__)\n\nlogger.info(f\"Model loaded: {model_name}\")\nlogger.warning(f\"Input size unusual: {len(input)}\")\nlogger.error(f\"Prediction failed: {e}\")\n\nLogging quan trọng trong production vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Logging giúp model chính xác hơn"
+        },
+        {
+          "key": "B",
+          "text": "Cho phép monitoring, debugging và auditing hành vi của hệ thống AI trong production"
+        },
+        {
+          "key": "C",
+          "text": "Logging giảm latency"
+        },
+        {
+          "key": "D",
+          "text": "Bắt buộc theo pháp luật"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Production logging: track model behavior, detect errors, audit trail cho compliance, debug khi có incident.",
+      "tags": [
+        "python",
+        "mlops",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code A/B test sau là gì?\n\ncontrol = {\"clicks\": 100, \"views\": 1000}\ntreatment = {\"clicks\": 130, \"views\": 1000}\n\nctr_control = control[\"clicks\"] / control[\"views\"]\nctr_treatment = treatment[\"clicks\"] / treatment[\"views\"]\nlift = (ctr_treatment - ctr_control) / ctr_control * 100\nprint(f\"Lift: {lift:.1f}%\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lift: 3.0%"
+        },
+        {
+          "key": "B",
+          "text": "Lift: 30.0%"
+        },
+        {
+          "key": "C",
+          "text": "Lift: 13.0%"
+        },
+        {
+          "key": "D",
+          "text": "Lift: 0.3%"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CTR control=0.1, treatment=0.13. Lift = (0.13-0.1)/0.1 × 100 = 30%.",
+      "tags": [
+        "product-ai",
+        "ab-testing",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from collections import defaultdict\n\nuser_items = defaultdict(list)\nfor user, item in interactions:\n    user_items[user].append(item)\n\nprint(len(user_items[new_user]))  # new_user chưa có interactions\n\nKết quả là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "KeyError"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "defaultdict(list): truy cập key mới tự tạo list rỗng []. len([]) = 0.",
+      "tags": [
+        "python",
+        "collections",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\npredictions = [0.9, 0.3, 0.8, 0.1, 0.7]\nthreshold = 0.5\nbinary_preds = [1 if p >= threshold else 0 for p in predictions]\nprint(binary_preds)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.9,0.3,0.8,0.1,0.7]"
+        },
+        {
+          "key": "B",
+          "text": "[1,0,1,0,1]"
+        },
+        {
+          "key": "C",
+          "text": "[1,1,1,0,1]"
+        },
+        {
+          "key": "D",
+          "text": "[0,1,0,1,0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Các giá trị ≥ 0.5: 0.9✓, 0.3✗, 0.8✓, 0.1✗, 0.7✓ → [1,0,1,0,1].",
+      "tags": [
+        "python",
+        "classification",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import pandas as pd\nfrom datetime import datetime\n\ndf = pd.DataFrame({\n    \"date\": pd.date_range(\"2024-01-01\", periods=30),\n    \"revenue\": range(30)\n})\nweekly = df.resample(\"W\", on=\"date\")[\"revenue\"].sum()\nprint(len(weekly))\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "30"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng 5 tuần (4-5)"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "C",
+      "explanation": "30 ngày / 7 ngày = ~4.3 tuần → resample(\"W\") tạo ra khoảng 5 nhóm tuần.",
+      "tags": [
+        "pandas",
+        "time-series",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement pattern gì?\n\nclass ModelServer:\n    _instance = None\n    \n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n            cls._instance.model = load_heavy_model()\n        return cls._instance",
+      "options": [
+        {
+          "key": "A",
+          "text": "Factory pattern"
+        },
+        {
+          "key": "B",
+          "text": "Singleton pattern — đảm bảo model chỉ được load một lần dù tạo nhiều instance"
+        },
+        {
+          "key": "C",
+          "text": "Observer pattern"
+        },
+        {
+          "key": "D",
+          "text": "Strategy pattern"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Singleton: chỉ một instance tồn tại. Quan trọng cho ML serving: load model một lần, tránh OOM từ nhiều copies.",
+      "tags": [
+        "python",
+        "design-patterns",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import time\nfrom functools import wraps\n\ndef retry(max_attempts=3, delay=1):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    if attempt == max_attempts - 1:\n                        raise\n                    time.sleep(delay)\n        return wrapper\n    return decorator\n\nDecorator này dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc function"
+        },
+        {
+          "key": "B",
+          "text": "Tự động retry function khi gặp exception, tối đa 3 lần với delay giữa các lần"
+        },
+        {
+          "key": "C",
+          "text": "Logging kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Cache kết quả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Retry decorator: quan trọng khi gọi API có thể timeout/fail. Tự động thử lại thay vì crash ngay lập tức.",
+      "tags": [
+        "python",
+        "decorators",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\nactual = [1,0,1,1,0,1,0,0]\npredicted = [1,0,1,0,0,1,1,0]\n\ntp = sum(a==1 and p==1 for a,p in zip(actual,predicted))\nfp = sum(a==0 and p==1 for a,p in zip(actual,predicted))\nfn = sum(a==1 and p==0 for a,p in zip(actual,predicted))\n\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nf1 = 2 * precision * recall / (precision + recall)\nprint(f1)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.75"
+        },
+        {
+          "key": "C",
+          "text": "0.8"
+        },
+        {
+          "key": "D",
+          "text": "0.67"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TP=3(pos 1,3,6), FP=1(pos 7), FN=1(pos 4). Precision=3/4=0.75, Recall=3/4=0.75. F1=0.75.",
+      "tags": [
+        "python",
+        "evaluation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n\ndef normalize(x):\n    return (x - x.min()) / (x.max() - x.min())\n\ndata = np.array([10, 20, 30, 40, 50])\nprint(normalize(data))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0.25, 0.5, 0.75, 1.0]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 0.2, 0.4, 0.6, 0.8]"
+        },
+        {
+          "key": "C",
+          "text": "[-1, -0.5, 0, 0.5, 1]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Min-Max normalization: (x-min)/(max-min). Min=10,Max=50. (10-10)/40=0, (30-10)/40=0.5, (50-10)/40=1.",
+      "tags": [
+        "numpy",
+        "preprocessing",
+        "module-B"
+      ]
+    },
+    {
+      "id": "25-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ứng dụng AI trong y tế đòi hỏi những gì đặc biệt so với ứng dụng thông thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần accuracy cao"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác cao + explainability + tích hợp quy trình lâm sàng + tuân thủ quy định (HIPAA, v.v.) + human oversight"
+        },
+        {
+          "key": "C",
+          "text": "Xử lý nhanh là đủ"
+        },
+        {
+          "key": "D",
+          "text": "Không có yêu cầu đặc biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Healthcare AI: high stakes → cần explainability (bác sĩ cần hiểu lý do), compliance (HIPAA, GDPR), human-in-the-loop.",
+      "tags": [
+        "product-ai",
+        "healthcare",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Search ranking system (hệ thống xếp hạng tìm kiếm) cần tối ưu hóa:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ tốc độ tìm kiếm"
+        },
+        {
+          "key": "B",
+          "text": "Cân bằng giữa relevance (liên quan), freshness (mới), diversity (đa dạng) và user experience"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ số lượng kết quả trả về"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước index"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Search ranking là multi-objective: relevant kết quả + fresh content + diverse results + tránh filter bubble.",
+      "tags": [
+        "product-ai",
+        "search",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Fraud detection (phát hiện gian lận) là bài toán khó vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu gian lận quá nhiều"
+        },
+        {
+          "key": "B",
+          "text": "Imbalanced data (gian lận rất hiếm), adversarial patterns (gian lận thay đổi theo thời gian), và chi phí false negative cao"
+        },
+        {
+          "key": "C",
+          "text": "Không có pattern nào"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần rule-based là đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fraud: <1% transactions là fraud (imbalanced). Fraudsters adapt → concept drift. FN cost cao (bỏ sót gian lận).",
+      "tags": [
+        "product-ai",
+        "fraud-detection",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống chatbot AI, \"intent recognition\" là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhận dạng giọng nói"
+        },
+        {
+          "key": "B",
+          "text": "Xác định mục đích/ý định của user qua tin nhắn để route đến response phù hợp"
+        },
+        {
+          "key": "C",
+          "text": "Tạo câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Dịch thuật ngôn ngữ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Intent recognition là NLU task: \"Tôi muốn đặt vé\" → intent=\"book_ticket\". Chatbot phân tích intent để xử lý đúng.",
+      "tags": [
+        "product-ai",
+        "chatbot",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data flywheel (vòng lặp dữ liệu) trong AI product là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thiết bị lưu trữ dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Vòng lặp tăng trưởng: thêm users → thêm data → model tốt hơn → product tốt hơn → thu hút thêm users"
+        },
+        {
+          "key": "C",
+          "text": "Bug trong pipeline dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Cách backup dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data flywheel là competitive moat: công ty có nhiều users hơn → nhiều data hơn → AI tốt hơn → giữ chân users tốt hơn.",
+      "tags": [
+        "product-ai",
+        "data-strategy",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Content moderation AI cần balance giữa:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ và accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Over-removal (chặn quá nhiều, ảnh hưởng free speech) và Under-removal (cho qua nội dung hại), thường cần human review"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ maximize precision"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ maximize recall"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Content moderation tradeoff: FP (remove benign content, harm free expression) vs FN (miss harmful content).",
+      "tags": [
+        "product-ai",
+        "content-moderation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi A/B test cho thấy model mới tốt hơn 2% nhưng p-value = 0.06, quyết định nào đúng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rollout ngay vì 2% là đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "Không rollout vì chưa đạt ngưỡng significance thông thường (0.05) — cần thêm data hoặc xem xét business context"
+        },
+        {
+          "key": "C",
+          "text": "Rollout vì p-value gần 0.05"
+        },
+        {
+          "key": "D",
+          "text": "Hủy bỏ model mới hoàn toàn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "p=0.06 > 0.05: insufficient evidence to reject H0. Có thể tăng sample size hoặc dùng prior knowledge.",
+      "tags": [
+        "product-ai",
+        "ab-testing",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Personalization (cá nhân hóa) trong AI product tăng giá trị vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốn ít compute hơn"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi user nhận được trải nghiệm phù hợp với nhu cầu cụ thể của họ → tăng engagement, satisfaction, conversion"
+        },
+        {
+          "key": "C",
+          "text": "Dễ implement hơn"
+        },
+        {
+          "key": "D",
+          "text": "Không cần training data"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Personalization: Netflix cho mỗi user thấy content thumbnail khác nhau. Amazon recommend đúng sản phẩm. Tăng CTR, conversion.",
+      "tags": [
+        "product-ai",
+        "personalization",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model explainability quan trọng nhất với đối tượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ quan trọng với data scientist"
+        },
+        {
+          "key": "B",
+          "text": "Quan trọng với tất cả: user (trust), bác sĩ/luật sư (hiểu quyết định), regulator (audit), và kỹ sư (debug)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ quan trọng với C-level executive"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ trong nghiên cứu học thuật"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Explainability phục vụ nhiều stakeholders: users trust, domain experts validate, regulators audit, developers debug.",
+      "tags": [
+        "responsible-ai",
+        "explainability",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Edge deployment (triển khai AI tại thiết bị biên như smartphone, IoT) có ưu điểm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model lớn hơn, chính xác hơn"
+        },
+        {
+          "key": "B",
+          "text": "Giảm latency, không cần internet, bảo mật data vì không gửi lên cloud"
+        },
+        {
+          "key": "C",
+          "text": "Dễ update model hơn"
+        },
+        {
+          "key": "D",
+          "text": "Cần ít compute hơn để train"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Edge AI: inference xảy ra tại device → real-time (không network latency), offline capable, privacy (data không rời device).",
+      "tags": [
+        "mlops",
+        "edge-ai",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống recommendation, \"filter bubble\" (bong bóng lọc) là vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lọc spam quá mạnh"
+        },
+        {
+          "key": "B",
+          "text": "User chỉ thấy nội dung phù hợp với quan điểm hiện tại, bị cô lập khỏi quan điểm đa dạng"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống bộ lọc chậm"
+        },
+        {
+          "key": "D",
+          "text": "Cache không hoạt động đúng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Filter bubble: recommender system tối ưu engagement → feed user những gì họ đã thích → reinforcement loops, giảm diversity.",
+      "tags": [
+        "product-ai",
+        "recommender-systems",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Online learning (học trực tuyến) trong ML khác batch learning ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Online learning cần nhiều compute hơn"
+        },
+        {
+          "key": "B",
+          "text": "Online learning cập nhật model incrementally với mỗi data point mới, không cần retrain từ đầu"
+        },
+        {
+          "key": "C",
+          "text": "Online learning kém chính xác hơn"
+        },
+        {
+          "key": "D",
+          "text": "Online learning chỉ dùng cho NLP"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Online learning: model liên tục cập nhật với stream data mới. Phù hợp cho dynamic environments như click-through prediction.",
+      "tags": [
+        "ml-fundamentals",
+        "online-learning",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi deploy AI model, việc version control model (quản lý phiên bản) quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không quan trọng"
+        },
+        {
+          "key": "B",
+          "text": "Cần track model versions để rollback khi có lỗi, so sánh performance, và reproducibility"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ quan trọng với mô hình lớn"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần lưu code, không cần lưu model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model registry (MLflow, Weights & Biases): track experiments, artifact versioning, enable rollback to previous good model.",
+      "tags": [
+        "mlops",
+        "model-registry",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì xảy ra khi một AI recommendation system quá mạnh về engagement nhưng không quan tâm user wellbeing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có hệ quả xấu"
+        },
+        {
+          "key": "B",
+          "text": "Có thể dẫn đến nghiện nội dung, lan truyền misinformation, và hại sức khỏe tâm thần"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ tốt cho business"
+        },
+        {
+          "key": "D",
+          "text": "User sẽ tự điều chỉnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Short-term engagement metrics (clicks, watch time) có thể misaligned với long-term user wellbeing. Cần balanced metrics.",
+      "tags": [
+        "responsible-ai",
+        "product-ai",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Multi-armed bandit thay thế A/B testing trong trường hợp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không bao giờ thay thế"
+        },
+        {
+          "key": "B",
+          "text": "Khi muốn vừa explore (thử phương án mới) vừa exploit (tận dụng phương án tốt) ngay lập tức, không đợi test kết thúc"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cho bài toán reinforcement learning"
+        },
+        {
+          "key": "D",
+          "text": "Khi sample size rất nhỏ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bandit algorithms (UCB, Thompson Sampling): tự động allocate nhiều traffic hơn cho variant tốt hơn trong khi vẫn explore.",
+      "tags": [
+        "product-ai",
+        "bandit",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống AI phục vụ nhiều ngôn ngữ, vấn đề lớn nhất thường là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ dịch thuật"
+        },
+        {
+          "key": "B",
+          "text": "Mất cân bằng chất lượng giữa ngôn ngữ nhiều data (tiếng Anh) và ngôn ngữ ít data (low-resource languages)"
+        },
+        {
+          "key": "C",
+          "text": "Giao diện người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí server"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI quality thường cao với high-resource languages (Anh, Tàu, TBN) và thấp với low-resource (tiếng Việt, Swahili). Data inequality.",
+      "tags": [
+        "product-ai",
+        "multilingual",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi mô hình AI nhận lỗi report từ user, quy trình xử lý đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ qua vì một ít lỗi là bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Thu thập lỗi → phân tích nguyên nhân → tạo test case → fix/retrain → validate fix → deploy update → monitor"
+        },
+        {
+          "key": "C",
+          "text": "Tắt ngay lập tức"
+        },
+        {
+          "key": "D",
+          "text": "Đổ lỗi cho dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Feedback loop: user feedback → incident analysis → root cause → regression test → fix → A/B test fix → gradual rollout.",
+      "tags": [
+        "mlops",
+        "feedback-loop",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật \"model distillation\" (chưng cất mô hình) dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải thích mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện mô hình nhỏ (student) để bắt chước hành vi của mô hình lớn (teacher), giảm kích thước cho production"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Knowledge distillation: student model học từ soft labels của teacher. Mô hình nhỏ hơn nhưng giữ được nhiều performance của mô hình lớn.",
+      "tags": [
+        "model-compression",
+        "distillation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "25-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi AI recommendation system gợi ý nội dung cực đoan ngày càng nhiều hơn để tăng engagement, đây là ví dụ về:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI hoạt động đúng mục đích"
+        },
+        {
+          "key": "B",
+          "text": "Alignment problem: AI tối ưu metric proxy (engagement) thay vì mục tiêu thực sự (user wellbeing)"
+        },
+        {
+          "key": "C",
+          "text": "Bug kỹ thuật đơn thuần"
+        },
+        {
+          "key": "D",
+          "text": "Vấn đề UX"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Goodhart's Law + reward misspecification: maximizing watch time → optimize for outrage/extremism (more engaging).",
+      "tags": [
+        "responsible-ai",
+        "alignment",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề logic: \"Nếu AI deploy an toàn, thì đã có thorough testing. Model này chưa được test kỹ.\"\nKết luận đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model này có thể deploy an toàn"
+        },
+        {
+          "key": "B",
+          "text": "Model này không nên deploy vì chưa test kỹ"
+        },
+        {
+          "key": "C",
+          "text": "Cần thêm thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Testing không quan trọng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Modus tollens: P→Q (safe deploy → tested), ¬Q (not tested) → ¬P (not safe to deploy).",
+      "tags": [
+        "logic",
+        "responsible-ai",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI trong tuyển dụng (hiring AI) gây lo ngại đặc biệt về:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ tuyển dụng chậm hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tự động hóa bias từ lịch sử tuyển dụng, thiếu transparency, và ảnh hưởng đến cơ hội việc làm của nhiều người"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí triển khai cao"
+        },
+        {
+          "key": "D",
+          "text": "Thiếu data về ứng viên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hiring AI có thể học bias lịch sử (ưu tiên nam, trường đại học top) → systematic discrimination ở quy mô lớn.",
+      "tags": [
+        "responsible-ai",
+        "hiring-ai",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong thiết kế sản phẩm AI, \"consent\" (sự đồng thuận) của người dùng có nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "User nhấn OK vào popup điều khoản dài"
+        },
+        {
+          "key": "B",
+          "text": "User thực sự hiểu rõ dữ liệu nào được thu thập, mục đích sử dụng, và có thể rút lại đồng thuận bất cứ lúc nào"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ áp dụng cho dữ liệu y tế"
+        },
+        {
+          "key": "D",
+          "text": "Không cần thiết nếu sản phẩm miễn phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Informed consent: user hiểu (không chỉ \"agree\"), có thể withdraw consent. GDPR yêu cầu consent rõ ràng, cụ thể.",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều nào ĐÚNG về trách nhiệm xã hội của AI companies?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ có trách nhiệm với shareholders"
+        },
+        {
+          "key": "B",
+          "text": "Có trách nhiệm với nhiều stakeholders: users, society, environment (carbon footprint), và future generations"
+        },
+        {
+          "key": "C",
+          "text": "Trách nhiệm kết thúc sau khi product launch"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có trách nhiệm khi có vụ kiện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI companies có broad social responsibility: user safety, fairness, environmental impact (training energy), society-level effects.",
+      "tags": [
+        "responsible-ai",
+        "corporate-responsibility",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một AI content creator tạo ra bài viết nghe có vẻ thuyết phục nhưng hoàn toàn sai sự thật. Vấn đề lớn nhất là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI tạo content quá chậm"
+        },
+        {
+          "key": "B",
+          "text": "Misinformation AI có thể lan rộng với quy mô và tốc độ chưa từng có, gây hại cho xã hội và dân chủ"
+        },
+        {
+          "key": "C",
+          "text": "Nội dung không đủ sáng tạo"
+        },
+        {
+          "key": "D",
+          "text": "Vấn đề bản quyền"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI-generated misinformation: tốc độ sản xuất (scale), plausibility (khó phân biệt), targeting (personalized disinformation).",
+      "tags": [
+        "responsible-ai",
+        "misinformation",
+        "module-D"
+      ]
+    },
+    {
+      "id": "25-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc \"Do No Harm\" (không gây hại) trong AI ethics áp dụng như thế nào khi lợi ích của đa số mâu thuẫn với quyền lợi của thiểu số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn ưu tiên đa số"
+        },
+        {
+          "key": "B",
+          "text": "Cần cân nhắc kỹ, đặc biệt bảo vệ nhóm dễ bị tổn thương, và tránh systematic discrimination"
+        },
+        {
+          "key": "C",
+          "text": "Luôn ưu tiên thiểu số"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua vì không thể giải quyết"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI ethics không chỉ dùng utilitarian calculus. Phải đảm bảo không ai bị harm do đặc điểm nhân khẩu học.",
+      "tags": [
+        "responsible-ai",
+        "ethics",
+        "module-D"
+      ]
+    }
+  ]
+}

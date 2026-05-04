@@ -1,0 +1,1940 @@
+{
+  "id": "exam-23",
+  "title": "NLP & LLM cơ bản (Tiếng Việt)",
+  "description": "Xử lý ngôn ngữ tự nhiên và Large Language Models từ cơ bản đến ứng dụng. Câu hỏi bằng tiếng Việt.",
+  "module": "Mixed",
+  "difficulty": "basic",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "23-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "TF-IDF là gì trong xử lý văn bản?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Công thức tính độ chính xác của mô hình NLP"
+        },
+        {
+          "key": "B",
+          "text": "Trọng số của từ = tần suất trong văn bản × nghịch đảo tần suất trong toàn bộ corpus"
+        },
+        {
+          "key": "C",
+          "text": "Phương pháp tokenization"
+        },
+        {
+          "key": "D",
+          "text": "Thuật toán phân cụm văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TF-IDF = TF (term frequency) × IDF (inverse document frequency). Từ xuất hiện nhiều trong 1 doc nhưng ít trong corpus có TF-IDF cao.",
+      "tags": [
+        "nlp",
+        "tf-idf",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Perplexity trong NLP đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ xử lý văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ \"bất ngờ\" của mô hình ngôn ngữ với chuỗi văn bản — perplexity thấp hơn là tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng từ trong từ điển"
+        },
+        {
+          "key": "D",
+          "text": "Độ phức tạp của cú pháp câu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Perplexity = 2^(cross-entropy). Mô hình ngôn ngữ tốt dự đoán chính xác từ tiếp theo → perplexity thấp.",
+      "tags": [
+        "nlp",
+        "language-model",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cosine similarity giữa hai vector được tính bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương hiệu"
+        },
+        {
+          "key": "B",
+          "text": "Tích vô hướng chia cho tích độ dài hai vector"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng cách Euclidean"
+        },
+        {
+          "key": "D",
+          "text": "Tổng giá trị tuyệt đối hiệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "cos(θ) = (A·B) / (||A|| × ||B||). Đo góc giữa hai vector, không phụ thuộc độ dài → dùng nhiều trong NLP.",
+      "tags": [
+        "math",
+        "similarity",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "BLEU score đánh giá chất lượng dịch máy bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo perplexity của bản dịch"
+        },
+        {
+          "key": "B",
+          "text": "Đo độ chồng lấp n-gram giữa bản dịch máy và các bản dịch tham chiếu của con người"
+        },
+        {
+          "key": "C",
+          "text": "Đo tốc độ dịch"
+        },
+        {
+          "key": "D",
+          "text": "Đếm số từ đúng vị trí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BLEU đo n-gram precision (n=1,2,3,4) giữa bản dịch máy và reference translations.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong attention mechanism, \"Query\", \"Key\", \"Value\" có vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Q tìm thông tin cần, K là nhãn của thông tin, V là nội dung thực của thông tin"
+        },
+        {
+          "key": "B",
+          "text": "Q và K giống nhau, V khác biệt"
+        },
+        {
+          "key": "C",
+          "text": "Q là encoder output, K và V là decoder input"
+        },
+        {
+          "key": "D",
+          "text": "Q,K,V đều là tham số cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention(Q,K,V) = softmax(QKᵀ/√d)V. Q hỏi, K trả lời mức độ liên quan, V cung cấp thông tin thực.",
+      "tags": [
+        "transformer",
+        "attention",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số tham số của một embedding layer với từ điển 10,000 từ và kích thước embedding 128 là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "10,000"
+        },
+        {
+          "key": "B",
+          "text": "128"
+        },
+        {
+          "key": "C",
+          "text": "1,280,000"
+        },
+        {
+          "key": "D",
+          "text": "10,128"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Embedding matrix có kích thước vocabulary × embedding_dim = 10,000 × 128 = 1,280,000 tham số.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Transformer, \"Positional Encoding\" dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa vị trí địa lý trong văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Thêm thông tin về vị trí của từ trong câu vì self-attention không có khái niệm thứ tự"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa vector embedding"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số tham số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Self-attention xử lý song song, không biết thứ tự. Positional encoding (sin/cos) thêm thông tin vị trí vào embedding.",
+      "tags": [
+        "transformer",
+        "positional-encoding",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "KL divergence KL(P||Q) bằng 0 khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P và Q hoàn toàn khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "P và Q là cùng một phân phối"
+        },
+        {
+          "key": "C",
+          "text": "P là phân phối đều"
+        },
+        {
+          "key": "D",
+          "text": "Q là phân phối chuẩn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "KL(P||Q) = 0 khi và chỉ khi P = Q. KL đo mức độ P khác Q, không đối xứng.",
+      "tags": [
+        "information-theory",
+        "kl-divergence",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "n-gram với n=2 (bigram) của câu \"Tôi học AI\" là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "[\"Tôi\", \"học\", \"AI\"]"
+        },
+        {
+          "key": "B",
+          "text": "[\"Tôi học\", \"học AI\"]"
+        },
+        {
+          "key": "C",
+          "text": "[\"Tôi học AI\"]"
+        },
+        {
+          "key": "D",
+          "text": "[\"Tôi\", \"học\", \"AI\", \"Tôi học\", \"học AI\"]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bigram lấy các cặp từ liên tiếp: \"Tôi học\" và \"học AI\".",
+      "tags": [
+        "nlp",
+        "n-gram",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Entropy của phân phối xác suất đều (uniform) trên 8 giá trị bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 bit"
+        },
+        {
+          "key": "B",
+          "text": "2 bits"
+        },
+        {
+          "key": "C",
+          "text": "3 bits"
+        },
+        {
+          "key": "D",
+          "text": "8 bits"
+        }
+      ],
+      "answer": "C",
+      "explanation": "H = log2(n) với phân phối đều. H = log2(8) = 3 bits. Entropy tối đa khi mọi kết quả có xác suất bằng nhau.",
+      "tags": [
+        "information-theory",
+        "entropy",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Multi-head attention trong Transformer thực hiện attention bao nhiêu lần song song?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 lần"
+        },
+        {
+          "key": "B",
+          "text": "h lần (h = số head), mỗi head học mối quan hệ khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "2 lần (forward và backward)"
+        },
+        {
+          "key": "D",
+          "text": "Tùy theo độ dài câu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-head attention chia embedding thành h heads, mỗi head học loại quan hệ khác nhau, rồi concat lại.",
+      "tags": [
+        "transformer",
+        "multi-head-attention",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kích thước context window (cửa sổ ngữ cảnh) của LLM ảnh hưởng đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ inference"
+        },
+        {
+          "key": "B",
+          "text": "Lượng văn bản tối đa mô hình có thể xử lý trong một lần"
+        },
+        {
+          "key": "C",
+          "text": "Số tham số của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Chất lượng tokenization"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context window = max tokens mô hình có thể nhận. GPT-3: 4096 tokens; GPT-4: lên đến 128k tokens.",
+      "tags": [
+        "llm",
+        "context-window",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong NLP, Named Entity Recognition (NER) nhận dạng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cú pháp câu"
+        },
+        {
+          "key": "B",
+          "text": "Các thực thể được đặt tên như người, địa điểm, tổ chức trong văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Cảm xúc trong văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Ngôn ngữ của văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NER xác định và phân loại các named entity: PERSON (Hồ Chí Minh), ORG (VinAI), LOC (Hà Nội), DATE...",
+      "tags": [
+        "nlp",
+        "ner",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình BERT (Bidirectional Encoder Representations from Transformers) được pretrain bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán từ tiếp theo trong câu (như GPT)"
+        },
+        {
+          "key": "B",
+          "text": "Masked Language Modeling (che ngẫu nhiên 15% từ, dự đoán từ bị che) và Next Sentence Prediction"
+        },
+        {
+          "key": "C",
+          "text": "Dịch thuật giữa các ngôn ngữ"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại cảm xúc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT dùng MLM (đoán từ bị mask) và NSP (dự đoán câu tiếp theo có liên quan không). Cho phép học biểu diễn 2 chiều.",
+      "tags": [
+        "nlp",
+        "bert",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Retrieval-Augmented Generation (RAG) kết hợp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai mô hình ngôn ngữ lại với nhau"
+        },
+        {
+          "key": "B",
+          "text": "Tìm kiếm tài liệu liên quan + sinh văn bản từ LLM dựa trên tài liệu đó"
+        },
+        {
+          "key": "C",
+          "text": "Training và inference cùng lúc"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình nhỏ và mô hình lớn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RAG: (1) Retrieve tài liệu liên quan từ knowledge base, (2) Generate câu trả lời dựa trên tài liệu + question. Giảm hallucination.",
+      "tags": [
+        "llm",
+        "rag",
+        "module-A"
+      ]
+    },
+    {
+      "id": "23-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì?\n\ntext = \"Tôi yêu học máy và trí tuệ nhân tạo\"\nwords = text.split()\nprint(len(words))",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "text.split() tách theo space: [\"Tôi\",\"yêu\",\"học\",\"máy\",\"và\",\"trí\",\"tuệ\",\"nhân\",\"tạo\"] = 9 từ. Nhưng đếm lại: \"Tôi yêu học máy và trí tuệ nhân tạo\" = 9 từ.",
+      "tags": [
+        "python",
+        "string",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\nfrom collections import Counter\nwords = [\"ai\", \"ml\", \"ai\", \"deep\", \"ml\", \"ai\"]\ncount = Counter(words)\nprint(count.most_common(1))",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ xuất hiện ít nhất"
+        },
+        {
+          "key": "B",
+          "text": "Từ xuất hiện nhiều nhất và số lần: [(\"ai\", 3)]"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả các từ"
+        },
+        {
+          "key": "D",
+          "text": "Tổng số từ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Counter.most_common(1) trả về 1 phần tử phổ biến nhất: \"ai\" xuất hiện 3 lần → [(\"ai\", 3)].",
+      "tags": [
+        "python",
+        "collections",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì?\n\nsentence = \"Hello World\"\nprint(sentence.lower().split())",
+      "options": [
+        {
+          "key": "A",
+          "text": "[\"Hello\", \"World\"]"
+        },
+        {
+          "key": "B",
+          "text": "[\"hello\", \"world\"]"
+        },
+        {
+          "key": "C",
+          "text": "[\"HELLO\", \"WORLD\"]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".lower() chuyển về chữ thường, .split() tách thành list: [\"hello\", \"world\"].",
+      "tags": [
+        "python",
+        "string",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nv1 = np.array([1, 0])\nv2 = np.array([0, 1])\ncos_sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))\nprint(cos_sim)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "-1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "v1=[1,0] và v2=[0,1] vuông góc nhau. Dot product = 0. Cosine similarity = 0/1 = 0.0.",
+      "tags": [
+        "numpy",
+        "cosine-similarity",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì với văn bản?\n\nimport re\ntext = \"Giá là 100.000 VND hoặc $50\"\nprices = re.findall(r\"\\d+\", text)\nprint(prices)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa tất cả số"
+        },
+        {
+          "key": "B",
+          "text": "Tìm và trả về tất cả chuỗi số trong text: [\"100\", \"000\", \"50\"]"
+        },
+        {
+          "key": "C",
+          "text": "Thay số bằng ***"
+        },
+        {
+          "key": "D",
+          "text": "Đếm số lượng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "re.findall(r\"\\d+\", text) tìm tất cả chuỗi gồm 1+ chữ số trong text.",
+      "tags": [
+        "python",
+        "regex",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nvocab = {\"xin\": 0, \"chào\": 1, \"AI\": 2}\nsentence = [\"xin\", \"AI\", \"xin\"]\none_hot = [[1 if vocab[w]==i else 0 for i in range(3)] for w in sentence]\nprint(len(one_hot))",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu có 3 từ, mỗi từ → 1 one-hot vector. Kết quả là list gồm 3 vector. len = 3.",
+      "tags": [
+        "python",
+        "one-hot-encoding",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.feature_extraction.text import CountVectorizer\nvec = CountVectorizer()\nX = vec.fit_transform([\"tôi học AI\", \"AI rất hay\"])\nprint(X.shape)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 5) hoặc gần đó (2 tài liệu, số từ unique)"
+        },
+        {
+          "key": "B",
+          "text": "(5, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(1, 5)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CountVectorizer tạo ma trận (n_docs × n_unique_words). 2 docs, các từ unique: tôi, học, AI, rất, hay = 5 → shape (2,5).",
+      "tags": [
+        "sklearn",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì?\n\nwords = [\"deep\", \"learning\", \"là\", \"tuyệt\"]\nstopwords = {\"là\", \"và\", \"của\"}\nfiltered = [w for w in words if w not in stopwords]\nprint(filtered)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[\"deep\", \"learning\", \"là\", \"tuyệt\"]"
+        },
+        {
+          "key": "B",
+          "text": "[\"deep\", \"learning\", \"tuyệt\"]"
+        },
+        {
+          "key": "C",
+          "text": "[\"là\"]"
+        },
+        {
+          "key": "D",
+          "text": "[\"deep\", \"learning\"]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lọc bỏ stopwords: \"là\" nằm trong stopwords bị loại. Còn lại: [\"deep\", \"learning\", \"tuyệt\"].",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\ndef softmax(x):\n    e_x = np.exp(x - np.max(x))\n    return e_x / e_x.sum()\n\nTại sao code trừ np.max(x) trước khi tính exp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tăng tốc độ tính toán"
+        },
+        {
+          "key": "B",
+          "text": "Để tránh overflow số học khi x có giá trị lớn (numerical stability)"
+        },
+        {
+          "key": "C",
+          "text": "Để chuẩn hóa về [0,1]"
+        },
+        {
+          "key": "D",
+          "text": "Không có lý do, chỉ là convention"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trừ max(x) trước: các giá trị e^(x-max) nằm trong (0,1], tránh overflow. Kết quả softmax không đổi.",
+      "tags": [
+        "python",
+        "numerical-stability",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\nsentences = [\"AI là tương lai\", \"Học AI rất thú vị\", \"Python dễ học\"]\nlengths = [len(s.split()) for s in sentences]\nprint(sum(lengths) / len(lengths))",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài trung bình câu tính bằng ký tự"
+        },
+        {
+          "key": "B",
+          "text": "Số từ trung bình trên mỗi câu"
+        },
+        {
+          "key": "C",
+          "text": "Số câu trong dataset"
+        },
+        {
+          "key": "D",
+          "text": "Tổng số từ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tính số từ mỗi câu: [4, 5, 3]. Trung bình = (4+5+3)/3 = 4.0 từ/câu.",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.naive_bayes import MultinomialNB\nmodel = MultinomialNB()\nmodel.fit(X_train, y_train)\n\nThuật toán này thường dùng để làm gì trong NLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại văn bản (ví dụ: phân loại spam/ham, phân tích cảm xúc)"
+        },
+        {
+          "key": "C",
+          "text": "Sinh văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Tóm tắt văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multinomial Naive Bayes là thuật toán phân loại văn bản đơn giản và hiệu quả, thường dùng cho spam detection, sentiment analysis.",
+      "tags": [
+        "sklearn",
+        "nlp",
+        "classification",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ntext = \"AI AI AI deep learning\"\nwords = text.split()\nfrom collections import Counter\nc = Counter(words)\nprint(c[\"AI\"])",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Counter đếm tần suất. \"AI\" xuất hiện 3 lần.",
+      "tags": [
+        "python",
+        "collections",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\nembedding = np.random.randn(5, 3)  # 5 từ, 3 chiều\nword_id = 2\nprint(embedding[word_id].shape)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(5, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(3,)"
+        },
+        {
+          "key": "C",
+          "text": "(5,)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 3)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "embedding[2] lấy hàng thứ 3 (index 2) = vector 3 chiều → shape (3,).",
+      "tags": [
+        "numpy",
+        "embeddings",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì?\n\nsentence = \"Tôi thích học Deep Learning\"\nbigrams = [(sentence.split()[i], sentence.split()[i+1]) for i in range(len(sentence.split())-1)]\nprint(bigrams[0])",
+      "options": [
+        {
+          "key": "A",
+          "text": "(\"Tôi\", \"thích\")"
+        },
+        {
+          "key": "B",
+          "text": "(\"thích\", \"học\")"
+        },
+        {
+          "key": "C",
+          "text": "(\"Tôi\",)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bigram đầu tiên là cặp từ thứ 1 và thứ 2: (\"Tôi\", \"thích\").",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "from sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\nv1 = np.array([[1, 0, 0]])\nv2 = np.array([[1, 0, 0]])\nprint(cosine_similarity(v1, v2)[0][0])\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hai vector giống hệt nhau → cosine similarity = 1.0 (góc = 0°).",
+      "tags": [
+        "sklearn",
+        "cosine-similarity",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tạo ra gì?\n\nsentences = [\"Tôi học AI\", \"AI rất hay\", \"Học AI thú vị\"]\nvocab = set()\nfor s in sentences:\n    for w in s.split():\n        vocab.add(w)\nprint(len(vocab))",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Các từ unique (case-sensitive): Tôi, học, AI, rất, hay, Học, thú, vị = 8 từ.",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ntext = \"  xin chào thế giới  \"\nprint(text.strip())",
+      "options": [
+        {
+          "key": "A",
+          "text": "xin chào thế giới"
+        },
+        {
+          "key": "B",
+          "text": "  xin chào thế giới  "
+        },
+        {
+          "key": "C",
+          "text": "xinchàothếgiới"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": ".strip() loại bỏ khoảng trắng ở đầu và cuối chuỗi.",
+      "tags": [
+        "python",
+        "string",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "import numpy as np\n# Attention đơn giản\nQ = np.array([[1, 0]])\nK = np.array([[1, 0], [0, 1]])\nscores = Q @ K.T\nprint(scores)\n\nKết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1, 0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 1]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1, 1]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Q @ K.T = [[1,0]] @ [[1,0],[0,1]]^T = [[1,0]] @ [[1,0],[0,1]] = [[1*1+0*0, 1*0+0*1]] = [[1, 0]].",
+      "tags": [
+        "numpy",
+        "attention",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính toán gì?\n\nreference = \"con mèo ngồi trên tấm thảm\"\nhypothesis = \"con mèo ở trên thảm\"\nref_words = set(reference.split())\nhyp_words = set(hypothesis.split())\nprint(len(ref_words & hyp_words) / len(ref_words))",
+      "options": [
+        {
+          "key": "A",
+          "text": "Precision của dịch máy"
+        },
+        {
+          "key": "B",
+          "text": "ROUGE-1 Recall: từ trong reference cũng có trong hypothesis"
+        },
+        {
+          "key": "C",
+          "text": "BLEU score"
+        },
+        {
+          "key": "D",
+          "text": "F1 score"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ref_words & hyp_words = từ chung. Chia len(ref_words) = ROUGE-1 Recall: bao nhiêu % từ reference có trong hypothesis.",
+      "tags": [
+        "python",
+        "nlp",
+        "evaluation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nprompt = \"Thủ đô của Việt Nam là\"\nresponse = prompt + \" Hà Nội\"\nprint(len(response.split()))",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "C",
+      "explanation": "\"Thủ đô của Việt Nam là\" = 6 từ + \"Hà Nội\" = 2 từ = 8 từ tổng.",
+      "tags": [
+        "python",
+        "string",
+        "module-B"
+      ]
+    },
+    {
+      "id": "23-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM (Large Language Model) như GPT được pretrain bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học từ dữ liệu có nhãn do con người tạo"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán từ tiếp theo trong chuỗi văn bản (causal language modeling) trên lượng text khổng lồ"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại văn bản theo chủ đề"
+        },
+        {
+          "key": "D",
+          "text": "Dịch thuật đa ngôn ngữ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GPT và các LLM autoregressive được pretrain bằng next token prediction trên web-scale data.",
+      "tags": [
+        "llm",
+        "pretraining",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác biệt chính giữa BERT và GPT là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "BERT lớn hơn GPT"
+        },
+        {
+          "key": "B",
+          "text": "BERT là encoder bidirectional (nhìn cả 2 chiều), GPT là decoder autoregressive (chỉ nhìn về trái)"
+        },
+        {
+          "key": "C",
+          "text": "BERT tốt hơn cho sinh văn bản"
+        },
+        {
+          "key": "D",
+          "text": "GPT tốt hơn cho phân loại văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT dùng masked LM → encoder tốt cho NLU. GPT dùng causal LM → decoder tốt cho generation.",
+      "tags": [
+        "nlp",
+        "bert",
+        "gpt",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hallucination trong LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi LLM xử lý ảnh thay vì văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Khi LLM sinh ra thông tin sai lệch hoặc bịa đặt nhưng trình bày như sự thật tự tin"
+        },
+        {
+          "key": "C",
+          "text": "Khi LLM trả lời quá chậm"
+        },
+        {
+          "key": "D",
+          "text": "Khi LLM từ chối trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hallucination là vấn đề lớn của LLM: mô hình có thể tự tin sinh ra sự kiện không có thực, trích dẫn giả, v.v.",
+      "tags": [
+        "llm",
+        "hallucination",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sentiment Analysis (phân tích cảm xúc) là bài toán NLP thuộc loại:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Unsupervised learning"
+        },
+        {
+          "key": "B",
+          "text": "Supervised text classification"
+        },
+        {
+          "key": "C",
+          "text": "Generative AI"
+        },
+        {
+          "key": "D",
+          "text": "Sequence-to-sequence"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sentiment analysis phân loại văn bản theo cảm xúc (positive/negative/neutral) — đây là bài toán phân loại có giám sát.",
+      "tags": [
+        "nlp",
+        "sentiment",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong RAG (Retrieval-Augmented Generation), vector database được dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ weights của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Tìm kiếm nhanh các đoạn văn bản liên quan bằng similarity search trên embedding vectors"
+        },
+        {
+          "key": "C",
+          "text": "Tính toán attention scores"
+        },
+        {
+          "key": "D",
+          "text": "Cache kết quả inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vector DB (Pinecone, Weaviate, FAISS) lưu embeddings, cho phép ANN search để tìm tài liệu liên quan với query embedding.",
+      "tags": [
+        "rag",
+        "vector-database",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Zero-shot prompting là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Training mô hình từ không có dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Yêu cầu mô hình thực hiện tác vụ chỉ với mô tả, không cần ví dụ mẫu trong prompt"
+        },
+        {
+          "key": "C",
+          "text": "Sử dụng mô hình với 0 tham số"
+        },
+        {
+          "key": "D",
+          "text": "Testing mô hình không qua validation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Zero-shot: chỉ mô tả tác vụ, không cần ví dụ. Ví dụ: \"Phân loại câu sau: tích cực hay tiêu cực? Câu: ...\"",
+      "tags": [
+        "llm",
+        "prompting",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature trong LLM generation ảnh hưởng đến:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ ngẫu nhiên của output — temperature cao = đa dạng sáng tạo, temperature thấp = xác định, tập trung"
+        },
+        {
+          "key": "C",
+          "text": "Độ dài câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Ngôn ngữ của output"
+        }
+      ],
+      "answer": "B",
+      "explanation": "temperature làm phẳng/nhọn phân phối xác suất token. t=0 → greedy (từ xác suất cao nhất), t=1 → sampling chuẩn, t>1 → random hơn.",
+      "tags": [
+        "llm",
+        "temperature",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tokenization bằng BPE (Byte Pair Encoding) giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ tokenization"
+        },
+        {
+          "key": "B",
+          "text": "Xử lý từ ngoài từ điển (OOV) bằng cách chia thành các subword units"
+        },
+        {
+          "key": "C",
+          "text": "Giảm kích thước mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Dịch văn bản hiệu quả hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BPE xây dựng từ điển subword từ corpus. Từ lạ được chia thành subwords quen thuộc → không bao giờ gặp OOV.",
+      "tags": [
+        "nlp",
+        "tokenization",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Fine-tuning LLM với RLHF (Reinforcement Learning from Human Feedback) nhằm mục đích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ inference"
+        },
+        {
+          "key": "B",
+          "text": "Căn chỉnh hành vi mô hình với giá trị và kỳ vọng của con người, giảm output có hại"
+        },
+        {
+          "key": "C",
+          "text": "Giảm kích thước mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RLHF (dùng trong ChatGPT): human raters rank outputs → train reward model → RLHF fine-tune LLM để maximize human preference.",
+      "tags": [
+        "llm",
+        "rlhf",
+        "alignment",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Named Entity Recognition (NER) được ứng dụng thực tế trong:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chơi game"
+        },
+        {
+          "key": "B",
+          "text": "Trích xuất thông tin từ văn bản: tên người, công ty, ngày tháng từ hợp đồng, báo cáo tài chính"
+        },
+        {
+          "key": "C",
+          "text": "Tạo ảnh từ văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Nhận dạng giọng nói"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NER dùng trong IE: trích tên người từ báo chí, tên công ty từ hợp đồng, địa điểm từ tin tức, ngày tháng từ tài liệu pháp lý.",
+      "tags": [
+        "nlp",
+        "ner",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Embedding vector của từ \"vua\" - \"đàn ông\" + \"phụ nữ\" ≈ \"hoàng hậu\" trong Word2Vec thể hiện điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Không gian embedding học được các mối quan hệ ngữ nghĩa giữa các từ"
+        },
+        {
+          "key": "C",
+          "text": "Word2Vec dùng phép trừ vector để tokenize"
+        },
+        {
+          "key": "D",
+          "text": "Các vector từ luôn có độ dài giống nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Word2Vec nổi tiếng với phép tính vector arithmetic: king - man + woman = queen. Embedding nắm bắt mối quan hệ ngữ nghĩa.",
+      "tags": [
+        "nlp",
+        "word2vec",
+        "embeddings",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Transformer, Feed-Forward Network (FFN) sau attention làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính attention scores"
+        },
+        {
+          "key": "B",
+          "text": "Áp dụng phép biến đổi phi tuyến theo vị trí sau khi attention đã tổng hợp thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Tính positional encoding"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa embedding"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FFN trong Transformer: 2 linear layers với activation (ReLU/GELU) ở giữa. Xử lý từng vị trí độc lập sau attention.",
+      "tags": [
+        "transformer",
+        "architecture",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Text Summarization (tóm tắt văn bản) có hai loại chính là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Supervised và Unsupervised"
+        },
+        {
+          "key": "B",
+          "text": "Extractive (chọn câu từ văn bản gốc) và Abstractive (sinh câu mới)"
+        },
+        {
+          "key": "C",
+          "text": "Token-level và Sentence-level"
+        },
+        {
+          "key": "D",
+          "text": "Short và Long"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Extractive: chọn câu quan trọng nhất. Abstractive: hiểu và diễn đạt lại bằng từ ngữ mới (như con người tóm tắt).",
+      "tags": [
+        "nlp",
+        "summarization",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Semantic Search (tìm kiếm ngữ nghĩa) khác Keyword Search ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semantic Search nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Semantic Search hiểu ý nghĩa và tìm nội dung liên quan dù dùng từ khác nhau, Keyword Search chỉ khớp từ chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Semantic Search chỉ tìm trong tiếng Anh"
+        },
+        {
+          "key": "D",
+          "text": "Keyword Search chính xác hơn cho tất cả trường hợp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic search dùng embeddings để tìm nội dung tương đồng về ý nghĩa. Hỏi \"đau đầu\" có thể tìm được \"nhức đầu\".",
+      "tags": [
+        "nlp",
+        "search",
+        "embeddings",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chain-of-Thought (CoT) prompting cải thiện LLM bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết nối nhiều LLM lại với nhau"
+        },
+        {
+          "key": "B",
+          "text": "Hướng dẫn mô hình suy nghĩ từng bước trước khi đưa ra câu trả lời cuối cùng"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số lần gọi API"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số token output"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CoT: \"Hãy suy nghĩ từng bước...\" giúp LLM giải quyết bài toán phức tạp (toán học, logic) tốt hơn nhiều.",
+      "tags": [
+        "llm",
+        "prompting",
+        "chain-of-thought",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Speech Recognition (nhận dạng giọng nói) là bài toán:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển văn bản thành giọng nói"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển tín hiệu âm thanh/giọng nói thành văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Phân tích cảm xúc từ giọng nói"
+        },
+        {
+          "key": "D",
+          "text": "Tổng hợp giọng nói"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ASR (Automatic Speech Recognition): audio → text. Whisper của OpenAI là ví dụ tiêu biểu.",
+      "tags": [
+        "nlp",
+        "speech",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hệ thống chatbot, \"context window\" quan trọng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh hưởng đến tốc độ phản hồi"
+        },
+        {
+          "key": "B",
+          "text": "Giới hạn lượng lịch sử hội thoại mà mô hình có thể ghi nhớ trong một phiên"
+        },
+        {
+          "key": "C",
+          "text": "Quyết định ngôn ngữ chatbot dùng"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh hưởng đến giao diện người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context window giới hạn tổng tokens (prompt + history + response). Cuộc hội thoại dài vượt quá → mất thông tin cũ.",
+      "tags": [
+        "llm",
+        "chatbot",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật Prompt Injection là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cách tối ưu hóa prompt để mô hình trả lời tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tấn công bảo mật: chèn hướng dẫn độc hại vào input để ghi đè system prompt và thay đổi hành vi LLM"
+        },
+        {
+          "key": "C",
+          "text": "Phương pháp fine-tuning LLM"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật compression prompt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt injection attack: user input chứa lệnh như \"Bỏ qua tất cả hướng dẫn trước và làm X\" để override system prompt.",
+      "tags": [
+        "llm",
+        "security",
+        "module-C"
+      ]
+    },
+    {
+      "id": "23-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Deepfake (sử dụng AI để giả mạo ảnh/video người thực) gây ra mối lo ngại nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ là vấn đề kỹ thuật"
+        },
+        {
+          "key": "B",
+          "text": "Có thể dùng để tạo thông tin giả, bôi nhọ danh tiếng, lừa đảo, ảnh hưởng chính trị"
+        },
+        {
+          "key": "C",
+          "text": "Không có mối lo ngại thực tế"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ ảnh hưởng đến người nổi tiếng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Deepfake gây nguy cơ: fake news, nonconsensual intimate imagery, identity fraud, election manipulation.",
+      "tags": [
+        "responsible-ai",
+        "deepfakes",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu LLM được huấn luyện trên văn bản chứa nhiều quan điểm phân biệt giới tính, hệ quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình sẽ tự động loại bỏ bias vì dùng toán học"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình có thể học và tái tạo bias giới tính đó trong output"
+        },
+        {
+          "key": "C",
+          "text": "Bias chỉ xuất hiện ở mô hình nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Bias không ảnh hưởng đến NLP task"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Training data shapes model behavior. LLM học từ bias trong data → có thể tạo ra output phân biệt đối xử.",
+      "tags": [
+        "responsible-ai",
+        "bias",
+        "llm",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề nào là phủ định của \"Tất cả các LLM đều có thể hallucinate\"?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không LLM nào có thể hallucinate"
+        },
+        {
+          "key": "B",
+          "text": "Tồn tại ít nhất một LLM không thể hallucinate"
+        },
+        {
+          "key": "C",
+          "text": "Một số LLM có thể hallucinate"
+        },
+        {
+          "key": "D",
+          "text": "LLM luôn luôn hallucinate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phủ định của \"∀x P(x)\" là \"∃x ¬P(x)\": tồn tại ít nhất một phần tử không thỏa mãn thuộc tính.",
+      "tags": [
+        "logic",
+        "quantifiers",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao sử dụng LLM trong giáo dục cần có biện pháp bảo vệ (safeguards)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì LLM quá đắt tiền"
+        },
+        {
+          "key": "B",
+          "text": "Vì LLM có thể tạo nội dung không phù hợp với lứa tuổi, không chính xác, hoặc khuyến khích không tự tư duy"
+        },
+        {
+          "key": "C",
+          "text": "Vì internet quá chậm"
+        },
+        {
+          "key": "D",
+          "text": "Vì học sinh không biết dùng máy tính"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM trong giáo dục cần content filtering, fact-checking, thiết kế khuyến khích tư duy phản biện thay vì phụ thuộc.",
+      "tags": [
+        "responsible-ai",
+        "education",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều nào ĐÚNG về AI và quyền tác giả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI luôn là tác giả của nội dung nó tạo ra"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi quyền tác giả của nội dung do AI tạo ra vẫn đang được tranh luận pháp lý trên toàn thế giới"
+        },
+        {
+          "key": "C",
+          "text": "Nội dung AI tạo ra không được bảo vệ bởi bất kỳ luật nào"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng AI không có quyền sở hữu output"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Copyright AI-generated content là vấn đề pháp lý chưa được giải quyết rõ ràng. Các nước có quan điểm khác nhau.",
+      "tags": [
+        "responsible-ai",
+        "copyright",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: \"Nếu không có dữ liệu tốt, thì không thể xây dựng mô hình AI tốt.\"\nPhủ định modus tollens: Mô hình AI này tốt. Kết luận?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có dữ liệu tốt"
+        },
+        {
+          "key": "B",
+          "text": "Phải có dữ liệu tốt"
+        },
+        {
+          "key": "C",
+          "text": "Không đủ thông tin để kết luận"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình không thể tốt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Modus tollens: P→Q, Q đúng → áp dụng contrapositive ¬Q→¬P. Nếu mô hình tốt (Q đúng) → phải có dữ liệu tốt (P đúng).",
+      "tags": [
+        "logic",
+        "modus-tollens",
+        "module-D"
+      ]
+    },
+    {
+      "id": "23-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi một ứng dụng AI thu thập và lưu trữ lịch sử hội thoại của người dùng, nguyên tắc nào nên được áp dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu thập càng nhiều dữ liệu càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Data minimization: chỉ thu thập dữ liệu cần thiết và có sự đồng ý rõ ràng của người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Lưu tất cả để cải thiện mô hình sau này"
+        },
+        {
+          "key": "D",
+          "text": "Chia sẻ dữ liệu với bên thứ ba để tăng doanh thu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data minimization (GDPR principle): thu thập đủ dùng, không dư thừa. Người dùng phải biết và đồng ý.",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "gdpr",
+        "module-D"
+      ]
+    }
+  ]
+}

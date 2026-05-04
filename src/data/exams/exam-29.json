@@ -1,0 +1,1931 @@
+{
+  "id": "exam-29",
+  "title": "Đọc code chuyên sâu & Thuật toán",
+  "description": "Tập trung vào đọc và phân tích code Python, NumPy, sklearn. Hiểu thuật toán qua code thực tế.",
+  "module": "Mixed",
+  "difficulty": "hard",
+  "totalQuestions": 60,
+  "timeLimit": 90,
+  "questions": [
+    {
+      "id": "29-A-01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đọc code và tính kết quả:\n\nimport numpy as np\nX = np.array([[1,0],[0,1],[1,1],[0,0]])\ny = np.array([1,1,1,0])\nweights = np.array([0.5, 0.5])\nbias = -0.5\n\ndef predict(x, w, b):\n    return 1 if np.dot(x, w) + b >= 0 else 0\n\nresults = [predict(x, weights, bias) for x in X]\nprint(results)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1,1,1,0]"
+        },
+        {
+          "key": "B",
+          "text": "[1,0,1,0]"
+        },
+        {
+          "key": "C",
+          "text": "[0,1,0,1]"
+        },
+        {
+          "key": "D",
+          "text": "[1,1,0,0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OR gate: [1,0]→0.5-0.5=0→1; [0,1]→0.5-0.5=0→1; [1,1]→1.0-0.5=0.5→1; [0,0]→-0.5<0→0.",
+      "tags": [
+        "python",
+        "neural-network",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho đoạn code:\n\nfrom sklearn.linear_model import LinearRegression\nimport numpy as np\n\nX = np.array([[1],[2],[3],[4],[5]])\ny = np.array([2,4,5,4,5])\n\nmodel = LinearRegression()\nmodel.fit(X, y)\nprint(round(model.coef_[0], 2))\n\nHệ số hồi quy (slope) gần bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6"
+        },
+        {
+          "key": "B",
+          "text": "0.7"
+        },
+        {
+          "key": "C",
+          "text": "0.8"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "OLS regression trên 5 điểm này cho slope ≈ 0.7. (Least squares fit của xu hướng tăng nhẹ)",
+      "tags": [
+        "sklearn",
+        "regression",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement cái gì?\n\ndef distance(p1, p2):\n    return sum((a-b)**2 for a,b in zip(p1,p2)) ** 0.5\n\npoints = [(1,2),(4,6),(7,8)]\nquery = (3,4)\nclosest = min(points, key=lambda p: distance(p, query))\nprint(closest)",
+      "options": [
+        {
+          "key": "A",
+          "text": "(1,2)"
+        },
+        {
+          "key": "B",
+          "text": "(4,6)"
+        },
+        {
+          "key": "C",
+          "text": "(7,8)"
+        },
+        {
+          "key": "D",
+          "text": "Tất cả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khoảng cách Euclidean: d((3,4),(1,2))=√(4+4)=2.83; d((3,4),(4,6))=√(1+4)=2.24; d((3,4),(7,8))=√(16+16)=5.66. Gần nhất: (4,6).",
+      "tags": [
+        "python",
+        "knn",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính gradient descent step:\n\nw = 2.0\nlr = 0.1\nloss_gradient = 4.0  # dL/dw\nw_new = w - lr * loss_gradient\nprint(w_new)",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.6"
+        },
+        {
+          "key": "B",
+          "text": "2.4"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "w_new = 2.0 - 0.1 × 4.0 = 2.0 - 0.4 = 1.6.",
+      "tags": [
+        "toán-học",
+        "gradient-descent",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính loss:\n\nimport numpy as np\ny_pred = np.array([0.9, 0.2, 0.8, 0.1])\ny_true = np.array([1, 0, 1, 0])\nerrors = y_true - y_pred\nmse = np.mean(errors**2)\nprint(round(mse, 4))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0025"
+        },
+        {
+          "key": "B",
+          "text": "0.025"
+        },
+        {
+          "key": "C",
+          "text": "0.25"
+        },
+        {
+          "key": "D",
+          "text": "0.01"
+        }
+      ],
+      "answer": "B",
+      "explanation": "errors=[0.1,-0.2,0.2,-0.1]. errors²=[0.01,0.04,0.04,0.01]. MSE=0.1/4=0.025.",
+      "tags": [
+        "toán-học",
+        "loss",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho đoạn code:\n\nimport numpy as np\nA = np.array([[1,2],[3,4]])\nprint(np.linalg.det(A))",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "-2.0"
+        },
+        {
+          "key": "C",
+          "text": "0.0"
+        },
+        {
+          "key": "D",
+          "text": "-10.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "det([[1,2],[3,4]]) = 1×4 - 2×3 = 4 - 6 = -2.",
+      "tags": [
+        "toán-học",
+        "determinant",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính Pearson correlation:\n\nimport numpy as np\nx = np.array([1,2,3,4,5])\ny = np.array([2,4,6,8,10])\ncorr = np.corrcoef(x, y)[0,1]\nprint(corr)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "y = 2x — mối quan hệ tuyến tính hoàn hảo → Pearson r = 1.0.",
+      "tags": [
+        "thống-kê",
+        "correlation",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho đoạn code:\n\nfrom scipy.stats import norm\nz_score = 1.96\np_value = 2 * (1 - norm.cdf(z_score))\nprint(round(p_value, 4))\n\nKết quả gần đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.05"
+        },
+        {
+          "key": "B",
+          "text": "0.025"
+        },
+        {
+          "key": "C",
+          "text": "0.01"
+        },
+        {
+          "key": "D",
+          "text": "0.1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "2×(1-Φ(1.96)) ≈ 2×0.025 = 0.05. Z=1.96 tương ứng với α=0.05 two-tailed.",
+      "tags": [
+        "thống-kê",
+        "z-test",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính output của layer:\n\nimport numpy as np\nX = np.array([1.0, 2.0])\nW = np.array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])\nb = np.array([0.1, 0.1, 0.1])\noutput = np.dot(X, W) + b\nprint(output.round(1))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 1.3, 1.6]"
+        },
+        {
+          "key": "B",
+          "text": "[0.9, 1.2, 1.5]"
+        },
+        {
+          "key": "C",
+          "text": "[1.1, 1.4, 1.7]"
+        },
+        {
+          "key": "D",
+          "text": "[0.8, 1.1, 1.4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "X.dot(W)=[1×0.1+2×0.4, 1×0.2+2×0.5, 1×0.3+2×0.6]=[0.9,1.2,1.5]. +b(0.1)=[1.0,1.3,1.6].",
+      "tags": [
+        "toán-học",
+        "neural-network",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính kết quả:\n\nimport numpy as np\nprobs = np.array([0.7, 0.2, 0.1])\nentropy = -np.sum(probs * np.log2(probs))\nprint(round(entropy, 3))\n\nEntropy gần bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.157"
+        },
+        {
+          "key": "B",
+          "text": "1.408"
+        },
+        {
+          "key": "C",
+          "text": "0.881"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "H = -(0.7×log2(0.7)+0.2×log2(0.2)+0.1×log2(0.1)) = -(0.7×(-0.515)+0.2×(-2.322)+0.1×(-3.322)) ≈ 1.157.",
+      "tags": [
+        "thống-kê",
+        "entropy",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho đoạn code implement K-Means một bước:\n\nimport numpy as np\npoints = np.array([[1,1],[2,2],[8,8],[9,9]])\ncentroids = np.array([[1,1],[9,9]])\n\nassignments = np.argmin(\n    [[np.linalg.norm(p - c) for c in centroids] for p in points],\n    axis=1)\nprint(assignments)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0,0,0,0]"
+        },
+        {
+          "key": "B",
+          "text": "[0,0,1,1]"
+        },
+        {
+          "key": "C",
+          "text": "[1,0,1,0]"
+        },
+        {
+          "key": "D",
+          "text": "[0,1,0,1]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm (1,1),(2,2) gần centroid (1,1) hơn → assign 0. Điểm (8,8),(9,9) gần (9,9) hơn → assign 1.",
+      "tags": [
+        "toán-học",
+        "k-means",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính output của softmax với temperature:\n\nimport numpy as np\nlogits = np.array([4.0, 2.0, 1.0])\ntemperature = 0.5\nscaled = logits / temperature  # = [8.0, 4.0, 2.0]\ne = np.exp(scaled - np.max(scaled))\nprobs = e / e.sum()\nprint(probs[0].round(3))\n\nXác suất lớp 0 (sau temperature scaling) gần bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "~0.98"
+        },
+        {
+          "key": "B",
+          "text": "~0.93"
+        },
+        {
+          "key": "C",
+          "text": "~0.70"
+        },
+        {
+          "key": "D",
+          "text": "~0.50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "scale=[8,4,2]-8=[0,-4,-6]. e=[1,0.0183,0.00248]. sum≈1.0208. prob0≈0.979≈0.98.",
+      "tags": [
+        "toán-học",
+        "softmax",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính gradient của MSE loss đối với prediction:\n\ny_true = 3.0\ny_pred = 5.0\n# MSE = (y_pred - y_true)^2\n# dMSE/d(y_pred) = ?\nprint(2 * (y_pred - y_true))",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "-4.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "-2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dMSE/dy_pred = 2×(y_pred - y_true) = 2×(5-3) = 4.0. Gradient dương → cần giảm y_pred.",
+      "tags": [
+        "toán-học",
+        "gradient",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cho đoạn code tính cosine similarity:\n\nimport numpy as np\nv1 = np.array([1, 2, 3])\nv2 = np.array([2, 4, 6])  # = 2 * v1\ncos_sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))\nprint(cos_sim)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "v2 = 2×v1, cùng hướng. Cosine similarity = 1.0 (không phụ thuộc độ dài, chỉ phụ thuộc hướng).",
+      "tags": [
+        "toán-học",
+        "cosine-similarity",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-A-15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tính IOU (Intersection over Union):\n\n# Box1: [0,0,4,4] (x1,y1,x2,y2)\n# Box2: [2,2,6,6]\n\nix1, iy1 = max(0,2), max(0,2)  # = 2, 2\nix2, iy2 = min(4,6), min(4,6)  # = 4, 4\nintersection = (ix2-ix1) * (iy2-iy1)  # = 2*2 = 4\narea1 = (4-0)*(4-0)  # = 16\narea2 = (6-2)*(6-2)  # = 16\nunion = area1 + area2 - intersection  # = 16+16-4 = 28\niou = intersection / union\nprint(round(iou, 3))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.143"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = 4/28 ≈ 0.143.",
+      "tags": [
+        "toán-học",
+        "object-detection",
+        "module-A"
+      ]
+    },
+    {
+      "id": "29-B-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nclass Model:\n    def __init__(self, lr=0.01):\n        self.lr = lr\n        self.weights = [0.0, 0.0]\n    \n    def update(self, gradients):\n        self.weights = [w - self.lr * g \n                       for w, g in zip(self.weights, gradients)]\n        return self\n\nm = Model(lr=0.1)\nm.update([1.0, -2.0]).update([0.5, 0.5])\nprint(m.weights)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-0.15, 0.15]"
+        },
+        {
+          "key": "B",
+          "text": "[-0.05, 0.35]"
+        },
+        {
+          "key": "C",
+          "text": "[-0.15, 0.35]"
+        },
+        {
+          "key": "D",
+          "text": "[0.15, -0.15]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Step1: [0-0.1×1, 0-0.1×(-2)] = [-0.1, 0.2]. Step2: [-0.1-0.1×0.5, 0.2-0.1×0.5] = [-0.15, 0.15].",
+      "tags": [
+        "python",
+        "oop",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\ndef batch_predict(X, W, b):\n    logits = X @ W + b\n    exp_logits = np.exp(logits - logits.max(axis=1, keepdims=True))\n    return exp_logits / exp_logits.sum(axis=1, keepdims=True)\n\nX = np.array([[1,0,1],[0,1,0]])\nW = np.array([[1,0],[0,1],[1,1]])\nb = np.array([0, 0])\nresult = batch_predict(X, W, b)\nprint(result.shape)",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2,3)"
+        },
+        {
+          "key": "B",
+          "text": "(3,2)"
+        },
+        {
+          "key": "C",
+          "text": "(2,2)"
+        },
+        {
+          "key": "D",
+          "text": "(3,3)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "X(2,3)@W(3,2)=(2,2)+b(2)→logits(2,2). Softmax → output shape (2,2).",
+      "tags": [
+        "python",
+        "neural-network",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom functools import wraps\nimport time\n\ndef timer(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        print(f\"Time: {time.time()-start:.0f}s\")\n        return result\n    return wrapper\n\n@timer\ndef slow_function(n):\n    return sum(range(n))\n\nresult = slow_function(1000000)\nprint(result)",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"Time: ~0s\" và 499999500000"
+        },
+        {
+          "key": "B",
+          "text": "\"Time: 1s\" và 1000000"
+        },
+        {
+          "key": "C",
+          "text": "\"Time: 0s\" và 0"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sum(range(1000000)) ≈ 499999500000. Python fast enough cho < 1 giây.",
+      "tags": [
+        "python",
+        "decorators",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nclass DataLoader:\n    def __init__(self, data, batch_size):\n        self.data = data\n        self.batch_size = batch_size\n    \n    def __iter__(self):\n        for i in range(0, len(self.data), self.batch_size):\n            yield self.data[i:i+self.batch_size]\n\nloader = DataLoader(list(range(10)), batch_size=3)\nbatches = list(loader)\nprint(len(batches), batches[-1])",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 [9]"
+        },
+        {
+          "key": "B",
+          "text": "4 [9]"
+        },
+        {
+          "key": "C",
+          "text": "3 [7,8,9]"
+        },
+        {
+          "key": "D",
+          "text": "4 [9,10]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "range(10)=[0..9], batch_size=3. Batches: [0,1,2],[3,4,5],[6,7,8],[9] → 4 batches. Last=[9].",
+      "tags": [
+        "python",
+        "generators",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"model\":[\"A\",\"A\",\"B\",\"B\",\"B\"],\n    \"fold\":[1,2,1,2,3],\n    \"accuracy\":[0.85,0.87,0.90,0.88,0.91]\n})\nresult = df.groupby(\"model\")[\"accuracy\"].agg([\"mean\",\"std\"]).round(3)\nprint(result.loc[\"B\",\"mean\"])",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.863"
+        },
+        {
+          "key": "B",
+          "text": "0.897"
+        },
+        {
+          "key": "C",
+          "text": "0.883"
+        },
+        {
+          "key": "D",
+          "text": "0.910"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model B accuracies: [0.90,0.88,0.91]. Mean = 2.69/3 = 0.897.",
+      "tags": [
+        "pandas",
+        "groupby",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\ndef relu_gradient(x):\n    return (x > 0).astype(float)\n\nx = np.array([-2, -1, 0, 1, 2])\nprint(relu_gradient(x))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0,0,0,1,1]"
+        },
+        {
+          "key": "B",
+          "text": "[0,0,1,1,1]"
+        },
+        {
+          "key": "C",
+          "text": "[-1,-1,0,1,1]"
+        },
+        {
+          "key": "D",
+          "text": "[1,1,0,1,1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU gradient = 1 nếu x > 0 else 0. [-2,-1,0,1,2] → [F,F,F,T,T].astype(float) = [0,0,0,1,1].",
+      "tags": [
+        "python",
+        "deep-learning",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndata = [\n    {\"text\": \"AI hay\", \"label\": 1},\n    {\"text\": \"Buồn quá\", \"label\": 0},\n    {\"text\": \"Học AI vui\", \"label\": 1},\n]\n\npositive = [d[\"text\"] for d in data if d[\"label\"] == 1]\nprint(len(positive), positive[0])",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 \"AI hay\""
+        },
+        {
+          "key": "B",
+          "text": "2 \"AI hay\""
+        },
+        {
+          "key": "C",
+          "text": "3 \"AI hay\""
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Filter label=1: \"AI hay\" và \"Học AI vui\" = 2 items. positive[0] = \"AI hay\".",
+      "tags": [
+        "python",
+        "list-comprehension",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\nclass EarlyStopping:\n    def __init__(self, patience=3):\n        self.patience = patience\n        self.best_loss = float(\"inf\")\n        self.counter = 0\n    \n    def __call__(self, val_loss):\n        if val_loss < self.best_loss:\n            self.best_loss = val_loss\n            self.counter = 0\n        else:\n            self.counter += 1\n        return self.counter >= self.patience\n\nes = EarlyStopping(patience=3)\nlosses = [0.5, 0.4, 0.45, 0.46, 0.47]\nfor i, loss in enumerate(losses):\n    if es(loss):\n        print(f\"Stop at epoch {i}\")\n        break",
+      "options": [
+        {
+          "key": "A",
+          "text": "Stop at epoch 3"
+        },
+        {
+          "key": "B",
+          "text": "Stop at epoch 4"
+        },
+        {
+          "key": "C",
+          "text": "Stop at epoch 2"
+        },
+        {
+          "key": "D",
+          "text": "Không stop"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Epoch 0:0.5(new best),1:0.4(new best),2:0.45(counter=1),3:0.46(counter=2),4:0.47(counter=3≥3)→stop at epoch 4.",
+      "tags": [
+        "python",
+        "early-stopping",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom collections import defaultdict\n\ndef build_inverted_index(docs):\n    index = defaultdict(set)\n    for doc_id, text in enumerate(docs):\n        for word in text.lower().split():\n            index[word].add(doc_id)\n    return index\n\ndocs = [\"AI là tương lai\", \"Học AI rất vui\", \"Python cho AI\"]\nidx = build_inverted_index(docs)\nprint(sorted(idx[\"ai\"]))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "\"ai\" xuất hiện trong doc 0 (\"AI\"), doc 1 (\"AI\"), doc 2 (\"AI\"). sorted → [0,1,2].",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\ndef attention_score(query, keys):\n    scores = np.dot(keys, query) / np.sqrt(len(query))\n    exp_scores = np.exp(scores - np.max(scores))\n    return exp_scores / exp_scores.sum()\n\nq = np.array([1.0, 0.0])\nK = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])\nweights = attention_score(q, K)\nprint(weights.argmax())",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "scores = K@q/√2 = [1/√2, 0, 1/√2] = [0.707, 0, 0.707]. Hai key đầu và cuối bằng nhau... nhưng key 0 và key 2 bằng nhau, argmax trả về 0.",
+      "tags": [
+        "python",
+        "attention",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"category\": [\"A\",\"B\",\"A\",\"C\",\"B\",\"A\"],\n    \"value\": [1,2,3,4,5,6]\n})\nmode_cat = df[\"category\"].mode()[0]\nprint(mode_cat, df[df[\"category\"]==mode_cat][\"value\"].sum())",
+      "options": [
+        {
+          "key": "A",
+          "text": "A 10"
+        },
+        {
+          "key": "B",
+          "text": "B 7"
+        },
+        {
+          "key": "C",
+          "text": "C 4"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "\"A\" xuất hiện 3 lần (mode). Sum of A values = 1+3+6 = 10.",
+      "tags": [
+        "pandas",
+        "statistics",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\nclass LinearLayer:\n    def __init__(self, in_features, out_features):\n        self.W = np.random.randn(in_features, out_features) * 0.01\n        self.b = np.zeros(out_features)\n    \n    def forward(self, x):\n        return x @ self.W + self.b\n\nlayer = LinearLayer(3, 2)\nX = np.ones((5, 3))\nout = layer.forward(X)\nprint(out.shape)",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(5, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(5, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 5)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "X(5,3) @ W(3,2) + b(2) = output(5,2). 5 samples, 2 outputs.",
+      "tags": [
+        "python",
+        "neural-network",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndef tokenize(text, max_len=5):\n    tokens = text.lower().split()\n    if len(tokens) > max_len:\n        tokens = tokens[:max_len]\n    return tokens + [\"<pad>\"] * (max_len - len(tokens))\n\nresult = tokenize(\"AI là tương lai của nhân loại\", max_len=5)\nprint(result)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[\"ai\",\"là\",\"tương\",\"lai\",\"của\"]"
+        },
+        {
+          "key": "B",
+          "text": "[\"ai\",\"là\",\"tương\",\"lai\",\"<pad>\"]"
+        },
+        {
+          "key": "C",
+          "text": "[\"ai\",\"là\",\"tương\",\"lai\",\"của\",\"nhân\",\"loại\"]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "7 tokens > 5 → truncate to 5: [\"ai\",\"là\",\"tương\",\"lai\",\"của\"]. Không cần pad.",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\nfrom sklearn.metrics import accuracy_score\n\nnp.random.seed(42)\ny_true = np.array([0,1,1,0,1,0,1,1,0,0])\n# Model: predict 1 if random > 0.5\ny_pred = (np.random.random(10) > 0.5).astype(int)\nacc = accuracy_score(y_true, y_pred)\nprint(acc > 0.5)",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True — vì random predictions thường > 50%"
+        },
+        {
+          "key": "C",
+          "text": "Cố định True do seed"
+        },
+        {
+          "key": "D",
+          "text": "Phụ thuộc nhiều vào data"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Với seed=42, np.random.random(10) tạo ra sequence cố định. Kết quả cố định và có thể compute.",
+      "tags": [
+        "python",
+        "random",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\ndef leaky_relu(x, alpha=0.01):\n    return x if x >= 0 else alpha * x\n\nvalues = [-4, -1, 0, 1, 4]\nresult = [leaky_relu(v) for v in values]\nprint(result)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0, 0, 1, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[-0.04, -0.01, 0, 1, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[-4, -1, 0, 1, 4]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Leaky ReLU: x>=0 → x; x<0 → 0.01x. [-4→-0.04, -1→-0.01, 0→0, 1→1, 4→4].",
+      "tags": [
+        "python",
+        "activation",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\nclass Vocab:\n    def __init__(self, texts):\n        words = set()\n        for t in texts:\n            words.update(t.split())\n        self.word2id = {w:i for i,w in enumerate(sorted(words))}\n    \n    def encode(self, text):\n        return [self.word2id.get(w, -1) for w in text.split()]\n\nvocab = Vocab([\"tôi học AI\", \"AI rất hay\"])\nprint(vocab.encode(\"AI hay\"))",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 0]"
+        },
+        {
+          "key": "C",
+          "text": "[4, 1]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sorted words: AI(0),hay(1),học(2),rất(3),tôi(4). encode(\"AI hay\")→[0,1].",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\ndef cosine_similarity_matrix(X):\n    \"\"\"X: (n, d) matrix, return (n,n) similarity matrix\"\"\"\n    norms = np.linalg.norm(X, axis=1, keepdims=True)\n    X_normalized = X / norms\n    return X_normalized @ X_normalized.T\n\nX = np.array([[1,0],[0,1],[1,1]])\nS = cosine_similarity_matrix(X)\nprint(S[0,1].round(2), S[0,2].round(2))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0, 1.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0, 0.0"
+        },
+        {
+          "key": "C",
+          "text": "0.0, 0.71"
+        },
+        {
+          "key": "D",
+          "text": "0.5, 0.71"
+        }
+      ],
+      "answer": "C",
+      "explanation": "v0=[1,0], v1=[0,1] → cos=0. v0=[1,0], v2=[1/√2,1/√2] → cos=1/√2≈0.707≈0.71.",
+      "tags": [
+        "python",
+        "similarity",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.dummy import DummyClassifier\nimport numpy as np\n\nnp.random.seed(42)\nX = np.random.randn(100, 5)\ny = np.array([0]*90 + [1]*10)\n\ndummy = DummyClassifier(strategy=\"most_frequent\")\nscores = cross_val_score(dummy, X, y, cv=5, scoring=\"accuracy\")\nprint(scores.mean().round(2))",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "0.1"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DummyClassifier most_frequent: luôn predict class 0 (90%). Accuracy = 90/100 = 0.9.",
+      "tags": [
+        "sklearn",
+        "imbalanced",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport json\n\nmodel_config = {\n    \"architecture\": \"transformer\",\n    \"layers\": 12,\n    \"hidden_size\": 768,\n    \"vocab_size\": 30000\n}\n\njson_str = json.dumps(model_config)\nloaded = json.loads(json_str)\n\nparams = loaded[\"layers\"] * loaded[\"hidden_size\"]**2 * 12\nprint(f\"{params/1e6:.0f}M parameters (rough)\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "~849M"
+        },
+        {
+          "key": "B",
+          "text": "~85M"
+        },
+        {
+          "key": "C",
+          "text": "~500M"
+        },
+        {
+          "key": "D",
+          "text": "~100M"
+        }
+      ],
+      "answer": "A",
+      "explanation": "12 × 768² × 12 = 12 × 589824 × 12 = 84,934,656 × 12... = 848,977,920 ≈ 849M parameters.",
+      "tags": [
+        "python",
+        "json",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-B-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả của đoạn code sau là gì?\n\nimport numpy as np\n\ndef beam_search_simple(probs_per_step, beam_size=2):\n    \"\"\"probs_per_step: list of prob arrays per step\"\"\"\n    beams = [(0, [])]\n    for step_probs in probs_per_step:\n        new_beams = []\n        for score, seq in beams:\n            for i, p in enumerate(step_probs):\n                new_beams.append((score + np.log(p), seq + [i]))\n        new_beams.sort(reverse=True)\n        beams = new_beams[:beam_size]\n    return beams[0]\n\nprobs = [[0.7, 0.3], [0.4, 0.6]]\nbest_score, best_seq = beam_search_simple(probs, beam_size=2)\nprint(best_seq)",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Step 1: beam={(log0.7,[0]), (log0.3,[1])}. Step 2 từ [0]: (log0.7+log0.4,[0,0]), (log0.7+log0.6,[0,1]). [0,1] score=log(0.42) > [0,0] score=log(0.28). Best=[0,1].",
+      "tags": [
+        "python",
+        "nlp",
+        "module-B"
+      ]
+    },
+    {
+      "id": "29-C-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đọc code và cho biết nó implement thuật toán gì:\n\nfor epoch in range(n_epochs):\n    for X_batch, y_batch in dataloader:\n        optimizer.zero_grad()\n        pred = model(X_batch)\n        loss = criterion(pred, y_batch)\n        loss.backward()\n        optimizer.step()",
+      "options": [
+        {
+          "key": "A",
+          "text": "K-Means clustering"
+        },
+        {
+          "key": "B",
+          "text": "Standard mini-batch gradient descent training loop cho neural network"
+        },
+        {
+          "key": "C",
+          "text": "Decision tree training"
+        },
+        {
+          "key": "D",
+          "text": "A/B testing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là PyTorch standard training loop: zero_grad → forward → compute loss → backprop → update weights.",
+      "tags": [
+        "deep-learning",
+        "training",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement pattern gì?\n\nfrom abc import ABC, abstractmethod\n\nclass BaseModel(ABC):\n    @abstractmethod\n    def fit(self, X, y): pass\n    \n    @abstractmethod\n    def predict(self, X): pass\n    \n    def score(self, X, y):\n        return (self.predict(X) == y).mean()",
+      "options": [
+        {
+          "key": "A",
+          "text": "Singleton"
+        },
+        {
+          "key": "B",
+          "text": "Template Method pattern / Abstract Base Class cho ML models"
+        },
+        {
+          "key": "C",
+          "text": "Observer"
+        },
+        {
+          "key": "D",
+          "text": "Factory"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ABC với abstract methods fit/predict: bất kỳ subclass nào phải implement chúng. score() shared logic.",
+      "tags": [
+        "python",
+        "design-patterns",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau làm gì?\n\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.linear_model import LogisticRegression\n\npipeline = Pipeline([\n    (\"tfidf\", TfidfVectorizer(max_features=1000)),\n    (\"clf\", LogisticRegression())\n])\npipeline.fit(texts_train, labels_train)\npred = pipeline.predict(texts_test)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ tính TF-IDF"
+        },
+        {
+          "key": "B",
+          "text": "Text classification pipeline: TF-IDF vectorize văn bản → Logistic Regression phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Topic modeling"
+        },
+        {
+          "key": "D",
+          "text": "Text generation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pipeline NLP: text → TF-IDF features (1000 từ quan trọng nhất) → Logistic Regression → class label.",
+      "tags": [
+        "sklearn",
+        "nlp",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau xử lý vấn đề gì?\n\nfrom imblearn.over_sampling import SMOTE\n\nX_resampled, y_resampled = SMOTE(random_state=42).fit_resample(X_train, y_train)\nprint(f\"Before: {Counter(y_train)}\")\nprint(f\"After: {Counter(y_resampled)}\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước dataset"
+        },
+        {
+          "key": "B",
+          "text": "Xử lý imbalanced dataset bằng cách tổng hợp thêm mẫu cho minority class"
+        },
+        {
+          "key": "C",
+          "text": "Augment ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Normalize features"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SMOTE oversamples minority class bằng synthetic examples → balanced classes → tránh model bị bias về majority class.",
+      "tags": [
+        "imbalanced-data",
+        "smote",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau triển khai kỹ thuật gì?\n\nimport numpy as np\n\ndef dropout(X, rate=0.5, training=True):\n    if not training:\n        return X\n    mask = np.random.binomial(1, 1-rate, X.shape) / (1-rate)\n    return X * mask\n\noutput = dropout(layer_output, rate=0.3, training=True)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Batch normalization"
+        },
+        {
+          "key": "B",
+          "text": "Inverted dropout với scaling để giữ expected value khi inference"
+        },
+        {
+          "key": "C",
+          "text": "L2 regularization"
+        },
+        {
+          "key": "D",
+          "text": "Weight pruning"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Inverted dropout: mask = Bernoulli(1-rate), chia (1-rate) để scale → không cần scale khi inference.",
+      "tags": [
+        "deep-learning",
+        "dropout",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính metric gì?\n\ndef dcg_at_k(relevances, k):\n    dcg = 0\n    for i, rel in enumerate(relevances[:k]):\n        dcg += rel / np.log2(i + 2)  # i+2 vì log2(1)=0\n    return dcg\n\ndef ndcg_at_k(predicted_relevances, ideal_relevances, k):\n    return dcg_at_k(predicted_relevances, k) / dcg_at_k(ideal_relevances, k)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Precision@K"
+        },
+        {
+          "key": "B",
+          "text": "NDCG@K — đánh giá chất lượng ranking có tính đến vị trí"
+        },
+        {
+          "key": "C",
+          "text": "F1@K"
+        },
+        {
+          "key": "D",
+          "text": "Recall@K"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NDCG = DCG / IDCG. DCG discount by position (log). Dùng cho search/recommendation ranking evaluation.",
+      "tags": [
+        "information-retrieval",
+        "ndcg",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau triển khai cơ chế gì của LLM?\n\ndef generate(model, prompt, max_tokens=100, temperature=0.8, top_p=0.9):\n    tokens = tokenize(prompt)\n    for _ in range(max_tokens):\n        logits = model(tokens)\n        probs = softmax(logits[-1] / temperature)\n        # Nucleus sampling\n        sorted_probs = sorted(probs, reverse=True)\n        cumsum = 0\n        cutoff_idx = len(sorted_probs)\n        for i, p in enumerate(sorted_probs):\n            cumsum += p\n            if cumsum >= top_p:\n                cutoff_idx = i + 1\n                break\n        # Sample from top-p nucleus\n        next_token = sample_from_nucleus(probs, cutoff_idx)\n        tokens.append(next_token)\n    return detokenize(tokens)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Greedy decoding"
+        },
+        {
+          "key": "B",
+          "text": "Beam search"
+        },
+        {
+          "key": "C",
+          "text": "Nucleus sampling (Top-p sampling) với temperature"
+        },
+        {
+          "key": "D",
+          "text": "Top-k sampling"
+        }
+      ],
+      "answer": "C",
+      "explanation": "top_p=0.9: chọn tokens nhỏ nhất sao cho cumulative probability >= 0.9, sample từ đó. Nucleus/Top-p sampling.",
+      "tags": [
+        "llm",
+        "generation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau giải quyết vấn đề gì?\n\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.model_selection import cross_val_score\n\n# Đúng\npipeline = Pipeline([(\"scaler\", StandardScaler()), (\"model\", model)])\nscores = cross_val_score(pipeline, X, y, cv=5)\n\n# Sai\nX_scaled = StandardScaler().fit_transform(X)\nscores_wrong = cross_val_score(model, X_scaled, y, cv=5)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tối ưu hóa tốc độ"
+        },
+        {
+          "key": "B",
+          "text": "Ngăn chặn data leakage: scaler trong pipeline chỉ fit trên fold train, không bị ảnh hưởng bởi fold test"
+        },
+        {
+          "key": "C",
+          "text": "Tăng accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số features"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pipeline CV: scaler.fit trên train fold, transform cả train và test fold riêng lẻ → no leakage. Ngoài pipeline: scaler biết cả test data.",
+      "tags": [
+        "sklearn",
+        "data-leakage",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau monitor cái gì?\n\ndef detect_drift(reference_data, current_data, threshold=0.1):\n    ref_mean = reference_data.mean()\n    cur_mean = current_data.mean()\n    ref_std = reference_data.std()\n    \n    z_score = abs(cur_mean - ref_mean) / (ref_std / len(current_data)**0.5)\n    p_value = 2 * (1 - norm.cdf(z_score))\n    \n    if p_value < threshold:\n        return True, f\"Drift detected! p={p_value:.4f}\"\n    return False, \"No significant drift\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện data drift bằng cách so sánh mean của feature distribution hiện tại với reference"
+        },
+        {
+          "key": "C",
+          "text": "Network latency"
+        },
+        {
+          "key": "D",
+          "text": "Training progress"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Drift detection bằng z-test: so sánh mean của production data với training data distribution.",
+      "tags": [
+        "mlops",
+        "monitoring",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement kỹ thuật gì?\n\ndef k_fold_cv(X, y, model, k=5):\n    fold_size = len(X) // k\n    scores = []\n    for i in range(k):\n        test_mask = slice(i*fold_size, (i+1)*fold_size)\n        X_test, y_test = X[test_mask], y[test_mask]\n        train_mask = list(range(0,i*fold_size)) + list(range((i+1)*fold_size, len(X)))\n        X_train, y_train = X[train_mask], y[train_mask]\n        model.fit(X_train, y_train)\n        scores.append(accuracy_score(y_test, model.predict(X_test)))\n    return np.mean(scores), np.std(scores)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hold-out validation"
+        },
+        {
+          "key": "B",
+          "text": "K-Fold Cross-Validation từ đầu (from scratch)"
+        },
+        {
+          "key": "C",
+          "text": "Bootstrap sampling"
+        },
+        {
+          "key": "D",
+          "text": "Leave-one-out CV"
+        }
+      ],
+      "answer": "B",
+      "explanation": "K-fold CV manual implementation: chia data thành k folds, mỗi lần 1 fold làm test, rest làm train.",
+      "tags": [
+        "ml-fundamentals",
+        "cross-validation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau xử lý vấn đề gì của sequence model?\n\ndef pad_sequences(sequences, max_len, pad_value=0):\n    padded = []\n    for seq in sequences:\n        if len(seq) > max_len:\n            padded.append(seq[:max_len])  # truncate\n        else:\n            padded.append(seq + [pad_value] * (max_len - len(seq)))  # pad\n    return np.array(padded)\n\nbatch = pad_sequences([[1,2,3],[4,5],[6,7,8,9]], max_len=4)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tokenization"
+        },
+        {
+          "key": "B",
+          "text": "Xử lý variable-length sequences: cắt bớt hoặc padding để tạo batch đồng kích thước"
+        },
+        {
+          "key": "C",
+          "text": "Embedding lookup"
+        },
+        {
+          "key": "D",
+          "text": "Attention masking"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NLP batching: các câu có độ dài khác nhau → cần padding/truncating để tạo tensor shape cố định.",
+      "tags": [
+        "nlp",
+        "padding",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau tính metric gì?\n\ndef evaluate_retrieval(queries, relevant_docs, retrieved_docs):\n    precisions = []\n    recalls = []\n    for q in queries:\n        retrieved = set(retrieved_docs[q])\n        relevant = set(relevant_docs[q])\n        tp = len(retrieved & relevant)\n        precisions.append(tp / len(retrieved) if retrieved else 0)\n        recalls.append(tp / len(relevant) if relevant else 0)\n    return np.mean(precisions), np.mean(recalls)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accuracy của classifier"
+        },
+        {
+          "key": "B",
+          "text": "Precision và Recall của information retrieval system"
+        },
+        {
+          "key": "C",
+          "text": "AUC-ROC của ranking"
+        },
+        {
+          "key": "D",
+          "text": "F1 của NER"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Retrieval evaluation: Precision = relevant retrieved / all retrieved. Recall = relevant retrieved / all relevant.",
+      "tags": [
+        "information-retrieval",
+        "evaluation",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau triển khai kỹ thuật gì?\n\nclass ExponentialMovingAverage:\n    def __init__(self, alpha=0.9):\n        self.alpha = alpha\n        self.value = None\n    \n    def update(self, x):\n        if self.value is None:\n            self.value = x\n        else:\n            self.value = self.alpha * self.value + (1-self.alpha) * x\n        return self.value\n\nema = ExponentialMovingAverage()\nfor loss in training_losses:\n    smoothed = ema.update(loss)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Simple moving average"
+        },
+        {
+          "key": "B",
+          "text": "Exponential Moving Average (EMA) để smooth training curves"
+        },
+        {
+          "key": "C",
+          "text": "Gradient clipping"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate schedule"
+        }
+      ],
+      "answer": "B",
+      "explanation": "EMA: v_t = α×v_{t-1} + (1-α)×x_t. Cho phép trend mượt hơn. Dùng trong optimizer (Adam), logging, model averaging.",
+      "tags": [
+        "deep-learning",
+        "ema",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau triển khai gì?\n\nimport hashlib\n\ndef consistent_hash_split(user_id, percent):\n    \"\"\"Route user to experiment group consistently\"\"\"\n    hash_val = int(hashlib.md5(str(user_id).encode()).hexdigest(), 16)\n    return (hash_val % 100) < percent\n\n# Route 10% users to new model\nif consistent_hash_split(user_id, 10):\n    response = new_model.predict(query)\nelse:\n    response = old_model.predict(query)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Load balancing"
+        },
+        {
+          "key": "B",
+          "text": "Consistent hashing để phân chia users vào A/B test groups một cách nhất quán (cùng user luôn vào cùng group)"
+        },
+        {
+          "key": "C",
+          "text": "Random sampling"
+        },
+        {
+          "key": "D",
+          "text": "Cache invalidation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Consistent hash: cùng user_id → cùng hash → cùng group. Không random mỗi request → user experience nhất quán.",
+      "tags": [
+        "mlops",
+        "ab-testing",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau giải quyết vấn đề gì trong NLP?\n\nclass SentenceWindowRetriever:\n    def __init__(self, window_size=2):\n        self.window_size = window_size\n    \n    def retrieve_with_context(self, chunk_idx, all_sentences):\n        start = max(0, chunk_idx - self.window_size)\n        end = min(len(all_sentences), chunk_idx + self.window_size + 1)\n        return all_sentences[start:end]",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tokenization"
+        },
+        {
+          "key": "B",
+          "text": "Sentence window retrieval: khi retrieve một câu, mở rộng context lấy thêm các câu xung quanh để cung cấp đủ ngữ cảnh cho LLM"
+        },
+        {
+          "key": "C",
+          "text": "Text classification"
+        },
+        {
+          "key": "D",
+          "text": "Named entity extraction"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Small-to-big retrieval trong RAG: retrieve chunk nhỏ (precise) nhưng trả về window lớn hơn (full context) cho LLM.",
+      "tags": [
+        "rag",
+        "retrieval",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau triển khai kỹ thuật gì?\n\nimport copy\n\ndef model_soup(model_checkpoints):\n    \"\"\"Average weights of multiple fine-tuned models\"\"\"\n    avg_model = copy.deepcopy(model_checkpoints[0])\n    n = len(model_checkpoints)\n    for key in avg_model.state_dict():\n        avg_model.state_dict()[key].data.copy_(\n            sum(m.state_dict()[key].data for m in model_checkpoints) / n\n        )\n    return avg_model",
+      "options": [
+        {
+          "key": "A",
+          "text": "Knowledge distillation"
+        },
+        {
+          "key": "B",
+          "text": "Model soup / weight averaging: average weights của nhiều checkpoint để tạo mô hình tốt hơn từng cá thể"
+        },
+        {
+          "key": "C",
+          "text": "Ensemble voting"
+        },
+        {
+          "key": "D",
+          "text": "Gradient accumulation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model soup (Wortsman et al.): average fine-tuned model weights → better generalization hơn bất kỳ single checkpoint nào.",
+      "tags": [
+        "deep-learning",
+        "model-averaging",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau xử lý vấn đề gì?\n\nclass CircuitBreaker:\n    def __init__(self, failure_threshold=5, timeout=60):\n        self.failures = 0\n        self.threshold = failure_threshold\n        self.state = \"closed\"  # closed=normal, open=blocking\n        self.last_failure_time = 0\n    \n    def call(self, func, *args):\n        if self.state == \"open\":\n            if time.time() - self.last_failure_time > self.timeout:\n                self.state = \"half-open\"\n            else:\n                raise Exception(\"Circuit open: service unavailable\")\n        try:\n            result = func(*args)\n            self.failures = 0\n            self.state = \"closed\"\n            return result\n        except Exception:\n            self.failures += 1\n            if self.failures >= self.threshold:\n                self.state = \"open\"\n                self.last_failure_time = time.time()\n            raise",
+      "options": [
+        {
+          "key": "A",
+          "text": "Load balancing"
+        },
+        {
+          "key": "B",
+          "text": "Circuit Breaker pattern: ngăn chặn cascade failures khi downstream service (LLM API) bị quá tải hoặc down"
+        },
+        {
+          "key": "C",
+          "text": "Rate limiting"
+        },
+        {
+          "key": "D",
+          "text": "Caching"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Circuit Breaker: sau n failures, \"open circuit\" → fail fast thay vì chờ timeout → protect system from cascade failure.",
+      "tags": [
+        "mlops",
+        "resilience",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-C-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau implement gì?\n\ndef perplexity(log_probs):\n    \"\"\"log_probs: list of log probabilities for each token\"\"\"\n    n = len(log_probs)\n    avg_neg_log_prob = -sum(log_probs) / n\n    return np.exp(avg_neg_log_prob)\n\n# Test\nlog_probs = [-0.5, -1.0, -0.3, -0.8, -0.2]\npp = perplexity(log_probs)\nprint(f\"Perplexity: {pp:.2f}\")",
+      "options": [
+        {
+          "key": "A",
+          "text": "Entropy của distribution"
+        },
+        {
+          "key": "B",
+          "text": "Perplexity của language model — thước đo mức độ \"ngạc nhiên\" của mô hình với chuỗi văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Cross-entropy loss"
+        },
+        {
+          "key": "D",
+          "text": "KL divergence"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Perplexity = exp(-mean(log P(token_i))). Mô hình tốt: log_prob gần 0 → perplexity gần 1. Mô hình tệ: perplexity cao.",
+      "tags": [
+        "nlp",
+        "language-model",
+        "module-C"
+      ]
+    },
+    {
+      "id": "29-D-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đọc code:\n\nif ai_decision == \"hire\":\n    send_offer()\nelif ai_decision == \"reject\":\n    send_rejection()\n\nVề mặt đạo đức AI, vấn đề lớn nhất của đoạn code này là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Code có lỗi syntax"
+        },
+        {
+          "key": "B",
+          "text": "Không có human review trước khi ra quyết định quan trọng ảnh hưởng đến career của ứng viên"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng try/except"
+        },
+        {
+          "key": "D",
+          "text": "Biến naming không tốt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Automated hiring decisions without human oversight: vi phạm accountability, transparency, và right to explanation.",
+      "tags": [
+        "responsible-ai",
+        "automation",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau:\n\nif user_data[\"ethnicity\"] in high_risk_groups:\n    deny_loan()\n\nĐây là ví dụ về:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Code hiệu quả"
+        },
+        {
+          "key": "B",
+          "text": "Discriminatory AI: trực tiếp dùng race/ethnicity để ra quyết định — vi phạm pháp luật và đạo đức"
+        },
+        {
+          "key": "C",
+          "text": "Bảo mật tốt"
+        },
+        {
+          "key": "D",
+          "text": "Feature engineering"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sử dụng protected attributes (ethnicity, race, gender, religion) để ra quyết định quan trọng là discrimination.",
+      "tags": [
+        "responsible-ai",
+        "bias",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về mặt logic, tại sao \"AI predictions are probabilistic, not deterministic\" quan trọng cần hiểu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì AI quá phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Vì quyết định dựa trên xác suất có thể sai, cần human judgment để xem xét uncertainty trước khi hành động"
+        },
+        {
+          "key": "C",
+          "text": "Vì probability khó tính"
+        },
+        {
+          "key": "D",
+          "text": "Vì deterministic AI không tồn tại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ML outputs là probabilities. P(fraud)=0.7 không phải \"là gian lận\" mà là \"70% khả năng\". Uncertainty cần được communicate.",
+      "tags": [
+        "responsible-ai",
+        "uncertainty",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đoạn code sau:\n\nlogger.info(f\"User {user_id} has medical condition: {condition}\")\n\nVấn đề về privacy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Logging quá nhiều"
+        },
+        {
+          "key": "B",
+          "text": "Sensitive medical data đang được log có thể vi phạm HIPAA/GDPR và tạo security risk nếu logs bị access trái phép"
+        },
+        {
+          "key": "C",
+          "text": "Syntax error"
+        },
+        {
+          "key": "D",
+          "text": "Performance issue"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PII và sensitive data không nên log ở dạng plaintext. Cần anonymize, pseudonymize, hoặc loại bỏ khỏi logs.",
+      "tags": [
+        "responsible-ai",
+        "privacy",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc nào quan trọng nhất khi deploy AI trong môi trường có vulnerable users (trẻ em, người bệnh tâm thần)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Maximize accuracy trên tất cả users"
+        },
+        {
+          "key": "B",
+          "text": "Có safeguards bổ sung: content filtering, crisis detection, human escalation paths, và không sử dụng dark patterns"
+        },
+        {
+          "key": "C",
+          "text": "Deploy nhanh nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không deploy cho họ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vulnerable users cần extra protection: trauma-informed design, crisis hotline integration, không exploit psychological vulnerabilities.",
+      "tags": [
+        "responsible-ai",
+        "vulnerable-users",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mệnh đề: \"Chúng tôi đã test AI trên tập validation và đạt 95% accuracy. Do đó AI hoàn toàn an toàn để deploy.\"\n\nSuy luận này sai ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "95% accuracy là quá thấp"
+        },
+        {
+          "key": "B",
+          "text": "Validation accuracy không đảm bảo safety: cần test edge cases, bias analysis, adversarial inputs, và real-world validation"
+        },
+        {
+          "key": "C",
+          "text": "Test tập quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Cần 99% accuracy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "High validation accuracy ≠ safe deployment. Missing: subgroup analysis, adversarial testing, distribution shift analysis, human evals.",
+      "tags": [
+        "responsible-ai",
+        "evaluation",
+        "module-D"
+      ]
+    },
+    {
+      "id": "29-D-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi một AI company nói \"Chúng tôi không thể giải thích cách AI đưa ra quyết định vì đó là bí mật thương mại\", điều này:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoàn toàn chấp nhận được"
+        },
+        {
+          "key": "B",
+          "text": "Có thể chấp nhận cho quyết định thấp risk, nhưng problematic cho high-stakes decisions như hiring, lending, criminal justice"
+        },
+        {
+          "key": "C",
+          "text": "Luôn vi phạm pháp luật"
+        },
+        {
+          "key": "D",
+          "text": "Không phải vấn đề"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trade secrets vs accountability: với high-stakes decisions, GDPR Article 22, EU AI Act yêu cầu meaningful explanation dù có IP.",
+      "tags": [
+        "responsible-ai",
+        "transparency",
+        "module-D"
+      ]
+    }
+  ]
+}
