@@ -1,0 +1,1834 @@
+{
+  "id": "exam-33",
+  "title": "Ôn tập Pandas chuyên sâu — Series, DataFrame, GroupBy & Merge",
+  "description": "60 câu ôn tập Pandas: Series/DataFrame, loc/iloc, lọc boolean, xử lý dữ liệu thiếu (NaN), groupby & agg, merge/join/concat, apply/map, xử lý chuỗi .str, datetime .dt, pivot/crosstab, sort/rank, I/O CSV. 56 trắc nghiệm (nhiều câu đọc code) + 4 câu code tay.",
+  "durationMinutes": 75,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E33-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([10,20,30]).sum() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "60"
+        },
+        {
+          "key": "B",
+          "text": "30"
+        },
+        {
+          "key": "C",
+          "text": "20.0"
+        },
+        {
+          "key": "D",
+          "text": "[10 20 30]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sum() cộng toàn bộ giá trị Series: 10+20+30 = 60.",
+      "tags": [
+        "pandas",
+        "series"
+      ]
+    },
+    {
+      "id": "E33-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series([1,2,3], index=['a','b','c']). s['b'] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "'b'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Truy cập bằng nhãn index 'b' → giá trị 2.",
+      "tags": [
+        "pandas",
+        "series",
+        "index"
+      ]
+    },
+    {
+      "id": "E33-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([1,2,3,4]).mean() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "10.0"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(1+2+3+4)/4 = 2.5.",
+      "tags": [
+        "pandas",
+        "series",
+        "mean"
+      ]
+    },
+    {
+      "id": "E33-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([3,1,2]).sort_values().tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 2, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[2, 1, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort_values mặc định sắp xếp tăng dần → [1, 2, 3].",
+      "tags": [
+        "pandas",
+        "series",
+        "sort"
+      ]
+    },
+    {
+      "id": "E33-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([1,2,2,3,3,3]).value_counts().iloc[0] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "C",
+      "explanation": "value_counts đếm tần suất giảm dần; giá trị 3 xuất hiện 3 lần nên đứng đầu → 3.",
+      "tags": [
+        "pandas",
+        "value_counts"
+      ]
+    },
+    {
+      "id": "E33-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([1,2,3]).apply(lambda x: x*10).tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 20, 30]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[10]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 20, 300]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "apply áp dụng hàm cho từng phần tử → nhân 10 mỗi giá trị.",
+      "tags": [
+        "pandas",
+        "apply"
+      ]
+    },
+    {
+      "id": "E33-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2],'b':[3,4]}). df.shape là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(4,)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "2 hàng, 2 cột → shape (2,2).",
+      "tags": [
+        "pandas",
+        "dataframe",
+        "shape"
+      ]
+    },
+    {
+      "id": "E33-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.columns của pd.DataFrame({'x':[1],'y':[2]}) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Index(['x', 'y'], dtype='object')"
+        },
+        {
+          "key": "B",
+          "text": "['x', 'y']"
+        },
+        {
+          "key": "C",
+          "text": "Index([0, 1])"
+        },
+        {
+          "key": "D",
+          "text": "(x, y)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tên cột được lưu trong một Index object → Index(['x','y'], dtype='object').",
+      "tags": [
+        "pandas",
+        "columns"
+      ]
+    },
+    {
+      "id": "E33-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2,3]}). df['a'].dtype là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "float64"
+        },
+        {
+          "key": "B",
+          "text": "int64"
+        },
+        {
+          "key": "C",
+          "text": "object"
+        },
+        {
+          "key": "D",
+          "text": "int32"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cột số nguyên mặc định dtype int64.",
+      "tags": [
+        "pandas",
+        "dtype"
+      ]
+    },
+    {
+      "id": "E33-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.head(2) trả về gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 hàng đầu của DataFrame"
+        },
+        {
+          "key": "B",
+          "text": "2 cột đầu"
+        },
+        {
+          "key": "C",
+          "text": "2 hàng cuối"
+        },
+        {
+          "key": "D",
+          "text": "Tổng 2 hàng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "head(n) trả về n hàng đầu tiên (mặc định 5).",
+      "tags": [
+        "pandas",
+        "head"
+      ]
+    },
+    {
+      "id": "E33-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.info() cung cấp thông tin gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ số dòng"
+        },
+        {
+          "key": "B",
+          "text": "Tóm tắt: số dòng, tên cột, dtype, số giá trị non-null, bộ nhớ"
+        },
+        {
+          "key": "C",
+          "text": "Thống kê mô tả mean/std"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ biểu đồ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "info() in tóm tắt cấu trúc: số hàng, cột, dtype, đếm non-null, dung lượng bộ nhớ.",
+      "tags": [
+        "pandas",
+        "info"
+      ]
+    },
+    {
+      "id": "E33-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.describe() mặc định trả về thống kê cho loại cột nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tất cả các cột"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ các cột số (numeric)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cột chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cột boolean"
+        }
+      ],
+      "answer": "B",
+      "explanation": "describe() mặc định chỉ tổng hợp các cột số (count, mean, std, min, quartiles, max).",
+      "tags": [
+        "pandas",
+        "describe"
+      ]
+    },
+    {
+      "id": "E33-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[10,20,30]}, index=['x','y','z']). df.loc['y','a'] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "20"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "'y'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "loc dùng nhãn: hàng 'y', cột 'a' → 20.",
+      "tags": [
+        "pandas",
+        "loc"
+      ]
+    },
+    {
+      "id": "E33-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[10,20,30]}). df.iloc[2,0] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "20"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "iloc dùng vị trí số: hàng index 2, cột 0 → 30.",
+      "tags": [
+        "pandas",
+        "iloc"
+      ]
+    },
+    {
+      "id": "E33-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cơ bản giữa .loc và .iloc?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác nhau"
+        },
+        {
+          "key": "B",
+          "text": ".loc chọn theo nhãn (label); .iloc chọn theo vị trí số nguyên"
+        },
+        {
+          "key": "C",
+          "text": ".loc chỉ cho Series"
+        },
+        {
+          "key": "D",
+          "text": ".iloc chậm hơn nên không nên dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".loc dựa trên nhãn index/column; .iloc dựa trên vị trí số nguyên (integer position).",
+      "tags": [
+        "pandas",
+        "loc",
+        "iloc"
+      ]
+    },
+    {
+      "id": "E33-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2,3,4]}). df[df['a'] > 2]['a'].tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[True, True]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Boolean filter giữ hàng có a>2 → [3, 4].",
+      "tags": [
+        "pandas",
+        "filter",
+        "boolean"
+      ]
+    },
+    {
+      "id": "E33-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.iloc[:, 0] trả về gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cột đầu tiên dưới dạng Series"
+        },
+        {
+          "key": "B",
+          "text": "Hàng đầu tiên"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ DataFrame"
+        },
+        {
+          "key": "D",
+          "text": "Giá trị ô [0,0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "iloc[:, 0] lấy mọi hàng của cột vị trí 0 → một Series.",
+      "tags": [
+        "pandas",
+        "iloc"
+      ]
+    },
+    {
+      "id": "E33-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2],'b':[3,4]}). df['c'] = df['a'] + df['b']. df['c'].tolist() là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[4, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng 2 cột theo hàng: 1+3=4, 2+4=6 → [4, 6].",
+      "tags": [
+        "pandas",
+        "column"
+      ]
+    },
+    {
+      "id": "E33-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.drop('a', axis=1) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa hàng 'a'"
+        },
+        {
+          "key": "B",
+          "text": "Xóa cột 'a'"
+        },
+        {
+          "key": "C",
+          "text": "Xóa giá trị a"
+        },
+        {
+          "key": "D",
+          "text": "Đổi tên cột a"
+        }
+      ],
+      "answer": "B",
+      "explanation": "drop với axis=1 xóa cột có nhãn 'a'.",
+      "tags": [
+        "pandas",
+        "drop"
+      ]
+    },
+    {
+      "id": "E33-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.rename(columns={'a':'x'}) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đổi tên cột a thành x"
+        },
+        {
+          "key": "B",
+          "text": "Xóa cột a"
+        },
+        {
+          "key": "C",
+          "text": "Đổi giá trị"
+        },
+        {
+          "key": "D",
+          "text": "Thêm cột x"
+        }
+      ],
+      "answer": "A",
+      "explanation": "rename(columns=...) đổi nhãn cột a thành x.",
+      "tags": [
+        "pandas",
+        "rename"
+      ]
+    },
+    {
+      "id": "E33-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df['a'].astype(str) làm gì với cột số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ nguyên kiểu số"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển từng giá trị sang chuỗi (dtype object)"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Làm tròn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "astype(str) ép kiểu cột về chuỗi, dtype trở thành object.",
+      "tags": [
+        "pandas",
+        "astype"
+      ]
+    },
+    {
+      "id": "E33-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series([1, None, 3]). s.isna().sum() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "B",
+      "explanation": "isna() đánh dấu giá trị thiếu; có 1 None → sum = 1.",
+      "tags": [
+        "pandas",
+        "isna"
+      ]
+    },
+    {
+      "id": "E33-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series([1, np.nan, 3]). s.fillna(0).tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 0.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, nan, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 0, 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "fillna(0) thay NaN bằng 0 → [1.0, 0.0, 3.0] (cột vẫn float).",
+      "tags": [
+        "pandas",
+        "fillna"
+      ]
+    },
+    {
+      "id": "E33-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series([1, np.nan, 3]). s.dropna().tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, nan, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0]"
+        },
+        {
+          "key": "D",
+          "text": "[nan]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dropna() loại bỏ giá trị NaN → [1.0, 3.0].",
+      "tags": [
+        "pandas",
+        "dropna"
+      ]
+    },
+    {
+      "id": "E33-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series([1, np.nan, 3]). s.mean() bằng (NaN được xử lý thế nào)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "nan"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "1.333"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mặc định pandas bỏ qua NaN khi tính mean: (1+3)/2 = 2.0.",
+      "tags": [
+        "pandas",
+        "mean",
+        "nan"
+      ]
+    },
+    {
+      "id": "E33-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phương thức nào điền NaN bằng giá trị liền trước (forward fill)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "fillna(method='ffill') hoặc .ffill()"
+        },
+        {
+          "key": "B",
+          "text": "dropna()"
+        },
+        {
+          "key": "C",
+          "text": "replace()"
+        },
+        {
+          "key": "D",
+          "text": "interpolate(method='zero')"
+        }
+      ],
+      "answer": "A",
+      "explanation": ".ffill() (forward fill) lấy giá trị hợp lệ gần nhất phía trước để điền.",
+      "tags": [
+        "pandas",
+        "ffill"
+      ]
+    },
+    {
+      "id": "E33-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'k':['a','a','b'],'v':[1,2,3]}). df.groupby('k')['v'].sum()['a'] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhóm 'a' gồm giá trị 1 và 2; tổng = 3.",
+      "tags": [
+        "pandas",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E33-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.groupby('k')['v'].mean() trả về gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình của v cho từng nhóm k"
+        },
+        {
+          "key": "B",
+          "text": "Tổng v"
+        },
+        {
+          "key": "C",
+          "text": "Đếm số dòng"
+        },
+        {
+          "key": "D",
+          "text": "Trung bình toàn bộ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "groupby('k').mean() tính trung bình cột v riêng cho mỗi giá trị của k.",
+      "tags": [
+        "pandas",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E33-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'k':['a','a','b'],'v':[1,2,3]}). df.groupby('k').size()['a'] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "B",
+      "explanation": "size() đếm số hàng mỗi nhóm; nhóm 'a' có 2 hàng.",
+      "tags": [
+        "pandas",
+        "groupby",
+        "size"
+      ]
+    },
+    {
+      "id": "E33-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.groupby('k').agg({'v':['sum','mean']}) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ tính sum"
+        },
+        {
+          "key": "B",
+          "text": "Tính nhiều hàm tổng hợp (sum và mean) cho cột v theo nhóm"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi cú pháp"
+        },
+        {
+          "key": "D",
+          "text": "Đổi tên cột"
+        }
+      ],
+      "answer": "B",
+      "explanation": "agg với dict cho phép áp nhiều hàm tổng hợp lên cùng một cột theo nhóm.",
+      "tags": [
+        "pandas",
+        "groupby",
+        "agg"
+      ]
+    },
+    {
+      "id": "E33-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.groupby(['a','b']).sum() nhóm theo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cột a"
+        },
+        {
+          "key": "B",
+          "text": "Tổ hợp của cả a và b (multi-key)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cột b"
+        },
+        {
+          "key": "D",
+          "text": "Toàn bộ cột"
+        }
+      ],
+      "answer": "B",
+      "explanation": "groupby với danh sách cột nhóm theo tổ hợp các giá trị của a và b.",
+      "tags": [
+        "pandas",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E33-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.concat([pd.DataFrame({'a':[1]}), pd.DataFrame({'a':[2]})]).shape là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 1)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "concat mặc định nối theo hàng (axis=0) → 2 hàng, 1 cột.",
+      "tags": [
+        "pandas",
+        "concat"
+      ]
+    },
+    {
+      "id": "E33-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong pd.merge(df1, df2, on='id', how='inner'), how='inner' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ mọi hàng của df1"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ giữ các id có ở CẢ hai bảng"
+        },
+        {
+          "key": "C",
+          "text": "Giữ mọi hàng của df2"
+        },
+        {
+          "key": "D",
+          "text": "Giữ tất cả id của hai bảng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "inner join chỉ giữ các khóa khớp xuất hiện ở cả df1 và df2.",
+      "tags": [
+        "pandas",
+        "merge"
+      ]
+    },
+    {
+      "id": "E33-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "how='left' trong merge giữ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi hàng bảng trái, khớp bảng phải nếu có (NaN nếu không)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ hàng khớp"
+        },
+        {
+          "key": "C",
+          "text": "Mọi hàng bảng phải"
+        },
+        {
+          "key": "D",
+          "text": "Giao của 2 bảng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "left join giữ toàn bộ hàng bảng trái; cột bảng phải là NaN khi không có khớp.",
+      "tags": [
+        "pandas",
+        "merge"
+      ]
+    },
+    {
+      "id": "E33-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.concat([s1, s2], axis=1) với 2 Series tạo ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một Series dài hơn"
+        },
+        {
+          "key": "B",
+          "text": "Một DataFrame 2 cột"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Một số vô hướng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "concat theo axis=1 ghép các Series thành các cột → DataFrame.",
+      "tags": [
+        "pandas",
+        "concat"
+      ]
+    },
+    {
+      "id": "E33-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2,3]}). df['a'].map({1:'x',2:'y',3:'z'}).tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "['x', 'y', 'z']"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "['x']"
+        },
+        {
+          "key": "D",
+          "text": "[nan, nan, nan]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "map theo dict ánh xạ từng giá trị: 1→x, 2→y, 3→z.",
+      "tags": [
+        "pandas",
+        "map"
+      ]
+    },
+    {
+      "id": "E33-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.apply(np.sum, axis=0) tính gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng theo từng cột"
+        },
+        {
+          "key": "B",
+          "text": "Tổng theo từng hàng"
+        },
+        {
+          "key": "C",
+          "text": "Tổng toàn bộ"
+        },
+        {
+          "key": "D",
+          "text": "Đếm dòng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "apply với axis=0 áp hàm theo từng cột → tổng mỗi cột.",
+      "tags": [
+        "pandas",
+        "apply",
+        "axis"
+      ]
+    },
+    {
+      "id": "E33-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series(['a','b','c']). s.str.upper().tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "['A', 'B', 'C']"
+        },
+        {
+          "key": "B",
+          "text": "['a', 'b', 'c']"
+        },
+        {
+          "key": "C",
+          "text": "'ABC'"
+        },
+        {
+          "key": "D",
+          "text": "[A, B, C]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accessor .str.upper() viết hoa từng chuỗi → ['A','B','C'].",
+      "tags": [
+        "pandas",
+        "str"
+      ]
+    },
+    {
+      "id": "E33-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series(['ab','cd']). s.str.len().tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 1]"
+        },
+        {
+          "key": "C",
+          "text": "['ab', 'cd']"
+        },
+        {
+          "key": "D",
+          "text": "[4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": ".str.len() trả độ dài mỗi chuỗi → [2, 2].",
+      "tags": [
+        "pandas",
+        "str"
+      ]
+    },
+    {
+      "id": "E33-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.sort_values('a', ascending=False) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sắp xếp theo cột a giảm dần"
+        },
+        {
+          "key": "B",
+          "text": "Sắp xếp theo index"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp cột a tăng dần"
+        },
+        {
+          "key": "D",
+          "text": "Xóa cột a"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort_values('a', ascending=False) sắp xếp các hàng theo giá trị cột a từ lớn đến nhỏ.",
+      "tags": [
+        "pandas",
+        "sort_values"
+      ]
+    },
+    {
+      "id": "E33-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2,3]}). df.set_index('a') làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặt cột a làm index của DataFrame"
+        },
+        {
+          "key": "B",
+          "text": "Xóa cột a"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp a"
+        },
+        {
+          "key": "D",
+          "text": "Reset index"
+        }
+      ],
+      "answer": "A",
+      "explanation": "set_index('a') biến cột a thành chỉ mục (index) của DataFrame.",
+      "tags": [
+        "pandas",
+        "set_index"
+      ]
+    },
+    {
+      "id": "E33-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.reset_index(drop=True) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặt lại index 0..n-1 và bỏ index cũ"
+        },
+        {
+          "key": "B",
+          "text": "Giữ index cũ thành cột"
+        },
+        {
+          "key": "C",
+          "text": "Xóa toàn bộ dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp index"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reset_index(drop=True) tạo index số nguyên mới 0..n-1, không giữ index cũ làm cột.",
+      "tags": [
+        "pandas",
+        "reset_index"
+      ]
+    },
+    {
+      "id": "E33-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.Series([10,30,20]).rank().tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 3.0, 2.0]"
+        },
+        {
+          "key": "B",
+          "text": "[3.0, 1.0, 2.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[10.0, 30.0, 20.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "rank() gán thứ hạng tăng dần: 10→1, 20→2, 30→3, theo vị trí gốc → [1,3,2].",
+      "tags": [
+        "pandas",
+        "rank"
+      ]
+    },
+    {
+      "id": "E33-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.drop_duplicates() làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa các hàng trùng lặp, giữ lần xuất hiện đầu"
+        },
+        {
+          "key": "B",
+          "text": "Xóa cột trùng"
+        },
+        {
+          "key": "C",
+          "text": "Xóa NaN"
+        },
+        {
+          "key": "D",
+          "text": "Đếm trùng lặp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "drop_duplicates loại bỏ các hàng giống hệt nhau, mặc định giữ hàng đầu tiên.",
+      "tags": [
+        "pandas",
+        "duplicates"
+      ]
+    },
+    {
+      "id": "E33-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,1,2]}). df['a'].nunique() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "nunique() đếm số giá trị duy nhất: {1,2} → 2.",
+      "tags": [
+        "pandas",
+        "nunique"
+      ]
+    },
+    {
+      "id": "E33-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.pivot_table(values='v', index='a', columns='b', aggfunc='mean') tạo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bảng tổng hợp v trung bình theo a (hàng) và b (cột)"
+        },
+        {
+          "key": "B",
+          "text": "Một Series"
+        },
+        {
+          "key": "C",
+          "text": "Xóa cột"
+        },
+        {
+          "key": "D",
+          "text": "Đếm dòng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pivot_table tạo bảng chéo: hàng theo a, cột theo b, ô là mean của v.",
+      "tags": [
+        "pandas",
+        "pivot_table"
+      ]
+    },
+    {
+      "id": "E33-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.crosstab(df['a'], df['b']) tính gì mặc định?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình"
+        },
+        {
+          "key": "B",
+          "text": "Bảng tần suất (đếm số lần xuất hiện) của cặp (a,b)"
+        },
+        {
+          "key": "C",
+          "text": "Tổng"
+        },
+        {
+          "key": "D",
+          "text": "Tích"
+        }
+      ],
+      "answer": "B",
+      "explanation": "crosstab mặc định đếm tần suất tổ hợp giá trị của hai biến.",
+      "tags": [
+        "pandas",
+        "crosstab"
+      ]
+    },
+    {
+      "id": "E33-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.to_datetime('2024-03-15').month bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "2024"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "to_datetime phân tích chuỗi ngày; thuộc tính .month → 3.",
+      "tags": [
+        "pandas",
+        "datetime"
+      ]
+    },
+    {
+      "id": "E33-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "s = pd.Series(pd.to_datetime(['2024-01-01','2024-06-15'])). s.dt.year.tolist() trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2024, 2024]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 6]"
+        },
+        {
+          "key": "C",
+          "text": "[2024]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 15]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accessor .dt.year trích năm từ mỗi datetime → [2024, 2024].",
+      "tags": [
+        "pandas",
+        "datetime",
+        "dt"
+      ]
+    },
+    {
+      "id": "E33-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để gộp dữ liệu theo tháng từ cột thời gian, ta thường dùng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "df.resample('M') trên index thời gian"
+        },
+        {
+          "key": "B",
+          "text": "df.groupby('day')"
+        },
+        {
+          "key": "C",
+          "text": "df.sort_index()"
+        },
+        {
+          "key": "D",
+          "text": "df.dropna()"
+        }
+      ],
+      "answer": "A",
+      "explanation": "resample('M') nhóm lại theo tần suất thời gian (ví dụ theo tháng) trên DatetimeIndex.",
+      "tags": [
+        "pandas",
+        "resample"
+      ]
+    },
+    {
+      "id": "E33-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pd.read_csv('file.csv') trả về kiểu dữ liệu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Series"
+        },
+        {
+          "key": "B",
+          "text": "DataFrame"
+        },
+        {
+          "key": "C",
+          "text": "dict"
+        },
+        {
+          "key": "D",
+          "text": "numpy array"
+        }
+      ],
+      "answer": "B",
+      "explanation": "read_csv đọc tệp CSV thành một DataFrame.",
+      "tags": [
+        "pandas",
+        "io"
+      ]
+    },
+    {
+      "id": "E33-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df.to_csv('out.csv', index=False) khác gì khi bỏ index=False?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khác"
+        },
+        {
+          "key": "B",
+          "text": "index=False không ghi cột index vào file"
+        },
+        {
+          "key": "C",
+          "text": "Ghi nhanh hơn nhưng mất dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Đổi định dạng sang Excel"
+        }
+      ],
+      "answer": "B",
+      "explanation": "index=False bỏ qua việc ghi cột chỉ mục, tránh thừa một cột không tên trong CSV.",
+      "tags": [
+        "pandas",
+        "io"
+      ]
+    },
+    {
+      "id": "E33-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sự khác nhau giữa Series và DataFrame?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Series 1 chiều (1 cột có nhãn); DataFrame 2 chiều (nhiều cột)"
+        },
+        {
+          "key": "B",
+          "text": "Giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "DataFrame chỉ chứa số"
+        },
+        {
+          "key": "D",
+          "text": "Series không có index"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Series là cấu trúc 1 chiều có nhãn; DataFrame là bảng 2 chiều gồm nhiều Series chia sẻ chung index.",
+      "tags": [
+        "pandas",
+        "concepts"
+      ]
+    },
+    {
+      "id": "E33-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao thao tác vector hóa của pandas nhanh hơn vòng lặp iterrows()?",
+      "options": [
+        {
+          "key": "A",
+          "text": "iterrows() bị lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Vector hóa chạy ở tầng C trên cả cột, tránh overhead lặp từng hàng Python"
+        },
+        {
+          "key": "C",
+          "text": "Không nhanh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì iterrows trả về sai"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phép trên cả cột được tối ưu ở tầng C (NumPy), tránh chi phí lặp Python từng hàng như iterrows.",
+      "tags": [
+        "pandas",
+        "performance"
+      ]
+    },
+    {
+      "id": "E33-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df['a'].cumsum() trả về gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng tích lũy của cột a"
+        },
+        {
+          "key": "B",
+          "text": "Tổng duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Đếm dòng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cumsum() trả về Series tổng cộng dồn theo từng hàng của cột a.",
+      "tags": [
+        "pandas",
+        "cumsum"
+      ]
+    },
+    {
+      "id": "E33-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "df = pd.DataFrame({'a':[1,2,3,4]}). df['a'].between(2,3).sum() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "between(2,3) cho True ở các giá trị trong [2,3] (gồm 2 đầu mút): 2 và 3 → sum = 2.",
+      "tags": [
+        "pandas",
+        "between"
+      ]
+    },
+    {
+      "id": "E33-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho df có cột 'city' và 'sales'. Viết code tính TỔNG sales cho mỗi thành phố, sắp xếp giảm dần.",
+      "modelAnswer": "result = (df.groupby('city')['sales']\n            .sum()\n            .sort_values(ascending=False))\n# groupby gộp theo city, sum tổng sales, sort_values sắp giảm dần",
+      "rubric": [
+        "Dùng groupby('city')",
+        "Tổng hợp bằng .sum() trên cột sales",
+        "Dùng sort_values(ascending=False)",
+        "Kết quả là Series city -> tổng sales"
+      ],
+      "tags": [
+        "pandas",
+        "groupby",
+        "sort"
+      ]
+    },
+    {
+      "id": "E33-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho df có cột 'age' chứa một số giá trị NaN. Viết code điền NaN bằng giá trị TRUNG VỊ (median) của cột age.",
+      "modelAnswer": "df['age'] = df['age'].fillna(df['age'].median())\n# median bỏ qua NaN; fillna thay mọi NaN bằng giá trị này",
+      "rubric": [
+        "Tính df['age'].median()",
+        "Dùng fillna để thay NaN",
+        "Gán lại vào cột age",
+        "Hiểu median bỏ qua NaN"
+      ],
+      "tags": [
+        "pandas",
+        "fillna",
+        "median"
+      ]
+    },
+    {
+      "id": "E33-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho df với cột 'score'. Viết code tạo cột mới 'grade' = 'Pass' nếu score >= 50, ngược lại 'Fail' (không dùng vòng lặp).",
+      "modelAnswer": "import numpy as np\ndf['grade'] = np.where(df['score'] >= 50, 'Pass', 'Fail')\n# np.where vector hóa điều kiện trên cả cột",
+      "rubric": [
+        "Dùng np.where (hoặc .apply/.map)",
+        "Điều kiện score >= 50",
+        "Gán 'Pass'/'Fail' đúng nhánh",
+        "Không dùng vòng lặp Python"
+      ],
+      "tags": [
+        "pandas",
+        "numpy",
+        "where"
+      ]
+    },
+    {
+      "id": "E33-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho hai DataFrame: orders (cột customer_id, amount) và customers (cột customer_id, name). Viết code nối để mỗi đơn hàng có thêm tên khách, giữ mọi đơn hàng kể cả khi thiếu khách.",
+      "modelAnswer": "merged = orders.merge(customers, on='customer_id', how='left')\n# how='left' giữ toàn bộ đơn hàng; name là NaN nếu không tìm thấy khách",
+      "rubric": [
+        "Dùng pd.merge hoặc .merge",
+        "Khóa nối on='customer_id'",
+        "Dùng how='left' để giữ mọi đơn hàng",
+        "Hiểu name sẽ là NaN khi không khớp"
+      ],
+      "tags": [
+        "pandas",
+        "merge",
+        "join"
+      ]
+    }
+  ]
+}

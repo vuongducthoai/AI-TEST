@@ -1,0 +1,1834 @@
+{
+  "id": "exam-32",
+  "title": "Ôn tập NumPy chuyên sâu #2 — Ufunc, Set Ops, Đại số tuyến tính",
+  "description": "60 câu ôn tập NumPy nâng cao: tile/repeat, stacking & splitting, sort/argsort/searchsorted, ufunc reduce/accumulate, histogram/bincount, set operations, đại số tuyến tính (norm, rank, trace, cross), meshgrid, einsum, xử lý NaN/inf & sai số float. 56 trắc nghiệm + 4 câu code tay.",
+  "durationMinutes": 75,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E32-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.tile(np.array([1,2]), 3) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 1 2 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1 1 2 2 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3 6]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tile lặp lại toàn bộ mảng 3 lần → [1 2 1 2 1 2].",
+      "tags": [
+        "numpy",
+        "tile"
+      ]
+    },
+    {
+      "id": "E32-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.repeat(np.array([1,2]), 3) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 1 2 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1 1 2 2 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3 6]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "repeat lặp lại từng phần tử 3 lần → [1 1 1 2 2 2].",
+      "tags": [
+        "numpy",
+        "repeat"
+      ]
+    },
+    {
+      "id": "E32-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mảng a có shape (4,). a[:, np.newaxis].shape là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4,)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(4, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 4)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "np.newaxis thêm một trục, biến (4,) thành cột (4,1).",
+      "tags": [
+        "numpy",
+        "newaxis"
+      ]
+    },
+    {
+      "id": "E32-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.outer(np.array([1,2]), np.array([3,4])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3 4]\n [6 8]]"
+        },
+        {
+          "key": "B",
+          "text": "[ 3  8]"
+        },
+        {
+          "key": "C",
+          "text": "[[3 6]\n [4 8]]"
+        },
+        {
+          "key": "D",
+          "text": "11"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích ngoài: phần tử [i,j]=a[i]*b[j] → [[3,4],[6,8]].",
+      "tags": [
+        "numpy",
+        "outer"
+      ]
+    },
+    {
+      "id": "E32-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.diff(np.array([1,4,9,16])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 5 7]"
+        },
+        {
+          "key": "B",
+          "text": "[1 4 9 16]"
+        },
+        {
+          "key": "C",
+          "text": "[3 5 7 9]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1  5 14 30]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diff lấy hiệu các phần tử liền kề: 4-1, 9-4, 16-9 → [3 5 7].",
+      "tags": [
+        "numpy",
+        "diff"
+      ]
+    },
+    {
+      "id": "E32-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.cumprod(np.array([1,2,3,4])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  3  6 10]"
+        },
+        {
+          "key": "B",
+          "text": "[ 1  2  6 24]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[24]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tích tích lũy: 1, 1*2, 1*2*3, 1*2*3*4 → [1 2 6 24].",
+      "tags": [
+        "numpy",
+        "cumprod"
+      ]
+    },
+    {
+      "id": "E32-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.percentile(np.array([1,2,3,4,5]), 50) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "3.5"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phân vị 50 (median) của [1..5] = 3.0.",
+      "tags": [
+        "numpy",
+        "percentile"
+      ]
+    },
+    {
+      "id": "E32-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.argsort(np.array([30,10,20])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[10 20 30]"
+        },
+        {
+          "key": "D",
+          "text": "[2 1 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort trả index sắp xếp tăng: nhỏ nhất 10(idx1),20(idx2),30(idx0) → [1 2 0].",
+      "tags": [
+        "numpy",
+        "argsort"
+      ]
+    },
+    {
+      "id": "E32-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.sort(np.array([[3,1],[2,4]]), axis=1) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 3]\n [2 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 1]\n [3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3 1]\n [2 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2]\n [3 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort theo axis=1 sắp xếp trong từng hàng: [3,1]→[1,3]; [2,4]→[2,4].",
+      "tags": [
+        "numpy",
+        "sort",
+        "axis"
+      ]
+    },
+    {
+      "id": "E32-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.searchsorted(np.array([1,3,5,7]), 4) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "searchsorted tìm vị trí chèn 4 để giữ thứ tự: giữa 3(idx1) và 5(idx2) → index 2.",
+      "tags": [
+        "numpy",
+        "searchsorted"
+      ]
+    },
+    {
+      "id": "E32-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.array_split(np.arange(7), 3) chia thành các nhóm kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3,2,2"
+        },
+        {
+          "key": "B",
+          "text": "2,2,3"
+        },
+        {
+          "key": "C",
+          "text": "3,3,1"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi vì 7 không chia hết 3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "array_split cho phép chia không đều: 7 phần tử thành 3 nhóm → 3,2,2.",
+      "tags": [
+        "numpy",
+        "array_split"
+      ]
+    },
+    {
+      "id": "E32-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.hstack([np.array([[1],[2]]), np.array([[3],[4]])]) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 3]\n [2 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[[1]\n [2]\n [3]\n [4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "hstack nối theo cột: ghép 2 cột → [[1,3],[2,4]].",
+      "tags": [
+        "numpy",
+        "hstack"
+      ]
+    },
+    {
+      "id": "E32-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.stack([np.array([1,2]), np.array([3,4])], axis=0).shape là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4,)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 4)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "stack tạo trục mới; 2 mảng (2,) xếp theo axis=0 → (2,2).",
+      "tags": [
+        "numpy",
+        "stack"
+      ]
+    },
+    {
+      "id": "E32-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.flatnonzero(np.array([0,5,0,8])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3]"
+        },
+        {
+          "key": "B",
+          "text": "[5 8]"
+        },
+        {
+          "key": "C",
+          "text": "[0 2]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 0 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "flatnonzero trả index của phần tử khác 0 → [1 3].",
+      "tags": [
+        "numpy",
+        "nonzero"
+      ]
+    },
+    {
+      "id": "E32-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.count_nonzero(np.array([[0,1],[2,0]])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đếm số phần tử khác 0: có 1 và 2 → 2.",
+      "tags": [
+        "numpy",
+        "count_nonzero"
+      ]
+    },
+    {
+      "id": "E32-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.maximum(np.array([1,5,3]), np.array([4,2,6])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 5 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[5 6]"
+        },
+        {
+          "key": "D",
+          "text": "[4 2 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "maximum so từng cặp phần tử lấy giá trị lớn hơn: max(1,4),max(5,2),max(3,6)→[4 5 6].",
+      "tags": [
+        "numpy",
+        "maximum"
+      ]
+    },
+    {
+      "id": "E32-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa np.max và np.maximum?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giống hệt nhau"
+        },
+        {
+          "key": "B",
+          "text": "max trả 1 giá trị lớn nhất trong mảng; maximum so element-wise giữa 2 mảng"
+        },
+        {
+          "key": "C",
+          "text": "maximum chỉ chạy 1D"
+        },
+        {
+          "key": "D",
+          "text": "max chỉ chạy với float"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.max là phép gộp (reduce) trả 1 giá trị; np.maximum so sánh từng cặp giữa 2 mảng.",
+      "tags": [
+        "numpy",
+        "max",
+        "maximum"
+      ]
+    },
+    {
+      "id": "E32-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.round(np.array([1.4, 1.5, 2.5, 2.6])) trả về (bankers rounding)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 2. 2. 3.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 2. 3. 3.]"
+        },
+        {
+          "key": "C",
+          "text": "[2. 2. 3. 3.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 1. 2. 2.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NumPy dùng làm tròn về số chẵn gần nhất (half-to-even): 1.5→2, 2.5→2.",
+      "tags": [
+        "numpy",
+        "round"
+      ]
+    },
+    {
+      "id": "E32-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.floor(np.array([-1.5, 1.5])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-2.  1.]"
+        },
+        {
+          "key": "B",
+          "text": "[-1.  2.]"
+        },
+        {
+          "key": "C",
+          "text": "[-1.  1.]"
+        },
+        {
+          "key": "D",
+          "text": "[-2.  2.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "floor làm tròn xuống số nguyên nhỏ hơn hoặc bằng: -1.5→-2, 1.5→1.",
+      "tags": [
+        "numpy",
+        "floor"
+      ]
+    },
+    {
+      "id": "E32-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.abs(np.array([-3, 4, -5])).sum() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "12"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "-4"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "abs → [3,4,5]; sum = 12.",
+      "tags": [
+        "numpy",
+        "abs"
+      ]
+    },
+    {
+      "id": "E32-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.dot(np.array([[1,0],[0,1]]), np.array([5,6])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5 6]"
+        },
+        {
+          "key": "B",
+          "text": "[6 5]"
+        },
+        {
+          "key": "C",
+          "text": "[[5 6]]"
+        },
+        {
+          "key": "D",
+          "text": "11"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân ma trận đơn vị với vector giữ nguyên → [5 6].",
+      "tags": [
+        "numpy",
+        "dot"
+      ]
+    },
+    {
+      "id": "E32-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.linalg.matrix_rank(np.array([[1,2],[2,4]])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hàng 2 = 2×hàng 1 nên các hàng phụ thuộc tuyến tính → hạng = 1.",
+      "tags": [
+        "numpy",
+        "linalg",
+        "rank"
+      ]
+    },
+    {
+      "id": "E32-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.trace(np.array([[1,2,3],[4,5,6],[7,8,9]])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "15"
+        },
+        {
+          "key": "B",
+          "text": "45"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "trace là tổng đường chéo chính: 1+5+9 = 15.",
+      "tags": [
+        "numpy",
+        "trace"
+      ]
+    },
+    {
+      "id": "E32-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.cross(np.array([1,0,0]), np.array([0,1,0])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 0 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1 0 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0 1 0]"
+        },
+        {
+          "key": "D",
+          "text": "[1 1 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích có hướng của hai vector đơn vị x và y là vector đơn vị z → [0 0 1].",
+      "tags": [
+        "numpy",
+        "cross"
+      ]
+    },
+    {
+      "id": "E32-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.linalg.norm(np.array([3,4])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "25.0"
+        },
+        {
+          "key": "D",
+          "text": "12.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn L2 = sqrt(3²+4²) = sqrt(25) = 5.0.",
+      "tags": [
+        "numpy",
+        "linalg",
+        "norm"
+      ]
+    },
+    {
+      "id": "E32-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.mean(np.arange(12).reshape(3,4), axis=1) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.5 5.5 9.5]"
+        },
+        {
+          "key": "B",
+          "text": "[4. 5. 6. 7.]"
+        },
+        {
+          "key": "C",
+          "text": "[5.5]"
+        },
+        {
+          "key": "D",
+          "text": "[1.5 5.5 9.5 0.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean theo hàng: [0,1,2,3]→1.5; [4,5,6,7]→5.5; [8,9,10,11]→9.5.",
+      "tags": [
+        "numpy",
+        "mean",
+        "axis"
+      ]
+    },
+    {
+      "id": "E32-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.var(np.array([2,2,2,2])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mọi phần tử bằng nhau nên phương sai = 0.",
+      "tags": [
+        "numpy",
+        "var"
+      ]
+    },
+    {
+      "id": "E32-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.prod(np.array([1,2,3,4])) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tích tất cả phần tử: 1*2*3*4 = 24.",
+      "tags": [
+        "numpy",
+        "prod"
+      ]
+    },
+    {
+      "id": "E32-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.allclose(np.array([1.0, 2.0]), np.array([1.0, 2.0000001])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "[True False]"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "allclose so sánh xấp xỉ với dung sai; chênh lệch rất nhỏ → True.",
+      "tags": [
+        "numpy",
+        "allclose"
+      ]
+    },
+    {
+      "id": "E32-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao 0.1 + 0.2 == 0.3 trả về False trong NumPy/Python?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi NumPy"
+        },
+        {
+          "key": "B",
+          "text": "Do sai số biểu diễn số thực dấu phẩy động (floating point)"
+        },
+        {
+          "key": "C",
+          "text": "Vì dtype sai"
+        },
+        {
+          "key": "D",
+          "text": "Vì thiếu seed"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Số thực float64 không biểu diễn chính xác 0.1, 0.2 nên tổng có sai số nhỏ; nên dùng np.isclose.",
+      "tags": [
+        "numpy",
+        "float",
+        "precision"
+      ]
+    },
+    {
+      "id": "E32-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.meshgrid(np.array([1,2]), np.array([10,20]))[0] trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 2]\n [1 2]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 1]\n [2 2]]"
+        },
+        {
+          "key": "C",
+          "text": "[[10 20]\n [10 20]]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "meshgrid trả X (tọa độ theo trục x lặp theo hàng) → [[1,2],[1,2]].",
+      "tags": [
+        "numpy",
+        "meshgrid"
+      ]
+    },
+    {
+      "id": "E32-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.indices((2,2))[0] trả về (chỉ số hàng)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 0]\n [1 1]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 1]\n [0 1]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 0]\n [0 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "indices[0] là ma trận chỉ số hàng: hàng 0 toàn 0, hàng 1 toàn 1.",
+      "tags": [
+        "numpy",
+        "indices"
+      ]
+    },
+    {
+      "id": "E32-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.fromfunction(lambda i,j: i+j, (2,2), dtype=int) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 1]\n [1 2]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 0]\n [0 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0 1]\n [2 3]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "fromfunction gọi f(i,j)=i+j cho từng vị trí → [[0,1],[1,2]].",
+      "tags": [
+        "numpy",
+        "fromfunction"
+      ]
+    },
+    {
+      "id": "E32-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.triu(np.ones((3,3)), k=0).sum() bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "6.0"
+        },
+        {
+          "key": "C",
+          "text": "9.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "triu giữ tam giác trên gồm cả đường chéo: 3+2+1 = 6 phần tử bằng 1.",
+      "tags": [
+        "numpy",
+        "triu"
+      ]
+    },
+    {
+      "id": "E32-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.array([1,2,3]) > np.array([0,5,3]) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ True False False]"
+        },
+        {
+          "key": "B",
+          "text": "[ True  True  True]"
+        },
+        {
+          "key": "C",
+          "text": "[False  True False]"
+        },
+        {
+          "key": "D",
+          "text": "[ True False  True]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "So sánh từng cặp: 1>0 T, 2>5 F, 3>3 F → [True False False].",
+      "tags": [
+        "numpy",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E32-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.logical_and(np.array([True,True,False]), np.array([True,False,False])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ True False False]"
+        },
+        {
+          "key": "B",
+          "text": "[ True  True False]"
+        },
+        {
+          "key": "C",
+          "text": "[False False False]"
+        },
+        {
+          "key": "D",
+          "text": "[ True  True  True]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AND từng cặp: T&T=T, T&F=F, F&F=F → [True False False].",
+      "tags": [
+        "numpy",
+        "logical"
+      ]
+    },
+    {
+      "id": "E32-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.array([10,20,30])[np.array([-1,-2])] trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[30 20]"
+        },
+        {
+          "key": "B",
+          "text": "[10 20]"
+        },
+        {
+          "key": "C",
+          "text": "[20 30]"
+        },
+        {
+          "key": "D",
+          "text": "[30 10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Index âm tính từ cuối: -1→30, -2→20 → [30 20].",
+      "tags": [
+        "numpy",
+        "fancy-indexing"
+      ]
+    },
+    {
+      "id": "E32-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "a = np.arange(4). np.add.reduce(a) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "B",
+      "explanation": "add.reduce cộng dồn toàn mảng [0,1,2,3] → 6.",
+      "tags": [
+        "numpy",
+        "ufunc",
+        "reduce"
+      ]
+    },
+    {
+      "id": "E32-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "a = np.arange(4). np.add.accumulate(a) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 3 6]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[6]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 0 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "accumulate giống cumsum: [0, 0+1, 0+1+2, 0+1+2+3] → [0 1 3 6].",
+      "tags": [
+        "numpy",
+        "ufunc",
+        "accumulate"
+      ]
+    },
+    {
+      "id": "E32-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.histogram(np.array([1,2,1,3]), bins=[0,1,2,3,4])[0] trả về (số đếm)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 2 1 1]"
+        },
+        {
+          "key": "B",
+          "text": "[2 1 1 0]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 1]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đếm theo bin [0,1):0, [1,2):2 (hai số 1), [2,3):1, [3,4]:1 → [0 2 1 1].",
+      "tags": [
+        "numpy",
+        "histogram"
+      ]
+    },
+    {
+      "id": "E32-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.bincount(np.array([0,1,1,2,2,2])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3 2 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1 1 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bincount đếm số lần xuất hiện mỗi giá trị: 0→1, 1→2, 2→3 → [1 2 3].",
+      "tags": [
+        "numpy",
+        "bincount"
+      ]
+    },
+    {
+      "id": "E32-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.intersect1d(np.array([1,2,3,4]), np.array([3,4,5,6])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 5 6]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4 5 6]"
+        },
+        {
+          "key": "D",
+          "text": "[3 4 5 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "intersect1d trả phần giao đã sắp xếp → [3 4].",
+      "tags": [
+        "numpy",
+        "setops"
+      ]
+    },
+    {
+      "id": "E32-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.union1d(np.array([1,2]), np.array([2,3])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[2]"
+        },
+        {
+          "key": "D",
+          "text": "[1 3]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "union1d hợp 2 tập, loại trùng và sắp xếp → [1 2 3].",
+      "tags": [
+        "numpy",
+        "setops"
+      ]
+    },
+    {
+      "id": "E32-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.setdiff1d(np.array([1,2,3,4]), np.array([2,4])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[3 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "setdiff1d trả các phần tử có trong mảng 1 nhưng không có trong mảng 2 → [1 3].",
+      "tags": [
+        "numpy",
+        "setops"
+      ]
+    },
+    {
+      "id": "E32-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.in1d(np.array([1,2,3]), np.array([2,3])) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[False  True  True]"
+        },
+        {
+          "key": "B",
+          "text": "[ True  True False]"
+        },
+        {
+          "key": "C",
+          "text": "[ True False  True]"
+        },
+        {
+          "key": "D",
+          "text": "[2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kiểm tra từng phần tử của mảng 1 có nằm trong mảng 2 không → [False True True].",
+      "tags": [
+        "numpy",
+        "setops"
+      ]
+    },
+    {
+      "id": "E32-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "b = a.copy() khác gì b = a (a là mảng numpy)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giống nhau"
+        },
+        {
+          "key": "B",
+          "text": "copy() tạo bản sao độc lập; b=a chỉ tạo tham chiếu cùng dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "copy() chậm hơn nhưng kết quả sai"
+        },
+        {
+          "key": "D",
+          "text": "b=a tạo bản sao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "b=a chỉ gán tham chiếu (sửa b ảnh hưởng a); copy() tạo mảng dữ liệu độc lập.",
+      "tags": [
+        "numpy",
+        "copy",
+        "view"
+      ]
+    },
+    {
+      "id": "E32-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mảng a = np.arange(6).reshape(2,3). a.size và a.ndim lần lượt là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6 và 2"
+        },
+        {
+          "key": "B",
+          "text": "2 và 3"
+        },
+        {
+          "key": "C",
+          "text": "3 và 2"
+        },
+        {
+          "key": "D",
+          "text": "6 và 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "size là tổng số phần tử (6); ndim là số chiều (2).",
+      "tags": [
+        "numpy",
+        "attributes"
+      ]
+    },
+    {
+      "id": "E32-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.empty((2,2)) tạo ra gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mảng toàn 0"
+        },
+        {
+          "key": "B",
+          "text": "Mảng (2,2) với giá trị rác (chưa khởi tạo)"
+        },
+        {
+          "key": "C",
+          "text": "Mảng rỗng size 0"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "empty cấp phát bộ nhớ mà không khởi tạo giá trị → chứa giá trị rác (không xác định).",
+      "tags": [
+        "numpy",
+        "empty"
+      ]
+    },
+    {
+      "id": "E32-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.array([1,2,3]) / np.array([0,1,0]) cho kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi ZeroDivisionError"
+        },
+        {
+          "key": "B",
+          "text": "[inf  2. inf] kèm RuntimeWarning"
+        },
+        {
+          "key": "C",
+          "text": "[0 2 0]"
+        },
+        {
+          "key": "D",
+          "text": "[nan nan nan]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chia cho 0 với float numpy không raise; trả inf và cảnh báo RuntimeWarning.",
+      "tags": [
+        "numpy",
+        "division",
+        "inf"
+      ]
+    },
+    {
+      "id": "E32-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.nan == np.nan trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "nan"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Theo chuẩn IEEE 754, NaN không bằng chính nó → False. Phải dùng np.isnan.",
+      "tags": [
+        "numpy",
+        "nan"
+      ]
+    },
+    {
+      "id": "E32-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.clip(np.array([-5, 0, 5]), 0, None) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 0 5]"
+        },
+        {
+          "key": "B",
+          "text": "[-5  0  5]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 0]"
+        },
+        {
+          "key": "D",
+          "text": "[5 5 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "clip với max=None chỉ chặn dưới tại 0: -5→0, 0→0, 5→5 (giống ReLU).",
+      "tags": [
+        "numpy",
+        "clip"
+      ]
+    },
+    {
+      "id": "E32-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "a = np.arange(6).reshape(2,3). np.flip(a, axis=0) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3 4 5]\n [0 1 2]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 1 0]\n [5 4 3]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 1 2]\n [3 4 5]]"
+        },
+        {
+          "key": "D",
+          "text": "[[5 4 3]\n [2 1 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "flip theo axis=0 đảo thứ tự các hàng → hàng dưới lên trên.",
+      "tags": [
+        "numpy",
+        "flip"
+      ]
+    },
+    {
+      "id": "E32-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.roll(np.array([1,2,3,4]), 1) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 3 4 1]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[4 3 2 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "roll dịch các phần tử sang phải 1 vị trí, phần tử cuối quay về đầu → [4 1 2 3].",
+      "tags": [
+        "numpy",
+        "roll"
+      ]
+    },
+    {
+      "id": "E32-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.pad(np.array([1,2,3]), (1,2), constant_values=0) trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 2 3 0 0]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3 0 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 1 2 3]"
+        },
+        {
+          "key": "D",
+          "text": "[1 1 2 3 2 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pad thêm 1 số 0 trước và 2 số 0 sau → [0 1 2 3 0 0].",
+      "tags": [
+        "numpy",
+        "pad"
+      ]
+    },
+    {
+      "id": "E32-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "np.einsum('ii', np.arange(9).reshape(3,3)) tính gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng đường chéo (trace) = 12"
+        },
+        {
+          "key": "B",
+          "text": "Tổng toàn ma trận = 36"
+        },
+        {
+          "key": "C",
+          "text": "Tích đường chéo"
+        },
+        {
+          "key": "D",
+          "text": "Định thức"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ii' lấy phần tử đường chéo và cộng lại = trace = 0+4+8 = 12.",
+      "tags": [
+        "numpy",
+        "einsum"
+      ]
+    },
+    {
+      "id": "E32-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lợi ích của việc chỉ định dtype=np.float32 thay vì float64 cho mảng lớn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Giảm một nửa bộ nhớ và thường nhanh hơn, đổi lại độ chính xác thấp hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không khác biệt"
+        },
+        {
+          "key": "D",
+          "text": "Bắt buộc cho mọi phép toán"
+        }
+      ],
+      "answer": "B",
+      "explanation": "float32 dùng 4 byte/phần tử (so với 8 của float64) nên tiết kiệm bộ nhớ, nhanh hơn, nhưng kém chính xác hơn.",
+      "tags": [
+        "numpy",
+        "dtype",
+        "memory"
+      ]
+    },
+    {
+      "id": "E32-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho a = np.array([[1,2,3],[4,5,6]]). Viết code chuẩn hóa từng HÀNG sao cho mỗi hàng có tổng = 1 (vectorized, dùng keepdims).",
+      "modelAnswer": "row_sums = a.sum(axis=1, keepdims=True)   # shape (2,1)\na_norm = a / row_sums\n# keepdims=True giữ shape (2,1) để broadcast đúng theo hàng",
+      "rubric": [
+        "Tính tổng theo axis=1",
+        "Dùng keepdims=True để broadcast đúng",
+        "Chia mảng cho tổng hàng",
+        "Mỗi hàng kết quả có tổng = 1"
+      ],
+      "tags": [
+        "numpy",
+        "normalization",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E32-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết code numpy đếm số phần tử dương, âm và bằng 0 trong mảng a, không dùng vòng lặp.",
+      "modelAnswer": "pos = int((a > 0).sum())\nneg = int((a < 0).sum())\nzero = int((a == 0).sum())\n# mỗi điều kiện tạo mask boolean rồi .sum() đếm True",
+      "rubric": [
+        "Tạo mask boolean với phép so sánh",
+        "Dùng .sum() để đếm True",
+        "Xử lý cả 3 trường hợp >0, <0, ==0",
+        "Không dùng vòng lặp"
+      ],
+      "tags": [
+        "numpy",
+        "boolean",
+        "counting"
+      ]
+    },
+    {
+      "id": "E32-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho ma trận khoảng cách D (n×n) đối xứng. Viết code lấy ra tổng các phần tử PHÍA TRÊN đường chéo chính (không gồm đường chéo).",
+      "modelAnswer": "import numpy as np\n# mask tam giác trên, k=1 để loại đường chéo\nupper_sum = D[np.triu_indices_from(D, k=1)].sum()\n# hoặc: np.triu(D, k=1).sum()",
+      "rubric": [
+        "Dùng np.triu_indices_from hoặc np.triu với k=1",
+        "k=1 để loại đường chéo chính",
+        "Lấy tổng các phần tử tam giác trên",
+        "Hiểu ma trận đối xứng"
+      ],
+      "tags": [
+        "numpy",
+        "triu",
+        "indexing"
+      ]
+    },
+    {
+      "id": "E32-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho a = np.array([3, 8, 1, 8, 3, 8]). Viết code tìm giá trị xuất hiện NHIỀU NHẤT (mode) bằng numpy.",
+      "modelAnswer": "import numpy as np\nvals, counts = np.unique(a, return_counts=True)\nmode = vals[counts.argmax()]   # 8\n# np.unique đếm tần suất, argmax lấy vị trí tần suất lớn nhất",
+      "rubric": [
+        "Dùng np.unique(..., return_counts=True)",
+        "Dùng argmax trên mảng counts",
+        "Lấy giá trị tương ứng từ vals",
+        "Kết quả mode = 8"
+      ],
+      "tags": [
+        "numpy",
+        "unique",
+        "mode"
+      ]
+    }
+  ]
+}
