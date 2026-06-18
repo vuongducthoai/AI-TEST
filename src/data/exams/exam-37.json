@@ -1,0 +1,1808 @@
+{
+  "id": "exam-37",
+  "title": "Kiến thức AI & Tư duy sản phẩm — Logic, Đạo đức & Hành vi",
+  "description": "60 câu module C (kiến thức AI/ML: học máy, metrics, loss, CNN/Transformer/LLM, RAG, overfitting; tư duy sản phẩm AI: baseline, đánh đổi FP/FN, human-in-the-loop, model drift, A/B testing, success metric) và module D (tư duy logic: diễn dịch/quy nạp, điều kiện cần/đủ, ngụy biện, lượng từ; đạo đức & hành vi AI: thiên kiến/công bằng, minh bạch, quyền riêng tư, trách nhiệm giải trình, lưỡng dụng, AI có trách nhiệm). Gồm trắc nghiệm và nhiều câu tự luận, có tình huống đạo đức.",
+  "durationMinutes": 80,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E37-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Học có giám sát (supervised) khác học không giám sát (unsupervised) ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có giám sát dùng dữ liệu đã gán nhãn (label), không giám sát thì không"
+        },
+        {
+          "key": "B",
+          "text": "Có giám sát luôn nhanh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không giám sát luôn chính xác hơn"
+        },
+        {
+          "key": "D",
+          "text": "Có giám sát không cần dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng phân biệt là nhãn: supervised học từ cặp (x, y) có nhãn; unsupervised tìm cấu trúc trong dữ liệu không nhãn.",
+      "tags": [
+        "ml",
+        "fundamentals"
+      ]
+    },
+    {
+      "id": "E37-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bài toán dự đoán giá nhà (giá trị liên tục) thuộc loại nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hồi quy (regression)"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại (classification)"
+        },
+        {
+          "key": "C",
+          "text": "Phân cụm (clustering)"
+        },
+        {
+          "key": "D",
+          "text": "Giảm chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đầu ra là số thực liên tục → hồi quy. Phân loại dành cho nhãn rời rạc.",
+      "tags": [
+        "ml",
+        "regression"
+      ]
+    },
+    {
+      "id": "E37-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Overfitting (quá khớp) biểu hiện như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốt trên tập huấn luyện nhưng kém trên dữ liệu mới"
+        },
+        {
+          "key": "B",
+          "text": "Kém trên cả train và test"
+        },
+        {
+          "key": "C",
+          "text": "Tốt trên test, kém trên train"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cho độ chính xác 100%"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình học cả nhiễu của train nên tổng quát hóa kém → train tốt, validation/test kém.",
+      "tags": [
+        "ml",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E37-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kỹ thuật nào KHÔNG giúp giảm overfitting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ phức tạp mô hình lên rất cao"
+        },
+        {
+          "key": "B",
+          "text": "Regularization (L1/L2)"
+        },
+        {
+          "key": "C",
+          "text": "Dropout"
+        },
+        {
+          "key": "D",
+          "text": "Thu thập thêm dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tăng độ phức tạp thường làm overfitting nặng hơn; các phương án còn lại đều giảm overfitting.",
+      "tags": [
+        "ml",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E37-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đánh đổi bias–variance: mô hình quá đơn giản thường có?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bias cao, variance thấp (underfitting)"
+        },
+        {
+          "key": "B",
+          "text": "Bias thấp, variance cao"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều thấp"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình quá đơn giản → bias cao, variance thấp, dẫn tới underfitting.",
+      "tags": [
+        "ml",
+        "bias-variance"
+      ]
+    },
+    {
+      "id": "E37-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục đích của tập validation (kiểm định) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn siêu tham số và theo dõi tổng quát hóa trong lúc huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện trọng số mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Báo cáo kết quả cuối cùng cho khách hàng"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế tập train"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Validation dùng để tinh chỉnh siêu tham số/early stopping; test mới là đánh giá cuối cùng độc lập.",
+      "tags": [
+        "ml",
+        "validation"
+      ]
+    },
+    {
+      "id": "E37-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong phân loại nhị phân, Precision được định nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TP / (TP + FP)"
+        },
+        {
+          "key": "B",
+          "text": "TP / (TP + FN)"
+        },
+        {
+          "key": "C",
+          "text": "(TP+TN)/tổng"
+        },
+        {
+          "key": "D",
+          "text": "FP / (FP + TN)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision = TP/(TP+FP): trong các dự đoán dương, bao nhiêu phần trăm đúng.",
+      "tags": [
+        "ml",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E37-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Recall (độ phủ / độ nhạy) được định nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TP / (TP + FN)"
+        },
+        {
+          "key": "B",
+          "text": "TP / (TP + FP)"
+        },
+        {
+          "key": "C",
+          "text": "TN / (TN + FP)"
+        },
+        {
+          "key": "D",
+          "text": "(TP+TN)/tổng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall = TP/(TP+FN): trong các trường hợp thực sự dương, mô hình bắt được bao nhiêu.",
+      "tags": [
+        "ml",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E37-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "F1-score là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình điều hòa của Precision và Recall"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình cộng của Precision và Recall"
+        },
+        {
+          "key": "C",
+          "text": "Tổng Precision và Recall"
+        },
+        {
+          "key": "D",
+          "text": "Độ chính xác toàn cục"
+        }
+      ],
+      "answer": "A",
+      "explanation": "F1 = 2·P·R/(P+R) — trung bình điều hòa, cân bằng giữa Precision và Recall.",
+      "tags": [
+        "ml",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E37-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi dữ liệu mất cân bằng nặng (99% âm, 1% dương), vì sao 'accuracy' dễ gây hiểu lầm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đoán toàn bộ là lớp đa số vẫn đạt accuracy rất cao dù vô dụng"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy luôn bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy chỉ tính cho lớp thiểu số"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy không thể tính được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình tầm thường đạt 99% accuracy nhưng không phát hiện được lớp hiếm; nên dùng precision/recall/F1/AUC.",
+      "tags": [
+        "ml",
+        "metrics",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E37-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát (loss) phổ biến cho bài toán phân loại là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cross-entropy"
+        },
+        {
+          "key": "B",
+          "text": "Mean Squared Error"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng cách Manhattan"
+        },
+        {
+          "key": "D",
+          "text": "Độ chính xác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cross-entropy (log loss) chuẩn cho phân loại; MSE thường dùng cho hồi quy.",
+      "tags": [
+        "ml",
+        "loss"
+      ]
+    },
+    {
+      "id": "E37-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Learning rate quá lớn trong gradient descent thường gây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dao động/phân kỳ, không hội tụ"
+        },
+        {
+          "key": "B",
+          "text": "Hội tụ rất nhanh và ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng gì"
+        },
+        {
+          "key": "D",
+          "text": "Giảm overfitting"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LR quá lớn khiến bước cập nhật vọt qua cực tiểu → loss dao động hoặc phân kỳ.",
+      "tags": [
+        "ml",
+        "optimization"
+      ]
+    },
+    {
+      "id": "E37-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm kích hoạt ReLU được định nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "max(0, x)"
+        },
+        {
+          "key": "B",
+          "text": "1/(1+e^(−x))"
+        },
+        {
+          "key": "C",
+          "text": "tanh(x)"
+        },
+        {
+          "key": "D",
+          "text": "x²"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(x) = max(0, x); giữ phần dương, cắt phần âm về 0.",
+      "tags": [
+        "ml",
+        "activation"
+      ]
+    },
+    {
+      "id": "E37-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm softmax thường được dùng ở đâu trong mạng phân loại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lớp đầu ra để biến logits thành phân phối xác suất"
+        },
+        {
+          "key": "B",
+          "text": "Lớp đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Để khởi tạo trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Để cắt gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax chuẩn hóa các logits thành xác suất (tổng = 1) cho phân loại đa lớp.",
+      "tags": [
+        "ml",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E37-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc nào tốt cho dữ liệu ảnh nhờ khai thác tính cục bộ không gian?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mạng tích chập (CNN)"
+        },
+        {
+          "key": "B",
+          "text": "Cây quyết định"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Naive Bayes"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN dùng các bộ lọc tích chập khai thác cấu trúc không gian cục bộ của ảnh.",
+      "tags": [
+        "ml",
+        "cnn"
+      ]
+    },
+    {
+      "id": "E37-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cơ chế cốt lõi của kiến trúc Transformer là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-attention (cơ chế chú ý)"
+        },
+        {
+          "key": "B",
+          "text": "Tích chập 2D"
+        },
+        {
+          "key": "C",
+          "text": "Cây quyết định"
+        },
+        {
+          "key": "D",
+          "text": "k-means"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transformer dựa trên self-attention để mô hình hóa quan hệ giữa các token bất kể khoảng cách.",
+      "tags": [
+        "ml",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E37-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Hallucination' của một mô hình ngôn ngữ lớn (LLM) nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình tạo ra thông tin nghe hợp lý nhưng sai/bịa"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình bị treo"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình từ chối trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình chạy quá chậm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hallucination là khi LLM sinh nội dung trôi chảy nhưng không đúng sự thật hoặc bịa đặt.",
+      "tags": [
+        "llm",
+        "hallucination"
+      ]
+    },
+    {
+      "id": "E37-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RAG (Retrieval-Augmented Generation) giúp ích gì cho LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bổ sung tri thức ngoài/cập nhật bằng cách truy hồi tài liệu liên quan trước khi sinh"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ GPU"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hoàn toàn việc huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RAG truy hồi ngữ cảnh liên quan rồi đưa vào prompt, giảm bịa và cập nhật kiến thức mà không cần huấn luyện lại.",
+      "tags": [
+        "llm",
+        "rag"
+      ]
+    },
+    {
+      "id": "E37-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tham số 'temperature' khi sinh văn bản của LLM điều khiển?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức độ ngẫu nhiên/đa dạng của đầu ra"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ token/giây"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Temperature cao → đa dạng/ngẫu nhiên hơn; thấp (gần 0) → xác định, lặp lại, an toàn hơn.",
+      "tags": [
+        "llm",
+        "decoding"
+      ]
+    },
+    {
+      "id": "E37-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Fine-tuning một mô hình đã pretrained nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện tiếp trên dữ liệu chuyên biệt để thích nghi nhiệm vụ/miền"
+        },
+        {
+          "key": "B",
+          "text": "Xóa toàn bộ trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ đổi tên mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số token đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fine-tuning điều chỉnh tiếp trọng số của mô hình nền trên dữ liệu nhiệm vụ cụ thể.",
+      "tags": [
+        "llm",
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "E37-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Context window' của một LLM là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số token tối đa mô hình xử lý cùng lúc (đầu vào + đầu ra)"
+        },
+        {
+          "key": "B",
+          "text": "Kích thước màn hình"
+        },
+        {
+          "key": "C",
+          "text": "Số GPU"
+        },
+        {
+          "key": "D",
+          "text": "Số tầng attention"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Context window giới hạn lượng token mô hình 'nhìn thấy' một lần; vượt quá sẽ bị cắt.",
+      "tags": [
+        "llm",
+        "context"
+      ]
+    },
+    {
+      "id": "E37-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Data leakage (rò rỉ dữ liệu) trong ML là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thông tin từ tập test/tương lai lọt vào quá trình huấn luyện, làm kết quả ảo cao"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu bị mất"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Thiếu GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Leakage khiến mô hình 'thấy' thông tin lẽ ra không có lúc dự đoán thực tế → đánh giá lạc quan giả tạo.",
+      "tags": [
+        "ml",
+        "data-leakage"
+      ]
+    },
+    {
+      "id": "E37-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Embedding (vector nhúng) của từ/câu dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biểu diễn ngữ nghĩa dưới dạng vector số để máy xử lý/so sánh"
+        },
+        {
+          "key": "B",
+          "text": "Mã hóa mật khẩu"
+        },
+        {
+          "key": "C",
+          "text": "Nén ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Embedding ánh xạ văn bản sang không gian vector, nơi khoảng cách phản ánh độ tương tự ngữ nghĩa.",
+      "tags": [
+        "ml",
+        "embedding"
+      ]
+    },
+    {
+      "id": "E37-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi xây sản phẩm AI, vì sao nên thiết lập một 'baseline' đơn giản trước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để có mốc so sánh; đôi khi giải pháp đơn giản đã đủ tốt và rẻ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì baseline luôn tốt nhất"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng độ phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Vì luật bắt buộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Baseline cho mốc đánh giá; nếu mô hình phức tạp không vượt đáng kể thì không đáng đầu tư.",
+      "tags": [
+        "product",
+        "baseline"
+      ]
+    },
+    {
+      "id": "E37-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào KHÔNG nên dùng ML cho một bài toán?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi quy tắc rõ ràng, ổn định, lập trình trực tiếp được và dữ liệu khan hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Khi có nhiều dữ liệu và mẫu phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Khi bài toán mơ hồ, nhiều ngoại lệ"
+        },
+        {
+          "key": "D",
+          "text": "Khi cần cá nhân hóa quy mô lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu logic rõ ràng, ít dữ liệu, hoặc cần giải thích tuyệt đối — giải pháp dựa luật thường tốt hơn ML.",
+      "tags": [
+        "product",
+        "when-to-use-ml"
+      ]
+    },
+    {
+      "id": "E37-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong sản phẩm, đánh đổi giữa false positive và false negative phụ thuộc vào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí/hậu quả thực tế của mỗi loại lỗi với người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Màu sắc giao diện"
+        },
+        {
+          "key": "C",
+          "text": "Ngôn ngữ lập trình"
+        },
+        {
+          "key": "D",
+          "text": "Số dòng code"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vd bỏ sót ung thư (FN) nguy hiểm hơn báo động giả (FP) → ưu tiên recall; cân theo bối cảnh nghiệp vụ.",
+      "tags": [
+        "product",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "E37-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Human-in-the-loop' trong hệ thống AI nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Con người xem xét/can thiệp vào các quyết định quan trọng hoặc không chắc chắn"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ hoàn toàn con người"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho game"
+        },
+        {
+          "key": "D",
+          "text": "Một loại GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Human-in-the-loop đưa con người vào kiểm duyệt/quyết định, đặc biệt ở trường hợp rủi ro cao hoặc mô hình thiếu tự tin.",
+      "tags": [
+        "product",
+        "hitl"
+      ]
+    },
+    {
+      "id": "E37-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Model drift (trôi mô hình) khi triển khai là hiện tượng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiệu năng giảm dần do phân phối dữ liệu thực tế thay đổi theo thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình tự xóa"
+        },
+        {
+          "key": "C",
+          "text": "GPU quá nóng"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ chính xác theo thời gian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi dữ liệu/hành vi người dùng đổi so với lúc huấn luyện, mô hình kém dần → cần giám sát và huấn luyện lại.",
+      "tags": [
+        "product",
+        "monitoring",
+        "drift"
+      ]
+    },
+    {
+      "id": "E37-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "A/B testing trong sản phẩm AI dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh hiệu quả thực tế của hai phiên bản trên người dùng thật một cách có kiểm soát"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Nén dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ biểu đồ loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A/B test chia ngẫu nhiên người dùng để đo tác động nhân quả của thay đổi lên chỉ số.",
+      "tags": [
+        "product",
+        "ab-testing"
+      ]
+    },
+    {
+      "id": "E37-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chỉ số thành công (success metric) của một tính năng AI nên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gắn với giá trị người dùng/kinh doanh, đo được và thống nhất trước"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ là độ chính xác mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Càng nhiều chỉ số mơ hồ càng tốt"
+        },
+        {
+          "key": "D",
+          "text": "Do mô hình tự chọn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nên định nghĩa trước một chỉ số bắc cầu tới giá trị thật (vd tỉ lệ giữ chân, thời gian tiết kiệm), không chỉ accuracy offline.",
+      "tags": [
+        "product",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E37-C31",
+      "module": "C",
+      "type": "essay",
+      "points": 3.0,
+      "prompt": "Bạn được giao xây hệ thống lọc email spam. Trình bày cách chọn chỉ số đánh giá phù hợp, phân tích đánh đổi giữa false positive (email thật bị đánh dấu spam) và false negative (spam lọt vào hộp thư), và bạn ưu tiên điều gì, vì sao.",
+      "modelAnswer": "Không dùng accuracy đơn thuần vì dữ liệu mất cân bằng; dùng precision, recall, F1, đường cong PR. False positive (mất email quan trọng) thường tốn kém hơn false negative (một spam lọt vào chỉ gây phiền nhẹ). Vì vậy ưu tiên PRECISION cao cho nhãn spam (giảm FP), chấp nhận recall thấp hơn; thêm thư mục spam cho người dùng tự kiểm và phản hồi 'không phải spam' để cải thiện.",
+      "rubric": [
+        "Chỉ ra accuracy không đủ do mất cân bằng, đề xuất precision/recall/F1",
+        "Phân tích chi phí FP vs FN",
+        "Lập luận ưu tiên giảm FP → precision cao",
+        "Đề xuất cơ chế thực tế: ngưỡng, thư mục spam, phản hồi"
+      ],
+      "tags": [
+        "product",
+        "metrics",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "E37-C32",
+      "module": "C",
+      "type": "essay",
+      "points": 3.0,
+      "prompt": "Một LLM trong sản phẩm chăm sóc khách hàng thỉnh thoảng 'bịa' thông tin (hallucination). Nêu ít nhất ba biện pháp kỹ thuật/sản phẩm để giảm rủi ro này và giải thích ngắn gọn từng biện pháp.",
+      "modelAnswer": "1) RAG/grounding: truy hồi tài liệu chính thống, buộc trả lời dựa trên ngữ cảnh đó kèm trích dẫn. 2) Giảm temperature và cho phép mô hình nói 'không chắc/không biết' khi thiếu căn cứ. 3) Human-in-the-loop hoặc guardrails/kiểm tra tự động cho câu trả lời rủi ro cao, kèm ghi log và giám sát. Bổ sung: giới hạn phạm vi, fine-tune dữ liệu miền, hiển thị nguồn để người dùng tự kiểm chứng.",
+      "rubric": [
+        "Nêu RAG/grounding kèm trích dẫn",
+        "Nêu kiểm soát giải mã và cho phép trả lời 'không biết'",
+        "Nêu human-in-the-loop/guardrails/giám sát",
+        "Giải thích vì sao mỗi biện pháp giảm hallucination"
+      ],
+      "tags": [
+        "llm",
+        "hallucination",
+        "product"
+      ]
+    },
+    {
+      "id": "E37-D01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Suy luận diễn dịch (deductive) khác quy nạp (inductive) ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Diễn dịch: kết luận chắc chắn nếu tiền đề đúng; quy nạp: khái quát từ ví dụ nên chỉ có thể đúng"
+        },
+        {
+          "key": "B",
+          "text": "Quy nạp luôn đúng tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Diễn dịch luôn sai"
+        },
+        {
+          "key": "D",
+          "text": "Hai cái giống hệt nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Diễn dịch bảo toàn chân lý; quy nạp khái quát hóa nên mang tính xác suất.",
+      "tags": [
+        "logic",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "E37-D02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Tương quan không kéo theo nhân quả' nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai biến cùng biến thiên không chứng minh cái này gây ra cái kia"
+        },
+        {
+          "key": "B",
+          "text": "Tương quan luôn là nhân quả"
+        },
+        {
+          "key": "C",
+          "text": "Nhân quả không tồn tại"
+        },
+        {
+          "key": "D",
+          "text": "Mọi biến đều độc lập"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Có thể có biến gây nhiễu thứ ba hoặc trùng hợp; cần thực nghiệm có kiểm soát để kết luận nhân quả.",
+      "tags": [
+        "logic",
+        "causation"
+      ]
+    },
+    {
+      "id": "E37-D03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngụy biện 'tấn công cá nhân' (ad hominem) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bác bỏ lập luận bằng cách công kích người nói thay vì nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Dùng số liệu thống kê"
+        },
+        {
+          "key": "C",
+          "text": "Đưa ra phản ví dụ"
+        },
+        {
+          "key": "D",
+          "text": "Trích dẫn chuyên gia"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ad hominem nhắm vào con người thay vì phản bác luận điểm — là ngụy biện.",
+      "tags": [
+        "logic",
+        "fallacy"
+      ]
+    },
+    {
+      "id": "E37-D04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngụy biện 'người rơm' (straw man) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bóp méo lập luận của đối phương thành dạng dễ công kích rồi bác bỏ"
+        },
+        {
+          "key": "B",
+          "text": "Đồng ý hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Dùng tam đoạn luận hợp lệ"
+        },
+        {
+          "key": "D",
+          "text": "Đặt câu hỏi làm rõ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Straw man xuyên tạc quan điểm đối phương rồi đánh bại phiên bản méo mó đó.",
+      "tags": [
+        "logic",
+        "fallacy"
+      ]
+    },
+    {
+      "id": "E37-D05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho 'Nếu P thì Q'. Mệnh đề phản đảo (contrapositive) tương đương logic là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu không Q thì không P"
+        },
+        {
+          "key": "B",
+          "text": "Nếu Q thì P"
+        },
+        {
+          "key": "C",
+          "text": "Nếu không P thì không Q"
+        },
+        {
+          "key": "D",
+          "text": "Nếu P thì không Q"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phản đảo của P→Q là ¬Q→¬P, luôn tương đương logic với mệnh đề gốc.",
+      "tags": [
+        "logic",
+        "contrapositive"
+      ]
+    },
+    {
+      "id": "E37-D06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với P→Q, phát biểu đúng về điều kiện cần/đủ là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P là điều kiện đủ cho Q; Q là điều kiện cần cho P"
+        },
+        {
+          "key": "B",
+          "text": "P là điều kiện cần cho Q"
+        },
+        {
+          "key": "C",
+          "text": "Q là điều kiện đủ cho P"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều không cần thiết"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P→Q: có P là đủ để có Q; muốn có P thì nhất thiết phải có Q.",
+      "tags": [
+        "logic",
+        "conditions"
+      ]
+    },
+    {
+      "id": "E37-D07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngụy biện 'khẳng định hệ quả' (affirming the consequent) có dạng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P→Q, có Q, kết luận P (sai)"
+        },
+        {
+          "key": "B",
+          "text": "P→Q, có P, kết luận Q (đúng)"
+        },
+        {
+          "key": "C",
+          "text": "P→Q, không Q, kết luận không P (đúng)"
+        },
+        {
+          "key": "D",
+          "text": "Tam đoạn luận hợp lệ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Từ P→Q và Q không suy ra được P (Q có thể do nguyên nhân khác) → ngụy biện.",
+      "tags": [
+        "logic",
+        "fallacy"
+      ]
+    },
+    {
+      "id": "E37-D08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Base rate fallacy' (bỏ qua tỉ lệ nền) thường xảy ra khi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ qua xác suất tiên nghiệm/độ phổ biến khi đánh giá xác suất hậu nghiệm"
+        },
+        {
+          "key": "B",
+          "text": "Luôn dùng định lý Bayes đúng"
+        },
+        {
+          "key": "C",
+          "text": "Tính trung bình cộng"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ biểu đồ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Người ta hay quên tỉ lệ nền nên đánh giá quá cao xác suất sau khi có một bằng chứng (vd test dương với bệnh hiếm).",
+      "tags": [
+        "logic",
+        "probability",
+        "bias"
+      ]
+    },
+    {
+      "id": "E37-D09",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mệnh đề 'P AND Q' chỉ đúng khi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả P và Q đều đúng"
+        },
+        {
+          "key": "B",
+          "text": "Ít nhất một đúng"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều sai"
+        },
+        {
+          "key": "D",
+          "text": "P đúng, Q bất kỳ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép hội (AND) chỉ đúng khi mọi toán hạng đều đúng.",
+      "tags": [
+        "logic",
+        "truth-table"
+      ]
+    },
+    {
+      "id": "E37-D10",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mệnh đề 'P OR Q' (OR bao hàm) sai khi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả P và Q đều sai"
+        },
+        {
+          "key": "B",
+          "text": "Ít nhất một đúng"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đúng"
+        },
+        {
+          "key": "D",
+          "text": "P đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép tuyển (OR) chỉ sai khi tất cả toán hạng đều sai.",
+      "tags": [
+        "logic",
+        "truth-table"
+      ]
+    },
+    {
+      "id": "E37-D11",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phủ định của 'Mọi thiên nga đều trắng' (∀) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tồn tại ít nhất một thiên nga không trắng"
+        },
+        {
+          "key": "B",
+          "text": "Mọi thiên nga đều đen"
+        },
+        {
+          "key": "C",
+          "text": "Không có thiên nga nào"
+        },
+        {
+          "key": "D",
+          "text": "Mọi thiên nga đều trắng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "¬(∀x P(x)) ≡ ∃x ¬P(x): chỉ cần một phản ví dụ là đủ phủ định mệnh đề phổ quát.",
+      "tags": [
+        "logic",
+        "quantifier"
+      ]
+    },
+    {
+      "id": "E37-D12",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thiên kiến dữ liệu (dataset bias) trong AI dẫn tới hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình học và khuếch đại định kiến, đối xử bất công với một số nhóm"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chạy nhanh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Giảm dung lượng lưu trữ"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu phản ánh định kiến lịch sử khiến mô hình tái tạo/khuếch đại bất công với nhóm yếu thế.",
+      "tags": [
+        "ethics",
+        "bias",
+        "fairness"
+      ]
+    },
+    {
+      "id": "E37-D13",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nguyên tắc 'minh bạch' (transparency) trong AI có trách nhiệm yêu cầu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải thích được cách hệ thống ra quyết định ở mức phù hợp với bên liên quan"
+        },
+        {
+          "key": "B",
+          "text": "Giấu kín toàn bộ mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Không cần tài liệu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ kỹ sư mới được biết gì cả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Minh bạch nghĩa là cung cấp giải thích/tài liệu phù hợp để người dùng và cơ quan quản lý hiểu và tin cậy.",
+      "tags": [
+        "ethics",
+        "transparency"
+      ]
+    },
+    {
+      "id": "E37-D14",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi thu thập dữ liệu cá nhân để huấn luyện, nguyên tắc đạo đức/pháp lý quan trọng là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có sự đồng ý (consent), giảm thiểu dữ liệu và bảo vệ quyền riêng tư"
+        },
+        {
+          "key": "B",
+          "text": "Thu càng nhiều càng tốt bất chấp"
+        },
+        {
+          "key": "C",
+          "text": "Chia sẻ công khai mọi dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua quyền người dùng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cần đồng ý có thông tin, thu thập tối thiểu, ẩn danh hóa và bảo mật theo nguyên tắc bảo vệ dữ liệu.",
+      "tags": [
+        "ethics",
+        "privacy",
+        "consent"
+      ]
+    },
+    {
+      "id": "E37-D15",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Explainability' (khả năng giải thích) đặc biệt quan trọng trong lĩnh vực nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Y tế, tài chính, tư pháp — nơi quyết định ảnh hưởng lớn tới con người"
+        },
+        {
+          "key": "B",
+          "text": "Trò chơi giải trí thuần túy"
+        },
+        {
+          "key": "C",
+          "text": "Hình nền điện thoại"
+        },
+        {
+          "key": "D",
+          "text": "Không lĩnh vực nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ở quyết định rủi ro cao cần giải thích được để kiểm tra công bằng và chịu trách nhiệm.",
+      "tags": [
+        "ethics",
+        "explainability"
+      ]
+    },
+    {
+      "id": "E37-D16",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trách nhiệm giải trình (accountability) khi hệ thống AI gây hại nên thuộc về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổ chức/con người phát triển và triển khai hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ mình mô hình (phần mềm)"
+        },
+        {
+          "key": "C",
+          "text": "Người dùng cuối luôn chịu trách nhiệm"
+        },
+        {
+          "key": "D",
+          "text": "Không ai cả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AI không tự chịu trách nhiệm; tổ chức và con người thiết kế/triển khai phải chịu trách nhiệm về tác hại.",
+      "tags": [
+        "ethics",
+        "accountability"
+      ]
+    },
+    {
+      "id": "E37-D17",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Dual use' (lưỡng dụng) của công nghệ AI nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cùng công nghệ có thể dùng cho mục đích tốt lẫn gây hại"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng được một lần"
+        },
+        {
+          "key": "C",
+          "text": "Cần hai GPU"
+        },
+        {
+          "key": "D",
+          "text": "Chạy trên hai hệ điều hành"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhiều công nghệ AI vừa hữu ích vừa có thể bị lạm dụng (lừa đảo, deepfake) — cần cân nhắc rủi ro.",
+      "tags": [
+        "ethics",
+        "dual-use",
+        "safety"
+      ]
+    },
+    {
+      "id": "E37-D18",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình đạt độ chính xác cao nhưng phân biệt đối xử với một nhóm thiểu số; hành xử đúng đắn là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dừng lại, đánh giá công bằng (fairness) và khắc phục trước khi triển khai"
+        },
+        {
+          "key": "B",
+          "text": "Triển khai vì accuracy cao"
+        },
+        {
+          "key": "C",
+          "text": "Giấu vấn đề đi"
+        },
+        {
+          "key": "D",
+          "text": "Đổ lỗi cho dữ liệu rồi bỏ qua"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hiệu năng tổng thể cao không biện minh cho bất công; cần kiểm tra fairness theo nhóm và sửa trước khi phát hành.",
+      "tags": [
+        "ethics",
+        "fairness",
+        "behavior"
+      ]
+    },
+    {
+      "id": "E37-D19",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hành vi chuyên nghiệp đúng khi báo cáo kết quả mô hình cho lãnh đạo là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung thực về cả hạn chế, sai số và rủi ro, không thổi phồng"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ nêu điểm tốt"
+        },
+        {
+          "key": "C",
+          "text": "Che giấu lỗi để dự án được duyệt"
+        },
+        {
+          "key": "D",
+          "text": "Phóng đại độ chính xác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính chính trực đòi hỏi trình bày trung thực điểm mạnh lẫn hạn chế/độ bất định.",
+      "tags": [
+        "behavior",
+        "integrity"
+      ]
+    },
+    {
+      "id": "E37-D20",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phát hiện đồng nghiệp dùng dữ liệu người dùng sai mục đích đã cam kết, bạn nên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nêu quan ngại và báo cáo qua kênh phù hợp trong tổ chức"
+        },
+        {
+          "key": "B",
+          "text": "Lờ đi vì không phải việc của mình"
+        },
+        {
+          "key": "C",
+          "text": "Cùng tham gia"
+        },
+        {
+          "key": "D",
+          "text": "Công khai dữ liệu để 'trừng phạt'"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cần lên tiếng và báo cáo theo quy trình nội bộ/đạo đức nghề nghiệp để bảo vệ người dùng.",
+      "tags": [
+        "behavior",
+        "ethics"
+      ]
+    },
+    {
+      "id": "E37-D21",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lập luận hợp lệ (valid) nhưng có tiền đề sai thì kết luận?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thể sai — tính hợp lệ không đảm bảo kết luận đúng nếu tiền đề sai"
+        },
+        {
+          "key": "B",
+          "text": "Luôn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Luôn vô nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Không liên quan tới tiền đề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hợp lệ = 'nếu tiền đề đúng thì kết luận đúng'; chỉ 'sound' khi tiền đề cũng đúng.",
+      "tags": [
+        "logic",
+        "validity"
+      ]
+    },
+    {
+      "id": "E37-D22",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để giảm thiên kiến trong tuyển dụng bằng AI, biện pháp hợp lý là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm toán công bằng theo nhóm, xử lý biến nhạy cảm/đại diện, giám sát liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Tin tưởng tuyệt đối vào mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Dùng dữ liệu lịch sử nguyên trạng vì 'khách quan'"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phức tạp mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu lịch sử có thể chứa định kiến; cần kiểm toán fairness, xử lý biến proxy và giám sát.",
+      "tags": [
+        "ethics",
+        "fairness",
+        "hiring"
+      ]
+    },
+    {
+      "id": "E37-D23",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nguyên tắc 'thận trọng' khi triển khai AI ở lĩnh vực rủi ro cao là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thử nghiệm hạn chế, có giám sát con người và cơ chế can thiệp/khôi phục"
+        },
+        {
+          "key": "B",
+          "text": "Triển khai toàn bộ ngay lập tức"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ giám sát để tiết kiệm"
+        },
+        {
+          "key": "D",
+          "text": "Không cần kế hoạch dự phòng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nên triển khai từ từ, có human oversight, kill-switch và kế hoạch xử lý sự cố.",
+      "tags": [
+        "ethics",
+        "safety",
+        "deployment"
+      ]
+    },
+    {
+      "id": "E37-D24",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tam đoạn luận: 'Mọi A là B. x là A. Vậy x là B.' Đây là dạng suy luận?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Diễn dịch hợp lệ"
+        },
+        {
+          "key": "B",
+          "text": "Quy nạp"
+        },
+        {
+          "key": "C",
+          "text": "Ngụy biện"
+        },
+        {
+          "key": "D",
+          "text": "Loại suy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tam đoạn luận diễn dịch hợp lệ: kết luận chắc chắn nếu tiền đề đúng.",
+      "tags": [
+        "logic",
+        "syllogism"
+      ]
+    },
+    {
+      "id": "E37-D25",
+      "module": "D",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Tình huống: Nhóm của bạn xây mô hình chấm điểm tín dụng. Khi kiểm tra, mô hình từ chối cho vay với tỉ lệ cao bất thường ở một nhóm dân cư, dù không dùng trực tiếp biến chủng tộc. Hãy phân tích vấn đề đạo đức và đề xuất hướng xử lý.",
+      "modelAnswer": "Dù không dùng biến nhạy cảm trực tiếp, mô hình có thể học qua 'biến ủy nhiệm' (proxy) như mã vùng/địa chỉ tương quan với nhóm dân cư → phân biệt gián tiếp (disparate impact), vi phạm công bằng và có thể trái luật. Xử lý: (1) Kiểm toán công bằng theo nhóm (so sánh tỉ lệ chấp thuận, FP/FN giữa các nhóm). (2) Xác định và xử lý biến proxy; cân nhắc ràng buộc fairness hoặc hiệu chỉnh ngưỡng. (3) Tăng minh bạch, có quy trình khiếu nại và human review. (4) Tham vấn pháp lý/đạo đức, giám sát sau triển khai; hoãn phát hành tới khi giảm bất công xuống mức chấp nhận được.",
+      "rubric": [
+        "Nhận ra phân biệt gián tiếp qua biến proxy",
+        "Đề xuất kiểm toán công bằng theo nhóm",
+        "Đề xuất biện pháp kỹ thuật: xử lý proxy, ràng buộc fairness, ngưỡng",
+        "Nêu minh bạch/khiếu nại/human review và cân nhắc pháp lý"
+      ],
+      "tags": [
+        "ethics",
+        "fairness",
+        "case-study"
+      ]
+    },
+    {
+      "id": "E37-D26",
+      "module": "D",
+      "type": "essay",
+      "points": 3.0,
+      "prompt": "Phân biệt 'điều kiện cần' và 'điều kiện đủ' bằng một ví dụ đời thường, rồi chỉ ra lỗi suy luận khi nhầm lẫn hai khái niệm này.",
+      "modelAnswer": "Ví dụ: 'Để đỗ môn, cần đạt tối thiểu 50 điểm thi.' Đạt 50 là điều kiện CẦN nhưng chưa chắc ĐỦ (có thể còn yêu cầu chuyên cần). 'Được 100 điểm' là ĐỦ để đỗ nhưng không cần thiết. Lỗi: nhầm cần thành đủ ('tôi đạt 50 nên chắc chắn đỗ' — sai) hoặc đủ thành cần ('phải được 100 mới đỗ' — sai). Trong logic, P→Q không được đảo thành Q→P.",
+      "rubric": [
+        "Định nghĩa đúng điều kiện cần và đủ",
+        "Cho ví dụ đời thường minh họa",
+        "Chỉ ra lỗi nhầm cần↔đủ",
+        "Liên hệ P→Q không tương đương Q→P"
+      ],
+      "tags": [
+        "logic",
+        "conditions",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "E37-D27",
+      "module": "D",
+      "type": "essay",
+      "points": 3.0,
+      "prompt": "Một sản phẩm AI tạo sinh của bạn có thể bị lạm dụng để tạo tin giả. Với tư duy 'AI có trách nhiệm', hãy nêu các biện pháp giảm thiểu rủi ro lạm dụng mà vẫn giữ được giá trị hữu ích của sản phẩm.",
+      "modelAnswer": "Cân bằng hữu ích và an toàn (dual-use): (1) Chính sách sử dụng rõ ràng + kiểm duyệt nội dung. (2) Gắn nhãn/đánh dấu nguồn gốc nội dung do AI tạo (watermark, metadata). (3) Giới hạn tốc độ/khối lượng, xác thực người dùng cho tính năng rủi ro cao. (4) Giám sát, kênh báo cáo lạm dụng và khắc phục nhanh. (5) Red-teaming trước khi phát hành; minh bạch về giới hạn. Mục tiêu: giảm tác hại mà không tắt lợi ích chính đáng — quản trị rủi ro theo mức độ.",
+      "rubric": [
+        "Nhận diện bản chất lưỡng dụng",
+        "Biện pháp kỹ thuật (kiểm duyệt, watermark/truy vết)",
+        "Biện pháp vận hành (giới hạn, xác thực, giám sát)",
+        "Cân bằng an toàn và giá trị, nêu red-teaming/minh bạch"
+      ],
+      "tags": [
+        "ethics",
+        "responsible-ai",
+        "safety"
+      ]
+    },
+    {
+      "id": "E37-D28",
+      "module": "D",
+      "type": "essay",
+      "points": 3.0,
+      "prompt": "Một mô hình có độ chính xác cao nhưng là 'hộp đen' khó giải thích. Trong bối cảnh ra quyết định ảnh hưởng tới con người, hãy lập luận về căng thẳng giữa 'hiệu năng' và 'khả năng giải thích', và bạn sẽ cân nhắc thế nào.",
+      "modelAnswer": "Mô hình phức tạp thường chính xác hơn nhưng khó giải thích; mô hình đơn giản dễ giải thích nhưng có thể kém chính xác. Ở lĩnh vực rủi ro cao (y tế, tín dụng, tư pháp), khả năng giải thích và kiểm toán công bằng có thể quan trọng hơn vài phần trăm accuracy — vì cần biện minh quyết định, phát hiện thiên kiến và chịu trách nhiệm. Giải pháp dung hòa: chọn mô hình giải thích được nếu chênh lệch nhỏ; hoặc dùng mô hình mạnh kèm giải thích hậu nghiệm (SHAP/LIME), human review và giám sát. Ở rủi ro thấp có thể ưu tiên hiệu năng. Quyết định tùy hậu quả của sai lầm và yêu cầu minh bạch.",
+      "rubric": [
+        "Nêu rõ đánh đổi hiệu năng vs giải thích",
+        "Lập luận theo mức rủi ro/hậu quả",
+        "Đề xuất dung hòa (mô hình giải thích được, SHAP/LIME, human review)",
+        "Kết luận có điều kiện thay vì tuyệt đối"
+      ],
+      "tags": [
+        "ethics",
+        "explainability",
+        "reasoning"
+      ]
+    }
+  ]
+}

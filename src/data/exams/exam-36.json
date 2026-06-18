@@ -1,0 +1,1842 @@
+{
+  "id": "exam-36",
+  "title": "Ôn tập Toán — Ma trận & Đại số tuyến tính cho AI",
+  "description": "60 câu đại số tuyến tính ứng dụng cho AI/ML: nhân ma trận & kích thước, transpose & đối xứng, định thức, nghịch đảo, hạng & hệ phương trình, vết, trị riêng/vector riêng & PCA, tích vô hướng/chuẩn/cosine similarity, ma trận trực giao/đường chéo/tam giác, gradient & Jacobian, lớp tuyến tính y=Wx+b, batch matmul. 56 trắc nghiệm + 4 câu tự luận.",
+  "durationMinutes": 75,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E36-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận A có kích thước 2×3, ma trận B có kích thước 3×4. Tích A·B có kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2×4"
+        },
+        {
+          "key": "B",
+          "text": "3×3"
+        },
+        {
+          "key": "C",
+          "text": "4×2"
+        },
+        {
+          "key": "D",
+          "text": "Không nhân được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân được khi số cột A = số hàng B (3=3); kết quả lấy (hàng A)×(cột B) = 2×4.",
+      "tags": [
+        "matrix",
+        "multiplication"
+      ]
+    },
+    {
+      "id": "E36-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "A là 3×2, B là 3×2. Tích A·B có thực hiện được không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không, vì cột A (2) ≠ hàng B (3)"
+        },
+        {
+          "key": "B",
+          "text": "Có, ra 3×3"
+        },
+        {
+          "key": "C",
+          "text": "Có, ra 2×2"
+        },
+        {
+          "key": "D",
+          "text": "Có, ra 3×2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cần cột A = hàng B. Ở đây 2 ≠ 3 nên không nhân A·B được (phải dùng AᵀB).",
+      "tags": [
+        "matrix",
+        "multiplication"
+      ]
+    },
+    {
+      "id": "E36-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhân ma trận có tính giao hoán không (AB = BA)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không, nói chung AB ≠ BA"
+        },
+        {
+          "key": "B",
+          "text": "Có, luôn bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi A,B vuông"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ khi det=0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép nhân ma trận nói chung KHÔNG giao hoán; AB và BA thường khác nhau (thậm chí khác kích thước).",
+      "tags": [
+        "matrix",
+        "multiplication"
+      ]
+    },
+    {
+      "id": "E36-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho A=[[1,2],[3,4]], B=[[1,0],[0,1]]. A·B bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 0]\n [0 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 0]\n [0 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[2 2]\n [3 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân với ma trận đơn vị giữ nguyên A.",
+      "tags": [
+        "matrix",
+        "identity"
+      ]
+    },
+    {
+      "id": "E36-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tích ma trận–vector: [[2,0],[0,3]] · [1,1]ᵀ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1]"
+        },
+        {
+          "key": "C",
+          "text": "[2 0]"
+        },
+        {
+          "key": "D",
+          "text": "[5 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đường chéo nhân vector: (2·1, 3·1) = [2 3].",
+      "tags": [
+        "matrix",
+        "matrix-vector"
+      ]
+    },
+    {
+      "id": "E36-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong một lớp tuyến tính y = Wx, nếu x∈ℝ⁴ và y∈ℝ³ thì W có kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3×4"
+        },
+        {
+          "key": "B",
+          "text": "4×3"
+        },
+        {
+          "key": "C",
+          "text": "3×3"
+        },
+        {
+          "key": "D",
+          "text": "4×4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Để Wx biến vector 4 chiều thành 3 chiều, W phải là 3×4.",
+      "tags": [
+        "matrix",
+        "ml",
+        "linear-layer"
+      ]
+    },
+    {
+      "id": "E36-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuyển vị (transpose) của [[1,2,3],[4,5,6]] có kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3×2"
+        },
+        {
+          "key": "B",
+          "text": "2×3"
+        },
+        {
+          "key": "C",
+          "text": "3×3"
+        },
+        {
+          "key": "D",
+          "text": "2×2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transpose đổi (2×3) thành (3×2).",
+      "tags": [
+        "matrix",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E36-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "(Aᵀ)ᵀ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A"
+        },
+        {
+          "key": "B",
+          "text": "Aᵀ"
+        },
+        {
+          "key": "C",
+          "text": "A⁻¹"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận đơn vị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị hai lần trả về ma trận ban đầu.",
+      "tags": [
+        "matrix",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E36-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận đối xứng (symmetric) thỏa điều kiện nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A = Aᵀ"
+        },
+        {
+          "key": "B",
+          "text": "A = −Aᵀ"
+        },
+        {
+          "key": "C",
+          "text": "A = A⁻¹"
+        },
+        {
+          "key": "D",
+          "text": "det(A) = 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đối xứng bằng chính chuyển vị của nó: A = Aᵀ.",
+      "tags": [
+        "matrix",
+        "symmetric"
+      ]
+    },
+    {
+      "id": "E36-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đẳng thức nào đúng cho chuyển vị của tích?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(AB)ᵀ = BᵀAᵀ"
+        },
+        {
+          "key": "B",
+          "text": "(AB)ᵀ = AᵀBᵀ"
+        },
+        {
+          "key": "C",
+          "text": "(AB)ᵀ = AB"
+        },
+        {
+          "key": "D",
+          "text": "(AB)ᵀ = BA"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị của tích đảo thứ tự: (AB)ᵀ = BᵀAᵀ.",
+      "tags": [
+        "matrix",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E36-A11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận hiệp phương sai (covariance matrix) của dữ liệu luôn có tính chất gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đối xứng và nửa xác định dương"
+        },
+        {
+          "key": "B",
+          "text": "Luôn khả nghịch"
+        },
+        {
+          "key": "C",
+          "text": "Là ma trận đơn vị"
+        },
+        {
+          "key": "D",
+          "text": "Luôn có det âm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận hiệp phương sai luôn đối xứng và nửa xác định dương (positive semi-definite).",
+      "tags": [
+        "matrix",
+        "ml",
+        "covariance"
+      ]
+    },
+    {
+      "id": "E36-A12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định thức của [[2,0],[0,3]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đường chéo: det = tích đường chéo = 2·3 = 6.",
+      "tags": [
+        "matrix",
+        "determinant"
+      ]
+    },
+    {
+      "id": "E36-A13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định thức của [[1,2],[3,4]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-2"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "-10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "det = 1·4 − 2·3 = 4 − 6 = −2.",
+      "tags": [
+        "matrix",
+        "determinant"
+      ]
+    },
+    {
+      "id": "E36-A14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu det(A) = 0 thì ma trận A?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khả nghịch (suy biến)"
+        },
+        {
+          "key": "B",
+          "text": "Là ma trận đơn vị"
+        },
+        {
+          "key": "C",
+          "text": "Đối xứng"
+        },
+        {
+          "key": "D",
+          "text": "Luôn khả nghịch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "det = 0 ⟺ ma trận suy biến (singular), không có nghịch đảo.",
+      "tags": [
+        "matrix",
+        "determinant",
+        "invertibility"
+      ]
+    },
+    {
+      "id": "E36-A15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "det(AB) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "det(A)·det(B)"
+        },
+        {
+          "key": "B",
+          "text": "det(A)+det(B)"
+        },
+        {
+          "key": "C",
+          "text": "det(A)/det(B)"
+        },
+        {
+          "key": "D",
+          "text": "det(A)−det(B)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính chất nhân: det(AB) = det(A)·det(B).",
+      "tags": [
+        "matrix",
+        "determinant"
+      ]
+    },
+    {
+      "id": "E36-A16",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định thức của ma trận đơn vị I (n×n) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "n"
+        },
+        {
+          "key": "D",
+          "text": "n!"
+        }
+      ],
+      "answer": "A",
+      "explanation": "det(I) = 1.",
+      "tags": [
+        "matrix",
+        "determinant",
+        "identity"
+      ]
+    },
+    {
+      "id": "E36-A17",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "det(Aᵀ) so với det(A)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng nhau"
+        },
+        {
+          "key": "B",
+          "text": "Đối dấu"
+        },
+        {
+          "key": "C",
+          "text": "Nghịch đảo"
+        },
+        {
+          "key": "D",
+          "text": "Bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "det(Aᵀ) = det(A).",
+      "tags": [
+        "matrix",
+        "determinant",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E36-A18",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nghịch đảo của [[2,0],[0,4]] là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0.5 0]\n [0  0.25]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 0]\n [0 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[4 0]\n [0 2]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0.25 0]\n [0 0.5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nghịch đảo ma trận đường chéo = nghịch đảo từng phần tử chéo: 1/2, 1/4.",
+      "tags": [
+        "matrix",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E36-A19",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "A·A⁻¹ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ma trận đơn vị I"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận 0"
+        },
+        {
+          "key": "C",
+          "text": "A"
+        },
+        {
+          "key": "D",
+          "text": "Aᵀ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo định nghĩa nghịch đảo: A·A⁻¹ = I.",
+      "tags": [
+        "matrix",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E36-A20",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điều kiện để ma trận vuông A có nghịch đảo là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "det(A) ≠ 0"
+        },
+        {
+          "key": "B",
+          "text": "A đối xứng"
+        },
+        {
+          "key": "C",
+          "text": "A có phần tử dương"
+        },
+        {
+          "key": "D",
+          "text": "Tổng các hàng = 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận khả nghịch ⟺ det(A) ≠ 0 (đủ hạng).",
+      "tags": [
+        "matrix",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E36-A21",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "(AB)⁻¹ bằng (giả sử A,B khả nghịch)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "B⁻¹A⁻¹"
+        },
+        {
+          "key": "B",
+          "text": "A⁻¹B⁻¹"
+        },
+        {
+          "key": "C",
+          "text": "(BA)⁻¹"
+        },
+        {
+          "key": "D",
+          "text": "AB"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nghịch đảo của tích đảo thứ tự: (AB)⁻¹ = B⁻¹A⁻¹.",
+      "tags": [
+        "matrix",
+        "inverse"
+      ]
+    },
+    {
+      "id": "E36-A22",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hạng (rank) của [[1,2],[2,4]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng 2 = 2× hàng 1 (phụ thuộc tuyến tính) → hạng = 1.",
+      "tags": [
+        "matrix",
+        "rank"
+      ]
+    },
+    {
+      "id": "E36-A23",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hạng của ma trận đơn vị 3×3 bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đơn vị đủ hạng → rank = 3.",
+      "tags": [
+        "matrix",
+        "rank"
+      ]
+    },
+    {
+      "id": "E36-A24",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ Ax = b có nghiệm duy nhất khi A vuông và?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A khả nghịch (det ≠ 0)"
+        },
+        {
+          "key": "B",
+          "text": "det(A) = 0"
+        },
+        {
+          "key": "C",
+          "text": "b = 0"
+        },
+        {
+          "key": "D",
+          "text": "A đối xứng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A khả nghịch → x = A⁻¹b là nghiệm duy nhất.",
+      "tags": [
+        "matrix",
+        "linear-system"
+      ]
+    },
+    {
+      "id": "E36-A25",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nghiệm của hệ [[2,0],[0,1]]·x = [4,3]ᵀ là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[4 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 3]"
+        },
+        {
+          "key": "D",
+          "text": "[2 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "2x₁=4 → x₁=2; x₂=3. Vậy x = [2, 3].",
+      "tags": [
+        "matrix",
+        "linear-system"
+      ]
+    },
+    {
+      "id": "E36-A26",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một ma trận 3×5 có hạng tối đa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hạng ≤ min(số hàng, số cột) = min(3,5) = 3.",
+      "tags": [
+        "matrix",
+        "rank"
+      ]
+    },
+    {
+      "id": "E36-A27",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vết (trace) của [[1,2],[3,4]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "-2"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trace = tổng đường chéo chính = 1 + 4 = 5.",
+      "tags": [
+        "matrix",
+        "trace"
+      ]
+    },
+    {
+      "id": "E36-A28",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trị riêng (eigenvalues) của ma trận đường chéo [[3,0],[0,7]] là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 và 7"
+        },
+        {
+          "key": "B",
+          "text": "0 và 0"
+        },
+        {
+          "key": "C",
+          "text": "10 và 0"
+        },
+        {
+          "key": "D",
+          "text": "21 và 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với ma trận đường chéo (hoặc tam giác), trị riêng chính là các phần tử trên đường chéo: 3 và 7.",
+      "tags": [
+        "matrix",
+        "eigenvalue"
+      ]
+    },
+    {
+      "id": "E36-A29",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tổng các trị riêng của một ma trận bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vết (trace) của ma trận"
+        },
+        {
+          "key": "B",
+          "text": "Định thức"
+        },
+        {
+          "key": "C",
+          "text": "Hạng"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng trị riêng = trace; tích trị riêng = det.",
+      "tags": [
+        "matrix",
+        "eigenvalue",
+        "trace"
+      ]
+    },
+    {
+      "id": "E36-A30",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tích các trị riêng của một ma trận bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Định thức (determinant)"
+        },
+        {
+          "key": "B",
+          "text": "Vết"
+        },
+        {
+          "key": "C",
+          "text": "Hạng"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích các trị riêng = det(A).",
+      "tags": [
+        "matrix",
+        "eigenvalue",
+        "determinant"
+      ]
+    },
+    {
+      "id": "E36-A31",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu v là vector riêng của A với trị riêng λ thì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A·v = λ·v"
+        },
+        {
+          "key": "B",
+          "text": "A·v = v"
+        },
+        {
+          "key": "C",
+          "text": "A·v = 0"
+        },
+        {
+          "key": "D",
+          "text": "v·A = λ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định nghĩa: Av = λv với v ≠ 0.",
+      "tags": [
+        "matrix",
+        "eigenvector"
+      ]
+    },
+    {
+      "id": "E36-A32",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong PCA, các thành phần chính tương ứng với?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector riêng của ma trận hiệp phương sai (trị riêng lớn nhất)"
+        },
+        {
+          "key": "B",
+          "text": "Hàng đầu của dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Cột có tổng lớn nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PCA chọn vector riêng của ma trận hiệp phương sai ứng với trị riêng lớn nhất (hướng phương sai cực đại).",
+      "tags": [
+        "matrix",
+        "ml",
+        "pca"
+      ]
+    },
+    {
+      "id": "E36-A33",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tích vô hướng (dot product) của [1,2,3] và [4,5,6] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "[4 10 18]"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1·4 + 2·5 + 3·6 = 32.",
+      "tags": [
+        "vector",
+        "dot-product"
+      ]
+    },
+    {
+      "id": "E36-A34",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai vector vuông góc (trực giao) khi tích vô hướng của chúng bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "chuẩn của chúng"
+        },
+        {
+          "key": "D",
+          "text": "−1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trực giao ⟺ dot product = 0.",
+      "tags": [
+        "vector",
+        "orthogonal"
+      ]
+    },
+    {
+      "id": "E36-A35",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuẩn L2 (độ dài Euclid) của vector [3,4] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "25"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "√(3²+4²) = √25 = 5.",
+      "tags": [
+        "vector",
+        "norm"
+      ]
+    },
+    {
+      "id": "E36-A36",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuẩn L1 của vector [3,−4] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1 = |3| + |−4| = 7.",
+      "tags": [
+        "vector",
+        "norm"
+      ]
+    },
+    {
+      "id": "E36-A37",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một vector đơn vị (unit vector) có chuẩn L2 bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "độ dài bất kỳ"
+        },
+        {
+          "key": "D",
+          "text": "số chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vector đơn vị có độ dài (chuẩn L2) bằng 1.",
+      "tags": [
+        "vector",
+        "norm"
+      ]
+    },
+    {
+      "id": "E36-A38",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Độ tương tự cosine (cosine similarity) giữa hai vector cùng hướng bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "−1"
+        },
+        {
+          "key": "D",
+          "text": "độ dài"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cùng hướng → góc 0 → cos(0) = 1.",
+      "tags": [
+        "vector",
+        "cosine-similarity",
+        "ml"
+      ]
+    },
+    {
+      "id": "E36-A39",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận trực giao (orthogonal) Q thỏa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "QᵀQ = I"
+        },
+        {
+          "key": "B",
+          "text": "Q = Qᵀ"
+        },
+        {
+          "key": "C",
+          "text": "det(Q) = 0"
+        },
+        {
+          "key": "D",
+          "text": "Q = 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận trực giao: QᵀQ = QQᵀ = I (các cột trực chuẩn).",
+      "tags": [
+        "matrix",
+        "orthogonal"
+      ]
+    },
+    {
+      "id": "E36-A40",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận đường chéo (diagonal) có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi phần tử ngoài đường chéo chính bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Mọi phần tử bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "Đối xứng qua phụ"
+        },
+        {
+          "key": "D",
+          "text": "Hạng bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đường chéo chỉ có phần tử khác 0 trên đường chéo chính.",
+      "tags": [
+        "matrix",
+        "diagonal"
+      ]
+    },
+    {
+      "id": "E36-A41",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận xác định dương (positive definite) có mọi trị riêng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dương (> 0)"
+        },
+        {
+          "key": "B",
+          "text": "Âm"
+        },
+        {
+          "key": "C",
+          "text": "Bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Bằng 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận xác định dương ⟺ tất cả trị riêng > 0.",
+      "tags": [
+        "matrix",
+        "positive-definite",
+        "ml"
+      ]
+    },
+    {
+      "id": "E36-A42",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép cộng ma trận A + B yêu cầu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A và B cùng kích thước"
+        },
+        {
+          "key": "B",
+          "text": "A,B vuông"
+        },
+        {
+          "key": "C",
+          "text": "cột A = hàng B"
+        },
+        {
+          "key": "D",
+          "text": "det khác 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng ma trận theo từng phần tử nên A, B phải cùng kích thước.",
+      "tags": [
+        "matrix",
+        "addition"
+      ]
+    },
+    {
+      "id": "E36-A43",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhân ma trận với vô hướng k = 2: 2·[[1,2],[3,4]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[2 4]\n [6 8]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3 4]\n [5 6]]"
+        },
+        {
+          "key": "D",
+          "text": "[[2 2]\n [2 2]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân vô hướng nhân mọi phần tử với 2.",
+      "tags": [
+        "matrix",
+        "scalar"
+      ]
+    },
+    {
+      "id": "E36-A44",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong y = Wx + b của một lớp neural, b (bias) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một vector cộng vào sau phép nhân ma trận"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Trị riêng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "b là vector bias được cộng (broadcasting) vào kết quả Wx.",
+      "tags": [
+        "matrix",
+        "ml",
+        "linear-layer"
+      ]
+    },
+    {
+      "id": "E36-A45",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép nhân ma trận A(m×n)·B(n×p) tốn khoảng bao nhiêu phép nhân vô hướng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "m·n·p"
+        },
+        {
+          "key": "B",
+          "text": "m + n + p"
+        },
+        {
+          "key": "C",
+          "text": "m·p"
+        },
+        {
+          "key": "D",
+          "text": "n²"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi phần tử kết quả cần n phép nhân; có m·p phần tử → m·n·p.",
+      "tags": [
+        "matrix",
+        "complexity",
+        "ml"
+      ]
+    },
+    {
+      "id": "E36-A46",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong batch ML, dữ liệu X có shape (N, D) (N mẫu, D đặc trưng). Để tính XW với W (D, H), kết quả có shape?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(N, H)"
+        },
+        {
+          "key": "B",
+          "text": "(D, H)"
+        },
+        {
+          "key": "C",
+          "text": "(N, D)"
+        },
+        {
+          "key": "D",
+          "text": "(H, N)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(N,D)·(D,H) = (N,H): mỗi mẫu được chiếu sang H chiều.",
+      "tags": [
+        "matrix",
+        "ml",
+        "batch"
+      ]
+    },
+    {
+      "id": "E36-A47",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận tam giác trên (upper triangular) có?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi phần tử dưới đường chéo chính bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Mọi phần tử = 1"
+        },
+        {
+          "key": "C",
+          "text": "det = 0"
+        },
+        {
+          "key": "D",
+          "text": "Đối xứng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tam giác trên: phần tử bên dưới đường chéo chính đều bằng 0.",
+      "tags": [
+        "matrix",
+        "triangular"
+      ]
+    },
+    {
+      "id": "E36-A48",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "det của ma trận tam giác bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích các phần tử trên đường chéo chính"
+        },
+        {
+          "key": "B",
+          "text": "Tổng đường chéo"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với ma trận tam giác, det = tích các phần tử đường chéo chính.",
+      "tags": [
+        "matrix",
+        "determinant",
+        "triangular"
+      ]
+    },
+    {
+      "id": "E36-A49",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hadamard product (nhân từng phần tử) của [[1,2]] và [[3,4]] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3 8]]"
+        },
+        {
+          "key": "B",
+          "text": "[[4 6]]"
+        },
+        {
+          "key": "C",
+          "text": "[[11]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân element-wise: 1·3=3, 2·4=8 → [[3 8]].",
+      "tags": [
+        "matrix",
+        "hadamard",
+        "ml"
+      ]
+    },
+    {
+      "id": "E36-A50",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient của hàm vô hướng theo vector tham số θ∈ℝⁿ có shape?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(n,) — cùng số chiều với θ"
+        },
+        {
+          "key": "B",
+          "text": "vô hướng"
+        },
+        {
+          "key": "C",
+          "text": "(n, n)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 1)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "∇f theo θ có cùng số chiều với θ (n phần tử đạo hàm riêng).",
+      "tags": [
+        "matrix",
+        "ml",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E36-A51",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận Jacobian của hàm f: ℝⁿ → ℝᵐ có kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "m×n"
+        },
+        {
+          "key": "B",
+          "text": "n×m"
+        },
+        {
+          "key": "C",
+          "text": "n×n"
+        },
+        {
+          "key": "D",
+          "text": "m×m"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Jacobian gồm đạo hàm riêng ∂fᵢ/∂xⱼ → m hàng (output), n cột (input) = m×n.",
+      "tags": [
+        "matrix",
+        "ml",
+        "jacobian"
+      ]
+    },
+    {
+      "id": "E36-A52",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép chiếu (projection) một vector lên không gian con thường dùng ma trận P thỏa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P² = P (lũy đẳng)"
+        },
+        {
+          "key": "B",
+          "text": "P² = I"
+        },
+        {
+          "key": "C",
+          "text": "P = 0"
+        },
+        {
+          "key": "D",
+          "text": "det(P) = 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận chiếu là lũy đẳng (idempotent): P² = P.",
+      "tags": [
+        "matrix",
+        "projection"
+      ]
+    },
+    {
+      "id": "E36-A53",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tổng A + Aᵀ với A vuông luôn là ma trận?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đối xứng"
+        },
+        {
+          "key": "B",
+          "text": "Phản đối xứng"
+        },
+        {
+          "key": "C",
+          "text": "Đơn vị"
+        },
+        {
+          "key": "D",
+          "text": "Suy biến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(A+Aᵀ)ᵀ = Aᵀ+A = A+Aᵀ nên nó đối xứng.",
+      "tags": [
+        "matrix",
+        "symmetric"
+      ]
+    },
+    {
+      "id": "E36-A54",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số chiều của không gian nghiệm (null space) của ma trận A(m×n) hạng r bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "n − r"
+        },
+        {
+          "key": "B",
+          "text": "m − r"
+        },
+        {
+          "key": "C",
+          "text": "r"
+        },
+        {
+          "key": "D",
+          "text": "n"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định lý hạng–số khuyết: dim(null) = n − rank.",
+      "tags": [
+        "matrix",
+        "null-space",
+        "rank"
+      ]
+    },
+    {
+      "id": "E36-A55",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhân một ảnh (ma trận điểm ảnh) với ma trận xoay là ví dụ của?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phép biến đổi tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Phép cộng"
+        },
+        {
+          "key": "C",
+          "text": "Phép chiếu xác suất"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Xoay/biến hình ảnh bằng ma trận là một phép biến đổi tuyến tính.",
+      "tags": [
+        "matrix",
+        "linear-transformation"
+      ]
+    },
+    {
+      "id": "E36-A56",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với ma trận trực giao Q, chuẩn L2 của Qx so với x?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng nhau (bảo toàn độ dài)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn lớn hơn"
+        },
+        {
+          "key": "C",
+          "text": "Bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Bằng det(Q)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận trực giao bảo toàn độ dài: ‖Qx‖ = ‖x‖.",
+      "tags": [
+        "matrix",
+        "orthogonal",
+        "norm"
+      ]
+    },
+    {
+      "id": "E36-A57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Cho A = [[1, 2], [3, 4]]. Tính định thức, và nếu khả nghịch hãy tìm ma trận nghịch đảo A⁻¹. Trình bày công thức 2×2.",
+      "modelAnswer": "det(A) = 1·4 − 2·3 = −2 ≠ 0 → khả nghịch.\n Công thức 2×2: A⁻¹ = (1/det)·[[d, −b], [−c, a]] với A=[[a,b],[c,d]].\n A⁻¹ = (1/−2)·[[4, −2], [−3, 1]] = [[−2, 1], [1.5, −0.5]].",
+      "rubric": [
+        "Tính det = −2",
+        "Kiểm tra det ≠ 0 nên khả nghịch",
+        "Dùng công thức (1/det)[[d,−b],[−c,a]]",
+        "Ra A⁻¹ = [[−2,1],[1.5,−0.5]]"
+      ],
+      "tags": [
+        "matrix",
+        "inverse",
+        "determinant"
+      ]
+    },
+    {
+      "id": "E36-A58",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích ý nghĩa hình học của trị riêng (eigenvalue) và vector riêng (eigenvector), và vì sao chúng quan trọng trong PCA.",
+      "modelAnswer": "Vector riêng v là hướng mà phép biến đổi A chỉ kéo giãn/co (không đổi hướng): Av = λv. Trị riêng λ là hệ số kéo giãn theo hướng đó.\n Trong PCA: ta tính ma trận hiệp phương sai của dữ liệu; vector riêng của nó là các trục chính (hướng biến thiên), trị riêng đo lượng phương sai theo mỗi hướng. Chọn các vector riêng có trị riêng lớn nhất để giảm chiều mà giữ tối đa thông tin (phương sai).",
+      "rubric": [
+        "Av = λv: v giữ nguyên hướng, λ là hệ số kéo giãn",
+        "Ý nghĩa hình học là hướng bất biến của phép biến đổi",
+        "PCA dùng vector riêng của ma trận hiệp phương sai",
+        "Trị riêng lớn = phương sai lớn → chọn để giảm chiều"
+      ],
+      "tags": [
+        "matrix",
+        "eigenvalue",
+        "pca",
+        "ml"
+      ]
+    },
+    {
+      "id": "E36-A59",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Cho lớp tuyến tính y = Wx với x ∈ ℝ³, y ∈ ℝ². Xác định kích thước của W, số tham số, và viết kích thước khi xử lý một batch X gồm 32 mẫu.",
+      "modelAnswer": "Để biến x (3 chiều) thành y (2 chiều): W có kích thước 2×3 → 6 tham số (chưa kể bias).\n Với batch, thường đặt X có shape (32, 3). Khi đó Y = X·Wᵀ có shape (32, 2): mỗi hàng là một mẫu đầu ra. (Hoặc nếu x là cột, Y = W·Xᵀ ra (2, 32).)",
+      "rubric": [
+        "W có kích thước 2×3",
+        "Số tham số = 6 (chưa kể bias)",
+        "Batch X shape (32,3)",
+        "Kết quả batch shape (32,2) qua X·Wᵀ"
+      ],
+      "tags": [
+        "matrix",
+        "ml",
+        "linear-layer"
+      ]
+    },
+    {
+      "id": "E36-A60",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải hệ phương trình tuyến tính sau bằng ma trận: 2x + y = 5 và x − y = 1. Viết dạng Ax = b và tìm nghiệm.",
+      "modelAnswer": "Dạng ma trận: A = [[2, 1], [1, −1]], b = [5, 1]ᵀ.\n det(A) = 2·(−1) − 1·1 = −3 ≠ 0 → có nghiệm duy nhất.\n Cộng hai phương trình: 3x = 6 → x = 2; thay vào x − y = 1 → y = 1.\n Nghiệm: x = 2, y = 1.",
+      "rubric": [
+        "Viết A=[[2,1],[1,−1]], b=[5,1]",
+        "Kiểm tra det = −3 ≠ 0",
+        "Giải ra x = 2",
+        "Giải ra y = 1"
+      ],
+      "tags": [
+        "matrix",
+        "linear-system"
+      ]
+    }
+  ]
+}
