@@ -1,0 +1,1867 @@
+{
+  "id": "exam-44",
+  "title": "NumPy Nâng Cao — Bẫy & Kỹ thuật (Predict the Output)",
+  "description": "60 câu NumPy KHÓ, nhiều bẫy thực chiến: view vs copy (slicing/reshape/ravel vs fancy/boolean/flatten), gán tại chỗ (+= vs rebind), bẫy buffering của fancy-index (a[[0,0]]+=1) vs np.add.at, ép kiểu/cắt phần thập phân & tràn vòng uint8, thăng hạng dtype, broadcasting nâng cao (outer/keepdims/newaxis/broadcast_to), indexing & gán theo mask, argmax/argsort ties, reshape order C/F, NaN/inf, einsum (sum/trace/dot), matmul batched, reduceat/partition/bincount, banker's rounding, sai số float. 56 trắc nghiệm đọc-code + 4 câu code/tự luận. Mọi đáp án đã chạy thật để kiểm chứng.",
+  "durationMinutes": 80,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E44-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6)\nb = a[::2]\nb[0] = 99\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[99  1  2  3  4  5]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 3 4 5]"
+        },
+        {
+          "key": "C",
+          "text": "[99  1 99  3 99  5]"
+        },
+        {
+          "key": "D",
+          "text": "[99  2  4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slice cơ bản trả VIEW; gán b[0] sửa luôn a[0]=99. Các phần tử khác không đổi.",
+      "tags": [
+        "numpy",
+        "view",
+        "slicing"
+      ]
+    },
+    {
+      "id": "E44-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6)\nb = a[[0, 2, 4]]\nb[0] = 99\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 2 3 4 5]"
+        },
+        {
+          "key": "B",
+          "text": "[99  1  2  3  4  5]"
+        },
+        {
+          "key": "C",
+          "text": "[99  1 99  3 99  5]"
+        },
+        {
+          "key": "D",
+          "text": "[99  2  4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fancy indexing (list) trả về BẢN SAO, không phải view → a không đổi.",
+      "tags": [
+        "numpy",
+        "fancy-indexing",
+        "copy"
+      ]
+    },
+    {
+      "id": "E44-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(8).reshape(2, 4)\nb = a.reshape(4, 2)\nb[0, 0] = 100\nprint(a[0, 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "100"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reshape trả view khi bộ nhớ liên tục; sửa b[0,0] cũng đổi a[0,0] (cùng buffer).",
+      "tags": [
+        "numpy",
+        "reshape",
+        "view"
+      ]
+    },
+    {
+      "id": "E44-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = a\na = a + 1\nprint(b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 3 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 1]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a + 1 tạo mảng MỚI gán lại cho a; b vẫn trỏ mảng gốc [1 2 3].",
+      "tags": [
+        "numpy",
+        "reference",
+        "rebind"
+      ]
+    },
+    {
+      "id": "E44-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = a\na += 1\nprint(b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 1]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a += 1 là phép TẠI CHỖ (in-place) trên cùng buffer; b trỏ cùng mảng nên cũng thành [2 3 4].",
+      "tags": [
+        "numpy",
+        "inplace",
+        "reference"
+      ]
+    },
+    {
+      "id": "E44-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.zeros(3)\na[[0, 0, 1]] += 1\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 1. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[2. 1. 0.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 1. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[2. 2. 0.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy: a[[0,0,1]] += 1 KHÔNG cộng dồn chỉ số lặp (do buffering) → index 0 chỉ +1 một lần.",
+      "tags": [
+        "numpy",
+        "fancy-indexing",
+        "buffering"
+      ]
+    },
+    {
+      "id": "E44-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.zeros(3)\nnp.add.at(a, [0, 0, 1], 1)\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2. 1. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 1. 0.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 1. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[2. 2. 0.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.add.at cộng dồn ĐÚNG cả chỉ số lặp (unbuffered) → index 0 nhận +2.",
+      "tags": [
+        "numpy",
+        "ufunc",
+        "add.at"
+      ]
+    },
+    {
+      "id": "E44-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.array([1.7, -1.7, 2.9]).astype(int))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1 -1  2]"
+        },
+        {
+          "key": "B",
+          "text": "[ 2 -2  3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 0 2]"
+        },
+        {
+          "key": "D",
+          "text": "[ 2 -1  3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "astype(int) cắt phần thập phân HƯỚNG VỀ 0 (truncate), không làm tròn: 1.7→1, −1.7→−1, 2.9→2.",
+      "tags": [
+        "numpy",
+        "astype",
+        "truncate"
+      ]
+    },
+    {
+      "id": "E44-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([250, 10], dtype=np.uint8)\nprint(a + np.uint8(10))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 4 20]"
+        },
+        {
+          "key": "B",
+          "text": "[260  20]"
+        },
+        {
+          "key": "C",
+          "text": "[255  20]"
+        },
+        {
+          "key": "D",
+          "text": "[  0  20]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "uint8 TRÀN VÒNG modulo 256: 250+10=260 → 260−256=4.",
+      "tags": [
+        "numpy",
+        "overflow",
+        "uint8"
+      ]
+    },
+    {
+      "id": "E44-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.array([1, 2, 3]) / np.array([2, 2, 2]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.5 1.  1.5]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 1]"
+        },
+        {
+          "key": "C",
+          "text": "[1 1 1]"
+        },
+        {
+          "key": "D",
+          "text": "[0.5 1.0 1.5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép / luôn cho float64; in dạng [0.5 1.  1.5] (căn lề NumPy).",
+      "tags": [
+        "numpy",
+        "division",
+        "dtype"
+      ]
+    },
+    {
+      "id": "E44-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint((np.array([1, 2, 3]) + np.array([1.0, 1.0, 1.0])).dtype)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "float64"
+        },
+        {
+          "key": "B",
+          "text": "int64"
+        },
+        {
+          "key": "C",
+          "text": "int32"
+        },
+        {
+          "key": "D",
+          "text": "float32"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy tắc thăng hạng kiểu: int + float → float64.",
+      "tags": [
+        "numpy",
+        "dtype",
+        "promotion"
+      ]
+    },
+    {
+      "id": "E44-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1], [2], [3]])\nb = np.array([10, 20])\nprint((a + b).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(3,)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(3,1) + (2,) → broadcast (3,1)&(1,2) = (3,2).",
+      "tags": [
+        "numpy",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E44-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(3)\nb = np.arange(3).reshape(3, 1)\nprint((a + b).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 1, 2], [1, 2, 3], [2, 3, 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 2, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 0, 0], [1, 1, 1], [2, 2, 2]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 1, 2]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng (3,) cộng cột (3,1) → ma trận cộng ngoài (outer sum) 3×3.",
+      "tags": [
+        "numpy",
+        "broadcasting",
+        "outer"
+      ]
+    },
+    {
+      "id": "E44-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ntry:\n    r = np.array([1, 2, 3]) + np.array([1, 2])\n    print(r)\nexcept ValueError:\n    print('broadcast error')\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "broadcast error"
+        },
+        {
+          "key": "B",
+          "text": "[2 4 3]"
+        },
+        {
+          "key": "C",
+          "text": "[2 4]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3 1 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Shape (3,) và (2,) không tương thích broadcasting → ValueError.",
+      "tags": [
+        "numpy",
+        "broadcasting",
+        "error"
+      ]
+    },
+    {
+      "id": "E44-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.ones((3, 4))\nb = np.ones(4)\nprint((a * b).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 4)"
+        },
+        {
+          "key": "B",
+          "text": "(4, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(3,)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(3,4) * (4,) broadcast hàng b lên 3 hàng → (3,4).",
+      "tags": [
+        "numpy",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E44-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(9).reshape(3, 3)\nprint(a[[0, 1, 2], [0, 1, 2]])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 4 8]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 4 8]]"
+        },
+        {
+          "key": "D",
+          "text": "[0 3 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fancy index theo cặp (i,j): (0,0),(1,1),(2,2) → đường chéo [0 4 8].",
+      "tags": [
+        "numpy",
+        "fancy-indexing",
+        "diagonal"
+      ]
+    },
+    {
+      "id": "E44-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(9).reshape(3, 3)\nmask = a > 4\na[mask] = 0\nprint(a.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 1, 2], [3, 4, 0], [0, 0, 0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 0, 0], [0, 0, 5], [6, 7, 8]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 1, 2], [3, 4, 5], [0, 0, 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1, 1, 1], [1, 1, 0], [0, 0, 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Boolean mask gán: mọi phần tử >4 (5,6,7,8) thành 0.",
+      "tags": [
+        "numpy",
+        "boolean-indexing",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E44-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([10, 20, 30, 40])\nprint(a[np.array([True, False, True, False])])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10 30]"
+        },
+        {
+          "key": "B",
+          "text": "[20 40]"
+        },
+        {
+          "key": "C",
+          "text": "[10 20 30 40]"
+        },
+        {
+          "key": "D",
+          "text": "[True False True False]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Boolean mask giữ vị trí True (index 0, 2) → [10 30].",
+      "tags": [
+        "numpy",
+        "boolean-indexing"
+      ]
+    },
+    {
+      "id": "E44-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(12).reshape(3, 4)\nprint(a[1:, ::2].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[4, 6], [8, 10]]"
+        },
+        {
+          "key": "B",
+          "text": "[[4, 5], [8, 9]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 2], [4, 6]]"
+        },
+        {
+          "key": "D",
+          "text": "[[4, 6, 8, 10]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng từ 1 ([4..7],[8..11]); cột bước 2 (index 0,2) → [[4,6],[8,10]].",
+      "tags": [
+        "numpy",
+        "slicing",
+        "advanced"
+      ]
+    },
+    {
+      "id": "E44-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.argmax(np.array([1, 3, 3, 2])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi có nhiều giá trị lớn nhất bằng nhau, argmax trả về CHỈ SỐ ĐẦU TIÊN (index 1).",
+      "tags": [
+        "numpy",
+        "argmax",
+        "ties"
+      ]
+    },
+    {
+      "id": "E44-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 2])\nprint(a[np.argsort(a)].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 2, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort cho index sắp tăng; dùng index đó lập chỉ mục → mảng đã sắp xếp [1, 2, 3].",
+      "tags": [
+        "numpy",
+        "argsort"
+      ]
+    },
+    {
+      "id": "E44-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[3, 1], [2, 4]])\nprint(np.sort(a, axis=0).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[2, 1], [3, 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1, 3], [2, 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3, 4], [1, 2]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1, 2], [3, 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort axis=0 sắp theo từng CỘT: cột0 [3,2]→[2,3]; cột1 [1,4]→[1,4].",
+      "tags": [
+        "numpy",
+        "sort",
+        "axis"
+      ]
+    },
+    {
+      "id": "E44-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2, 3)\nprint(a.reshape(3, 2, order='F').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 4], [3, 2], [1, 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 1], [2, 3], [4, 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 3], [1, 4], [2, 5]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 2], [4, 1], [3, 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "order='F' đọc/ghi theo CỘT (Fortran). a phẳng theo cột là [0,3,1,4,2,5], nhồi vào (3,2) theo cột.",
+      "tags": [
+        "numpy",
+        "reshape",
+        "order"
+      ]
+    },
+    {
+      "id": "E44-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(4).reshape(2, 2)\nb = a.ravel()\nb[0] = 99\nprint(a[0, 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "99"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ravel trả VIEW khi liên tục; sửa b[0] đổi a[0,0].",
+      "tags": [
+        "numpy",
+        "ravel",
+        "view"
+      ]
+    },
+    {
+      "id": "E44-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(4).reshape(2, 2)\nb = a.flatten()\nb[0] = 99\nprint(a[0, 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "99"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "flatten luôn trả BẢN SAO → sửa b không ảnh hưởng a.",
+      "tags": [
+        "numpy",
+        "flatten",
+        "copy"
+      ]
+    },
+    {
+      "id": "E44-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.nan == np.nan, np.nan != np.nan)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False True"
+        },
+        {
+          "key": "B",
+          "text": "True False"
+        },
+        {
+          "key": "C",
+          "text": "True True"
+        },
+        {
+          "key": "D",
+          "text": "False False"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo IEEE-754, NaN không bằng chính nó: ==→False, !=→True. Phải dùng np.isnan.",
+      "tags": [
+        "numpy",
+        "nan"
+      ]
+    },
+    {
+      "id": "E44-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.0, np.nan, 3.0])\nprint(np.nansum(a), np.sum(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0 nan"
+        },
+        {
+          "key": "B",
+          "text": "4.0 4.0"
+        },
+        {
+          "key": "C",
+          "text": "nan nan"
+        },
+        {
+          "key": "D",
+          "text": "4.0 0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nansum bỏ qua NaN → 4.0; sum thường lan truyền NaN → nan.",
+      "tags": [
+        "numpy",
+        "nan",
+        "nansum"
+      ]
+    },
+    {
+      "id": "E44-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nwith np.errstate(divide='ignore'):\n    print(np.array([1.0, 2.0]) / np.array([0.0, 1.0]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[inf  2.]"
+        },
+        {
+          "key": "B",
+          "text": "[nan  2.]"
+        },
+        {
+          "key": "C",
+          "text": "[0. 2.]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chia số dương cho 0.0 (float) → inf (không raise), 2.0/1.0=2.",
+      "tags": [
+        "numpy",
+        "inf",
+        "division"
+      ]
+    },
+    {
+      "id": "E44-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(4).reshape(2, 2)\nprint(np.einsum('ij->', a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "[2 4]"
+        },
+        {
+          "key": "D",
+          "text": "[1 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ij->' cộng toàn bộ phần tử: 0+1+2+3 = 6.",
+      "tags": [
+        "numpy",
+        "einsum",
+        "sum"
+      ]
+    },
+    {
+      "id": "E44-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(9).reshape(3, 3)\nprint(np.einsum('ii->', a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12"
+        },
+        {
+          "key": "B",
+          "text": "36"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "[0 4 8]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ii->' lấy đường chéo rồi cộng (trace) = 0+4+8 = 12.",
+      "tags": [
+        "numpy",
+        "einsum",
+        "trace"
+      ]
+    },
+    {
+      "id": "E44-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\nprint(np.einsum('i,i->', a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "[4 10 18]"
+        },
+        {
+          "key": "C",
+          "text": "21"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'i,i->' là tích vô hướng: 1·4+2·5+3·6 = 32.",
+      "tags": [
+        "numpy",
+        "einsum",
+        "dot"
+      ]
+    },
+    {
+      "id": "E44-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.ones((5, 2, 3))\nB = np.ones((5, 3, 4))\nprint(np.matmul(A, B).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(5, 2, 4)"
+        },
+        {
+          "key": "B",
+          "text": "(5, 3, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 4)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "matmul batched: nhân theo 2 trục cuối (2,3)@(3,4)=(2,4), giữ batch 5 → (5, 2, 4).",
+      "tags": [
+        "numpy",
+        "matmul",
+        "batch"
+      ]
+    },
+    {
+      "id": "E44-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nprint(np.add.reduceat(a, [0, 2]).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 7]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 6, 10]"
+        },
+        {
+          "key": "C",
+          "text": "[10]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reduceat cộng các đoạn [0:2] và [2:end]: (1+2)=3, (3+4)=7.",
+      "tags": [
+        "numpy",
+        "ufunc",
+        "reduceat"
+      ]
+    },
+    {
+      "id": "E44-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([5, 2, 8, 1, 9, 3])\nprint(np.partition(a, 2)[2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "partition đặt phần tử thứ k (k=2) đúng vị trí như khi đã sắp xếp; phần tử nhỏ thứ 3 của [1,2,3,5,8,9] là 3.",
+      "tags": [
+        "numpy",
+        "partition"
+      ]
+    },
+    {
+      "id": "E44-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 2, 3, 3, 3])\nv, c = np.unique(a, return_counts=True)\nprint(c.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 2, 3, 3, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 2, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "unique trả giá trị [1,2,3] và counts tương ứng [1,2,3].",
+      "tags": [
+        "numpy",
+        "unique",
+        "counts"
+      ]
+    },
+    {
+      "id": "E44-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.tile(a, (2, 1)).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1, 2, 3], [1, 2, 3]]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 1, 2, 2, 3, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[[1, 1], [2, 2], [3, 3]]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3, 1, 2, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tile với (2,1) lặp mảng thành 2 hàng → [[1,2,3],[1,2,3]].",
+      "tags": [
+        "numpy",
+        "tile"
+      ]
+    },
+    {
+      "id": "E44-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nprint(np.where(a < 2, a, -1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, -1, -1, -1]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[-1, -1, 2, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 1, 2, 3, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "where: nếu a<2 giữ a, ngược lại −1 → [0,1,−1,−1,−1].",
+      "tags": [
+        "numpy",
+        "where"
+      ]
+    },
+    {
+      "id": "E44-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.5, 2.5, 3.5])\nprint(np.round(a).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2.0, 2.0, 4.0]"
+        },
+        {
+          "key": "B",
+          "text": "[2.0, 3.0, 4.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[2.0, 3.0, 3.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NumPy làm tròn về số CHẴN gần nhất (banker's): 1.5→2, 2.5→2, 3.5→4.",
+      "tags": [
+        "numpy",
+        "round",
+        "banker"
+      ]
+    },
+    {
+      "id": "E44-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(a.sum(axis=1, keepdims=True).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(2,)"
+        },
+        {
+          "key": "C",
+          "text": "(1, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "keepdims=True giữ trục bị gộp dưới dạng 1 → (2,1) thay vì (2,).",
+      "tags": [
+        "numpy",
+        "keepdims",
+        "axis"
+      ]
+    },
+    {
+      "id": "E44-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 2])\nb = a\nb.sort()\nprint(a.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 1, 3]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a.sort() sắp xếp TẠI CHỖ; b là cùng mảng nên a cũng được sắp → [1,2,3].",
+      "tags": [
+        "numpy",
+        "sort",
+        "inplace"
+      ]
+    },
+    {
+      "id": "E44-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2, 3)\nprint(a.T.flatten().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 3, 1, 4, 2, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2, 3, 4, 5]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 4, 5, 0, 1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[5, 4, 3, 2, 1, 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị thành [[0,3],[1,4],[2,5]] rồi flatten theo hàng → [0,3,1,4,2,5].",
+      "tags": [
+        "numpy",
+        "transpose",
+        "flatten"
+      ]
+    },
+    {
+      "id": "E44-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.clip(np.array([-2, 0, 5, 10]), 0, 6).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0, 5, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[-2, 0, 5, 6]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 5, 10]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 6, 6, 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "clip chặn vào [0,6]: −2→0, 0→0, 5→5, 10→6.",
+      "tags": [
+        "numpy",
+        "clip"
+      ]
+    },
+    {
+      "id": "E44-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(a[:, None].shape, a[None, :].shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 1) (1, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 3) (3, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(3,) (3,)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 3) (3, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a[:,None] thêm trục sau → (3,1); a[None,:] thêm trục trước → (1,3).",
+      "tags": [
+        "numpy",
+        "newaxis"
+      ]
+    },
+    {
+      "id": "E44-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([0, 1, 2, 3, 4])\na[a % 2 == 0] = -1\nprint(a.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1, 1, -1, 3, -1]"
+        },
+        {
+          "key": "B",
+          "text": "[-1, -1, -1, -1, -1]"
+        },
+        {
+          "key": "C",
+          "text": "[0, -1, 2, -1, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 1, 2, 3, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mask số chẵn (0,2,4) gán −1 → [−1,1,−1,3,−1].",
+      "tags": [
+        "numpy",
+        "boolean-indexing",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E44-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(3)\nb = np.broadcast_to(a, (2, 3))\nprint(b.shape, b[0, 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3) 0"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2) 0"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3) 1"
+        },
+        {
+          "key": "D",
+          "text": "(6,) 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "broadcast_to nở (3,) thành (2,3) (view chỉ đọc); b[0,0]=a[0]=0.",
+      "tags": [
+        "numpy",
+        "broadcast_to"
+      ]
+    },
+    {
+      "id": "E44-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.cumsum(a) / np.arange(1, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.  1.5 2. ]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 2. 3.]"
+        },
+        {
+          "key": "C",
+          "text": "[1 1 2]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 3. 6.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cumsum=[1,3,6]; chia [1,2,3] → trung bình tích lũy [1, 1.5, 2.].",
+      "tags": [
+        "numpy",
+        "cumsum",
+        "vectorization"
+      ]
+    },
+    {
+      "id": "E44-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(np.diff(a, axis=1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1], [1]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2, 2]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1, 1]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3], [1]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diff axis=1 lấy hiệu theo cột trong từng hàng: 2−1=1; 4−3=1 → [[1],[1]].",
+      "tags": [
+        "numpy",
+        "diff",
+        "axis"
+      ]
+    },
+    {
+      "id": "E44-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([10, 20, 30])\nidx = np.array([2, 0, 1])\nprint(a[idx].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[30, 10, 20]"
+        },
+        {
+          "key": "B",
+          "text": "[10, 20, 30]"
+        },
+        {
+          "key": "C",
+          "text": "[20, 30, 10]"
+        },
+        {
+          "key": "D",
+          "text": "[2, 0, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fancy index sắp lại theo idx [2,0,1] → [a[2],a[0],a[1]] = [30,10,20].",
+      "tags": [
+        "numpy",
+        "fancy-indexing",
+        "permute"
+      ]
+    },
+    {
+      "id": "E44-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4, 5])\nprint(a[::-2].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 3, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 5]"
+        },
+        {
+          "key": "C",
+          "text": "[5, 4, 3, 2, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[4, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước −2 từ cuối: index 4,2,0 → [5,3,1].",
+      "tags": [
+        "numpy",
+        "slicing",
+        "negative-step"
+      ]
+    },
+    {
+      "id": "E44-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.zeros((2, 2))\na[:] = np.array([1, 2])\nprint(a.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1.0, 2.0], [1.0, 2.0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1.0, 1.0], [2.0, 2.0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1.0, 2.0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0.0, 0.0], [0.0, 0.0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gán a[:] = [1,2] broadcast hàng [1,2] vào cả 2 hàng.",
+      "tags": [
+        "numpy",
+        "broadcasting",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E44-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.repeat(a, [1, 2, 3]).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 2, 3, 3, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3, 1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 1, 2, 2, 3, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "repeat với số lần riêng cho mỗi phần tử: 1×1, 2×2, 3×3.",
+      "tags": [
+        "numpy",
+        "repeat"
+      ]
+    },
+    {
+      "id": "E44-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2, 3]])\nb = np.array([[1], [2], [3]])\nprint((a == b).sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(1,3)==(3,1) broadcast thành (3,3) ma trận so sánh; True ở đường chéo → tổng = 3.",
+      "tags": [
+        "numpy",
+        "broadcasting",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E44-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nprint(a.reshape(-1, 1).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(4,)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reshape(-1,1): -1 tự suy = 4 → cột (4,1).",
+      "tags": [
+        "numpy",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E44-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(a @ np.array([1, 0]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2 4]"
+        },
+        {
+          "key": "D",
+          "text": "[1 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân ma trận với vector [1,0] lấy cột đầu → [1, 3].",
+      "tags": [
+        "numpy",
+        "matmul",
+        "matrix-vector"
+      ]
+    },
+    {
+      "id": "E44-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.array([0.1, 0.2, 0.3]).sum() == 0.6)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "0.6"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số dấu phẩy động: 0.1+0.2+0.3 ≈ 0.6000000000000001 ≠ 0.6 → False. Dùng np.isclose.",
+      "tags": [
+        "numpy",
+        "float",
+        "precision"
+      ]
+    },
+    {
+      "id": "E44-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 2, 1, 3])\nprint(np.bincount(a).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 2, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[2, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 1, 2, 1, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bincount đếm số lần xuất hiện mỗi giá trị 0..max: 0→0,1→2,2→1,3→2.",
+      "tags": [
+        "numpy",
+        "bincount"
+      ]
+    },
+    {
+      "id": "E44-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc kỹ đoạn code NumPy và ghi chính xác kết quả in ra (chú ý bẫy):\n\n```python\nimport numpy as np\na = np.arange(1, 7).reshape(2, 3)\ncol_mean = a.mean(axis=0, keepdims=True)\ncentered = a - col_mean\nprint(centered.tolist())\nprint(centered.sum(axis=0).tolist())\n```",
+      "modelAnswer": "Output:\n[[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]]\n[0.0, 0.0, 0.0]",
+      "rubric": [
+        "col_mean theo cột = [[2.5, 3.5, 4.5]]",
+        "centered trừ broadcast theo từng cột",
+        "Mỗi cột sau khi center có tổng = 0",
+        "Output 2 dòng đúng: ma trận centered rồi [0.0, 0.0, 0.0]"
+      ],
+      "tags": [
+        "numpy",
+        "broadcasting",
+        "centering"
+      ]
+    },
+    {
+      "id": "E44-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc kỹ đoạn code NumPy và ghi chính xác kết quả in ra (chú ý bẫy):\n\n```python\nimport numpy as np\nx = np.array([2.0, 1.0, 0.1])\ne = np.exp(x - x.max())\nsoftmax = e / e.sum()\nprint(np.round(softmax, 3).tolist())\nprint(round(float(softmax.sum()), 3))\n```",
+      "modelAnswer": "Output:\n[0.659, 0.242, 0.099]\n1.0",
+      "rubric": [
+        "Trừ max để ổn định số học (không đổi kết quả softmax)",
+        "Tính exp rồi chuẩn hóa theo tổng",
+        "Giá trị lớn nhất ứng với x=2.0",
+        "Tổng softmax = 1.0 (dòng 2)"
+      ],
+      "tags": [
+        "numpy",
+        "softmax",
+        "numerical-stability"
+      ]
+    },
+    {
+      "id": "E44-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao `a[[0, 0, 1]] += 1` KHÔNG cộng dồn 2 lần tại chỉ số 0, trong khi `np.add.at(a, [0,0,1], 1)` lại có. Nêu một tình huống thực tế (vd dựng histogram/scatter-add) mà sự khác biệt này gây bug.",
+      "modelAnswer": "a[[0,0,1]] += 1 thực chất là a[idx] = a[idx] + 1: NumPy ĐỌC a[idx] thành một mảng tạm (buffer) [a0, a0, a1], cộng 1 cho từng phần tử rồi GHI LẠI vào a[idx]. Vì hai vị trí 0 ghi cùng giá trị a0+1, lần ghi sau đè lần trước → chỉ +1, không phải +2. Đây là phép gán có đệm (buffered).\nnp.add.at là ufunc 'unbuffered': cộng tuần tự, tích lũy đúng cả chỉ số lặp → index 0 nhận +2.\nTình huống bug: dựng histogram/đếm bằng hist[bins] += 1 khi bins có giá trị trùng (nhiều điểm rơi cùng bin) sẽ ĐẾM THIẾU; scatter-add gradient trong ML (gộp gradient theo chỉ số embedding lặp) cũng sai. Cách đúng: dùng np.add.at, np.bincount, hoặc np.histogram.",
+      "rubric": [
+        "Giải thích phép gán có đệm: đọc→tính→ghi đè",
+        "Chỉ ra vì sao chỉ số lặp bị mất tích lũy",
+        "np.add.at là unbuffered nên cộng dồn đúng",
+        "Cho ví dụ thực tế (histogram/scatter-add) và cách khắc phục"
+      ],
+      "tags": [
+        "numpy",
+        "fancy-indexing",
+        "buffering",
+        "debugging"
+      ]
+    },
+    {
+      "id": "E44-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân biệt VIEW và COPY trong NumPy: thao tác nào trả về view, thao tác nào trả về copy? Vì sao điều này quan trọng về hiệu năng và về bug, và làm sao kiểm tra hai mảng có chia sẻ bộ nhớ?",
+      "modelAnswer": "VIEW (chia sẻ buffer): slicing cơ bản (a[1:4], a[::2]), reshape/ravel khi liên tục, transpose (.T), np.broadcast_to. Sửa view sẽ đổi mảng gốc.\nCOPY (bộ nhớ riêng): fancy indexing (a[[0,2]]), boolean indexing (a[mask]), flatten(), .copy(), phần lớn phép toán tạo mảng mới (a+1).\nQuan trọng: view tiết kiệm bộ nhớ và nhanh (không sao chép), nhưng dễ gây BUG khi vô tình sửa dữ liệu gốc; copy an toàn nhưng tốn bộ nhớ. Khi xử lý mảng lớn, biết rõ view/copy giúp tránh sao chép thừa và tránh sửa nhầm.\nKiểm tra chia sẻ bộ nhớ: np.shares_memory(a, b) (hoặc thuộc tính b.base is a / b.flags['OWNDATA']).",
+      "rubric": [
+        "Liệt kê đúng thao tác trả view (slicing/reshape/transpose)",
+        "Liệt kê đúng thao tác trả copy (fancy/boolean/flatten/copy)",
+        "Giải thích ý nghĩa về hiệu năng và bug",
+        "Nêu np.shares_memory / .base để kiểm tra"
+      ],
+      "tags": [
+        "numpy",
+        "view",
+        "copy",
+        "memory"
+      ]
+    }
+  ]
+}

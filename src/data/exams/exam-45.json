@@ -1,0 +1,1871 @@
+{
+  "id": "exam-45",
+  "title": "Kỹ thuật Lập trình Python — Nâng cao & Bẫy (Predict the Output)",
+  "description": "60 câu Python KHÓ, tập trung các 'gotcha' và kỹ thuật học được nhiều: late-binding closure, mutable default argument, generator exhaustion & send, is vs == và int caching, bool là lớp con int, modulo/floor với số âm, banker's rounding, kết hợp ** phải-sang-trái, short-circuit trả toán hạng, all/any rỗng, list aliasing ([x]*n), shallow vs deep copy, += tại chỗ, dict key trùng/hash (1==True==1.0), setdefault, sorted ổn định, map/zip lười, tuple một phần tử & bẫy += trên tuple chứa list, scope comprehension/nonlocal, return trong finally, try/except/else/finally, biến lớp chia sẻ, MRO/super, __repr__/__eq__, decorator chồng & có tham số, extended unpacking, walrus. 56 trắc nghiệm đọc-code + 4 câu code/tự luận. Mọi đáp án đã chạy thật để kiểm chứng.",
+  "durationMinutes": 80,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E45-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfns = [lambda: i for i in range(3)]\nprint([f() for f in fns])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 3, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy late binding: closure bắt BIẾN i, không phải giá trị; khi gọi, vòng lặp đã xong nên i=2.",
+      "tags": [
+        "python",
+        "closure",
+        "late-binding"
+      ]
+    },
+    {
+      "id": "E45-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfns = [lambda i=i: i for i in range(3)]\nprint([f() for f in fns])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 0]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng default arg i=i 'đóng băng' giá trị i tại mỗi vòng → [0, 1, 2].",
+      "tags": [
+        "python",
+        "closure",
+        "default-arg"
+      ]
+    },
+    {
+      "id": "E45-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef make():\n    funcs = []\n    for i in range(3):\n        funcs.append(lambda: i)\n    return funcs\nprint([f() for f in make()])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tương tự late binding: mọi lambda chia sẻ cùng i, cuối vòng i=2.",
+      "tags": [
+        "python",
+        "closure",
+        "late-binding"
+      ]
+    },
+    {
+      "id": "E45-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef f(x, acc=[]):\n    acc.append(x)\n    return acc\nprint(f(1))\nprint(f(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1]\n[1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1]\n[2]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2]\n[1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[1]\n[1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy default mutable: list acc được TẠO MỘT LẦN và dùng lại giữa các lần gọi → tích lũy.",
+      "tags": [
+        "python",
+        "mutable-default"
+      ]
+    },
+    {
+      "id": "E45-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef f(x, acc=None):\n    if acc is None:\n        acc = []\n    acc.append(x)\n    return acc\nprint(f(1))\nprint(f(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1]\n[2]"
+        },
+        {
+          "key": "B",
+          "text": "[1]\n[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2]\n[1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[2]\n[2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng None làm sentinel tạo list mới mỗi lần gọi → kết quả độc lập [1] rồi [2].",
+      "tags": [
+        "python",
+        "mutable-default",
+        "sentinel"
+      ]
+    },
+    {
+      "id": "E45-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ng = (x for x in range(3))\nprint(list(g))\nprint(list(g))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 2]\n[]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2]\n[0, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[]\n[]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Generator CẠN sau khi duyệt hết; lần list(g) thứ hai rỗng.",
+      "tags": [
+        "python",
+        "generator",
+        "exhaustion"
+      ]
+    },
+    {
+      "id": "E45-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ng = (x*x for x in range(4))\nprint(next(g))\nprint(sum(g))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0\n14"
+        },
+        {
+          "key": "B",
+          "text": "0\n30"
+        },
+        {
+          "key": "C",
+          "text": "0\n0"
+        },
+        {
+          "key": "D",
+          "text": "1\n13"
+        }
+      ],
+      "answer": "A",
+      "explanation": "next lấy 0 (0²); sum tiêu thụ phần CÒN LẠI 1+4+9 = 14.",
+      "tags": [
+        "python",
+        "generator",
+        "next"
+      ]
+    },
+    {
+      "id": "E45-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = 256\nb = int('256')\nc = 257\nd = int('257')\nprint(a is b, c is d)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True False"
+        },
+        {
+          "key": "B",
+          "text": "True True"
+        },
+        {
+          "key": "C",
+          "text": "False False"
+        },
+        {
+          "key": "D",
+          "text": "False True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CPython cache số nguyên nhỏ [−5, 256]: int('256') trả về CÙNG object đã cache → a is b True. 257 ngoài vùng cache, int('257') tạo object mới → c is d False.",
+      "tags": [
+        "python",
+        "is",
+        "int-caching"
+      ]
+    },
+    {
+      "id": "E45-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = [1, 2]\nb = [1, 2]\nprint(a == b, a is b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True False"
+        },
+        {
+          "key": "B",
+          "text": "True True"
+        },
+        {
+          "key": "C",
+          "text": "False False"
+        },
+        {
+          "key": "D",
+          "text": "False True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "== so sánh GIÁ TRỊ (bằng nhau); is so sánh CÙNG ĐỐI TƯỢNG (hai list khác nhau).",
+      "tags": [
+        "python",
+        "is",
+        "equality"
+      ]
+    },
+    {
+      "id": "E45-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(isinstance(True, int), True + True, True * 3)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True 2 3"
+        },
+        {
+          "key": "B",
+          "text": "False 2 3"
+        },
+        {
+          "key": "C",
+          "text": "True 1 1"
+        },
+        {
+          "key": "D",
+          "text": "True True True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bool là lớp con của int: True=1 → isinstance True, 1+1=2, 1·3=3.",
+      "tags": [
+        "python",
+        "bool",
+        "int"
+      ]
+    },
+    {
+      "id": "E45-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(-7 // 2, -7 % 2)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "-4 1"
+        },
+        {
+          "key": "B",
+          "text": "-3 -1"
+        },
+        {
+          "key": "C",
+          "text": "-3 1"
+        },
+        {
+          "key": "D",
+          "text": "-4 -1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "// làm tròn XUỐNG (floor): −7//2=−4; % cùng dấu MẪU: −7%2=1 (vì −4·2+1=−7).",
+      "tags": [
+        "python",
+        "operator",
+        "modulo"
+      ]
+    },
+    {
+      "id": "E45-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(0.1 + 0.2 == 0.3)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "0.3"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số dấu phẩy động: 0.1+0.2 = 0.30000000000000004 ≠ 0.3 → False.",
+      "tags": [
+        "python",
+        "float",
+        "precision"
+      ]
+    },
+    {
+      "id": "E45-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(round(0.5), round(1.5), round(2.5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0 2 2"
+        },
+        {
+          "key": "B",
+          "text": "1 2 3"
+        },
+        {
+          "key": "C",
+          "text": "0 1 2"
+        },
+        {
+          "key": "D",
+          "text": "1 2 2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "round() dùng banker's rounding (về số chẵn gần nhất): 0.5→0, 1.5→2, 2.5→2.",
+      "tags": [
+        "python",
+        "round",
+        "banker"
+      ]
+    },
+    {
+      "id": "E45-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(2 ** 3 ** 2)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "512"
+        },
+        {
+          "key": "B",
+          "text": "64"
+        },
+        {
+          "key": "C",
+          "text": "36"
+        },
+        {
+          "key": "D",
+          "text": "81"
+        }
+      ],
+      "answer": "A",
+      "explanation": "** kết hợp PHẢI sang trái: 2**(3**2) = 2**9 = 512.",
+      "tags": [
+        "python",
+        "operator",
+        "associativity"
+      ]
+    },
+    {
+      "id": "E45-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(0 or 'x', 'a' and 'b', None or [])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "x b []"
+        },
+        {
+          "key": "B",
+          "text": "0 a None"
+        },
+        {
+          "key": "C",
+          "text": "True b []"
+        },
+        {
+          "key": "D",
+          "text": "x a None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "or trả toán hạng truthy đầu (0 falsy→'x'); and trả cái cuối nếu đều truthy ('b'); None or [] → [].",
+      "tags": [
+        "python",
+        "short-circuit",
+        "truthiness"
+      ]
+    },
+    {
+      "id": "E45-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(all([]), any([]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True False"
+        },
+        {
+          "key": "B",
+          "text": "False True"
+        },
+        {
+          "key": "C",
+          "text": "True True"
+        },
+        {
+          "key": "D",
+          "text": "False False"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy ước: all([]) = True (không có phản ví dụ); any([]) = False (không có cái True nào).",
+      "tags": [
+        "python",
+        "all",
+        "any"
+      ]
+    },
+    {
+      "id": "E45-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nx = 5\nprint('a' if x > 3 else 'b' if x > 1 else 'c')\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "a"
+        },
+        {
+          "key": "B",
+          "text": "b"
+        },
+        {
+          "key": "C",
+          "text": "c"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ternary lồng: x>3 đúng → 'a'.",
+      "tags": [
+        "python",
+        "ternary"
+      ]
+    },
+    {
+      "id": "E45-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = [[0] * 2] * 3\na[0][0] = 9\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[9, 0], [9, 0], [9, 0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[9, 0], [0, 0], [0, 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[9, 9], [9, 9], [9, 9]]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "[x]*3 lặp cùng MỘT tham chiếu list; sửa một hàng đổi cả ba.",
+      "tags": [
+        "python",
+        "list",
+        "aliasing"
+      ]
+    },
+    {
+      "id": "E45-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = [1, 2, 3]\nb = a[:]\nb.append(4)\nprint(a, b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3] [1, 2, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3, 4] [1, 2, 3, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3] [1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[4] [1,2,3,4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a[:] tạo bản sao NÔNG (mới); thêm vào b không ảnh hưởng a.",
+      "tags": [
+        "python",
+        "list",
+        "slice-copy"
+      ]
+    },
+    {
+      "id": "E45-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nimport copy\na = [[1, 2], [3, 4]]\nb = copy.copy(a)\nb[0][0] = 99\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[99, 2], [3, 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1, 2], [3, 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[99, 2], [99, 4]]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "copy.copy là shallow: list con vẫn chia sẻ → sửa b[0][0] đổi a.",
+      "tags": [
+        "python",
+        "copy",
+        "shallow"
+      ]
+    },
+    {
+      "id": "E45-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = [1, 2, 3]\nb = a\nb += [4]\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[4]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "list += là extend TẠI CHỖ trên cùng đối tượng; b là a nên a cũng đổi.",
+      "tags": [
+        "python",
+        "list",
+        "inplace"
+      ]
+    },
+    {
+      "id": "E45-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nd = {'a': 1, 'b': 2, 'a': 3}\nprint(d)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 3, 'b': 2}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 1, 'b': 2}"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 1, 'b': 2, 'a': 3}"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Key trùng: giá trị sau ghi đè giá trị trước; vị trí key giữ theo lần đầu.",
+      "tags": [
+        "python",
+        "dict",
+        "duplicate-key"
+      ]
+    },
+    {
+      "id": "E45-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nd = {1: 'a', True: 'b', 1.0: 'c'}\nprint(d)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{1: 'c'}"
+        },
+        {
+          "key": "B",
+          "text": "{1: 'a', True: 'b', 1.0: 'c'}"
+        },
+        {
+          "key": "C",
+          "text": "{1: 'a'}"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1, True, 1.0 đều BẰNG và cùng hash → cùng một key; giá trị cuối 'c' thắng, key giữ là 1.",
+      "tags": [
+        "python",
+        "dict",
+        "hash"
+      ]
+    },
+    {
+      "id": "E45-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nd = {'x': 1}\nprint(d.get('y', 0), d.setdefault('y', 9), d['y'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0 9 9"
+        },
+        {
+          "key": "B",
+          "text": "0 0 0"
+        },
+        {
+          "key": "C",
+          "text": "None 9 9"
+        },
+        {
+          "key": "D",
+          "text": "0 9 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "get('y',0)→0 (không thêm); setdefault thêm 'y'=9 và trả 9; d['y'] giờ là 9.",
+      "tags": [
+        "python",
+        "dict",
+        "setdefault"
+      ]
+    },
+    {
+      "id": "E45-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(len({1, 2, 2, 3, 3, 3}), {1, 2} | {2, 3}, {1, 2, 3} - {2})\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 {1, 2, 3} {1, 3}"
+        },
+        {
+          "key": "B",
+          "text": "6 {1, 2, 3} {1, 3}"
+        },
+        {
+          "key": "C",
+          "text": "3 {1, 2} {3}"
+        },
+        {
+          "key": "D",
+          "text": "3 {2} {1, 3}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "set loại trùng (len 3); | hợp; − hiệu.",
+      "tags": [
+        "python",
+        "set"
+      ]
+    },
+    {
+      "id": "E45-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndata = [('b', 2), ('a', 2), ('c', 1)]\nprint(sorted(data, key=lambda t: t[1]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('c', 1), ('b', 2), ('a', 2)]"
+        },
+        {
+          "key": "B",
+          "text": "[('c', 1), ('a', 2), ('b', 2)]"
+        },
+        {
+          "key": "C",
+          "text": "[('a', 2), ('b', 2), ('c', 1)]"
+        },
+        {
+          "key": "D",
+          "text": "[('b', 2), ('a', 2), ('c', 1)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sorted ỔN ĐỊNH: sắp theo key thứ hai; các phần tử bằng key giữ NGUYÊN thứ tự gốc ('b' trước 'a').",
+      "tags": [
+        "python",
+        "sorted",
+        "stable"
+      ]
+    },
+    {
+      "id": "E45-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(sorted([3, 1, 2], reverse=True), sorted('cab'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 2, 1] ['a', 'b', 'c']"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3] 'abc'"
+        },
+        {
+          "key": "C",
+          "text": "[3, 2, 1] 'abc'"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3] ['a', 'b', 'c']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reverse=True giảm dần; sorted trên chuỗi trả LIST các ký tự đã sắp.",
+      "tags": [
+        "python",
+        "sorted"
+      ]
+    },
+    {
+      "id": "E45-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nm = map(lambda x: x*2, [1, 2, 3])\nprint(list(m), list(m))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 4, 6] []"
+        },
+        {
+          "key": "B",
+          "text": "[2, 4, 6] [2, 4, 6]"
+        },
+        {
+          "key": "C",
+          "text": "[] []"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3] []"
+        }
+      ],
+      "answer": "A",
+      "explanation": "map trả ITERATOR lười; tiêu thụ lần đầu hết → lần hai rỗng.",
+      "tags": [
+        "python",
+        "map",
+        "iterator"
+      ]
+    },
+    {
+      "id": "E45-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(list(zip([1, 2, 3], ['a', 'b'])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(1, 'a'), (2, 'b')]"
+        },
+        {
+          "key": "B",
+          "text": "[(1, 'a'), (2, 'b'), (3, None)]"
+        },
+        {
+          "key": "C",
+          "text": "[(1, 2, 3), ('a', 'b')]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "zip dừng theo iterable NGẮN NHẤT (2 phần tử); phần dư của list dài bị bỏ.",
+      "tags": [
+        "python",
+        "zip"
+      ]
+    },
+    {
+      "id": "E45-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(list(enumerate(['x', 'y'], start=1)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(1, 'x'), (2, 'y')]"
+        },
+        {
+          "key": "B",
+          "text": "[(0, 'x'), (1, 'y')]"
+        },
+        {
+          "key": "C",
+          "text": "[('x', 1), ('y', 2)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 'x'), (2, 'y'), (3, None)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "enumerate với start=1 đánh số từ 1.",
+      "tags": [
+        "python",
+        "enumerate"
+      ]
+    },
+    {
+      "id": "E45-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(type((1)), type((1,)), type(()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "<class 'int'> <class 'tuple'> <class 'tuple'>"
+        },
+        {
+          "key": "B",
+          "text": "<class 'tuple'> <class 'tuple'> <class 'tuple'>"
+        },
+        {
+          "key": "C",
+          "text": "<class 'int'> <class 'int'> <class 'tuple'>"
+        },
+        {
+          "key": "D",
+          "text": "<class 'tuple'> <class 'int'> <class 'tuple'>"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(1) chỉ là số trong ngoặc → int; cần dấu phẩy (1,) mới là tuple; () là tuple rỗng.",
+      "tags": [
+        "python",
+        "tuple",
+        "syntax"
+      ]
+    },
+    {
+      "id": "E45-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nt = ([1, 2], 3)\ntry:\n    t[0] += [9]\nexcept TypeError:\n    pass\nprint(t)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "([1, 2, 9], 3)"
+        },
+        {
+          "key": "B",
+          "text": "([1, 2], 3)"
+        },
+        {
+          "key": "C",
+          "text": "Error không bắt được"
+        },
+        {
+          "key": "D",
+          "text": "([1, 2, 9, 3],)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy nổi tiếng: += vừa EXTEND list tại chỗ (thành công) vừa thử gán lại vào tuple (TypeError). List ĐÃ đổi dù có lỗi.",
+      "tags": [
+        "python",
+        "tuple",
+        "augmented-assignment"
+      ]
+    },
+    {
+      "id": "E45-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nx = 10\nresult = [x for x in range(3)]\nprint(x, result)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 [0, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "2 [0, 1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "10 [10, 10, 10]"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong Python 3, biến vòng lặp của comprehension KHÔNG rò rỉ ra ngoài; x toàn cục vẫn 10.",
+      "tags": [
+        "python",
+        "comprehension",
+        "scope"
+      ]
+    },
+    {
+      "id": "E45-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nx = 1\ndef f():\n    x = 2\n    def g():\n        nonlocal x\n        x = 3\n    g()\n    return x\nprint(f(), x)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 1"
+        },
+        {
+          "key": "B",
+          "text": "2 1"
+        },
+        {
+          "key": "C",
+          "text": "3 3"
+        },
+        {
+          "key": "D",
+          "text": "2 3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nonlocal cho g sửa x của f (thành 3); x TOÀN CỤC vẫn 1.",
+      "tags": [
+        "python",
+        "scope",
+        "nonlocal"
+      ]
+    },
+    {
+      "id": "E45-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint([y for x in [[1, 2], [3]] for y in x])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[[1, 2], [3]]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[2, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nested comprehension làm phẳng: duyệt từng sublist rồi từng phần tử.",
+      "tags": [
+        "python",
+        "comprehension",
+        "nested"
+      ]
+    },
+    {
+      "id": "E45-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ns = 'hello'\nprint(s[1:4], s[::-1], s[-2:])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "ell olleh lo"
+        },
+        {
+          "key": "B",
+          "text": "ell hello lo"
+        },
+        {
+          "key": "C",
+          "text": "hel olleh he"
+        },
+        {
+          "key": "D",
+          "text": "ello olleh lo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "s[1:4]='ell'; đảo ngược 'olleh'; 2 ký tự cuối 'lo'.",
+      "tags": [
+        "python",
+        "string",
+        "slicing"
+      ]
+    },
+    {
+      "id": "E45-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint('ab' * 3, 'x'.join(['1', '2', '3']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "ababab 1x2x3"
+        },
+        {
+          "key": "B",
+          "text": "ab3 123"
+        },
+        {
+          "key": "C",
+          "text": "ababab 123"
+        },
+        {
+          "key": "D",
+          "text": "ab*3 1x2x3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân chuỗi lặp lại; join chèn 'x' giữa các phần tử.",
+      "tags": [
+        "python",
+        "string"
+      ]
+    },
+    {
+      "id": "E45-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint('Hello World'.split(), len('Hello World'.split()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['Hello', 'World'] 2"
+        },
+        {
+          "key": "B",
+          "text": "['Hello World'] 1"
+        },
+        {
+          "key": "C",
+          "text": "['H','e',...] 11"
+        },
+        {
+          "key": "D",
+          "text": "Hello World 2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "split() không tham số tách theo khoảng trắng → 2 từ.",
+      "tags": [
+        "python",
+        "string",
+        "split"
+      ]
+    },
+    {
+      "id": "E45-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef f():\n    try:\n        return 1\n    finally:\n        return 2\nprint(f())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy: return trong finally ĐÈ return trong try → trả 2.",
+      "tags": [
+        "python",
+        "exception",
+        "finally"
+      ]
+    },
+    {
+      "id": "E45-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ntry:\n    print(1)\n    raise ValueError\nexcept ValueError:\n    print(2)\nelse:\n    print(3)\nfinally:\n    print(4)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1\n2\n4"
+        },
+        {
+          "key": "B",
+          "text": "1\n2\n3\n4"
+        },
+        {
+          "key": "C",
+          "text": "1\n4"
+        },
+        {
+          "key": "D",
+          "text": "1\n2\n3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "else chỉ chạy khi KHÔNG có ngoại lệ; có lỗi nên: 1, 2 (except), 4 (finally).",
+      "tags": [
+        "python",
+        "exception",
+        "else-finally"
+      ]
+    },
+    {
+      "id": "E45-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ntry:\n    x = int('abc')\nexcept (ValueError, TypeError) as e:\n    print(type(e).__name__)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "ValueError"
+        },
+        {
+          "key": "B",
+          "text": "TypeError"
+        },
+        {
+          "key": "C",
+          "text": "Exception"
+        },
+        {
+          "key": "D",
+          "text": "abc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "int('abc') ném ValueError; được bắt và in tên lớp ngoại lệ.",
+      "tags": [
+        "python",
+        "exception"
+      ]
+    },
+    {
+      "id": "E45-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass C:\n    items = []\n    def add(self, x):\n        self.items.append(x)\na = C(); b = C()\na.add(1); b.add(2)\nprint(a.items)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1]"
+        },
+        {
+          "key": "C",
+          "text": "[2]"
+        },
+        {
+          "key": "D",
+          "text": "[]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bẫy: items là biến LỚP (chia sẻ mọi instance); a và b dùng chung list → [1, 2].",
+      "tags": [
+        "python",
+        "oop",
+        "class-variable"
+      ]
+    },
+    {
+      "id": "E45-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass A:\n    def who(self): return 'A'\nclass B(A):\n    def who(self): return 'B-' + super().who()\nclass C(B):\n    def who(self): return 'C-' + super().who()\nprint(C().who())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "C-B-A"
+        },
+        {
+          "key": "B",
+          "text": "C-A"
+        },
+        {
+          "key": "C",
+          "text": "A"
+        },
+        {
+          "key": "D",
+          "text": "C-B"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuỗi super() theo MRO: C→B→A → 'C-B-A'.",
+      "tags": [
+        "python",
+        "oop",
+        "super",
+        "mro"
+      ]
+    },
+    {
+      "id": "E45-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass P:\n    def __init__(self):\n        self.x = 1\n    def __repr__(self):\n        return f'P({self.x})'\nprint([P(), P()])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[P(1), P(1)]"
+        },
+        {
+          "key": "B",
+          "text": "[<P object>, <P object>]"
+        },
+        {
+          "key": "C",
+          "text": "P(1)P(1)"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "__repr__ được dùng khi in phần tử trong list → [P(1), P(1)].",
+      "tags": [
+        "python",
+        "oop",
+        "repr"
+      ]
+    },
+    {
+      "id": "E45-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass Num:\n    def __init__(self, v): self.v = v\n    def __eq__(self, o): return self.v == o.v\nprint(Num(3) == Num(3), Num(3) is Num(3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True False"
+        },
+        {
+          "key": "B",
+          "text": "True True"
+        },
+        {
+          "key": "C",
+          "text": "False False"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "__eq__ định nghĩa == theo v (True); is so sánh danh tính 2 object khác nhau (False).",
+      "tags": [
+        "python",
+        "oop",
+        "eq"
+      ]
+    },
+    {
+      "id": "E45-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef deco(f):\n    def w(*a):\n        return f(*a) + 1\n    return w\n@deco\n@deco\ndef g(x):\n    return x\nprint(g(10))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12"
+        },
+        {
+          "key": "B",
+          "text": "11"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "13"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai decorator chồng: mỗi cái +1 → g(10)=10+1+1=12.",
+      "tags": [
+        "python",
+        "decorator",
+        "stacking"
+      ]
+    },
+    {
+      "id": "E45-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef repeat(n):\n    def deco(f):\n        def w(*a):\n            r = None\n            for _ in range(n):\n                r = f(*a)\n            return r\n        return w\n    return deco\ncalls = []\n@repeat(3)\ndef rec():\n    calls.append(1)\nrec()\nprint(len(calls))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Decorator nhận tham số n=3 gọi hàm 3 lần → calls có 3 phần tử.",
+      "tags": [
+        "python",
+        "decorator",
+        "parametrized"
+      ]
+    },
+    {
+      "id": "E45-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na, *b, c = [1, 2, 3, 4, 5]\nprint(a, b, c)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 [2, 3, 4] 5"
+        },
+        {
+          "key": "B",
+          "text": "1 2 [3, 4, 5]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2] 3 [4, 5]"
+        },
+        {
+          "key": "D",
+          "text": "1 [2, 3, 4, 5] None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Extended unpacking: a=đầu, c=cuối, *b gom phần giữa thành list.",
+      "tags": [
+        "python",
+        "unpacking",
+        "star"
+      ]
+    },
+    {
+      "id": "E45-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nd = {'a': 1, 'b': 2}\nprint([k for k in d], list(d.values()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'b'] [1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2] ['a', 'b']"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'b'] ['a', 'b']"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lặp dict cho KEY; values() cho giá trị; thứ tự chèn được giữ.",
+      "tags": [
+        "python",
+        "dict",
+        "iteration"
+      ]
+    },
+    {
+      "id": "E45-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nn = 0\nout = []\nwhile (n := n + 1) < 4:\n    out.append(n)\nprint(out)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 1, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Walrus := gán n rồi so sánh: lặp khi n<4, thêm 1,2,3 vào out; dừng khi n=4. Kết quả [1, 2, 3].",
+      "tags": [
+        "python",
+        "walrus",
+        "operator"
+      ]
+    },
+    {
+      "id": "E45-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(bool(''), bool('0'), bool([]), bool([0]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False True False True"
+        },
+        {
+          "key": "B",
+          "text": "False False False False"
+        },
+        {
+          "key": "C",
+          "text": "True True True True"
+        },
+        {
+          "key": "D",
+          "text": "False True True True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuỗi rỗng & list rỗng falsy; '0' (có ký tự) và [0] (có phần tử) truthy.",
+      "tags": [
+        "python",
+        "truthiness"
+      ]
+    },
+    {
+      "id": "E45-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(list(range(0, 10, 3)), list(range(5, 0, -2)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 3, 6, 9] [5, 3, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 3, 6, 9] [5, 3, 1, -1]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 3, 6] [5, 3, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 6, 9] [5, 3, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "range(0,10,3)→0,3,6,9; range(5,0,−2)→5,3,1 (dừng trước 0).",
+      "tags": [
+        "python",
+        "range"
+      ]
+    },
+    {
+      "id": "E45-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ns = 'abc'\nt = s\ns += 'd'\nprint(s, t, s is t)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "abcd abc False"
+        },
+        {
+          "key": "B",
+          "text": "abcd abcd True"
+        },
+        {
+          "key": "C",
+          "text": "abc abc False"
+        },
+        {
+          "key": "D",
+          "text": "abcd abc True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "String bất biến; s += tạo chuỗi MỚI, t vẫn 'abc', không cùng object.",
+      "tags": [
+        "python",
+        "string",
+        "immutable"
+      ]
+    },
+    {
+      "id": "E45-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(divmod(17, 5), 17 % -5)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2) -3"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2) 2"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3) -3"
+        },
+        {
+          "key": "D",
+          "text": "(3, 2) 3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "divmod(17,5)=(3,2); 17%−5 cùng dấu MẪU (âm) = −3 (vì −4·−5+(−3)=17).",
+      "tags": [
+        "python",
+        "divmod",
+        "modulo"
+      ]
+    },
+    {
+      "id": "E45-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import reduce\nprint(reduce(lambda a, b: a + b, [1, 2, 3, 4], 100))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "110"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "100"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reduce với giá trị khởi tạo 100: 100+1+2+3+4 = 110.",
+      "tags": [
+        "python",
+        "functools",
+        "reduce"
+      ]
+    },
+    {
+      "id": "E45-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef gen():\n    x = yield 1\n    yield x\ng = gen()\nprint(next(g))\nprint(g.send(99))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1\n99"
+        },
+        {
+          "key": "B",
+          "text": "1\n1"
+        },
+        {
+          "key": "C",
+          "text": "99\n99"
+        },
+        {
+          "key": "D",
+          "text": "1\nNone"
+        }
+      ],
+      "answer": "A",
+      "explanation": "next chạy tới yield 1 (in 1); send(99) gán x=99 và chạy tới yield x (in 99).",
+      "tags": [
+        "python",
+        "generator",
+        "send"
+      ]
+    },
+    {
+      "id": "E45-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc kỹ đoạn code (có bẫy) và ghi chính xác kết quả in ra:\n\n```python\ndata = [('apple', 3), ('banana', 1), ('apple', 2), ('cherry', 1)]\nfrom collections import defaultdict\nd = defaultdict(int)\nfor k, v in data:\n    d[k] += v\nprint(dict(d))\n```",
+      "modelAnswer": "Output:\n{'apple': 5, 'banana': 1, 'cherry': 1}",
+      "rubric": [
+        "defaultdict(int) tự khởi tạo 0 cho key mới",
+        "Cộng dồn theo key",
+        "apple = 3+2 = 5, banana=1, cherry=1",
+        "Giữ thứ tự chèn key: apple, banana, cherry"
+      ],
+      "tags": [
+        "python",
+        "defaultdict",
+        "aggregation"
+      ]
+    },
+    {
+      "id": "E45-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc kỹ đoạn code (có bẫy) và ghi chính xác kết quả in ra:\n\n```python\nmatrix = [[1, 2, 3], [4, 5, 6]]\ntransposed = [list(row) for row in zip(*matrix)]\nprint(transposed)\n```",
+      "modelAnswer": "Output:\n[[1, 4], [2, 5], [3, 6]]",
+      "rubric": [
+        "zip(*matrix) giải nén các hàng và ghép theo cột",
+        "Hiểu kỹ thuật chuyển vị bằng zip",
+        "Kết quả [[1,4],[2,5],[3,6]]",
+        "Mỗi cột gốc thành một hàng"
+      ],
+      "tags": [
+        "python",
+        "zip",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E45-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích bẫy 'late binding closure' qua ví dụ `[lambda: i for i in range(3)]` — vì sao cả ba hàm trả về 2 — và nêu ít nhất hai cách sửa.",
+      "modelAnswer": "Nguyên nhân: closure bắt BIẾN i theo tham chiếu (tên), KHÔNG sao chép giá trị tại thời điểm tạo lambda. Khi vòng lặp kết thúc, i = 2; lúc gọi các lambda mới tra cứu i → cả ba đều thấy 2.\nCách sửa:\n1) Dùng default argument để 'đóng băng' giá trị: lambda i=i: i — default được tính NGAY khi định nghĩa hàm.\n2) Dùng factory/closure lồng: def make(i): return lambda: i; rồi [make(i) for i in range(3)].\n3) Dùng functools.partial(lambda x: x, i).\nBản chất: cần liên kết giá trị i tại từng vòng lặp thay vì tham chiếu biến chung.",
+      "rubric": [
+        "Chỉ ra closure bắt biến (tên) chứ không phải giá trị",
+        "Giải thích sau vòng lặp i=2 nên cả ba in 2",
+        "Cách sửa 1: default arg i=i",
+        "Cách sửa 2: factory function/partial"
+      ],
+      "tags": [
+        "python",
+        "closure",
+        "late-binding",
+        "debugging"
+      ]
+    },
+    {
+      "id": "E45-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao dùng list (mutable) làm GIÁ TRỊ MẶC ĐỊNH của tham số hàm là một bẫy nguy hiểm. Cho ví dụ bug và trình bày cách viết đúng.",
+      "modelAnswer": "Bẫy: giá trị mặc định được tính MỘT LẦN khi hàm được ĐỊNH NGHĨA, không phải mỗi lần gọi. Nếu mặc định là list/dict (mutable), mọi lần gọi không truyền đối số sẽ DÙNG CHUNG cùng một đối tượng → trạng thái rò rỉ giữa các lần gọi.\nVí dụ bug: def add(x, acc=[]): acc.append(x); return acc. add(1)→[1]; add(2)→[1,2] (không phải [2]) vì acc tích lũy.\nCách đúng: dùng None làm sentinel:\ndef add(x, acc=None):\n    if acc is None:\n        acc = []\n    acc.append(x)\n    return acc\nNhư vậy mỗi lần gọi không truyền acc sẽ tạo list MỚI, độc lập. Nguyên tắc: không bao giờ dùng đối tượng mutable làm default; dùng None rồi khởi tạo bên trong.",
+      "rubric": [
+        "Giải thích default tính một lần lúc định nghĩa hàm",
+        "Chỉ ra list mặc định bị chia sẻ giữa các lần gọi",
+        "Cho ví dụ bug cụ thể (tích lũy ngoài ý muốn)",
+        "Trình bày cách sửa bằng None sentinel"
+      ],
+      "tags": [
+        "python",
+        "mutable-default",
+        "debugging"
+      ]
+    }
+  ]
+}

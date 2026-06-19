@@ -1,0 +1,1868 @@
+{
+  "id": "exam-43",
+  "title": "Deep Learning — Nâng cao (Gradient, Tối ưu & Huấn luyện)",
+  "description": "60 câu deep learning khó: hàm kích hoạt & đạo hàm (sigmoid/tanh/ReLU/Leaky), softmax & cross-entropy (tính chất, gradient p−y, ổn định số học), backpropagation & chain rule (tính gradient bằng tay), vanishing/exploding gradient & cách khắc phục, khởi tạo trọng số (Xavier/He, vì sao không init 0), optimizers (SGD/Momentum/RMSprop/Adam, lr schedule), regularization (L1/L2, dropout train-eval, early stopping, label smoothing), BatchNorm train vs eval, epoch/iteration/batch, residual/LSTM, distillation, double descent, chẩn đoán overfit/underfit. 56 trắc nghiệm (nhiều câu được kiểm chứng tính toán bằng NumPy) + 4 tự luận.",
+  "durationMinutes": 85,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E43-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị của hàm sigmoid σ(x)=1/(1+e^(−x)) tại x=0 là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(0)=1/(1+1)=0.5.",
+      "tags": [
+        "dl",
+        "activation",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E43-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đạo hàm của sigmoid bằng σ'(x)=σ(x)(1−σ(x)). Giá trị LỚN NHẤT của σ'(x) (tại x=0) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ'(0)=0.5·0.5=0.25 — giá trị cực đại; đạo hàm nhỏ ở hai đầu (nguyên nhân vanishing gradient).",
+      "tags": [
+        "dl",
+        "sigmoid",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E43-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm tanh có miền giá trị là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(−1, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(0, ∞)"
+        },
+        {
+          "key": "D",
+          "text": "(−∞, ∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tanh nén đầu ra về khoảng (−1, 1), trung tâm 0 (zero-centered) khác sigmoid.",
+      "tags": [
+        "dl",
+        "activation",
+        "tanh"
+      ]
+    },
+    {
+      "id": "E43-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đạo hàm của ReLU(x)=max(0,x) với x>0 và x<0 lần lượt là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 và 0"
+        },
+        {
+          "key": "B",
+          "text": "0 và 1"
+        },
+        {
+          "key": "C",
+          "text": "x và 0"
+        },
+        {
+          "key": "D",
+          "text": "1 và 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU' = 1 khi x>0, = 0 khi x<0 (tại 0 thường quy ước 0). Gradient không suy giảm ở phần dương.",
+      "tags": [
+        "dl",
+        "relu",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E43-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vấn đề 'dying ReLU' (ReLU chết) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neuron luôn xuất 0 và gradient bằng 0 nên không bao giờ cập nhật nữa"
+        },
+        {
+          "key": "B",
+          "text": "ReLU phát nổ gradient"
+        },
+        {
+          "key": "C",
+          "text": "ReLU làm chậm GPU"
+        },
+        {
+          "key": "D",
+          "text": "ReLU gây overfitting"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu đầu vào luôn âm, ReLU xuất 0 và gradient 0 → trọng số kẹt. Leaky ReLU/ELU giảm hiện tượng này.",
+      "tags": [
+        "dl",
+        "relu",
+        "dying-relu"
+      ]
+    },
+    {
+      "id": "E43-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao mạng neural cần hàm kích hoạt PHI TUYẾN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu không, chồng nhiều lớp tuyến tính vẫn chỉ là một hàm tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng tốc độ"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm bộ nhớ"
+        },
+        {
+          "key": "D",
+          "text": "Để chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hợp của các phép tuyến tính là tuyến tính; phi tuyến cho phép mạng xấp xỉ hàm phức tạp.",
+      "tags": [
+        "dl",
+        "activation",
+        "nonlinearity"
+      ]
+    },
+    {
+      "id": "E43-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu ra softmax của một vector luôn có tính chất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các phần tử dương và tổng bằng 1 (phân phối xác suất)"
+        },
+        {
+          "key": "B",
+          "text": "Tổng bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Phần tử lớn nhất bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Các phần tử bằng nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax cho phân phối xác suất: mỗi phần tử trong (0,1), tổng = 1.",
+      "tags": [
+        "dl",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E43-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Softmax có tính bất biến với việc cộng cùng một hằng số c vào mọi logit: softmax(x+c)=?",
+      "options": [
+        {
+          "key": "A",
+          "text": "softmax(x) (không đổi)"
+        },
+        {
+          "key": "B",
+          "text": "softmax(x)+c"
+        },
+        {
+          "key": "C",
+          "text": "c·softmax(x)"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hằng số bị triệt tiêu ở tử và mẫu; nhờ vậy ta trừ max để ổn định số học.",
+      "tags": [
+        "dl",
+        "softmax",
+        "stability"
+      ]
+    },
+    {
+      "id": "E43-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với nhãn đúng là lớp i, cross-entropy loss (one-hot) rút gọn thành?",
+      "options": [
+        {
+          "key": "A",
+          "text": "−log(p_i) với p_i là xác suất dự đoán cho lớp đúng"
+        },
+        {
+          "key": "B",
+          "text": "p_i²"
+        },
+        {
+          "key": "C",
+          "text": "1 − p_i"
+        },
+        {
+          "key": "D",
+          "text": "−log(1 − p_i)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CE = −Σ y_k log p_k; với one-hot chỉ còn −log(p_lớp_đúng).",
+      "tags": [
+        "dl",
+        "loss",
+        "cross-entropy"
+      ]
+    },
+    {
+      "id": "E43-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient của (softmax + cross-entropy) theo logits z có dạng đặc biệt gọn là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "p − y (xác suất dự đoán trừ nhãn one-hot)"
+        },
+        {
+          "key": "B",
+          "text": "y − p²"
+        },
+        {
+          "key": "C",
+          "text": "p·y"
+        },
+        {
+          "key": "D",
+          "text": "log(p)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm CE qua softmax gộp lại = p − y — lý do hai hàm này hay đi cùng nhau.",
+      "tags": [
+        "dl",
+        "backprop",
+        "softmax-ce"
+      ]
+    },
+    {
+      "id": "E43-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MSE (mean squared error) cho dự đoán [2,3] và nhãn [1,5] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "1.5"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "((2−1)²+(3−5)²)/2 = (1+4)/2 = 2.5.",
+      "tags": [
+        "dl",
+        "loss",
+        "mse"
+      ]
+    },
+    {
+      "id": "E43-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm loss nào phù hợp cho phân loại nhị phân với đầu ra sigmoid?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Binary cross-entropy"
+        },
+        {
+          "key": "B",
+          "text": "MSE"
+        },
+        {
+          "key": "C",
+          "text": "Hinge bậc ba"
+        },
+        {
+          "key": "D",
+          "text": "IoU loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BCE khớp với đầu ra xác suất sigmoid; tối ưu tốt hơn MSE cho phân loại.",
+      "tags": [
+        "dl",
+        "loss",
+        "bce"
+      ]
+    },
+    {
+      "id": "E43-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lan truyền ngược (backpropagation) về bản chất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Áp dụng quy tắc chuỗi (chain rule) để tính gradient của loss theo mọi tham số"
+        },
+        {
+          "key": "B",
+          "text": "Một thuật toán sắp xếp"
+        },
+        {
+          "key": "C",
+          "text": "Phép chuẩn hóa dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Một hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprop dùng chain rule lan gradient từ loss ngược về từng trọng số một cách hiệu quả.",
+      "tags": [
+        "dl",
+        "backprop"
+      ]
+    },
+    {
+      "id": "E43-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho y=w·x, loss L=(y−t)². Với w=2,x=3,t=5: gradient ∂L/∂w bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "y=6; ∂L/∂y=2(y−t)=2(1)=2; ∂y/∂w=x=3 → ∂L/∂w=2·3=6.",
+      "tags": [
+        "dl",
+        "backprop",
+        "chain-rule"
+      ]
+    },
+    {
+      "id": "E43-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một bước cập nhật gradient descent với w=2, gradient g=6, learning rate η=0.1 cho w mới bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.4"
+        },
+        {
+          "key": "B",
+          "text": "2.6"
+        },
+        {
+          "key": "C",
+          "text": "1.94"
+        },
+        {
+          "key": "D",
+          "text": "8.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "w ← w − η·g = 2 − 0.1·6 = 1.4.",
+      "tags": [
+        "dl",
+        "optimization",
+        "gradient-descent"
+      ]
+    },
+    {
+      "id": "E43-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vanishing gradient (gradient tiêu biến) ở mạng sâu chủ yếu do?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhân nhiều đạo hàm nhỏ (vd sigmoid <0.25) qua nhiều lớp → gradient ≈ 0 ở lớp đầu"
+        },
+        {
+          "key": "B",
+          "text": "Learning rate quá nhỏ luôn"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu quá lớn"
+        },
+        {
+          "key": "D",
+          "text": "Quá nhiều GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chain rule nhân chuỗi đạo hàm; nếu mỗi cái <1 thì tích co về 0 theo độ sâu → lớp đầu học rất chậm.",
+      "tags": [
+        "dl",
+        "vanishing-gradient"
+      ]
+    },
+    {
+      "id": "E43-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giải pháp KHÔNG giúp giảm vanishing gradient là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng nhiều lớp sigmoid bão hòa hơn"
+        },
+        {
+          "key": "B",
+          "text": "Dùng ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Residual/skip connections"
+        },
+        {
+          "key": "D",
+          "text": "Batch Normalization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid bão hòa làm vanishing nặng hơn; ReLU, residual, BatchNorm đều giúp gradient chảy tốt hơn.",
+      "tags": [
+        "dl",
+        "vanishing-gradient"
+      ]
+    },
+    {
+      "id": "E43-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Exploding gradient thường được khắc phục bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gradient clipping (cắt ngưỡng độ lớn gradient)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ batchnorm"
+        },
+        {
+          "key": "D",
+          "text": "Dùng ảnh lớn hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Clipping giới hạn norm gradient để tránh bước cập nhật quá lớn gây phân kỳ (hay gặp ở RNN).",
+      "tags": [
+        "dl",
+        "exploding-gradient",
+        "clipping"
+      ]
+    },
+    {
+      "id": "E43-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao KHÔNG nên khởi tạo mọi trọng số bằng 0 trong mạng neural?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các neuron sẽ đối xứng, học cùng một thứ và không phân hóa được"
+        },
+        {
+          "key": "B",
+          "text": "Vì tốn bộ nhớ"
+        },
+        {
+          "key": "C",
+          "text": "Vì gây tràn số"
+        },
+        {
+          "key": "D",
+          "text": "Vì làm chậm GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khởi tạo 0 (hay cùng giá trị) làm mọi neuron nhận cùng gradient → đối xứng, không học được đặc trưng khác nhau.",
+      "tags": [
+        "dl",
+        "initialization"
+      ]
+    },
+    {
+      "id": "E43-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khởi tạo He (He/Kaiming) được khuyến nghị cho hàm kích hoạt nào, với phương sai ~ 2/n_in?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Softmax"
+        },
+        {
+          "key": "D",
+          "text": "Linear thuần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "He init (var = 2/n_in) bù cho việc ReLU loại nửa tín hiệu, giữ phương sai ổn định qua các lớp.",
+      "tags": [
+        "dl",
+        "initialization",
+        "he"
+      ]
+    },
+    {
+      "id": "E43-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khởi tạo Xavier/Glorot phù hợp nhất với?",
+      "options": [
+        {
+          "key": "A",
+          "text": "tanh/sigmoid (hàm đối xứng quanh 0)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ softmax"
+        },
+        {
+          "key": "D",
+          "text": "Không hàm nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Xavier (var ~ 1/n hoặc 2/(n_in+n_out)) thiết kế cho activation đối xứng như tanh.",
+      "tags": [
+        "dl",
+        "initialization",
+        "xavier"
+      ]
+    },
+    {
+      "id": "E43-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Momentum trong tối ưu hóa giúp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích lũy hướng gradient quá khứ để tăng tốc và giảm dao động"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Cắt gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Momentum thêm 'quán tính' (trung bình trượt của gradient) giúp vượt qua vùng phẳng và giảm zig-zag.",
+      "tags": [
+        "dl",
+        "optimizer",
+        "momentum"
+      ]
+    },
+    {
+      "id": "E43-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Adam kết hợp những ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Momentum (moment bậc 1) + tỉ lệ học thích nghi theo moment bậc 2 (như RMSprop)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ SGD thuần"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ gradient clipping"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ weight decay"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Adam ước lượng trung bình động của gradient (m) và bình phương gradient (v) để điều chỉnh bước học từng tham số.",
+      "tags": [
+        "dl",
+        "optimizer",
+        "adam"
+      ]
+    },
+    {
+      "id": "E43-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RMSprop điều chỉnh learning rate theo?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình động của bình phương gradient (chia cho căn của nó)"
+        },
+        {
+          "key": "B",
+          "text": "Số epoch"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước batch"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RMSprop chia gradient cho √(trung bình động bình phương gradient), giúp ổn định bước học theo từng chiều.",
+      "tags": [
+        "dl",
+        "optimizer",
+        "rmsprop"
+      ]
+    },
+    {
+      "id": "E43-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với batch gradient descent, stochastic/mini-batch GD có ưu điểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cập nhật thường xuyên hơn, nhanh và nhiễu giúp thoát cực tiểu cục bộ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chính xác hơn tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Không cần gradient"
+        },
+        {
+          "key": "D",
+          "text": "Không bao giờ dao động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mini-batch ước lượng gradient từ tập con → cập nhật nhanh, nhiễu có lợi cho việc thoát điểm yên ngựa.",
+      "tags": [
+        "dl",
+        "optimizer",
+        "sgd"
+      ]
+    },
+    {
+      "id": "E43-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Learning rate scheduling (giảm dần lr) nhằm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bước lớn lúc đầu để hội tụ nhanh, bước nhỏ về sau để tinh chỉnh ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Tăng overfitting"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Đổi hàm loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giảm lr theo thời gian giúp hội tụ mượt: khám phá nhanh ban đầu, hội tụ chính xác về cuối.",
+      "tags": [
+        "dl",
+        "optimizer",
+        "lr-schedule"
+      ]
+    },
+    {
+      "id": "E43-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "L2 regularization (weight decay) thêm vào loss số hạng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "λ·Σ w² (phạt trọng số lớn)"
+        },
+        {
+          "key": "B",
+          "text": "λ·Σ |w|"
+        },
+        {
+          "key": "C",
+          "text": "λ·Σ w"
+        },
+        {
+          "key": "D",
+          "text": "−λ·Σ w²"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L2 cộng λΣw² khuyến khích trọng số nhỏ, giảm overfitting; L1 dùng Σ|w| tạo thưa.",
+      "tags": [
+        "dl",
+        "regularization",
+        "l2"
+      ]
+    },
+    {
+      "id": "E43-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa L1 và L2 regularization?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L1 tạo trọng số thưa (nhiều số 0); L2 làm trọng số nhỏ đều"
+        },
+        {
+          "key": "B",
+          "text": "Không khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "L1 luôn tốt hơn"
+        },
+        {
+          "key": "D",
+          "text": "L2 tạo thưa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1 (|w|) đẩy nhiều trọng số về đúng 0 (feature selection); L2 (w²) co nhỏ đều nhưng hiếm khi bằng 0.",
+      "tags": [
+        "dl",
+        "regularization",
+        "l1-l2"
+      ]
+    },
+    {
+      "id": "E43-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dropout khi HUẤN LUYỆN và khi SUY LUẬN (inference) khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train: ngẫu nhiên tắt neuron; inference: dùng toàn bộ (có scale tương ứng)"
+        },
+        {
+          "key": "B",
+          "text": "Giống hệt nhau"
+        },
+        {
+          "key": "C",
+          "text": "Inference tắt nhiều hơn"
+        },
+        {
+          "key": "D",
+          "text": "Train không tắt gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout chỉ bật khi train; khi inference dùng cả mạng. Inverted dropout scale lúc train để inference giữ nguyên.",
+      "tags": [
+        "dl",
+        "dropout",
+        "train-eval"
+      ]
+    },
+    {
+      "id": "E43-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Batch Normalization khi train và eval khác nhau ở?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train dùng thống kê của batch; eval dùng trung bình/độ lệch ĐÃ TÍCH LŨY (running stats)"
+        },
+        {
+          "key": "B",
+          "text": "Giống hệt nhau"
+        },
+        {
+          "key": "C",
+          "text": "Eval dùng batch hiện tại"
+        },
+        {
+          "key": "D",
+          "text": "Train không chuẩn hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Eval không phụ thuộc batch nên dùng running mean/var tích lũy trong lúc train.",
+      "tags": [
+        "dl",
+        "batchnorm",
+        "train-eval"
+      ]
+    },
+    {
+      "id": "E43-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Early stopping chống overfitting bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dừng huấn luyện khi loss trên tập validation bắt đầu xấu đi"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số epoch tối đa"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ validation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo dõi validation; dừng khi nó ngừng cải thiện để tránh học thuộc tập train.",
+      "tags": [
+        "dl",
+        "regularization",
+        "early-stopping"
+      ]
+    },
+    {
+      "id": "E43-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một 'epoch' trong huấn luyện nghĩa là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một lần duyệt qua TOÀN BỘ tập huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Một lần cập nhật trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Một mini-batch"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Epoch = duyệt hết dữ liệu một lượt; mỗi epoch gồm nhiều iteration (mini-batch).",
+      "tags": [
+        "dl",
+        "training",
+        "epoch"
+      ]
+    },
+    {
+      "id": "E43-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với 10.000 mẫu và batch size 100, một epoch có bao nhiêu iteration (bước cập nhật)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "100"
+        },
+        {
+          "key": "B",
+          "text": "10000"
+        },
+        {
+          "key": "C",
+          "text": "1000"
+        },
+        {
+          "key": "D",
+          "text": "10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số iteration = số mẫu / batch size = 10000/100 = 100.",
+      "tags": [
+        "dl",
+        "training",
+        "batch"
+      ]
+    },
+    {
+      "id": "E43-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường cong loss train giảm đều nhưng loss validation tăng dần là dấu hiệu của?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Underfitting"
+        },
+        {
+          "key": "C",
+          "text": "Learning rate quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu sạch hoàn hảo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khoảng cách train–val nới rộng (train tốt, val xấu) là overfitting điển hình.",
+      "tags": [
+        "dl",
+        "overfitting",
+        "diagnostics"
+      ]
+    },
+    {
+      "id": "E43-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số tham số (weights + bias) của một lớp fully-connected từ 128 → 64 neuron là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8256"
+        },
+        {
+          "key": "B",
+          "text": "8192"
+        },
+        {
+          "key": "C",
+          "text": "192"
+        },
+        {
+          "key": "D",
+          "text": "8320"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Weights 128·64 = 8192, cộng 64 bias → 8256.",
+      "tags": [
+        "dl",
+        "params",
+        "dense"
+      ]
+    },
+    {
+      "id": "E43-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định lý xấp xỉ phổ quát (universal approximation) phát biểu rằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mạng 1 lớp ẩn đủ rộng có thể xấp xỉ mọi hàm liên tục (trên tập compact)"
+        },
+        {
+          "key": "B",
+          "text": "Mạng luôn hội tụ toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "CNN luôn tốt hơn MLP"
+        },
+        {
+          "key": "D",
+          "text": "Không cần phi tuyến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một lớp ẩn đủ neuron + phi tuyến có thể xấp xỉ hàm liên tục bất kỳ — nhưng 'có thể' không nói về khả năng học/khái quát.",
+      "tags": [
+        "dl",
+        "theory",
+        "universal-approximation"
+      ]
+    },
+    {
+      "id": "E43-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Skip/residual connection (ResNet) giúp huấn luyện mạng sâu nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho gradient chảy thẳng qua, mạng học phần dư F(x), giảm vanishing"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số tham số gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đường tắt giữ một nhánh đạo hàm =1, giúp gradient không tiêu biến và dễ học identity.",
+      "tags": [
+        "dl",
+        "resnet",
+        "residual"
+      ]
+    },
+    {
+      "id": "E43-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong RNN, vấn đề phụ thuộc dài hạn (long-term dependency) được LSTM giải quyết nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cổng (gate) và cell state cho phép giữ/quên thông tin có chọn lọc"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Dùng ReLU ở mọi nơi"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ trạng thái ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LSTM dùng cổng input/forget/output và đường cell state để truyền gradient ổn định qua nhiều bước thời gian.",
+      "tags": [
+        "dl",
+        "rnn",
+        "lstm"
+      ]
+    },
+    {
+      "id": "E43-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Logits' trong mạng phân loại là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu ra thô trước softmax (chưa chuẩn hóa thành xác suất)"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất sau softmax"
+        },
+        {
+          "key": "C",
+          "text": "Nhãn đúng"
+        },
+        {
+          "key": "D",
+          "text": "Gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logits là giá trị tuyến tính trước hàm softmax/sigmoid; loss thường tính trực tiếp từ logits để ổn định.",
+      "tags": [
+        "dl",
+        "logits"
+      ]
+    },
+    {
+      "id": "E43-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao nên tính cross-entropy từ logits (log-sum-exp) thay vì từ xác suất đã softmax?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ổn định số học hơn, tránh tràn/underflow và log(0)"
+        },
+        {
+          "key": "B",
+          "text": "Để chạy nhanh hơn 10 lần"
+        },
+        {
+          "key": "C",
+          "text": "Vì softmax sai"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kết hợp log-softmax (log-sum-exp trick) tránh exp tràn và log(0), chính xác hơn về số học.",
+      "tags": [
+        "dl",
+        "numerical-stability",
+        "loss"
+      ]
+    },
+    {
+      "id": "E43-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient checking (kiểm tra gradient bằng sai phân số) dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh gradient giải tích với gradient ước lượng số để bắt lỗi cài đặt backprop"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng (f(w+ε)−f(w−ε))/(2ε) để kiểm chứng gradient cài đặt — công cụ debug, không dùng khi train thật.",
+      "tags": [
+        "dl",
+        "gradient-checking",
+        "debug"
+      ]
+    },
+    {
+      "id": "E43-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong huấn luyện, 'iteration' khác 'epoch' ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Iteration = một lần cập nhật trên một mini-batch; epoch = duyệt hết dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "Iteration lớn hơn epoch"
+        },
+        {
+          "key": "D",
+          "text": "Epoch là một mini-batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một epoch gồm nhiều iteration (mỗi iteration xử lý một batch).",
+      "tags": [
+        "dl",
+        "training"
+      ]
+    },
+    {
+      "id": "E43-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Batch size lớn (vd 8192) so với nhỏ thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ước lượng gradient ổn định hơn nhưng có thể khái quát kém hơn và tốn bộ nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn khái quát tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng gì"
+        },
+        {
+          "key": "D",
+          "text": "Luôn nhanh hội tụ hơn về chất lượng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Batch lớn giảm nhiễu gradient (cần điều chỉnh lr) nhưng có thể rơi vào cực tiểu 'sắc' khái quát kém; batch nhỏ nhiễu hơn đôi khi tổng quát tốt hơn.",
+      "tags": [
+        "dl",
+        "batch-size",
+        "generalization"
+      ]
+    },
+    {
+      "id": "E43-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Leaky ReLU khác ReLU ở?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho độ dốc nhỏ (vd 0.01) ở phần âm thay vì 0, tránh dying ReLU"
+        },
+        {
+          "key": "B",
+          "text": "Bằng 0 ở phần dương"
+        },
+        {
+          "key": "C",
+          "text": "Là hàm tuyến tính thuần"
+        },
+        {
+          "key": "D",
+          "text": "Bão hòa ở hai đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Leaky ReLU = x nếu x>0, αx (α nhỏ) nếu x≤0 → giữ gradient nhỏ ở phần âm.",
+      "tags": [
+        "dl",
+        "activation",
+        "leaky-relu"
+      ]
+    },
+    {
+      "id": "E43-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Label smoothing trong phân loại nhằm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mềm nhãn one-hot (vd 0.9/0.033...) để mô hình bớt quá tự tin, tổng quát tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ regularization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thay nhãn cứng 1/0 bằng phân phối mềm, giảm overconfidence và cải thiện hiệu chỉnh (calibration).",
+      "tags": [
+        "dl",
+        "label-smoothing"
+      ]
+    },
+    {
+      "id": "E43-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi lớp dữ liệu mất cân bằng nặng, kỹ thuật phù hợp ở phía LOSS là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trọng số lớp (class weights) hoặc focal loss"
+        },
+        {
+          "key": "B",
+          "text": "Tăng batch size"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ validation"
+        },
+        {
+          "key": "D",
+          "text": "Dùng MSE"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gán trọng số cao hơn cho lớp hiếm (hoặc focal loss) buộc mô hình chú ý lớp thiểu số.",
+      "tags": [
+        "dl",
+        "imbalance",
+        "loss"
+      ]
+    },
+    {
+      "id": "E43-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Internal covariate shift mà Batch Norm giảm bớt là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối đầu vào của mỗi lớp thay đổi khi tham số lớp trước cập nhật"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu test khác train"
+        },
+        {
+          "key": "C",
+          "text": "Nhiễu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tràn số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BN chuẩn hóa kích hoạt giúp phân phối đầu vào mỗi lớp ổn định hơn giữa các bước, cho phép lr cao hơn.",
+      "tags": [
+        "dl",
+        "batchnorm"
+      ]
+    },
+    {
+      "id": "E43-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi mạng UNDERFIT (cả train và val đều kém), nên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng dung lượng mô hình / huấn luyện lâu hơn / giảm regularization"
+        },
+        {
+          "key": "B",
+          "text": "Tăng dropout mạnh"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số neuron"
+        },
+        {
+          "key": "D",
+          "text": "Dừng sớm hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Underfit nghĩa là mô hình chưa đủ khả năng/huấn luyện; tăng capacity hoặc train thêm, bớt regularize.",
+      "tags": [
+        "dl",
+        "underfitting"
+      ]
+    },
+    {
+      "id": "E43-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient của hàm loss tại điểm cực tiểu (tối ưu cục bộ) có đặc điểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xấp xỉ bằng 0 (vector gradient triệt tiêu)"
+        },
+        {
+          "key": "B",
+          "text": "Lớn nhất"
+        },
+        {
+          "key": "C",
+          "text": "Bằng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Âm vô cùng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tại cực trị, gradient ≈ 0 nên bước cập nhật rất nhỏ; mô hình gần như dừng.",
+      "tags": [
+        "dl",
+        "optimization",
+        "minima"
+      ]
+    },
+    {
+      "id": "E43-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transfer learning hiệu quả vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặc trưng cấp thấp (cạnh, texture) học từ dữ liệu lớn dùng lại được cho nhiều nhiệm vụ"
+        },
+        {
+          "key": "B",
+          "text": "Vì xóa hết trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Vì không cần dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Vì luôn nhanh hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các lớp đầu học đặc trưng tổng quát; tái sử dụng giúp đạt hiệu quả cao với ít dữ liệu/tài nguyên.",
+      "tags": [
+        "dl",
+        "transfer-learning"
+      ]
+    },
+    {
+      "id": "E43-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng 'double descent' đề cập tới?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi test có thể giảm – tăng – rồi giảm lại khi tăng độ phức tạp/độ rộng mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Loss luôn tăng"
+        },
+        {
+          "key": "C",
+          "text": "Hai lần học rate"
+        },
+        {
+          "key": "D",
+          "text": "Hai GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khác đường cong U cổ điển, mô hình rất lớn (quá tham số hóa) có thể giảm test error lần nữa sau ngưỡng nội suy.",
+      "tags": [
+        "dl",
+        "double-descent",
+        "theory"
+      ]
+    },
+    {
+      "id": "E43-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường chuẩn hóa (normalize) đầu vào trước khi huấn luyện mạng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp bề mặt loss đều hơn, gradient ổn định và hội tụ nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Để ảnh đẹp hơn"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc bởi GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đầu vào cùng thang đo tránh gradient lệch theo chiều, tăng tốc và ổn định tối ưu.",
+      "tags": [
+        "dl",
+        "normalization",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E43-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Saddle point (điểm yên ngựa) trong tối ưu mạng sâu là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điểm gradient ≈ 0 nhưng không phải cực tiểu (cong lên hướng này, xuống hướng khác)"
+        },
+        {
+          "key": "B",
+          "text": "Cực tiểu toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "Điểm có loss lớn nhất"
+        },
+        {
+          "key": "D",
+          "text": "Một loại optimizer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong không gian nhiều chiều, saddle point phổ biến hơn cực tiểu cục bộ; momentum/nhiễu SGD giúp thoát.",
+      "tags": [
+        "dl",
+        "optimization",
+        "saddle"
+      ]
+    },
+    {
+      "id": "E43-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Knowledge distillation huấn luyện mô hình 'student' bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học theo đầu ra mềm (soft labels) của mô hình 'teacher' lớn hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số lớp teacher"
+        },
+        {
+          "key": "C",
+          "text": "Xóa teacher"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng nhãn cứng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Student bắt chước phân phối xác suất mềm của teacher, đạt hiệu quả gần teacher với mô hình nhỏ hơn.",
+      "tags": [
+        "dl",
+        "distillation",
+        "compression"
+      ]
+    },
+    {
+      "id": "E43-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để tái lập (reproducible) kết quả huấn luyện, yếu tố quan trọng là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cố định random seed (và kiểm soát nguồn ngẫu nhiên/khởi tạo, shuffle)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Dùng nhiều GPU"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ validation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Seed cố định cho khởi tạo trọng số, xáo trộn dữ liệu, dropout... giúp lặp lại kết quả.",
+      "tags": [
+        "dl",
+        "reproducibility",
+        "seed"
+      ]
+    },
+    {
+      "id": "E43-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu ra sigmoid cho phân loại đa nhãn (multi-label) khác softmax ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid cho từng lớp độc lập (nhiều lớp cùng đúng); softmax ép tổng = 1 (loại trừ nhau)"
+        },
+        {
+          "key": "B",
+          "text": "Giống hệt nhau"
+        },
+        {
+          "key": "C",
+          "text": "Sigmoid tổng = 1"
+        },
+        {
+          "key": "D",
+          "text": "Softmax cho đa nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Multi-label dùng sigmoid mỗi lớp (mỗi nhãn bật/tắt riêng); softmax phù hợp đơn nhãn loại trừ nhau.",
+      "tags": [
+        "dl",
+        "multilabel",
+        "activation"
+      ]
+    },
+    {
+      "id": "E43-B57",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích hiện tượng vanishing gradient: vì sao xảy ra ở mạng sâu dùng sigmoid, và nêu ít nhất ba giải pháp kèm lý do.",
+      "modelAnswer": "Nguyên nhân: backprop nhân chuỗi đạo hàm qua các lớp. Đạo hàm sigmoid ≤ 0.25 và bão hòa về 0 ở hai đầu; nhân nhiều số <1 qua nhiều lớp → gradient ở lớp đầu co về ≈ 0, nên các lớp đầu gần như không cập nhật.\nGiải pháp: (1) Dùng ReLU/biến thể — đạo hàm =1 ở phần dương, không bão hòa, gradient không co. (2) Residual/skip connections — tạo một nhánh đạo hàm =1 cho gradient chảy thẳng qua nhiều lớp. (3) Batch Normalization — giữ phân phối kích hoạt ổn định, tránh rơi vào vùng bão hòa. (4) Khởi tạo tốt (He/Xavier) giữ phương sai tín hiệu/gradient. (5) Với chuỗi: dùng LSTM/GRU có cổng và cell state.",
+      "rubric": [
+        "Giải thích chain rule nhân chuỗi đạo hàm nhỏ",
+        "Chỉ ra sigmoid ≤0.25 và bão hòa là nguồn gốc",
+        "Nêu ReLU và residual với lý do gradient không co",
+        "Nêu thêm BatchNorm/khởi tạo/LSTM"
+      ],
+      "tags": [
+        "dl",
+        "vanishing-gradient",
+        "training"
+      ]
+    },
+    {
+      "id": "E43-B58",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Cho mạng 1 nơ-ron: z = w·x + b, a = σ(z) (sigmoid), loss L = (a − t)². Hãy viết các bước backprop để tính ∂L/∂w và ∂L/∂b theo chain rule.",
+      "modelAnswer": "Forward: z = wx + b; a = σ(z); L = (a − t)².\nBackward (chain rule):\n∂L/∂a = 2(a − t).\n∂a/∂z = σ(z)(1 − σ(z)) = a(1 − a).\n∂z/∂w = x;  ∂z/∂b = 1.\nDo đó: ∂L/∂w = 2(a − t)·a(1 − a)·x;  ∂L/∂b = 2(a − t)·a(1 − a).\nCập nhật: w ← w − η·∂L/∂w; b ← b − η·∂L/∂b.",
+      "rubric": [
+        "Viết đúng forward z, a, L",
+        "∂L/∂a = 2(a−t)",
+        "∂a/∂z = a(1−a) (đạo hàm sigmoid)",
+        "Ghép chain rule ra ∂L/∂w = 2(a−t)a(1−a)x và ∂L/∂b tương tự"
+      ],
+      "tags": [
+        "dl",
+        "backprop",
+        "chain-rule"
+      ]
+    },
+    {
+      "id": "E43-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh SGD, SGD+Momentum và Adam về cách cập nhật, ưu/nhược điểm và khi nào nên dùng cái nào.",
+      "modelAnswer": "SGD: w ← w − η·g. Đơn giản, ít bộ nhớ; nhưng dao động ở khe hẹp, nhạy với learning rate, hội tụ chậm.\nSGD+Momentum: tích lũy vận tốc v ← βv + g; w ← w − η·v. Quán tính giúp vượt vùng phẳng và giảm zig-zag, hội tụ nhanh hơn; cần chỉnh thêm β.\nAdam: kết hợp momentum (moment bậc 1 m) và tỉ lệ học thích nghi theo moment bậc 2 v (như RMSprop), có hiệu chỉnh bias. Hội tụ nhanh, ít phải tinh chỉnh lr, mạnh với gradient thưa; nhược: đôi khi khái quát kém hơn SGD đã tinh chỉnh, có thể không hội tụ tối ưu trong vài bài toán.\nKhi nào: Adam tốt làm mặc định/khởi đầu nhanh (NLP, gradient thưa); SGD+Momentum (kèm lr schedule) thường cho kết quả khái quát tốt nhất ở thị giác khi có thời gian tinh chỉnh.",
+      "rubric": [
+        "Nêu công thức/ý tưởng cập nhật của cả ba",
+        "Momentum thêm quán tính giảm dao động",
+        "Adam = momentum + lr thích nghi (moment bậc 2) + bias correction",
+        "Đưa khuyến nghị dùng theo bối cảnh"
+      ],
+      "tags": [
+        "dl",
+        "optimizer",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E43-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Mô hình của bạn đạt 99% accuracy trên train nhưng chỉ 70% trên validation. Chẩn đoán vấn đề và đề xuất ít nhất bốn biện pháp khắc phục, giải thích vì sao mỗi biện pháp giúp ích.",
+      "modelAnswer": "Chẩn đoán: khoảng cách train–val lớn (train cao, val thấp) là OVERFITTING — mô hình học thuộc cả nhiễu của tập train, khái quát kém.\nBiện pháp:\n1) Thu thập/nhân thêm dữ liệu & data augmentation — tăng đa dạng, mô hình khó học thuộc.\n2) Regularization (L2/weight decay, L1) — phạt trọng số lớn, làm hàm mượt hơn.\n3) Dropout — ngẫu nhiên tắt neuron, buộc học đặc trưng dư thừa, giảm đồng thích nghi.\n4) Early stopping — dừng khi val ngừng cải thiện, tránh học thuộc.\n5) Giảm độ phức tạp mô hình (ít lớp/neuron) — bớt khả năng ghi nhớ nhiễu.\n6) Batch norm / label smoothing — ổn định và bớt overconfidence. Nên theo dõi đường cong học và dùng cross-validation.",
+      "rubric": [
+        "Chẩn đoán đúng là overfitting (gap train–val)",
+        "Đề xuất data augmentation/thêm dữ liệu với lý do",
+        "Đề xuất regularization (L2) và dropout với lý do",
+        "Đề xuất early stopping/giảm capacity và giải thích"
+      ],
+      "tags": [
+        "dl",
+        "overfitting",
+        "diagnostics"
+      ]
+    }
+  ]
+}
