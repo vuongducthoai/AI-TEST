@@ -1,0 +1,1825 @@
+{
+  "id": "exam-53",
+  "title": "Computer Vision DL — Phát hiện & Phân đoạn Chuyên sâu",
+  "description": "Đề cương ôn tập chuyên sâu về thị giác máy tính học sâu, tập trung vào phát hiện đối tượng (two-stage và one-stage), DETR/transformer, các biến thể IoU và NMS, FPN/PANet, cùng phân đoạn ngữ nghĩa, instance và panoptic. Đề gồm 56 câu trắc nghiệm và 4 câu tự luận/lập trình, có cả câu tính toán IoU, NMS, mAP và kích thước feature map. Phù hợp cho người đã nắm CV cơ bản và muốn ôn tập độ khó cao.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E53-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho hai bounding box theo định dạng [x1,y1,x2,y2]: A=[0,0,4,4] và B=[2,2,6,6]. Tính IoU (Intersection over Union) của A và B (làm tròn 3 chữ số thập phân).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.143"
+        },
+        {
+          "key": "B",
+          "text": "0.250"
+        },
+        {
+          "key": "C",
+          "text": "0.333"
+        },
+        {
+          "key": "D",
+          "text": "0.500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vùng giao là [2,2,4,4] diện tích 2*2=4; mỗi box diện tích 16; hợp=16+16-4=28; IoU=4/28≈0.143.",
+      "tags": [
+        "IoU",
+        "computational",
+        "detection"
+      ]
+    },
+    {
+      "id": "E53-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho A=[10,10,20,20] và B=[15,15,25,25] (định dạng [x1,y1,x2,y2]). Tính IoU (làm tròn 3 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.111"
+        },
+        {
+          "key": "B",
+          "text": "0.143"
+        },
+        {
+          "key": "C",
+          "text": "0.200"
+        },
+        {
+          "key": "D",
+          "text": "0.250"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giao là [15,15,20,20] diện tích 5*5=25; mỗi box 10*10=100; hợp=200-25=175; IoU=25/175≈0.143.",
+      "tags": [
+        "IoU",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho A=[0,0,2,2] và B=[1,0,3,2]. Tính IoU (làm tròn 3 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.250"
+        },
+        {
+          "key": "B",
+          "text": "0.333"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.667"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giao là [1,0,2,2] diện tích 1*2=2; mỗi box 4; hợp=8-2=6; IoU=2/6≈0.333.",
+      "tags": [
+        "IoU",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho A=[0,0,10,10] và B=[0,0,5,10] (B nằm trọn trong nửa trái của A). Tính IoU.",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.250"
+        },
+        {
+          "key": "B",
+          "text": "0.400"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.750"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Giao = B = 5*10=50; A=100; hợp=100 (vì B nằm trong A, hợp = A); IoU=50/100=0.5.",
+      "tags": [
+        "IoU",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Áp dụng NMS với ngưỡng IoU=0.5 trên ba box (định dạng [x1,y1,x2,y2]) kèm điểm: box0=[100,100,200,200] score 0.9; box1=[110,110,210,210] score 0.8; box2=[300,300,400,400] score 0.7. Những box nào được GIỮ LẠI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ box0"
+        },
+        {
+          "key": "B",
+          "text": "box0 và box1"
+        },
+        {
+          "key": "C",
+          "text": "box0 và box2"
+        },
+        {
+          "key": "D",
+          "text": "Cả ba box"
+        }
+      ],
+      "answer": "C",
+      "explanation": "box0 điểm cao nhất được giữ; IoU(box0,box1)≈0.68>0.5 nên box1 bị loại; box2 ở xa, IoU=0 nên được giữ. Kết quả: box0 và box2.",
+      "tags": [
+        "NMS",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "YOLO chia ảnh đầu vào 416x416 thành lưới 13x13, mỗi ô dự đoán 3 anchor. Tổng số hộp dự đoán ở mức đặc trưng này là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "169"
+        },
+        {
+          "key": "B",
+          "text": "507"
+        },
+        {
+          "key": "C",
+          "text": "845"
+        },
+        {
+          "key": "D",
+          "text": "1014"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Số ô = 13*13 = 169; mỗi ô có 3 anchor; tổng = 169*3 = 507 hộp dự đoán.",
+      "tags": [
+        "YOLO",
+        "anchor",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một backbone có tổng output stride = 32. Với ảnh đầu vào 224x224, kích thước (cao x rộng) của feature map cuối cùng là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "14x14"
+        },
+        {
+          "key": "B",
+          "text": "7x7"
+        },
+        {
+          "key": "C",
+          "text": "28x28"
+        },
+        {
+          "key": "D",
+          "text": "32x32"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kích thước feature map = 224/32 = 7 cho mỗi chiều, tức 7x7.",
+      "tags": [
+        "stride",
+        "feature-map",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tập kiểm thử có 2 lớp: AP của lớp 'người'=0.8 và AP của lớp 'xe'=0.6. mAP (mean Average Precision) trên hai lớp này bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.60"
+        },
+        {
+          "key": "B",
+          "text": "0.70"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "0.80"
+        }
+      ],
+      "answer": "B",
+      "explanation": "mAP = trung bình AP các lớp = (0.8+0.6)/2 = 0.7.",
+      "tags": [
+        "mAP",
+        "metric",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Detection head nhận feature map từ backbone với output stride 16, ảnh đầu vào 256x256. Kích thước không gian của feature map đưa vào head là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8x8"
+        },
+        {
+          "key": "B",
+          "text": "16x16"
+        },
+        {
+          "key": "C",
+          "text": "32x32"
+        },
+        {
+          "key": "D",
+          "text": "64x64"
+        }
+      ],
+      "answer": "B",
+      "explanation": "256/16 = 16, nên feature map có kích thước 16x16.",
+      "tags": [
+        "feature-map",
+        "stride",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mức FPN có feature map 20x20, mỗi vị trí gắn 9 anchor (3 scale x 3 aspect ratio). Tổng số anchor ở mức này là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "180"
+        },
+        {
+          "key": "B",
+          "text": "400"
+        },
+        {
+          "key": "C",
+          "text": "1800"
+        },
+        {
+          "key": "D",
+          "text": "3600"
+        }
+      ],
+      "answer": "D",
+      "explanation": "20*20=400 vị trí; mỗi vị trí 9 anchor; tổng = 400*9 = 3600 anchor.",
+      "tags": [
+        "anchor",
+        "FPN",
+        "computational"
+      ]
+    },
+    {
+      "id": "E53-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cốt lõi giữa detector two-stage (Faster R-CNN) và one-stage (YOLO/SSD) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Two-stage có bước sinh region proposal (RPN) trước rồi mới phân loại/hồi quy; one-stage dự đoán trực tiếp trong một lượt"
+        },
+        {
+          "key": "B",
+          "text": "One-stage luôn chính xác hơn two-stage trên mọi tập dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Two-stage không dùng CNN còn one-stage thì có"
+        },
+        {
+          "key": "D",
+          "text": "One-stage không cần huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Two-stage tách thành sinh proposal (RPN) rồi tinh chỉnh; one-stage dự đoán hộp và lớp trực tiếp trên feature map nên nhanh hơn nhưng thường kém hơn về độ chính xác ở vật thể nhỏ.",
+      "tags": [
+        "two-stage",
+        "one-stage"
+      ]
+    },
+    {
+      "id": "E53-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của Region Proposal Network (RPN) trong Faster R-CNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh ra các đề xuất vùng (object proposals) có khả năng chứa vật thể, dùng chung feature với mạng phát hiện"
+        },
+        {
+          "key": "B",
+          "text": "Thực hiện phân đoạn pixel-level"
+        },
+        {
+          "key": "C",
+          "text": "Tính loss focal cho lớp nền"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hoàn toàn backbone CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RPN trượt trên feature map, dùng anchor để dự đoán objectness và hồi quy hộp, sinh proposal chia sẻ feature với head phân loại, thay thế selective search chậm của Fast R-CNN.",
+      "tags": [
+        "RPN",
+        "Faster-RCNN"
+      ]
+    },
+    {
+      "id": "E53-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RoIAlign cải tiến gì so với RoIPool trong Mask R-CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tránh lượng tử hóa (rounding) tọa độ RoI bằng nội suy song tuyến, giữ căn chỉnh không gian chính xác cho mask"
+        },
+        {
+          "key": "B",
+          "text": "Làm tăng số anchor"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn bước pooling"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho phân loại ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RoIPool làm tròn tọa độ gây lệch (misalignment) ảnh hưởng mask pixel-level; RoIAlign dùng bilinear interpolation tại các điểm lấy mẫu, giữ căn chỉnh chính xác, quan trọng cho dự đoán mask.",
+      "tags": [
+        "RoIAlign",
+        "Mask-RCNN"
+      ]
+    },
+    {
+      "id": "E53-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Focal loss trong RetinaNet được thiết kế để giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mất cân bằng lớp cực đoan (nhiều nền/dễ) bằng cách giảm trọng số ví dụ dễ, tập trung vào ví dụ khó"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ suy luận"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế NMS"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số tham số mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Focal loss FL=-(1-pt)^gamma*log(pt) hạ trọng số các mẫu phân loại dễ (đa số là nền), giúp detector one-stage dày đặc xử lý mất cân bằng foreground-background.",
+      "tags": [
+        "focal-loss",
+        "RetinaNet"
+      ]
+    },
+    {
+      "id": "E53-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc điểm 'anchor-free' của FCOS thể hiện ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán trực tiếp khoảng cách từ mỗi vị trí điểm tới 4 cạnh hộp, không cần định nghĩa anchor box trước"
+        },
+        {
+          "key": "B",
+          "text": "Không dùng FPN"
+        },
+        {
+          "key": "C",
+          "text": "Không có bước phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Bắt buộc dùng 9 anchor mỗi vị trí"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FCOS xem mỗi vị trí trên feature map như điểm mẫu, hồi quy (l,t,r,b) tới các cạnh hộp và thêm nhánh center-ness, loại bỏ siêu tham số anchor.",
+      "tags": [
+        "FCOS",
+        "anchor-free"
+      ]
+    },
+    {
+      "id": "E53-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DETR khác biệt căn bản nào so với detector truyền thống?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng transformer encoder-decoder dự đoán tập hợp (set prediction) với Hungarian matching, loại bỏ anchor và NMS"
+        },
+        {
+          "key": "B",
+          "text": "Dùng nhiều anchor hơn YOLO"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ là một biến thể của RPN"
+        },
+        {
+          "key": "D",
+          "text": "Phải dùng NMS hai lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DETR coi phát hiện là bài toán dự đoán tập cố định object queries, dùng bipartite matching (Hungarian) để gán nhãn, nhờ vậy không cần anchor cũng như hậu xử lý NMS.",
+      "tags": [
+        "DETR",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E53-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hungarian matching (bipartite matching) trong DETR dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán mỗi prediction với tối đa một ground-truth theo cách tối ưu chi phí một-một, định nghĩa loss"
+        },
+        {
+          "key": "B",
+          "text": "Sinh anchor box"
+        },
+        {
+          "key": "C",
+          "text": "Tính IoU giữa các mức FPN"
+        },
+        {
+          "key": "D",
+          "text": "Chọn learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hungarian algorithm tìm phép ghép một-một tối ưu giữa N query và ground-truth (phần còn lại gán nền), đảm bảo mỗi vật thể được khớp duy nhất, tránh dự đoán trùng nên không cần NMS.",
+      "tags": [
+        "DETR",
+        "Hungarian"
+      ]
+    },
+    {
+      "id": "E53-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Deformable DETR cải thiện DETR gốc chủ yếu ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng deformable attention chỉ chú ý tới một số điểm lấy mẫu thưa, tăng tốc hội tụ và xử lý vật thể nhỏ tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn transformer"
+        },
+        {
+          "key": "C",
+          "text": "Quay lại dùng anchor dày đặc"
+        },
+        {
+          "key": "D",
+          "text": "Không cần huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Self/cross-attention toàn cục của DETR hội tụ chậm và tốn kém; deformable attention lấy mẫu thưa quanh điểm tham chiếu, giảm chi phí, hội tụ nhanh hơn và cải thiện vật thể nhỏ.",
+      "tags": [
+        "Deformable-DETR",
+        "attention"
+      ]
+    },
+    {
+      "id": "E53-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GIoU (Generalized IoU) khắc phục hạn chế nào của IoU thường khi làm loss?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi hai box không giao nhau, IoU=0 không cho gradient; GIoU thêm số hạng theo hộp bao nhỏ nhất nên vẫn có tín hiệu"
+        },
+        {
+          "key": "B",
+          "text": "GIoU luôn lớn hơn 1"
+        },
+        {
+          "key": "C",
+          "text": "GIoU bỏ qua diện tích giao"
+        },
+        {
+          "key": "D",
+          "text": "GIoU chỉ dùng cho phân đoạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU bằng 0 khi không overlap khiến gradient biến mất; GIoU=IoU - |C\\(A∪B)|/|C| với C là hộp bao nhỏ nhất, vẫn phản ánh khoảng cách giữa hai box rời nhau.",
+      "tags": [
+        "GIoU",
+        "loss"
+      ]
+    },
+    {
+      "id": "E53-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DIoU/CIoU thêm yếu tố nào so với GIoU?",
+      "options": [
+        {
+          "key": "A",
+          "text": "DIoU phạt khoảng cách tâm; CIoU thêm cả độ nhất quán tỉ lệ khung (aspect ratio)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ thêm số lớp"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua IoU hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Thêm bước NMS"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DIoU bổ sung số hạng khoảng cách Euclid giữa hai tâm (hội tụ nhanh hơn); CIoU thêm số hạng đo sự khớp aspect ratio, cho hồi quy hộp ổn định và chính xác hơn.",
+      "tags": [
+        "DIoU",
+        "CIoU"
+      ]
+    },
+    {
+      "id": "E53-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Soft-NMS khác NMS chuẩn ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay vì xóa hẳn box trùng, Soft-NMS giảm điểm box theo mức IoU, giúp giữ vật thể chồng lấp"
+        },
+        {
+          "key": "B",
+          "text": "Soft-NMS tăng số anchor"
+        },
+        {
+          "key": "C",
+          "text": "Soft-NMS không dùng điểm tin cậy"
+        },
+        {
+          "key": "D",
+          "text": "Soft-NMS chỉ chạy khi không có GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NMS cứng loại bỏ mọi box có IoU>ngưỡng với box điểm cao nhất, dễ mất vật thể chồng lấp; Soft-NMS hạ điểm các box đó (theo hàm tuyến tính/Gaussian) thay vì xóa, cải thiện recall.",
+      "tags": [
+        "Soft-NMS",
+        "NMS"
+      ]
+    },
+    {
+      "id": "E53-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FPN (Feature Pyramid Network) tạo đặc trưng đa tỉ lệ bằng cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường top-down kết hợp lateral connection để hợp nhất đặc trưng ngữ nghĩa mạnh (tầng sâu) với độ phân giải cao (tầng nông)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng một feature map duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Giảm độ phân giải tất cả các tầng"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ kết nối ngang"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FPN nâng mẫu (upsample) feature tầng sâu giàu ngữ nghĩa và cộng với feature tầng nông qua lateral 1x1 conv, tạo kim tự tháp đặc trưng đa tỉ lệ tốt cho vật thể nhiều kích cỡ.",
+      "tags": [
+        "FPN",
+        "multi-scale"
+      ]
+    },
+    {
+      "id": "E53-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "PANet (PAN) bổ sung gì so với FPN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm đường bottom-up sau top-down để truyền thông tin định vị tầng nông lên tầng cao, rút ngắn đường truyền"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn top-down"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ thêm một anchor"
+        },
+        {
+          "key": "D",
+          "text": "Thay backbone bằng transformer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PANet thêm path augmentation bottom-up sau FPN giúp đặc trưng định vị chính xác từ tầng thấp lan lên các mức cao, cải thiện instance segmentation và detection (dùng trong YOLO neck).",
+      "tags": [
+        "PANet",
+        "neck"
+      ]
+    },
+    {
+      "id": "E53-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "AP@[.5:.95] (COCO mAP) được tính như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình AP qua nhiều ngưỡng IoU từ 0.5 đến 0.95 bước 0.05 (10 ngưỡng)"
+        },
+        {
+          "key": "B",
+          "text": "AP duy nhất tại IoU=0.5"
+        },
+        {
+          "key": "C",
+          "text": "AP tại IoU=0.95 mà thôi"
+        },
+        {
+          "key": "D",
+          "text": "Trung bình precision không liên quan IoU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ số COCO chính lấy trung bình AP trên 10 ngưỡng IoU 0.50,0.55,...,0.95, khắt khe hơn mAP@0.5, thưởng cho định vị hộp chính xác.",
+      "tags": [
+        "mAP",
+        "COCO"
+      ]
+    },
+    {
+      "id": "E53-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Encoding hồi quy hộp (dx,dy,dw,dh) trong R-CNN/Faster R-CNN biểu diễn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dời tâm chuẩn hóa và tỉ lệ log của kích thước, tương đối so với anchor/proposal"
+        },
+        {
+          "key": "B",
+          "text": "Tọa độ tuyệt đối pixel của hộp"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất từng lớp"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ số anchor được chọn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dx=(x-xa)/wa, dy=(y-ya)/ha, dw=log(w/wa), dh=log(h/ha): mạng học các offset chuẩn hóa so với anchor, giúp hồi quy bất biến quy mô và ổn định.",
+      "tags": [
+        "bbox-encoding",
+        "regression"
+      ]
+    },
+    {
+      "id": "E53-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Anchor box trong SSD/Faster R-CNN được định nghĩa bởi các yếu tố nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tập scale (kích thước) và aspect ratio (tỉ lệ khung) đặt tại mỗi vị trí feature map"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một kích thước cố định"
+        },
+        {
+          "key": "C",
+          "text": "Màu sắc của vật thể"
+        },
+        {
+          "key": "D",
+          "text": "Số epoch huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Anchor là các hộp tham chiếu trước tại mỗi vị trí, với nhiều scale và aspect ratio để bao phủ các hình dạng/kích cỡ vật thể khác nhau, mạng hồi quy offset từ chúng.",
+      "tags": [
+        "anchor",
+        "SSD"
+      ]
+    },
+    {
+      "id": "E53-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FCN (Fully Convolutional Network) cho semantic segmentation thay đổi gì so với CNN phân loại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay lớp fully-connected bằng conv để xuất bản đồ dự đoán dày đặc theo pixel, dùng upsample khôi phục độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ mọi lớp conv"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dự đoán một nhãn cho cả ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng được cho ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FCN chuyển FC thành conv 1x1 để giữ thông tin không gian, tạo heatmap mỗi lớp rồi upsample (deconv) về kích thước ảnh, cho nhãn từng pixel.",
+      "tags": [
+        "FCN",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E53-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Skip connection trong U-Net phục vụ mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nối đặc trưng encoder độ phân giải cao sang decoder để khôi phục chi tiết biên bị mất khi downsample"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số lớp pooling"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số kênh đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hàm loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net ghép (concatenate) feature từ encoder tương ứng vào decoder, đưa thông tin chi tiết không gian/biên trở lại, giúp phân đoạn sắc nét, đặc biệt hiệu quả với ảnh y sinh.",
+      "tags": [
+        "U-Net",
+        "skip"
+      ]
+    },
+    {
+      "id": "E53-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Atrous (dilated) convolution trong DeepLab mang lại lợi ích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mở rộng receptive field mà không giảm độ phân giải hay tăng tham số, giữ chi tiết không gian"
+        },
+        {
+          "key": "B",
+          "text": "Luôn làm giảm kích thước feature map một nửa"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ nhu cầu backbone"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dilated conv chèn khoảng trống giữa các trọng số kernel, tăng trường tiếp nhận theo cấp số nhân mà không downsample, giúp giữ độ phân giải cao cho segmentation dày đặc.",
+      "tags": [
+        "atrous",
+        "DeepLab"
+      ]
+    },
+    {
+      "id": "E53-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ASPP (Atrous Spatial Pyramid Pooling) trong DeepLab làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Áp nhiều atrous conv với dilation rate khác nhau song song để bắt ngữ cảnh đa tỉ lệ"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một dilation rate duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế softmax"
+        },
+        {
+          "key": "D",
+          "text": "Tính NMS cho segmentation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ASPP chạy song song nhiều nhánh atrous conv với rate khác nhau (cộng image-level pooling) rồi hợp nhất, nắm bắt ngữ cảnh và vật thể ở nhiều tỉ lệ trong một feature map.",
+      "tags": [
+        "ASPP",
+        "DeepLab"
+      ]
+    },
+    {
+      "id": "E53-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CRF (Conditional Random Field) hậu xử lý trong DeepLab v1/v2 giúp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tinh chỉnh biên phân đoạn bằng quan hệ pixel lân cận (vị trí/màu), làm mượt và bám biên hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc suy luận"
+        },
+        {
+          "key": "C",
+          "text": "Sinh anchor"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế backbone"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fully-connected CRF mô hình hóa tương quan giữa các pixel theo màu và khoảng cách, sắc nét hóa biên đối tượng mà CNN downsample làm mờ; các phiên bản DeepLab sau thay bằng atrous tốt hơn.",
+      "tags": [
+        "CRF",
+        "DeepLab"
+      ]
+    },
+    {
+      "id": "E53-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Mask R-CNN, nhánh mask hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một FCN nhỏ dự đoán mask nhị phân cho mỗi lớp tại mỗi RoI, song song với nhánh phân loại và hồi quy hộp"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán một mask chung cho cả ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ là một lớp fully-connected"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế RoIAlign"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mask R-CNN thêm nhánh FCN xuất mask K lớp (mỗi lớp một kênh) trên feature RoIAlign; mask của lớp được dự đoán độc lập với phân loại, tách biệt nhiệm vụ.",
+      "tags": [
+        "Mask-RCNN",
+        "instance"
+      ]
+    },
+    {
+      "id": "E53-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "YOLACT thực hiện instance segmentation theo cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh tập prototype mask toàn ảnh và hệ số mask mỗi instance, kết hợp tuyến tính để tạo mask, đạt thời gian thực"
+        },
+        {
+          "key": "B",
+          "text": "Dùng RoIAlign như Mask R-CNN"
+        },
+        {
+          "key": "C",
+          "text": "Không dự đoán hộp"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ phân đoạn ngữ nghĩa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "YOLACT tách thành hai nhánh: prototype mask toàn cục và per-instance mask coefficients; mask cuối = tổ hợp tuyến tính prototypes theo hệ số, cắt theo hộp, cho phép tốc độ thời gian thực.",
+      "tags": [
+        "YOLACT",
+        "instance"
+      ]
+    },
+    {
+      "id": "E53-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Panoptic segmentation hợp nhất hai loại nhiệm vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semantic segmentation (vùng 'stuff') và instance segmentation (đối tượng đếm được 'things') trong một đầu ra thống nhất"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ phát hiện hộp"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ phân loại ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Theo vết đối tượng theo thời gian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Panoptic gán mọi pixel một nhãn lớp và, với 'things', thêm instance id; hợp nhất stuff (nền liên tục) và things (đối tượng riêng lẻ) vào một bản đồ nhất quán không chồng lấn.",
+      "tags": [
+        "panoptic",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E53-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed convolution so với bilinear upsampling trong decoder khác nhau ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transposed conv có trọng số học được để upsample; bilinear là phép nội suy cố định không tham số"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều có tham số học được như nhau"
+        },
+        {
+          "key": "C",
+          "text": "Bilinear luôn tốt hơn về độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Transposed conv giảm độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transposed (deconv) học kernel để tăng độ phân giải nhưng có thể gây artifact dạng bàn cờ; bilinear nội suy cố định, mượt, không tham số, thường ghép với conv để tinh chỉnh.",
+      "tags": [
+        "upsample",
+        "decoder"
+      ]
+    },
+    {
+      "id": "E53-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dice loss thường được dùng cho segmentation vì lý do gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo trùng khớp tập (giống F1) nên xử lý tốt mất cân bằng lớp foreground/background nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Nó nhanh hơn cross-entropy về tính toán"
+        },
+        {
+          "key": "C",
+          "text": "Nó loại bỏ nhu cầu nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho detection"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice=2|X∩Y|/(|X|+|Y|) tối ưu trực tiếp overlap, ít nhạy với việc nền chiếm đa số pixel hơn cross-entropy, hữu ích khi vùng quan tâm nhỏ (ví dụ ảnh y tế).",
+      "tags": [
+        "Dice",
+        "loss"
+      ]
+    },
+    {
+      "id": "E53-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Class imbalance nghiêm trọng trong detector one-stage dày đặc xuất phát từ đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số lượng anchor/vị trí nền (negative) áp đảo so với foreground, làm loãng tín hiệu học"
+        },
+        {
+          "key": "B",
+          "text": "Quá ít anchor"
+        },
+        {
+          "key": "C",
+          "text": "Backbone quá nông"
+        },
+        {
+          "key": "D",
+          "text": "Do không dùng NMS"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Detector dày đặc sinh hàng vạn vị trí, đại đa số là nền dễ; nếu không xử lý (OHEM, focal loss) các mẫu nền lấn át gradient khiến học foreground kém.",
+      "tags": [
+        "imbalance",
+        "detection"
+      ]
+    },
+    {
+      "id": "E53-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Center-ness trong FCOS có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hạ điểm các dự đoán xa tâm vật thể, lọc bớt hộp chất lượng thấp lệch biên"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số anchor"
+        },
+        {
+          "key": "C",
+          "text": "Tính IoU"
+        },
+        {
+          "key": "D",
+          "text": "Thay NMS bằng matching"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhánh center-ness ước lượng mức độ một vị trí gần tâm hộp; nhân với điểm phân loại để giảm trọng số các dự đoán lệch tâm, cải thiện chất lượng hộp sau NMS.",
+      "tags": [
+        "FCOS",
+        "center-ness"
+      ]
+    },
+    {
+      "id": "E53-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Receptive field lớn quan trọng với detection/segmentation vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cung cấp ngữ cảnh không gian rộng để nhận biết vật thể lớn và quan hệ ngữ cảnh xung quanh"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc suy luận tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ nhu cầu pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trường tiếp nhận đủ lớn cho phép neuron 'nhìn' đủ vùng ảnh để nhận diện vật thể lớn và dùng ngữ cảnh; atrous conv và pyramid giúp mở rộng nó mà không mất độ phân giải.",
+      "tags": [
+        "receptive-field",
+        "context"
+      ]
+    },
+    {
+      "id": "E53-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SSD đạt phát hiện đa tỉ lệ bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán trên nhiều feature map ở các độ phân giải khác nhau, mỗi mức phụ trách kích cỡ vật thể khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một feature map cuối"
+        },
+        {
+          "key": "C",
+          "text": "Dùng transformer"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng anchor"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SSD gắn detection head lên nhiều tầng feature (từ nông tới sâu): tầng nông độ phân giải cao bắt vật thể nhỏ, tầng sâu bắt vật thể lớn, kết hợp default boxes nhiều tỉ lệ.",
+      "tags": [
+        "SSD",
+        "multi-scale"
+      ]
+    },
+    {
+      "id": "E53-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý tưởng chính của YOLO v1 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia ảnh thành lưới SxS, mỗi ô dự đoán hộp và xác suất lớp trong một lượt forward duy nhất"
+        },
+        {
+          "key": "B",
+          "text": "Dùng selective search sinh proposal"
+        },
+        {
+          "key": "C",
+          "text": "Hai giai đoạn như Faster R-CNN"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ phân loại ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "YOLO v1 coi detection như hồi quy: lưới SxS, mỗi ô dự B hộp + confidence và phân phối lớp; toàn ảnh xử lý một lần nên rất nhanh, dù yếu với vật thể nhỏ/cụm.",
+      "tags": [
+        "YOLO",
+        "one-stage"
+      ]
+    },
+    {
+      "id": "E53-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt anchor-based và anchor-free trong các phiên bản YOLO gần đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Anchor-based hồi quy offset từ hộp tham chiếu định trước; anchor-free dự đoán trực tiếp tọa độ/khoảng cách không cần anchor"
+        },
+        {
+          "key": "B",
+          "text": "Anchor-free không dùng CNN"
+        },
+        {
+          "key": "C",
+          "text": "Anchor-based không cần huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai giống hệt nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "YOLOv2-v5 chủ yếu anchor-based (offset so anchor); các thiết kế mới (YOLOX, YOLOv8) chuyển anchor-free dự đoán trực tiếp, giảm siêu tham số anchor và đơn giản hóa gán nhãn.",
+      "tags": [
+        "YOLO",
+        "anchor-free"
+      ]
+    },
+    {
+      "id": "E53-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CSP (Cross Stage Partial) trong backbone/neck YOLO nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách luồng feature thành hai nhánh để giảm tính toán trùng lặp, tăng hiệu quả gradient"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Thay NMS"
+        },
+        {
+          "key": "D",
+          "text": "Sinh anchor tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CSP chia feature map thành hai phần, một phần qua block dày, một phần đi tắt rồi hợp nhất; giảm tính toán/bộ nhớ và cải thiện luồng gradient, dùng trong CSPDarknet.",
+      "tags": [
+        "CSP",
+        "YOLO"
+      ]
+    },
+    {
+      "id": "E53-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao DETR gốc không cần NMS?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hungarian matching ép mỗi vật thể khớp với đúng một query, nên đầu ra không có hộp trùng lặp"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó dùng anchor dày"
+        },
+        {
+          "key": "C",
+          "text": "Vì confidence luôn bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó phân đoạn thay vì phát hiện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bipartite matching trong huấn luyện khiến mỗi ground-truth gán đúng một dự đoán; mô hình học không phát sinh nhiều hộp cho một vật thể, loại bỏ nhu cầu hậu xử lý NMS.",
+      "tags": [
+        "DETR",
+        "NMS"
+      ]
+    },
+    {
+      "id": "E53-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SegNet khác U-Net ở cơ chế upsample nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SegNet dùng pooling indices đã lưu từ encoder để unpool, tiết kiệm bộ nhớ thay vì concatenate feature"
+        },
+        {
+          "key": "B",
+          "text": "SegNet không có decoder"
+        },
+        {
+          "key": "C",
+          "text": "SegNet dùng transposed conv duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "SegNet không downsample"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SegNet lưu vị trí max-pooling (indices) và dùng để upsample (max-unpool) trong decoder, ít tham số/bộ nhớ hơn so với U-Net vốn concatenate toàn bộ feature map encoder.",
+      "tags": [
+        "SegNet",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E53-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Selective Search trong R-CNN gốc là gì và nhược điểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thuật toán sinh ~2000 region proposal dựa trên gộp vùng; chậm vì chạy CNN riêng cho mỗi proposal"
+        },
+        {
+          "key": "B",
+          "text": "Một mạng nơ-ron học được, rất nhanh"
+        },
+        {
+          "key": "C",
+          "text": "Phương pháp NMS"
+        },
+        {
+          "key": "D",
+          "text": "Cách tính mAP"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R-CNN dùng Selective Search sinh proposal rồi trích đặc trưng CNN cho từng vùng riêng lẻ, cực kỳ chậm; Fast/Faster R-CNN khắc phục bằng RoIPool chia sẻ feature và RPN.",
+      "tags": [
+        "R-CNN",
+        "selective-search"
+      ]
+    },
+    {
+      "id": "E53-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Fast R-CNN cải tiến gì so với R-CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trích đặc trưng CNN một lần cho cả ảnh rồi dùng RoIPool cho từng proposal, nhanh hơn nhiều"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn proposal"
+        },
+        {
+          "key": "C",
+          "text": "Dùng transformer"
+        },
+        {
+          "key": "D",
+          "text": "Không cần CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fast R-CNN chạy CNN một lần trên ảnh, dùng RoIPool lấy đặc trưng cố định cho mỗi proposal và huấn luyện end-to-end nhánh phân loại+hồi quy, nhanh hơn R-CNN nhưng vẫn dùng Selective Search.",
+      "tags": [
+        "Fast-RCNN"
+      ]
+    },
+    {
+      "id": "E53-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Precision-Recall curve trong đánh giá detection biểu diễn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ precision và recall khi thay đổi ngưỡng confidence; AP là diện tích dưới đường này"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ loss và epoch"
+        },
+        {
+          "key": "C",
+          "text": "Số anchor theo scale"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ FPS theo độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giảm ngưỡng confidence làm tăng recall nhưng thường giảm precision; AP tính diện tích dưới đường PR (sau khi nội suy), tổng hợp hiệu năng phát hiện cho một lớp tại một ngưỡng IoU.",
+      "tags": [
+        "precision-recall",
+        "mAP"
+      ]
+    },
+    {
+      "id": "E53-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngưỡng confidence ảnh hưởng thế nào tới kết quả detection?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngưỡng cao -> ít phát hiện, precision cao recall thấp; ngưỡng thấp -> nhiều phát hiện, recall cao precision thấp"
+        },
+        {
+          "key": "B",
+          "text": "Không ảnh hưởng gì"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ ảnh hưởng tốc độ"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cải thiện cả precision lẫn recall"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tăng ngưỡng confidence lọc bỏ dự đoán yếu (tăng precision, giảm recall); giảm ngưỡng giữ nhiều dự đoán hơn (tăng recall, giảm precision). Đây là đánh đổi cơ bản trong triển khai.",
+      "tags": [
+        "confidence",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E53-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CenterNet (Objects as Points) phát hiện vật thể bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán heatmap tâm vật thể rồi hồi quy kích thước/offset tại điểm tâm, không cần anchor và không cần NMS"
+        },
+        {
+          "key": "B",
+          "text": "Sinh 9 anchor mỗi vị trí"
+        },
+        {
+          "key": "C",
+          "text": "Dùng selective search"
+        },
+        {
+          "key": "D",
+          "text": "Bắt buộc dùng FPN top-down"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CenterNet xem mỗi vật thể là một điểm tâm trên heatmap (peak), rồi hồi quy width/height và offset; lấy peak cục bộ thay cho NMS, là phương pháp anchor-free đơn giản, hiệu quả.",
+      "tags": [
+        "CenterNet",
+        "anchor-free"
+      ]
+    },
+    {
+      "id": "E53-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "IoU loss trực tiếp cho bbox regression có ưu điểm gì so với L1/L2 trên từng tọa độ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tối ưu trực tiếp chỉ số đánh giá (overlap) và bất biến tỉ lệ, nhất quán giữa huấn luyện và đánh giá"
+        },
+        {
+          "key": "B",
+          "text": "Luôn nhanh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không cần ground-truth"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ anchor"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1/L2 xử lý 4 tọa độ độc lập, không tương quan với IoU và nhạy quy mô; IoU loss tối ưu trực tiếp overlap (chỉ số đánh giá), bất biến scale, khớp mục tiêu đánh giá hơn.",
+      "tags": [
+        "IoU-loss",
+        "regression"
+      ]
+    },
+    {
+      "id": "E53-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao two-stage thường chính xác hơn one-stage với vật thể nhỏ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RPN lọc proposal và RoIAlign tinh chỉnh đặc trưng theo vùng, cho phân loại/hồi quy chính xác hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì one-stage không dùng CNN"
+        },
+        {
+          "key": "C",
+          "text": "Vì two-stage không dùng anchor"
+        },
+        {
+          "key": "D",
+          "text": "Vì one-stage không có loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Two-stage tách proposal rồi tinh chỉnh đặc trưng theo từng RoI (RoIAlign), giảm nhiễu nền và cải thiện định vị; one-stage dự đoán dày đặc một lượt nên kém hơn ở vật thể nhỏ/khó, dù nhanh hơn.",
+      "tags": [
+        "two-stage",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E53-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Object query trong DETR đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là các vector học được, mỗi query 'hỏi' về một vật thể tiềm năng và sinh ra một dự đoán hộp+lớp"
+        },
+        {
+          "key": "B",
+          "text": "Là anchor box cố định"
+        },
+        {
+          "key": "C",
+          "text": "Là pixel của ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Là nhãn ground-truth"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DETR dùng tập N object queries (embedding học được) đưa vào decoder; mỗi query qua cross-attention với feature ảnh để sinh một dự đoán, số query là số vật thể tối đa.",
+      "tags": [
+        "DETR",
+        "query"
+      ]
+    },
+    {
+      "id": "E53-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dilated conv với dilation rate=2, kernel 3x3 có receptive field hiệu dụng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5x5"
+        },
+        {
+          "key": "B",
+          "text": "3x3"
+        },
+        {
+          "key": "C",
+          "text": "7x7"
+        },
+        {
+          "key": "D",
+          "text": "9x9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với dilation d=2, kernel 3x3 trải rộng thành 5x5 (kích thước hiệu dụng = k+(k-1)(d-1) = 3+2*1 = 5) nhưng vẫn chỉ 9 trọng số.",
+      "tags": [
+        "atrous",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E53-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong panoptic segmentation, 'stuff' và 'things' khác nhau ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Things' là đối tượng đếm được (người, xe) có instance; 'stuff' là vùng không đếm được (trời, đường) chỉ có nhãn lớp"
+        },
+        {
+          "key": "B",
+          "text": "Hai từ đồng nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "'Stuff' luôn có instance id riêng"
+        },
+        {
+          "key": "D",
+          "text": "'Things' không có nhãn lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'Things' là các thực thể rời rạc đếm được nên cần instance id; 'stuff' là vùng nền liên tục vô định hình (bầu trời, cỏ) chỉ gán nhãn lớp; panoptic kết hợp cả hai.",
+      "tags": [
+        "panoptic",
+        "stuff-things"
+      ]
+    },
+    {
+      "id": "E53-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao RoIPool gây vấn đề cho dự đoán mask còn RoIAlign thì không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RoIPool lượng tử hóa (làm tròn) tọa độ gây lệch không gian; mask cần căn chỉnh pixel chính xác nên dùng RoIAlign"
+        },
+        {
+          "key": "B",
+          "text": "RoIPool nhanh hơn nên kém chính xác"
+        },
+        {
+          "key": "C",
+          "text": "RoIAlign bỏ qua feature"
+        },
+        {
+          "key": "D",
+          "text": "RoIPool không hoạt động với CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RoIPool làm tròn biên RoI và biên các bin gây dịch chuyển vài pixel; với phân loại ít ảnh hưởng nhưng mask pixel-level rất nhạy, nên Mask R-CNN dùng RoIAlign nội suy không lượng tử hóa.",
+      "tags": [
+        "RoIAlign",
+        "mask"
+      ]
+    },
+    {
+      "id": "E53-C57",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm Python tính IoU giữa hai bounding box ở định dạng [x1,y1,x2,y2]. Áp dụng cho A=[0,0,4,4] và B=[2,2,6,6], in kết quả làm tròn 4 chữ số và giải thích cách tính diện tích giao/hợp.",
+      "modelAnswer": "def iou(b1, b2):\n    # b = [x1, y1, x2, y2]\n    xa = max(b1[0], b2[0]); ya = max(b1[1], b2[1])\n    xb = min(b1[2], b2[2]); yb = min(b1[3], b2[3])\n    iw = max(0.0, xb - xa); ih = max(0.0, yb - ya)\n    inter = iw * ih\n    a1 = (b1[2]-b1[0]) * (b1[3]-b1[1])\n    a2 = (b2[2]-b2[0]) * (b2[3]-b2[1])\n    union = a1 + a2 - inter\n    return inter / union\n\nA = [0,0,4,4]; B = [2,2,6,6]\nprint(round(iou(A, B), 4))\n\n# Giao = [2,2,4,4] -> dien tich 2*2 = 4\n# Moi box dien tich 16; hop = 16+16-4 = 28\n# IoU = 4/28 = 0.142857...\n# OUTPUT (da chay): 0.1429",
+      "rubric": [
+        "Tính đúng tọa độ vùng giao (max của x1,y1; min của x2,y2) và kẹp về >=0",
+        "Tính diện tích giao, diện tích mỗi box và hợp = a1+a2-giao",
+        "Trả về inter/union và cho kết quả đúng ~0.1429 cho A,B"
+      ],
+      "tags": [
+        "IoU",
+        "code",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E53-C58",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm NMS đơn giản (dùng numpy để sắp xếp theo score) nhận danh sách box [x1,y1,x2,y2] và score, ngưỡng IoU=0.5. Áp dụng cho boxes=[[100,100,200,200],[110,110,210,210],[300,300,400,400]], scores=[0.9,0.8,0.7] và in các chỉ số box được giữ. Giải thích vì sao box nào bị loại.",
+      "modelAnswer": "import numpy as np\ndef iou(b1, b2):\n    xa = max(b1[0], b2[0]); ya = max(b1[1], b2[1])\n    xb = min(b1[2], b2[2]); yb = min(b1[3], b2[3])\n    inter = max(0.0, xb-xa) * max(0.0, yb-ya)\n    a1 = (b1[2]-b1[0])*(b1[3]-b1[1]); a2 = (b2[2]-b2[0])*(b2[3]-b2[1])\n    return inter / (a1 + a2 - inter)\n\ndef nms(boxes, scores, thr=0.5):\n    order = list(np.argsort(scores)[::-1])  # diem cao -> thap\n    keep = []\n    while order:\n        i = order.pop(0); keep.append(i)\n        order = [j for j in order if iou(boxes[i], boxes[j]) <= thr]\n    return keep\n\nboxes = [[100,100,200,200],[110,110,210,210],[300,300,400,400]]\nscores = [0.9, 0.8, 0.7]\nprint(nms(boxes, scores, 0.5))\n\n# box0 (0.9) duoc giu; IoU(box0,box1)=8100/11900 approx 0.68 > 0.5 -> loai box1\n# box2 cach xa -> giu. OUTPUT (da chay): [0, 2]",
+      "rubric": [
+        "Sắp xếp index theo score giảm dần (np.argsort[::-1])",
+        "Lặp: giữ box điểm cao nhất, loại các box còn lại có IoU > ngưỡng với nó",
+        "Kết quả đúng [0, 2] và giải thích box1 bị loại do IoU≈0.68>0.5, box2 được giữ"
+      ],
+      "tags": [
+        "NMS",
+        "code",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E53-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh detector hai giai đoạn (two-stage, ví dụ Faster R-CNN) với một giai đoạn (one-stage, ví dụ YOLO/RetinaNet) về kiến trúc, tốc độ, độ chính xác và cách xử lý mất cân bằng lớp.",
+      "modelAnswer": "Two-stage (Faster R-CNN) gồm hai bước: RPN sinh region proposal từ anchor rồi head dùng RoIAlign tinh chỉnh phân loại và hồi quy hộp cho từng proposal. Nhờ lọc proposal và trích đặc trưng theo vùng, two-stage thường chính xác hơn, đặc biệt với vật thể nhỏ và định vị khó, nhưng chậm hơn do hai lượt xử lý. One-stage (YOLO, SSD, RetinaNet) bỏ bước proposal, dự đoán hộp và lớp trực tiếp trên feature map đa tỉ lệ trong một lượt forward nên nhanh, phù hợp thời gian thực. Hạn chế là mất cân bằng lớp nghiêm trọng vì sinh hàng vạn vị trí mà đa số là nền: RetinaNet giải bằng focal loss hạ trọng số mẫu dễ; one-stage khác dùng OHEM hoặc tỉ lệ negative:positive cố định. Two-stage xử lý cân bằng tự nhiên hơn nhờ RPN lọc bớt nền trước khi đưa vào head. Tóm lại đánh đổi là tốc độ (one-stage) so với độ chính xác (two-stage), và khoảng cách này thu hẹp dần với FPN, focal loss và thiết kế anchor-free.",
+      "rubric": [
+        "Mô tả đúng kiến trúc: two-stage có RPN+RoIAlign, one-stage dự đoán trực tiếp một lượt",
+        "Nêu đánh đổi tốc độ vs độ chính xác (one-stage nhanh, two-stage chính xác hơn nhất là vật thể nhỏ)",
+        "Giải thích mất cân bằng lớp và cách xử lý (focal loss/OHEM với one-stage, RPN lọc với two-stage)"
+      ],
+      "tags": [
+        "two-stage",
+        "one-stage",
+        "essay"
+      ]
+    },
+    {
+      "id": "E53-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày atrous (dilated) convolution và ASPP trong DeepLab: vì sao chúng giúp giữ độ phân giải cao và nắm bắt ngữ cảnh đa tỉ lệ cho semantic segmentation, so với việc downsample mạnh bằng pooling/stride.",
+      "modelAnswer": "Trong segmentation cần dự đoán nhãn theo từng pixel nên giữ độ phân giải không gian rất quan trọng. CNN phân loại truyền thống downsample mạnh (pooling/stride) để mở rộng receptive field, nhưng làm mất chi tiết không gian và biên. Atrous (dilated) convolution chèn khoảng trống (rate d) giữa các trọng số kernel, mở rộng receptive field theo cấp số mà không giảm độ phân giải và không thêm tham số: kernel 3x3 với rate=2 có trường tiếp nhận hiệu dụng 5x5 nhưng vẫn 9 trọng số. Nhờ vậy DeepLab giữ feature map độ phân giải cao đồng thời thấy ngữ cảnh rộng. ASPP (Atrous Spatial Pyramid Pooling) đặt song song nhiều nhánh atrous conv với các dilation rate khác nhau (ví dụ 6,12,18) cộng một nhánh image-level pooling, rồi hợp nhất; mỗi rate bắt ngữ cảnh ở một tỉ lệ, giúp phân đoạn tốt vật thể nhiều kích cỡ trong cùng một feature map. So với pooling sâu, atrous+ASPP đạt receptive field lớn và ngữ cảnh đa tỉ lệ mà vẫn bảo toàn chi tiết, cải thiện độ chính xác biên; DeepLab v1/v2 còn dùng CRF hậu xử lý để tinh chỉnh biên, các phiên bản sau thay bằng decoder nhẹ.",
+      "rubric": [
+        "Giải thích atrous conv mở rộng receptive field không giảm độ phân giải, không tăng tham số (nêu ví dụ rate)",
+        "Mô tả ASPP: nhiều atrous conv song song với rate khác nhau (+image pooling) để bắt ngữ cảnh đa tỉ lệ",
+        "So sánh với downsample mạnh: giữ chi tiết/biên và độ phân giải cao cho dự đoán pixel-level"
+      ],
+      "tags": [
+        "atrous",
+        "ASPP",
+        "DeepLab",
+        "essay"
+      ]
+    }
+  ]
+}

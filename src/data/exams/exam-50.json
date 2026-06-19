@@ -1,0 +1,1810 @@
+{
+  "id": "exam-50",
+  "title": "NumPy Nâng cao #2 — Linalg, Random, Stride & Structured (Đọc code)",
+  "description": "Đề ôn tập NumPy nâng cao tập trung vào đại số tuyến tính (np.linalg), số ngẫu nhiên có seed cố định, einsum, mảng có cấu trúc, cửa sổ trượt và nhiều thao tác mảng cấp cao. Phần lớn câu hỏi yêu cầu đọc code và dự đoán kết quả in ra. Có 4 câu tự luận viết code NumPy ở cuối. Hãy chạy thử để đối chiếu kết quả.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E50-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[2.,0.],[0.,3.]])\nprint(np.linalg.det(A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "5.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định thức của ma trận đường chéo bằng tích các phần tử trên đường chéo: 2*3 = 6.",
+      "tags": [
+        "linalg",
+        "det"
+      ]
+    },
+    {
+      "id": "E50-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[3.,0.,0.],[0.,5.,0.],[0.,0.,2.]])\nprint(np.sort(np.linalg.eigvals(A)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2. 3. 5.]"
+        },
+        {
+          "key": "B",
+          "text": "[2. 5. 3.]"
+        },
+        {
+          "key": "C",
+          "text": "[3. 5. 2.]"
+        },
+        {
+          "key": "D",
+          "text": "[ 2.  5. 10.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trị riêng của ma trận đường chéo chính là các phần tử trên đường chéo; eigvals trả về [3,5,2], sau sort thành [2,3,5].",
+      "tags": [
+        "linalg",
+        "eig"
+      ]
+    },
+    {
+      "id": "E50-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[1.,2.],[3.,4.]])\nb = np.array([1.,1.])\nx = np.linalg.solve(A,b)\nprint(x)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1.  1.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 1.]"
+        },
+        {
+          "key": "C",
+          "text": "[ 0.5 -0.5]"
+        },
+        {
+          "key": "D",
+          "text": "[-2.  1.5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giải hệ Ax=b cho nghiệm x = [-1, 1]; thay vào kiểm tra: 1*(-1)+2*1=1 và 3*(-1)+4*1=1.",
+      "tags": [
+        "linalg",
+        "solve"
+      ]
+    },
+    {
+      "id": "E50-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[4.,0.],[0.,9.]])\nprint(np.linalg.inv(A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0.25       0.        ]\n [0.         0.11111111]]"
+        },
+        {
+          "key": "B",
+          "text": "[[4. 0.]\n [0. 9.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0.5 0. ]\n [0.  0.33333333]]"
+        },
+        {
+          "key": "D",
+          "text": "[[ 0.25 -0.  ]\n [-0.    0.11]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nghịch đảo ma trận đường chéo là ma trận đường chéo với các phần tử nghịch đảo: 1/4=0.25 và 1/9.",
+      "tags": [
+        "linalg",
+        "inv"
+      ]
+    },
+    {
+      "id": "E50-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nv = np.array([3.,4.])\nprint(np.linalg.norm(v))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "5.0 nhưng là int"
+        },
+        {
+          "key": "D",
+          "text": "25.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn L2 (Euclid) của [3,4] là sqrt(3^2+4^2)=sqrt(25)=5.0.",
+      "tags": [
+        "linalg",
+        "norm"
+      ]
+    },
+    {
+      "id": "E50-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[1.,2.],[2.,4.]])\nprint(np.linalg.matrix_rank(A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng 2 = 2 lần hàng 1 nên hai hàng phụ thuộc tuyến tính, hạng của ma trận là 1.",
+      "tags": [
+        "linalg",
+        "rank"
+      ]
+    },
+    {
+      "id": "E50-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.random.RandomState(0).rand(4,3)\nq, r = np.linalg.qr(A)\nprint(q.shape, r.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 3) (3, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(4, 4) (4, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 3) (3, 4)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 3) (3, 4)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân rã QR mặc định (reduced) cho ma trận 4x3: Q có shape (4,3) và R có shape (3,3).",
+      "tags": [
+        "linalg",
+        "qr",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.random.RandomState(1).rand(5,2)\nu, s, vt = np.linalg.svd(A, full_matrices=False)\nprint(u.shape, s.shape, vt.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(5, 2) (2,) (2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(5, 5) (2,) (2, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(5, 5) (5, 2) (2, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 5) (2,) (5, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SVD với full_matrices=False cho ma trận 5x2: U là (5,2), s là vector (2,), Vt là (2,2).",
+      "tags": [
+        "linalg",
+        "svd",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[2.,1.],[1.,2.]])\nprint(np.sort(np.linalg.eigvalsh(A)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 3.]"
+        },
+        {
+          "key": "B",
+          "text": "[2. 2.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 4.]"
+        },
+        {
+          "key": "D",
+          "text": "[0. 4.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đối xứng có trị riêng 1 và 3 (vết=4=tổng trị riêng, det=3=tích trị riêng); sort cho [1,3].",
+      "tags": [
+        "linalg",
+        "eigvalsh"
+      ]
+    },
+    {
+      "id": "E50-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(42)\nprint(rng.integers(0, 10, size=5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 7 6 4 4]"
+        },
+        {
+          "key": "B",
+          "text": "[3 7 6 4 4]"
+        },
+        {
+          "key": "C",
+          "text": "[6 1 4 4 8]"
+        },
+        {
+          "key": "D",
+          "text": "[2 9 1 0 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với default_rng(seed=42), dãy số nguyên sinh ra là xác định và tái lập được mỗi lần chạy.",
+      "tags": [
+        "random",
+        "default_rng"
+      ]
+    },
+    {
+      "id": "E50-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrs = np.random.RandomState(0)\nprint(np.round(rs.rand(3), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.5488 0.7152 0.6028]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5488 0.7151 0.6027]"
+        },
+        {
+          "key": "C",
+          "text": "[0.4236 0.6459 0.4376]"
+        },
+        {
+          "key": "D",
+          "text": "[0.3745 0.9507 0.732 ]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RandomState(0).rand(3) cho dãy cố định; làm tròn 4 chữ số ta được các giá trị tái lập.",
+      "tags": [
+        "random",
+        "RandomState"
+      ]
+    },
+    {
+      "id": "E50-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(7)\na = rng.standard_normal((2,3))\nprint(a.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 6)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(6,)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "standard_normal((2,3)) trả về mảng có shape đúng bằng tham số (2,3).",
+      "tags": [
+        "random",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(1)\nprint(rng.permutation(5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 0 1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 3 4]"
+        },
+        {
+          "key": "C",
+          "text": "[2 1 4 0 3]"
+        },
+        {
+          "key": "D",
+          "text": "[4 3 2 1 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "permutation(5) hoán vị ngẫu nhiên các số 0..4 theo seed cố định, cho kết quả tái lập.",
+      "tags": [
+        "random",
+        "permutation"
+      ]
+    },
+    {
+      "id": "E50-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrs = np.random.RandomState(2)\nprint(rs.choice([10,20,30], size=4, replace=True))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10 20 10 30]"
+        },
+        {
+          "key": "B",
+          "text": "[10 20 30 10]"
+        },
+        {
+          "key": "C",
+          "text": "[30 30 10 30]"
+        },
+        {
+          "key": "D",
+          "text": "[20 10 30 20]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "choice với replace=True lấy ngẫu nhiên có lặp từ [10,20,30]; với seed cố định kết quả xác định.",
+      "tags": [
+        "random",
+        "choice"
+      ]
+    },
+    {
+      "id": "E50-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(0)\nprint(np.round(rng.uniform(0, 1, 3), 3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.637 0.27  0.041]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5 0.5 0.5]"
+        },
+        {
+          "key": "C",
+          "text": "[0.637 0.27  0.407]"
+        },
+        {
+          "key": "D",
+          "text": "[0.1 0.2 0.3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "uniform(0,1,3) với default_rng(0) cho 3 số thực cố định; làm tròn 3 chữ số.",
+      "tags": [
+        "random",
+        "uniform"
+      ]
+    },
+    {
+      "id": "E50-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.arange(6).reshape(2,3)\nprint(np.einsum('ij->ji', A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 1 2]\n [3 4 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 3]\n [1 4]\n [2 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3 0]\n [4 1]\n [5 2]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0 2 4]\n [1 3 5]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'ij->ji' là phép chuyển vị; ma trận 2x3 trở thành 3x2.",
+      "tags": [
+        "einsum",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E50-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,2,3])\nb = np.array([4,5])\nprint(np.einsum('i,j->ij', a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[ 4  5]\n [ 8 10]\n [12 15]]"
+        },
+        {
+          "key": "B",
+          "text": "[[ 5  5]\n [ 8 10]\n [12 15]]"
+        },
+        {
+          "key": "C",
+          "text": "[[4 5 6]\n [7 8 9]]"
+        },
+        {
+          "key": "D",
+          "text": "[[ 5  6]\n [10 12]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'i,j->ij' là tích ngoài (outer product): phần tử (i,j) = a[i]*b[j].",
+      "tags": [
+        "einsum",
+        "outer"
+      ]
+    },
+    {
+      "id": "E50-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.arange(9).reshape(3,3)\nprint(np.einsum('ii->', A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12"
+        },
+        {
+          "key": "B",
+          "text": "13"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "36"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ii->' lấy vết (trace) = tổng đường chéo = A[0,0]+A[1,1]+A[2,2] = 0+4+8 = 12.",
+      "tags": [
+        "einsum",
+        "trace"
+      ]
+    },
+    {
+      "id": "E50-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.arange(6).reshape(2,3)\nprint(np.einsum('ij->i', A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 3 12]"
+        },
+        {
+          "key": "B",
+          "text": "[ 4 12]"
+        },
+        {
+          "key": "C",
+          "text": "[3 5 7]"
+        },
+        {
+          "key": "D",
+          "text": "[15]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ij->i' tính tổng theo trục j (theo từng hàng): hàng 0 = 0+1+2=3, hàng 1 = 3+4+5=12.",
+      "tags": [
+        "einsum",
+        "sum"
+      ]
+    },
+    {
+      "id": "E50-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nA = np.arange(8).reshape(2,2,2)\nB = np.arange(8).reshape(2,2,2)\nprint(np.einsum('bij,bjk->bik', A, B).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 4, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'bij,bjk->bik' là nhân ma trận theo lô (batched matmul); shape kết quả giữ batch b và (i,k): (2,2,2).",
+      "tags": [
+        "einsum",
+        "batched",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,2,3,4])\nprint(np.einsum('i,i->', a, a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "30"
+        },
+        {
+          "key": "B",
+          "text": "31"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'i,i->' là tích vô hướng (dot product) = 1*1+2*2+3*3+4*4 = 1+4+9+16 = 30.",
+      "tags": [
+        "einsum",
+        "dot"
+      ]
+    },
+    {
+      "id": "E50-D23",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ndt = np.dtype([('name','U10'),('age','i4')])\na = np.array([('An',20),('Binh',22)], dtype=dt)\nprint(a['age'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[20 22]"
+        },
+        {
+          "key": "B",
+          "text": "[21 22]"
+        },
+        {
+          "key": "C",
+          "text": "['An' 'Binh']"
+        },
+        {
+          "key": "D",
+          "text": "[20]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Truy cập theo tên trường 'age' trả về mảng các giá trị tuổi: [20, 22].",
+      "tags": [
+        "structured",
+        "field"
+      ]
+    },
+    {
+      "id": "E50-D24",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ndt = np.dtype([('x','i4'),('y','i4')])\na = np.array([(1,2),(3,4),(5,6)], dtype=dt)\nprint(a['x'].sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a['x'] = [1,3,5], tổng = 9.",
+      "tags": [
+        "structured",
+        "field"
+      ]
+    },
+    {
+      "id": "E50-D25",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ndt = np.dtype([('id','i4'),('score','f4')])\na = np.array([(1,9.5),(2,8.0)], dtype=dt)\nprint(a[0]['score'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "9.5"
+        },
+        {
+          "key": "B",
+          "text": "10.5"
+        },
+        {
+          "key": "C",
+          "text": "8.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a[0] là bản ghi đầu tiên; trường 'score' của nó là 9.5.",
+      "tags": [
+        "structured",
+        "record"
+      ]
+    },
+    {
+      "id": "E50-D26",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ndt = np.dtype([('a','i4'),('b','i4')])\nx = np.zeros(3, dtype=dt)\nx['a'] = [1,2,3]\nprint(x['a'] + x['b'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 0]"
+        },
+        {
+          "key": "D",
+          "text": "[2 4 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trường 'b' khởi tạo bằng 0 (np.zeros), nên x['a']+x['b'] = [1,2,3]+[0,0,0] = [1,2,3].",
+      "tags": [
+        "structured",
+        "field"
+      ]
+    },
+    {
+      "id": "E50-E27",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nw = np.lib.stride_tricks.sliding_window_view(a, 3)\nprint(w.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(4, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(5, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cửa sổ trượt kích thước 3 trên mảng dài 5 cho 5-3+1=3 cửa sổ, mỗi cửa sổ dài 3: shape (3,3).",
+      "tags": [
+        "stride_tricks",
+        "sliding_window",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-E28",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nw = np.lib.stride_tricks.sliding_window_view(a, 3)\nprint(w[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 0]"
+        },
+        {
+          "key": "D",
+          "text": "[2 3 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cửa sổ đầu tiên gồm 3 phần tử đầu của mảng: [0,1,2].",
+      "tags": [
+        "stride_tricks",
+        "sliding_window"
+      ]
+    },
+    {
+      "id": "E50-E29",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2,3)\nw = np.lib.stride_tricks.sliding_window_view(a, (2,2))\nprint(w.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(1, 2, 2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2, 2, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3, 2, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 1, 2, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cửa sổ (2,2) trên ma trận 2x3: theo trục 0 có 2-2+1=1, theo trục 1 có 3-2+1=2, cộng 2 chiều cửa sổ → (1,2,2,2).",
+      "tags": [
+        "stride_tricks",
+        "sliding_window",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-F30",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.ma.array([1,2,3,4], mask=[0,1,0,1])\nprint(a.sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Masked array bỏ qua các phần tử bị che (vị trí 1,3 là 2 và 4); tổng = 1+3 = 4.",
+      "tags": [
+        "masked",
+        "ma"
+      ]
+    },
+    {
+      "id": "E50-F31",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.ma.array([10,20,30], mask=[0,1,0])\nprint(a.mean())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "20.0"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "30.0"
+        },
+        {
+          "key": "D",
+          "text": "60.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bỏ phần tử bị che (20), trung bình của [10,30] = 20.0.",
+      "tags": [
+        "masked",
+        "ma"
+      ]
+    },
+    {
+      "id": "E50-F32",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.ma.masked_greater([1,5,2,8], 4)\nprint(a.count())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "masked_greater che các phần tử >4 (là 5 và 8); count đếm phần tử KHÔNG bị che = 2.",
+      "tags": [
+        "masked",
+        "ma"
+      ]
+    },
+    {
+      "id": "E50-G33",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([1,2,3])\ny = np.array([10,20])\nX, Y = np.meshgrid(x, y)\nprint(X.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(4, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "meshgrid với indexing mặc định 'xy': X,Y có shape (len(y), len(x)) = (2,3).",
+      "tags": [
+        "meshgrid",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-G34",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\ng = np.ogrid[0:3, 0:4]\nprint(g[0].shape, g[1].shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 1) (1, 4)"
+        },
+        {
+          "key": "B",
+          "text": "(4, 1) (1, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 4) (3, 4)"
+        },
+        {
+          "key": "D",
+          "text": "(3,) (4,)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ogrid trả về lưới mở (open): trục 0 có shape (3,1), trục 1 có shape (1,4) để broadcast.",
+      "tags": [
+        "ogrid",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-G35",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([0.,3.])\nd = np.abs(a[:,None] - a[None,:])\nprint(d)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0. 3.]\n [3. 0.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 3.]\n [3. 0.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3. 0.]\n [0. 3.]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0. 0.]\n [3. 3.]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng np.newaxis tạo ma trận khoảng cách: d[i,j]=|a[i]-a[j]|; đường chéo bằng 0, ngoài đường chéo bằng 3.",
+      "tags": [
+        "broadcasting",
+        "newaxis",
+        "distance"
+      ]
+    },
+    {
+      "id": "E50-G36",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nm = np.mgrid[0:2, 0:3]\nprint(m.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 3, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "mgrid[0:2,0:3] trả về mảng dày shape (số_trục, 2, 3) = (2,2,3).",
+      "tags": [
+        "mgrid",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-H37",
+      "module": "H",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1,2,3],[4,5,6]])\nprint(np.apply_along_axis(np.sum, 1, a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 6 15]"
+        },
+        {
+          "key": "B",
+          "text": "[ 7 15]"
+        },
+        {
+          "key": "C",
+          "text": "[5 7 9]"
+        },
+        {
+          "key": "D",
+          "text": "[21]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "apply_along_axis áp dụng np.sum dọc trục 1 (theo hàng): [1+2+3, 4+5+6] = [6,15].",
+      "tags": [
+        "apply_along_axis"
+      ]
+    },
+    {
+      "id": "E50-H38",
+      "module": "H",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nf = np.vectorize(lambda x: x*x)\nprint(f(np.array([1,2,3,4])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  4  9 16]"
+        },
+        {
+          "key": "B",
+          "text": "[ 2  4  9 16]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[2 4 6 8]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "vectorize áp dụng hàm bình phương lên từng phần tử: [1,4,9,16].",
+      "tags": [
+        "vectorize"
+      ]
+    },
+    {
+      "id": "E50-H39",
+      "module": "H",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nbins = np.array([0,5,10])\nprint(np.digitize([3,5,11], bins))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "D",
+          "text": "[1 1 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "digitize trả chỉ số khoảng: 3∈[0,5)→1, 5∈[5,10)→2, 11≥10→3.",
+      "tags": [
+        "digitize"
+      ]
+    },
+    {
+      "id": "E50-H40",
+      "module": "H",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,3,5,7])\nprint(np.searchsorted(a, 3, side='left'), np.searchsorted(a, 3, side='right'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 2"
+        },
+        {
+          "key": "B",
+          "text": "2 2"
+        },
+        {
+          "key": "C",
+          "text": "2 1"
+        },
+        {
+          "key": "D",
+          "text": "1 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "side='left' chèn 3 trước phần tử bằng nó (chỉ số 1); side='right' chèn sau (chỉ số 2).",
+      "tags": [
+        "searchsorted"
+      ]
+    },
+    {
+      "id": "E50-H41",
+      "module": "H",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nf = np.frompyfunc(lambda x: x+1, 1, 1)\nprint(f(np.array([10,20,30])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[11 21 31]"
+        },
+        {
+          "key": "B",
+          "text": "[12 21 31]"
+        },
+        {
+          "key": "C",
+          "text": "[10 20 30]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "frompyfunc tạo ufunc cộng 1 cho từng phần tử (trả về dtype object): [11,21,31].",
+      "tags": [
+        "frompyfunc"
+      ]
+    },
+    {
+      "id": "E50-I42",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([10,20,30,40])\nprint(np.take(a, [0,2,3]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10 30 40]"
+        },
+        {
+          "key": "B",
+          "text": "[11 30 40]"
+        },
+        {
+          "key": "C",
+          "text": "[10 20 30]"
+        },
+        {
+          "key": "D",
+          "text": "[20 30 40]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.take lấy phần tử tại chỉ số 0,2,3: [10,30,40].",
+      "tags": [
+        "take"
+      ]
+    },
+    {
+      "id": "E50-I43",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,2,3,4,5])\nprint(np.roll(a, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 5 1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[5 5 1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[3 4 5 1 2]"
+        },
+        {
+          "key": "D",
+          "text": "[2 3 4 5 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.roll dịch phải 2 vị trí: hai phần tử cuối [4,5] vòng về đầu → [4,5,1,2,3].",
+      "tags": [
+        "roll"
+      ]
+    },
+    {
+      "id": "E50-I44",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2,3)\nprint(np.roll(a, 1, axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[2 0 1]\n [5 3 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[3 0 1]\n [5 3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 0]\n [4 5 3]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3 4 5]\n [0 1 2]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "roll axis=1 dịch phải 1 theo từng hàng: cột cuối vòng về đầu.",
+      "tags": [
+        "roll",
+        "axis"
+      ]
+    },
+    {
+      "id": "E50-I45",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,2,3])\nprint(np.pad(a, (2,1), mode='reflect'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 2 1 2 3 2]"
+        },
+        {
+          "key": "B",
+          "text": "[4 2 1 2 3 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1 1 1 2 3 3]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 1 2 3 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pad reflect phản chiếu qua biên (không lặp biên): trước [3,2], sau [2] → [3,2,1,2,3,2].",
+      "tags": [
+        "pad",
+        "reflect"
+      ]
+    },
+    {
+      "id": "E50-I46",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,2,3])\nprint(np.pad(a, (2,2), mode='edge'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 1 1 2 3 3 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 1 1 2 3 3 3]"
+        },
+        {
+          "key": "C",
+          "text": "[3 2 1 2 3 2 1]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 1 2 3 0 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pad edge lặp giá trị biên: đầu lặp 1, cuối lặp 3 → [1,1,1,2,3,3,3].",
+      "tags": [
+        "pad",
+        "edge"
+      ]
+    },
+    {
+      "id": "E50-I47",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1,2],[3,4]])\nprint(np.cumsum(a, axis=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 2]\n [4 6]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 2]\n [4 6]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 3]\n [3 7]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2]\n [3 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cumsum axis=0 cộng dồn theo cột: hàng 1 giữ nguyên, hàng 2 = hàng1+hàng2 = [4,6].",
+      "tags": [
+        "cumsum",
+        "axis"
+      ]
+    },
+    {
+      "id": "E50-I48",
+      "module": "I",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.,2.,4.,7.])\nprint(np.gradient(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.  1.5 2.5 3. ]"
+        },
+        {
+          "key": "B",
+          "text": "[2  1.5 2.5 3. ]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 2. 3. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 1. 1. 1.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "gradient dùng sai phân: biên dùng một phía (1 và 3), bên trong dùng sai phân trung tâm ((4-1)/2=1.5, (7-2)/2=2.5).",
+      "tags": [
+        "gradient"
+      ]
+    },
+    {
+      "id": "E50-J49",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([[1,2,3],[4,5,6]])\nprint(np.cov(x).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.cov coi mỗi hàng là một biến (2 biến, 3 quan sát) nên ma trận hiệp phương sai có shape (2,2).",
+      "tags": [
+        "cov",
+        "shape"
+      ]
+    },
+    {
+      "id": "E50-J50",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3,1,2,5,4])\nidx = np.argpartition(a, 2)\nprint(np.sort(a[idx[:3]]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[3 4 5]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argpartition(a,2) đảm bảo 3 phần tử nhỏ nhất nằm ở đầu (không sắp xếp); chúng là {1,2,3}, sort cho [1,2,3].",
+      "tags": [
+        "argpartition"
+      ]
+    },
+    {
+      "id": "E50-J51",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.unravel_index(7, (2,4)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(np.int64(1), np.int64(3))"
+        },
+        {
+          "key": "B",
+          "text": "(1, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ số phẳng 7 trong mảng shape (2,4): hàng 7//4=1, cột 7%4=3 → (1,3).",
+      "tags": [
+        "unravel_index"
+      ]
+    },
+    {
+      "id": "E50-J53",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.diagflat([1,2,3]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 0 0]\n [0 2 0]\n [0 0 3]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 0 0]\n [0 2 0]\n [0 0 3]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3 0 0]\n [0 2 0]\n [0 0 1]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diagflat tạo ma trận đường chéo từ vector [1,2,3].",
+      "tags": [
+        "diagflat"
+      ]
+    },
+    {
+      "id": "E50-J54",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.kron(np.eye(2), np.array([[1,2]])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1. 2. 0. 0.]\n [0. 0. 1. 2.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 2. 0. 0.]\n [0. 0. 1. 2.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1. 2. 1. 2.]\n [1. 2. 1. 2.]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1. 0.]\n [0. 1.]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích Kronecker của I2 với [[1,2]] xếp khối: mỗi phần tử đường chéo nhân với [1,2].",
+      "tags": [
+        "kron"
+      ]
+    },
+    {
+      "id": "E50-J55",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1,5,2,8])\nlo = np.array([0,2,0,4])\nhi = np.array([3,4,1,6])\nprint(np.clip(a, lo, hi))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 4 1 6]"
+        },
+        {
+          "key": "B",
+          "text": "[2 4 1 6]"
+        },
+        {
+          "key": "C",
+          "text": "[1 5 2 8]"
+        },
+        {
+          "key": "D",
+          "text": "[0 2 0 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "clip với mảng min/max kẹp từng phần tử: 1∈[0,3]→1, 5>4→4, 2>1→1, 8>6→6.",
+      "tags": [
+        "clip"
+      ]
+    },
+    {
+      "id": "E50-J56",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([-2,-1,0,1,2])\nprint(np.where(a<0, -1, np.where(a>0, 1, 0)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1 -1  0  1  1]"
+        },
+        {
+          "key": "B",
+          "text": "[0 -1  0  1  1]"
+        },
+        {
+          "key": "C",
+          "text": "[-2 -1  0  1  2]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1  1  0 -1 -1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.where lồng 3 nhánh: âm→-1, dương→1, bằng 0→0 → [-1,-1,0,1,1].",
+      "tags": [
+        "where",
+        "nested"
+      ]
+    },
+    {
+      "id": "E50-J57",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1., np.nan, np.inf, -np.inf])\nprint(np.nan_to_num(a, nan=0.0, posinf=99., neginf=-99.))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[  1.   0.  99. -99.]"
+        },
+        {
+          "key": "B",
+          "text": "[  2   0.  99. -99.]"
+        },
+        {
+          "key": "C",
+          "text": "[ 1. nan inf -inf]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 0. 0. 0.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nan_to_num thay nan→0, +inf→99, -inf→-99, giữ nguyên 1.",
+      "tags": [
+        "nan_to_num"
+      ]
+    },
+    {
+      "id": "E50-J58",
+      "module": "J",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "True "
+        },
+        {
+          "key": "C",
+          "text": "False"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "allclose so sánh gần đúng với dung sai mặc định; chênh lệch 1e-9 nhỏ hơn ngưỡng nên trả True.",
+      "tags": [
+        "allclose"
+      ]
+    },
+    {
+      "id": "E50-K59",
+      "module": "K",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm dùng NumPy chuẩn hóa min-max theo từng CỘT cho ma trận sau, đưa mỗi cột về [0,1]. In kết quả.\n\n```python\nimport numpy as np\nX = np.array([[1., 2., 3.], [4., 8., 6.], [7., 14., 9.]])\n```",
+      "modelAnswer": "import numpy as np\nX = np.array([[1., 2., 3.], [4., 8., 6.], [7., 14., 9.]])\nmn = X.min(axis=0)\nmx = X.max(axis=0)\nXn = (X - mn) / (mx - mn)\nprint(Xn)\n\n# Output:\n[[0.  0.  0. ]\n [0.5 0.5 0.5]\n [1.  1.  1. ]]\n\nGiải thích: min/max lấy theo axis=0 (theo cột), broadcasting trừ và chia theo từng cột. Mỗi cột sau chuẩn hóa có min=0 và max=1.",
+      "rubric": [
+        "Lấy min và max theo axis=0 (theo cột)",
+        "Dùng công thức (X-min)/(max-min) với broadcasting",
+        "Mỗi cột sau chuẩn hóa nằm trong [0,1], giá trị nhỏ nhất thành 0 và lớn nhất thành 1"
+      ],
+      "tags": [
+        "code",
+        "minmax",
+        "normalize"
+      ]
+    },
+    {
+      "id": "E50-K60",
+      "module": "K",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho tập điểm 2D, dùng broadcasting với np.newaxis để tính ma trận khoảng cách Euclid pairwise (không dùng vòng lặp). In ma trận khoảng cách.\n\n```python\nimport numpy as np\nP = np.array([[0., 0.], [3., 0.], [0., 4.]])\n```",
+      "modelAnswer": "import numpy as np\nP = np.array([[0., 0.], [3., 0.], [0., 4.]])\ndiff = P[:, None, :] - P[None, :, :]\nD = np.sqrt((diff**2).sum(axis=-1))\nprint(D)\n\n# Output:\n[[0. 3. 4.]\n [3. 0. 5.]\n [4. 5. 0.]]\n\nGiải thích: P[:,None,:] có shape (n,1,2), P[None,:,:] có shape (1,n,2); hiệu broadcast thành (n,n,2). Bình phương, cộng theo trục cuối rồi lấy căn cho ma trận khoảng cách đối xứng, đường chéo bằng 0.",
+      "rubric": [
+        "Dùng np.newaxis/None tạo hai mảng (n,1,2) và (1,n,2)",
+        "Tính hiệu broadcast, bình phương và sum theo axis=-1",
+        "Lấy np.sqrt; ma trận đối xứng, đường chéo bằng 0"
+      ],
+      "tags": [
+        "code",
+        "broadcasting",
+        "distance"
+      ]
+    },
+    {
+      "id": "E50-K61",
+      "module": "K",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Giải hệ phương trình tuyến tính Ax=b bằng np.linalg.solve và in nghiệm x.\n\n```python\nimport numpy as np\nA = np.array([[3., 2.], [1., 2.]])\nb = np.array([5., 5.])\n```",
+      "modelAnswer": "import numpy as np\nA = np.array([[3., 2.], [1., 2.]])\nb = np.array([5., 5.])\nx = np.linalg.solve(A, b)\nprint(x)\n\n# Output:\n[0.  2.5]\n\nGiải thích: np.linalg.solve giải trực tiếp hệ Ax=b (A khả nghịch). Kiểm tra: 3*0+2*2.5=5 và 1*0+2*2.5=5, đúng.",
+      "rubric": [
+        "Dùng np.linalg.solve(A, b) thay vì tính inv rồi nhân (ổn định số hơn)",
+        "Yêu cầu A vuông và khả nghịch",
+        "Nghiệm x thỏa Ax=b, có thể kiểm tra bằng np.allclose(A@x, b)"
+      ],
+      "tags": [
+        "code",
+        "linalg",
+        "solve"
+      ]
+    },
+    {
+      "id": "E50-K62",
+      "module": "K",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Tính z-score (chuẩn hóa theo trung bình và độ lệch chuẩn) theo từng CỘT cho ma trận sau bằng NumPy. In kết quả làm tròn 4 chữ số.\n\n```python\nimport numpy as np\nX = np.array([[1., 10.], [2., 20.], [3., 30.]])\n```",
+      "modelAnswer": "import numpy as np\nX = np.array([[1., 10.], [2., 20.], [3., 30.]])\nmu = X.mean(axis=0)\nsigma = X.std(axis=0)\nZ = (X - mu) / sigma\nprint(np.round(Z, 4))\n\n# Output:\n[[-1.2247 -1.2247]\n [ 0.      0.    ]\n [ 1.2247  1.2247]]\n\nGiải thích: mean và std lấy theo axis=0; std mặc định ddof=0 (chia N). Mỗi cột sau chuẩn hóa có trung bình ~0 và độ lệch chuẩn ~1.",
+      "rubric": [
+        "Tính mean và std theo axis=0 (theo cột)",
+        "Dùng (X-mu)/sigma với broadcasting",
+        "Lưu ý std mặc định ddof=0; mỗi cột kết quả có mean≈0, std≈1"
+      ],
+      "tags": [
+        "code",
+        "zscore",
+        "normalize"
+      ]
+    }
+  ]
+}

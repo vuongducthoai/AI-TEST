@@ -1,0 +1,1826 @@
+{
+  "id": "exam-48",
+  "title": "CNN Chuyên sâu & Kiến trúc Hiện đại",
+  "description": "Đề cương ôn tập chuyên sâu về mạng nơ-ron tích chập (CNN) và các kiến trúc hiện đại. Bao gồm số học tích chập, các khối bottleneck, và các họ kiến trúc tiêu biểu (LeNet, AlexNet, VGG, GoogLeNet, ResNet, DenseNet, MobileNet, EfficientNet, ConvNeXt). Đề nhấn mạnh khả năng tính toán kích thước đầu ra, số tham số, FLOPs và hiểu sâu về thiết kế kiến trúc.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E48-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh đầu vào 224×224, áp dụng conv kernel 3×3, padding=1, stride=1. Kích thước đầu ra (mỗi chiều) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "224"
+        },
+        {
+          "key": "B",
+          "text": "222"
+        },
+        {
+          "key": "C",
+          "text": "112"
+        },
+        {
+          "key": "D",
+          "text": "225"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Áp dụng công thức (W - F + 2P)/S + 1 = (224 - 3 + 2)/1 + 1 = 224, padding=1 với kernel 3×3 stride 1 giữ nguyên kích thước.",
+      "tags": [
+        "conv-arithmetic",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E48-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp conv đầu tiên của AlexNet: đầu vào 227×227, kernel 11×11, stride=4, padding=0 (valid). Kích thước feature map đầu ra mỗi chiều?",
+      "options": [
+        {
+          "key": "A",
+          "text": "55"
+        },
+        {
+          "key": "B",
+          "text": "56"
+        },
+        {
+          "key": "C",
+          "text": "54"
+        },
+        {
+          "key": "D",
+          "text": "48"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(227 - 11)/4 + 1 = 216/4 + 1 = 54 + 1 = 55. Đây chính là feature map 55×55 của AlexNet.",
+      "tags": [
+        "alexnet",
+        "conv-arithmetic"
+      ]
+    },
+    {
+      "id": "E48-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lớp conv 3×3 với 64 kênh đầu vào, 128 kênh đầu ra, có bias. Số tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "73856"
+        },
+        {
+          "key": "B",
+          "text": "73728"
+        },
+        {
+          "key": "C",
+          "text": "73984"
+        },
+        {
+          "key": "D",
+          "text": "9216"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số tham số = F·F·Cin·Cout + Cout (bias) = 3·3·64·128 + 128 = 73728 + 128 = 73856.",
+      "tags": [
+        "params",
+        "conv-arithmetic"
+      ]
+    },
+    {
+      "id": "E48-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp 1×1 conv giảm chiều từ 256 xuống 64 kênh (có bias). Số tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "16448"
+        },
+        {
+          "key": "B",
+          "text": "16384"
+        },
+        {
+          "key": "C",
+          "text": "16640"
+        },
+        {
+          "key": "D",
+          "text": "320"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1×1 conv: tham số = 1·1·256·64 + 64 = 16384 + 64 = 16448. 1×1 conv dùng để giảm chiều kênh rẻ.",
+      "tags": [
+        "1x1-conv",
+        "bottleneck",
+        "params"
+      ]
+    },
+    {
+      "id": "E48-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Xếp chồng hai lớp conv 3×3 (stride 1, không dilation) liên tiếp. Trường tiếp nhận (receptive field) hiệu dụng trên ảnh gốc là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5×5"
+        },
+        {
+          "key": "B",
+          "text": "3×3"
+        },
+        {
+          "key": "C",
+          "text": "6×6"
+        },
+        {
+          "key": "D",
+          "text": "9×9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai lớp 3×3 xếp chồng cho RF = 3 + (3-1) = 5, tức 5×5, tương đương một lớp 5×5 nhưng ít tham số hơn (đây là ý tưởng của VGG).",
+      "tags": [
+        "receptive-field",
+        "vgg"
+      ]
+    },
+    {
+      "id": "E48-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv 3×3 với dilation rate = 2. Kích thước kernel hiệu dụng (effective kernel) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5×5"
+        },
+        {
+          "key": "B",
+          "text": "3×3"
+        },
+        {
+          "key": "C",
+          "text": "6×6"
+        },
+        {
+          "key": "D",
+          "text": "7×7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kernel hiệu dụng = D·(F-1)+1 = 2·2+1 = 5, tức 5×5, mở rộng trường tiếp nhận mà không tăng số tham số.",
+      "tags": [
+        "dilation",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E48-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Max pooling 2×2 stride 2 (không padding) trên feature map 224×224. Kích thước đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "112"
+        },
+        {
+          "key": "B",
+          "text": "224"
+        },
+        {
+          "key": "C",
+          "text": "56"
+        },
+        {
+          "key": "D",
+          "text": "113"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(224 - 2)/2 + 1 = 111 + 1 = 112. Pooling 2×2 stride 2 giảm một nửa kích thước không gian.",
+      "tags": [
+        "pooling",
+        "conv-arithmetic"
+      ]
+    },
+    {
+      "id": "E48-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Depthwise separable conv (kernel 3×3, 128→256 kênh, bỏ qua bias): depthwise + pointwise. Tổng số tham số là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "33920"
+        },
+        {
+          "key": "B",
+          "text": "294912"
+        },
+        {
+          "key": "C",
+          "text": "32768"
+        },
+        {
+          "key": "D",
+          "text": "1152"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Depthwise = 3·3·128 = 1152; pointwise 1×1 = 128·256 = 32768; tổng = 33920, nhỏ hơn nhiều so với conv chuẩn 294912 (đây là tiết kiệm của MobileNet).",
+      "tags": [
+        "mobilenet",
+        "depthwise-separable",
+        "params"
+      ]
+    },
+    {
+      "id": "E48-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tỉ lệ chi phí tính toán của depthwise separable conv so với conv chuẩn (kernel 3×3, 256 kênh đầu ra) xấp xỉ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "≈ 1/Cout + 1/(F·F) = 0.115"
+        },
+        {
+          "key": "B",
+          "text": "≈ 9"
+        },
+        {
+          "key": "C",
+          "text": "≈ 1.0"
+        },
+        {
+          "key": "D",
+          "text": "≈ Cout/2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tỉ lệ chi phí = 1/Cout + 1/(F·F) = 1/256 + 1/9 ≈ 0.1150, nghĩa là tiết kiệm khoảng 8-9 lần FLOPs.",
+      "tags": [
+        "mobilenet",
+        "flops",
+        "depthwise-separable"
+      ]
+    },
+    {
+      "id": "E48-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv 3×3 padding 'same', stride 2, đầu vào 112×112. Kích thước đầu ra (theo quy ước 'same' = ceil(W/S))?",
+      "options": [
+        {
+          "key": "A",
+          "text": "56"
+        },
+        {
+          "key": "B",
+          "text": "112"
+        },
+        {
+          "key": "C",
+          "text": "55"
+        },
+        {
+          "key": "D",
+          "text": "57"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với padding 'same', kích thước đầu ra = ceil(W/S) = ceil(112/2) = 56.",
+      "tags": [
+        "conv-arithmetic",
+        "padding-same"
+      ]
+    },
+    {
+      "id": "E48-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao VGG ưa dùng nhiều lớp conv 3×3 xếp chồng thay cho một lớp conv lớn (ví dụ 7×7)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cùng receptive field nhưng ít tham số hơn và thêm phi tuyến"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng số tham số cho mạng mạnh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì kernel 3×3 chạy nhanh hơn trên CPU"
+        },
+        {
+          "key": "D",
+          "text": "Để giảm độ sâu của mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba lớp 3×3 có RF 7×7 nhưng ít tham số hơn một lớp 7×7 và chèn thêm hàm phi tuyến (ReLU) giữa các lớp, tăng khả năng biểu diễn.",
+      "tags": [
+        "vgg",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E48-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò chính của lớp 1×1 convolution trong kiến trúc Inception/bottleneck là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số kênh (giảm chiều) để tiết kiệm tính toán"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước không gian feature map"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hoàn toàn cho pooling"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa giá trị pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1×1 conv trộn thông tin giữa các kênh và giảm số kênh trước các conv đắt đỏ, giảm mạnh chi phí tính toán mà vẫn giữ kích thước không gian.",
+      "tags": [
+        "1x1-conv",
+        "inception",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E48-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý tưởng cốt lõi của khối residual (ResNet) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học hàm dư F(x) rồi cộng với đầu vào: H(x)=F(x)+x"
+        },
+        {
+          "key": "B",
+          "text": "Nhân đầu ra với đầu vào theo từng phần tử"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua hoàn toàn các lớp conv"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng pooling thay cho conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khối residual học phần dư F(x) và cộng skip connection x: H(x)=F(x)+x, giúp gradient lan truyền tốt và huấn luyện mạng rất sâu.",
+      "tags": [
+        "resnet",
+        "residual"
+      ]
+    },
+    {
+      "id": "E48-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lợi ích chính của skip connection (identity mapping) trong ResNet đối với việc huấn luyện là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm hiện tượng vanishing gradient, cho phép mạng rất sâu"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số tham số gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn nhu cầu BatchNorm"
+        },
+        {
+          "key": "D",
+          "text": "Làm feature map nhỏ lại nhanh hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Skip connection tạo đường tắt cho gradient, giảm vanishing gradient và làm mặt lỗi 'mượt' hơn, nhờ đó huấn luyện được mạng hàng trăm lớp.",
+      "tags": [
+        "resnet",
+        "skip-connection",
+        "training"
+      ]
+    },
+    {
+      "id": "E48-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng kết nối của DenseNet là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi lớp nhận đầu vào là nối (concatenate) feature của tất cả lớp trước"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi lớp chỉ cộng đầu ra của lớp ngay trước"
+        },
+        {
+          "key": "C",
+          "text": "Các lớp chia sẻ chung trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Không có kết nối giữa các lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DenseNet nối (concatenate) feature map của mọi lớp trước làm đầu vào, thúc đẩy tái sử dụng đặc trưng (feature reuse) và lan truyền gradient mạnh.",
+      "tags": [
+        "densenet",
+        "feature-reuse"
+      ]
+    },
+    {
+      "id": "E48-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DenseNet khác ResNet ở cách kết hợp đặc trưng như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "DenseNet nối kênh (concat) còn ResNet cộng phần tử (add)"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều cộng phần tử"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều nối kênh"
+        },
+        {
+          "key": "D",
+          "text": "DenseNet nhân, ResNet chia"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ResNet dùng phép cộng phần tử (element-wise add) cho skip; DenseNet dùng concatenation theo chiều kênh, nên số kênh tăng dần.",
+      "tags": [
+        "densenet",
+        "resnet"
+      ]
+    },
+    {
+      "id": "E48-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Depthwise separable convolution của MobileNet tách conv chuẩn thành hai bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Depthwise (theo từng kênh) rồi pointwise 1×1"
+        },
+        {
+          "key": "B",
+          "text": "Pooling rồi conv 5×5"
+        },
+        {
+          "key": "C",
+          "text": "Hai lớp 3×3 nối tiếp"
+        },
+        {
+          "key": "D",
+          "text": "Conv rồi transposed conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv chuẩn được tách thành depthwise (mỗi kênh một filter không gian) và pointwise 1×1 (trộn kênh), giảm mạnh FLOPs và tham số.",
+      "tags": [
+        "mobilenet",
+        "depthwise-separable"
+      ]
+    },
+    {
+      "id": "E48-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Compound scaling của EfficientNet điều chỉnh đồng thời những yếu tố nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ sâu (depth), độ rộng (width) và độ phân giải (resolution)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ độ sâu"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ kích thước batch"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "EfficientNet mở rộng cân đối depth, width và resolution theo một hệ số gộp (compound coefficient) thay vì chỉ tăng một chiều.",
+      "tags": [
+        "efficientnet",
+        "compound-scaling"
+      ]
+    },
+    {
+      "id": "E48-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Auxiliary classifiers trong GoogLeNet/Inception nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bổ sung tín hiệu gradient ở tầng giữa, chống vanishing gradient khi train"
+        },
+        {
+          "key": "B",
+          "text": "Thay thế lớp softmax cuối"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước ảnh đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Nén mô hình khi inference"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các classifier phụ ở giữa mạng đưa thêm gradient trong lúc huấn luyện (regularization, chống vanishing), và được bỏ đi khi suy luận.",
+      "tags": [
+        "inception",
+        "auxiliary-classifier"
+      ]
+    },
+    {
+      "id": "E48-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Global Average Pooling (GAP) thường thay thế cho thành phần nào ở cuối mạng CNN hiện đại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các lớp fully-connected lớn"
+        },
+        {
+          "key": "B",
+          "text": "Các lớp conv đầu tiên"
+        },
+        {
+          "key": "C",
+          "text": "BatchNorm"
+        },
+        {
+          "key": "D",
+          "text": "Hàm kích hoạt ReLU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAP lấy trung bình mỗi feature map thành một giá trị, thay cho FC lớn, giảm mạnh tham số và chống overfit (dùng trong NiN, ResNet, GoogLeNet).",
+      "tags": [
+        "gap",
+        "global-average-pooling"
+      ]
+    },
+    {
+      "id": "E48-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vị trí thường gặp của BatchNorm trong một khối conv hiện đại là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sau conv và trước hàm kích hoạt (Conv→BN→ReLU)"
+        },
+        {
+          "key": "B",
+          "text": "Trước cả lớp conv đầu tiên của ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ ở lớp softmax"
+        },
+        {
+          "key": "D",
+          "text": "Sau khi đã tính loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thứ tự phổ biến là Conv → BatchNorm → ReLU; BN chuẩn hóa phân phối kích hoạt giúp huấn luyện ổn định và nhanh hơn.",
+      "tags": [
+        "batchnorm",
+        "block"
+      ]
+    },
+    {
+      "id": "E48-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed convolution (deconvolution) thường dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng kích thước không gian (upsampling) feature map"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số kênh xuống 1"
+        },
+        {
+          "key": "C",
+          "text": "Tính loss phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transposed conv là phép upsampling có học, tăng độ phân giải không gian, phổ biến trong segmentation và generative model.",
+      "tags": [
+        "transposed-conv",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E48-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Grouped convolution hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia kênh đầu vào thành các nhóm, mỗi nhóm conv độc lập"
+        },
+        {
+          "key": "B",
+          "text": "Nhóm các ảnh trong batch lại"
+        },
+        {
+          "key": "C",
+          "text": "Gộp nhiều kernel thành một"
+        },
+        {
+          "key": "D",
+          "text": "Chia ảnh thành các ô lưới"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Grouped conv chia kênh thành G nhóm và conv riêng từng nhóm, giảm tham số/FLOPs khoảng G lần (xuất hiện ở AlexNet, ResNeXt, ShuffleNet).",
+      "tags": [
+        "grouped-conv",
+        "shufflenet"
+      ]
+    },
+    {
+      "id": "E48-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ConvNeXt là ví dụ về xu hướng nào trong thiết kế CNN hiện đại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CNN hiện đại hóa bằng cách học các thiết kế từ Vision Transformer"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn convolution"
+        },
+        {
+          "key": "C",
+          "text": "Quay lại dùng fully-connected"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng RNN cho ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ConvNeXt áp dụng các lựa chọn thiết kế từ ViT (patchify, kernel lớn, LayerNorm, GELU, ít activation) lên CNN thuần và đạt hiệu năng cạnh tranh.",
+      "tags": [
+        "convnext",
+        "modern-cnn"
+      ]
+    },
+    {
+      "id": "E48-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bottleneck block trong ResNet (1×1 → 3×3 → 1×1) tiết kiệm tính toán bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng 1×1 giảm chiều trước 3×3 rồi 1×1 khôi phục chiều"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ lớp 3×3 đi"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số kênh trước 3×3"
+        },
+        {
+          "key": "D",
+          "text": "Thay 3×3 bằng pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp 1×1 đầu giảm số kênh để conv 3×3 rẻ hơn, rồi 1×1 cuối khôi phục số kênh, giảm FLOPs cho khối sâu (ResNet-50/101/152).",
+      "tags": [
+        "resnet",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E48-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SqueezeNet đạt số tham số rất nhỏ chủ yếu nhờ kỹ thuật nào trong fire module?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Squeeze bằng 1×1 rồi expand bằng hỗn hợp 1×1 và 3×3"
+        },
+        {
+          "key": "B",
+          "text": "Dùng toàn lớp fully-connected lớn"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ phân giải đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua mọi lớp 3×3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fire module 'squeeze' số kênh bằng 1×1 rồi 'expand' bằng kết hợp 1×1 và 3×3, giúp giảm tham số mạnh mà giữ độ chính xác.",
+      "tags": [
+        "squeezenet",
+        "fire-module"
+      ]
+    },
+    {
+      "id": "E48-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ShuffleNet dùng channel shuffle để giải quyết vấn đề gì của grouped 1×1 conv?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép thông tin trao đổi giữa các nhóm kênh"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số lớp xuống một nửa"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ BatchNorm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Grouped conv chặn dòng thông tin giữa các nhóm; channel shuffle hoán vị kênh giữa các nhóm để thông tin lưu thông mà vẫn rẻ.",
+      "tags": [
+        "shufflenet",
+        "channel-shuffle"
+      ]
+    },
+    {
+      "id": "E48-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao mạng CNN rất sâu (chưa có residual) thường bị 'degradation' (lỗi train tăng khi thêm lớp)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khó tối ưu hàm identity bằng các lớp phi tuyến chồng nhau"
+        },
+        {
+          "key": "B",
+          "text": "Vì thiếu dữ liệu hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Vì dùng quá ít tham số"
+        },
+        {
+          "key": "D",
+          "text": "Vì ảnh đầu vào quá nhỏ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Degradation không phải do overfit mà do khó tối ưu; residual giúp các lớp dễ học hàm gần identity nên thêm lớp không làm hỏng.",
+      "tags": [
+        "resnet",
+        "degradation"
+      ]
+    },
+    {
+      "id": "E48-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pooling (max/average) đóng vai trò gì trong CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước không gian và tạo bất biến cục bộ với dịch chuyển"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số kênh"
+        },
+        {
+          "key": "C",
+          "text": "Học trọng số như conv"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hàm loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pooling hạ mẫu (downsample) feature map, giảm tính toán và tạo một mức bất biến với dịch chuyển nhỏ; không có tham số học.",
+      "tags": [
+        "pooling"
+      ]
+    },
+    {
+      "id": "E48-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao 1×1 conv được gọi là có khả năng 'trộn kênh' (cross-channel mixing)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi điểm đầu ra là tổ hợp tuyến tính của tất cả kênh tại cùng vị trí"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó trộn các vị trí không gian lân cận"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó hoán vị thứ tự pixel"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó chỉ sao chép một kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1×1 conv không nhìn lân cận không gian mà kết hợp tuyến tính toàn bộ kênh tại từng vị trí, hoạt động như một FC trên chiều kênh.",
+      "tags": [
+        "1x1-conv"
+      ]
+    },
+    {
+      "id": "E48-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Padding 'valid' khác 'same' ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'valid' không thêm đệm nên đầu ra nhỏ hơn; 'same' đệm để giữ kích thước (stride 1)"
+        },
+        {
+          "key": "B",
+          "text": "'valid' luôn cho đầu ra lớn hơn"
+        },
+        {
+          "key": "C",
+          "text": "'same' không dùng kernel"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai cho cùng kích thước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'valid' (P=0) làm feature map co lại; 'same' thêm padding sao cho đầu ra bằng đầu vào khi stride=1.",
+      "tags": [
+        "padding",
+        "conv-arithmetic"
+      ]
+    },
+    {
+      "id": "E48-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong AlexNet, kỹ thuật nào sau đây góp phần chính giúp huấn luyện sâu trên GPU thành công (so với trước đó)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng ReLU thay cho sigmoid/tanh và dropout"
+        },
+        {
+          "key": "B",
+          "text": "Dùng toàn bộ lớp pooling thay conv"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn fully-connected"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AlexNet dùng ReLU (hội tụ nhanh, giảm vanishing), dropout chống overfit, và huấn luyện trên GPU — bước ngoặt của deep learning thị giác.",
+      "tags": [
+        "alexnet",
+        "relu",
+        "dropout"
+      ]
+    },
+    {
+      "id": "E48-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Inception module cùng lúc dùng nhiều nhánh kernel khác kích thước (1×1, 3×3, 5×5, pooling) nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nắm bắt đặc trưng ở nhiều tỉ lệ (multi-scale) rồi nối lại"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số lớp xuống 1"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ pooling"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ để tăng tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Multi-branch cho phép mạng học đặc trưng ở nhiều tỉ lệ không gian cùng lúc; đầu ra các nhánh được nối theo chiều kênh.",
+      "tags": [
+        "inception",
+        "multi-scale"
+      ]
+    },
+    {
+      "id": "E48-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường KHÔNG dùng bias trong lớp conv ngay trước BatchNorm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BatchNorm có tham số dịch (beta) làm bias của conv trở nên thừa"
+        },
+        {
+          "key": "B",
+          "text": "Vì bias làm mạng chậm gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Vì BN cần bias âm"
+        },
+        {
+          "key": "D",
+          "text": "Bias luôn bị cấm trong CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BN trừ trung bình và có tham số shift beta, nên bias của conv bị triệt tiêu/thừa; bỏ bias giúp tiết kiệm tham số mà không mất gì.",
+      "tags": [
+        "batchnorm",
+        "bias"
+      ]
+    },
+    {
+      "id": "E48-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "EfficientNet xuất phát từ baseline nào được tìm bằng neural architecture search?",
+      "options": [
+        {
+          "key": "A",
+          "text": "EfficientNet-B0 (dựa trên MBConv của MobileNet)"
+        },
+        {
+          "key": "B",
+          "text": "VGG-16"
+        },
+        {
+          "key": "C",
+          "text": "LeNet-5"
+        },
+        {
+          "key": "D",
+          "text": "AlexNet"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Baseline EfficientNet-B0 được tìm bằng NAS, dùng khối MBConv (depthwise separable + squeeze-excitation), sau đó scale gộp lên B1–B7.",
+      "tags": [
+        "efficientnet",
+        "nas"
+      ]
+    },
+    {
+      "id": "E48-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Squeeze-and-Excitation (SE) block bổ sung cơ chế gì cho CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tái cân chỉnh trọng số theo từng kênh (channel attention)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Thay pooling bằng conv"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ skip connection"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SE block học hệ số quan trọng cho mỗi kênh (channel-wise attention) qua squeeze (GAP) và excitation (FC), nhân lại vào feature map.",
+      "tags": [
+        "se-block",
+        "attention"
+      ]
+    },
+    {
+      "id": "E48-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LeNet-5 là kiến trúc tiên phong chủ yếu được áp dụng cho bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhận dạng chữ số viết tay (MNIST)"
+        },
+        {
+          "key": "B",
+          "text": "Dịch máy"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện đối tượng thời gian thực"
+        },
+        {
+          "key": "D",
+          "text": "Sinh ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LeNet-5 (LeCun) là CNN kinh điển cho nhận dạng chữ số viết tay, đặt nền móng cho kiến trúc conv-pool-FC.",
+      "tags": [
+        "lenet",
+        "history"
+      ]
+    },
+    {
+      "id": "E48-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi feature map qua nhiều lớp với stride, receptive field thay đổi thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng dần; stride làm RF mở rộng nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Luôn không đổi"
+        },
+        {
+          "key": "C",
+          "text": "Giảm dần về 1×1"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ phụ thuộc số kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lớp tăng RF; stride nhân thêm bước nhảy (jump) nên các lớp sâu 'nhìn' vùng ảnh gốc lớn hơn nhiều.",
+      "tags": [
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E48-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao 1×1 conv trong bottleneck giúp Inception/ResNet sâu mà vẫn khả thi về tính toán?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số kênh đầu vào cho conv 3×3/5×5 đắt đỏ"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước kernel"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ ReLU"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1×1 giảm chiều kênh trước các conv không gian lớn nên giảm mạnh FLOPs, cho phép xây mạng sâu/rộng trong ngân sách tính toán.",
+      "tags": [
+        "1x1-conv",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E48-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So sánh: kiến trúc nào trong số sau thường có SỐ THAM SỐ lớn nhất do dùng nhiều lớp fully-connected?",
+      "options": [
+        {
+          "key": "A",
+          "text": "VGG-16"
+        },
+        {
+          "key": "B",
+          "text": "ResNet-50"
+        },
+        {
+          "key": "C",
+          "text": "MobileNetV2"
+        },
+        {
+          "key": "D",
+          "text": "SqueezeNet"
+        }
+      ],
+      "answer": "A",
+      "explanation": "VGG-16 (~138M tham số) nặng chủ yếu vì các lớp FC lớn cuối mạng; ResNet/MobileNet/SqueezeNet nhẹ hơn nhiều nhờ GAP và thiết kế hiệu quả.",
+      "tags": [
+        "vgg",
+        "params",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E48-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong depthwise convolution, mỗi filter áp dụng cho bao nhiêu kênh đầu vào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đúng một kênh"
+        },
+        {
+          "key": "B",
+          "text": "Tất cả các kênh"
+        },
+        {
+          "key": "C",
+          "text": "Một nửa số kênh"
+        },
+        {
+          "key": "D",
+          "text": "Hai kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Depthwise conv dùng một filter không gian riêng cho mỗi kênh đầu vào (không trộn kênh); việc trộn kênh để cho pointwise 1×1.",
+      "tags": [
+        "mobilenet",
+        "depthwise"
+      ]
+    },
+    {
+      "id": "E48-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao Global Average Pooling cho phép mạng nhận ảnh đầu vào ở nhiều kích thước hơn so với FC?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GAP trung bình mỗi feature map về 1 giá trị, không phụ thuộc kích thước không gian"
+        },
+        {
+          "key": "B",
+          "text": "Vì GAP có nhiều tham số hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì GAP thay đổi số kênh"
+        },
+        {
+          "key": "D",
+          "text": "Vì FC không cần kích thước cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAP gộp toàn bộ chiều không gian thành một vô hướng mỗi kênh nên đầu ra có chiều cố định bằng số kênh, không phụ thuộc H×W đầu vào.",
+      "tags": [
+        "gap"
+      ]
+    },
+    {
+      "id": "E48-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong ResNet, khi số kênh của F(x) khác x, skip connection xử lý thế nào để cộng được?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng projection 1×1 conv để khớp số kênh/kích thước"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua phép cộng"
+        },
+        {
+          "key": "C",
+          "text": "Cắt bớt kênh của x ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Nhân x với 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi chiều không khớp (do đổi số kênh hay downsample), dùng 1×1 conv projection (option B trong bài báo) để đưa x về cùng chiều rồi cộng.",
+      "tags": [
+        "resnet",
+        "projection"
+      ]
+    },
+    {
+      "id": "E48-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc điểm 'growth rate' (k) trong DenseNet biểu thị điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số feature map mỗi lớp dense thêm vào"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ học của optimizer"
+        },
+        {
+          "key": "C",
+          "text": "Số lớp pooling"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Growth rate k là số kênh mới mà mỗi lớp đóng góp vào tập feature nối chung; k nhỏ vẫn hiệu quả nhờ tái sử dụng đặc trưng.",
+      "tags": [
+        "densenet",
+        "growth-rate"
+      ]
+    },
+    {
+      "id": "E48-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transition layer trong DenseNet (giữa các dense block) thường gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1×1 conv (nén kênh) và average pooling (giảm không gian)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một lớp softmax"
+        },
+        {
+          "key": "C",
+          "text": "Transposed conv"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp FC lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transition layer dùng 1×1 conv để nén số kênh và 2×2 average pooling để giảm kích thước không gian giữa các dense block.",
+      "tags": [
+        "densenet",
+        "transition"
+      ]
+    },
+    {
+      "id": "E48-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với conv chuẩn, grouped conv với G nhóm giảm số tham số khoảng bao nhiêu lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng G lần"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng G² lần"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Tăng G lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi nhóm chỉ kết nối Cin/G kênh vào tới Cout/G kênh ra, nên tổng tham số giảm xấp xỉ hệ số G so với conv đầy đủ.",
+      "tags": [
+        "grouped-conv",
+        "params"
+      ]
+    },
+    {
+      "id": "E48-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao xếp chồng lớp 3×3 (thay 5×5) lại thêm 'phi tuyến' hữu ích?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi lớp có ReLU riêng nên hàm biểu diễn phức tạp hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì 3×3 không cần activation"
+        },
+        {
+          "key": "C",
+          "text": "Vì giảm số lớp"
+        },
+        {
+          "key": "D",
+          "text": "Vì tăng kích thước ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai lớp 3×3 chèn hai ReLU thay vì một, làm hàm tổng hợp phi tuyến hơn so với một lớp 5×5 đơn — tăng sức biểu diễn.",
+      "tags": [
+        "vgg",
+        "nonlinearity"
+      ]
+    },
+    {
+      "id": "E48-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đối với phân loại ảnh, vì sao CNN hiệu quả hơn MLP thuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số và tính cục bộ giảm tham số, khai thác cấu trúc không gian"
+        },
+        {
+          "key": "B",
+          "text": "Vì MLP không thể huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Vì CNN không có tham số"
+        },
+        {
+          "key": "D",
+          "text": "Vì CNN bỏ qua pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv chia sẻ kernel trên toàn ảnh (weight sharing) và khai thác tính cục bộ + bất biến dịch chuyển, giảm mạnh tham số so với MLP nối đầy đủ.",
+      "tags": [
+        "cnn",
+        "weight-sharing"
+      ]
+    },
+    {
+      "id": "E48-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ResNeXt mở rộng ResNet bằng khái niệm 'cardinality'. Cardinality là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số nhánh/nhóm biến đổi song song trong một khối"
+        },
+        {
+          "key": "B",
+          "text": "Số lớp trong mạng"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Số epoch huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cardinality là số đường biến đổi song song (grouped conv) trong block; tăng cardinality cải thiện độ chính xác hiệu quả hơn tăng depth/width.",
+      "tags": [
+        "resnext",
+        "cardinality"
+      ]
+    },
+    {
+      "id": "E48-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong MobileNetV2, 'inverted residual' khác bottleneck của ResNet ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mở rộng kênh ở giữa rồi nén lại, skip nối giữa các lớp hẹp"
+        },
+        {
+          "key": "B",
+          "text": "Giảm kênh ở giữa như ResNet"
+        },
+        {
+          "key": "C",
+          "text": "Không có skip connection"
+        },
+        {
+          "key": "D",
+          "text": "Dùng FC thay conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Inverted residual mở rộng (expand) kênh ở giữa cho depthwise rồi nén (project) xuống, skip connection nối các lớp 'mỏng' — ngược với bottleneck thường.",
+      "tags": [
+        "mobilenet",
+        "inverted-residual"
+      ]
+    },
+    {
+      "id": "E48-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao dùng nhiều conv stride thay cho pooling đôi khi được ưa chuộng trong CNN hiện đại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Downsample bằng conv stride có học, linh hoạt hơn pooling cố định"
+        },
+        {
+          "key": "B",
+          "text": "Vì pooling làm tăng tham số"
+        },
+        {
+          "key": "C",
+          "text": "Vì conv stride không giảm kích thước"
+        },
+        {
+          "key": "D",
+          "text": "Vì pooling không khả vi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv stride vừa downsample vừa học đặc trưng (có tham số), trong khi pooling cố định không học; nhiều kiến trúc hiện đại thay pooling bằng strided conv.",
+      "tags": [
+        "pooling",
+        "strided-conv"
+      ]
+    },
+    {
+      "id": "E48-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi tăng độ phân giải ảnh đầu vào (resolution) trong compound scaling, vì sao thường cần tăng cả depth và width?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh lớn hơn cần receptive field lớn hơn (depth) và nhiều kênh hơn (width) để nắm chi tiết"
+        },
+        {
+          "key": "B",
+          "text": "Vì resolution không liên quan gì"
+        },
+        {
+          "key": "C",
+          "text": "Vì width phải giảm"
+        },
+        {
+          "key": "D",
+          "text": "Để giảm tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh phân giải cao có nhiều chi tiết và vùng lớn hơn, cần mạng sâu hơn (RF lớn) và rộng hơn (nhiều kênh) để tận dụng — cơ sở của compound scaling.",
+      "tags": [
+        "efficientnet",
+        "compound-scaling"
+      ]
+    },
+    {
+      "id": "E48-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm kích hoạt nào được ConvNeXt dùng thay cho ReLU để học theo phong cách Transformer?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GELU"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Tanh"
+        },
+        {
+          "key": "D",
+          "text": "Hardmax"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ConvNeXt dùng GELU (như trong Transformer) thay ReLU, cùng LayerNorm thay BatchNorm và ít activation hơn mỗi block.",
+      "tags": [
+        "convnext",
+        "gelu"
+      ]
+    },
+    {
+      "id": "E48-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một feature map kích thước H×W×C qua Global Average Pooling cho ra vector kích thước bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "C (một giá trị mỗi kênh)"
+        },
+        {
+          "key": "B",
+          "text": "H×W"
+        },
+        {
+          "key": "C",
+          "text": "H×W×C"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAP lấy trung bình toàn bộ H×W của mỗi kênh nên cho vector độ dài C, thường nối thẳng vào lớp phân loại.",
+      "tags": [
+        "gap"
+      ]
+    },
+    {
+      "id": "E48-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao residual block giúp 'ensemble' ngầm các đường đi (theo cách diễn giải phổ biến)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi skip tạo nhiều đường lan truyền có/không qua block, như tổ hợp nhiều mạng nông"
+        },
+        {
+          "key": "B",
+          "text": "Vì mỗi block là một mạng độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó nhân tham số lên"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó bỏ qua mọi conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Skip connection tạo nhiều đường truyền (qua hoặc bỏ qua block), nên ResNet hành xử gần như tổ hợp (ensemble) ngầm của nhiều mạng nông hơn.",
+      "tags": [
+        "resnet",
+        "ensemble"
+      ]
+    },
+    {
+      "id": "E48-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lớp conv 3×3, 512→512 kênh, có bias. So với lớp 1×1 cùng số kênh, lớp 3×3 có số tham số gấp khoảng mấy lần (bỏ qua bias)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "9 lần"
+        },
+        {
+          "key": "B",
+          "text": "3 lần"
+        },
+        {
+          "key": "C",
+          "text": "1 lần"
+        },
+        {
+          "key": "D",
+          "text": "27 lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tham số tỉ lệ với F·F: 3×3 có 9 vị trí so với 1 của 1×1, nên gấp khoảng 9 lần (cùng Cin, Cout).",
+      "tags": [
+        "params",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E48-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cơ chế residual learning trong ResNet: khối residual học gì, vì sao H(x)=F(x)+x giúp huấn luyện được mạng rất sâu, và liên hệ tới vấn đề degradation và lan truyền gradient.",
+      "modelAnswer": "Khối residual không học trực tiếp ánh xạ mong muốn H(x) mà học phần dư F(x)=H(x)-x, rồi đầu ra là F(x)+x qua skip connection. Khi ánh xạ tối ưu gần với identity, mạng chỉ cần đẩy F(x) về 0 — dễ tối ưu hơn nhiều so với học identity bằng các lớp phi tuyến chồng nhau. Điều này giải quyết hiện tượng degradation: trước ResNet, mạng càng sâu thì lỗi huấn luyện càng tăng (không phải do overfit) vì khó tối ưu. Skip connection tạo đường tắt cho gradient: trong backprop, gradient có thành phần đi thẳng qua identity (đạo hàm 1), giảm vanishing gradient, nhờ đó huấn luyện được mạng hàng trăm lớp (ResNet-50/101/152). Khi số kênh không khớp, dùng 1×1 conv projection để khớp chiều trước khi cộng.",
+      "rubric": [
+        "Nêu được học phần dư F(x)=H(x)-x và đầu ra F(x)+x",
+        "Giải thích vì sao dễ học identity / chống degradation",
+        "Nêu lan truyền gradient qua skip (đạo hàm identity =1) chống vanishing",
+        "Liên hệ huấn luyện mạng rất sâu / projection khi lệch chiều"
+      ],
+      "tags": [
+        "resnet",
+        "residual",
+        "essay"
+      ]
+    },
+    {
+      "id": "E48-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích depthwise separable convolution của MobileNet tiết kiệm tính toán/tham số như thế nào. Cho ví dụ cụ thể với kernel 3×3, Cin=128, Cout=256 trên feature map 14×14: tính số tham số (bỏ bias) của conv chuẩn và của depthwise separable, rồi tính tỉ lệ tiết kiệm.",
+      "modelAnswer": "Conv chuẩn dùng một filter F×F×Cin cho mỗi kênh ra, số tham số = F·F·Cin·Cout = 3·3·128·256 = 294912. Depthwise separable tách thành hai bước: (1) depthwise — mỗi kênh đầu vào có một filter 3×3 riêng, tham số = F·F·Cin = 3·3·128 = 1152 (chỉ lọc không gian, không trộn kênh); (2) pointwise 1×1 — trộn kênh, tham số = 1·1·Cin·Cout = 128·256 = 32768. Tổng = 1152 + 32768 = 33920 tham số, so với 294912 của conv chuẩn, tức chỉ khoảng 11.5% (tiết kiệm ~8.7 lần). Tổng quát tỉ lệ chi phí = 1/Cout + 1/(F·F) = 1/256 + 1/9 ≈ 0.115. FLOPs cũng giảm theo cùng tỉ lệ vì áp dụng trên cùng số vị trí 14×14. Đây là lý do MobileNet rất nhẹ và phù hợp thiết bị di động.",
+      "rubric": [
+        "Phân tách depthwise (lọc không gian từng kênh) + pointwise 1×1 (trộn kênh)",
+        "Tính đúng tham số conv chuẩn 294912 và depthwise separable 33920",
+        "Nêu tỉ lệ ~0.115 hay tiết kiệm ~8-9 lần (= 1/Cout + 1/(F·F))",
+        "Kết luận MobileNet nhẹ phù hợp di động"
+      ],
+      "tags": [
+        "mobilenet",
+        "depthwise-separable",
+        "essay",
+        "computation"
+      ]
+    },
+    {
+      "id": "E48-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày cấu trúc và động lực của Inception module (GoogLeNet): vì sao dùng nhiều nhánh kernel khác kích thước, vai trò của 1×1 conv giảm chiều, và auxiliary classifiers dùng để làm gì.",
+      "modelAnswer": "Inception module gồm nhiều nhánh song song với kernel khác kích thước (1×1, 3×3, 5×5) và một nhánh pooling, đầu ra các nhánh được nối (concatenate) theo chiều kênh. Động lực: nắm bắt đặc trưng ở nhiều tỉ lệ không gian (multi-scale) cùng một lúc thay vì chọn một kích thước kernel duy nhất. Nếu áp dụng 3×3, 5×5 trực tiếp lên feature map nhiều kênh thì chi phí rất lớn, nên đặt 1×1 conv giảm chiều (bottleneck) trước các conv đắt đỏ để giảm số kênh đầu vào, cắt mạnh FLOPs và tham số. Auxiliary classifiers là các nhánh phân loại phụ gắn ở tầng giữa mạng trong lúc huấn luyện, đưa thêm tín hiệu gradient (chống vanishing) và đóng vai trò regularization; chúng bị loại bỏ khi suy luận. Nhờ các kỹ thuật này GoogLeNet sâu nhưng tham số ít hơn AlexNet/VGG.",
+      "rubric": [
+        "Mô tả multi-branch (1×1,3×3,5×5,pool) rồi concat",
+        "Giải thích vì sao multi-scale hữu ích",
+        "Nêu vai trò 1×1 giảm chiều trước conv đắt để tiết kiệm tính toán",
+        "Giải thích auxiliary classifiers thêm gradient/regularization, bỏ khi inference"
+      ],
+      "tags": [
+        "inception",
+        "googlenet",
+        "essay"
+      ]
+    },
+    {
+      "id": "E48-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích compound scaling của EfficientNet: nó khác với cách scale truyền thống ở điểm nào, vì sao cần mở rộng cân đối depth/width/resolution, và mối quan hệ với hệ số gộp (compound coefficient).",
+      "modelAnswer": "Cách scale truyền thống chỉ tăng một chiều: hoặc sâu hơn (depth), hoặc rộng hơn (width, nhiều kênh), hoặc ảnh phân giải cao hơn (resolution) — dẫn tới bão hòa độ chính xác và kém hiệu quả. Compound scaling của EfficientNet mở rộng đồng thời cả ba theo một hệ số gộp phi: depth = α^phi, width = β^phi, resolution = γ^phi, với α·β²·γ² ≈ 2 (ràng buộc để FLOPs tăng khoảng 2^phi). Lý do cần cân đối: ảnh phân giải cao hơn cần receptive field lớn hơn (tăng depth) và nhiều kênh hơn (tăng width) để nắm chi tiết; tăng lệch một chiều sẽ lãng phí. Bắt đầu từ baseline EfficientNet-B0 (tìm bằng NAS, dùng khối MBConv + squeeze-excitation), tăng phi cho ra B1–B7, đạt độ chính xác cao với ít FLOPs/tham số hơn các mạng cùng cấp.",
+      "rubric": [
+        "Phân biệt với scale một chiều truyền thống",
+        "Nêu mở rộng đồng thời depth/width/resolution",
+        "Nêu công thức theo hệ số gộp phi và ràng buộc α·β²·γ²≈2",
+        "Giải thích vì sao cân đối + baseline B0 (NAS, MBConv)"
+      ],
+      "tags": [
+        "efficientnet",
+        "compound-scaling",
+        "essay"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1827 @@
+{
+  "id": "exam-52",
+  "title": "Python Nâng cao #2 — itertools, functools, dataclass, descriptor, context (Đọc code)",
+  "description": "Đề ôn tập tập trung vào thư viện chuẩn và tính năng nâng cao của Python: itertools, functools, collections, dataclasses, contextlib, descriptor, enum, generator và pattern matching. Phần lớn câu hỏi yêu cầu đọc đoạn code và dự đoán kết quả in ra. Độ khó cao, phù hợp ôn luyện chuyên sâu.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E52-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import product\nxs = list(product([0,1], repeat=2))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(0, 0), (0, 1), (1, 0), (1, 1)]"
+        },
+        {
+          "key": "B",
+          "text": "[(0, 1), (1, 0)]"
+        },
+        {
+          "key": "C",
+          "text": "[(0, 0), (1, 1)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 1), (1, 0), (0, 1), (0, 0)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "product([0,1], repeat=2) sinh tích Descartes đếm theo thứ tự như đồng hồ số nhị phân: 00, 01, 10, 11.",
+      "tags": [
+        "itertools",
+        "product"
+      ]
+    },
+    {
+      "id": "E52-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import permutations\nxs = list(permutations('ABC', 2))\nprint(len(xs), xs[0], xs[-1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6 ('A', 'B') ('C', 'B')"
+        },
+        {
+          "key": "B",
+          "text": "3 ('A', 'B') ('B', 'C')"
+        },
+        {
+          "key": "C",
+          "text": "9 ('A', 'A') ('C', 'C')"
+        },
+        {
+          "key": "D",
+          "text": "6 ('A', 'A') ('C', 'B')"
+        }
+      ],
+      "answer": "A",
+      "explanation": "permutations('ABC',2) có 3*2=6 hoán vị có thứ tự, phần tử đầu là ('A','B') và phần tử cuối là ('C','B').",
+      "tags": [
+        "itertools",
+        "permutations"
+      ]
+    },
+    {
+      "id": "E52-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import combinations\nxs = list(combinations(range(4), 2))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]"
+        },
+        {
+          "key": "B",
+          "text": "[(0, 0), (1, 1), (2, 2), (3, 3)]"
+        },
+        {
+          "key": "C",
+          "text": "[(0, 1), (1, 2), (2, 3)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 0), (2, 0), (3, 0), (2, 1), (3, 1), (3, 2)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "combinations chọn tập con không quan tâm thứ tự, các chỉ số tăng dần; C(4,2)=6 cặp.",
+      "tags": [
+        "itertools",
+        "combinations"
+      ]
+    },
+    {
+      "id": "E52-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import combinations_with_replacement as cwr\nxs = list(cwr('AB', 2))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('A', 'A'), ('A', 'B'), ('B', 'B')]"
+        },
+        {
+          "key": "B",
+          "text": "[('A', 'B'), ('B', 'A')]"
+        },
+        {
+          "key": "C",
+          "text": "[('A', 'B')]"
+        },
+        {
+          "key": "D",
+          "text": "[('A', 'A'), ('A', 'B'), ('B', 'A'), ('B', 'B')]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "combinations_with_replacement cho phép lặp lại phần tử nhưng vẫn theo thứ tự không giảm: AA, AB, BB.",
+      "tags": [
+        "itertools",
+        "combinations_with_replacement"
+      ]
+    },
+    {
+      "id": "E52-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import groupby\ndata = [1,1,2,2,2,1,3,3]\nout = [(k, len(list(g))) for k, g in groupby(data)]\nprint(out)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(1, 2), (2, 3), (1, 1), (3, 2)]"
+        },
+        {
+          "key": "B",
+          "text": "[(1, 3), (2, 3), (3, 2)]"
+        },
+        {
+          "key": "C",
+          "text": "[(1, 2), (2, 3), (3, 2)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 3), (2, 3)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "groupby chỉ gom các phần tử LIỀN KỀ bằng nhau, nên nhóm 1 xuất hiện hai lần do bị nhóm 2 chen giữa.",
+      "tags": [
+        "itertools",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E52-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import accumulate\nimport operator\nxs = list(accumulate([1,2,3,4], operator.mul))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 6, 24]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 6, 10]"
+        },
+        {
+          "key": "C",
+          "text": "[24, 24, 24, 24]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "accumulate với operator.mul tính tích lũy tiến: 1, 1*2, 1*2*3, 1*2*3*4 = 1,2,6,24.",
+      "tags": [
+        "itertools",
+        "accumulate"
+      ]
+    },
+    {
+      "id": "E52-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import chain\nxs = list(chain.from_iterable([[1,2],[3],[4,5]]))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3, 4, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[[1, 2], [3], [4, 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[5, 4, 3, 2, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "chain.from_iterable làm phẳng (flatten) một mức các iterable con thành một chuỗi liên tiếp.",
+      "tags": [
+        "itertools",
+        "chain"
+      ]
+    },
+    {
+      "id": "E52-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import islice, count\nxs = list(islice(count(10, 2), 4))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 12, 14, 16]"
+        },
+        {
+          "key": "B",
+          "text": "[10, 11, 12, 13]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 4, 6, 8]"
+        },
+        {
+          "key": "D",
+          "text": "[10, 12, 14, 16, 18]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "count(10,2) là chuỗi vô hạn 10,12,14,...; islice lấy 4 phần tử đầu tiên.",
+      "tags": [
+        "itertools",
+        "islice",
+        "count"
+      ]
+    },
+    {
+      "id": "E52-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import cycle, islice\nxs = list(islice(cycle('AB'), 5))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['A', 'B', 'A', 'B', 'A']"
+        },
+        {
+          "key": "B",
+          "text": "['A', 'B']"
+        },
+        {
+          "key": "C",
+          "text": "['A', 'A', 'B', 'B', 'A']"
+        },
+        {
+          "key": "D",
+          "text": "['B', 'A', 'B', 'A', 'B']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cycle('AB') lặp vô hạn A,B,A,B,...; islice cắt 5 phần tử đầu là A B A B A.",
+      "tags": [
+        "itertools",
+        "cycle",
+        "islice"
+      ]
+    },
+    {
+      "id": "E52-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import takewhile, dropwhile\ndata = [1,2,3,8,1,2]\na = list(takewhile(lambda x: x < 5, data))\nb = list(dropwhile(lambda x: x < 5, data))\nprint(a, b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3] [8, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3, 1, 2] [8]"
+        },
+        {
+          "key": "C",
+          "text": "[8] [1, 2, 3, 1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3] [1, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "takewhile lấy đến khi gặp phần tử đầu tiên không thỏa; dropwhile bỏ đến đó rồi giữ phần còn lại nguyên vẹn.",
+      "tags": [
+        "itertools",
+        "takewhile",
+        "dropwhile"
+      ]
+    },
+    {
+      "id": "E52-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import zip_longest\nxs = list(zip_longest([1,2,3],['a','b'], fillvalue='?'))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(1, 'a'), (2, 'b'), (3, '?')]"
+        },
+        {
+          "key": "B",
+          "text": "[(1, 'a'), (2, 'b')]"
+        },
+        {
+          "key": "C",
+          "text": "[(1, 'a'), (2, 'b'), (3, None)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 'a'), (2, 'b'), ('?', 3)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "zip_longest ghép tới iterable dài nhất, điền fillvalue='?' cho các vị trí thiếu.",
+      "tags": [
+        "itertools",
+        "zip_longest"
+      ]
+    },
+    {
+      "id": "E52-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import starmap\nxs = list(starmap(pow, [(2,3),(3,2),(10,0)]))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[8, 9, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[(2, 3), (3, 2), (10, 0)]"
+        },
+        {
+          "key": "C",
+          "text": "[6, 6, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[8, 6, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "starmap mở (unpack) mỗi tuple làm đối số cho pow: 2**3=8, 3**2=9, 10**0=1.",
+      "tags": [
+        "itertools",
+        "starmap"
+      ]
+    },
+    {
+      "id": "E52-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom itertools import pairwise\nxs = list(pairwise([10,20,30,40]))\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(10, 20), (20, 30), (30, 40)]"
+        },
+        {
+          "key": "B",
+          "text": "[(10, 20), (30, 40)]"
+        },
+        {
+          "key": "C",
+          "text": "[(20, 10), (30, 20), (40, 30)]"
+        },
+        {
+          "key": "D",
+          "text": "[(10, 40)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pairwise (Python 3.10+) sinh các cặp phần tử liền kề chồng lấn nhau.",
+      "tags": [
+        "itertools",
+        "pairwise"
+      ]
+    },
+    {
+      "id": "E52-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import reduce\nr = reduce(lambda a,b: a+b, [1,2,3,4], 100)\nprint(r)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "110"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "100"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reduce với initial=100 bắt đầu tích lũy từ 100 rồi cộng dần 1+2+3+4=10, tổng là 110.",
+      "tags": [
+        "functools",
+        "reduce"
+      ]
+    },
+    {
+      "id": "E52-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import partial\nf = partial(int, base=2)\nprint(f('1010'), f('11'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 3"
+        },
+        {
+          "key": "B",
+          "text": "1010 11"
+        },
+        {
+          "key": "C",
+          "text": "2 2"
+        },
+        {
+          "key": "D",
+          "text": "10 11"
+        }
+      ],
+      "answer": "A",
+      "explanation": "partial cố định base=2, nên int('1010',2)=10 và int('11',2)=3 (đọc số nhị phân).",
+      "tags": [
+        "functools",
+        "partial"
+      ]
+    },
+    {
+      "id": "E52-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import lru_cache\ncalls = []\n@lru_cache(maxsize=None)\ndef f(n):\n    calls.append(n)\n    return n*n\nf(3); f(3); f(4)\nprint(f(3), len(calls))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "9 2"
+        },
+        {
+          "key": "B",
+          "text": "9 3"
+        },
+        {
+          "key": "C",
+          "text": "9 1"
+        },
+        {
+          "key": "D",
+          "text": "16 2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "lru_cache lưu kết quả nên f(3) chỉ thực thi thân hàm một lần; calls ghi nhận 3 và 4, tổng 2 lần.",
+      "tags": [
+        "functools",
+        "lru_cache"
+      ]
+    },
+    {
+      "id": "E52-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import cached_property\nclass C:\n    def __init__(self): self.n = 0\n    @cached_property\n    def val(self):\n        self.n += 1\n        return 42\nc = C()\nprint(c.val, c.val, c.n)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "42 42 1"
+        },
+        {
+          "key": "B",
+          "text": "42 42 2"
+        },
+        {
+          "key": "C",
+          "text": "42 84 2"
+        },
+        {
+          "key": "D",
+          "text": "42 42 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cached_property tính giá trị một lần rồi lưu vào __dict__ của instance, nên thân hàm chỉ chạy 1 lần dù truy cập nhiều lần.",
+      "tags": [
+        "functools",
+        "cached_property"
+      ]
+    },
+    {
+      "id": "E52-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import total_ordering\n@total_ordering\nclass N:\n    def __init__(self, v): self.v = v\n    def __eq__(self, o): return self.v == o.v\n    def __lt__(self, o): return self.v < o.v\nprint(N(2) <= N(3), N(5) > N(1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True True"
+        },
+        {
+          "key": "B",
+          "text": "False False"
+        },
+        {
+          "key": "C",
+          "text": "True False"
+        },
+        {
+          "key": "D",
+          "text": "False True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "total_ordering suy ra các toán tử so sánh còn lại từ __eq__ và __lt__: 2<=3 True và 5>1 True.",
+      "tags": [
+        "functools",
+        "total_ordering"
+      ]
+    },
+    {
+      "id": "E52-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import singledispatch\n@singledispatch\ndef fmt(x): return f\"obj:{x}\"\n@fmt.register\ndef _(x: int): return f\"int:{x}\"\n@fmt.register\ndef _(x: list): return f\"list:{len(x)}\"\nprint(fmt(5), fmt([1,2,3]), fmt('hi'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "int:5 list:3 obj:hi"
+        },
+        {
+          "key": "B",
+          "text": "obj:5 obj:[1, 2, 3] obj:hi"
+        },
+        {
+          "key": "C",
+          "text": "int:5 list:3 int:hi"
+        },
+        {
+          "key": "D",
+          "text": "obj:5 list:3 obj:hi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "singledispatch chọn cài đặt theo kiểu của đối số đầu tiên: int->int:, list->list:, còn lại dùng hàm gốc obj:.",
+      "tags": [
+        "functools",
+        "singledispatch"
+      ]
+    },
+    {
+      "id": "E52-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom functools import wraps\ndef deco(f):\n    @wraps(f)\n    def w(*a, **k): return f(*a, **k)\n    return w\n@deco\ndef greet():\n    \"\"\"say hi\"\"\"\n    return 1\nprint(greet.__name__, greet.__doc__)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "greet say hi"
+        },
+        {
+          "key": "B",
+          "text": "w say hi"
+        },
+        {
+          "key": "C",
+          "text": "w None"
+        },
+        {
+          "key": "D",
+          "text": "greet None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "wraps sao chép metadata (__name__, __doc__,...) từ hàm gốc sang wrapper nên tên vẫn là 'greet' và docstring giữ nguyên.",
+      "tags": [
+        "functools",
+        "wraps"
+      ]
+    },
+    {
+      "id": "E52-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import Counter\na = Counter('aabbbc')\nb = Counter('abbd')\nprint(a - b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "Counter({'a': 1, 'b': 1, 'c': 1})"
+        },
+        {
+          "key": "B",
+          "text": "Counter({'b': 2, 'a': 1, 'c': 1})"
+        },
+        {
+          "key": "C",
+          "text": "Counter({'a': 3, 'b': 4, 'c': 1, 'd': 1})"
+        },
+        {
+          "key": "D",
+          "text": "Counter({'a': 1, 'b': 1, 'c': 1, 'd': -1})"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép trừ Counter giữ lại đếm dương: a có a:2 b:3 c:1; b có a:1 b:2 d:1; hiệu là a:1 b:1 c:1 (bỏ d:-1).",
+      "tags": [
+        "collections",
+        "Counter"
+      ]
+    },
+    {
+      "id": "E52-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import Counter\nc = Counter('mississippi')\nprint(c.most_common(2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('i', 4), ('s', 4)]"
+        },
+        {
+          "key": "B",
+          "text": "[('s', 4), ('i', 4)]"
+        },
+        {
+          "key": "C",
+          "text": "[('i', 4), ('p', 2)]"
+        },
+        {
+          "key": "D",
+          "text": "[('m', 1), ('i', 4)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'i' và 's' đều xuất hiện 4 lần; most_common giữ thứ tự gặp đầu tiên khi đồng hạng, nên 'i' đứng trước 's'.",
+      "tags": [
+        "collections",
+        "Counter",
+        "most_common"
+      ]
+    },
+    {
+      "id": "E52-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import deque\nd = deque([1,2,3])\nd.appendleft(0)\nd.rotate(1)\nprint(list(d))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 0, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[2, 3, 0, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "appendleft(0) cho [0,1,2,3]; rotate(1) dịch phải 1 bước đưa phần tử cuối lên đầu thành [3,0,1,2].",
+      "tags": [
+        "collections",
+        "deque",
+        "rotate"
+      ]
+    },
+    {
+      "id": "E52-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import ChainMap\na = {'x': 1, 'y': 2}\nb = {'y': 20, 'z': 30}\ncm = ChainMap(a, b)\nprint(cm['x'], cm['y'], cm['z'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 2 30"
+        },
+        {
+          "key": "B",
+          "text": "1 20 30"
+        },
+        {
+          "key": "C",
+          "text": "1 2 None"
+        },
+        {
+          "key": "D",
+          "text": "1 22 30"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ChainMap tra cứu theo thứ tự các map; 'y' lấy từ map đầu (a) nên là 2, còn 'z' chỉ có trong b nên là 30.",
+      "tags": [
+        "collections",
+        "ChainMap"
+      ]
+    },
+    {
+      "id": "E52-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import defaultdict\nd = defaultdict(list)\nfor k, v in [('a',1),('b',2),('a',3)]:\n    d[k].append(v)\nprint(dict(d))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': [1, 3], 'b': [2]}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': [1], 'b': [2], 'a': [3]}"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 4, 'b': 2}"
+        },
+        {
+          "key": "D",
+          "text": "{'a': [3], 'b': [2]}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "defaultdict(list) tự tạo list rỗng cho khóa mới, nên các giá trị cùng khóa 'a' được gộp thành [1,3].",
+      "tags": [
+        "collections",
+        "defaultdict"
+      ]
+    },
+    {
+      "id": "E52-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom collections import namedtuple\nP = namedtuple('P', 'x y')\np = P(1, 2)\nq = p._replace(y=9)\nprint(p.x + q.y, q)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 P(x=1, y=9)"
+        },
+        {
+          "key": "B",
+          "text": "3 P(x=1, y=2)"
+        },
+        {
+          "key": "C",
+          "text": "10 P(x=1, y=2)"
+        },
+        {
+          "key": "D",
+          "text": "11 P(x=1, y=9)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "_replace trả về namedtuple mới với y=9 (p không đổi); p.x=1 cộng q.y=9 ra 10, q hiển thị P(x=1, y=9).",
+      "tags": [
+        "collections",
+        "namedtuple"
+      ]
+    },
+    {
+      "id": "E52-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom dataclasses import dataclass, field\n@dataclass\nclass Bag:\n    items: list = field(default_factory=list)\na = Bag(); b = Bag()\na.items.append(1)\nprint(a.items, b.items)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1] []"
+        },
+        {
+          "key": "B",
+          "text": "[1] [1]"
+        },
+        {
+          "key": "C",
+          "text": "[] []"
+        },
+        {
+          "key": "D",
+          "text": "[1, 1] []"
+        }
+      ],
+      "answer": "A",
+      "explanation": "default_factory tạo list MỚI cho mỗi instance, nên thêm vào a.items không ảnh hưởng b.items.",
+      "tags": [
+        "dataclasses",
+        "field",
+        "default_factory"
+      ]
+    },
+    {
+      "id": "E52-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom dataclasses import dataclass\n@dataclass(frozen=True)\nclass Pt:\n    x: int\n    y: int\np = Pt(1, 2)\ntry:\n    p.x = 9\n    print('ok')\nexcept Exception as e:\n    print(type(e).__name__)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "FrozenInstanceError"
+        },
+        {
+          "key": "B",
+          "text": "ok"
+        },
+        {
+          "key": "C",
+          "text": "AttributeError"
+        },
+        {
+          "key": "D",
+          "text": "TypeError"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dataclass frozen=True chặn gán lại thuộc tính, ném FrozenInstanceError khi cố sửa p.x.",
+      "tags": [
+        "dataclasses",
+        "frozen"
+      ]
+    },
+    {
+      "id": "E52-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom dataclasses import dataclass\n@dataclass(order=True)\nclass V:\n    a: int\n    b: int\nprint(V(1,2) < V(1,3), V(2,0) < V(1,9))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True False"
+        },
+        {
+          "key": "B",
+          "text": "False True"
+        },
+        {
+          "key": "C",
+          "text": "True True"
+        },
+        {
+          "key": "D",
+          "text": "False False"
+        }
+      ],
+      "answer": "A",
+      "explanation": "order=True so sánh theo thứ tự khai báo trường dạng tuple (a,b): (1,2)<(1,3) True; (2,0)<(1,9) False vì a 2>1.",
+      "tags": [
+        "dataclasses",
+        "order"
+      ]
+    },
+    {
+      "id": "E52-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom dataclasses import dataclass\n@dataclass\nclass T:\n    a: int\n    b: int\n    c: int = 0\n    def __post_init__(self):\n        self.c = self.a + self.b\nprint(T(3, 4).c)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "answer": "A",
+      "explanation": "__post_init__ chạy sau __init__ tự sinh, gán c = a + b = 3 + 4 = 7.",
+      "tags": [
+        "dataclasses",
+        "__post_init__"
+      ]
+    },
+    {
+      "id": "E52-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom dataclasses import dataclass, asdict\n@dataclass\nclass P:\n    x: int\n    y: int\nprint(asdict(P(1, 2)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': 1, 'y': 2}"
+        },
+        {
+          "key": "B",
+          "text": "P(x=1, y=2)"
+        },
+        {
+          "key": "C",
+          "text": "(1, 2)"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "asdict chuyển dataclass thành dict đệ quy với tên trường làm khóa.",
+      "tags": [
+        "dataclasses",
+        "asdict"
+      ]
+    },
+    {
+      "id": "E52-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom contextlib import contextmanager\n@contextmanager\ndef tag(name):\n    print(f\"<{name}>\")\n    yield\n    print(f\"</{name}>\")\nwith tag('b'):\n    print(\"hi\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "<b>\nhi\n</b>"
+        },
+        {
+          "key": "B",
+          "text": "<b></b>\nhi"
+        },
+        {
+          "key": "C",
+          "text": "hi\n<b>\n</b>"
+        },
+        {
+          "key": "D",
+          "text": "<b>\n</b>"
+        }
+      ],
+      "answer": "A",
+      "explanation": "contextmanager: phần trước yield chạy khi vào with, thân in 'hi', phần sau yield chạy khi thoát, ra thứ tự <b> hi </b>.",
+      "tags": [
+        "contextlib",
+        "contextmanager"
+      ]
+    },
+    {
+      "id": "E52-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom contextlib import suppress\nwith suppress(ZeroDivisionError):\n    x = 1 / 0\n    print(\"không in\")\nprint(\"xong\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "xong"
+        },
+        {
+          "key": "B",
+          "text": "không in\nxong"
+        },
+        {
+          "key": "C",
+          "text": "xong\nkhông in"
+        },
+        {
+          "key": "D",
+          "text": "ZeroDivisionError"
+        }
+      ],
+      "answer": "A",
+      "explanation": "suppress nuốt ngoại lệ ZeroDivisionError, bỏ qua phần còn lại trong khối with nên 'không in' không chạy, chỉ in 'xong'.",
+      "tags": [
+        "contextlib",
+        "suppress"
+      ]
+    },
+    {
+      "id": "E52-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom contextlib import ExitStack\norder = []\nclass CM:\n    def __init__(self, n): self.n = n\n    def __enter__(self): order.append(f\"in{self.n}\"); return self\n    def __exit__(self, *a): order.append(f\"out{self.n}\")\nwith ExitStack() as stack:\n    for i in (1, 2):\n        stack.enter_context(CM(i))\nprint(order)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['in1', 'in2', 'out2', 'out1']"
+        },
+        {
+          "key": "B",
+          "text": "['in1', 'in2', 'out1', 'out2']"
+        },
+        {
+          "key": "C",
+          "text": "['in1', 'out1', 'in2', 'out2']"
+        },
+        {
+          "key": "D",
+          "text": "['in2', 'in1', 'out1', 'out2']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ExitStack thoát theo thứ tự ngược (LIFO): vào in1, in2; khi thoát gọi out2 rồi out1.",
+      "tags": [
+        "contextlib",
+        "ExitStack"
+      ]
+    },
+    {
+      "id": "E52-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass Pos:\n    def __set_name__(self, owner, name): self.n = '_' + name\n    def __get__(self, obj, owner): return getattr(obj, self.n)\n    def __set__(self, obj, v):\n        if v < 0: raise ValueError\n        setattr(obj, self.n, v)\nclass A:\n    x = Pos()\na = A(); a.x = 5\nprint(a.x)\ntry:\n    a.x = -1\nexcept ValueError:\n    print(\"rejected\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5\nrejected"
+        },
+        {
+          "key": "B",
+          "text": "5\n-1"
+        },
+        {
+          "key": "C",
+          "text": "rejected\n5"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Descriptor __set__ kiểm tra giá trị âm; gán 5 hợp lệ in 5, gán -1 ném ValueError nên in 'rejected'.",
+      "tags": [
+        "descriptors",
+        "__set__",
+        "__get__"
+      ]
+    },
+    {
+      "id": "E52-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass Temp:\n    def __init__(self, c): self._c = c\n    @property\n    def f(self): return self._c * 9/5 + 32\nt = Temp(100)\nprint(t.f)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "212.0"
+        },
+        {
+          "key": "B",
+          "text": "100"
+        },
+        {
+          "key": "C",
+          "text": "180.0"
+        },
+        {
+          "key": "D",
+          "text": "132.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "property f tính 100*9/5+32 = 180.0+32 = 212.0; phép chia / luôn cho float.",
+      "tags": [
+        "descriptors",
+        "property"
+      ]
+    },
+    {
+      "id": "E52-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nclass P:\n    __slots__ = ('x',)\n    def __init__(self, x): self.x = x\np = P(1)\ntry:\n    p.y = 2\n    print(p.y)\nexcept AttributeError:\n    print(\"no y\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "no y"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "A",
+      "explanation": "__slots__ chỉ cho phép thuộc tính 'x', không có __dict__ nên gán p.y ném AttributeError -> in 'no y'.",
+      "tags": [
+        "__slots__"
+      ]
+    },
+    {
+      "id": "E52-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom enum import Enum, auto\nclass Color(Enum):\n    RED = auto()\n    GREEN = auto()\n    BLUE = auto()\nprint(Color.GREEN.value, Color.BLUE.name)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 BLUE"
+        },
+        {
+          "key": "B",
+          "text": "1 BLUE"
+        },
+        {
+          "key": "C",
+          "text": "2 GREEN"
+        },
+        {
+          "key": "D",
+          "text": "3 BLUE"
+        }
+      ],
+      "answer": "A",
+      "explanation": "auto() đánh số bắt đầu từ 1 theo thứ tự khai báo: RED=1, GREEN=2, BLUE=3; .value của GREEN=2, .name của BLUE='BLUE'.",
+      "tags": [
+        "enum",
+        "auto"
+      ]
+    },
+    {
+      "id": "E52-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom enum import IntEnum\nclass Size(IntEnum):\n    S = 1\n    M = 2\n    L = 3\nprint(Size.M + 10, Size.L > Size.S)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12 True"
+        },
+        {
+          "key": "B",
+          "text": "M10 True"
+        },
+        {
+          "key": "C",
+          "text": "12 False"
+        },
+        {
+          "key": "D",
+          "text": "2 True"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IntEnum là số nguyên thực thụ: Size.M + 10 = 12 và so sánh Size.L(3) > Size.S(1) là True.",
+      "tags": [
+        "enum",
+        "IntEnum"
+      ]
+    },
+    {
+      "id": "E52-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef inner():\n    yield 1\n    yield 2\ndef outer():\n    yield 0\n    yield from inner()\n    yield 3\nprint(list(outer()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[0, [1, 2], 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 0, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "yield from ủy quyền (delegate) cho generator con, phẳng hóa các giá trị inner vào dòng của outer: 0,1,2,3.",
+      "tags": [
+        "generators",
+        "yield from"
+      ]
+    },
+    {
+      "id": "E52-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom operator import itemgetter\ndata = [('b', 3), ('a', 1), ('c', 2)]\nprint(sorted(data, key=itemgetter(1)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('a', 1), ('c', 2), ('b', 3)]"
+        },
+        {
+          "key": "B",
+          "text": "[('b', 3), ('c', 2), ('a', 1)]"
+        },
+        {
+          "key": "C",
+          "text": "[('a', 1), ('b', 3), ('c', 2)]"
+        },
+        {
+          "key": "D",
+          "text": "[('c', 2), ('a', 1), ('b', 3)]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "itemgetter(1) lấy phần tử thứ hai làm khóa sắp xếp tăng dần theo số: 1,2,3.",
+      "tags": [
+        "operator",
+        "itemgetter"
+      ]
+    },
+    {
+      "id": "E52-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom operator import attrgetter\nclass P:\n    def __init__(self, n, a): self.n, self.a = n, a\nps = [P('x', 30), P('y', 20)]\nprint([p.n for p in sorted(ps, key=attrgetter('a'))])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['y', 'x']"
+        },
+        {
+          "key": "B",
+          "text": "['x', 'y']"
+        },
+        {
+          "key": "C",
+          "text": "['y', 'y']"
+        },
+        {
+          "key": "D",
+          "text": "['x', 'x']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "attrgetter('a') sắp theo thuộc tính a tăng dần: y(20) trước x(30).",
+      "tags": [
+        "operator",
+        "attrgetter"
+      ]
+    },
+    {
+      "id": "E52-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nfrom operator import methodcaller\nwords = ['  hi ', ' bye']\nprint(list(map(methodcaller('strip'), words)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['hi', 'bye']"
+        },
+        {
+          "key": "B",
+          "text": "['  hi ', ' bye']"
+        },
+        {
+          "key": "C",
+          "text": "['hi ', 'bye']"
+        },
+        {
+          "key": "D",
+          "text": "['  hi', ' bye']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "methodcaller('strip') gọi .strip() trên mỗi chuỗi, loại bỏ khoảng trắng hai đầu.",
+      "tags": [
+        "operator",
+        "methodcaller"
+      ]
+    },
+    {
+      "id": "E52-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(f\"{42:>5}|{3.14159:.2f}|{5:b}\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "   42|3.14|101"
+        },
+        {
+          "key": "B",
+          "text": "42   |3.14|101"
+        },
+        {
+          "key": "C",
+          "text": "   42|3.142|0b101"
+        },
+        {
+          "key": "D",
+          "text": "   42|3.14|5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "{:>5} căn phải rộng 5 cho '   42'; {:.2f} làm tròn 2 chữ số '3.14'; {:b} đổi 5 sang nhị phân '101'.",
+      "tags": [
+        "format",
+        "format-spec"
+      ]
+    },
+    {
+      "id": "E52-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nprint(f\"{1234567:,}\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1,234,567"
+        },
+        {
+          "key": "B",
+          "text": "1234567"
+        },
+        {
+          "key": "C",
+          "text": "1.234.567"
+        },
+        {
+          "key": "D",
+          "text": "1 234 567"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Format spec dấu ',' chèn dấu phẩy phân cách hàng nghìn.",
+      "tags": [
+        "format",
+        "thousands"
+      ]
+    },
+    {
+      "id": "E52-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nx = 7\ny = 8\nprint(f\"{x=}, {y=}\")\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "x=7, y=8"
+        },
+        {
+          "key": "B",
+          "text": "7, 8"
+        },
+        {
+          "key": "C",
+          "text": "x, y"
+        },
+        {
+          "key": "D",
+          "text": "{x=}, {y=}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cú pháp f-string '=' (Python 3.8+) in cả biểu thức lẫn giá trị: x=7, y=8.",
+      "tags": [
+        "format",
+        "f-string"
+      ]
+    },
+    {
+      "id": "E52-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nimport bisect\nxs = [1, 3, 5, 7]\nbisect.insort(xs, 4)\nprint(xs)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 3, 4, 5, 7]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 5, 7, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[4, 1, 3, 5, 7]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 3, 5, 4, 7]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "insort chèn 4 vào đúng vị trí giữ danh sách sắp xếp, nằm giữa 3 và 5.",
+      "tags": [
+        "bisect",
+        "insort"
+      ]
+    },
+    {
+      "id": "E52-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nimport bisect\nxs = [1, 2, 2, 2, 3]\nprint(bisect.bisect_left(xs, 2), bisect.bisect_right(xs, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 4"
+        },
+        {
+          "key": "B",
+          "text": "0 5"
+        },
+        {
+          "key": "C",
+          "text": "1 3"
+        },
+        {
+          "key": "D",
+          "text": "2 4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bisect_left trả vị trí chèn bên trái các số 2 (chỉ số 1), bisect_right trả vị trí sau cùng (chỉ số 4).",
+      "tags": [
+        "bisect",
+        "bisect_left",
+        "bisect_right"
+      ]
+    },
+    {
+      "id": "E52-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nimport heapq\nxs = [5, 1, 8, 3, 9, 2]\nprint(heapq.nlargest(3, xs))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[9, 8, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[5, 8, 9]"
+        },
+        {
+          "key": "D",
+          "text": "[9, 8, 5, 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nlargest(3) trả 3 phần tử lớn nhất theo thứ tự giảm dần: 9, 8, 5.",
+      "tags": [
+        "heapq",
+        "nlargest"
+      ]
+    },
+    {
+      "id": "E52-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nimport heapq\nh = []\nfor x in [4, 1, 7, 3]:\n    heapq.heappush(h, x)\nprint(heapq.heappop(h), heapq.heappop(h))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 3"
+        },
+        {
+          "key": "B",
+          "text": "4 1"
+        },
+        {
+          "key": "C",
+          "text": "7 4"
+        },
+        {
+          "key": "D",
+          "text": "1 4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "heap nhỏ nhất (min-heap): heappop lần lượt lấy phần tử nhỏ nhất 1 rồi 3.",
+      "tags": [
+        "heapq",
+        "heappop"
+      ]
+    },
+    {
+      "id": "E52-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\nm = [[1,2,3],[4,5,6]]\nflat = [x for row in m for x in row if x % 2 == 0]\nprint(flat)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 4, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 5]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 6]"
+        },
+        {
+          "key": "D",
+          "text": "[[2], [4, 6]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Comprehension lồng duyệt từng hàng rồi từng phần tử, giữ lại số chẵn: 2,4,6.",
+      "tags": [
+        "comprehension",
+        "nested"
+      ]
+    },
+    {
+      "id": "E52-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\na = {'x': 1, 'y': 2}\nb = {'y': 9, 'z': 3}\nprint({**a, **b})\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': 1, 'y': 9, 'z': 3}"
+        },
+        {
+          "key": "B",
+          "text": "{'x': 1, 'y': 2, 'z': 3}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': 1, 'y': 11, 'z': 3}"
+        },
+        {
+          "key": "D",
+          "text": "{'x': 1, 'y': 2, 'y': 9, 'z': 3}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gộp dict bằng **: khóa trùng 'y' lấy giá trị từ dict sau (b) là 9.",
+      "tags": [
+        "unpacking",
+        "dict-merge"
+      ]
+    },
+    {
+      "id": "E52-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef f(*args):\n    return sum(args)\nnums = [1, 2, 3, 4]\nprint(f(*nums, 10))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3, 4, 10]"
+        },
+        {
+          "key": "D",
+          "text": "14"
+        }
+      ],
+      "answer": "A",
+      "explanation": "*nums mở danh sách thành các đối số riêng lẻ cùng với 10; *args gom lại và sum = 1+2+3+4+10 = 20.",
+      "tags": [
+        "unpacking",
+        "args"
+      ]
+    },
+    {
+      "id": "E52-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef describe(p):\n    match p:\n        case (0, 0):\n            return \"origin\"\n        case (x, 0):\n            return f\"x-axis:{x}\"\n        case (0, y):\n            return f\"y-axis:{y}\"\n        case _:\n            return \"other\"\nprint(describe((5, 0)), describe((0, 0)), describe((2, 3)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "x-axis:5 origin other"
+        },
+        {
+          "key": "B",
+          "text": "other origin other"
+        },
+        {
+          "key": "C",
+          "text": "x-axis:5 origin y-axis:3"
+        },
+        {
+          "key": "D",
+          "text": "origin x-axis:5 other"
+        }
+      ],
+      "answer": "A",
+      "explanation": "match-case khớp mẫu cấu trúc theo thứ tự: (5,0)->x-axis:5, (0,0)->origin, (2,3) không khớp mẫu nào nên _ -> other.",
+      "tags": [
+        "match-case",
+        "structural"
+      ]
+    },
+    {
+      "id": "E52-B57",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndef counter():\n    n = 0\n    def inc():\n        nonlocal n\n        n += 1\n        return n\n    return inc\nc = counter()\nprint(c(), c(), c())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 2 3"
+        },
+        {
+          "key": "B",
+          "text": "1 1 1"
+        },
+        {
+          "key": "C",
+          "text": "0 1 2"
+        },
+        {
+          "key": "D",
+          "text": "3 3 3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nonlocal cho phép inc cập nhật biến n trong closure; mỗi lần gọi tăng và trả 1, 2, 3.",
+      "tags": [
+        "closure",
+        "nonlocal"
+      ]
+    },
+    {
+      "id": "E52-B58",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Python sau in ra gì?\n\n```python\ndata = [('a', 2), ('b', 1), ('c', 2), ('d', 1)]\nr = sorted(data, key=lambda t: (-t[1], t[0]))\nprint([t[0] for t in r])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'c', 'b', 'd']"
+        },
+        {
+          "key": "B",
+          "text": "['b', 'd', 'a', 'c']"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'b', 'c', 'd']"
+        },
+        {
+          "key": "D",
+          "text": "['c', 'a', 'd', 'b']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khóa đa tiêu chí: sắp số giảm dần (-t[1]) trước, đồng hạng thì tên tăng dần; nhóm 2 (a,c) rồi nhóm 1 (b,d).",
+      "tags": [
+        "sorted",
+        "multi-key"
+      ]
+    },
+    {
+      "id": "E52-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm `top_k(text, k)` đếm tần suất các từ (tách theo khoảng trắng) trong chuỗi `text` bằng `collections.Counter` và trả về danh sách `k` cặp (từ, số_lần) phổ biến nhất. Minh họa với text = 'a b a c a b' và k = 2.",
+      "modelAnswer": "from collections import Counter\n\ndef top_k(text, k):\n    counts = Counter(text.split())\n    return counts.most_common(k)\n\nprint(top_k('a b a c a b', 2))\n# Output: [('a', 3), ('b', 2)]",
+      "rubric": [
+        "Dùng Counter trên text.split() để đếm tần suất từng từ",
+        "Gọi most_common(k) để lấy k phần tử phổ biến nhất theo thứ tự giảm dần",
+        "Trả về danh sách các tuple (từ, số_lần); ví dụ cho [('a', 3), ('b', 2)]"
+      ],
+      "tags": [
+        "Counter",
+        "most_common",
+        "code"
+      ]
+    },
+    {
+      "id": "E52-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho danh sách số nguyên đã sắp xếp, dùng `itertools.groupby` để gom các phần tử BẰNG NHAU LIỀN KỀ và in ra mỗi giá trị cùng số lần xuất hiện. Minh họa với data = [1, 1, 2, 3, 3, 3].",
+      "modelAnswer": "from itertools import groupby\n\ndef group_counts(data):\n    result = []\n    for value, grp in groupby(data):\n        result.append((value, len(list(grp))))\n    return result\n\nprint(group_counts([1, 1, 2, 3, 3, 3]))\n# Output: [(1, 2), (2, 1), (3, 3)]",
+      "rubric": [
+        "Dùng itertools.groupby duyệt qua data (giả định đã sắp xếp/liền kề)",
+        "Với mỗi nhóm, đếm số phần tử bằng len(list(grp))",
+        "Trả về danh sách (giá_trị, số_lần); ví dụ ra [(1, 2), (2, 1), (3, 3)]"
+      ],
+      "tags": [
+        "itertools",
+        "groupby",
+        "code"
+      ]
+    },
+    {
+      "id": "E52-B61",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết một context manager bằng decorator `@contextlib.contextmanager` tên `counting()` đếm số lần khối lệnh bên trong gọi hàm `tick` được yield ra, rồi in tổng số lần đếm khi thoát khối `with`. Minh họa gọi tick 3 lần.",
+      "modelAnswer": "from contextlib import contextmanager\n\n@contextmanager\ndef counting():\n    state = {'n': 0}\n    def tick():\n        state['n'] += 1\n    yield tick\n    print(f\"total: {state['n']}\")\n\nwith counting() as tick:\n    tick(); tick(); tick()\n# Output: total: 3",
+      "rubric": [
+        "Dùng @contextmanager và yield ra hàm tick (đối tượng có thể gọi)",
+        "Mỗi lần gọi tick tăng bộ đếm lưu trong closure/dict",
+        "Phần sau yield (khi thoát with) in tổng số đếm; ví dụ in 'total: 3'"
+      ],
+      "tags": [
+        "contextlib",
+        "contextmanager",
+        "code"
+      ]
+    },
+    {
+      "id": "E52-B62",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Định nghĩa một `dataclass` tên `Student` gồm `name: str` và `gpa: float`, rồi dùng `sorted` với khóa đa tiêu chí để sắp xếp danh sách sinh viên theo gpa GIẢM DẦN, nếu bằng gpa thì theo name tăng dần. In ra danh sách tên đã sắp xếp.",
+      "modelAnswer": "from dataclasses import dataclass\n\n@dataclass\nclass Student:\n    name: str\n    gpa: float\n\nstudents = [Student('An', 3.5), Student('Binh', 3.8), Student('Chi', 3.5)]\nordered = sorted(students, key=lambda s: (-s.gpa, s.name))\nprint([s.name for s in ordered])\n# Output: ['Binh', 'An', 'Chi']",
+      "rubric": [
+        "Khai báo dataclass Student với hai trường name và gpa",
+        "Dùng sorted với key=lambda trả tuple (-gpa, name) để sắp gpa giảm dần rồi name tăng dần",
+        "In danh sách tên kết quả; ví dụ ra ['Binh', 'An', 'Chi']"
+      ],
+      "tags": [
+        "dataclasses",
+        "sorted",
+        "multi-key",
+        "code"
+      ]
+    }
+  ]
+}

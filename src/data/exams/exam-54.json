@@ -1,0 +1,1823 @@
+{
+  "id": "exam-54",
+  "title": "Computer Vision DL — Mô hình Sinh & Tự giám sát (GAN, Diffusion, CLIP, SSL)",
+  "description": "Đề cương ôn tập nâng cao về học sâu trong thị giác máy tính, tập trung vào mô hình sinh ảnh (GAN, diffusion, super-resolution, style transfer, VAE) và học tự giám sát (contrastive, masked image modeling, DINO, ViT, CLIP, SAM). Đề gồm 56 câu trắc nghiệm và 4 câu tự luận, kiểm tra hiểu biết về kiến trúc, mục tiêu huấn luyện và phương pháp đánh giá. Phù hợp để ôn tập kiến thức chuyên sâu.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E54-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong DCGAN, kiến trúc generator chủ yếu sử dụng kỹ thuật nào để tăng độ phân giải không gian của feature map?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transposed convolution (deconvolution)"
+        },
+        {
+          "key": "B",
+          "text": "Max pooling"
+        },
+        {
+          "key": "C",
+          "text": "Dropout cao"
+        },
+        {
+          "key": "D",
+          "text": "Fully-connected sâu nhiều tầng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DCGAN dùng transposed convolution (fractionally-strided conv) để upsampling từ vector nhiễu lên ảnh, thay cho pooling.",
+      "tags": [
+        "gan",
+        "dcgan"
+      ]
+    },
+    {
+      "id": "E54-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng mode collapse trong GAN được mô tả đúng nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generator chỉ sinh ra một số ít mẫu giống nhau, bỏ qua phần lớn phân phối dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Discriminator luôn thua"
+        },
+        {
+          "key": "C",
+          "text": "Loss tiến tới 0 hoàn hảo"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh sinh ra có độ phân giải quá cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mode collapse là khi generator tập trung vào vài mode, sinh mẫu thiếu đa dạng dù có thể đánh lừa được discriminator.",
+      "tags": [
+        "gan",
+        "modecollapse"
+      ]
+    },
+    {
+      "id": "E54-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conditional GAN (cGAN) khác GAN cơ bản ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả generator và discriminator đều nhận thêm thông tin điều kiện (ví dụ nhãn lớp)"
+        },
+        {
+          "key": "B",
+          "text": "Không cần discriminator"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho ảnh xám"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hoàn toàn vector nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cGAN đưa biến điều kiện y (nhãn/ảnh) vào cả G và D để kiểm soát nội dung được sinh ra.",
+      "tags": [
+        "gan",
+        "conditional"
+      ]
+    },
+    {
+      "id": "E54-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "pix2pix là mô hình image-to-image translation thuộc loại nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có dữ liệu ghép cặp (paired) input-output"
+        },
+        {
+          "key": "B",
+          "text": "Không cần dữ liệu ghép cặp"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng autoencoder thuần"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng đối kháng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pix2pix là conditional GAN huấn luyện trên cặp ảnh tương ứng, kết hợp loss đối kháng và L1.",
+      "tags": [
+        "pix2pix",
+        "i2i"
+      ]
+    },
+    {
+      "id": "E54-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngoài loss đối kháng, pix2pix thường thêm thành phần loss nào để ảnh đầu ra bám sát ground truth?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L1 reconstruction loss"
+        },
+        {
+          "key": "B",
+          "text": "Triplet loss"
+        },
+        {
+          "key": "C",
+          "text": "NT-Xent loss"
+        },
+        {
+          "key": "D",
+          "text": "Cross-entropy phân loại lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pix2pix kết hợp adversarial loss với L1 để giảm mờ và giữ cấu trúc gần với ảnh đích.",
+      "tags": [
+        "pix2pix",
+        "loss"
+      ]
+    },
+    {
+      "id": "E54-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CycleGAN giải quyết bài toán dịch ảnh trong điều kiện nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu không ghép cặp (unpaired) giữa hai miền"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu ghép cặp pixel-to-pixel"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ có một miền ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh đã được gán nhãn từng pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CycleGAN học ánh xạ giữa hai miền mà không cần cặp tương ứng, nhờ ràng buộc cycle-consistency.",
+      "tags": [
+        "cyclegan",
+        "unpaired"
+      ]
+    },
+    {
+      "id": "E54-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cycle-consistency loss trong CycleGAN ràng buộc điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "F(G(x)) gần x và G(F(y)) gần y (dịch xuôi rồi ngược phải tái tạo lại ảnh gốc)"
+        },
+        {
+          "key": "B",
+          "text": "Hai generator phải chia sẻ trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Discriminator phải đầu ra bằng 0.5"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh phải có cùng kích thước batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cycle-consistency yêu cầu việc dịch sang miền kia rồi dịch ngược lại tái tạo gần đúng ảnh ban đầu, giữ nội dung.",
+      "tags": [
+        "cyclegan",
+        "cycle"
+      ]
+    },
+    {
+      "id": "E54-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "StyleGAN đưa thông tin style vào mạng thông qua cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Adaptive Instance Normalization (AdaIN) tại mỗi tầng"
+        },
+        {
+          "key": "B",
+          "text": "Batch normalization toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "Max pooling theo kênh"
+        },
+        {
+          "key": "D",
+          "text": "Dropout có điều kiện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "StyleGAN dùng AdaIN để điều biến mean/variance feature theo style vector w ở từng độ phân giải.",
+      "tags": [
+        "stylegan",
+        "adain"
+      ]
+    },
+    {
+      "id": "E54-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong StyleGAN, vector nhiễu z được đưa qua mạng ánh xạ (mapping network) để tạo ra không gian nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không gian latent trung gian W (disentangled hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Không gian pixel RGB"
+        },
+        {
+          "key": "C",
+          "text": "Không gian Fourier"
+        },
+        {
+          "key": "D",
+          "text": "Không gian gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mapping network biến z thành w trong W giúp tách rời các yếu tố biến thiên, kiểm soát style tốt hơn.",
+      "tags": [
+        "stylegan",
+        "latent"
+      ]
+    },
+    {
+      "id": "E54-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Progressive growing (PGGAN) huấn luyện GAN bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng dần độ phân giải, thêm tầng cho cả G và D theo thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Giảm dần số kênh"
+        },
+        {
+          "key": "C",
+          "text": "Đóng băng discriminator"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ dần các lớp conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Progressive growing bắt đầu ở độ phân giải thấp rồi thêm tầng dần để ổn định và tăng chi tiết.",
+      "tags": [
+        "pggan",
+        "progressive"
+      ]
+    },
+    {
+      "id": "E54-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Inception Score (IS) đánh giá ảnh sinh dựa trên ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối nhãn dự đoán nên sắc nét cho từng ảnh nhưng đa dạng trên tập"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách L2 pixel trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Số tham số mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian sinh ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IS cao khi mỗi ảnh được phân loại tự tin (entropy thấp) và toàn tập đa dạng (entropy biên cao).",
+      "tags": [
+        "eval",
+        "is"
+      ]
+    },
+    {
+      "id": "E54-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FID (Fréchet Inception Distance) đo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách giữa hai phân phối Gauss của đặc trưng Inception (thật vs sinh)"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác phân loại trực tiếp"
+        },
+        {
+          "key": "C",
+          "text": "Số mode bị sụp"
+        },
+        {
+          "key": "D",
+          "text": "Entropy nhãn của ảnh thật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FID khớp mean và covariance của feature Inception cho ảnh thật và ảnh sinh; FID càng thấp càng tốt.",
+      "tags": [
+        "eval",
+        "fid"
+      ]
+    },
+    {
+      "id": "E54-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với Inception Score, ưu điểm chính của FID là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "FID so sánh trực tiếp với phân phối ảnh thật nên nhạy hơn với chất lượng và đa dạng"
+        },
+        {
+          "key": "B",
+          "text": "FID không cần mạng pretrained"
+        },
+        {
+          "key": "C",
+          "text": "FID chỉ dùng pixel thô"
+        },
+        {
+          "key": "D",
+          "text": "FID luôn bằng 0 khi mô hình tốt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FID dùng thống kê đặc trưng của cả ảnh thật lẫn sinh, phản ánh tốt hơn sự khác biệt phân phối.",
+      "tags": [
+        "eval",
+        "fid"
+      ]
+    },
+    {
+      "id": "E54-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong DDPM, quá trình forward (khuếch tán xuôi) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm dần nhiễu Gauss vào ảnh qua nhiều bước cho tới khi gần nhiễu trắng"
+        },
+        {
+          "key": "B",
+          "text": "Khử nhiễu dần dần"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ phân giải"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Forward process là chuỗi Markov thêm nhiễu Gauss theo lịch beta, biến ảnh thành nhiễu chuẩn.",
+      "tags": [
+        "diffusion",
+        "ddpm"
+      ]
+    },
+    {
+      "id": "E54-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mạng denoiser trong DDPM thường được huấn luyện để dự đoán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiễu epsilon đã thêm vào ở mỗi bước"
+        },
+        {
+          "key": "B",
+          "text": "Nhãn lớp của ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Bản đồ độ sâu"
+        },
+        {
+          "key": "D",
+          "text": "Vector style"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DDPM huấn luyện U-Net dự đoán nhiễu epsilon (hoặc tương đương x0), tối thiểu MSE giữa nhiễu thật và dự đoán.",
+      "tags": [
+        "diffusion",
+        "ddpm"
+      ]
+    },
+    {
+      "id": "E54-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc xương sống phổ biến cho mạng khử nhiễu trong diffusion ảnh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "U-Net có skip connection kèm time embedding"
+        },
+        {
+          "key": "B",
+          "text": "ResNet-50 thuần phân loại"
+        },
+        {
+          "key": "C",
+          "text": "SVM"
+        },
+        {
+          "key": "D",
+          "text": "Cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Diffusion ảnh dùng U-Net (encoder-decoder + skip) và nhúng bước thời gian t để biết mức nhiễu hiện tại.",
+      "tags": [
+        "diffusion",
+        "unet"
+      ]
+    },
+    {
+      "id": "E54-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Time embedding trong U-Net của diffusion phục vụ mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho mạng biết đang ở bước nhiễu (timestep) nào để khử nhiễu phù hợp"
+        },
+        {
+          "key": "B",
+          "text": "Mã hóa vị trí pixel"
+        },
+        {
+          "key": "C",
+          "text": "Tăng batch size"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế skip connection"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Timestep được nhúng (sinusoidal/MLP) và bơm vào các tầng để điều kiện hóa theo mức nhiễu.",
+      "tags": [
+        "diffusion",
+        "timeembed"
+      ]
+    },
+    {
+      "id": "E54-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Classifier-free guidance (CFG) hoạt động bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp dự đoán có điều kiện và không điều kiện để khuếch đại bám điều kiện"
+        },
+        {
+          "key": "B",
+          "text": "Dùng một classifier ngoài để tính gradient"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn điều kiện"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ tăng số bước lấy mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CFG nội suy/ngoại suy giữa epsilon có và không có điều kiện, hệ số guidance điều chỉnh độ bám prompt.",
+      "tags": [
+        "diffusion",
+        "cfg"
+      ]
+    },
+    {
+      "id": "E54-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Latent Diffusion (Stable Diffusion) thực hiện khuếch tán ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong không gian latent nén bởi autoencoder, không phải pixel"
+        },
+        {
+          "key": "B",
+          "text": "Trực tiếp ở pixel độ phân giải đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Trong miền tần số Fourier"
+        },
+        {
+          "key": "D",
+          "text": "Trên đồ thị điểm ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LDM chạy diffusion trên latent của VAE, giảm chi phí tính toán rồi giải mã về ảnh.",
+      "tags": [
+        "diffusion",
+        "ldm"
+      ]
+    },
+    {
+      "id": "E54-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Stable Diffusion, điều kiện văn bản (text prompt) được đưa vào U-Net qua cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cross-attention giữa feature ảnh và embedding văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Phép cộng pixel"
+        },
+        {
+          "key": "C",
+          "text": "Pooling trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Concatenation kênh màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Text embedding (ví dụ từ CLIP) làm key/value trong cross-attention để điều hướng quá trình khử nhiễu.",
+      "tags": [
+        "diffusion",
+        "crossattn"
+      ]
+    },
+    {
+      "id": "E54-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ControlNet bổ sung khả năng gì cho mô hình diffusion?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điều khiển cấu trúc đầu ra bằng tín hiệu phụ (edge, pose, depth...)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ U-Net"
+        },
+        {
+          "key": "D",
+          "text": "Huấn luyện không cần dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ControlNet thêm nhánh sao chép có điều kiện hóa bởi bản đồ điều khiển, giữ trọng số gốc đóng băng.",
+      "tags": [
+        "diffusion",
+        "controlnet"
+      ]
+    },
+    {
+      "id": "E54-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kỹ thuật img2img trong diffusion bắt đầu từ đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm nhiễu một phần vào ảnh đầu vào rồi khử nhiễu theo prompt"
+        },
+        {
+          "key": "B",
+          "text": "Từ nhiễu trắng hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Từ ảnh đen"
+        },
+        {
+          "key": "D",
+          "text": "Từ latent ngẫu nhiên không liên quan"
+        }
+      ],
+      "answer": "A",
+      "explanation": "img2img khuếch tán ảnh nguồn tới một mức nhiễu trung gian (strength) rồi denoise, giữ một phần bố cục gốc.",
+      "tags": [
+        "diffusion",
+        "img2img"
+      ]
+    },
+    {
+      "id": "E54-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Inpainting bằng diffusion thực hiện điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh lại vùng bị che (mask) sao cho hài hòa với phần còn lại"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại toàn ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Nén ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng tương phản toàn cục"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Inpainting điều kiện hóa quá trình khử nhiễu lên vùng đã biết để lấp đầy vùng bị mask hợp lý.",
+      "tags": [
+        "diffusion",
+        "inpainting"
+      ]
+    },
+    {
+      "id": "E54-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SRCNN là mô hình đầu tiên dùng CNN cho bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Super-resolution (siêu phân giải) ảnh đơn"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện đối tượng"
+        },
+        {
+          "key": "C",
+          "text": "Phân đoạn ngữ nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Tạo caption"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SRCNN học ánh xạ end-to-end từ ảnh độ phân giải thấp sang cao bằng vài tầng conv.",
+      "tags": [
+        "sr",
+        "srcnn"
+      ]
+    },
+    {
+      "id": "E54-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ESRGAN cải thiện super-resolution nhờ điều gì so với SRGAN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng RRDB không batchnorm và relativistic discriminator"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ hoàn toàn GAN"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng MSE pixel"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số tầng còn 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ESRGAN dùng Residual-in-Residual Dense Block, bỏ BN, perceptual loss và discriminator tương đối để ảnh sắc nét hơn.",
+      "tags": [
+        "sr",
+        "esrgan"
+      ]
+    },
+    {
+      "id": "E54-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Perceptual loss trong super-resolution/style transfer được tính như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh đặc trưng trích từ mạng pretrained (VGG) thay vì pixel thô"
+        },
+        {
+          "key": "B",
+          "text": "So sánh trực tiếp pixel L2"
+        },
+        {
+          "key": "C",
+          "text": "So sánh histogram màu"
+        },
+        {
+          "key": "D",
+          "text": "So sánh số cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perceptual loss đo khác biệt trong không gian feature của mạng pretrained, giúp giữ chi tiết tri giác.",
+      "tags": [
+        "loss",
+        "perceptual"
+      ]
+    },
+    {
+      "id": "E54-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong neural style transfer, nội dung (content) thường được khớp bằng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khác biệt feature map ở tầng sâu giữa ảnh tạo và ảnh nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Gram matrix"
+        },
+        {
+          "key": "C",
+          "text": "Histogram màu"
+        },
+        {
+          "key": "D",
+          "text": "Số pixel sáng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Content loss so sánh activation tầng sâu của VGG giữa ảnh sinh và ảnh nội dung.",
+      "tags": [
+        "style",
+        "content"
+      ]
+    },
+    {
+      "id": "E54-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Style trong neural style transfer được biểu diễn bằng đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gram matrix (ma trận tương quan giữa các kênh feature)"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình pixel"
+        },
+        {
+          "key": "C",
+          "text": "Gradient ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Bản đồ độ sâu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gram matrix nắm bắt tương quan kênh, đại diện cho texture/style không phụ thuộc vị trí.",
+      "tags": [
+        "style",
+        "gram"
+      ]
+    },
+    {
+      "id": "E54-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "VAE khác autoencoder thường ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa thành phân phối (mean, variance) và thêm KL regularization"
+        },
+        {
+          "key": "B",
+          "text": "Không có decoder"
+        },
+        {
+          "key": "C",
+          "text": "Không nén dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "VAE học latent xác suất, tối ưu ELBO gồm reconstruction và KL về tiên nghiệm, cho phép lấy mẫu sinh.",
+      "tags": [
+        "vae",
+        "gen"
+      ]
+    },
+    {
+      "id": "E54-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Reparameterization trick trong VAE dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép backprop qua quá trình lấy mẫu bằng z=mu+sigma*epsilon"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc decoder"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ KL"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại latent"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trick tách nguồn ngẫu nhiên epsilon ra ngoài để gradient chảy qua mu và sigma được.",
+      "tags": [
+        "vae",
+        "reparam"
+      ]
+    },
+    {
+      "id": "E54-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SimCLR tạo cặp dương (positive pair) như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai augmentation khác nhau của cùng một ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Hai ảnh khác lớp"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh và nhãn của nó"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh gốc và ảnh xoay 180 độ cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SimCLR coi hai view tăng cường của cùng ảnh là cặp dương, các ảnh khác trong batch là âm.",
+      "tags": [
+        "ssl",
+        "simclr"
+      ]
+    },
+    {
+      "id": "E54-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát NT-Xent trong SimCLR thuộc loại nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Contrastive loss dựa trên cosine similarity và softmax theo nhiệt độ"
+        },
+        {
+          "key": "B",
+          "text": "Cross-entropy phân loại 1000 lớp"
+        },
+        {
+          "key": "C",
+          "text": "Triplet margin loss cứng"
+        },
+        {
+          "key": "D",
+          "text": "MSE pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NT-Xent kéo gần cặp dương và đẩy xa cặp âm thông qua softmax có temperature trên độ tương đồng.",
+      "tags": [
+        "ssl",
+        "ntxent"
+      ]
+    },
+    {
+      "id": "E54-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của temperature trong NT-Xent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điều chỉnh độ sắc của phân phối tương đồng, ảnh hưởng tới mẫu âm khó"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số augmentation"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ projection head"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Temperature thấp làm phân phối sắc hơn, nhấn mạnh hard negatives; là siêu tham số quan trọng.",
+      "tags": [
+        "ssl",
+        "temperature"
+      ]
+    },
+    {
+      "id": "E54-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MoCo giải quyết nhu cầu nhiều mẫu âm bằng cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàng đợi (queue) các biểu diễn và momentum encoder"
+        },
+        {
+          "key": "B",
+          "text": "Batch cực lớn duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn negatives"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhãn giám sát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MoCo duy trì dictionary dạng queue cập nhật bởi momentum encoder, tách số negatives khỏi batch size.",
+      "tags": [
+        "ssl",
+        "moco"
+      ]
+    },
+    {
+      "id": "E54-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Momentum encoder trong MoCo được cập nhật ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình trượt theo hệ số momentum của trọng số encoder chính"
+        },
+        {
+          "key": "B",
+          "text": "Backprop trực tiếp"
+        },
+        {
+          "key": "C",
+          "text": "Khởi tạo lại mỗi bước"
+        },
+        {
+          "key": "D",
+          "text": "Đóng băng hoàn toàn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trọng số key encoder = m*key + (1-m)*query, biến đổi chậm giúp dictionary nhất quán.",
+      "tags": [
+        "ssl",
+        "moco"
+      ]
+    },
+    {
+      "id": "E54-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điểm đặc biệt của BYOL so với SimCLR/MoCo là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không cần mẫu âm (negative)"
+        },
+        {
+          "key": "B",
+          "text": "Không có augmentation"
+        },
+        {
+          "key": "C",
+          "text": "Không có encoder"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhãn lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BYOL học bằng cách dự đoán biểu diễn của target network từ online network, tránh sụp đổ nhờ predictor và stop-gradient.",
+      "tags": [
+        "ssl",
+        "byol"
+      ]
+    },
+    {
+      "id": "E54-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BYOL tránh collapse (biểu diễn hằng số) nhờ thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Predictor bất đối xứng + target network cập nhật momentum và stop-gradient"
+        },
+        {
+          "key": "B",
+          "text": "Negative mining"
+        },
+        {
+          "key": "C",
+          "text": "Batchnorm bị tắt"
+        },
+        {
+          "key": "D",
+          "text": "Loss đối kháng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cấu trúc bất đối xứng giữa online (có predictor) và target (stop-grad, momentum) ngăn lời giải tầm thường.",
+      "tags": [
+        "ssl",
+        "byol"
+      ]
+    },
+    {
+      "id": "E54-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SwAV thực hiện học tự giám sát theo hướng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán cụm (cluster assignment) online và dự đoán swapped giữa các view"
+        },
+        {
+          "key": "B",
+          "text": "Đối kháng generator-discriminator"
+        },
+        {
+          "key": "C",
+          "text": "Dự đoán pixel bị mask"
+        },
+        {
+          "key": "D",
+          "text": "Dùng queue như MoCo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SwAV so khớp cluster assignment giữa các view (swapped prediction) với thuật toán Sinkhorn, không cần so từng cặp negative.",
+      "tags": [
+        "ssl",
+        "swav"
+      ]
+    },
+    {
+      "id": "E54-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MAE (Masked Autoencoder) cho ảnh hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Che ngẫu nhiên phần lớn patch rồi tái tạo pixel bị che"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại patch"
+        },
+        {
+          "key": "C",
+          "text": "Dự đoán nhãn lớp toàn ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Sinh ảnh đối kháng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MAE mask tỷ lệ cao (vd 75%) patch, encoder chỉ xử lý patch nhìn thấy, decoder nhẹ tái tạo phần bị che.",
+      "tags": [
+        "ssl",
+        "mae"
+      ]
+    },
+    {
+      "id": "E54-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao MAE mask tỷ lệ rất cao (khoảng 75%) lại hiệu quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo bài toán khó, buộc học ngữ nghĩa toàn cục, và giảm chi phí encoder"
+        },
+        {
+          "key": "B",
+          "text": "Vì giảm độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Vì cần ít dữ liệu hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì tránh overfitting nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mask cao loại bỏ dư thừa không gian, buộc mô hình suy luận ngữ nghĩa thay vì nội suy lân cận; encoder chỉ thấy ít patch nên rẻ.",
+      "tags": [
+        "ssl",
+        "mae"
+      ]
+    },
+    {
+      "id": "E54-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BEiT học biểu diễn bằng mục tiêu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán visual token (rời rạc) của các patch bị mask"
+        },
+        {
+          "key": "B",
+          "text": "Tái tạo pixel L2"
+        },
+        {
+          "key": "C",
+          "text": "Đối kháng GAN"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại có giám sát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BEiT (giống BERT cho ảnh) dự đoán token rời rạc từ tokenizer (dVAE) cho các patch bị che.",
+      "tags": [
+        "ssl",
+        "beit"
+      ]
+    },
+    {
+      "id": "E54-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DINO huấn luyện theo cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-distillation giữa teacher (momentum) và student, không cần nhãn"
+        },
+        {
+          "key": "B",
+          "text": "Đối kháng GAN"
+        },
+        {
+          "key": "C",
+          "text": "Contrastive với queue lớn"
+        },
+        {
+          "key": "D",
+          "text": "Dự đoán pixel bị mask"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DINO cho student khớp đầu ra teacher (centering + sharpening) qua các view khác nhau, không dùng nhãn.",
+      "tags": [
+        "ssl",
+        "dino"
+      ]
+    },
+    {
+      "id": "E54-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một quan sát nổi bật của DINO với ViT là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bản đồ self-attention nổi lên ranh giới đối tượng dù không có nhãn phân đoạn"
+        },
+        {
+          "key": "B",
+          "text": "Nó cần ít dữ liệu nhất"
+        },
+        {
+          "key": "C",
+          "text": "Nó loại bỏ patch embedding"
+        },
+        {
+          "key": "D",
+          "text": "Nó chỉ chạy trên CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention map của DINO/ViT thể hiện thông tin phân đoạn đối tượng một cách emergent, hữu ích cho downstream.",
+      "tags": [
+        "ssl",
+        "dino"
+      ]
+    },
+    {
+      "id": "E54-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Vision Transformer (ViT), ảnh được xử lý đầu vào như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia thành các patch, làm phẳng và chiếu tuyến tính thành token kèm positional embedding"
+        },
+        {
+          "key": "B",
+          "text": "Đưa nguyên ảnh vào FC"
+        },
+        {
+          "key": "C",
+          "text": "Dùng pooling toàn cục trước"
+        },
+        {
+          "key": "D",
+          "text": "Trích cạnh trước khi đưa vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ViT cắt ảnh thành patch (vd 16x16), nhúng tuyến tính thành chuỗi token, thêm position embedding.",
+      "tags": [
+        "vit",
+        "patch"
+      ]
+    },
+    {
+      "id": "E54-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Token [CLS] trong ViT dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng hợp biểu diễn toàn ảnh cho tác vụ phân loại"
+        },
+        {
+          "key": "B",
+          "text": "Đánh dấu vị trí patch"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa màu sắc"
+        },
+        {
+          "key": "D",
+          "text": "Lưu gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "[CLS] là token học được, đầu ra tương ứng được dùng làm biểu diễn toàn cục để phân loại.",
+      "tags": [
+        "vit",
+        "cls"
+      ]
+    },
+    {
+      "id": "E54-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với CNN, ViT có đặc điểm gì về inductive bias?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ViT ít bias không gian (locality, translation) nên thường cần nhiều dữ liệu/pretrain hơn"
+        },
+        {
+          "key": "B",
+          "text": "ViT có nhiều bias cục bộ hơn"
+        },
+        {
+          "key": "C",
+          "text": "ViT không học được texture"
+        },
+        {
+          "key": "D",
+          "text": "ViT luôn vượt CNN với dữ liệu nhỏ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN có sẵn bias locality và translation-equivariance; ViT thiếu nên cần dữ liệu lớn hoặc pretrain để bù.",
+      "tags": [
+        "vit",
+        "cnn"
+      ]
+    },
+    {
+      "id": "E54-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CLIP được huấn luyện với mục tiêu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Contrastive khớp đúng cặp ảnh-văn bản trong batch (image-text)"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại 1000 lớp ImageNet"
+        },
+        {
+          "key": "C",
+          "text": "Tái tạo pixel"
+        },
+        {
+          "key": "D",
+          "text": "Dự đoán bước nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CLIP tối đa hóa tương đồng cặp ảnh-caption đúng và tối thiểu cặp sai bằng contrastive loss đối xứng.",
+      "tags": [
+        "clip",
+        "contrastive"
+      ]
+    },
+    {
+      "id": "E54-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CLIP gồm những thành phần encoder nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một encoder ảnh và một encoder văn bản chiếu vào không gian chung"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một encoder ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Một generator và discriminator"
+        },
+        {
+          "key": "D",
+          "text": "Một U-Net duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CLIP có image encoder (ViT/ResNet) và text encoder (Transformer), embedding được chuẩn hóa và so sánh.",
+      "tags": [
+        "clip",
+        "encoder"
+      ]
+    },
+    {
+      "id": "E54-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Zero-shot classification bằng CLIP thực hiện ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh embedding ảnh với embedding của các câu mô tả lớp (prompt) rồi chọn cao nhất"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune trên lớp mới"
+        },
+        {
+          "key": "C",
+          "text": "Huấn luyện lại text encoder"
+        },
+        {
+          "key": "D",
+          "text": "Dùng k-NN trên pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CLIP tạo text embedding cho mỗi lớp (vd 'a photo of a {class}') và chọn lớp có cosine similarity cao nhất với ảnh.",
+      "tags": [
+        "clip",
+        "zeroshot"
+      ]
+    },
+    {
+      "id": "E54-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CLIP score (dùng đánh giá text-to-image) đo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ tương đồng giữa ảnh sinh và prompt văn bản trong không gian CLIP"
+        },
+        {
+          "key": "B",
+          "text": "Độ sắc nét pixel"
+        },
+        {
+          "key": "C",
+          "text": "Số tham số mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian sinh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CLIP score đo cosine similarity giữa embedding CLIP của ảnh sinh và của prompt, phản ánh độ bám đề.",
+      "tags": [
+        "eval",
+        "clipscore"
+      ]
+    },
+    {
+      "id": "E54-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LPIPS được dùng để đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khác biệt tri giác giữa hai ảnh dựa trên đặc trưng mạng học sâu"
+        },
+        {
+          "key": "B",
+          "text": "Số cạnh khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Khác biệt histogram"
+        },
+        {
+          "key": "D",
+          "text": "Entropy nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LPIPS so sánh activation của mạng pretrained, tương quan tốt với cảm nhận con người hơn PSNR/SSIM.",
+      "tags": [
+        "eval",
+        "lpips"
+      ]
+    },
+    {
+      "id": "E54-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Segment Anything Model (SAM) có đặc điểm cốt lõi gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân đoạn theo prompt (điểm, hộp, mask) một cách tổng quát zero-shot"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ phân đoạn người"
+        },
+        {
+          "key": "C",
+          "text": "Cần fine-tune cho mỗi ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Sinh ảnh mới"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SAM là mô hình promptable, nhận điểm/hộp làm gợi ý và trả mask, tổng quát hóa cho đối tượng chưa thấy.",
+      "tags": [
+        "sam",
+        "segment"
+      ]
+    },
+    {
+      "id": "E54-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Linear probing để đánh giá biểu diễn SSL nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đóng băng encoder, chỉ huấn luyện một lớp tuyến tính phía trên"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune toàn bộ mạng"
+        },
+        {
+          "key": "C",
+          "text": "Huấn luyện lại từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng k-NN không học"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Linear probing giữ backbone cố định và học classifier tuyến tính, đo chất lượng đặc trưng đã học.",
+      "tags": [
+        "eval",
+        "linearprobe"
+      ]
+    },
+    {
+      "id": "E54-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt chính giữa fine-tuning và linear probing là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tuning cập nhật cả backbone; linear probing chỉ cập nhật head tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Hai cách hoàn toàn giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "Fine-tuning không dùng nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Linear probing cập nhật nhiều tham số hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fine-tuning điều chỉnh toàn bộ trọng số cho task mới; linear probing chỉ học lớp cuối, đánh giá transferability.",
+      "tags": [
+        "eval",
+        "finetune"
+      ]
+    },
+    {
+      "id": "E54-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao data augmentation mạnh lại quan trọng với contrastive SSL?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Định nghĩa bất biến cần học và tạo các view dương phong phú, tránh shortcut tầm thường"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng kích thước ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm số lớp"
+        },
+        {
+          "key": "D",
+          "text": "Để loại bỏ negatives"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Augmentation (crop, color jitter, blur...) quyết định invariance mô hình học; thiếu nó model dễ dùng shortcut về màu/kết cấu.",
+      "tags": [
+        "ssl",
+        "augment"
+      ]
+    },
+    {
+      "id": "E54-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong image-to-image translation không ghép cặp, vì sao chỉ dùng loss đối kháng là chưa đủ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì có thể có nhiều ánh xạ thỏa mãn, dễ mất nội dung; cần ràng buộc như cycle-consistency"
+        },
+        {
+          "key": "B",
+          "text": "Vì discriminator quá mạnh"
+        },
+        {
+          "key": "C",
+          "text": "Vì ảnh quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Vì không có generator"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ adversarial loss không đảm bảo giữ nội dung gốc; cycle/identity loss ràng buộc ánh xạ có nghĩa.",
+      "tags": [
+        "cyclegan",
+        "i2i"
+      ]
+    },
+    {
+      "id": "E54-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày cơ chế cycle-consistency trong CycleGAN và giải thích vì sao nó cho phép dịch ảnh giữa hai miền khi không có dữ liệu ghép cặp (unpaired).",
+      "modelAnswer": "CycleGAN học hai generator G: X->Y và F: Y->X cùng hai discriminator D_X, D_Y. Vì dữ liệu không ghép cặp, ta không có ảnh đích tương ứng để so sánh trực tiếp; loss đối kháng chỉ ép đầu ra trông giống miền đích nhưng không đảm bảo giữ nội dung của ảnh nguồn (có thể nhiều ánh xạ khác nhau cùng đánh lừa discriminator). Cycle-consistency loss bổ sung ràng buộc: F(G(x)) phải gần x và G(F(y)) phải gần y (đo bằng L1). Nghĩa là dịch xuôi sang miền kia rồi dịch ngược phải tái tạo lại ảnh ban đầu, buộc ánh xạ phải song ánh và bảo toàn nội dung/cấu trúc. Tổng loss gồm adversarial loss cho cả hai chiều cộng cycle-consistency (và đôi khi identity loss). Nhờ vậy CycleGAN dịch phong cách/miền (ví dụ ngựa<->ngựa vằn, ảnh<->tranh) mà không cần cặp pixel tương ứng.",
+      "rubric": [
+        "Mô tả hai generator/discriminator và mục tiêu đối kháng",
+        "Giải thích cycle-consistency F(G(x))~x, G(F(y))~y bằng L1",
+        "Nêu vì sao adversarial đơn lẻ không đủ (nhiều ánh xạ, mất nội dung)",
+        "Kết nối: ràng buộc cycle cho phép học unpaired và bảo toàn nội dung"
+      ],
+      "tags": [
+        "cyclegan",
+        "unpaired",
+        "essay"
+      ]
+    },
+    {
+      "id": "E54-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Mô tả quá trình forward (khuếch tán xuôi) và reverse (khử nhiễu) của mô hình diffusion (DDPM) và giải thích vì sao quá trình huấn luyện diffusion thường ổn định hơn so với GAN.",
+      "modelAnswer": "Forward process là chuỗi Markov thêm dần nhiễu Gauss vào ảnh x0 qua T bước theo lịch beta_t, sao cho x_T xấp xỉ nhiễu chuẩn N(0,I); nhờ tính chất khép kín, ta lấy mẫu x_t trực tiếp từ x0 bằng alpha_bar_t. Reverse process học một mạng (U-Net với time embedding) để khử nhiễu dần từ x_T về x0; mô hình thường được huấn luyện dự đoán nhiễu epsilon đã thêm, tối thiểu MSE giữa nhiễu thật và dự đoán cho timestep ngẫu nhiên. Khi lấy mẫu, ta lặp khử nhiễu từng bước (DDPM/DDIM). Diffusion ổn định hơn GAN vì: (1) mục tiêu là hồi quy/likelihood (MSE khử nhiễu) chứ không phải trò chơi minimax đối kháng nên gradient ổn định, không có cân bằng mong manh giữa G và D; (2) không gặp mode collapse, bao phủ phân phối tốt nhờ tối ưu biên dưới likelihood; (3) huấn luyện trên nhiều mức nhiễu giúp tín hiệu học mượt. Đổi lại diffusion tốn nhiều bước lấy mẫu nên chậm hơn, và latent diffusion ra đời để giảm chi phí.",
+      "rubric": [
+        "Giải thích forward: thêm nhiễu Gauss theo lịch beta tới nhiễu trắng",
+        "Giải thích reverse: U-Net dự đoán nhiễu epsilon, MSE, lấy mẫu lặp",
+        "Nêu lý do ổn định hơn GAN: không minimax/đối kháng, tránh mode collapse",
+        "Nêu đánh đổi: chậm do nhiều bước, dẫn tới latent diffusion"
+      ],
+      "tags": [
+        "diffusion",
+        "ddpm",
+        "essay"
+      ]
+    },
+    {
+      "id": "E54-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cách contrastive learning kiểu SimCLR học biểu diễn không cần nhãn: vai trò của augmentation, cặp dương/âm, projection head và hàm mất mát NT-Xent.",
+      "modelAnswer": "SimCLR học biểu diễn tự giám sát bằng cách kéo gần các view của cùng một ảnh và đẩy xa view của ảnh khác. Với mỗi ảnh, áp hai phép augmentation ngẫu nhiên (random crop/resize, color jitter, grayscale, Gaussian blur) tạo hai view; đây là cặp dương. Trong một batch lớn, mọi view từ các ảnh khác là cặp âm. Encoder (vd ResNet) trích đặc trưng h, sau đó một projection head (MLP) ánh xạ sang z dùng để tính loss; projection head được bỏ khi dùng downstream vì h giàu thông tin hơn. Hàm NT-Xent tính cosine similarity giữa các z, chia cho temperature tau rồi đưa qua softmax: với mỗi cặp dương, loss là -log của xác suất cặp dương trên tổng tất cả cặp (dương+âm). Temperature điều chỉnh độ nhấn mạnh hard negatives. Augmentation mạnh là then chốt vì nó định nghĩa bất biến cần học và ngăn shortcut tầm thường (vd dựa trên màu). SimCLR cần batch lớn để có đủ negatives. Sau pretrain, đánh giá bằng linear probing hoặc fine-tuning.",
+      "rubric": [
+        "Augmentation tạo hai view -> cặp dương; các ảnh khác trong batch -> cặp âm",
+        "Vai trò encoder và projection head (bỏ head khi downstream)",
+        "Công thức/ý tưởng NT-Xent: cosine similarity, temperature, softmax",
+        "Vai trò batch lớn và lý do augmentation mạnh quan trọng"
+      ],
+      "tags": [
+        "ssl",
+        "simclr",
+        "essay"
+      ]
+    },
+    {
+      "id": "E54-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày cách CLIP được huấn luyện trên dữ liệu ảnh-văn bản và cách dùng nó để phân loại zero-shot. Nêu một ưu điểm và một hạn chế.",
+      "modelAnswer": "CLIP gồm một image encoder (ViT hoặc ResNet) và một text encoder (Transformer). Huấn luyện trên hàng trăm triệu cặp (ảnh, caption) thu từ web. Trong mỗi batch N cặp, ta tính embedding ảnh và embedding văn bản, chuẩn hóa rồi tạo ma trận tương đồng NxN; mục tiêu contrastive (đối xứng, dạng cross-entropy theo cả hàng và cột) làm cho N cặp đúng có similarity cao trên đường chéo và N^2-N cặp sai có similarity thấp. Sau huấn luyện, hai encoder chia sẻ một không gian embedding chung. Phân loại zero-shot: với tập lớp cần phân loại, tạo prompt văn bản cho mỗi lớp (vd 'a photo of a {class}'), mã hóa thành text embedding; mã hóa ảnh cần phân loại; chọn lớp có cosine similarity cao nhất, không cần huấn luyện thêm. Ưu điểm: tổng quát hóa zero-shot rộng, không cần dữ liệu gán nhãn cho lớp mới, dùng được cho retrieval và làm text encoder cho text-to-image. Hạn chế: phụ thuộc chất lượng/độ phủ và thiên lệch của dữ liệu web, yếu với khái niệm hiếm hoặc đếm/quan hệ không gian, và nhạy với cách viết prompt.",
+      "rubric": [
+        "Mô tả hai encoder và dữ liệu ảnh-caption quy mô lớn",
+        "Giải thích contrastive đối xứng: đường chéo cao, ngoài đường chéo thấp",
+        "Giải thích zero-shot: prompt theo lớp, chọn cosine similarity cao nhất",
+        "Nêu một ưu điểm và một hạn chế hợp lý"
+      ],
+      "tags": [
+        "clip",
+        "zeroshot",
+        "essay"
+      ]
+    }
+  ]
+}

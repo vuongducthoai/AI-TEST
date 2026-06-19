@@ -1,0 +1,1829 @@
+{
+  "id": "exam-47",
+  "title": "Transformer & Cơ chế Attention — Chuyên sâu",
+  "description": "Đề cương ôn tập chuyên sâu về kiến trúc Transformer và cơ chế attention. Nội dung bao gồm scaled dot-product attention, multi-head attention, positional encoding, kiến trúc encoder-decoder, masked self-attention, cùng so sánh BERT và GPT. Đề gồm 56 câu trắc nghiệm và 4 câu tự luận, độ khó khá đến cao.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E47-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong scaled dot-product attention, công thức tính đầu ra là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "softmax(QKᵀ/√d_k)·V"
+        },
+        {
+          "key": "B",
+          "text": "softmax(QKᵀ)·V/√d_k"
+        },
+        {
+          "key": "C",
+          "text": "softmax(Q·V)·Kᵀ"
+        },
+        {
+          "key": "D",
+          "text": "(QKᵀ/√d_k)·softmax(V)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đầu ra attention = softmax(QKᵀ/√d_k)·V: tích Q với Kᵀ cho điểm tương đồng, chia √d_k để ổn định, softmax thành trọng số rồi nhân V.",
+      "tags": [
+        "attention",
+        "scaled-dot-product"
+      ]
+    },
+    {
+      "id": "E47-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao trong scaled dot-product attention người ta chia cho √d_k?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm số tham số học"
+        },
+        {
+          "key": "B",
+          "text": "Để giữ phương sai tích vô hướng ổn định, tránh softmax bão hòa và gradient nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng tốc độ huấn luyện gấp đôi"
+        },
+        {
+          "key": "D",
+          "text": "Để chuẩn hóa V về phân phối chuẩn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi d_k lớn, tích QKᵀ có phương sai lớn khiến softmax rơi vào vùng bão hòa với gradient rất nhỏ; chia √d_k giữ phương sai gần 1.",
+      "tags": [
+        "attention",
+        "scaling"
+      ]
+    },
+    {
+      "id": "E47-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Self-attention khác cross-attention chủ yếu ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-attention không dùng softmax"
+        },
+        {
+          "key": "B",
+          "text": "Trong self-attention Q,K,V đến từ cùng một chuỗi; cross-attention thì Q từ chuỗi này còn K,V từ chuỗi khác"
+        },
+        {
+          "key": "C",
+          "text": "Cross-attention chỉ dùng trong encoder"
+        },
+        {
+          "key": "D",
+          "text": "Self-attention không có ma trận trọng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Self-attention lấy Q,K,V từ cùng một biểu diễn đầu vào; cross-attention (ví dụ decoder nhìn encoder) lấy Q từ decoder, K,V từ encoder.",
+      "tags": [
+        "self-attention",
+        "cross-attention"
+      ]
+    },
+    {
+      "id": "E47-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục đích chính của multi-head attention là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm độ phức tạp xuống O(n)"
+        },
+        {
+          "key": "B",
+          "text": "Cho phép mô hình chú ý đồng thời tới nhiều không gian con biểu diễn/quan hệ khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ nhu cầu dùng V"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế feed-forward network"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhiều đầu cho phép mô hình học nhiều kiểu quan hệ/khía cạnh khác nhau trong các không gian con khác nhau rồi gộp lại, giàu biểu diễn hơn một đầu.",
+      "tags": [
+        "multi-head",
+        "attention"
+      ]
+    },
+    {
+      "id": "E47-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu mô hình có d_model=512 và h=8 đầu, mỗi đầu thường có chiều d_k bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "512"
+        },
+        {
+          "key": "B",
+          "text": "128"
+        },
+        {
+          "key": "C",
+          "text": "64"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Thông thường d_k = d_model/h = 512/8 = 64, nên tổng chi phí multi-head xấp xỉ một đầu kích thước đầy đủ.",
+      "tags": [
+        "multi-head",
+        "dimensions"
+      ]
+    },
+    {
+      "id": "E47-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao Transformer cần positional encoding?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì softmax không hỗ trợ số âm"
+        },
+        {
+          "key": "B",
+          "text": "Vì self-attention bất biến với hoán vị, không tự biết thứ tự token"
+        },
+        {
+          "key": "C",
+          "text": "Vì để giảm tham số"
+        },
+        {
+          "key": "D",
+          "text": "Vì để chuẩn hóa độ dài chuỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phép self-attention thuần túy bất biến với hoán vị (permutation-invariant), nên cần thêm thông tin vị trí để mô hình biết thứ tự các token.",
+      "tags": [
+        "positional-encoding",
+        "order"
+      ]
+    },
+    {
+      "id": "E47-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Positional encoding dạng sin/cos trong Vaswani 2017 có đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải học bằng gradient descent"
+        },
+        {
+          "key": "B",
+          "text": "Dùng hàm sin và cos với các tần số khác nhau theo chiều, cố định không cần học"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ áp dụng cho decoder"
+        },
+        {
+          "key": "D",
+          "text": "Là one-hot của vị trí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PE sin/cos dùng hàm lượng giác với tần số giảm dần theo chiều embedding, là cố định (không học) và cho phép ngoại suy độ dài tốt hơn.",
+      "tags": [
+        "positional-encoding",
+        "sinusoidal"
+      ]
+    },
+    {
+      "id": "E47-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong kiến trúc Transformer gốc, mỗi sub-layer được bao bởi cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dropout rồi pooling"
+        },
+        {
+          "key": "B",
+          "text": "Kết nối residual (skip) cộng với Layer Normalization"
+        },
+        {
+          "key": "C",
+          "text": "Batch Normalization và max-pool"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có activation ReLU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi sub-layer dùng kết nối residual: output = LayerNorm(x + Sublayer(x)), giúp huấn luyện mạng sâu ổn định.",
+      "tags": [
+        "residual",
+        "layernorm"
+      ]
+    },
+    {
+      "id": "E47-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Feed-forward network position-wise trong Transformer hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số khác nhau cho từng vị trí"
+        },
+        {
+          "key": "B",
+          "text": "Áp dụng cùng một MLP hai lớp độc lập cho từng vị trí token"
+        },
+        {
+          "key": "C",
+          "text": "Là một lớp attention bổ sung"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy trên token đầu tiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FFN position-wise là MLP hai lớp (thường với ReLU/GELU) áp dụng giống nhau và độc lập cho mỗi vị trí token trong chuỗi.",
+      "tags": [
+        "ffn",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E47-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Masked (causal) self-attention trong decoder dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ẩn các token padding"
+        },
+        {
+          "key": "B",
+          "text": "Ngăn mỗi vị trí nhìn thấy token tương lai, đảm bảo tính tự hồi quy"
+        },
+        {
+          "key": "C",
+          "text": "Giảm độ phức tạp tính toán"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa attention weights"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mặt nạ causal đặt -∞ cho các vị trí tương lai trước softmax, để khi sinh từng token mô hình chỉ phụ thuộc vào token đã có (autoregressive).",
+      "tags": [
+        "masking",
+        "decoder",
+        "causal"
+      ]
+    },
+    {
+      "id": "E47-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Độ phức tạp tính toán của self-attention theo độ dài chuỗi n là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "C",
+          "text": "O(n²)"
+        },
+        {
+          "key": "D",
+          "text": "O(1)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Self-attention tính điểm giữa mọi cặp token nên cần O(n²) phép tính và bộ nhớ theo độ dài chuỗi n.",
+      "tags": [
+        "complexity",
+        "attention"
+      ]
+    },
+    {
+      "id": "E47-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đâu là nhược điểm chính của độ phức tạp O(n²) trong attention?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không huấn luyện được trên GPU"
+        },
+        {
+          "key": "B",
+          "text": "Tốn bộ nhớ và tính toán tăng nhanh với chuỗi dài"
+        },
+        {
+          "key": "C",
+          "text": "Không thể song song hóa"
+        },
+        {
+          "key": "D",
+          "text": "Làm mất thông tin vị trí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vì chi phí tăng bình phương theo độ dài, xử lý chuỗi rất dài tốn kém về bộ nhớ và thời gian, là động lực cho các biến thể attention thưa/tuyến tính.",
+      "tags": [
+        "complexity",
+        "long-sequence"
+      ]
+    },
+    {
+      "id": "E47-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BERT thuộc loại kiến trúc Transformer nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Decoder-only"
+        },
+        {
+          "key": "B",
+          "text": "Encoder-only"
+        },
+        {
+          "key": "C",
+          "text": "Encoder-decoder đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng attention"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT chỉ dùng stack encoder của Transformer, cho phép chú ý hai chiều (bidirectional) tới toàn bộ ngữ cảnh.",
+      "tags": [
+        "bert",
+        "encoder"
+      ]
+    },
+    {
+      "id": "E47-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tác vụ tiền huấn luyện chính của BERT là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán token kế tiếp tự hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Masked Language Modeling (MLM) và Next Sentence Prediction (NSP)"
+        },
+        {
+          "key": "C",
+          "text": "Dịch máy giám sát"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại ảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT được tiền huấn luyện với MLM (đoán token bị che) và NSP (đoán câu B có theo sau câu A không).",
+      "tags": [
+        "bert",
+        "pretraining",
+        "mlm"
+      ]
+    },
+    {
+      "id": "E47-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GPT thuộc loại kiến trúc nào và huấn luyện ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encoder-only, masked LM"
+        },
+        {
+          "key": "B",
+          "text": "Decoder-only, mô hình ngôn ngữ tự hồi quy đoán token kế tiếp"
+        },
+        {
+          "key": "C",
+          "text": "Encoder-decoder, dịch máy"
+        },
+        {
+          "key": "D",
+          "text": "CNN cho văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GPT là decoder-only, dùng masked self-attention và được huấn luyện autoregressive để dự đoán token tiếp theo từ trái sang phải.",
+      "tags": [
+        "gpt",
+        "decoder",
+        "autoregressive"
+      ]
+    },
+    {
+      "id": "E47-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao BERT được gọi là bidirectional còn GPT là unidirectional?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BERT dùng RNN hai chiều"
+        },
+        {
+          "key": "B",
+          "text": "BERT nhìn cả ngữ cảnh trái và phải nhờ không có mặt nạ causal; GPT chỉ nhìn token bên trái"
+        },
+        {
+          "key": "C",
+          "text": "GPT không có positional encoding"
+        },
+        {
+          "key": "D",
+          "text": "BERT lớn hơn GPT"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Encoder của BERT không che tương lai nên mỗi token thấy cả hai phía; decoder của GPT dùng mặt nạ causal nên chỉ thấy ngữ cảnh bên trái.",
+      "tags": [
+        "bert",
+        "gpt",
+        "directionality"
+      ]
+    },
+    {
+      "id": "E47-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pre-norm khác post-norm ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pre-norm bỏ residual"
+        },
+        {
+          "key": "B",
+          "text": "Pre-norm áp LayerNorm trước sub-layer (trong nhánh residual); post-norm áp LayerNorm sau khi cộng residual"
+        },
+        {
+          "key": "C",
+          "text": "Post-norm không dùng LayerNorm"
+        },
+        {
+          "key": "D",
+          "text": "Pre-norm chỉ dùng cho decoder"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-norm: x + Sublayer(LN(x)); post-norm: LN(x + Sublayer(x)). Pre-norm thường ổn định gradient hơn khi mạng rất sâu.",
+      "tags": [
+        "pre-norm",
+        "post-norm",
+        "layernorm"
+      ]
+    },
+    {
+      "id": "E47-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ưu điểm thường thấy của kiến trúc pre-norm so với post-norm là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ít tham số hơn"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện ổn định hơn cho mạng sâu, thường không cần warmup phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Suy luận nhanh gấp đôi"
+        },
+        {
+          "key": "D",
+          "text": "Không cần residual"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-norm giúp gradient lan truyền tốt hơn qua nhiều lớp, ổn định hơn khi huấn luyện Transformer rất sâu.",
+      "tags": [
+        "pre-norm",
+        "stability"
+      ]
+    },
+    {
+      "id": "E47-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BPE (Byte Pair Encoding) là kỹ thuật gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Tokenization subword bằng cách hợp nhất dần các cặp ký tự/byte xuất hiện thường xuyên"
+        },
+        {
+          "key": "C",
+          "text": "Một hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Một loại positional encoding"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BPE bắt đầu từ ký tự rồi lặp lại việc gộp cặp đơn vị xuất hiện nhiều nhất, tạo bộ từ vựng subword cân bằng giữa ký tự và từ.",
+      "tags": [
+        "tokenization",
+        "bpe",
+        "subword"
+      ]
+    },
+    {
+      "id": "E47-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "WordPiece (dùng trong BERT) khác BPE chủ yếu ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không tách subword"
+        },
+        {
+          "key": "B",
+          "text": "Chọn cặp gộp dựa trên khả năng tăng likelihood của dữ liệu thay vì chỉ theo tần suất"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho tiếng Anh"
+        },
+        {
+          "key": "D",
+          "text": "Tạo token cấp câu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "WordPiece chọn cặp để hợp nhất sao cho tối đa hóa likelihood của ngữ liệu (theo tiêu chí xác suất), khác với BPE thuần dựa trên tần suất cặp.",
+      "tags": [
+        "tokenization",
+        "wordpiece"
+      ]
+    },
+    {
+      "id": "E47-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Token đặc biệt [CLS] trong BERT thường dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh dấu kết thúc câu"
+        },
+        {
+          "key": "B",
+          "text": "Lấy biểu diễn tổng hợp của cả chuỗi cho các tác vụ phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Che token ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Tách subword"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vector ứng với token [CLS] ở lớp cuối thường dùng làm biểu diễn của cả câu/đoạn cho phân loại (ví dụ phân loại quan hệ câu).",
+      "tags": [
+        "bert",
+        "cls",
+        "classification"
+      ]
+    },
+    {
+      "id": "E47-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Attention map (ma trận trọng số attention) thể hiện điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gradient của loss"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ mỗi token chú ý (phân bổ trọng số) tới các token khác"
+        },
+        {
+          "key": "C",
+          "text": "Vị trí tuyệt đối của token"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước batch"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi hàng của attention map là phân phối softmax cho biết token truy vấn phân bổ chú ý bao nhiêu cho từng token khóa.",
+      "tags": [
+        "attention-map",
+        "interpretability"
+      ]
+    },
+    {
+      "id": "E47-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "KV cache trong suy luận của LLM decoder dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu gradient"
+        },
+        {
+          "key": "B",
+          "text": "Lưu lại K và V của các token đã sinh để không phải tính lại, tăng tốc giải mã tự hồi quy"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ chính xác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi sinh từng token, K và V của các vị trí trước được lưu (cache) và tái sử dụng, tránh tính lại toàn bộ, giảm chi phí từ O(n²) mỗi bước xuống O(n).",
+      "tags": [
+        "kv-cache",
+        "inference"
+      ]
+    },
+    {
+      "id": "E47-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với RNN, ưu điểm lớn của Transformer khi huấn luyện là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ít tham số tuyệt đối"
+        },
+        {
+          "key": "B",
+          "text": "Tính toán song song trên toàn chuỗi thay vì tuần tự theo thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Không cần GPU"
+        },
+        {
+          "key": "D",
+          "text": "Luôn dùng ít bộ nhớ hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RNN xử lý tuần tự từng bước thời gian; Transformer xử lý mọi vị trí song song nên tận dụng phần cứng tốt hơn khi huấn luyện.",
+      "tags": [
+        "rnn",
+        "parallelism"
+      ]
+    },
+    {
+      "id": "E47-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao Transformer bắt được phụ thuộc dài hạn tốt hơn RNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì có nhiều lớp hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì attention nối trực tiếp mọi cặp vị trí với đường đi độ dài O(1), tránh suy giảm gradient qua nhiều bước"
+        },
+        {
+          "key": "C",
+          "text": "Vì dùng BatchNorm"
+        },
+        {
+          "key": "D",
+          "text": "Vì không có positional encoding"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention cho phép bất kỳ hai token nào tương tác trực tiếp (đường đi ngắn), khác RNN phải truyền qua nhiều bước khiến gradient dễ suy giảm.",
+      "tags": [
+        "rnn",
+        "long-range"
+      ]
+    },
+    {
+      "id": "E47-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao Transformer thường dùng LayerNorm thay vì BatchNorm trong NLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BatchNorm nhanh hơn nhưng kém chính xác"
+        },
+        {
+          "key": "B",
+          "text": "LayerNorm chuẩn hóa theo từng mẫu/đặc trưng nên không phụ thuộc kích thước batch và độ dài chuỗi thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "BatchNorm không tồn tại cho văn bản"
+        },
+        {
+          "key": "D",
+          "text": "LayerNorm loại bỏ residual"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong NLP độ dài chuỗi và batch thay đổi, thống kê batch không ổn định; LayerNorm chuẩn hóa trên chiều đặc trưng của từng token nên phù hợp hơn.",
+      "tags": [
+        "layernorm",
+        "batchnorm"
+      ]
+    },
+    {
+      "id": "E47-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LayerNorm chuẩn hóa trên chiều nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trên chiều batch"
+        },
+        {
+          "key": "B",
+          "text": "Trên chiều đặc trưng (feature) của từng mẫu/token độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Trên chiều thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Trên toàn bộ tensor"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LayerNorm tính trung bình và phương sai trên các đặc trưng của một token (một mẫu) rồi chuẩn hóa, độc lập với các mẫu khác trong batch.",
+      "tags": [
+        "layernorm",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E47-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong attention, vai trò của ma trận V (Value) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo điểm tương đồng"
+        },
+        {
+          "key": "B",
+          "text": "Chứa thông tin nội dung được tổng hợp có trọng số theo attention weights"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa vị trí"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa Q"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sau khi tính trọng số từ Q và K, các vector V được lấy trung bình có trọng số để tạo đầu ra; V mang nội dung cần truyền.",
+      "tags": [
+        "attention",
+        "value"
+      ]
+    },
+    {
+      "id": "E47-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Q (Query) và K (Key) trong attention dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh đầu ra cuối cùng trực tiếp"
+        },
+        {
+          "key": "B",
+          "text": "Tính điểm tương đồng (compatibility) quyết định trọng số chú ý"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa LayerNorm"
+        },
+        {
+          "key": "D",
+          "text": "Lưu KV cache"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tích vô hướng giữa Query và Key đo độ tương hợp giữa các token, qua softmax thành trọng số dùng để tổng hợp V.",
+      "tags": [
+        "attention",
+        "query-key"
+      ]
+    },
+    {
+      "id": "E47-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong decoder của Transformer gốc có mấy khối attention mỗi lớp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một (chỉ self-attention)"
+        },
+        {
+          "key": "B",
+          "text": "Hai: masked self-attention và cross-attention tới encoder"
+        },
+        {
+          "key": "C",
+          "text": "Ba khối attention"
+        },
+        {
+          "key": "D",
+          "text": "Không có attention"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi lớp decoder gốc gồm masked self-attention, sau đó cross-attention nhìn output encoder, rồi feed-forward.",
+      "tags": [
+        "decoder",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E47-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ứng dụng ban đầu mà Transformer (Vaswani 2017) được đề xuất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Dịch máy (machine translation)"
+        },
+        {
+          "key": "C",
+          "text": "Nhận dạng giọng nói"
+        },
+        {
+          "key": "D",
+          "text": "Dự báo chuỗi thời gian"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài báo Attention Is All You Need giới thiệu Transformer cho dịch máy (WMT En-De, En-Fr).",
+      "tags": [
+        "application",
+        "translation"
+      ]
+    },
+    {
+      "id": "E47-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vision Transformer (ViT) áp dụng Transformer cho ảnh bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng tích chập thay attention"
+        },
+        {
+          "key": "B",
+          "text": "Chia ảnh thành các patch, nhúng tuyến tính rồi coi như chuỗi token cho encoder"
+        },
+        {
+          "key": "C",
+          "text": "Dùng RNN trên pixel"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng positional encoding"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ViT cắt ảnh thành các patch, biến mỗi patch thành embedding (kèm positional embedding) rồi đưa vào Transformer encoder như một chuỗi token.",
+      "tags": [
+        "vit",
+        "application"
+      ]
+    },
+    {
+      "id": "E47-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong softmax attention, trước khi softmax người ta cộng -∞ (hoặc số rất âm) vào vị trí nào khi masking?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các token cần chú ý"
+        },
+        {
+          "key": "B",
+          "text": "Các token bị che (tương lai hoặc padding) để trọng số sau softmax xấp xỉ 0"
+        },
+        {
+          "key": "C",
+          "text": "Token [CLS]"
+        },
+        {
+          "key": "D",
+          "text": "Toàn bộ ma trận"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đặt -∞ tại các vị trí cần che khiến exp() ≈ 0, nên softmax gán trọng số gần 0 cho chúng.",
+      "tags": [
+        "masking",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E47-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số đầu attention h và chiều mỗi đầu được chọn sao cho?",
+      "options": [
+        {
+          "key": "A",
+          "text": "h × d_v ≈ d_model để chi phí tương đương một đầu đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "h luôn bằng d_model"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi đầu có chiều bằng d_model"
+        },
+        {
+          "key": "D",
+          "text": "h không liên quan tới d_model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thường d_k = d_v = d_model/h nên tổng chiều của các đầu xấp xỉ d_model, giữ chi phí gần một attention đầy đủ.",
+      "tags": [
+        "multi-head",
+        "dimensions"
+      ]
+    },
+    {
+      "id": "E47-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép chiếu tuyến tính output (W_O) trong multi-head attention làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo Q,K,V"
+        },
+        {
+          "key": "B",
+          "text": "Gộp (concat) đầu ra các đầu rồi chiếu về d_model"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa softmax"
+        },
+        {
+          "key": "D",
+          "text": "Tạo mask"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sau khi nối kết quả của các đầu, ma trận W_O chiếu chúng trở lại không gian d_model để truyền sang lớp tiếp theo.",
+      "tags": [
+        "multi-head",
+        "projection"
+      ]
+    },
+    {
+      "id": "E47-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Embedding đầu vào và lớp softmax đầu ra trong Transformer gốc đôi khi được làm gì để tiết kiệm tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ hoàn toàn"
+        },
+        {
+          "key": "B",
+          "text": "Chia sẻ trọng số (weight tying) giữa embedding và lớp chiếu trước softmax"
+        },
+        {
+          "key": "C",
+          "text": "Khởi tạo bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Dùng BatchNorm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Weight tying chia sẻ ma trận embedding với ma trận chiếu đầu ra giúp giảm tham số và thường cải thiện chất lượng.",
+      "tags": [
+        "embedding",
+        "weight-tying"
+      ]
+    },
+    {
+      "id": "E47-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm kích hoạt phổ biến trong FFN của Transformer hiện đại là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid"
+        },
+        {
+          "key": "B",
+          "text": "ReLU hoặc GELU"
+        },
+        {
+          "key": "C",
+          "text": "Tanh duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Softmax"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transformer gốc dùng ReLU; nhiều mô hình hiện đại (BERT, GPT) dùng GELU trong feed-forward.",
+      "tags": [
+        "ffn",
+        "activation"
+      ]
+    },
+    {
+      "id": "E47-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong huấn luyện BERT với MLM, tỷ lệ token bị che thường là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng 15%"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng 50%"
+        },
+        {
+          "key": "C",
+          "text": "100%"
+        },
+        {
+          "key": "D",
+          "text": "1%"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BERT che ngẫu nhiên khoảng 15% token đầu vào và huấn luyện mô hình dự đoán lại chúng.",
+      "tags": [
+        "bert",
+        "mlm"
+      ]
+    },
+    {
+      "id": "E47-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao GPT có thể sinh văn bản tuần tự (generation) còn BERT thì không tự nhiên cho việc đó?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BERT không có decoder/tự hồi quy; GPT là mô hình autoregressive dự đoán token kế tiếp"
+        },
+        {
+          "key": "B",
+          "text": "BERT lớn hơn"
+        },
+        {
+          "key": "C",
+          "text": "GPT không dùng attention"
+        },
+        {
+          "key": "D",
+          "text": "BERT không có embedding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GPT được thiết kế tự hồi quy nên sinh từng token tiếp theo; BERT tối ưu cho hiểu hai chiều (MLM) chứ không sinh chuỗi tuần tự.",
+      "tags": [
+        "gpt",
+        "bert",
+        "generation"
+      ]
+    },
+    {
+      "id": "E47-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Self-attention có tính chất permutation-equivariant nghĩa là gì (khi chưa thêm vị trí)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đảo thứ tự đầu vào thì đầu ra cũng đảo tương ứng, không đổi nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Đầu ra luôn không đổi"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ áp dụng cho ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Cần BatchNorm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không có thông tin vị trí, hoán vị các token đầu vào dẫn tới hoán vị tương ứng ở đầu ra; đó là lý do cần positional encoding để phá tính đối xứng này.",
+      "tags": [
+        "positional-encoding",
+        "permutation"
+      ]
+    },
+    {
+      "id": "E47-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dropout trong Transformer gốc thường được áp dụng ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ trong V"
+        },
+        {
+          "key": "B",
+          "text": "Trên đầu ra mỗi sub-layer (trước khi cộng residual) và trên tổng embedding + PE"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ trên gradient"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng dropout"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transformer áp dropout lên đầu ra của mỗi sub-layer cũng như tổng của embedding và positional encoding để chống quá khớp.",
+      "tags": [
+        "dropout",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E47-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi độ dài chuỗi tăng gấp đôi, bộ nhớ cho ma trận attention tăng khoảng bao nhiêu lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 lần"
+        },
+        {
+          "key": "B",
+          "text": "4 lần"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Log 2 lần"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ma trận attention kích thước n×n nên khi n gấp đôi, kích thước (và bộ nhớ) tăng khoảng 4 lần (bình phương).",
+      "tags": [
+        "complexity",
+        "memory"
+      ]
+    },
+    {
+      "id": "E47-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong cross-attention của decoder dịch máy, K và V đến từ đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ chính decoder"
+        },
+        {
+          "key": "B",
+          "text": "Từ đầu ra của encoder"
+        },
+        {
+          "key": "C",
+          "text": "Từ positional encoding"
+        },
+        {
+          "key": "D",
+          "text": "Từ nhãn mục tiêu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cross-attention dùng Q từ decoder và K,V từ biểu diễn của encoder để decoder tham chiếu câu nguồn.",
+      "tags": [
+        "cross-attention",
+        "decoder"
+      ]
+    },
+    {
+      "id": "E47-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lý do attention được dùng thay cho recurrent là về đường đi tín hiệu (path length). Path length tối đa giữa hai vị trí trong self-attention là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "text": "O(1)"
+        },
+        {
+          "key": "C",
+          "text": "O(log n)"
+        },
+        {
+          "key": "D",
+          "text": "O(n²)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong self-attention mọi cặp vị trí tương tác trực tiếp nên độ dài đường đi tối đa là hằng số O(1), thuận lợi cho học phụ thuộc dài.",
+      "tags": [
+        "attention",
+        "path-length"
+      ]
+    },
+    {
+      "id": "E47-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số tham số của một lớp attention không phụ thuộc vào yếu tố nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "d_model"
+        },
+        {
+          "key": "B",
+          "text": "Số đầu h (khi giữ d_model cố định)"
+        },
+        {
+          "key": "C",
+          "text": "Độ dài chuỗi n"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước W_O"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Các ma trận chiếu W_Q,W_K,W_V,W_O có kích thước theo d_model (và h), không phụ thuộc độ dài chuỗi n; chỉ chi phí tính toán/bộ nhớ runtime mới phụ thuộc n.",
+      "tags": [
+        "parameters",
+        "attention"
+      ]
+    },
+    {
+      "id": "E47-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Encoder-decoder gốc xử lý chuỗi đầu vào và đầu ra như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encoder mã hóa toàn bộ nguồn, decoder sinh đích từng token dựa trên nguồn đã mã hóa và token đích đã sinh"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai sinh đồng thời"
+        },
+        {
+          "key": "C",
+          "text": "Decoder mã hóa, encoder sinh"
+        },
+        {
+          "key": "D",
+          "text": "Không có tương tác giữa hai phần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Encoder tạo biểu diễn cho toàn câu nguồn; decoder dùng masked self-attention và cross-attention để sinh từng token đích tự hồi quy.",
+      "tags": [
+        "encoder-decoder",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E47-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao positional encoding sin/cos cho phép biểu diễn vị trí tương đối tốt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó là one-hot"
+        },
+        {
+          "key": "B",
+          "text": "Vì PE của vị trí pos+k có thể biểu diễn như hàm tuyến tính của PE tại pos"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó được học"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó luôn bằng 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Do tính chất của sin/cos, dịch chuyển vị trí một khoảng k tương ứng phép quay tuyến tính, giúp mô hình suy ra quan hệ vị trí tương đối.",
+      "tags": [
+        "positional-encoding",
+        "relative"
+      ]
+    },
+    {
+      "id": "E47-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Transformer, residual connection giúp ích chính ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số token"
+        },
+        {
+          "key": "B",
+          "text": "Giúp gradient lan truyền qua nhiều lớp, giảm vanishing gradient và dễ huấn luyện mạng sâu"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế attention"
+        },
+        {
+          "key": "D",
+          "text": "Mã hóa vị trí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kết nối tắt cho phép tín hiệu và gradient đi thẳng qua các lớp, giúp huấn luyện kiến trúc sâu ổn định hơn.",
+      "tags": [
+        "residual",
+        "training"
+      ]
+    },
+    {
+      "id": "E47-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đâu KHÔNG phải là biến thể giảm chi phí O(n²) của attention?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sparse attention"
+        },
+        {
+          "key": "B",
+          "text": "Linear attention"
+        },
+        {
+          "key": "C",
+          "text": "Sliding-window attention"
+        },
+        {
+          "key": "D",
+          "text": "Batch Normalization"
+        }
+      ],
+      "answer": "D",
+      "explanation": "BatchNorm là kỹ thuật chuẩn hóa, không phải biến thể attention; sparse/linear/sliding-window là các hướng giảm chi phí bậc hai.",
+      "tags": [
+        "complexity",
+        "efficient-attention"
+      ]
+    },
+    {
+      "id": "E47-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong GPT, đầu ra ở mỗi vị trí được huấn luyện để dự đoán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Token tại chính vị trí đó"
+        },
+        {
+          "key": "B",
+          "text": "Token kế tiếp (vị trí t+1)"
+        },
+        {
+          "key": "C",
+          "text": "Câu tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Token bị che ngẫu nhiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mô hình ngôn ngữ tự hồi quy của GPT huấn luyện để dự đoán token tiếp theo dựa trên các token trước đó.",
+      "tags": [
+        "gpt",
+        "language-modeling"
+      ]
+    },
+    {
+      "id": "E47-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Segment embedding trong BERT dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa vị trí tuyệt đối"
+        },
+        {
+          "key": "B",
+          "text": "Phân biệt token thuộc câu A hay câu B trong cặp đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Che token"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa LayerNorm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BERT cộng thêm segment (sentence) embedding để mô hình biết token thuộc câu thứ nhất hay thứ hai, hỗ trợ NSP và các tác vụ cặp câu.",
+      "tags": [
+        "bert",
+        "segment-embedding"
+      ]
+    },
+    {
+      "id": "E47-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao attention weights được chuẩn hóa bằng softmax (tổng = 1)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tạo phân phối trọng số hợp lệ, lấy trung bình có trọng số của V"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng tốc GPU"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm tham số"
+        },
+        {
+          "key": "D",
+          "text": "Để mã hóa vị trí"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax biến điểm tương đồng thành phân phối xác suất tổng bằng 1, dùng làm trọng số để tổng hợp các vector V một cách lồi.",
+      "tags": [
+        "softmax",
+        "attention"
+      ]
+    },
+    {
+      "id": "E47-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi suy luận GPT có KV cache, chi phí tính cho mỗi token mới giảm như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ O(n²) còn O(n) cho mỗi bước vì chỉ tính Q của token mới và tái dùng K,V cũ"
+        },
+        {
+          "key": "B",
+          "text": "Còn O(1) tuyệt đối không phụ thuộc n"
+        },
+        {
+          "key": "C",
+          "text": "Tăng lên O(n³)"
+        },
+        {
+          "key": "D",
+          "text": "Không thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhờ cache K,V của các token trước, mỗi bước chỉ cần tính cho token mới rồi attend tới n token cũ, tức O(n) mỗi bước thay vì tính lại toàn bộ O(n²).",
+      "tags": [
+        "kv-cache",
+        "inference"
+      ]
+    },
+    {
+      "id": "E47-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điểm khác biệt cốt lõi giữa attention và một lớp fully-connected cố định là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Attention dùng trọng số phụ thuộc nội dung đầu vào (động), FC dùng trọng số học cố định"
+        },
+        {
+          "key": "B",
+          "text": "FC nhanh hơn luôn"
+        },
+        {
+          "key": "C",
+          "text": "Attention không có tham số"
+        },
+        {
+          "key": "D",
+          "text": "FC bất biến hoán vị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trọng số attention được tính động từ Q,K theo từng đầu vào, trong khi lớp FC có trọng số cố định sau huấn luyện không phụ thuộc nội dung cụ thể.",
+      "tags": [
+        "attention",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E47-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong dịch máy bằng Transformer, vì sao decoder dùng masked self-attention thay vì self-attention thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm bộ nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Để khi huấn luyện song song vẫn đảm bảo mỗi vị trí chỉ dùng thông tin token trước nó (không rò rỉ đáp án tương lai)"
+        },
+        {
+          "key": "C",
+          "text": "Để mã hóa vị trí"
+        },
+        {
+          "key": "D",
+          "text": "Để dùng cross-attention"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mặt nạ causal giữ tính tự hồi quy: dù huấn luyện song song toàn câu, mỗi vị trí chỉ thấy token trước, tránh nhìn trộm token cần dự đoán.",
+      "tags": [
+        "masking",
+        "decoder",
+        "training"
+      ]
+    },
+    {
+      "id": "E47-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pre-norm Transformer phổ biến trong các LLM hiện đại chủ yếu vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho kết quả kém hơn nhưng nhanh"
+        },
+        {
+          "key": "B",
+          "text": "Ổn định khi scale lên rất nhiều lớp và tham số"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ attention"
+        },
+        {
+          "key": "D",
+          "text": "Không cần dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-norm giúp huấn luyện ổn định ở quy mô rất lớn (nhiều lớp), nên được ưa dùng trong các LLM hiện đại.",
+      "tags": [
+        "pre-norm",
+        "llm"
+      ]
+    },
+    {
+      "id": "E47-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cơ chế scaled dot-product attention: vai trò của Q, K, V, công thức softmax(QKᵀ/√d_k)V, và vì sao phải chia cho √d_k.",
+      "modelAnswer": "Scaled dot-product attention nhận ba ma trận: Query (Q), Key (K) và Value (V). Đầu ra = softmax(QKᵀ/√d_k)·V. Tích QKᵀ đo độ tương đồng (điểm) giữa mỗi truy vấn và các khóa; softmax biến các điểm này thành phân phối trọng số tổng bằng 1; trọng số đó dùng để lấy trung bình có trọng số các vector V, tạo biểu diễn ngữ cảnh cho mỗi vị trí. Việc chia cho √d_k là quan trọng: khi d_k lớn, tích vô hướng QKᵀ có phương sai tỉ lệ với d_k nên giá trị có thể rất lớn, đẩy softmax vào vùng bão hòa khiến gradient rất nhỏ và khó học. Chia cho √d_k chuẩn hóa phương sai về xấp xỉ 1, giữ softmax ở vùng có gradient tốt, ổn định huấn luyện.",
+      "rubric": [
+        "Nêu vai trò Q, K, V",
+        "Viết đúng công thức softmax(QKᵀ/√d_k)V",
+        "Giải thích softmax tạo trọng số tổng hợp V",
+        "Giải thích lý do chia √d_k: ổn định phương sai/tránh softmax bão hòa"
+      ],
+      "tags": [
+        "attention",
+        "scaled-dot-product"
+      ]
+    },
+    {
+      "id": "E47-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Vì sao Transformer cần positional encoding? Trình bày bản chất vấn đề và cách positional encoding sin/cos giải quyết.",
+      "modelAnswer": "Self-attention thuần túy là bất biến với hoán vị (permutation-invariant/equivariant): nếu ta đảo thứ tự các token đầu vào thì đầu ra cũng chỉ đổi thứ tự tương ứng, mô hình không hề biết token nào đứng trước token nào. Trong khi đó, thứ tự từ ngữ rất quan trọng đối với ngôn ngữ. Vì vậy cần bổ sung thông tin vị trí. Positional encoding cộng (hoặc nối) một vector mã hóa vị trí vào embedding của mỗi token. Trong Vaswani 2017, PE dùng hàm sin và cos với nhiều tần số khác nhau theo chiều embedding; cách này cố định (không cần học), cho phép mô hình suy ra vị trí tương đối vì PE tại pos+k là hàm tuyến tính của PE tại pos, và có khả năng ngoại suy sang độ dài chưa thấy. Ngoài sin/cos còn có positional embedding học được hoặc các biến thể vị trí tương đối như RoPE.",
+      "rubric": [
+        "Chỉ ra self-attention bất biến hoán vị nên không biết thứ tự",
+        "Khẳng định thứ tự token quan trọng với ngôn ngữ",
+        "Mô tả PE sin/cos cộng vào embedding, đa tần số",
+        "Nêu ưu điểm: cố định/không học, biểu diễn vị trí tương đối, ngoại suy"
+      ],
+      "tags": [
+        "positional-encoding",
+        "order"
+      ]
+    },
+    {
+      "id": "E47-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Multi-head attention mang lại lợi ích gì so với single-head attention? Trình bày cách hoạt động (chia chiều, song song, gộp).",
+      "modelAnswer": "Multi-head attention chạy nhiều cơ chế attention song song (các đầu), mỗi đầu có bộ ma trận chiếu W_Q, W_K, W_V riêng để chiếu Q, K, V vào một không gian con chiều thấp hơn (thường d_k = d_model/h). Mỗi đầu thực hiện scaled dot-product attention độc lập, cho phép mô hình chú ý tới nhiều kiểu quan hệ hoặc nhiều không gian con biểu diễn khác nhau cùng lúc (ví dụ một đầu bắt quan hệ cú pháp, đầu khác bắt quan hệ ngữ nghĩa hay vị trí). Đầu ra các đầu được nối lại (concat) rồi chiếu qua W_O về chiều d_model. Lợi ích chính: tăng khả năng biểu diễn và độ phong phú của thông tin attention mà chi phí tính toán vẫn xấp xỉ một đầu đầy đủ vì tổng chiều các đầu bằng d_model; đồng thời các đầu tính song song hiệu quả trên phần cứng. So với single-head, một đầu phải lấy trung bình nhiều mẫu quan hệ vào cùng một không gian, dễ làm nhòe các quan hệ khác nhau.",
+      "rubric": [
+        "Mô tả nhiều đầu song song với phép chiếu riêng",
+        "Giải thích chia chiều d_k = d_model/h, chi phí tương đương một đầu",
+        "Nêu lợi ích: chú ý nhiều không gian con/quan hệ khác nhau",
+        "Mô tả gộp concat rồi chiếu W_O về d_model"
+      ],
+      "tags": [
+        "multi-head",
+        "attention"
+      ]
+    },
+    {
+      "id": "E47-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh BERT và GPT về kiến trúc và cách huấn luyện. Nêu hệ quả tới loại tác vụ phù hợp.",
+      "modelAnswer": "Về kiến trúc: BERT là encoder-only, dùng self-attention hai chiều (không có mặt nạ causal) nên mỗi token thấy cả ngữ cảnh trái và phải; GPT là decoder-only, dùng masked (causal) self-attention nên mỗi token chỉ thấy các token bên trái. Về huấn luyện: BERT được tiền huấn luyện với Masked Language Modeling (che ~15% token và dự đoán lại) cùng Next Sentence Prediction, tối ưu cho hiểu ngữ cảnh hai chiều; GPT được huấn luyện như mô hình ngôn ngữ tự hồi quy, dự đoán token kế tiếp từ trái sang phải. Hệ quả: BERT mạnh ở các tác vụ hiểu (phân loại, NER, hỏi đáp trích xuất) thông qua fine-tune trên biểu diễn (ví dụ vector [CLS]), nhưng không sinh văn bản tuần tự một cách tự nhiên; GPT mạnh ở sinh văn bản và các tác vụ generative, few-shot/zero-shot qua prompting nhờ tính tự hồi quy. Tóm lại sự khác biệt bidirectional-encoder vs autoregressive-decoder quyết định BERT thiên về hiểu còn GPT thiên về sinh.",
+      "rubric": [
+        "Kiến trúc: BERT encoder-only bidirectional vs GPT decoder-only causal",
+        "Huấn luyện: MLM/NSP của BERT vs autoregressive next-token của GPT",
+        "Hệ quả tác vụ: BERT cho hiểu/phân loại, GPT cho sinh văn bản",
+        "Đề cập [CLS]/fine-tune hoặc prompting/few-shot"
+      ],
+      "tags": [
+        "bert",
+        "gpt",
+        "comparison"
+      ]
+    }
+  ]
+}

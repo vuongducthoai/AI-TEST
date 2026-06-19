@@ -1,0 +1,1825 @@
+{
+  "id": "exam-46",
+  "title": "Kiến trúc AI cổ điển — MLP, RNN, LSTM, GRU & Autoencoder",
+  "description": "Đề cương ôn tập trắc nghiệm khái niệm về các kiến trúc AI cổ điển: perceptron và MLP, mạng hồi tiếp RNN, LSTM, GRU, seq2seq encoder-decoder, word embeddings và autoencoder. Đề tập trung kiểm tra hiểu biết khái niệm và so sánh giữa các kiến trúc ở mức độ trung bình đến khá. Gồm 56 câu trắc nghiệm và 4 câu tự luận khái niệm.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E46-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Perceptron đơn (single-layer perceptron) KHÔNG thể học được hàm nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàm AND"
+        },
+        {
+          "key": "B",
+          "text": "Hàm OR"
+        },
+        {
+          "key": "C",
+          "text": "Hàm XOR"
+        },
+        {
+          "key": "D",
+          "text": "Hàm NOT"
+        }
+      ],
+      "answer": "C",
+      "explanation": "XOR không khả phân tuyến tính nên perceptron đơn (chỉ tạo một siêu phẳng) không thể tách được; cần MLP có lớp ẩn phi tuyến.",
+      "tags": [
+        "perceptron",
+        "XOR"
+      ]
+    },
+    {
+      "id": "E46-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để mạng MLP giải được bài toán XOR, điều kiện bắt buộc là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng learning rate thật lớn"
+        },
+        {
+          "key": "B",
+          "text": "Có ít nhất một lớp ẩn với hàm kích hoạt phi tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Dùng nhiều neuron ở lớp đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hoàn toàn hàm kích hoạt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nếu chỉ chồng các lớp tuyến tính, mạng vẫn tương đương một hàm tuyến tính; cần lớp ẩn cùng phi tuyến để tạo ranh giới quyết định cong.",
+      "tags": [
+        "MLP",
+        "XOR",
+        "phi tuyến"
+      ]
+    },
+    {
+      "id": "E46-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định lý xấp xỉ phổ quát (universal approximation theorem) phát biểu rằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi mạng nơ-ron đều hội tụ về nghiệm tối ưu toàn cục"
+        },
+        {
+          "key": "B",
+          "text": "Một MLP với một lớp ẩn đủ rộng có thể xấp xỉ mọi hàm liên tục trên tập compact"
+        },
+        {
+          "key": "C",
+          "text": "Backpropagation luôn tìm được trọng số tốt nhất"
+        },
+        {
+          "key": "D",
+          "text": "RNN mạnh hơn mọi mạng feedforward"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Định lý chỉ bảo đảm tồn tại bộ trọng số xấp xỉ hàm liên tục với độ rộng đủ lớn, không nói gì về việc huấn luyện có tìm được bộ trọng số đó hay không.",
+      "tags": [
+        "universal approximation",
+        "MLP"
+      ]
+    },
+    {
+      "id": "E46-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong lan truyền xuôi (forward pass) của một neuron, thứ tự tính toán đúng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Áp dụng hàm kích hoạt rồi mới nhân trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Tính tổng có trọng số (z = Wx + b) rồi áp dụng hàm kích hoạt"
+        },
+        {
+          "key": "C",
+          "text": "Cộng bias sau khi đã qua hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Lấy đạo hàm trước khi nhân trọng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Neuron tính z = Wx + b (tổng tuyến tính có trọng số và bias) trước, sau đó đưa qua hàm kích hoạt phi tuyến để cho đầu ra.",
+      "tags": [
+        "forward",
+        "neuron"
+      ]
+    },
+    {
+      "id": "E46-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thuật toán backpropagation về bản chất dựa trên nguyên lý toán học nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quy tắc dây chuyền (chain rule) của đạo hàm"
+        },
+        {
+          "key": "B",
+          "text": "Định lý giới hạn trung tâm"
+        },
+        {
+          "key": "C",
+          "text": "Phép biến đổi Fourier"
+        },
+        {
+          "key": "D",
+          "text": "Quy hoạch tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprop áp dụng quy tắc dây chuyền để truyền gradient của hàm mất mát ngược qua từng lớp, tính đạo hàm theo từng trọng số.",
+      "tags": [
+        "backprop",
+        "chain rule"
+      ]
+    },
+    {
+      "id": "E46-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sự khác biệt cốt lõi giữa mạng feedforward và mạng hồi tiếp (recurrent) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Feedforward không có hàm kích hoạt"
+        },
+        {
+          "key": "B",
+          "text": "Recurrent có kết nối vòng lặp giúp duy trì trạng thái theo thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Feedforward luôn sâu hơn recurrent"
+        },
+        {
+          "key": "D",
+          "text": "Recurrent không cần huấn luyện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mạng hồi tiếp có vòng phản hồi (hidden state truyền sang bước thời gian sau), cho phép xử lý chuỗi; feedforward chỉ truyền tín hiệu một chiều, không nhớ trạng thái.",
+      "tags": [
+        "feedforward",
+        "recurrent"
+      ]
+    },
+    {
+      "id": "E46-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong RNN, đặc điểm 'chia sẻ trọng số theo thời gian' (weight sharing) nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi bước thời gian dùng một ma trận trọng số khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Cùng một bộ trọng số được dùng lại ở mọi bước thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Trọng số được chia đều cho các neuron đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số bằng 0 ở bước đầu tiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RNN tái sử dụng cùng ma trận trọng số tại mọi bước thời gian, giúp xử lý chuỗi độ dài tùy ý và giảm số tham số.",
+      "tags": [
+        "RNN",
+        "weight sharing"
+      ]
+    },
+    {
+      "id": "E46-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BPTT (Backpropagation Through Time) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cách khởi tạo trọng số RNN"
+        },
+        {
+          "key": "B",
+          "text": "Việc trải RNN ra theo thời gian rồi lan truyền ngược gradient qua các bước"
+        },
+        {
+          "key": "C",
+          "text": "Một hàm kích hoạt dành riêng cho RNN"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật nén mô hình RNN"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BPTT trải (unroll) RNN thành một mạng sâu theo trục thời gian và áp dụng backprop trên đồ thị đã trải để cập nhật trọng số dùng chung.",
+      "tags": [
+        "BPTT",
+        "RNN"
+      ]
+    },
+    {
+      "id": "E46-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nguyên nhân chính của hiện tượng vanishing gradient trong RNN khi xử lý chuỗi dài là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Learning rate quá nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Gradient bị nhân liên tiếp nhiều lần qua các bước thời gian nên co về 0"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng neuron quá ít"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu chưa được chuẩn hóa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi lan truyền ngược qua nhiều bước, gradient là tích của nhiều thừa số; nếu các thừa số nhỏ hơn 1, tích co về 0 làm mạng khó học phụ thuộc xa.",
+      "tags": [
+        "vanishing gradient",
+        "RNN"
+      ]
+    },
+    {
+      "id": "E46-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ quả thực tế của vanishing gradient đối với RNN cơ bản là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mạng học rất tốt các phụ thuộc dài hạn"
+        },
+        {
+          "key": "B",
+          "text": "Mạng khó nắm bắt phụ thuộc dài hạn trong chuỗi"
+        },
+        {
+          "key": "C",
+          "text": "Mạng luôn bị overfitting"
+        },
+        {
+          "key": "D",
+          "text": "Mạng không cần hàm kích hoạt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vì gradient từ các bước xa bị triệt tiêu, RNN cơ bản chủ yếu học được phụ thuộc ngắn hạn và khó liên kết thông tin ở khoảng cách xa.",
+      "tags": [
+        "vanishing gradient",
+        "long-term"
+      ]
+    },
+    {
+      "id": "E46-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LSTM được thiết kế chủ yếu để giải quyết vấn đề nào của RNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ tính toán chậm"
+        },
+        {
+          "key": "B",
+          "text": "Vanishing gradient và phụ thuộc dài hạn"
+        },
+        {
+          "key": "C",
+          "text": "Thiếu hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số quá ít"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LSTM dùng cell state và các cổng để giữ và điều tiết thông tin qua nhiều bước, giảm vanishing gradient và học được phụ thuộc dài hạn.",
+      "tags": [
+        "LSTM",
+        "long-term"
+      ]
+    },
+    {
+      "id": "E46-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong LSTM, cổng quên (forget gate) có chức năng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyết định thông tin nào trong cell state cần loại bỏ"
+        },
+        {
+          "key": "B",
+          "text": "Quyết định đầu ra cuối cùng của mạng"
+        },
+        {
+          "key": "C",
+          "text": "Khởi tạo trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Tính hàm mất mát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Forget gate tạo ra giá trị trong [0,1] nhân với cell state cũ, quyết định giữ lại hay xóa bao nhiêu thông tin của mỗi thành phần.",
+      "tags": [
+        "LSTM",
+        "forget gate"
+      ]
+    },
+    {
+      "id": "E46-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong LSTM, cổng đầu vào (input gate) đảm nhiệm việc:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa toàn bộ cell state"
+        },
+        {
+          "key": "B",
+          "text": "Quyết định thông tin mới nào được ghi vào cell state"
+        },
+        {
+          "key": "C",
+          "text": "Chọn learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Tính gradient"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Input gate kiểm soát mức độ thông tin ứng viên mới (candidate) được thêm vào cell state ở bước hiện tại.",
+      "tags": [
+        "LSTM",
+        "input gate"
+      ]
+    },
+    {
+      "id": "E46-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cổng đầu ra (output gate) trong LSTM quyết định:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phần nào của cell state được dùng để tạo hidden state đầu ra"
+        },
+        {
+          "key": "B",
+          "text": "Số lớp ẩn của mạng"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước batch"
+        },
+        {
+          "key": "D",
+          "text": "Hàm mất mát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Output gate lọc cell state (thường qua tanh) để quyết định phần thông tin nào trở thành hidden state h_t xuất ra bước hiện tại.",
+      "tags": [
+        "LSTM",
+        "output gate"
+      ]
+    },
+    {
+      "id": "E46-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thành phần nào của LSTM đóng vai trò 'băng chuyền' giúp thông tin truyền gần như nguyên vẹn qua nhiều bước thời gian?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hidden state"
+        },
+        {
+          "key": "B",
+          "text": "Cell state (trạng thái ô nhớ)"
+        },
+        {
+          "key": "C",
+          "text": "Hàm softmax"
+        },
+        {
+          "key": "D",
+          "text": "Bias"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cell state chạy xuyên suốt chuỗi với chủ yếu các phép cộng và nhân theo cổng, cho phép gradient lan truyền ổn định, chống vanishing.",
+      "tags": [
+        "LSTM",
+        "cell state"
+      ]
+    },
+    {
+      "id": "E46-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao kiến trúc LSTM giúp giảm vanishing gradient so với RNN thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó không dùng backpropagation"
+        },
+        {
+          "key": "B",
+          "text": "Vì cell state cập nhật chủ yếu bằng phép cộng có cổng, tạo đường truyền gradient ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó luôn dùng learning rate lớn"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó loại bỏ hàm kích hoạt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cell state được cập nhật cộng tính (additive) có điều tiết bằng cổng, nên gradient không bị nhân co liên tục như trong cập nhật nhân tính của RNN thường.",
+      "tags": [
+        "LSTM",
+        "vanishing gradient"
+      ]
+    },
+    {
+      "id": "E46-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GRU (Gated Recurrent Unit) gồm những cổng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Forget gate và output gate"
+        },
+        {
+          "key": "B",
+          "text": "Reset gate và update gate"
+        },
+        {
+          "key": "C",
+          "text": "Input gate và output gate"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ một cổng duy nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GRU dùng hai cổng: reset gate (kiểm soát lượng quá khứ kết hợp với đầu vào) và update gate (kiểm soát giữ trạng thái cũ hay cập nhật mới).",
+      "tags": [
+        "GRU",
+        "gates"
+      ]
+    },
+    {
+      "id": "E46-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với LSTM, GRU có đặc điểm nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều cổng hơn và nhiều tham số hơn"
+        },
+        {
+          "key": "B",
+          "text": "Ít cổng hơn, ít tham số hơn, không tách riêng cell state"
+        },
+        {
+          "key": "C",
+          "text": "Không có cổng nào"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cho độ chính xác cao hơn LSTM"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GRU gộp cell state và hidden state làm một, chỉ có 2 cổng nên ít tham số, huấn luyện nhanh hơn; hiệu năng thường tương đương LSTM tùy bài toán.",
+      "tags": [
+        "GRU",
+        "LSTM"
+      ]
+    },
+    {
+      "id": "E46-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Update gate trong GRU có vai trò:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyết định giữ bao nhiêu trạng thái cũ và cập nhật bao nhiêu từ ứng viên mới"
+        },
+        {
+          "key": "B",
+          "text": "Tính softmax đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Khởi tạo embedding"
+        },
+        {
+          "key": "D",
+          "text": "Chọn số bước thời gian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Update gate nội suy giữa hidden state cũ và hidden state ứng viên, tương tự vai trò kết hợp của forget+input gate trong LSTM.",
+      "tags": [
+        "GRU",
+        "update gate"
+      ]
+    },
+    {
+      "id": "E46-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Reset gate trong GRU dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác định mức độ thông tin quá khứ bị bỏ qua khi tính trạng thái ứng viên"
+        },
+        {
+          "key": "B",
+          "text": "Reset toàn bộ trọng số về 0"
+        },
+        {
+          "key": "C",
+          "text": "Đặt lại learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Xóa dữ liệu đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Reset gate điều khiển bao nhiêu phần của hidden state trước được dùng khi tính trạng thái ứng viên; gần 0 nghĩa là 'quên' quá khứ cho bước này.",
+      "tags": [
+        "GRU",
+        "reset gate"
+      ]
+    },
+    {
+      "id": "E46-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc seq2seq (encoder-decoder) điển hình dùng để giải quyết bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại ảnh tĩnh"
+        },
+        {
+          "key": "B",
+          "text": "Ánh xạ một chuỗi đầu vào sang một chuỗi đầu ra có độ dài khác (ví dụ dịch máy)"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy tuyến tính đơn giản"
+        },
+        {
+          "key": "D",
+          "text": "Giảm chiều dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Seq2seq mã hóa chuỗi nguồn thành biểu diễn rồi giải mã thành chuỗi đích, phù hợp dịch máy, tóm tắt, hỏi đáp với độ dài vào/ra khác nhau.",
+      "tags": [
+        "seq2seq",
+        "encoder-decoder"
+      ]
+    },
+    {
+      "id": "E46-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong seq2seq cơ bản, 'context vector' là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector đầu vào thô chưa xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Vector biểu diễn cố định tóm tắt toàn bộ chuỗi nguồn do encoder tạo ra"
+        },
+        {
+          "key": "C",
+          "text": "Trọng số của lớp đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Tập nhãn của bài toán"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Encoder nén toàn bộ chuỗi nguồn vào một context vector kích thước cố định để decoder dùng làm điểm khởi đầu sinh chuỗi đích.",
+      "tags": [
+        "seq2seq",
+        "context vector"
+      ]
+    },
+    {
+      "id": "E46-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hạn chế (bottleneck) chính của seq2seq dùng một context vector cố định là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thể huấn luyện được"
+        },
+        {
+          "key": "B",
+          "text": "Khó nén thông tin của chuỗi dài vào một vector cố định, gây mất mát với câu dài"
+        },
+        {
+          "key": "C",
+          "text": "Luôn bị overfitting"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng được cho dịch máy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi câu nguồn dài, một vector cố định không đủ dung lượng biểu diễn, làm chất lượng giảm; đây là động lực ra đời cơ chế attention.",
+      "tags": [
+        "seq2seq",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E46-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Teacher forcing trong huấn luyện seq2seq nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng đầu ra dự đoán của bước trước làm đầu vào bước sau"
+        },
+        {
+          "key": "B",
+          "text": "Dùng nhãn đúng (ground truth) của bước trước làm đầu vào cho bước hiện tại của decoder"
+        },
+        {
+          "key": "C",
+          "text": "Ép buộc learning rate cố định"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua hàm mất mát"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Teacher forcing cấp token đúng từ dữ liệu huấn luyện làm đầu vào bước kế tiếp của decoder, giúp hội tụ nhanh và ổn định hơn.",
+      "tags": [
+        "teacher forcing",
+        "seq2seq"
+      ]
+    },
+    {
+      "id": "E46-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhược điểm tiềm ẩn của teacher forcing là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mô hình không bao giờ hội tụ"
+        },
+        {
+          "key": "B",
+          "text": "Gây 'exposure bias': khi suy luận mô hình phải tự dựa vào dự đoán của chính nó, khác lúc huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Tăng vô hạn số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Xóa context vector"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vì khi huấn luyện luôn nhận token đúng nhưng khi suy luận phải dùng token tự sinh, mô hình dễ tích lũy sai số (exposure bias).",
+      "tags": [
+        "teacher forcing",
+        "exposure bias"
+      ]
+    },
+    {
+      "id": "E46-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bidirectional RNN có lợi thế gì so với RNN một chiều?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số tham số xuống một nửa"
+        },
+        {
+          "key": "B",
+          "text": "Sử dụng được cả ngữ cảnh quá khứ và tương lai tại mỗi bước thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Không cần dữ liệu nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ hoàn toàn vanishing gradient"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bi-RNN chạy hai RNN ngược chiều rồi ghép trạng thái, nên mỗi vị trí có thông tin từ cả hai phía của chuỗi, hữu ích cho gán nhãn chuỗi.",
+      "tags": [
+        "bidirectional",
+        "RNN"
+      ]
+    },
+    {
+      "id": "E46-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hạn chế của bidirectional RNN khiến nó không phù hợp với bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán nhãn từ loại (POS tagging)"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán/sinh chuỗi theo thời gian thực khi chưa biết toàn bộ tương lai"
+        },
+        {
+          "key": "C",
+          "text": "Phân tích cảm xúc câu hoàn chỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Nhận dạng thực thể trên câu đã có sẵn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bi-RNN cần toàn bộ chuỗi (cả phần tương lai) trước khi tính, nên không dùng được cho dự đoán trực tuyến/streaming khi tương lai chưa xuất hiện.",
+      "tags": [
+        "bidirectional",
+        "limitation"
+      ]
+    },
+    {
+      "id": "E46-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Word embedding (nhúng từ) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biểu diễn từ bằng vector số thực dày (dense) trong không gian liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Mã hóa one-hot thưa cho mỗi từ"
+        },
+        {
+          "key": "C",
+          "text": "Một loại hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "Thuật toán nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Embedding ánh xạ mỗi từ thành vector dày chiều thấp, nơi các từ có nghĩa gần nhau nằm gần nhau trong không gian, khác one-hot thưa và rời rạc.",
+      "tags": [
+        "embedding",
+        "word2vec"
+      ]
+    },
+    {
+      "id": "E46-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Word2Vec, mô hình skip-gram được huấn luyện để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán từ trung tâm từ các từ ngữ cảnh"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán các từ ngữ cảnh xung quanh từ từ trung tâm"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Dịch câu sang ngôn ngữ khác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Skip-gram lấy từ trung tâm làm đầu vào và dự đoán các từ ngữ cảnh lân cận; ngược lại với CBOW dự đoán từ trung tâm từ ngữ cảnh.",
+      "tags": [
+        "word2vec",
+        "skip-gram"
+      ]
+    },
+    {
+      "id": "E46-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình CBOW (Continuous Bag of Words) trong Word2Vec:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán từ trung tâm dựa trên các từ ngữ cảnh xung quanh"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán các từ ngữ cảnh từ từ trung tâm"
+        },
+        {
+          "key": "C",
+          "text": "Sinh ảnh từ văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Đếm tần suất ký tự"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CBOW gộp các từ ngữ cảnh lại để dự đoán từ trung tâm, thường nhanh hơn và tốt với từ phổ biến; skip-gram tốt hơn với từ hiếm.",
+      "tags": [
+        "word2vec",
+        "CBOW"
+      ]
+    },
+    {
+      "id": "E46-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GloVe khác Word2Vec ở điểm cơ bản nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GloVe dùng ma trận đồng xuất hiện (co-occurrence) toàn cục để học embedding"
+        },
+        {
+          "key": "B",
+          "text": "GloVe không tạo ra vector từ"
+        },
+        {
+          "key": "C",
+          "text": "GloVe chỉ dùng cho ảnh"
+        },
+        {
+          "key": "D",
+          "text": "GloVe là một hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GloVe khai thác thống kê đồng xuất hiện toàn cục của các cặp từ trong toàn ngữ liệu, trong khi Word2Vec học cục bộ theo cửa sổ ngữ cảnh.",
+      "tags": [
+        "GloVe",
+        "embedding"
+      ]
+    },
+    {
+      "id": "E46-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một embedding layer trong mạng nơ-ron về bản chất hoạt động như:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một hàm softmax"
+        },
+        {
+          "key": "B",
+          "text": "Một bảng tra cứu (lookup table) ánh xạ chỉ số từ sang vector học được"
+        },
+        {
+          "key": "C",
+          "text": "Một bộ lọc tích chập"
+        },
+        {
+          "key": "D",
+          "text": "Một cổng LSTM"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Embedding layer là một ma trận trọng số mà mỗi hàng là vector của một token; truyền chỉ số token sẽ tra ra hàng tương ứng và được cập nhật khi huấn luyện.",
+      "tags": [
+        "embedding layer",
+        "lookup"
+      ]
+    },
+    {
+      "id": "E46-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính chất nổi bật của không gian word embedding tốt là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi vector từ đều trực giao nhau"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ ngữ nghĩa/cú pháp được phản ánh qua phép toán vector (vd: king - man + woman ≈ queen)"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả từ có cùng vector"
+        },
+        {
+          "key": "D",
+          "text": "Vector từ luôn là one-hot"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Embedding chất lượng tạo ra cấu trúc tuyến tính, cho phép biểu diễn quan hệ tương tự bằng phép cộng/trừ vector.",
+      "tags": [
+        "embedding",
+        "analogy"
+      ]
+    },
+    {
+      "id": "E46-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cấu trúc cơ bản của một autoencoder gồm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ một encoder"
+        },
+        {
+          "key": "B",
+          "text": "Encoder, lớp bottleneck (mã ẩn) và decoder"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ một decoder"
+        },
+        {
+          "key": "D",
+          "text": "Hai bộ phân loại song song"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Autoencoder gồm encoder nén dữ liệu xuống biểu diễn ẩn (bottleneck) và decoder tái tạo lại dữ liệu từ biểu diễn đó.",
+      "tags": [
+        "autoencoder",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E46-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục tiêu huấn luyện của một autoencoder cơ bản là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại nhãn lớp"
+        },
+        {
+          "key": "B",
+          "text": "Tái tạo lại đầu vào ở đầu ra, tối thiểu hóa lỗi tái tạo"
+        },
+        {
+          "key": "C",
+          "text": "Dự đoán chuỗi tương lai"
+        },
+        {
+          "key": "D",
+          "text": "Tối đa hóa entropy đầu ra"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Autoencoder học cách tái tạo đầu vào (output ≈ input) bằng cách tối thiểu hóa lỗi tái tạo, qua đó học biểu diễn nén có ý nghĩa.",
+      "tags": [
+        "autoencoder",
+        "reconstruction"
+      ]
+    },
+    {
+      "id": "E46-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp bottleneck (nút thắt cổ chai) trong autoencoder đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng số chiều dữ liệu lên cao"
+        },
+        {
+          "key": "B",
+          "text": "Buộc mạng học biểu diễn nén, cô đọng các đặc trưng quan trọng"
+        },
+        {
+          "key": "C",
+          "text": "Tính hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "Lưu trữ toàn bộ dữ liệu gốc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bottleneck có số chiều nhỏ hơn đầu vào, ép mạng nén thông tin và bỏ phần dư thừa, từ đó học đặc trưng cốt lõi.",
+      "tags": [
+        "autoencoder",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E46-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Autoencoder dạng undercomplete là loại có:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bottleneck nhỏ hơn số chiều đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Bottleneck lớn hơn số chiều đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Không có lớp ẩn"
+        },
+        {
+          "key": "D",
+          "text": "Hai bottleneck"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Undercomplete autoencoder có lớp ẩn nhỏ hơn đầu vào, ép buộc nén thông tin nên có khả năng học đặc trưng hữu ích cho giảm chiều.",
+      "tags": [
+        "autoencoder",
+        "undercomplete"
+      ]
+    },
+    {
+      "id": "E46-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Rủi ro của autoencoder overcomplete (mã ẩn lớn hơn đầu vào) nếu không có ràng buộc là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thể tái tạo dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Có thể chỉ học sao chép đầu vào mà không học được đặc trưng hữu ích"
+        },
+        {
+          "key": "C",
+          "text": "Luôn cho nén tốt hơn"
+        },
+        {
+          "key": "D",
+          "text": "Mất hoàn toàn khả năng huấn luyện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi mã ẩn đủ rộng, mạng có thể học hàm đồng nhất (copy) mà không nén thông tin; cần thêm ràng buộc (sparsity, nhiễu) để hữu ích.",
+      "tags": [
+        "autoencoder",
+        "overcomplete"
+      ]
+    },
+    {
+      "id": "E46-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Denoising autoencoder được huấn luyện như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu vào sạch, đầu ra sạch"
+        },
+        {
+          "key": "B",
+          "text": "Đầu vào bị thêm nhiễu, mạng học tái tạo lại bản gốc sạch"
+        },
+        {
+          "key": "C",
+          "text": "Đầu vào và đầu ra đều là nhiễu ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Không cần đầu ra mục tiêu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Denoising AE nhận đầu vào đã làm nhiễu và học khôi phục bản sạch, buộc mô hình học đặc trưng bền vững thay vì sao chép.",
+      "tags": [
+        "autoencoder",
+        "denoising"
+      ]
+    },
+    {
+      "id": "E46-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một ứng dụng phổ biến của autoencoder là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch máy chuỗi sang chuỗi"
+        },
+        {
+          "key": "B",
+          "text": "Giảm chiều dữ liệu và phát hiện bất thường (anomaly detection)"
+        },
+        {
+          "key": "C",
+          "text": "Phân tích cú pháp ngôn ngữ"
+        },
+        {
+          "key": "D",
+          "text": "Tăng tốc CPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhờ học biểu diễn nén, AE dùng để giảm chiều; với phát hiện bất thường, mẫu lạ có lỗi tái tạo cao bất thường nên dễ nhận diện.",
+      "tags": [
+        "autoencoder",
+        "application"
+      ]
+    },
+    {
+      "id": "E46-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao autoencoder có thể dùng cho phát hiện bất thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó phân loại trực tiếp nhãn bất thường"
+        },
+        {
+          "key": "B",
+          "text": "Vì mẫu bất thường (khác phân phối huấn luyện) thường có lỗi tái tạo cao"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó luôn cho output bằng 0 với dữ liệu lạ"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó không cần huấn luyện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AE học tái tạo tốt dữ liệu bình thường; khi gặp mẫu lạ, lỗi tái tạo tăng cao, dùng làm ngưỡng để gắn cờ bất thường.",
+      "tags": [
+        "autoencoder",
+        "anomaly"
+      ]
+    },
+    {
+      "id": "E46-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So sánh PCA và autoencoder: điểm khác biệt chính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "PCA học biến đổi phi tuyến, AE chỉ tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "PCA chỉ tìm biến đổi tuyến tính, còn AE (với phi tuyến) có thể học biểu diễn phi tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều không giảm chiều"
+        },
+        {
+          "key": "D",
+          "text": "PCA cần nhãn còn AE thì không bao giờ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PCA tìm các thành phần chính tuyến tính; autoencoder với hàm kích hoạt phi tuyến có thể nắm bắt cấu trúc phi tuyến phức tạp hơn.",
+      "tags": [
+        "PCA",
+        "autoencoder"
+      ]
+    },
+    {
+      "id": "E46-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm kích hoạt nào sau đây giúp giảm vanishing gradient tốt hơn so với sigmoid trong các mạng sâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Hàm bước (step)"
+        },
+        {
+          "key": "D",
+          "text": "Hằng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU có gradient bằng 1 với đầu vào dương nên không bị bão hòa như sigmoid, giúp gradient lan truyền tốt hơn trong mạng sâu.",
+      "tags": [
+        "activation",
+        "ReLU"
+      ]
+    },
+    {
+      "id": "E46-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong bài toán phân loại đa lớp, hàm kích hoạt ở lớp đầu ra thường dùng là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Softmax"
+        },
+        {
+          "key": "B",
+          "text": "ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Linear"
+        },
+        {
+          "key": "D",
+          "text": "Tanh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax biến vector điểm số thành phân phối xác suất trên các lớp (tổng bằng 1), phù hợp phân loại đa lớp kết hợp cross-entropy.",
+      "tags": [
+        "activation",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E46-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát phù hợp cho bài toán tái tạo ảnh giá trị liên tục trong autoencoder thường là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cross-entropy đa lớp"
+        },
+        {
+          "key": "B",
+          "text": "Mean Squared Error (MSE)"
+        },
+        {
+          "key": "C",
+          "text": "Hinge loss"
+        },
+        {
+          "key": "D",
+          "text": "Negative log của softmax"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Với đầu ra liên tục, MSE đo trực tiếp sai khác bình phương giữa pixel tái tạo và gốc, là lựa chọn lỗi tái tạo phổ biến.",
+      "tags": [
+        "loss",
+        "MSE",
+        "autoencoder"
+      ]
+    },
+    {
+      "id": "E46-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát thường dùng cho mô hình ngôn ngữ dự đoán token tiếp theo trong RNN/seq2seq là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "MSE"
+        },
+        {
+          "key": "B",
+          "text": "Cross-entropy (categorical)"
+        },
+        {
+          "key": "C",
+          "text": "MAE"
+        },
+        {
+          "key": "D",
+          "text": "Hinge"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dự đoán token là bài toán phân loại trên từ vựng, nên cross-entropy giữa phân phối softmax và token đúng là lựa chọn chuẩn.",
+      "tags": [
+        "loss",
+        "cross-entropy"
+      ]
+    },
+    {
+      "id": "E46-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc nào phù hợp NHẤT cho bài toán phân loại cảm xúc của một câu văn (dữ liệu chuỗi)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP đơn thuần trên pixel"
+        },
+        {
+          "key": "B",
+          "text": "RNN/LSTM xử lý chuỗi từ"
+        },
+        {
+          "key": "C",
+          "text": "Autoencoder denoising"
+        },
+        {
+          "key": "D",
+          "text": "PCA"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cảm xúc câu phụ thuộc thứ tự và ngữ cảnh từ; RNN/LSTM xử lý tuần tự và nắm bắt phụ thuộc theo trình tự nên phù hợp.",
+      "tags": [
+        "application",
+        "RNN"
+      ]
+    },
+    {
+      "id": "E46-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để xử lý dữ liệu dạng bảng (tabular) không có cấu trúc tuần tự, kiến trúc cơ bản phù hợp là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP (mạng feedforward nhiều lớp)"
+        },
+        {
+          "key": "B",
+          "text": "LSTM"
+        },
+        {
+          "key": "C",
+          "text": "Bidirectional RNN"
+        },
+        {
+          "key": "D",
+          "text": "Seq2seq"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu bảng không có quan hệ thời gian/tuần tự rõ ràng nên MLP feedforward là lựa chọn cơ bản và phù hợp.",
+      "tags": [
+        "application",
+        "MLP"
+      ]
+    },
+    {
+      "id": "E46-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên ưu tiên GRU thay vì LSTM trong thực tế?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cần mô hình nhỏ gọn, huấn luyện nhanh và dữ liệu/khả năng tính toán hạn chế"
+        },
+        {
+          "key": "B",
+          "text": "Khi cần nhiều cổng nhất có thể"
+        },
+        {
+          "key": "C",
+          "text": "Khi bài toán không phải dạng chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Khi muốn loại bỏ hồi tiếp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GRU ít tham số hơn nên nhanh và nhẹ hơn; với dữ liệu vừa phải hoặc hạn chế tài nguyên, GRU thường là lựa chọn hợp lý với hiệu năng tương đương.",
+      "tags": [
+        "GRU",
+        "practical"
+      ]
+    },
+    {
+      "id": "E46-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong encoder-decoder, vai trò của decoder là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén chuỗi nguồn thành vector"
+        },
+        {
+          "key": "B",
+          "text": "Sinh ra chuỗi đích từng bước dựa trên biểu diễn của encoder và đầu ra trước đó"
+        },
+        {
+          "key": "C",
+          "text": "Tính ma trận đồng xuất hiện"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu đầu vào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Decoder là một RNN sinh chuỗi đích lần lượt từng token, lấy thông tin từ context của encoder và token đã sinh trước đó.",
+      "tags": [
+        "seq2seq",
+        "decoder"
+      ]
+    },
+    {
+      "id": "E46-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cơ chế attention được thêm vào seq2seq nhằm mục đích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số lớp của encoder"
+        },
+        {
+          "key": "B",
+          "text": "Cho decoder tham chiếu động tới các phần khác nhau của chuỗi nguồn thay vì một vector cố định"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn encoder"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention tính trọng số trên các trạng thái encoder ở mỗi bước giải mã, giúp tập trung vào phần liên quan của nguồn, khắc phục bottleneck.",
+      "tags": [
+        "attention",
+        "seq2seq"
+      ]
+    },
+    {
+      "id": "E46-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kỹ thuật gradient clipping được dùng chủ yếu để xử lý:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vanishing gradient"
+        },
+        {
+          "key": "B",
+          "text": "Exploding gradient"
+        },
+        {
+          "key": "C",
+          "text": "Overfitting"
+        },
+        {
+          "key": "D",
+          "text": "Thiếu dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Gradient clipping giới hạn độ lớn (norm) của gradient để tránh bùng nổ gradient gây huấn luyện mất ổn định, đặc biệt trong RNN.",
+      "tags": [
+        "gradient clipping",
+        "RNN"
+      ]
+    },
+    {
+      "id": "E46-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong MLP, vai trò của bias (độ chệch) là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép dịch chuyển ranh giới quyết định không bắt buộc đi qua gốc tọa độ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Quyết định số lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bias thêm một hằng số vào tổng có trọng số, cho phép tịnh tiến hàm kích hoạt, tăng tính linh hoạt biểu diễn.",
+      "tags": [
+        "MLP",
+        "bias"
+      ]
+    },
+    {
+      "id": "E46-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu một MLP nhiều lớp KHÔNG dùng hàm kích hoạt phi tuyến, kết quả là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mạng tương đương với một phép biến đổi tuyến tính duy nhất"
+        },
+        {
+          "key": "B",
+          "text": "Mạng mạnh hơn hẳn"
+        },
+        {
+          "key": "C",
+          "text": "Mạng học được XOR dễ dàng"
+        },
+        {
+          "key": "D",
+          "text": "Mạng trở thành RNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hợp của nhiều phép biến đổi tuyến tính vẫn là tuyến tính, nên nhiều lớp không phi tuyến chỉ tương đương một lớp tuyến tính.",
+      "tags": [
+        "MLP",
+        "linear"
+      ]
+    },
+    {
+      "id": "E46-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đối với autoencoder dùng để giảm chiều, biểu diễn hữu ích nhất được lấy từ:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu ra của decoder"
+        },
+        {
+          "key": "B",
+          "text": "Lớp bottleneck (mã ẩn) sau encoder"
+        },
+        {
+          "key": "C",
+          "text": "Lớp đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Hàm mất mát"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sau khi huấn luyện, mã ẩn ở bottleneck là biểu diễn nén chiều thấp dùng cho giảm chiều hoặc làm đầu vào cho tác vụ khác.",
+      "tags": [
+        "autoencoder",
+        "dimensionality"
+      ]
+    },
+    {
+      "id": "E46-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong RNN, hidden state h_t tại bước t được tính từ:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ đầu vào x_t"
+        },
+        {
+          "key": "B",
+          "text": "Đầu vào x_t hiện tại và hidden state h_{t-1} của bước trước"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ hidden state cuối cùng"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ nhãn đầu ra"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RNN cập nhật h_t = f(W_x x_t + W_h h_{t-1} + b), kết hợp đầu vào hiện tại và trạng thái trước để mang ngữ cảnh quá khứ.",
+      "tags": [
+        "RNN",
+        "hidden state"
+      ]
+    },
+    {
+      "id": "E46-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh ba kiến trúc hồi tiếp RNN cơ bản, LSTM và GRU: nêu cấu trúc, ưu nhược điểm và khi nào nên dùng từng loại.",
+      "modelAnswer": "RNN cơ bản dùng một hidden state cập nhật bằng cùng bộ trọng số qua thời gian, đơn giản nhưng dễ bị vanishing/exploding gradient nên khó học phụ thuộc dài hạn. LSTM bổ sung cell state cùng ba cổng (input, forget, output) điều tiết luồng thông tin theo cơ chế cộng tính, nhờ đó học tốt phụ thuộc dài hạn và chống vanishing gradient, nhưng nhiều tham số và tính toán nặng hơn. GRU gộp cell và hidden state, chỉ dùng hai cổng (reset, update) nên ít tham số, huấn luyện nhanh, hiệu năng thường tương đương LSTM. Dùng RNN cơ bản cho chuỗi rất ngắn hoặc minh họa; dùng LSTM khi cần nắm phụ thuộc dài và có đủ tài nguyên; dùng GRU khi cần mô hình gọn nhẹ, dữ liệu vừa phải hoặc hạn chế tính toán.",
+      "rubric": [
+        "Nêu cấu trúc RNN cơ bản và hạn chế vanishing gradient",
+        "Mô tả cell state và ba cổng của LSTM",
+        "Mô tả hai cổng reset/update của GRU và việc gộp trạng thái",
+        "So sánh số tham số/tốc độ và đưa ra khuyến nghị khi nào dùng loại nào"
+      ],
+      "tags": [
+        "RNN",
+        "LSTM",
+        "GRU",
+        "so sánh"
+      ]
+    },
+    {
+      "id": "E46-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cơ chế các cổng trong LSTM giúp giảm vấn đề vanishing gradient và học được phụ thuộc dài hạn.",
+      "modelAnswer": "Trong LSTM, cell state đóng vai trò 'băng chuyền' truyền thông tin gần như nguyên vẹn qua nhiều bước thời gian. Forget gate quyết định giữ lại hay xóa bao nhiêu thông tin cũ, input gate quyết định lượng thông tin mới ghi vào, và output gate lọc cell state để tạo hidden state đầu ra. Điểm mấu chốt là cell state được cập nhật theo dạng cộng tính có điều tiết bằng cổng (c_t = f_t * c_{t-1} + i_t * c~_t), thay vì nhân tính liên tục như RNN thường. Nhờ đường truyền cộng tính này, gradient khi lan truyền ngược không bị nhân co liên tiếp về 0, cho phép tín hiệu lỗi truyền xa qua nhiều bước, giúp mạng học được phụ thuộc dài hạn và giảm vanishing gradient.",
+      "rubric": [
+        "Mô tả vai trò forget, input, output gate",
+        "Giải thích cell state là đường truyền thông tin dài hạn",
+        "Chỉ ra cập nhật cộng tính có cổng thay vì nhân tính",
+        "Liên hệ tại sao gradient không co về 0 -> chống vanishing"
+      ],
+      "tags": [
+        "LSTM",
+        "cổng",
+        "vanishing gradient"
+      ]
+    },
+    {
+      "id": "E46-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày cách autoencoder hoạt động (encoder, bottleneck, decoder) và nêu các ứng dụng tiêu biểu.",
+      "modelAnswer": "Autoencoder gồm encoder nén đầu vào xuống một biểu diễn ẩn ở lớp bottleneck có số chiều nhỏ hơn, và decoder tái tạo lại đầu vào từ biểu diễn đó. Mô hình được huấn luyện không giám sát bằng cách tối thiểu hóa lỗi tái tạo (ví dụ MSE) giữa đầu ra và đầu vào, qua đó ép mạng học các đặc trưng cốt lõi và bỏ phần dư thừa. Các biến thể gồm undercomplete (bottleneck nhỏ hơn đầu vào, dùng giảm chiều), denoising (đầu vào thêm nhiễu, học khôi phục bản sạch để có đặc trưng bền vững) và variational (học phân phối ẩn để sinh dữ liệu). Ứng dụng tiêu biểu gồm giảm chiều dữ liệu (mạnh hơn PCA nhờ phi tuyến), phát hiện bất thường dựa trên lỗi tái tạo cao của mẫu lạ, khử nhiễu, nén và học biểu diễn (pretraining).",
+      "rubric": [
+        "Mô tả encoder/bottleneck/decoder và mục tiêu tái tạo",
+        "Nêu cơ chế huấn luyện tối thiểu hóa lỗi tái tạo",
+        "Kể các biến thể (undercomplete, denoising, variational)",
+        "Nêu ứng dụng: giảm chiều, phát hiện bất thường, khử nhiễu"
+      ],
+      "tags": [
+        "autoencoder",
+        "ứng dụng"
+      ]
+    },
+    {
+      "id": "E46-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Vì sao kiến trúc seq2seq cơ bản cần cơ chế attention? Phân tích vấn đề bottleneck của context vector.",
+      "modelAnswer": "Trong seq2seq cơ bản, encoder nén toàn bộ chuỗi nguồn vào một context vector có kích thước cố định để decoder dùng làm điểm khởi đầu sinh chuỗi đích. Khi chuỗi nguồn dài, một vector cố định không đủ dung lượng biểu diễn toàn bộ thông tin, gây mất mát và làm chất lượng giảm rõ rệt với câu dài, đó chính là vấn đề bottleneck. Cơ chế attention khắc phục bằng cách cho phép decoder, tại mỗi bước sinh token, tính trọng số (alignment) trên toàn bộ các trạng thái ẩn của encoder và tạo context động riêng cho bước đó. Nhờ vậy decoder có thể tập trung vào những phần liên quan của chuỗi nguồn thay vì dựa vào một vector tóm tắt duy nhất, cải thiện đáng kể chất lượng dịch và xử lý câu dài, đồng thời tăng khả năng diễn giải.",
+      "rubric": [
+        "Mô tả context vector cố định trong seq2seq cơ bản",
+        "Phân tích bottleneck khi nén chuỗi dài vào một vector",
+        "Giải thích attention tạo context động theo trọng số trên encoder states",
+        "Nêu lợi ích: xử lý câu dài tốt hơn, tập trung phần liên quan"
+      ],
+      "tags": [
+        "seq2seq",
+        "attention",
+        "bottleneck"
+      ]
+    }
+  ]
+}

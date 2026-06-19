@@ -1,0 +1,1788 @@
+{
+  "id": "exam-51",
+  "title": "Pandas Nâng cao — GroupBy, MultiIndex, Pivot, Window (Đọc code)",
+  "description": "Đề ôn tập Pandas nâng cao theo dạng đọc code đoán kết quả. Bao quát groupby/agg/transform/filter/apply, MultiIndex (xs, swaplevel, unstack/stack), pivot_table/melt/crosstab, merge/concat/join, rolling/expanding/ewm, resample chuỗi thời gian, rank/cut/qcut, str/dt accessor và method chaining. Gồm 56 câu trắc nghiệm và 4 câu viết code, tổng 100 điểm.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E51-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','b','a','b'],'v':[1,2,3,4]})\nprint(df.groupby('g')['v'].sum().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 4, 'b': 6}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 3, 'b': 6}"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 6, 'b': 4}"
+        },
+        {
+          "key": "D",
+          "text": "{'a': 1, 'b': 2}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "groupby('g') gộp theo nhóm rồi sum: nhóm a có 1+3=4, nhóm b có 2+4=6, trả về dict {'a':4,'b':6}.",
+      "tags": [
+        "groupby",
+        "agg"
+      ]
+    },
+    {
+      "id": "E51-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['x','x','y'],'v':[2,4,9]})\nprint(df.groupby('g')['v'].mean().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': 6.0, 'y': 9.0}"
+        },
+        {
+          "key": "B",
+          "text": "{'x': 3.0, 'y': 9.0}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': 3.0, 'y': 4.5}"
+        },
+        {
+          "key": "D",
+          "text": "{'x': 4.0, 'y': 9.0}"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trung bình nhóm x = (2+4)/2 = 3.0, nhóm y chỉ có 9 nên = 9.0.",
+      "tags": [
+        "groupby",
+        "agg"
+      ]
+    },
+    {
+      "id": "E51-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[1,3,10]})\nr = df.groupby('g')['v'].agg(['sum','count'])\nprint(r.loc['a'].to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'sum': 4, 'count': 1}"
+        },
+        {
+          "key": "B",
+          "text": "{'sum': 1, 'count': 3}"
+        },
+        {
+          "key": "C",
+          "text": "{'sum': 4, 'count': 2}"
+        },
+        {
+          "key": "D",
+          "text": "{'sum': 3, 'count': 2}"
+        }
+      ],
+      "answer": "C",
+      "explanation": "agg(['sum','count']) với nhóm a: tổng = 1+3 = 4 và đếm = 2 phần tử.",
+      "tags": [
+        "groupby",
+        "agg"
+      ]
+    },
+    {
+      "id": "E51-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[5,7,2]})\nr = df.groupby('g').agg(tong=('v','sum'), ln=('v','max'))\nprint(r.loc['a','tong'], r.loc['a','ln'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12 5"
+        },
+        {
+          "key": "B",
+          "text": "5 7"
+        },
+        {
+          "key": "C",
+          "text": "7 12"
+        },
+        {
+          "key": "D",
+          "text": "12 7"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Named aggregation: tong = sum của nhóm a = 5+7 = 12; ln = max của nhóm a = 7.",
+      "tags": [
+        "groupby",
+        "named-aggregation"
+      ]
+    },
+    {
+      "id": "E51-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[2,4,10]})\nprint(df.groupby('g')['v'].transform('mean').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.0, 3.0, 10.0]"
+        },
+        {
+          "key": "B",
+          "text": "[2.0, 4.0, 10.0]"
+        },
+        {
+          "key": "C",
+          "text": "[3.0, 10.0]"
+        },
+        {
+          "key": "D",
+          "text": "[6.0, 6.0, 6.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "transform giữ nguyên shape, gán giá trị trung bình nhóm cho mỗi dòng: a->3.0, a->3.0, b->10.0.",
+      "tags": [
+        "groupby",
+        "transform"
+      ]
+    },
+    {
+      "id": "E51-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a'],'v':[2,4]})\nout = df.groupby('g')['v'].transform(lambda s: s - s.mean())\nprint(out.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2.0, 4.0]"
+        },
+        {
+          "key": "B",
+          "text": "[-1.0, 1.0]"
+        },
+        {
+          "key": "C",
+          "text": "[0.0, 0.0]"
+        },
+        {
+          "key": "D",
+          "text": "[-2.0, 2.0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trừ trung bình nhóm (=3): 2-3=-1.0 và 4-3=1.0, kết quả [-1.0, 1.0].",
+      "tags": [
+        "groupby",
+        "transform"
+      ]
+    },
+    {
+      "id": "E51-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[1,2,9]})\nout = df.groupby('g').filter(lambda x: x['v'].sum() > 5)\nprint(out['g'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'a']"
+        },
+        {
+          "key": "B",
+          "text": "['a', 'a', 'b']"
+        },
+        {
+          "key": "C",
+          "text": "['b']"
+        },
+        {
+          "key": "D",
+          "text": "[]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "filter giữ NHÓM có tổng > 5: nhóm a tổng=3 (loại), nhóm b tổng=9 (giữ), nên còn lại các dòng nhóm b.",
+      "tags": [
+        "groupby",
+        "filter"
+      ]
+    },
+    {
+      "id": "E51-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[3,1,5]})\nout = df.groupby('g')['v'].apply(lambda s: s.max() - s.min())\nprint(out.to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 4, 'b': 0}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 0, 'b': 5}"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "{'a': 2, 'b': 0}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "apply tính max-min trong mỗi nhóm: a = 3-1 = 2, b chỉ có 1 phần tử nên 5-5 = 0.",
+      "tags": [
+        "groupby",
+        "apply"
+      ]
+    },
+    {
+      "id": "E51-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'a':['x','x','y'],'b':[1,1,2],'v':[10,20,30]})\nr = df.groupby(['a','b'])['v'].sum()\nprint(r.loc[('x',1)])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "30"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "60"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "groupby theo (a,b): nhóm ('x',1) gồm 2 dòng v=10 và v=20, tổng = 30.",
+      "tags": [
+        "groupby",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E51-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['a','b','a','a','c'])\nprint(s.value_counts().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 1, 'b': 1, 'c': 1}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 3, 'b': 1, 'c': 1}"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 5}"
+        },
+        {
+          "key": "D",
+          "text": "{'a': 2, 'b': 2, 'c': 1}"
+        }
+      ],
+      "answer": "B",
+      "explanation": "value_counts đếm số lần xuất hiện: a có 3, b có 1, c có 1.",
+      "tags": [
+        "value_counts"
+      ]
+    },
+    {
+      "id": "E51-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['a','a','b','b'])\nprint(s.value_counts(normalize=True).to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 2.0, 'b': 2.0}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 0.25, 'b': 0.25}"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 0.5, 'b': 0.5}"
+        },
+        {
+          "key": "D",
+          "text": "{'a': 1.0, 'b': 1.0}"
+        }
+      ],
+      "answer": "C",
+      "explanation": "normalize=True trả về tỉ lệ: mỗi giá trị 2/4 = 0.5.",
+      "tags": [
+        "value_counts"
+      ]
+    },
+    {
+      "id": "E51-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,5,9])\nb = pd.cut(s, bins=[0,3,6,10], labels=['L','M','H'])\nprint(b.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['L', 'L', 'L']"
+        },
+        {
+          "key": "B",
+          "text": "['H', 'M', 'L']"
+        },
+        {
+          "key": "C",
+          "text": "['M', 'M', 'M']"
+        },
+        {
+          "key": "D",
+          "text": "['L', 'M', 'H']"
+        }
+      ],
+      "answer": "D",
+      "explanation": "cut chia khoảng (0,3]->L, (3,6]->M, (6,10]->H: 1->L, 5->M, 9->H.",
+      "tags": [
+        "cut",
+        "binning"
+      ]
+    },
+    {
+      "id": "E51-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,2,3,4])\nq = pd.qcut(s, 2, labels=['lo','hi'])\nprint(q.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['lo', 'lo', 'hi', 'hi']"
+        },
+        {
+          "key": "B",
+          "text": "['lo', 'lo', 'lo', 'lo']"
+        },
+        {
+          "key": "C",
+          "text": "['hi', 'hi', 'lo', 'lo']"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "qcut chia theo phân vị thành 2 nhóm bằng nhau: 2 giá trị nhỏ -> 'lo', 2 giá trị lớn -> 'hi'.",
+      "tags": [
+        "qcut",
+        "binning"
+      ]
+    },
+    {
+      "id": "E51-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([10,30,20])\nprint(s.rank().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.0, 2.0, 1.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 3.0, 2.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rank mặc định tăng dần: 10 hạng 1, 20 hạng 2, 30 hạng 3 -> [1.0, 3.0, 2.0].",
+      "tags": [
+        "rank"
+      ]
+    },
+    {
+      "id": "E51-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([10,10,20])\nprint(s.rank(method='dense').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.5, 1.5, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 1.0, 2.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "method='dense' gán hạng liên tục không nhảy bước: hai giá trị 10 cùng hạng 1, 20 hạng 2.",
+      "tags": [
+        "rank"
+      ]
+    },
+    {
+      "id": "E51-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,2,3,4])\nprint(s.rolling(2).mean().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.5, 2.5, 3.5, 4.5]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.0, 3.0, 4.0]"
+        },
+        {
+          "key": "C",
+          "text": "[nan, nan, nan, nan]"
+        },
+        {
+          "key": "D",
+          "text": "[nan, 1.5, 2.5, 3.5]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "rolling(2).mean(): cửa sổ 2 phần tử, phần tử đầu là NaN, sau đó (1+2)/2, (2+3)/2, (3+4)/2.",
+      "tags": [
+        "rolling",
+        "window"
+      ]
+    },
+    {
+      "id": "E51-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,2,3])\nprint(s.rolling(2, min_periods=1).sum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 3.0, 5.0]"
+        },
+        {
+          "key": "B",
+          "text": "[nan, 3.0, 5.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "min_periods=1 cho phép tính ngay từ phần tử đầu: 1, 1+2=3, 2+3=5.",
+      "tags": [
+        "rolling",
+        "window"
+      ]
+    },
+    {
+      "id": "E51-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,2,3])\nprint(s.expanding().sum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 3.0, 6.0]"
+        },
+        {
+          "key": "C",
+          "text": "[6.0, 6.0, 6.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "expanding().sum() là tổng tích lũy: 1, 1+2=3, 1+2+3=6.",
+      "tags": [
+        "expanding",
+        "window"
+      ]
+    },
+    {
+      "id": "E51-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([2,2,2])\nprint(s.cumsum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[6, 6, 6]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 4, 6]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cumsum cộng dồn: 2, 2+2=4, 4+2=6.",
+      "tags": [
+        "cumsum"
+      ]
+    },
+    {
+      "id": "E51-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([10,20,30])\nprint(s.shift(1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[20.0, 30.0, nan]"
+        },
+        {
+          "key": "B",
+          "text": "[10.0, 20.0, 30.0]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[nan, 10.0, 20.0]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "shift(1) đẩy giá trị xuống 1 vị trí, dòng đầu thành NaN: [NaN, 10.0, 20.0].",
+      "tags": [
+        "shift"
+      ]
+    },
+    {
+      "id": "E51-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,4,9])\nprint(s.diff().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, 3.0, 5.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 4.0, 9.0]"
+        },
+        {
+          "key": "C",
+          "text": "[nan, 4.0, 9.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diff lấy hiệu với phần tử trước: NaN, 4-1=3, 9-4=5.",
+      "tags": [
+        "diff"
+      ]
+    },
+    {
+      "id": "E51-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([100,150])\nprint(round(s.pct_change().tolist()[1], 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.33"
+        },
+        {
+          "key": "D",
+          "text": "50.0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "pct_change phần tử thứ 2 = (150-100)/100 = 0.5.",
+      "tags": [
+        "pct_change"
+      ]
+    },
+    {
+      "id": "E51-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([5,1,9,3])\nprint(s.nlargest(2).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[9, 5]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "nlargest(2) lấy 2 giá trị lớn nhất theo thứ tự giảm: 9 rồi 5.",
+      "tags": [
+        "nlargest"
+      ]
+    },
+    {
+      "id": "E51-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([5,1,9,3])\nprint(s.nsmallest(2).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[9, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 1]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[1, 3]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "nsmallest(2) lấy 2 giá trị nhỏ nhất theo thứ tự tăng: 1 rồi 3.",
+      "tags": [
+        "nsmallest"
+      ]
+    },
+    {
+      "id": "E51-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['a','b','a'])\nprint(s.drop_duplicates(keep='last').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['b', 'a']"
+        },
+        {
+          "key": "B",
+          "text": "['a', 'b']"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'b', 'a']"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "keep='last' giữ lần xuất hiện cuối: bỏ 'a' đầu, giữ 'b' và 'a' cuối -> ['b','a'].",
+      "tags": [
+        "drop_duplicates"
+      ]
+    },
+    {
+      "id": "E51-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,1,2])\nprint(s.duplicated().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[True, False, False]"
+        },
+        {
+          "key": "B",
+          "text": "[False, True, False]"
+        },
+        {
+          "key": "C",
+          "text": "[False, False, True]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "duplicated đánh dấu True cho lần lặp lại (mặc định keep='first'): dòng thứ 2 là 1 lặp lại.",
+      "tags": [
+        "duplicated"
+      ]
+    },
+    {
+      "id": "E51-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1, np.nan, 3])\nprint(s.ffill().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 3.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 0.0, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 1.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ffill điền NaN bằng giá trị liền trước: NaN ở giữa được điền bằng 1.0.",
+      "tags": [
+        "fillna",
+        "ffill"
+      ]
+    },
+    {
+      "id": "E51-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([np.nan, 2, np.nan])\nprint(s.bfill().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2.0, 2.0, 2.0]"
+        },
+        {
+          "key": "B",
+          "text": "[nan, 2.0, nan]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[2.0, 2.0, nan]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "bfill điền NaN bằng giá trị liền sau: NaN đầu thành 2.0; NaN cuối không có giá trị sau nên vẫn NaN.",
+      "tags": [
+        "fillna",
+        "bfill"
+      ]
+    },
+    {
+      "id": "E51-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1, np.nan, 3])\nprint(s.interpolate().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 1.0, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 3.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "interpolate nội suy tuyến tính: giá trị NaN giữa 1 và 3 thành 2.0.",
+      "tags": [
+        "interpolate"
+      ]
+    },
+    {
+      "id": "E51-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'a':[1,1,2],'b':[3,1,2]})\nout = df.sort_values(['a','b'])\nprint(out['b'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 1, 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sắp xếp theo a tăng dần rồi b tăng dần: hai dòng a=1 sắp theo b (1 rồi 3), sau đó a=2.",
+      "tags": [
+        "sort_values"
+      ]
+    },
+    {
+      "id": "E51-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'id':[1],'x':[10],'y':[20]})\nm = df.melt(id_vars='id')\nprint(m['value'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[10]"
+        },
+        {
+          "key": "C",
+          "text": "[10, 20]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "melt chuyển cột x,y thành dòng dài, cột value chứa [10, 20].",
+      "tags": [
+        "melt"
+      ]
+    },
+    {
+      "id": "E51-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'r':['a','a','b'],'c':['x','x','y'],'v':[1,2,3]})\np = df.pivot_table(index='r', columns='c', values='v', aggfunc='sum')\nprint(p.loc['a','x'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "D",
+      "explanation": "pivot_table cộng các v cùng (r='a', c='x'): 1+2 = 3.0.",
+      "tags": [
+        "pivot_table"
+      ]
+    },
+    {
+      "id": "E51-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'r':['a','b'],'c':['x','y'],'v':[1,2]})\np = df.pivot_table(index='r', columns='c', values='v', aggfunc='sum', fill_value=0)\nprint(int(p.loc['a','y']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ô (r='a', c='y') không có dữ liệu, fill_value=0 nên giá trị là 0.",
+      "tags": [
+        "pivot_table",
+        "fill_value"
+      ]
+    },
+    {
+      "id": "E51-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\na = pd.Series(['x','x','y'])\nb = pd.Series(['p','p','q'])\nct = pd.crosstab(a, b)\nprint(int(ct.loc['x','p']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "crosstab đếm số lần (a='x', b='p') xuất hiện cùng nhau: 2 lần.",
+      "tags": [
+        "crosstab"
+      ]
+    },
+    {
+      "id": "E51-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nl = pd.DataFrame({'k':[1,2],'a':[10,20]})\nr = pd.DataFrame({'k':[2,3],'b':[200,300]})\nm = pd.merge(l, r, on='k')\nprint(m['k'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "merge mặc định inner join: chỉ giữ khóa chung k=2.",
+      "tags": [
+        "merge"
+      ]
+    },
+    {
+      "id": "E51-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nl = pd.DataFrame({'k':[1,2]})\nr = pd.DataFrame({'k':[2,3]})\nm = pd.merge(l, r, on='k', how='outer', indicator=True)\nprint(m['_merge'].astype(str).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['both', 'both', 'both']"
+        },
+        {
+          "key": "B",
+          "text": "['right_only', 'both', 'left_only']"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "['left_only', 'both', 'right_only']"
+        }
+      ],
+      "answer": "D",
+      "explanation": "outer join giữ mọi khóa: k=1 chỉ ở trái (left_only), k=2 ở cả hai (both), k=3 chỉ ở phải (right_only).",
+      "tags": [
+        "merge",
+        "indicator"
+      ]
+    },
+    {
+      "id": "E51-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nl = pd.DataFrame({'k':[1,2],'a':[10,20]})\nr = pd.DataFrame({'k':[2],'b':[200]})\nm = pd.merge(l, r, on='k', how='left')\nprint(m['b'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, 200.0]"
+        },
+        {
+          "key": "B",
+          "text": "[200.0, 200.0]"
+        },
+        {
+          "key": "C",
+          "text": "[200.0, nan]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "left join giữ mọi dòng bên trái; k=1 không khớp nên b=NaN, k=2 khớp nên b=200.0.",
+      "tags": [
+        "merge"
+      ]
+    },
+    {
+      "id": "E51-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\na = pd.DataFrame({'x':[1]})\nb = pd.DataFrame({'x':[2]})\nc = pd.concat([a,b], ignore_index=True)\nprint(c['x'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "concat nối theo dòng (axis=0), ignore_index đánh lại index, kết quả cột x = [1, 2].",
+      "tags": [
+        "concat"
+      ]
+    },
+    {
+      "id": "E51-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\na = pd.DataFrame({'x':[1]})\nb = pd.DataFrame({'x':[2]})\nc = pd.concat([a,b], keys=['p','q'])\nprint(c.loc['q','x'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "keys=['p','q'] tạo MultiIndex; truy cập nhóm 'q' lấy DataFrame của b, cột x = [2].",
+      "tags": [
+        "concat",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E51-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.MultiIndex.from_tuples([('a',1),('a',2),('b',1)])\ns = pd.Series([10,20,30], index=idx)\nprint(s.loc['a'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 20, 30]"
+        },
+        {
+          "key": "B",
+          "text": "[30]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[10, 20]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "loc['a'] lấy mọi mục cấp ngoài là 'a': hai giá trị 10 và 20.",
+      "tags": [
+        "multiindex",
+        "loc"
+      ]
+    },
+    {
+      "id": "E51-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.MultiIndex.from_tuples([('a',1),('b',1),('b',2)])\ns = pd.Series([5,6,7], index=idx)\nprint(s.xs(1, level=1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[6, 7]"
+        },
+        {
+          "key": "C",
+          "text": "[5, 7]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "xs(1, level=1) lọc cấp thứ hai bằng 1: ('a',1)->5 và ('b',1)->6.",
+      "tags": [
+        "multiindex",
+        "xs"
+      ]
+    },
+    {
+      "id": "E51-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.MultiIndex.from_tuples([('a',1),('b',2)])\ns = pd.Series([1,2], index=idx)\nprint(s.swaplevel().index.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('a', 1), ('b', 2)]"
+        },
+        {
+          "key": "B",
+          "text": "[(1, 'a'), (2, 'b')]"
+        },
+        {
+          "key": "C",
+          "text": "[('b', 2), ('a', 1)]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "swaplevel đổi chỗ hai cấp index: ('a',1)->(1,'a'), ('b',2)->(2,'b').",
+      "tags": [
+        "multiindex",
+        "swaplevel"
+      ]
+    },
+    {
+      "id": "E51-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.MultiIndex.from_tuples([('a',1),('b',2)])\ns = pd.Series([1,2], index=idx)\nprint(s.droplevel(0).index.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'b']"
+        },
+        {
+          "key": "B",
+          "text": "[('a', 1), ('b', 2)]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "droplevel(0) bỏ cấp đầu, chỉ còn cấp thứ hai: [1, 2].",
+      "tags": [
+        "multiindex",
+        "droplevel"
+      ]
+    },
+    {
+      "id": "E51-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.MultiIndex.from_tuples([('a','x'),('a','y'),('b','x')])\ns = pd.Series([1,2,3], index=idx)\nu = s.unstack()\nprint(u.loc['a','y'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "D",
+      "explanation": "unstack đưa cấp trong thành cột; ô (a, y) lấy giá trị 2.0.",
+      "tags": [
+        "unstack",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E51-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'x':[1],'y':[2]}, index=['a'])\nst = df.stack()\nprint(st.loc['a','y'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "stack gộp cột thành cấp index trong; ('a','y') = 2.",
+      "tags": [
+        "stack"
+      ]
+    },
+    {
+      "id": "E51-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\nidx = pd.date_range('2024-01-01', periods=4, freq='D')\ns = pd.Series([1,2,3,4], index=idx)\nprint(s.resample('2D').sum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 7]"
+        },
+        {
+          "key": "C",
+          "text": "[10]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "resample('2D').sum() gộp mỗi 2 ngày: (1+2)=3 và (3+4)=7.",
+      "tags": [
+        "resample"
+      ]
+    },
+    {
+      "id": "E51-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(pd.to_datetime(['2024-03-15','2024-07-01']))\nprint(s.dt.month.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[15, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[2024, 2024]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 7]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": ".dt.month trích tháng từ datetime: 3 và 7.",
+      "tags": [
+        "dt-accessor"
+      ]
+    },
+    {
+      "id": "E51-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['a-b','c-d'])\nprint(s.str.split('-').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'b', 'c', 'd']"
+        },
+        {
+          "key": "B",
+          "text": "[['a-b'], ['c-d']]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[['a', 'b'], ['c', 'd']]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "str.split('-') tách mỗi chuỗi theo dấu '-' thành list: [['a','b'], ['c','d']].",
+      "tags": [
+        "str-accessor"
+      ]
+    },
+    {
+      "id": "E51-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['apple','banana','cherry'])\nprint(s.str.contains('an').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[False, True, False]"
+        },
+        {
+          "key": "B",
+          "text": "[True, True, False]"
+        },
+        {
+          "key": "C",
+          "text": "[True, False, True]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "str.contains('an'): chỉ 'banana' chứa 'an' -> [False, True, False].",
+      "tags": [
+        "str-accessor"
+      ]
+    },
+    {
+      "id": "E51-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['id_12','id_34'])\nprint(s.str.extract(r'(\\d+)')[0].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['id', 'id']"
+        },
+        {
+          "key": "B",
+          "text": "['12', '34']"
+        },
+        {
+          "key": "C",
+          "text": "['_', '_']"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "extract với nhóm (\\d+) lấy phần số: '12' và '34'.",
+      "tags": [
+        "str-accessor",
+        "regex"
+      ]
+    },
+    {
+      "id": "E51-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'a':[[1,2],[3]]})\ne = df.explode('a')\nprint(e['a'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1, 2], [3]]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "explode trải mỗi phần tử của list thành dòng riêng: [1, 2, 3].",
+      "tags": [
+        "explode"
+      ]
+    },
+    {
+      "id": "E51-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,5,10])\nprint(s.where(s > 4, 0).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 5, 10]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 0, 0]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[0, 5, 10]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "where giữ giá trị khi điều kiện True, thay bằng 0 khi False: 1<=4 -> 0; 5,10 giữ nguyên.",
+      "tags": [
+        "where"
+      ]
+    },
+    {
+      "id": "E51-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series([1,5,10])\nprint(s.mask(s > 4, 0).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 0, 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 5, 10]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 5, 10]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "mask làm NGƯỢC với where: thay bằng 0 khi điều kiện True (5,10 >4) -> [1, 0, 0].",
+      "tags": [
+        "mask"
+      ]
+    },
+    {
+      "id": "E51-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'v':[1,5,9]})\nprint(df.query('v > 4')['v'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 5, 9]"
+        },
+        {
+          "key": "B",
+          "text": "[5, 9]"
+        },
+        {
+          "key": "C",
+          "text": "[1]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "query('v > 4') lọc dòng có v lớn hơn 4: 5 và 9.",
+      "tags": [
+        "query"
+      ]
+    },
+    {
+      "id": "E51-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ndf = pd.DataFrame({'v':[1,2,3]})\nout = df.assign(w=lambda d: d['v']*2)['w'].tolist()\nprint(out)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 6, 9]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 4, 6]"
+        },
+        {
+          "key": "D",
+          "text": "__KHONG_CO__2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "assign tạo cột w = v*2: [2, 4, 6].",
+      "tags": [
+        "assign",
+        "method-chaining"
+      ]
+    },
+    {
+      "id": "E51-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd, numpy as np\ns = pd.Series(['b','a','b']).astype('category')\nprint(s.cat.codes.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 0, 0]"
+        },
+        {
+          "key": "C",
+          "text": "__KHONG_CO__2"
+        },
+        {
+          "key": "D",
+          "text": "[1, 0, 1]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "category sắp categories theo thứ tự chữ cái ['a','b']: 'a'->0, 'b'->1, nên codes = [1, 0, 1].",
+      "tags": [
+        "category"
+      ]
+    },
+    {
+      "id": "E51-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame có cột 'nhom' và 'gia_tri'. Hãy viết code dùng groupby().transform() để thêm cột 'chuan_hoa' là điểm z-score (trừ trung bình nhóm rồi chia độ lệch chuẩn nhóm) sao cho kết quả CÙNG SHAPE với DataFrame gốc. In ra danh sách giá trị chuẩn hóa (làm tròn 4 chữ số).",
+      "modelAnswer": "import pandas as pd, numpy as np\ndf = pd.DataFrame({'nhom':['a','a','a','b','b'],\n                   'gia_tri':[10.0,20.0,30.0,5.0,15.0]})\ng = df.groupby('nhom')['gia_tri']\ndf['chuan_hoa'] = (df['gia_tri'] - g.transform('mean')) / g.transform('std')\nprint(df['chuan_hoa'].round(4).tolist())\n\n# Output:\n# [-1.0, 0.0, 1.0, -0.7071, 0.7071]",
+      "rubric": [
+        "Dùng groupby('nhom')['gia_tri'] đúng cột",
+        "Dùng transform('mean') và transform('std') để broadcast về cùng shape",
+        "Tính (x - mean)/std và gán vào cột mới",
+        "In kết quả đúng định dạng list đã làm tròn"
+      ],
+      "tags": [
+        "groupby",
+        "transform",
+        "standardize"
+      ]
+    },
+    {
+      "id": "E51-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame doanh thu theo 'cua_hang' và 'ngay'. Hãy viết code tính cột 'tich_luy' là doanh thu cộng dồn (cumulative sum) theo từng cửa hàng, sau khi sắp xếp theo cửa hàng và ngày. In ra danh sách doanh thu tích lũy.",
+      "modelAnswer": "import pandas as pd, numpy as np\ndf = pd.DataFrame({'cua_hang':['A','A','A','B','B'],\n                   'ngay':[1,2,3,1,2],\n                   'doanh_thu':[100,200,150,50,80]})\ndf = df.sort_values(['cua_hang','ngay'])\ndf['tich_luy'] = df.groupby('cua_hang')['doanh_thu'].cumsum()\nprint(df['tich_luy'].tolist())\n\n# Output:\n# [100, 300, 450, 50, 130]",
+      "rubric": [
+        "Sắp xếp theo ['cua_hang','ngay'] trước khi cộng dồn",
+        "Dùng groupby('cua_hang')['doanh_thu'].cumsum()",
+        "Gán vào cột 'tich_luy' và in kết quả đúng"
+      ],
+      "tags": [
+        "groupby",
+        "cumsum"
+      ]
+    },
+    {
+      "id": "E51-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame có 'mien', 'sp' (sản phẩm) và 'so_luong'. Hãy viết code dùng pivot_table để tạo bảng tổng hợp số lượng theo miền (hàng) và sản phẩm (cột), với aggfunc='sum', fill_value=0 và margins=True (thêm dòng/cột tổng 'All'). In ra bảng dưới dạng dict.",
+      "modelAnswer": "import pandas as pd, numpy as np\ndf = pd.DataFrame({'mien':['Bac','Bac','Nam','Nam'],\n                   'sp':['X','Y','X','Y'],\n                   'so_luong':[10,20,30,40]})\np = df.pivot_table(index='mien', columns='sp', values='so_luong',\n                   aggfunc='sum', fill_value=0, margins=True)\nprint(p.to_dict())\n\n# Output:\n# {'X': {'Bac': 10, 'Nam': 30, 'All': 40}, 'Y': {'Bac': 20, 'Nam': 40, 'All': 60}, 'All': {'Bac': 30, 'Nam': 70, 'All': 100}}",
+      "rubric": [
+        "Dùng pivot_table với index='mien', columns='sp', values='so_luong'",
+        "Đặt aggfunc='sum', fill_value=0",
+        "Bật margins=True để có dòng/cột tổng 'All'",
+        "In bảng kết quả"
+      ],
+      "tags": [
+        "pivot_table",
+        "margins"
+      ]
+    },
+    {
+      "id": "E51-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho một Series các giá trị doanh thu theo kỳ. Hãy viết code tính trung bình trượt (rolling mean) với cửa sổ 3 kỳ, dùng min_periods=1 để các kỳ đầu vẫn có giá trị. In ra danh sách kết quả (làm tròn 2 chữ số).",
+      "modelAnswer": "import pandas as pd, numpy as np\ns = pd.Series([2,4,6,8,10,12])\nra = s.rolling(window=3, min_periods=1).mean()\nprint(ra.round(2).tolist())\n\n# Output:\n# [2.0, 3.0, 4.0, 6.0, 8.0, 10.0]",
+      "rubric": [
+        "Dùng rolling(window=3) đúng kích thước cửa sổ",
+        "Đặt min_periods=1 để kỳ đầu không bị NaN",
+        "Gọi .mean() và in danh sách đã làm tròn"
+      ],
+      "tags": [
+        "rolling",
+        "window"
+      ]
+    }
+  ]
+}

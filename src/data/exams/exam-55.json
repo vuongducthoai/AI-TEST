@@ -1,0 +1,1821 @@
+{
+  "id": "exam-55",
+  "title": "Computer Vision DL — Huấn luyện, Augmentation & Triển khai (Thực hành)",
+  "description": "Đề ôn tập thực hành về huấn luyện và triển khai mô hình thị giác máy tính học sâu. Bao gồm data augmentation, transfer learning, hàm mất mát, metrics, xử lý mất cân bằng, lịch learning rate, tối ưu hóa, regularization, mixed precision, phân tán, chẩn đoán overfitting/underfitting và triển khai (ONNX, quantization, pruning, distillation). Phù hợp ôn luyện kỹ năng thực hành ở mức độ khá.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E55-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Horizontal flip (lật ngang) thường KHÔNG an toàn với loại dữ liệu nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh mèo/chó tự nhiên"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh chữ số viết tay và ký tự văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh phong cảnh"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh hoa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lật ngang làm sai nhãn với chữ số/ký tự (ví dụ '2' bị lật, 'b' thành 'd'), vì hình dạng mang ý nghĩa hướng.",
+      "tags": [
+        "augmentation",
+        "flip"
+      ]
+    },
+    {
+      "id": "E55-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cutout (Random Erasing) hoạt động bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trộn hai ảnh theo trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Xóa/che một vùng chữ nhật ngẫu nhiên trên ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Xoay ảnh 90 độ"
+        },
+        {
+          "key": "D",
+          "text": "Thay đổi độ sáng toàn ảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cutout che ngẫu nhiên một vùng chữ nhật, buộc mô hình không phụ thuộc một đặc trưng cục bộ, giảm overfitting.",
+      "tags": [
+        "augmentation",
+        "cutout"
+      ]
+    },
+    {
+      "id": "E55-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mixup tạo mẫu huấn luyện mới bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cắt ghép vùng từ hai ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Nội suy tuyến tính hai ảnh và hai nhãn theo hệ số lambda"
+        },
+        {
+          "key": "C",
+          "text": "Xóa vùng ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Đảo màu kênh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mixup trộn pixel x=λx1+(1-λ)x2 và nhãn y=λy1+(1-λ)y2, làm trơn quyết định và tăng tổng quát hóa.",
+      "tags": [
+        "augmentation",
+        "mixup"
+      ]
+    },
+    {
+      "id": "E55-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CutMix khác Mixup ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CutMix dán một patch của ảnh này vào ảnh kia, nhãn trộn theo tỉ lệ diện tích"
+        },
+        {
+          "key": "B",
+          "text": "CutMix chỉ xoay ảnh"
+        },
+        {
+          "key": "C",
+          "text": "CutMix nội suy toàn bộ pixel"
+        },
+        {
+          "key": "D",
+          "text": "CutMix không đổi nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CutMix cắt một vùng từ ảnh B dán vào ảnh A; nhãn được trộn theo tỉ lệ diện tích vùng dán, giữ được vùng ảnh thật.",
+      "tags": [
+        "augmentation",
+        "cutmix"
+      ]
+    },
+    {
+      "id": "E55-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RandAugment đơn giản hóa AutoAugment bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học chính sách bằng RL tốn kém"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng 2 siêu tham số N (số phép) và M (cường độ)"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng augmentation"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng flip"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RandAugment bỏ tìm kiếm chính sách phức tạp, chỉ cần N (số phép áp dụng) và M (cường độ), giảm chi phí tìm kiếm.",
+      "tags": [
+        "augmentation",
+        "randaugment"
+      ]
+    },
+    {
+      "id": "E55-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "AutoAugment tìm chính sách augmentation bằng phương pháp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm kiếm chính sách (thường bằng reinforcement learning) trên tập validation"
+        },
+        {
+          "key": "B",
+          "text": "Quy tắc cố định thủ công"
+        },
+        {
+          "key": "C",
+          "text": "Không cần dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Random hoàn toàn không học"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AutoAugment dùng tìm kiếm (RL) để học chuỗi phép biến đổi tối ưu trên validation, tốn kém tính toán hơn RandAugment.",
+      "tags": [
+        "augmentation",
+        "autoaugment"
+      ]
+    },
+    {
+      "id": "E55-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Color jitter điều chỉnh những thuộc tính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Brightness, contrast, saturation, hue"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ kích thước ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ vị trí pixel"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ số kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Color jitter ngẫu nhiên thay đổi độ sáng, tương phản, độ bão hòa và tông màu để mô hình bền với biến thiên màu.",
+      "tags": [
+        "augmentation",
+        "colorjitter"
+      ]
+    },
+    {
+      "id": "E55-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào augmentation random crop có thể làm SAI nhãn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi crop loại bỏ chính đối tượng cần phân loại ra khỏi khung"
+        },
+        {
+          "key": "B",
+          "text": "Khi crop giữ nguyên đối tượng"
+        },
+        {
+          "key": "C",
+          "text": "Luôn an toàn"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ ảnh xám"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu crop quá mạnh cắt mất đối tượng mục tiêu, ảnh không còn chứa thông tin nhãn, gây nhiễu nhãn.",
+      "tags": [
+        "augmentation",
+        "crop"
+      ]
+    },
+    {
+      "id": "E55-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transfer learning kiểu 'feature extraction' nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đóng băng backbone, chỉ huấn luyện lớp phân loại mới"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện lại toàn bộ mạng từ đầu"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng pretrained"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng SVM thô"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Feature extraction giữ nguyên (freeze) trọng số backbone pretrained và chỉ train lớp head mới, phù hợp dữ liệu ít.",
+      "tags": [
+        "transfer",
+        "feature-extraction"
+      ]
+    },
+    {
+      "id": "E55-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dữ liệu mục tiêu NHỎ và TƯƠNG TỰ dữ liệu pretrained, chiến lược tốt nhất:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Đóng băng backbone, chỉ train lớp head (feature extraction)"
+        },
+        {
+          "key": "C",
+          "text": "Fine-tune toàn bộ với lr lớn"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ pretrained"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dữ liệu ít và giống nhau: nên freeze backbone và chỉ train head để tránh overfit, tận dụng đặc trưng có sẵn.",
+      "tags": [
+        "transfer",
+        "strategy"
+      ]
+    },
+    {
+      "id": "E55-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dữ liệu mục tiêu LỚN và KHÁC BIỆT với pretrained, chiến lược tốt nhất:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ train head"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune toàn bộ mạng (hoặc train từ đầu) vì có đủ dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Freeze toàn bộ"
+        },
+        {
+          "key": "D",
+          "text": "Dùng lr=0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dữ liệu nhiều và khác biệt: fine-tune toàn bộ (hoặc train lại) để mạng học đặc trưng phù hợp miền mới.",
+      "tags": [
+        "transfer",
+        "strategy"
+      ]
+    },
+    {
+      "id": "E55-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Discriminative learning rates trong fine-tuning nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng cùng một lr cho mọi lớp"
+        },
+        {
+          "key": "B",
+          "text": "Lớp gần input dùng lr nhỏ hơn, lớp gần output dùng lr lớn hơn"
+        },
+        {
+          "key": "C",
+          "text": "lr=0 cho tất cả"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho optimizer SGD"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Các lớp đầu (đặc trưng tổng quát) cập nhật nhẹ với lr nhỏ, lớp cuối (đặc trưng miền cụ thể) dùng lr lớn hơn.",
+      "tags": [
+        "transfer",
+        "lr"
+      ]
+    },
+    {
+      "id": "E55-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị ImageNet mean/std thường dùng để chuẩn hóa ảnh RGB là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "mean=[0,0,0], std=[1,1,1]"
+        },
+        {
+          "key": "B",
+          "text": "mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225]"
+        },
+        {
+          "key": "C",
+          "text": "mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5]"
+        },
+        {
+          "key": "D",
+          "text": "mean=[1,1,1], std=[0,0,0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pretrained ImageNet dùng mean=[0.485,0.456,0.406] và std=[0.229,0.224,0.225]; phải chuẩn hóa input khớp khi transfer.",
+      "tags": [
+        "preprocess",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E55-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Letterbox resize khác resize thường ở chỗ:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Letterbox giữ tỉ lệ khung hình bằng cách thêm padding"
+        },
+        {
+          "key": "B",
+          "text": "Letterbox kéo méo ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Letterbox xóa ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Không khác gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Letterbox giữ aspect ratio và thêm padding (viền) để đạt kích thước đích, tránh méo đối tượng so với resize trực tiếp.",
+      "tags": [
+        "preprocess",
+        "resize"
+      ]
+    },
+    {
+      "id": "E55-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Focal loss được thiết kế chủ yếu để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc training"
+        },
+        {
+          "key": "B",
+          "text": "Giảm trọng số mẫu dễ, tập trung vào mẫu khó/lớp hiếm trong dữ liệu mất cân bằng"
+        },
+        {
+          "key": "C",
+          "text": "Thay batchnorm"
+        },
+        {
+          "key": "D",
+          "text": "Nén mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Focal loss thêm hệ số (1-p)^gamma làm giảm đóng góp của mẫu dễ phân loại, xử lý imbalance nghiêm trọng.",
+      "tags": [
+        "loss",
+        "focal"
+      ]
+    },
+    {
+      "id": "E55-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Label smoothing có tác dụng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm nhãn one-hot thành phân phối mềm, giảm quá tự tin và cải thiện hiệu chỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Xóa nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Thay đổi optimizer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Label smoothing thay 1/0 bằng (1-ε)/(ε/K), ngăn mô hình quá tự tin, cải thiện calibration và tổng quát hóa.",
+      "tags": [
+        "loss",
+        "label-smoothing"
+      ]
+    },
+    {
+      "id": "E55-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dice loss / IoU loss thường dùng cho bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Segmentation (phân vùng), đặc biệt khi vùng foreground nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện bất thường chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Hồi quy giá nhà"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dice/IoU loss đo độ chồng lấp vùng dự đoán và ground-truth, phù hợp segmentation và bền với mất cân bằng pixel.",
+      "tags": [
+        "loss",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E55-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Triplet loss học biểu diễn bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh anchor với positive (cùng lớp) và negative (khác lớp), kéo gần positive đẩy xa negative"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại trực tiếp softmax"
+        },
+        {
+          "key": "C",
+          "text": "Trộn ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Nén trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Triplet loss tối ưu khoảng cách d(a,p)+margin < d(a,n), học embedding để mẫu cùng lớp gần và khác lớp xa.",
+      "tags": [
+        "loss",
+        "triplet"
+      ]
+    },
+    {
+      "id": "E55-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi dữ liệu mất cân bằng mạnh, accuracy là metric kém vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nó luôn bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình đoán toàn lớp đa số vẫn cho accuracy cao nhưng vô dụng"
+        },
+        {
+          "key": "C",
+          "text": "Nó chỉ dùng cho hồi quy"
+        },
+        {
+          "key": "D",
+          "text": "Nó cần GPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Với imbalance, dự đoán toàn lớp đa số đạt accuracy cao giả tạo; nên dùng precision/recall/F1 hoặc mAP.",
+      "tags": [
+        "metrics",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E55-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Precision được định nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "TP/(TP+FN)"
+        },
+        {
+          "key": "B",
+          "text": "TP/(TP+FP)"
+        },
+        {
+          "key": "C",
+          "text": "TN/(TN+FP)"
+        },
+        {
+          "key": "D",
+          "text": "(TP+TN)/tổng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Precision = TP/(TP+FP): trong các mẫu dự đoán dương, tỉ lệ thực sự đúng.",
+      "tags": [
+        "metrics",
+        "precision"
+      ]
+    },
+    {
+      "id": "E55-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Recall (độ nhạy) được định nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "TP/(TP+FP)"
+        },
+        {
+          "key": "B",
+          "text": "TP/(TP+FN)"
+        },
+        {
+          "key": "C",
+          "text": "FP/(FP+TN)"
+        },
+        {
+          "key": "D",
+          "text": "TN/(TN+FN)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Recall = TP/(TP+FN): trong các mẫu thực sự dương, tỉ lệ được mô hình bắt đúng.",
+      "tags": [
+        "metrics",
+        "recall"
+      ]
+    },
+    {
+      "id": "E55-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "F1-score là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình cộng precision và recall"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình điều hòa của precision và recall"
+        },
+        {
+          "key": "C",
+          "text": "Tổng TP và TN"
+        },
+        {
+          "key": "D",
+          "text": "Diện tích dưới ROC"
+        }
+      ],
+      "answer": "B",
+      "explanation": "F1 = 2*P*R/(P+R), trung bình điều hòa, phạt nặng khi một trong hai thấp, cân bằng precision và recall.",
+      "tags": [
+        "metrics",
+        "f1"
+      ]
+    },
+    {
+      "id": "E55-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "mAP (mean Average Precision) thường dùng đánh giá:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại nhị phân đơn"
+        },
+        {
+          "key": "B",
+          "text": "Object detection (và một số bài retrieval)"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ DataLoader"
+        }
+      ],
+      "answer": "B",
+      "explanation": "mAP tính trung bình Average Precision qua các lớp/ngưỡng IoU, là metric chuẩn cho object detection.",
+      "tags": [
+        "metrics",
+        "map"
+      ]
+    },
+    {
+      "id": "E55-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "IoU (Intersection over Union) giữa hai bounding box bằng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Diện tích giao / diện tích hợp"
+        },
+        {
+          "key": "B",
+          "text": "Diện tích hợp / diện tích giao"
+        },
+        {
+          "key": "C",
+          "text": "Chu vi giao / chu vi hợp"
+        },
+        {
+          "key": "D",
+          "text": "Hiệu hai diện tích"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = vùng giao nhau / vùng hợp nhất, đo mức trùng khớp giữa box dự đoán và ground-truth.",
+      "tags": [
+        "metrics",
+        "iou"
+      ]
+    },
+    {
+      "id": "E55-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ROC-AUC đo lường:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khả năng mô hình xếp hạng mẫu dương cao hơn mẫu âm qua mọi ngưỡng"
+        },
+        {
+          "key": "B",
+          "text": "Thời gian inference"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AUC của đường ROC (TPR theo FPR) thể hiện xác suất mô hình xếp một mẫu dương ngẫu nhiên cao hơn mẫu âm.",
+      "tags": [
+        "metrics",
+        "roc-auc"
+      ]
+    },
+    {
+      "id": "E55-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Class weights trong hàm loss giúp:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc GPU"
+        },
+        {
+          "key": "B",
+          "text": "Tăng trọng số lỗi cho lớp thiểu số để mô hình quan tâm hơn"
+        },
+        {
+          "key": "C",
+          "text": "Xóa lớp thiểu số"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số epoch"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Gán trọng số lớn hơn cho lớp hiếm khiến loss của mẫu lớp đó được nhân lên, cân bằng ảnh hưởng khi imbalance.",
+      "tags": [
+        "imbalance",
+        "class-weights"
+      ]
+    },
+    {
+      "id": "E55-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Oversampling lớp thiểu số có rủi ro:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mất dữ liệu lớp đa số"
+        },
+        {
+          "key": "B",
+          "text": "Overfit do lặp lại nhiều mẫu giống nhau của lớp hiếm"
+        },
+        {
+          "key": "C",
+          "text": "Tăng lr quá mức"
+        },
+        {
+          "key": "D",
+          "text": "Làm hỏng backbone"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lặp mẫu lớp hiếm nhiều lần có thể khiến mô hình overfit các mẫu đó; kết hợp augmentation giúp giảm rủi ro.",
+      "tags": [
+        "imbalance",
+        "oversampling"
+      ]
+    },
+    {
+      "id": "E55-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Warmup learning rate có mục đích:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm lr về 0 ngay"
+        },
+        {
+          "key": "B",
+          "text": "Tăng dần lr từ nhỏ ở đầu training để ổn định trước khi vào lr chính"
+        },
+        {
+          "key": "C",
+          "text": "Giữ lr cố định"
+        },
+        {
+          "key": "D",
+          "text": "Tăng batch size"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Warmup tăng lr từ giá trị nhỏ trong vài bước/epoch đầu, tránh cập nhật lớn gây mất ổn định khi trọng số còn ngẫu nhiên.",
+      "tags": [
+        "lr",
+        "warmup"
+      ]
+    },
+    {
+      "id": "E55-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cosine annealing learning rate:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng lr theo hàm mũ"
+        },
+        {
+          "key": "B",
+          "text": "Giảm lr theo dạng đường cosine mượt về gần 0 cuối training"
+        },
+        {
+          "key": "C",
+          "text": "Giữ lr không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Đặt lr ngẫu nhiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cosine annealing giảm lr theo nửa chu kỳ cosine, mượt và thường cho hội tụ tốt hơn step decay.",
+      "tags": [
+        "lr",
+        "cosine"
+      ]
+    },
+    {
+      "id": "E55-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "One-cycle policy đặc trưng bởi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "lr tăng đến đỉnh rồi giảm trong một chu kỳ, kèm momentum biến đổi ngược"
+        },
+        {
+          "key": "B",
+          "text": "lr giảm đơn điệu"
+        },
+        {
+          "key": "C",
+          "text": "lr cố định"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ thay weight decay"
+        }
+      ],
+      "answer": "A",
+      "explanation": "One-cycle tăng lr đến cực đại rồi giảm xuống rất thấp trong một chu kỳ, momentum biến đổi ngược, huấn luyện nhanh.",
+      "tags": [
+        "lr",
+        "one-cycle"
+      ]
+    },
+    {
+      "id": "E55-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Step decay learning rate nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "lr giảm theo bậc thang sau mỗi số epoch nhất định"
+        },
+        {
+          "key": "B",
+          "text": "lr tăng liên tục"
+        },
+        {
+          "key": "C",
+          "text": "lr theo cosine"
+        },
+        {
+          "key": "D",
+          "text": "lr ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Step decay nhân lr với hệ số <1 sau mỗi mốc epoch (ví dụ giảm 10 lần mỗi 30 epoch).",
+      "tags": [
+        "lr",
+        "step-decay"
+      ]
+    },
+    {
+      "id": "E55-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kỹ thuật LR range test (finding lr) hoạt động bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng dần lr và quan sát loss để chọn vùng lr trước khi loss phân kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Giữ lr cố định cả run"
+        },
+        {
+          "key": "C",
+          "text": "Đặt lr=0"
+        },
+        {
+          "key": "D",
+          "text": "Đo FLOPs"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LR finder tăng lr theo hàm mũ qua vài batch và vẽ loss; chọn lr ngay trước điểm loss bắt đầu tăng vọt.",
+      "tags": [
+        "lr",
+        "lr-finder"
+      ]
+    },
+    {
+      "id": "E55-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với Adam/AdamW, SGD+momentum thường:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn hội tụ nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tổng quát hóa tốt hơn ở nhiều bài CV nhưng cần tinh chỉnh lr kỹ hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không cần lr"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng được cho CNN"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SGD+momentum thường cho generalization tốt hơn (nhất là ImageNet) nhưng nhạy lr; Adam hội tụ dễ hơn nhưng đôi khi kém tổng quát.",
+      "tags": [
+        "optimizer",
+        "sgd"
+      ]
+    },
+    {
+      "id": "E55-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "AdamW khác Adam ở điểm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "AdamW tách weight decay khỏi cập nhật gradient (decoupled)"
+        },
+        {
+          "key": "B",
+          "text": "AdamW bỏ momentum"
+        },
+        {
+          "key": "C",
+          "text": "AdamW không có adaptive lr"
+        },
+        {
+          "key": "D",
+          "text": "AdamW chỉ cho RNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AdamW áp dụng weight decay tách rời (decoupled) thay vì gộp vào gradient như L2 của Adam, regularization đúng hơn.",
+      "tags": [
+        "optimizer",
+        "adamw"
+      ]
+    },
+    {
+      "id": "E55-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Weight decay là một dạng:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Augmentation"
+        },
+        {
+          "key": "B",
+          "text": "Regularization (phạt trọng số lớn, gần L2)"
+        },
+        {
+          "key": "C",
+          "text": "Loss phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Lịch lr"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Weight decay phạt độ lớn trọng số, giảm overfitting; trong AdamW nó được áp dụng tách rời với gradient.",
+      "tags": [
+        "regularization",
+        "weight-decay"
+      ]
+    },
+    {
+      "id": "E55-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dropout hoạt động bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa ngẫu nhiên (đặt 0) một phần neuron khi train để giảm đồng phụ thuộc"
+        },
+        {
+          "key": "B",
+          "text": "Xóa lớp khỏi mạng vĩnh viễn"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số kênh"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout tắt ngẫu nhiên neuron với xác suất p khi train, ngăn co-adaptation và giảm overfitting; tắt khi inference.",
+      "tags": [
+        "regularization",
+        "dropout"
+      ]
+    },
+    {
+      "id": "E55-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BatchNorm trong huấn luyện chuẩn hóa activation dựa trên:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thống kê (mean/var) của batch hiện tại"
+        },
+        {
+          "key": "B",
+          "text": "Toàn bộ tập dữ liệu mỗi bước"
+        },
+        {
+          "key": "C",
+          "text": "Một hằng số cố định"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số lớp trước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BatchNorm chuẩn hóa theo mean/var của mini-batch khi train (giữ running stats cho inference), ổn định và tăng tốc huấn luyện.",
+      "tags": [
+        "regularization",
+        "batchnorm"
+      ]
+    },
+    {
+      "id": "E55-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Early stopping dừng huấn luyện khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Train loss bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Validation metric không cải thiện sau số epoch patience"
+        },
+        {
+          "key": "C",
+          "text": "Học hết toàn bộ epoch"
+        },
+        {
+          "key": "D",
+          "text": "GPU đầy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Early stopping theo dõi validation; nếu không cải thiện sau 'patience' epoch thì dừng, tránh overfit và tiết kiệm thời gian.",
+      "tags": [
+        "regularization",
+        "early-stopping"
+      ]
+    },
+    {
+      "id": "E55-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mixed precision (AMP/FP16) mang lại lợi ích chính:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ chính xác toán học tuyệt đối"
+        },
+        {
+          "key": "B",
+          "text": "Giảm bộ nhớ và tăng tốc trên GPU hỗ trợ Tensor Cores"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ cần gradient"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ optimizer"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FP16 giảm dung lượng bộ nhớ và tăng throughput trên Tensor Cores; loss scaling giữ ổn định gradient nhỏ.",
+      "tags": [
+        "mixed-precision",
+        "amp"
+      ]
+    },
+    {
+      "id": "E55-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Loss scaling trong mixed precision dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "B",
+          "text": "Ngăn gradient nhỏ bị underflow về 0 trong FP16"
+        },
+        {
+          "key": "C",
+          "text": "Giảm batch size"
+        },
+        {
+          "key": "D",
+          "text": "Xóa NaN trong dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhân loss lên (scale) trước backward để gradient nhỏ không bị làm tròn về 0 trong FP16, rồi chia lại trước khi cập nhật.",
+      "tags": [
+        "mixed-precision",
+        "loss-scaling"
+      ]
+    },
+    {
+      "id": "E55-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient accumulation cho phép:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô phỏng batch lớn bằng cách cộng dồn gradient qua nhiều mini-batch trước khi step"
+        },
+        {
+          "key": "B",
+          "text": "Tăng lr tự động"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích lũy gradient qua N mini-batch rồi mới optimizer.step() mô phỏng batch size lớn khi GPU hạn chế bộ nhớ.",
+      "tags": [
+        "grad-accum",
+        "batch"
+      ]
+    },
+    {
+      "id": "E55-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong DistributedDataParallel (DDP), mỗi GPU:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ một bản sao mô hình, xử lý phần dữ liệu riêng, đồng bộ gradient (all-reduce)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ chạy một lớp"
+        },
+        {
+          "key": "C",
+          "text": "Không có mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Chia sẻ một batch duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DDP nhân bản mô hình trên mỗi GPU, mỗi GPU xử lý shard dữ liệu và đồng bộ gradient qua all-reduce, hiệu quả hơn DataParallel.",
+      "tags": [
+        "distributed",
+        "ddp"
+      ]
+    },
+    {
+      "id": "E55-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Learning curve cho thấy train loss thấp nhưng val loss cao và tăng dần. Đây là dấu hiệu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Underfitting"
+        },
+        {
+          "key": "B",
+          "text": "Overfitting"
+        },
+        {
+          "key": "C",
+          "text": "Hội tụ hoàn hảo"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi dữ liệu rỗng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khoảng cách lớn train tốt / val xấu và val xấu đi là overfitting; cần thêm regularization, augmentation hoặc dữ liệu.",
+      "tags": [
+        "diagnosis",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E55-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cả train loss và val loss đều cao và không giảm. Đây là dấu hiệu:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Underfitting (mô hình yếu/lr sai/train chưa đủ)"
+        },
+        {
+          "key": "C",
+          "text": "Quá tổng quát"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu hoàn hảo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai loss đều cao là underfitting: mô hình quá đơn giản, lr không phù hợp, hoặc cần train lâu hơn / tăng dung lượng.",
+      "tags": [
+        "diagnosis",
+        "underfitting"
+      ]
+    },
+    {
+      "id": "E55-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "k-fold cross-validation hữu ích nhất khi:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu rất lớn nên không cần"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu hạn chế, cần ước lượng hiệu năng ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ có một ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Khi dùng GPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi dữ liệu ít, k-fold luân phiên dùng các phần làm validation cho ước lượng hiệu năng đáng tin cậy hơn một lần chia.",
+      "tags": [
+        "validation",
+        "cross-val"
+      ]
+    },
+    {
+      "id": "E55-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Test-time augmentation (TTA) cải thiện kết quả bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Augment tập train thêm"
+        },
+        {
+          "key": "B",
+          "text": "Tạo nhiều biến thể của ảnh test rồi trung bình dự đoán"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ chuẩn hóa"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số lớp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TTA áp dụng các phép biến đổi (flip, crop...) lên ảnh test và trung bình kết quả, thường tăng độ chính xác/độ ổn định.",
+      "tags": [
+        "inference",
+        "tta"
+      ]
+    },
+    {
+      "id": "E55-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Model ensembling thường cải thiện hiệu năng vì:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "B",
+          "text": "Kết hợp nhiều mô hình giảm phương sai và bù lỗi cá nhân"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc inference"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ cần validation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trung bình/biểu quyết nhiều mô hình đa dạng giảm variance và bù lỗi riêng lẻ, nhưng tăng chi phí tính toán.",
+      "tags": [
+        "inference",
+        "ensemble"
+      ]
+    },
+    {
+      "id": "E55-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ONNX là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một GPU mới"
+        },
+        {
+          "key": "B",
+          "text": "Định dạng trung gian mở để trao đổi mô hình giữa các framework/runtime"
+        },
+        {
+          "key": "C",
+          "text": "Thuật toán augmentation"
+        },
+        {
+          "key": "D",
+          "text": "Hàm loss"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ONNX (Open Neural Network Exchange) là định dạng chuẩn để export mô hình và chạy trên nhiều runtime (ONNX Runtime, TensorRT).",
+      "tags": [
+        "deploy",
+        "onnx"
+      ]
+    },
+    {
+      "id": "E55-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "TensorRT chủ yếu dùng để:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện phân tán"
+        },
+        {
+          "key": "B",
+          "text": "Tối ưu và tăng tốc inference trên GPU NVIDIA"
+        },
+        {
+          "key": "C",
+          "text": "Gán nhãn dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ learning curve"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TensorRT tối ưu đồ thị (layer fusion, kernel tuning, precision FP16/INT8) để giảm latency inference trên GPU NVIDIA.",
+      "tags": [
+        "deploy",
+        "tensorrt"
+      ]
+    },
+    {
+      "id": "E55-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quantization INT8 chuyển trọng số/activation sang:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số nguyên 8-bit để giảm bộ nhớ và tăng tốc, đổi lại có thể mất chút độ chính xác"
+        },
+        {
+          "key": "B",
+          "text": "FP64"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi ký tự"
+        },
+        {
+          "key": "D",
+          "text": "Boolean"
+        }
+      ],
+      "answer": "A",
+      "explanation": "INT8 quantization biểu diễn bằng số nguyên 8-bit, giảm kích thước mô hình và tăng throughput, có thể giảm nhẹ độ chính xác.",
+      "tags": [
+        "deploy",
+        "quantization"
+      ]
+    },
+    {
+      "id": "E55-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa post-training quantization (PTQ) và quantization-aware training (QAT):",
+      "options": [
+        {
+          "key": "A",
+          "text": "PTQ lượng tử hóa sau khi train (đôi khi cần calibration); QAT mô phỏng lượng tử hóa trong lúc train để giữ độ chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai giống hệt"
+        },
+        {
+          "key": "C",
+          "text": "QAT không cần train"
+        },
+        {
+          "key": "D",
+          "text": "PTQ chính xác hơn QAT luôn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PTQ áp dụng sau training (nhanh, có thể giảm độ chính xác); QAT mô phỏng quantization khi train nên giữ accuracy tốt hơn, chi phí cao hơn.",
+      "tags": [
+        "deploy",
+        "quantization"
+      ]
+    },
+    {
+      "id": "E55-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pruning (cắt tỉa) mô hình nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loại bỏ trọng số/kênh ít quan trọng để giảm kích thước và tính toán"
+        },
+        {
+          "key": "B",
+          "text": "Thêm nhiều lớp"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số neuron"
+        },
+        {
+          "key": "D",
+          "text": "Đổi optimizer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pruning loại bỏ trọng số (unstructured) hoặc kênh/bộ lọc (structured) ít quan trọng, giảm tham số và FLOPs; cần fine-tune lại.",
+      "tags": [
+        "deploy",
+        "pruning"
+      ]
+    },
+    {
+      "id": "E55-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Knowledge distillation huấn luyện mô hình student bằng cách:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học từ nhãn cứng duy nhất"
+        },
+        {
+          "key": "B",
+          "text": "Học từ soft labels/logits của teacher lớn để đạt độ chính xác cao với mô hình nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua teacher"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước student"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Distillation cho student học theo phân phối mềm (logits) của teacher lớn, đạt accuracy cao hơn với mô hình nhỏ nhẹ.",
+      "tags": [
+        "deploy",
+        "distillation"
+      ]
+    },
+    {
+      "id": "E55-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Latency và throughput khác nhau ở:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Latency là thời gian xử lý một mẫu/yêu cầu; throughput là số mẫu xử lý mỗi đơn vị thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Chúng giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "Latency đo bộ nhớ"
+        },
+        {
+          "key": "D",
+          "text": "Throughput đo độ chính xác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Latency = độ trễ một request; throughput = lượng request/giây. Batch lớn tăng throughput nhưng có thể tăng latency từng request.",
+      "tags": [
+        "deploy",
+        "latency"
+      ]
+    },
+    {
+      "id": "E55-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Model drift trong giám sát sản xuất nghĩa là:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình tự cải thiện"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối dữ liệu thực tế thay đổi theo thời gian khiến hiệu năng giảm"
+        },
+        {
+          "key": "C",
+          "text": "GPU quá nóng"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi cú pháp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Drift xảy ra khi dữ liệu đầu vào (hoặc quan hệ x-y) thay đổi so với lúc train, làm giảm hiệu năng; cần monitoring và retrain.",
+      "tags": [
+        "deploy",
+        "drift"
+      ]
+    },
+    {
+      "id": "E55-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặt seed (torch, numpy, random) và bật deterministic nhằm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc training"
+        },
+        {
+          "key": "B",
+          "text": "Tăng khả năng tái lập (reproducibility) kết quả"
+        },
+        {
+          "key": "C",
+          "text": "Giảm bộ nhớ"
+        },
+        {
+          "key": "D",
+          "text": "Tăng accuracy tự động"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cố định seed cho mọi nguồn ngẫu nhiên và cấu hình deterministic giúp tái lập kết quả; lưu ý một số op cuDNN vẫn non-deterministic.",
+      "tags": [
+        "repro",
+        "seed"
+      ]
+    },
+    {
+      "id": "E55-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày Mixup và CutMix: cách hoạt động, công thức trộn ảnh/nhãn, và vì sao chúng cải thiện khả năng tổng quát hóa của mô hình. So sánh hai kỹ thuật.",
+      "modelAnswer": "Mixup tạo mẫu mới bằng nội suy tuyến tính hai ảnh và hai nhãn: x=λx1+(1-λ)x2 và y=λy1+(1-λ)y2 với λ lấy từ phân phối Beta(α,α). CutMix thay vì trộn toàn pixel thì cắt một vùng chữ nhật từ ảnh thứ hai dán vào ảnh thứ nhất, và nhãn được trộn theo tỉ lệ diện tích vùng dán (λ = 1 - diện_tích_patch/diện_tích_ảnh). Cả hai làm trơn ranh giới quyết định, hoạt động như regularizer mạnh, giảm overfitting và memorization, tăng độ bền với nhiễu nhãn và cải thiện calibration. CutMix giữ được vùng ảnh thật (pixel cục bộ tự nhiên hơn Mixup vốn tạo ảnh mờ chồng) và thường mạnh cho localization, trong khi Mixup đơn giản, rẻ và hiệu quả với phân loại. Nên áp dụng khi train (không dùng khi đánh giá) và điều chỉnh α.",
+      "rubric": [
+        "Nêu đúng công thức/cách trộn của Mixup",
+        "Nêu đúng cách CutMix dán patch và trộn nhãn theo diện tích",
+        "Giải thích lợi ích tổng quát hóa/regularization",
+        "So sánh khác biệt giữa hai kỹ thuật"
+      ],
+      "tags": [
+        "augmentation",
+        "mixup",
+        "cutmix"
+      ]
+    },
+    {
+      "id": "E55-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cách chọn chiến lược transfer learning dựa trên kích thước tập dữ liệu mục tiêu và độ tương đồng của nó với dữ liệu pretrained. Trình bày 4 trường hợp và nêu vai trò của discriminative learning rates.",
+      "modelAnswer": "Có bốn trường hợp theo (kích thước, độ tương đồng). (1) Dữ liệu NHỎ + TƯƠNG TỰ: đóng băng backbone, chỉ train lớp head mới (feature extraction) để tránh overfit. (2) Dữ liệu NHỎ + KHÁC BIỆT: dùng đặc trưng từ các lớp giữa/đầu (tổng quát hơn) và train head; fine-tune rất hạn chế vì dữ liệu ít dễ overfit. (3) Dữ liệu LỚN + TƯƠNG TỰ: fine-tune toàn bộ với learning rate nhỏ vì đặc trưng pretrained đã gần phù hợp. (4) Dữ liệu LỚN + KHÁC BIỆT: fine-tune toàn bộ (hoặc train từ đầu) vì có đủ dữ liệu để học đặc trưng miền mới. Discriminative learning rates gán lr nhỏ cho lớp gần input (đặc trưng tổng quát ít cần đổi) và lr lớn hơn cho lớp gần output (đặc trưng đặc thù), thường kết hợp warmup và unfreeze dần để fine-tune ổn định, tránh phá hỏng trọng số pretrained.",
+      "rubric": [
+        "Phân loại đúng theo kích thước và độ tương đồng dữ liệu",
+        "Mô tả ít nhất 4 trường hợp với chiến lược freeze/fine-tune phù hợp",
+        "Giải thích discriminative learning rates và vai trò trong fine-tuning"
+      ],
+      "tags": [
+        "transfer",
+        "strategy"
+      ]
+    },
+    {
+      "id": "E55-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Khi triển khai mô hình CV vào sản xuất với yêu cầu latency thấp, trình bày các kỹ thuật giảm latency: quantization, pruning, knowledge distillation và tối ưu runtime. Nêu đánh đổi của mỗi kỹ thuật.",
+      "modelAnswer": "Có nhiều kỹ thuật giảm latency. Quantization chuyển trọng số/activation từ FP32 sang INT8 (PTQ nhanh nhưng có thể giảm accuracy; QAT mô phỏng lượng tử hóa khi train để giữ accuracy tốt hơn) giúp giảm bộ nhớ và tăng throughput. Pruning loại bỏ trọng số/kênh ít quan trọng (structured pruning giảm FLOPs thực sự trên phần cứng) nhưng cần fine-tune lại để khôi phục accuracy. Knowledge distillation huấn luyện student nhỏ học soft logits của teacher lớn, đạt accuracy cao với mô hình nhẹ. Tối ưu runtime: export ONNX rồi dùng TensorRT/ONNX Runtime để layer fusion, kernel tuning và chạy FP16/INT8; dùng batch inference để tăng throughput (đánh đổi latency từng request); chọn kiến trúc nhẹ (MobileNet, EfficientNet-lite) cho edge. Đánh đổi chung là độ chính xác và công sức kỹ thuật so với tốc độ/bộ nhớ; cần đo benchmark latency và accuracy trên phần cứng đích.",
+      "rubric": [
+        "Mô tả quantization (PTQ/QAT) và đánh đổi",
+        "Mô tả pruning và/hoặc distillation",
+        "Nêu tối ưu runtime (ONNX/TensorRT/batch inference) hoặc kiến trúc nhẹ",
+        "Nêu rõ đánh đổi accuracy/độ phức tạp so với tốc độ"
+      ],
+      "tags": [
+        "deploy",
+        "latency",
+        "quantization"
+      ]
+    },
+    {
+      "id": "E55-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Khi huấn luyện một CNN, loss trả về NaN hoặc mô hình không hội tụ. Hãy trình bày quy trình chẩn đoán và các biện pháp khắc phục.",
+      "modelAnswer": "Quy trình chẩn đoán và khắc phục: (1) Loss NaN thường do learning rate quá lớn gây gradient bùng nổ; giảm lr, thêm warmup và gradient clipping. (2) Kiểm tra dữ liệu: giá trị NaN/inf trong input, nhãn ngoài phạm vi, chia cho 0 trong loss (ví dụ log(0)); thêm epsilon, làm sạch và chuẩn hóa input đúng mean/std. (3) Với mixed precision FP16, dùng loss scaling để tránh underflow/overflow. (4) Mô hình không hội tụ: thử overfit một batch nhỏ để xác nhận pipeline đúng; nếu không overfit nổi là có bug (sai chiều tensor, quên zero_grad, label sai, kích hoạt/loss không khớp bài toán). (5) Kiểm tra khởi tạo trọng số và dùng BatchNorm để ổn định. (6) Theo dõi norm của gradient; nếu phân kỳ thì clip hoặc giảm lr. (7) Kiểm tra optimizer và weight decay hợp lý, dùng LR finder để chọn lr. Tóm lại: giảm lr + warmup + clip, làm sạch dữ liệu, bật loss scaling, overfit batch nhỏ để cô lập bug, rồi tăng dần độ phức tạp.",
+      "rubric": [
+        "Xác định nguyên nhân NaN (lr quá lớn/gradient bùng nổ/log0)",
+        "Nêu biện pháp: giảm lr, warmup, gradient clipping, loss scaling",
+        "Nêu kiểm tra dữ liệu/nhãn/chuẩn hóa",
+        "Nêu chiến lược cô lập bug (overfit một batch nhỏ) và kiểm tra pipeline"
+      ],
+      "tags": [
+        "debug",
+        "training",
+        "nan"
+      ]
+    }
+  ]
+}

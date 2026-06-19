@@ -1,0 +1,1864 @@
+{
+  "id": "exam-49",
+  "title": "Mô hình Sinh & LLM Hiện đại (GAN, VAE, Diffusion, Transformer-LLM)",
+  "description": "Đề cương ôn tập cộng đồng tập trung vào các mô hình sinh hiện đại (GAN, VAE, Diffusion, Normalizing Flows) và các mô hình ngôn ngữ lớn (LLM). Nội dung bao quát từ nguyên lý huấn luyện, kiến trúc, hàm mất mát tới các kỹ thuật căn chỉnh và suy luận như RLHF, LoRA, MoE và sampling. Độ khó ở mức khá đến cao, phù hợp ôn tập nâng cao.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E49-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong GAN, vai trò của bộ sinh (generator) và bộ phân biệt (discriminator) lần lượt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generator tạo dữ liệu giả từ nhiễu, discriminator phân biệt thật/giả"
+        },
+        {
+          "key": "B",
+          "text": "Generator phân loại ảnh, discriminator nén dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều tạo dữ liệu giả"
+        },
+        {
+          "key": "D",
+          "text": "Generator tính likelihood, discriminator lấy mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Generator ánh xạ vector nhiễu z thành mẫu giả, còn discriminator học phân biệt mẫu thật từ dữ liệu với mẫu giả; hai mạng đối kháng nhau.",
+      "tags": [
+        "GAN",
+        "generator",
+        "discriminator"
+      ]
+    },
+    {
+      "id": "E49-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mục tiêu minimax của GAN có dạng nào dưới đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "max_G max_D V(D,G)"
+        },
+        {
+          "key": "B",
+          "text": "min_G max_D E[log D(x)] + E[log(1-D(G(z)))]"
+        },
+        {
+          "key": "C",
+          "text": "min_D min_G E[||x-G(z)||^2]"
+        },
+        {
+          "key": "D",
+          "text": "max_G min_D KL(p_data || p_g)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GAN tối ưu bài toán minimax: discriminator cực đại hóa khả năng phân biệt còn generator cực tiểu hóa qua thành phần log(1-D(G(z))).",
+      "tags": [
+        "GAN",
+        "minimax",
+        "objective"
+      ]
+    },
+    {
+      "id": "E49-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng 'mode collapse' trong GAN được mô tả đúng nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Discriminator hội tụ về 0.5 hoàn hảo"
+        },
+        {
+          "key": "B",
+          "text": "Generator chỉ sinh ra một số ít kiểu mẫu, thiếu đa dạng"
+        },
+        {
+          "key": "C",
+          "text": "Loss của generator tăng vô hạn"
+        },
+        {
+          "key": "D",
+          "text": "Latent space bị rời rạc hóa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mode collapse xảy ra khi generator học cách lừa discriminator bằng vài mẫu lặp lại, bỏ qua nhiều mode của phân phối dữ liệu, làm giảm tính đa dạng.",
+      "tags": [
+        "GAN",
+        "mode collapse"
+      ]
+    },
+    {
+      "id": "E49-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao huấn luyện GAN thường không ổn định?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì dùng quá ít tham số"
+        },
+        {
+          "key": "B",
+          "text": "Vì hai mạng cập nhật đối kháng, dễ dao động, không cân bằng và gradient có thể biến mất"
+        },
+        {
+          "key": "C",
+          "text": "Vì không dùng được GPU"
+        },
+        {
+          "key": "D",
+          "text": "Vì luôn cần nhãn dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cân bằng động giữa generator và discriminator khó đạt; nếu một mạng vượt trội sẽ gây gradient vanishing hoặc dao động loss, dẫn tới bất ổn.",
+      "tags": [
+        "GAN",
+        "training instability"
+      ]
+    },
+    {
+      "id": "E49-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DCGAN đóng góp gì chính cho kiến trúc GAN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay MLP bằng mạng tích chập (convolutional) cùng các quy ước thiết kế ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ discriminator"
+        },
+        {
+          "key": "C",
+          "text": "Dùng reparameterization trick"
+        },
+        {
+          "key": "D",
+          "text": "Thêm bước khuếch tán nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DCGAN dùng tích chập/tích chập chuyển vị, batch normalization và bỏ lớp fully-connected, đưa ra các hướng dẫn kiến trúc giúp GAN trên ảnh ổn định hơn.",
+      "tags": [
+        "GAN",
+        "DCGAN",
+        "CNN"
+      ]
+    },
+    {
+      "id": "E49-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conditional GAN (cGAN) khác GAN cơ bản ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không cần nhiễu z"
+        },
+        {
+          "key": "B",
+          "text": "Đưa thêm thông tin điều kiện (ví dụ nhãn lớp) vào cả generator và discriminator"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ huấn luyện discriminator"
+        },
+        {
+          "key": "D",
+          "text": "Thay loss bằng MSE"
+        }
+      ],
+      "answer": "B",
+      "explanation": "cGAN bổ sung biến điều kiện y (như nhãn) làm đầu vào cho cả hai mạng, cho phép kiểm soát loại mẫu được sinh ra.",
+      "tags": [
+        "GAN",
+        "conditional GAN"
+      ]
+    },
+    {
+      "id": "E49-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "WGAN (Wasserstein GAN) thay đổi cốt lõi nào so với GAN gốc?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng khoảng cách Wasserstein (Earth-Mover) thay vì JS divergence, cho gradient mượt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn generator"
+        },
+        {
+          "key": "C",
+          "text": "Dùng softmax ở đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Sinh dữ liệu tự hồi quy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "WGAN tối ưu xấp xỉ khoảng cách Wasserstein-1; critic không còn xác suất mà ước lượng khoảng cách, cung cấp gradient hữu ích ngay cả khi hai phân phối tách rời.",
+      "tags": [
+        "GAN",
+        "WGAN",
+        "Wasserstein"
+      ]
+    },
+    {
+      "id": "E49-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong WGAN-GP, 'gradient penalty' được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ học"
+        },
+        {
+          "key": "B",
+          "text": "Ràng buộc tính Lipschitz của critic thay cho việc cắt trọng số (weight clipping)"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Thêm nhiễu vào latent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Gradient penalty phạt chuẩn gradient của critic lệch khỏi 1 trên các điểm nội suy, thực thi ràng buộc 1-Lipschitz một cách mượt hơn so với weight clipping.",
+      "tags": [
+        "GAN",
+        "WGAN-GP",
+        "Lipschitz"
+      ]
+    },
+    {
+      "id": "E49-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong VAE, encoder có nhiệm vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ánh xạ dữ liệu đầu vào thành phân phối trên không gian ẩn (latent), thường là trung bình và phương sai"
+        },
+        {
+          "key": "B",
+          "text": "Sinh ảnh từ nhiễu"
+        },
+        {
+          "key": "C",
+          "text": "Phân biệt thật/giả"
+        },
+        {
+          "key": "D",
+          "text": "Khử nhiễu nhiều bước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Encoder của VAE xấp xỉ phân phối hậu nghiệm q(z|x), xuất ra tham số (thường là mu và log-variance) của một Gaussian trên biến ẩn.",
+      "tags": [
+        "VAE",
+        "encoder",
+        "latent"
+      ]
+    },
+    {
+      "id": "E49-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát của VAE (ELBO) gồm hai thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Adversarial loss và gradient penalty"
+        },
+        {
+          "key": "B",
+          "text": "Sai số tái tạo (reconstruction) và độ phân kỳ KL về prior"
+        },
+        {
+          "key": "C",
+          "text": "Cross-entropy và contrastive loss"
+        },
+        {
+          "key": "D",
+          "text": "Hai thành phần MSE"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ELBO tối đa hóa tương đương cực tiểu hóa tổng của reconstruction loss (log-likelihood của x) và KL divergence giữa q(z|x) và prior p(z).",
+      "tags": [
+        "VAE",
+        "ELBO",
+        "KL divergence"
+      ]
+    },
+    {
+      "id": "E49-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Reparameterization trick trong VAE biểu diễn z như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "z = mu + sigma * epsilon, với epsilon ~ N(0,1)"
+        },
+        {
+          "key": "B",
+          "text": "z = argmax p(z|x)"
+        },
+        {
+          "key": "C",
+          "text": "z = D(G(z))"
+        },
+        {
+          "key": "D",
+          "text": "z lấy mẫu trực tiếp không qua biến phụ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bằng cách viết z = mu + sigma * epsilon với epsilon độc lập, phần ngẫu nhiên tách khỏi tham số, cho phép lan truyền ngược qua mu và sigma.",
+      "tags": [
+        "VAE",
+        "reparameterization"
+      ]
+    },
+    {
+      "id": "E49-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của thành phần KL divergence trong VAE là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phạt khi q(z|x) lệch khỏi prior, giúp latent space trơn và liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Đo chất lượng ảnh tái tạo"
+        },
+        {
+          "key": "C",
+          "text": "Ép discriminator học nhanh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phân giải ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KL divergence regularize không gian ẩn về prior (thường N(0,I)), khiến latent liên tục và có cấu trúc để lấy mẫu/nội suy hợp lý.",
+      "tags": [
+        "VAE",
+        "KL divergence",
+        "latent"
+      ]
+    },
+    {
+      "id": "E49-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt chính giữa VAE và autoencoder (AE) thường là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "VAE học latent xác định, AE học latent ngẫu nhiên"
+        },
+        {
+          "key": "B",
+          "text": "VAE học phân phối xác suất trên latent và có thể sinh mẫu mới, AE chỉ nén-giải nén xác định"
+        },
+        {
+          "key": "C",
+          "text": "AE luôn cho ảnh đẹp hơn VAE"
+        },
+        {
+          "key": "D",
+          "text": "Không có khác biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "VAE mô hình hóa latent như phân phối xác suất với prior và regularization KL, nên là mô hình sinh; AE thường chỉ học mã nén xác định cho tái tạo.",
+      "tags": [
+        "VAE",
+        "autoencoder"
+      ]
+    },
+    {
+      "id": "E49-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao không gian ẩn liên tục của VAE hữu ích?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cho phép nội suy mượt giữa các mẫu và lấy mẫu sinh dữ liệu mới hợp lý"
+        },
+        {
+          "key": "B",
+          "text": "Vì làm cho mô hình nhỏ hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì loại bỏ nhu cầu decoder"
+        },
+        {
+          "key": "D",
+          "text": "Vì biến mọi điểm thành nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Latent liên tục, có cấu trúc giúp các điểm gần nhau giải mã thành mẫu tương tự, cho phép nội suy và sinh mẫu mới mạch lạc.",
+      "tags": [
+        "VAE",
+        "latent space"
+      ]
+    },
+    {
+      "id": "E49-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong VAE, prior p(z) thường được chọn là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối đều rời rạc"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối chuẩn chuẩn tắc N(0, I)"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối Poisson"
+        },
+        {
+          "key": "D",
+          "text": "Phân phối Bernoulli trên ảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prior tiêu chuẩn trong VAE là Gaussian đẳng hướng N(0, I), giúp KL có dạng đóng và việc lấy mẫu z đơn giản.",
+      "tags": [
+        "VAE",
+        "prior",
+        "Gaussian"
+      ]
+    },
+    {
+      "id": "E49-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quá trình forward (thuận) trong mô hình diffusion làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khử nhiễu dần để tạo ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Thêm nhiễu Gaussian dần qua nhiều bước cho đến khi dữ liệu thành nhiễu thuần"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa thành latent rời rạc"
+        },
+        {
+          "key": "D",
+          "text": "Phân biệt thật/giả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Forward process là chuỗi Markov cố định thêm nhiễu Gaussian từng bước, biến dữ liệu sạch x0 thành nhiễu gần như chuẩn x_T.",
+      "tags": [
+        "diffusion",
+        "forward process"
+      ]
+    },
+    {
+      "id": "E49-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quá trình reverse (ngược) trong diffusion học điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học khử nhiễu từng bước để khôi phục dữ liệu từ nhiễu"
+        },
+        {
+          "key": "B",
+          "text": "Học thêm nhiễu vào ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Học phân loại nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Học nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mạng học xấp xỉ phân phối ngược (thường dự đoán nhiễu đã thêm), từ đó khử nhiễu dần x_T về x0 để sinh mẫu mới.",
+      "tags": [
+        "diffusion",
+        "reverse process"
+      ]
+    },
+    {
+      "id": "E49-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DDPM (Denoising Diffusion Probabilistic Models) huấn luyện mạng chủ yếu để dự đoán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trực tiếp ảnh sạch x0 bằng MSE pixel"
+        },
+        {
+          "key": "B",
+          "text": "Nhiễu epsilon đã được thêm vào tại mỗi bước thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Nhãn lớp của ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận hiệp phương sai đầy đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DDPM tham số hóa mục tiêu thành dự đoán nhiễu epsilon thêm vào ở bước t; loss là MSE giữa nhiễu thật và nhiễu dự đoán, đơn giản và ổn định.",
+      "tags": [
+        "diffusion",
+        "DDPM",
+        "noise prediction"
+      ]
+    },
+    {
+      "id": "E49-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc xương sống (backbone) phổ biến cho mạng khử nhiễu trong diffusion là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "U-Net (có skip connections)"
+        },
+        {
+          "key": "B",
+          "text": "Discriminator của GAN"
+        },
+        {
+          "key": "C",
+          "text": "Một MLP nông"
+        },
+        {
+          "key": "D",
+          "text": "Cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net với các skip connection và (thường) khối attention là backbone tiêu chuẩn vì giữ chi tiết không gian khi dự đoán nhiễu ở nhiều mức độ phân giải.",
+      "tags": [
+        "diffusion",
+        "U-Net"
+      ]
+    },
+    {
+      "id": "E49-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với GAN, mô hình diffusion thường có ưu điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện ổn định hơn và độ đa dạng mẫu (mode coverage) tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Lấy mẫu nhanh hơn nhiều lần"
+        },
+        {
+          "key": "C",
+          "text": "Không cần dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Luôn ít tham số hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Diffusion tránh được training adversarial nên ổn định hơn và bao phủ mode tốt, ít mode collapse; nhược điểm là lấy mẫu chậm do cần nhiều bước.",
+      "tags": [
+        "diffusion",
+        "GAN",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E49-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhược điểm chính của mô hình diffusion so với GAN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chất lượng ảnh kém hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ lấy mẫu chậm vì cần nhiều bước khử nhiễu lặp lại"
+        },
+        {
+          "key": "C",
+          "text": "Không sinh được ảnh màu"
+        },
+        {
+          "key": "D",
+          "text": "Không huấn luyện được bằng gradient"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Việc sinh mẫu đòi hỏi chạy nhiều bước khử nhiễu tuần tự (hàng chục đến hàng nghìn), nên chậm hơn nhiều so với một lần forward của GAN.",
+      "tags": [
+        "diffusion",
+        "sampling speed"
+      ]
+    },
+    {
+      "id": "E49-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Classifier-free guidance trong diffusion hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng một classifier riêng để chỉnh gradient"
+        },
+        {
+          "key": "B",
+          "text": "Kết hợp dự đoán có điều kiện và không điều kiện của cùng một mô hình để tăng độ bám điều kiện"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn điều kiện văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Thêm nhiễu vào nhãn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mô hình được huấn luyện cả có và không có điều kiện; lúc lấy mẫu, nội suy/ngoại suy giữa hai dự đoán nhiễu theo hệ số guidance để tăng mức độ tuân theo prompt.",
+      "tags": [
+        "diffusion",
+        "classifier-free guidance"
+      ]
+    },
+    {
+      "id": "E49-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Latent diffusion (như Stable Diffusion) khác diffusion trên pixel ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thực hiện khuếch tán trong không gian ẩn nén (qua autoencoder) thay vì trực tiếp trên pixel"
+        },
+        {
+          "key": "B",
+          "text": "Không dùng U-Net"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ bước forward noising"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy được trên CPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Latent diffusion nén ảnh bằng một autoencoder rồi khuếch tán trong latent nhỏ hơn, giảm chi phí tính toán đáng kể trong khi giữ chất lượng.",
+      "tags": [
+        "diffusion",
+        "latent diffusion",
+        "Stable Diffusion"
+      ]
+    },
+    {
+      "id": "E49-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng cốt lõi của normalizing flows là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng các phép biến đổi khả nghịch (invertible) để tính likelihood chính xác qua công thức đổi biến"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện đối kháng như GAN"
+        },
+        {
+          "key": "C",
+          "text": "Thêm nhiễu nhiều bước như DDPM"
+        },
+        {
+          "key": "D",
+          "text": "Lấy mẫu xấp xỉ không tính được likelihood"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Normalizing flows xây chuỗi biến đổi khả nghịch với Jacobian tính được, nên cho likelihood chính xác (exact) bằng công thức thay đổi biến số.",
+      "tags": [
+        "normalizing flows",
+        "invertible",
+        "likelihood"
+      ]
+    },
+    {
+      "id": "E49-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao normalizing flows yêu cầu các phép biến đổi khả nghịch và có Jacobian dễ tính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm số tham số"
+        },
+        {
+          "key": "B",
+          "text": "Để tính được mật độ chính xác qua định thức Jacobian và lấy mẫu hai chiều"
+        },
+        {
+          "key": "C",
+          "text": "Để tránh dùng GPU"
+        },
+        {
+          "key": "D",
+          "text": "Để bỏ qua prior"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Công thức đổi biến cần định thức Jacobian của phép biến đổi; tính khả nghịch cho phép ánh xạ cả hai chiều (sinh và đánh giá mật độ) một cách chính xác.",
+      "tags": [
+        "normalizing flows",
+        "Jacobian"
+      ]
+    },
+    {
+      "id": "E49-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình sinh tự hồi quy (autoregressive) sinh dữ liệu như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh toàn bộ đầu ra cùng lúc một bước"
+        },
+        {
+          "key": "B",
+          "text": "Phân tích phân phối thành tích các xác suất có điều kiện, sinh tuần tự từng phần tử dựa trên các phần tử trước"
+        },
+        {
+          "key": "C",
+          "text": "Khử nhiễu nhiều bước"
+        },
+        {
+          "key": "D",
+          "text": "Đối kháng generator-discriminator"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mô hình autoregressive viết p(x)=tích p(x_i | x_<i) và sinh tuần tự từng token/pixel có điều kiện theo phần đã sinh; đây là nền tảng của LLM.",
+      "tags": [
+        "autoregressive",
+        "generation"
+      ]
+    },
+    {
+      "id": "E49-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục tiêu pretraining phổ biến của LLM kiểu GPT là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán token kế tiếp (next-token prediction)"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại cảm xúc"
+        },
+        {
+          "key": "C",
+          "text": "Khử nhiễu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Dự đoán nhãn lớp ImageNet"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LLM tự hồi quy được tiền huấn luyện bằng next-token prediction: cực đại hóa xác suất token tiếp theo trên kho văn bản lớn.",
+      "tags": [
+        "LLM",
+        "pretraining",
+        "next-token"
+      ]
+    },
+    {
+      "id": "E49-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định luật scaling Chinchilla (DeepMind) khuyến nghị điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Càng nhiều tham số càng tốt bất kể dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Với ngân sách tính toán cho trước, nên cân đối số tham số và số token dữ liệu, tăng đồng thời gần tỉ lệ thuận"
+        },
+        {
+          "key": "C",
+          "text": "Giữ dữ liệu cố định, chỉ tăng tham số"
+        },
+        {
+          "key": "D",
+          "text": "Giảm dữ liệu khi tăng mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chinchilla chỉ ra nhiều mô hình trước đó bị huấn luyện thiếu dữ liệu; tối ưu là tăng tham số và số token gần như cùng tỉ lệ (xấp xỉ ~20 token/tham số) cho một compute budget.",
+      "tags": [
+        "LLM",
+        "scaling laws",
+        "Chinchilla"
+      ]
+    },
+    {
+      "id": "E49-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Emergent abilities' của LLM được hiểu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khả năng chỉ xuất hiện/cải thiện rõ rệt khi mô hình đạt quy mô đủ lớn"
+        },
+        {
+          "key": "B",
+          "text": "Khả năng luôn có ở mọi kích thước mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi xảy ra khi mô hình quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Tính năng phần cứng GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một số khả năng (như suy luận nhiều bước) gần như vắng mặt ở mô hình nhỏ nhưng xuất hiện khi quy mô vượt ngưỡng nhất định, gọi là emergent abilities.",
+      "tags": [
+        "LLM",
+        "emergent abilities",
+        "scaling"
+      ]
+    },
+    {
+      "id": "E49-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "In-context learning (học trong ngữ cảnh) nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình cập nhật trọng số khi xem ví dụ trong prompt"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình thực hiện tác vụ mới chỉ nhờ các ví dụ/chỉ dẫn trong prompt, không cập nhật trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Huấn luyện lại toàn bộ mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Một dạng quantization"
+        }
+      ],
+      "answer": "B",
+      "explanation": "In-context learning để mô hình suy ra tác vụ từ vài ví dụ (few-shot) đặt trong prompt tại thời điểm suy luận, mà không thay đổi tham số.",
+      "tags": [
+        "LLM",
+        "in-context learning",
+        "few-shot"
+      ]
+    },
+    {
+      "id": "E49-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Instruction tuning (SFT) trên LLM nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng số tham số mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Tinh chỉnh có giám sát trên cặp (chỉ dẫn, phản hồi) để mô hình tuân theo hướng dẫn của người dùng tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình xuống 4-bit"
+        },
+        {
+          "key": "D",
+          "text": "Thêm bộ nhớ ngoài"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Instruction tuning là fine-tuning có giám sát trên dữ liệu chỉ dẫn-phản hồi, giúp mô hình hiểu và làm theo yêu cầu tự nhiên thay vì chỉ tiếp tục văn bản.",
+      "tags": [
+        "LLM",
+        "instruction tuning",
+        "SFT"
+      ]
+    },
+    {
+      "id": "E49-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RLHF cổ điển (kiểu InstructGPT) gồm các bước theo thứ tự nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SFT -> huấn luyện reward model từ so sánh của con người -> tối ưu chính sách bằng RL (PPO)"
+        },
+        {
+          "key": "B",
+          "text": "PPO -> SFT -> reward model"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ huấn luyện reward model"
+        },
+        {
+          "key": "D",
+          "text": "Quantization -> SFT -> RAG"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pipeline RLHF: trước hết SFT, sau đó huấn luyện reward model từ dữ liệu xếp hạng/so sánh của con người, rồi dùng RL (thường PPO) để tối ưu chính sách theo reward đó.",
+      "tags": [
+        "LLM",
+        "RLHF",
+        "PPO"
+      ]
+    },
+    {
+      "id": "E49-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Reward model trong RLHF được huấn luyện chủ yếu từ dữ liệu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhãn lớp ImageNet"
+        },
+        {
+          "key": "B",
+          "text": "So sánh/xếp hạng giữa các phản hồi do con người đánh giá phản hồi nào tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh có nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Văn bản không nhãn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reward model học từ dữ liệu ưu tiên của con người (cặp phản hồi được xếp hạng tốt/kém) để chấm điểm độ phù hợp của đầu ra, làm tín hiệu thưởng cho RL.",
+      "tags": [
+        "LLM",
+        "RLHF",
+        "reward model"
+      ]
+    },
+    {
+      "id": "E49-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DPO (Direct Preference Optimization) khác PPO trong RLHF ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "DPO tối ưu trực tiếp trên dữ liệu ưu tiên bằng một hàm mất mát phân loại, không cần reward model riêng và vòng lặp RL"
+        },
+        {
+          "key": "B",
+          "text": "DPO cần thêm hai reward model"
+        },
+        {
+          "key": "C",
+          "text": "DPO là một thuật toán lấy mẫu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "DPO chỉ dùng cho thị giác máy tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DPO biến căn chỉnh ưu tiên thành bài toán tối ưu có giám sát trực tiếp trên cặp ưu tiên, bỏ qua việc huấn luyện reward model tường minh và vòng lặp PPO, nên đơn giản, ổn định hơn.",
+      "tags": [
+        "LLM",
+        "DPO",
+        "preference optimization"
+      ]
+    },
+    {
+      "id": "E49-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tokenization (ví dụ BPE) trong LLM làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia văn bản thành các đơn vị con (subword token) để mô hình xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Nén trọng số mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Thêm nhiễu vào embedding"
+        },
+        {
+          "key": "D",
+          "text": "Xếp hạng phản hồi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tokenizer (như Byte-Pair Encoding) tách văn bản thành các token subword theo tần suất, cân bằng giữa kích thước từ vựng và độ dài chuỗi.",
+      "tags": [
+        "LLM",
+        "tokenization",
+        "BPE"
+      ]
+    },
+    {
+      "id": "E49-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Context window' của LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số GPU dùng để huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Số token tối đa mô hình có thể xử lý cùng lúc trong một lần suy luận"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước từ vựng"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp transformer"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context window là độ dài chuỗi token tối đa (đầu vào + đầu ra) mà mô hình có thể chú ý tới trong một lượt; vượt quá sẽ bị cắt bớt.",
+      "tags": [
+        "LLM",
+        "context window"
+      ]
+    },
+    {
+      "id": "E49-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RAG (Retrieval-Augmented Generation) giúp LLM thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Truy hồi tài liệu liên quan từ kho ngoài rồi đưa vào ngữ cảnh để mô hình sinh câu trả lời có căn cứ, cập nhật hơn"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số tham số mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Khử nhiễu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hoàn toàn việc pretraining"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RAG kết hợp một bộ truy hồi (retriever) để tìm tài liệu liên quan và đưa vào prompt, giúp LLM trả lời dựa trên tri thức ngoài, giảm ảo giác và cập nhật thông tin mới.",
+      "tags": [
+        "LLM",
+        "RAG",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "E49-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào fine-tuning ưu thế hơn prompting đơn thuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cần định dạng/hành vi chuyên biệt ổn định trên tác vụ hẹp với đủ dữ liệu, hoặc giảm chi phí prompt dài"
+        },
+        {
+          "key": "B",
+          "text": "Khi chỉ cần thử nghiệm nhanh một lần"
+        },
+        {
+          "key": "C",
+          "text": "Khi không có dữ liệu nào"
+        },
+        {
+          "key": "D",
+          "text": "Khi muốn không thay đổi hành vi mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fine-tuning phù hợp khi có dữ liệu đặc thù, cần hành vi/định dạng nhất quán hoặc giảm độ dài prompt; prompting linh hoạt và rẻ cho nhu cầu tổng quát, ít dữ liệu.",
+      "tags": [
+        "LLM",
+        "fine-tuning",
+        "prompting"
+      ]
+    },
+    {
+      "id": "E49-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LoRA (Low-Rank Adaptation) là kỹ thuật PEFT hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện lại toàn bộ trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Đóng băng trọng số gốc, chỉ học thêm các ma trận hạng thấp (low-rank) cộng vào, giảm mạnh tham số cần cập nhật"
+        },
+        {
+          "key": "C",
+          "text": "Xóa bớt các lớp của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển mô hình sang 1-bit"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LoRA giữ nguyên trọng số tiền huấn luyện và chèn các cặp ma trận hạng thấp huấn luyện được, nên chỉ cập nhật rất ít tham số mà vẫn thích ứng hiệu quả.",
+      "tags": [
+        "LLM",
+        "LoRA",
+        "PEFT"
+      ]
+    },
+    {
+      "id": "E49-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục tiêu chung của các phương pháp PEFT (parameter-efficient fine-tuning) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tối đa số tham số huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Thích ứng mô hình lớn bằng cách chỉ cập nhật một phần nhỏ tham số, tiết kiệm bộ nhớ và chi phí"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ pretraining"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho mô hình ảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PEFT (LoRA, adapter, prefix-tuning...) nhằm fine-tune mô hình lớn với rất ít tham số cập nhật, giảm chi phí tính toán và lưu trữ trong khi giữ chất lượng.",
+      "tags": [
+        "LLM",
+        "PEFT"
+      ]
+    },
+    {
+      "id": "E49-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mixture of Experts (MoE) thưa (sparse) trong LLM hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi expert luôn được kích hoạt cho mọi token"
+        },
+        {
+          "key": "B",
+          "text": "Một router chọn một số ít expert cho mỗi token, chỉ kích hoạt phần tham số đó (sparse activation)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ có một expert duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Expert là các GPU vật lý"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MoE thưa dùng cơ chế routing (gating) để chọn top-k expert cho từng token, nên tăng tổng số tham số nhưng chỉ kích hoạt một phần, giữ chi phí tính toán mỗi token thấp.",
+      "tags": [
+        "LLM",
+        "MoE",
+        "sparse"
+      ]
+    },
+    {
+      "id": "E49-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong MoE, 'router' (gating network) đảm nhiệm việc gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyết định token nào được gửi tới expert nào"
+        },
+        {
+          "key": "B",
+          "text": "Khử nhiễu đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Nén trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Tạo nhãn dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Router là mạng gating tính trọng số/điểm cho các expert và định tuyến mỗi token tới một số ít expert phù hợp; cân bằng tải là thách thức quan trọng.",
+      "tags": [
+        "LLM",
+        "MoE",
+        "routing"
+      ]
+    },
+    {
+      "id": "E49-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Hallucination' của LLM nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình sinh thông tin nghe hợp lý nhưng sai sự thật hoặc bịa đặt"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình từ chối trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình lặp lại nguyên văn dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình chạy quá chậm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hallucination là khi LLM đưa ra nội dung trôi chảy, có vẻ tự tin nhưng không chính xác hoặc không có căn cứ thực tế; RAG và grounding giúp giảm thiểu.",
+      "tags": [
+        "LLM",
+        "hallucination"
+      ]
+    },
+    {
+      "id": "E49-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tham số 'temperature' khi lấy mẫu của LLM ảnh hưởng thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temperature cao làm phân phối phẳng hơn, đầu ra ngẫu nhiên/đa dạng hơn; thấp làm xác định hơn"
+        },
+        {
+          "key": "B",
+          "text": "Temperature cao luôn cho đầu ra chính xác hơn"
+        },
+        {
+          "key": "C",
+          "text": "Temperature không ảnh hưởng tới đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Temperature điều khiển số token tối đa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Temperature chia logits trước softmax: giá trị cao làm phân phối phẳng (đa dạng, sáng tạo hơn), giá trị thấp làm nhọn (xác định, an toàn hơn).",
+      "tags": [
+        "LLM",
+        "temperature",
+        "sampling"
+      ]
+    },
+    {
+      "id": "E49-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Top-k sampling khác top-p (nucleus) sampling ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Top-k giữ k token xác suất cao nhất; top-p giữ tập token nhỏ nhất có tổng xác suất >= p"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai hoàn toàn giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "Top-p luôn chỉ chọn 1 token"
+        },
+        {
+          "key": "D",
+          "text": "Top-k chọn theo độ dài câu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Top-k cắt còn k ứng viên có xác suất cao nhất với k cố định; top-p chọn tập nhỏ nhất có khối xác suất tích lũy đạt p, nên kích thước tập thay đổi theo ngữ cảnh.",
+      "tags": [
+        "LLM",
+        "top-k",
+        "top-p"
+      ]
+    },
+    {
+      "id": "E49-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quantization mô hình LLM (ví dụ về 8-bit/4-bit) nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ chính xác số học"
+        },
+        {
+          "key": "B",
+          "text": "Giảm độ chính xác biểu diễn trọng số để giảm bộ nhớ và tăng tốc suy luận, thường đánh đổi nhỏ về chất lượng"
+        },
+        {
+          "key": "C",
+          "text": "Thêm tham số mới"
+        },
+        {
+          "key": "D",
+          "text": "Huấn luyện reward model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Quantization biểu diễn trọng số/kích hoạt bằng ít bit hơn (int8, int4), giảm bộ nhớ và tăng tốc, đổi lại có thể mất ít độ chính xác nếu không hiệu chỉnh tốt.",
+      "tags": [
+        "LLM",
+        "quantization"
+      ]
+    },
+    {
+      "id": "E49-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong cơ chế self-attention của Transformer, ba thành phần Q, K, V là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query, Key, Value dùng để tính trọng số chú ý và tổng hợp thông tin"
+        },
+        {
+          "key": "B",
+          "text": "Quantize, Kernel, Vector"
+        },
+        {
+          "key": "C",
+          "text": "Quality, Kindness, Variance"
+        },
+        {
+          "key": "D",
+          "text": "Ba lớp normalization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Self-attention tính độ tương đồng giữa Query và Key để ra trọng số (qua softmax), rồi tổng hợp Value theo trọng số đó nhằm trộn thông tin giữa các vị trí.",
+      "tags": [
+        "LLM",
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "E49-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao Transformer cần positional encoding?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì self-attention không có thứ tự vốn dĩ, cần thông tin vị trí để phân biệt thứ tự token"
+        },
+        {
+          "key": "B",
+          "text": "Để giảm số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Để khử nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Để nén từ vựng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Self-attention là phép toán hoán vị-bất biến (permutation-equivariant), nên cần đưa thêm mã hóa vị trí để mô hình nắm được thứ tự các token trong chuỗi.",
+      "tags": [
+        "LLM",
+        "transformer",
+        "positional encoding"
+      ]
+    },
+    {
+      "id": "E49-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GPT là kiểu kiến trúc Transformer nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ encoder, hai chiều"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ decoder, tự hồi quy với attention nhân quả (causal)"
+        },
+        {
+          "key": "C",
+          "text": "Encoder-decoder dịch máy"
+        },
+        {
+          "key": "D",
+          "text": "Không phải Transformer"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GPT là Transformer chỉ-decoder, dùng masked (causal) self-attention để dự đoán token kế tiếp, mỗi vị trí chỉ chú ý tới các vị trí trước đó.",
+      "tags": [
+        "LLM",
+        "GPT",
+        "decoder-only"
+      ]
+    },
+    {
+      "id": "E49-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Few-shot prompting khác zero-shot prompting thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Few-shot cung cấp vài ví dụ minh họa trong prompt; zero-shot chỉ mô tả tác vụ không kèm ví dụ"
+        },
+        {
+          "key": "B",
+          "text": "Few-shot huấn luyện lại mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Zero-shot luôn kém hơn ở mọi tác vụ"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai cần fine-tuning"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Zero-shot chỉ nêu yêu cầu, còn few-shot đính kèm một số ví dụ đầu vào-đầu ra trong prompt để định hướng mô hình, thường cải thiện hiệu năng nhờ in-context learning.",
+      "tags": [
+        "LLM",
+        "few-shot",
+        "zero-shot"
+      ]
+    },
+    {
+      "id": "E49-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chain-of-thought prompting nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khuyến khích mô hình trình bày các bước suy luận trung gian, cải thiện tác vụ suy luận nhiều bước"
+        },
+        {
+          "key": "B",
+          "text": "Giảm context window"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Tạo nhiễu ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chain-of-thought gợi ý mô hình viết ra chuỗi lập luận từng bước trước khi đưa đáp án, giúp cải thiện độ chính xác trên các bài toán suy luận/số học phức tạp.",
+      "tags": [
+        "LLM",
+        "chain-of-thought",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "E49-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao lấy mẫu greedy (luôn chọn token xác suất cao nhất) đôi khi không tối ưu cho văn bản dài?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó luôn sai ngữ pháp"
+        },
+        {
+          "key": "B",
+          "text": "Vì dễ lặp lại, đơn điệu và có thể bỏ lỡ chuỗi tổng thể tốt hơn; thiếu đa dạng"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó chậm hơn sampling"
+        },
+        {
+          "key": "D",
+          "text": "Vì cần GPU đặc biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Greedy decoding tối ưu cục bộ từng bước nên dễ rơi vào lặp lại, thiếu đa dạng và có thể bỏ lỡ chuỗi xác suất cao hơn về tổng thể; các phương pháp sampling/beam giúp khắc phục.",
+      "tags": [
+        "LLM",
+        "greedy decoding",
+        "sampling"
+      ]
+    },
+    {
+      "id": "E49-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "KL divergence giữa q và p có tính chất nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đối xứng và là một metric thực sự"
+        },
+        {
+          "key": "B",
+          "text": "Không âm, bằng 0 khi q=p, nhưng không đối xứng"
+        },
+        {
+          "key": "C",
+          "text": "Luôn âm"
+        },
+        {
+          "key": "D",
+          "text": "Có thể nhỏ hơn 0 khi phân phối khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "KL(q||p) >= 0, đạt 0 khi và chỉ khi q=p, nhưng nói chung KL(q||p) != KL(p||q) nên không đối xứng và không phải metric.",
+      "tags": [
+        "KL divergence",
+        "probability"
+      ]
+    },
+    {
+      "id": "E49-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình sinh có điều kiện văn bản-sang-ảnh (text-to-image) như Stable Diffusion dùng thành phần nào để đưa thông tin văn bản vào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một text encoder (ví dụ CLIP) cung cấp embedding làm điều kiện qua cross-attention"
+        },
+        {
+          "key": "B",
+          "text": "Một discriminator văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Reparameterization trick trên token"
+        },
+        {
+          "key": "D",
+          "text": "Một reward model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Văn bản được mã hóa bằng text encoder (như CLIP) thành embedding, đưa vào U-Net qua cross-attention để điều kiện hóa quá trình khử nhiễu theo prompt.",
+      "tags": [
+        "diffusion",
+        "text-to-image",
+        "CLIP"
+      ]
+    },
+    {
+      "id": "E49-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với VAE, GAN thường tạo ảnh có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh mờ hơn nhưng đa dạng hơn"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh sắc nét/chân thực hơn nhưng dễ kém đa dạng và khó huấn luyện hơn"
+        },
+        {
+          "key": "C",
+          "text": "Luôn tệ hơn về mọi mặt"
+        },
+        {
+          "key": "D",
+          "text": "Cho likelihood chính xác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GAN thường cho ảnh sắc nét, chân thực hơn VAE (vốn hay mờ do reconstruction loss), nhưng đánh đổi bằng huấn luyện bất ổn và nguy cơ mode collapse làm giảm đa dạng.",
+      "tags": [
+        "GAN",
+        "VAE",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E49-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phát biểu nào ĐÚNG về DPO so với RLHF dựa trên PPO?",
+      "options": [
+        {
+          "key": "A",
+          "text": "DPO bắt buộc phải có một critic value network như PPO"
+        },
+        {
+          "key": "B",
+          "text": "DPO không cần lấy mẫu online trong vòng lặp RL và không cần reward model tường minh, nên đơn giản và ổn định hơn"
+        },
+        {
+          "key": "C",
+          "text": "DPO không dùng được dữ liệu ưu tiên của con người"
+        },
+        {
+          "key": "D",
+          "text": "DPO chỉ áp dụng cho mô hình khuếch tán"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DPO suy ra trực tiếp mục tiêu tối ưu chính sách từ dữ liệu ưu tiên dưới dạng loss có giám sát, bỏ qua reward model riêng và vòng lặp RL online của PPO, nên huấn luyện gọn và ổn định hơn.",
+      "tags": [
+        "LLM",
+        "DPO",
+        "PPO",
+        "RLHF"
+      ]
+    },
+    {
+      "id": "E49-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích reparameterization trick trong VAE: công thức, lý do cần thiết và nó giúp gì cho việc huấn luyện bằng lan truyền ngược.",
+      "modelAnswer": "Reparameterization trick viết biến ẩn z = mu + sigma * epsilon với epsilon ~ N(0, I), trong đó mu và sigma do encoder xuất ra. Vấn đề là nếu lấy mẫu z trực tiếp từ q(z|x)=N(mu, sigma^2), thao tác lấy mẫu ngẫu nhiên không khả vi nên không thể lan truyền gradient qua mu và sigma. Bằng cách tách phần ngẫu nhiên ra biến epsilon độc lập với tham số, z trở thành hàm khả vi tất định của mu, sigma (và epsilon), nhờ đó gradient của hàm mất mát (ELBO gồm reconstruction + KL) có thể lan truyền ngược qua encoder. Điều này cho phép tối ưu VAE bằng gradient descent thông thường, giảm phương sai ước lượng gradient so với các ước lượng kiểu score-function, và làm cho việc lấy mẫu trở nên huấn luyện được (end-to-end).",
+      "rubric": [
+        "Nêu đúng công thức z = mu + sigma * epsilon với epsilon ~ N(0,1)",
+        "Giải thích lấy mẫu trực tiếp không khả vi, chặn gradient",
+        "Chỉ ra trick giúp lan truyền ngược qua mu và sigma, huấn luyện end-to-end",
+        "Liên hệ tới ELBO/giảm phương sai gradient"
+      ],
+      "tags": [
+        "VAE",
+        "reparameterization",
+        "backpropagation"
+      ]
+    },
+    {
+      "id": "E49-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày hàm mục tiêu minimax của GAN và giải thích hiện tượng mode collapse: nguyên nhân, biểu hiện và một vài cách giảm thiểu.",
+      "modelAnswer": "GAN tối ưu bài toán minimax: min_G max_D E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]. Discriminator D cố gắng cực đại hóa khả năng gán điểm cao cho mẫu thật và điểm thấp cho mẫu giả, còn generator G cực tiểu hóa biểu thức nhằm đánh lừa D. Ở điểm cân bằng lý tưởng, p_g = p_data và D = 0.5 khắp nơi. Mode collapse xảy ra khi G chỉ học sinh ra một (hoặc vài) kiểu mẫu lặp lại đủ để qua mặt D hiện tại, bỏ qua nhiều mode khác của phân phối dữ liệu; biểu hiện là đầu ra thiếu đa dạng, nhiều mẫu gần như giống nhau. Nguyên nhân gồm: bản chất minimax khó cân bằng, G chạy theo điểm yếu tức thời của D, và tín hiệu gradient nghèo nàn. Cách giảm thiểu: dùng WGAN/WGAN-GP (khoảng cách Wasserstein, gradient penalty) cho gradient mượt hơn, minibatch discrimination, unrolled GAN, feature matching, spectral normalization, hoặc điều chỉnh lịch huấn luyện và tỉ lệ cập nhật giữa D và G.",
+      "rubric": [
+        "Viết đúng hàm minimax với log D(x) và log(1-D(G(z)))",
+        "Định nghĩa mode collapse là thiếu đa dạng, lặp vài mode",
+        "Nêu nguyên nhân (cân bằng đối kháng khó, chạy theo điểm yếu của D)",
+        "Đề xuất ít nhất một biện pháp giảm thiểu (WGAN-GP, minibatch discrimination, ...)"
+      ],
+      "tags": [
+        "GAN",
+        "minimax",
+        "mode collapse"
+      ]
+    },
+    {
+      "id": "E49-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Mô tả mô hình diffusion (DDPM): quá trình forward và reverse, mục tiêu huấn luyện, và so sánh ngắn gọn với GAN về ổn định, chất lượng và tốc độ.",
+      "modelAnswer": "Mô hình diffusion gồm hai quá trình. Forward process là chuỗi Markov cố định thêm dần nhiễu Gaussian vào dữ liệu x0 qua T bước cho đến khi x_T xấp xỉ nhiễu chuẩn N(0,I); nhờ tính chất cộng dồn có thể lấy mẫu x_t trực tiếp từ x0. Reverse process là phần học được: một mạng (thường U-Net với time embedding) học xấp xỉ phân phối khử nhiễu p(x_{t-1}|x_t); trong DDPM mạng được tham số hóa để dự đoán nhiễu epsilon đã thêm, với loss đơn giản là MSE giữa nhiễu thật và nhiễu dự đoán. Khi sinh mẫu, bắt đầu từ nhiễu thuần rồi khử nhiễu tuần tự qua nhiều bước để ra x0. So với GAN: diffusion huấn luyện ổn định hơn (không đối kháng, không mode collapse) và bao phủ mode/đa dạng tốt, chất lượng ảnh rất cao; nhược điểm chính là lấy mẫu chậm vì cần nhiều bước lặp, trong khi GAN sinh chỉ một lần forward nhưng huấn luyện bất ổn và dễ mất đa dạng. Các kỹ thuật như latent diffusion và bộ lấy mẫu nhanh (DDIM) giúp giảm chi phí.",
+      "rubric": [
+        "Mô tả forward process thêm nhiễu Gaussian dần đến nhiễu chuẩn",
+        "Mô tả reverse process học khử nhiễu, dự đoán epsilon, U-Net",
+        "Nêu mục tiêu huấn luyện (MSE trên nhiễu) và cách lấy mẫu",
+        "So sánh với GAN về ổn định/đa dạng và tốc độ lấy mẫu"
+      ],
+      "tags": [
+        "diffusion",
+        "DDPM",
+        "forward",
+        "reverse"
+      ]
+    },
+    {
+      "id": "E49-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "RLHF gồm những bước nào và mỗi bước nhằm mục đích gì? Nêu thêm DPO như một thay thế và điểm khác biệt so với PPO.",
+      "modelAnswer": "RLHF (kiểu InstructGPT) thường gồm ba bước. (1) Supervised fine-tuning (SFT): tinh chỉnh mô hình nền trên dữ liệu chỉ dẫn-phản hồi do con người viết để mô hình biết tuân theo hướng dẫn và có hành vi nền tốt. (2) Huấn luyện reward model: thu thập nhiều phản hồi cho cùng prompt, để con người xếp hạng/so sánh phản hồi nào tốt hơn, rồi huấn luyện một mô hình thưởng dự đoán điểm phù hợp với sở thích con người. (3) Tối ưu chính sách bằng RL: dùng thuật toán như PPO để tinh chỉnh mô hình nhằm tối đa hóa phần thưởng từ reward model, thường kèm ràng buộc KL với mô hình SFT để không lệch quá xa và giữ tính trôi chảy. Mục tiêu tổng thể là căn chỉnh đầu ra với mong muốn của con người (hữu ích, trung thực, an toàn). DPO (Direct Preference Optimization) là phương án thay thế: nó suy ra trực tiếp một hàm mất mát có giám sát trên cặp ưu tiên (phản hồi được chọn vs bị loại), tối ưu chính sách mà không cần huấn luyện reward model tường minh và không cần vòng lặp RL online như PPO; nhờ đó đơn giản, ổn định và ít siêu tham số hơn, dù vẫn dựa trên cùng dữ liệu ưu tiên của con người.",
+      "rubric": [
+        "Nêu bước SFT và mục đích",
+        "Nêu bước reward model từ so sánh của con người",
+        "Nêu bước tối ưu chính sách bằng PPO (kèm ràng buộc KL)",
+        "Giải thích DPO khác PPO: bỏ reward model tường minh và vòng lặp RL online"
+      ],
+      "tags": [
+        "LLM",
+        "RLHF",
+        "PPO",
+        "DPO"
+      ]
+    }
+  ]
+}
