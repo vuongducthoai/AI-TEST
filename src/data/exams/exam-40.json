@@ -1,0 +1,1878 @@
+{
+  "id": "exam-40",
+  "title": "Computer Vision — Nền tảng & Xử lý ảnh",
+  "description": "60 câu nền tảng thị giác máy tính: biểu diễn ảnh số (pixel, kênh, dtype uint8), không gian màu (RGB/BGR/HSV/grayscale), tích chập & bộ lọc (box, Gaussian, median, sharpen, bilateral), phát hiện cạnh (Sobel, Canny, Laplacian), histogram & cân bằng, phân ngưỡng (Otsu), biến đổi hình học (resize, flip, affine, nội suy), hình thái học (erosion/dilation/opening/closing), thao tác pixel (bão hòa vs tràn vòng), tiền xử lý & chuẩn hóa. Cân bằng lý thuyết và đọc code NumPy/OpenCV. 56 trắc nghiệm + 4 câu code/tự luận; mọi đáp án code đã chạy thật để kiểm chứng.",
+  "durationMinutes": 80,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E40-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một ảnh màu RGB kích thước 480×640 được lưu dưới dạng mảng NumPy có shape thường là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(480, 640, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(640, 480)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 480, 640)"
+        },
+        {
+          "key": "D",
+          "text": "(480, 640)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy ước (cao, rộng, kênh) = (H, W, C) → (480, 640, 3) với 3 kênh màu.",
+      "tags": [
+        "cv",
+        "image",
+        "shape"
+      ]
+    },
+    {
+      "id": "E40-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiểu dữ liệu (dtype) phổ biến nhất của ảnh 8-bit và miền giá trị mỗi pixel là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "uint8, từ 0 đến 255"
+        },
+        {
+          "key": "B",
+          "text": "float64, từ 0 đến 1"
+        },
+        {
+          "key": "C",
+          "text": "int32, từ −128 đến 127"
+        },
+        {
+          "key": "D",
+          "text": "bool, 0 hoặc 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh 8-bit dùng uint8, mỗi kênh nhận giá trị nguyên 0–255.",
+      "tags": [
+        "cv",
+        "image",
+        "dtype"
+      ]
+    },
+    {
+      "id": "E40-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.zeros((100, 200, 3), dtype=np.uint8)\nprint(img.shape, img.dtype)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(100, 200, 3) uint8"
+        },
+        {
+          "key": "B",
+          "text": "(200, 100, 3) uint8"
+        },
+        {
+          "key": "C",
+          "text": "(100, 200) uint8"
+        },
+        {
+          "key": "D",
+          "text": "(100, 200, 3) float64"
+        }
+      ],
+      "answer": "A",
+      "explanation": "zeros tạo ảnh đen 100×200, 3 kênh, dtype uint8.",
+      "tags": [
+        "cv",
+        "numpy",
+        "image"
+      ]
+    },
+    {
+      "id": "E40-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh grayscale (xám) khác ảnh màu ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ có 1 kênh cường độ thay vì 3 kênh màu"
+        },
+        {
+          "key": "B",
+          "text": "Có 4 kênh"
+        },
+        {
+          "key": "C",
+          "text": "Luôn lớn hơn về dung lượng"
+        },
+        {
+          "key": "D",
+          "text": "Không thể lưu dạng mảng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh xám có 1 kênh (cường độ sáng), shape (H, W); ảnh màu có 3 kênh.",
+      "tags": [
+        "cv",
+        "grayscale"
+      ]
+    },
+    {
+      "id": "E40-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "OpenCV (cv2) đọc ảnh màu mặc định theo thứ tự kênh nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BGR"
+        },
+        {
+          "key": "B",
+          "text": "RGB"
+        },
+        {
+          "key": "C",
+          "text": "HSV"
+        },
+        {
+          "key": "D",
+          "text": "CMYK"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cv2.imread trả về ảnh theo thứ tự BGR (không phải RGB) — lưu ý khi hiển thị bằng matplotlib.",
+      "tags": [
+        "cv",
+        "opencv",
+        "color"
+      ]
+    },
+    {
+      "id": "E40-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.arange(12, dtype=np.uint8).reshape(3, 4)\nprint(img[1, 2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng index 1 = [4,5,6,7]; cột index 2 → 6. Mỗi pixel truy cập [hàng, cột].",
+      "tags": [
+        "cv",
+        "numpy",
+        "indexing"
+      ]
+    },
+    {
+      "id": "E40-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Công thức chuyển RGB sang grayscale theo độ sáng cảm nhận (luminance) thường là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.299R + 0.587G + 0.114B"
+        },
+        {
+          "key": "B",
+          "text": "(R + G + B) × 3"
+        },
+        {
+          "key": "C",
+          "text": "R − G − B"
+        },
+        {
+          "key": "D",
+          "text": "max(R, G, B) luôn luôn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trọng số luminance ITU-R: mắt người nhạy với xanh lá nhất → 0.587G chiếm tỉ trọng cao.",
+      "tags": [
+        "cv",
+        "grayscale",
+        "color"
+      ]
+    },
+    {
+      "id": "E40-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Không gian màu HSV gồm các thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hue (tông màu), Saturation (độ bão hòa), Value (độ sáng)"
+        },
+        {
+          "key": "B",
+          "text": "Height, Size, Value"
+        },
+        {
+          "key": "C",
+          "text": "Hue, Shadow, Vector"
+        },
+        {
+          "key": "D",
+          "text": "Red, Green, Blue"
+        }
+      ],
+      "answer": "A",
+      "explanation": "HSV tách tông màu khỏi độ sáng, hữu ích khi phân ngưỡng màu bền với thay đổi ánh sáng.",
+      "tags": [
+        "cv",
+        "hsv",
+        "color"
+      ]
+    },
+    {
+      "id": "E40-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.full((2, 2, 3), [255, 0, 0], dtype=np.uint8)  # BGR: xanh dương\ng = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\nprint(g.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 2, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(4,)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cvtColor BGR→GRAY giảm còn 1 kênh, shape (H, W) = (2, 2).",
+      "tags": [
+        "cv",
+        "opencv",
+        "grayscale"
+      ]
+    },
+    {
+      "id": "E40-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao HSV thường tốt hơn RGB khi phân đoạn đối tượng theo màu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì tách tông màu (Hue) khỏi độ sáng, ít nhạy với thay đổi ánh sáng"
+        },
+        {
+          "key": "B",
+          "text": "Vì HSV dùng ít bộ nhớ hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì HSV không có nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Vì RGB không lưu được màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong HSV, ngưỡng theo Hue ổn định hơn khi độ sáng thay đổi, nên lọc màu dễ và bền hơn so với RGB.",
+      "tags": [
+        "cv",
+        "hsv",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E40-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép tích chập (convolution) ảnh với kernel (bộ lọc) thực chất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trượt kernel qua ảnh, mỗi vị trí tính tổng tích có trọng số của vùng lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Sắp xếp lại pixel theo độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Nén ảnh JPEG"
+        },
+        {
+          "key": "D",
+          "text": "Đổi không gian màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Convolution áp kernel lên từng vùng cục bộ, tổng hợp lân cận có trọng số → làm mờ, sắc nét, dò cạnh...",
+      "tags": [
+        "cv",
+        "convolution"
+      ]
+    },
+    {
+      "id": "E40-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ lọc trung bình (box/mean filter) có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mờ, giảm nhiễu bằng cách lấy trung bình lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Làm sắc nét cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện góc"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ tương phản tối đa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean filter làm mịn ảnh (low-pass), giảm nhiễu nhưng cũng làm nhòe cạnh.",
+      "tags": [
+        "cv",
+        "filter",
+        "blur"
+      ]
+    },
+    {
+      "id": "E40-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với box filter, Gaussian blur khác ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trọng số giảm dần theo khoảng cách (pixel trung tâm nặng hơn), làm mờ tự nhiên hơn"
+        },
+        {
+          "key": "B",
+          "text": "Làm sắc nét thay vì mờ"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy trên ảnh màu"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng kernel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gaussian dùng trọng số hình chuông nên giữ cạnh tốt hơn box filter, ít gây hiện tượng nhân tạo.",
+      "tags": [
+        "cv",
+        "filter",
+        "gaussian"
+      ]
+    },
+    {
+      "id": "E40-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = (np.ones((5, 5), dtype=np.uint8) * 100)\nk = np.ones((3, 3), np.float32) / 9\nout = cv2.filter2D(img, -1, k)\nprint(out[2, 2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "100"
+        },
+        {
+          "key": "B",
+          "text": "900"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "33"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vùng đồng nhất giá trị 100; trung bình 3×3 vẫn = 100.",
+      "tags": [
+        "cv",
+        "opencv",
+        "filter"
+      ]
+    },
+    {
+      "id": "E40-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kernel làm sắc nét (sharpen) điển hình có đặc điểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tâm dương lớn, xung quanh âm (nhấn mạnh chênh lệch với lân cận)"
+        },
+        {
+          "key": "B",
+          "text": "Tất cả phần tử bằng nhau và dương"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ một hàng khác 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sharpen khuếch đại high-frequency: tâm dương, lân cận âm để làm nổi cạnh.",
+      "tags": [
+        "cv",
+        "filter",
+        "sharpen"
+      ]
+    },
+    {
+      "id": "E40-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ lọc trung vị (median filter) đặc biệt hiệu quả với loại nhiễu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiễu muối-tiêu (salt-and-pepper)"
+        },
+        {
+          "key": "B",
+          "text": "Nhiễu Gaussian thuần"
+        },
+        {
+          "key": "C",
+          "text": "Mất nét chuyển động"
+        },
+        {
+          "key": "D",
+          "text": "Nhiễu nén JPEG"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Median thay pixel bằng trung vị lân cận, loại bỏ tốt các điểm cực trị (đốm trắng/đen) mà vẫn giữ cạnh.",
+      "tags": [
+        "cv",
+        "filter",
+        "median",
+        "noise"
+      ]
+    },
+    {
+      "id": "E40-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ lọc Sobel dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ước lượng gradient cường độ (phát hiện cạnh theo hướng x hoặc y)"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Cân bằng histogram"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ bão hòa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sobel xấp xỉ đạo hàm theo x/y, độ lớn gradient lớn ở cạnh.",
+      "tags": [
+        "cv",
+        "edge",
+        "sobel"
+      ]
+    },
+    {
+      "id": "E40-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thuật toán phát hiện cạnh Canny gồm các bước chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mờ Gaussian → gradient → non-max suppression → ngưỡng kép (hysteresis)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ lấy ngưỡng nhị phân"
+        },
+        {
+          "key": "C",
+          "text": "Cân bằng histogram rồi resize"
+        },
+        {
+          "key": "D",
+          "text": "FFT rồi lọc thông thấp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Canny: khử nhiễu, tính gradient, làm mảnh cạnh (NMS), nối cạnh bằng hai ngưỡng → cạnh mảnh và liên tục.",
+      "tags": [
+        "cv",
+        "edge",
+        "canny"
+      ]
+    },
+    {
+      "id": "E40-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Toán tử Laplacian phát hiện cạnh dựa trên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đạo hàm bậc hai (điểm giao 0 / zero-crossing)"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình lân cận"
+        },
+        {
+          "key": "C",
+          "text": "Trung vị"
+        },
+        {
+          "key": "D",
+          "text": "Biến đổi Fourier"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Laplacian là đạo hàm bậc hai; cạnh nằm tại các điểm đổi dấu (zero-crossing). Nhạy nhiễu nên thường làm mờ trước.",
+      "tags": [
+        "cv",
+        "edge",
+        "laplacian"
+      ]
+    },
+    {
+      "id": "E40-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường làm mờ (Gaussian) ảnh TRƯỚC khi phát hiện cạnh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm nhiễu, tránh phát hiện cạnh giả"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Để đổi sang màu"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc theo định dạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm khuếch đại nhiễu; làm mờ trước giúp cạnh phát hiện ổn định hơn.",
+      "tags": [
+        "cv",
+        "edge",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E40-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Histogram của ảnh xám biểu diễn điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân bố tần suất các mức cường độ (0–255)"
+        },
+        {
+          "key": "B",
+          "text": "Vị trí các cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Tọa độ pixel sáng nhất"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Histogram đếm số pixel ở mỗi mức xám, cho biết độ tương phản/độ sáng tổng thể.",
+      "tags": [
+        "cv",
+        "histogram"
+      ]
+    },
+    {
+      "id": "E40-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cân bằng histogram (histogram equalization) nhằm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ tương phản bằng cách trải đều phân bố cường độ"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số kênh màu"
+        },
+        {
+          "key": "D",
+          "text": "Xoay ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Equalization kéo giãn dải cường độ để dùng hết miền 0–255, cải thiện tương phản ảnh tối/nhạt.",
+      "tags": [
+        "cv",
+        "histogram",
+        "contrast"
+      ]
+    },
+    {
+      "id": "E40-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phương pháp Otsu trong phân ngưỡng (thresholding) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tự động chọn ngưỡng tối ưu tách 2 lớp dựa trên histogram"
+        },
+        {
+          "key": "B",
+          "text": "Cố định ngưỡng 128"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện góc"
+        },
+        {
+          "key": "D",
+          "text": "Làm mờ ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Otsu chọn ngưỡng cực tiểu hóa phương sai nội lớp (hoặc cực đại phương sai liên lớp) tự động.",
+      "tags": [
+        "cv",
+        "threshold",
+        "otsu"
+      ]
+    },
+    {
+      "id": "E40-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.array([[50, 200], [100, 220]], dtype=np.uint8)\n_, th = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)\nprint(th.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 255], [0, 255]]"
+        },
+        {
+          "key": "B",
+          "text": "[[255, 0], [255, 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 0], [0, 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[50, 200], [100, 220]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "THRESH_BINARY: pixel > 128 → 255, ngược lại → 0. 50,100≤128→0; 200,220>128→255.",
+      "tags": [
+        "cv",
+        "opencv",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E40-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((100, 200, 3), dtype=np.uint8)\nout = cv2.resize(img, (50, 25))\nprint(out.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(25, 50, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(50, 25, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(100, 200, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(25, 50)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cv2.resize nhận (width, height)=(50,25) nên shape kết quả là (height, width, C)=(25, 50, 3).",
+      "tags": [
+        "cv",
+        "opencv",
+        "resize"
+      ]
+    },
+    {
+      "id": "E40-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi phóng to ảnh, phép nội suy (interpolation) nào thường cho biên mịn hơn nearest-neighbor?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bilinear / bicubic"
+        },
+        {
+          "key": "B",
+          "text": "Nearest luôn mịn nhất"
+        },
+        {
+          "key": "C",
+          "text": "Không cần nội suy"
+        },
+        {
+          "key": "D",
+          "text": "Threshold"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bilinear/bicubic trung bình có trọng số các pixel lân cận → mượt hơn nearest (vốn gây răng cưa khối).",
+      "tags": [
+        "cv",
+        "interpolation",
+        "resize"
+      ]
+    },
+    {
+      "id": "E40-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.arange(6, dtype=np.uint8).reshape(2, 3)\nprint(cv2.flip(img, 1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[2, 1, 0], [5, 4, 3]]"
+        },
+        {
+          "key": "B",
+          "text": "[[3, 4, 5], [0, 1, 2]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0, 1, 2], [3, 4, 5]]"
+        },
+        {
+          "key": "D",
+          "text": "[[5, 4, 3], [2, 1, 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "flip code=1 lật theo trục ngang (trái–phải): mỗi hàng đảo thứ tự.",
+      "tags": [
+        "cv",
+        "opencv",
+        "flip"
+      ]
+    },
+    {
+      "id": "E40-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép biến đổi affine bảo toàn tính chất nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường thẳng vẫn thẳng và song song vẫn song song"
+        },
+        {
+          "key": "B",
+          "text": "Mọi khoảng cách giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Màu sắc thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Số pixel luôn tăng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Affine (xoay, tịnh tiến, co giãn, nghiêng) giữ đường thẳng và quan hệ song song nhưng có thể đổi khoảng cách/góc.",
+      "tags": [
+        "cv",
+        "transform",
+        "affine"
+      ]
+    },
+    {
+      "id": "E40-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép co (erosion) trên ảnh nhị phân có tác dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu nhỏ vùng trắng, loại đốm trắng nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Mở rộng vùng trắng"
+        },
+        {
+          "key": "C",
+          "text": "Làm mờ Gaussian"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Erosion bào mòn biên vùng foreground (trắng), xóa nhiễu trắng nhỏ.",
+      "tags": [
+        "cv",
+        "morphology",
+        "erosion"
+      ]
+    },
+    {
+      "id": "E40-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép giãn (dilation) có tác dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mở rộng vùng trắng, lấp lỗ/khe nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Thu nhỏ vùng trắng"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện cạnh"
+        },
+        {
+          "key": "D",
+          "text": "Đổi không gian màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dilation nở biên foreground, nối các phần đứt và lấp lỗ nhỏ.",
+      "tags": [
+        "cv",
+        "morphology",
+        "dilation"
+      ]
+    },
+    {
+      "id": "E40-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép 'opening' (co rồi giãn) thường dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loại nhiễu trắng nhỏ mà giữ kích thước vật thể chính"
+        },
+        {
+          "key": "B",
+          "text": "Lấp lỗ đen bên trong vật thể"
+        },
+        {
+          "key": "C",
+          "text": "Làm sắc nét"
+        },
+        {
+          "key": "D",
+          "text": "Cân bằng màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Opening = erosion → dilation: xóa chấm trắng nhỏ/nhô ra mà gần như giữ nguyên vật thể lớn.",
+      "tags": [
+        "cv",
+        "morphology",
+        "opening"
+      ]
+    },
+    {
+      "id": "E40-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép 'closing' (giãn rồi co) thường dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấp lỗ đen nhỏ và khe hở bên trong vật thể trắng"
+        },
+        {
+          "key": "B",
+          "text": "Xóa toàn bộ vật thể"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện góc"
+        },
+        {
+          "key": "D",
+          "text": "Resize ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Closing = dilation → erosion: lấp lỗ/khe nhỏ bên trong foreground mà giữ kích thước tổng thể.",
+      "tags": [
+        "cv",
+        "morphology",
+        "closing"
+      ]
+    },
+    {
+      "id": "E40-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.array([[100, 200, 50]], dtype=np.uint8)\nout = cv2.add(img, np.array([[100, 100, 100]], dtype=np.uint8))\nprint(out.flatten().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[200, 255, 150]"
+        },
+        {
+          "key": "B",
+          "text": "[200, 300, 150]"
+        },
+        {
+          "key": "C",
+          "text": "[200, 44, 150]"
+        },
+        {
+          "key": "D",
+          "text": "[100, 200, 50]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cv2.add bão hòa (saturating): 200+100=300→clamp 255; uint8 không tràn vòng.",
+      "tags": [
+        "cv",
+        "opencv",
+        "saturation"
+      ]
+    },
+    {
+      "id": "E40-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.array([100, 200, 50], dtype=np.uint8)\nprint((img + np.uint8(100)).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[200, 44, 150]"
+        },
+        {
+          "key": "B",
+          "text": "[200, 255, 150]"
+        },
+        {
+          "key": "C",
+          "text": "[200, 300, 150]"
+        },
+        {
+          "key": "D",
+          "text": "[100, 200, 50]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng NumPy uint8 thuần TRÀN vòng (modulo 256): 200+100=300−256=44. Khác cv2.add (bão hòa).",
+      "tags": [
+        "cv",
+        "numpy",
+        "overflow"
+      ]
+    },
+    {
+      "id": "E40-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để tăng độ sáng ảnh, ta thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cộng thêm một hằng số vào mọi pixel (có bão hòa)"
+        },
+        {
+          "key": "B",
+          "text": "Nhân với 0"
+        },
+        {
+          "key": "C",
+          "text": "Đảo ngược kênh"
+        },
+        {
+          "key": "D",
+          "text": "Xoay 90 độ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tăng sáng = cộng offset; tăng tương phản = nhân hệ số (gain). Cần clamp 0–255.",
+      "tags": [
+        "cv",
+        "brightness"
+      ]
+    },
+    {
+      "id": "E40-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.array([[0, 255], [128, 64]], dtype=np.uint8)\nprint((255 - img).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[255, 0], [127, 191]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 255], [128, 64]]"
+        },
+        {
+          "key": "C",
+          "text": "[[255, 255], [255, 255]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 0], [0, 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh âm bản (negative) = 255 − pixel: 0→255, 255→0, 128→127, 64→191.",
+      "tags": [
+        "cv",
+        "numpy",
+        "negative"
+      ]
+    },
+    {
+      "id": "E40-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.zeros((100, 100, 3), dtype=np.uint8)\ncrop = img[10:60, 20:80]\nprint(crop.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(50, 60, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(60, 50, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(100, 100, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(50, 60)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Crop hàng 10:60 (50), cột 20:80 (60), giữ 3 kênh → (50, 60, 3).",
+      "tags": [
+        "cv",
+        "numpy",
+        "crop"
+      ]
+    },
+    {
+      "id": "E40-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.dstack([np.full((2,2),10), np.full((2,2),20), np.full((2,2),30)]).astype(np.uint8)\nprint(img[:, :, 1].flatten().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[20, 20, 20, 20]"
+        },
+        {
+          "key": "B",
+          "text": "[10, 10, 10, 10]"
+        },
+        {
+          "key": "C",
+          "text": "[30, 30, 30, 30]"
+        },
+        {
+          "key": "D",
+          "text": "[10, 20, 30, 10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kênh index 1 (kênh thứ hai) toàn giá trị 20.",
+      "tags": [
+        "cv",
+        "numpy",
+        "channel"
+      ]
+    },
+    {
+      "id": "E40-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi hiển thị ảnh OpenCV (BGR) bằng matplotlib (mong đợi RGB) mà không chuyển đổi, hậu quả là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Màu bị sai (xanh dương và đỏ hoán đổi)"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh bị xoay"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh mất nét"
+        },
+        {
+          "key": "D",
+          "text": "Không hiển thị gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "matplotlib hiểu thứ tự RGB; nếu đưa BGR vào, kênh R và B đổi chỗ → màu lệch. Cần cvtColor BGR2RGB.",
+      "tags": [
+        "cv",
+        "opencv",
+        "color",
+        "pitfall"
+      ]
+    },
+    {
+      "id": "E40-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Padding (đệm viền) trước khi convolution dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ nguyên kích thước đầu ra và xử lý được pixel ở biên"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Đổi màu"
+        },
+        {
+          "key": "D",
+          "text": "Nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Padding (zero/replicate) thêm viền để kernel áp được tại biên và đầu ra cùng kích thước với đầu vào ('same').",
+      "tags": [
+        "cv",
+        "convolution",
+        "padding"
+      ]
+    },
+    {
+      "id": "E40-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Độ phân giải ảnh (resolution) đề cập tới?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số pixel theo chiều rộng × chiều cao"
+        },
+        {
+          "key": "B",
+          "text": "Số kênh màu"
+        },
+        {
+          "key": "C",
+          "text": "Định dạng file"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ khung hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Resolution là số điểm ảnh, vd 1920×1080; càng cao càng nhiều chi tiết.",
+      "tags": [
+        "cv",
+        "image",
+        "resolution"
+      ]
+    },
+    {
+      "id": "E40-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nén JPEG là loại nén?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có mất mát (lossy)"
+        },
+        {
+          "key": "B",
+          "text": "Không mất mát (lossless)"
+        },
+        {
+          "key": "C",
+          "text": "Không nén"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cho ảnh xám"
+        }
+      ],
+      "answer": "A",
+      "explanation": "JPEG nén lossy (bỏ thông tin tần số cao mắt ít nhạy); PNG mới là lossless.",
+      "tags": [
+        "cv",
+        "compression",
+        "jpeg"
+      ]
+    },
+    {
+      "id": "E40-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Aliasing (răng cưa) khi thu nhỏ ảnh có thể giảm bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mờ (low-pass) trước khi lấy mẫu xuống (downsample)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ tương phản"
+        },
+        {
+          "key": "C",
+          "text": "Đổi sang HSV"
+        },
+        {
+          "key": "D",
+          "text": "Cộng thêm nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo định lý lấy mẫu, cần lọc thông thấp trước khi downsample để tránh aliasing.",
+      "tags": [
+        "cv",
+        "sampling",
+        "aliasing"
+      ]
+    },
+    {
+      "id": "E40-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh nhị phân (binary image) là ảnh mà mỗi pixel?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ nhận 2 giá trị (0 hoặc 255 / đen–trắng)"
+        },
+        {
+          "key": "B",
+          "text": "Có 256 mức xám"
+        },
+        {
+          "key": "C",
+          "text": "Có 3 kênh màu"
+        },
+        {
+          "key": "D",
+          "text": "Là số thực bất kỳ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Binary image chỉ gồm 2 mức (foreground/background), thường thu được sau thresholding.",
+      "tags": [
+        "cv",
+        "binary"
+      ]
+    },
+    {
+      "id": "E40-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục đích chính của tiền xử lý (preprocessing) ảnh trước khi đưa vào mô hình là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuẩn hóa, giảm nhiễu, đưa về định dạng/kích thước nhất quán"
+        },
+        {
+          "key": "B",
+          "text": "Làm ảnh đẹp hơn cho người xem"
+        },
+        {
+          "key": "C",
+          "text": "Tăng dung lượng file"
+        },
+        {
+          "key": "D",
+          "text": "Mã hóa bảo mật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Preprocessing (resize, normalize, denoise) giúp đầu vào nhất quán, mô hình học ổn định hơn.",
+      "tags": [
+        "cv",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E40-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuẩn hóa pixel về [0, 1] trước khi đưa vào mạng neural thường làm bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia giá trị pixel cho 255"
+        },
+        {
+          "key": "B",
+          "text": "Nhân với 255"
+        },
+        {
+          "key": "C",
+          "text": "Cộng 128"
+        },
+        {
+          "key": "D",
+          "text": "Lấy log"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh uint8 (0–255) chia 255 → float trong [0,1], giúp huấn luyện ổn định.",
+      "tags": [
+        "cv",
+        "normalization",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E40-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.array([0, 128, 255], dtype=np.uint8)\nnorm = img.astype(np.float64) / 255.0\nprint(np.round(norm, 3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.0, 0.502, 1.0]"
+        },
+        {
+          "key": "B",
+          "text": "[0.0, 0.5, 1.0]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 128, 255]"
+        },
+        {
+          "key": "D",
+          "text": "[0.0, 1.0, 2.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "128/255 ≈ 0.502; chuẩn hóa đưa về [0,1].",
+      "tags": [
+        "cv",
+        "numpy",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E40-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kênh alpha trong ảnh RGBA biểu diễn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ trong suốt (opacity)"
+        },
+        {
+          "key": "B",
+          "text": "Độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Tông màu"
+        },
+        {
+          "key": "D",
+          "text": "Độ sắc nét"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Alpha là kênh thứ 4 mã hóa độ mờ/đục; 0 = trong suốt hoàn toàn.",
+      "tags": [
+        "cv",
+        "color",
+        "alpha"
+      ]
+    },
+    {
+      "id": "E40-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ lọc thông thấp (low-pass) và thông cao (high-pass) trên ảnh tương ứng với?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thông thấp = làm mờ; thông cao = làm nổi cạnh/chi tiết"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều làm mờ"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều phát hiện màu"
+        },
+        {
+          "key": "D",
+          "text": "Thông thấp làm sắc nét"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Low-pass giữ tần số thấp (vùng mịn) → mờ; high-pass giữ tần số cao (cạnh) → nổi chi tiết.",
+      "tags": [
+        "cv",
+        "filter",
+        "frequency"
+      ]
+    },
+    {
+      "id": "E40-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient ảnh có độ lớn lớn ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tại các cạnh / nơi cường độ thay đổi nhanh"
+        },
+        {
+          "key": "B",
+          "text": "Ở vùng đồng nhất phẳng"
+        },
+        {
+          "key": "C",
+          "text": "Ở góc trên trái"
+        },
+        {
+          "key": "D",
+          "text": "Ở pixel sáng nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gradient đo tốc độ biến thiên cường độ; lớn nhất tại biên/cạnh.",
+      "tags": [
+        "cv",
+        "gradient",
+        "edge"
+      ]
+    },
+    {
+      "id": "E40-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((4, 4), dtype=np.uint8)\nimg[1:3, 1:3] = 255\nk = np.ones((3, 3), np.uint8)\ner = cv2.erode(img, k)\nprint(int(er.sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "255"
+        },
+        {
+          "key": "C",
+          "text": "1020"
+        },
+        {
+          "key": "D",
+          "text": "2040"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vùng trắng 2×2 quá nhỏ so với kernel 3×3 nên bị erosion xóa hết → tổng = 0.",
+      "tags": [
+        "cv",
+        "opencv",
+        "erosion"
+      ]
+    },
+    {
+      "id": "E40-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nimg = np.array([[10, 10], [10, 10]], dtype=np.uint8)\nprint(int(img.mean()), int(img.max()), int(img.min()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 10 10"
+        },
+        {
+          "key": "B",
+          "text": "40 10 10"
+        },
+        {
+          "key": "C",
+          "text": "10 40 0"
+        },
+        {
+          "key": "D",
+          "text": "0 10 10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mọi pixel = 10 nên mean=max=min=10.",
+      "tags": [
+        "cv",
+        "numpy",
+        "statistics"
+      ]
+    },
+    {
+      "id": "E40-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bilateral filter khác Gaussian blur ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vừa làm mịn vừa giữ cạnh (xét cả khoảng cách không gian lẫn chênh lệch cường độ)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn làm mờ mạnh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy trên ảnh nhị phân"
+        },
+        {
+          "key": "D",
+          "text": "Là phép phát hiện góc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bilateral cân nhắc cả khoảng cách và độ tương đồng màu nên giảm nhiễu mà không nhòe cạnh.",
+      "tags": [
+        "cv",
+        "filter",
+        "bilateral"
+      ]
+    },
+    {
+      "id": "E40-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi tăng kích thước kernel làm mờ (vd 3×3 → 15×15), kết quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh mờ nhiều hơn (mất chi tiết)"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh sắc nét hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Đổi màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kernel lớn lấy trung bình vùng rộng hơn → mờ mạnh hơn, mất chi tiết.",
+      "tags": [
+        "cv",
+        "filter",
+        "blur"
+      ]
+    },
+    {
+      "id": "E40-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Region of Interest' (ROI) trong xử lý ảnh là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vùng con của ảnh được chọn để xử lý riêng"
+        },
+        {
+          "key": "B",
+          "text": "Toàn bộ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Một kênh màu"
+        },
+        {
+          "key": "D",
+          "text": "Một loại nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROI là vùng quan tâm (vd khuôn mặt) được crop để xử lý/ phân tích tập trung.",
+      "tags": [
+        "cv",
+        "roi"
+      ]
+    },
+    {
+      "id": "E40-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao OpenCV và NumPy đều biểu diễn ảnh dưới dạng mảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép thao tác vector hóa nhanh và truy cập pixel tiện lợi"
+        },
+        {
+          "key": "B",
+          "text": "Vì ảnh không thể lưu kiểu khác"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng dung lượng"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc bởi định dạng PNG"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mảng NumPy cho phép xử lý pixel hàng loạt (vectorized), nền tảng cho hầu hết thao tác CV.",
+      "tags": [
+        "cv",
+        "numpy",
+        "representation"
+      ]
+    },
+    {
+      "id": "E40-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc đoạn code xử lý ảnh và ghi chính xác kết quả in ra:\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((5, 5), dtype=np.uint8)\nimg[1:4, 1:4] = 255\nk = np.ones((3, 3), np.uint8)\ndil = cv2.dilate(img, k)\nprint(int(dil.sum()) // 255)\n```",
+      "modelAnswer": "Output:\n25\n\nGiải thích: vùng trắng 3×3 ban đầu, sau phép giãn (dilate) với kernel 3×3 nở ra phủ toàn bộ ảnh 5×5 → 25 pixel trắng.",
+      "rubric": [
+        "Vùng trắng ban đầu 3×3 = 9 pixel",
+        "Dilation nở biên foreground",
+        "Sau giãn vùng trắng phủ gần như toàn ảnh 5×5",
+        "Đếm số pixel trắng = 25 (toàn ảnh)"
+      ],
+      "tags": [
+        "cv",
+        "opencv",
+        "morphology",
+        "dilation"
+      ]
+    },
+    {
+      "id": "E40-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Đọc đoạn code xử lý ảnh và ghi chính xác kết quả in ra:\n\n```python\nimport numpy as np\nimg = np.array([[0, 0, 0], [0, 9, 0], [0, 0, 0]], dtype=np.float32)\nk = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], dtype=np.float32)\nimport cv2\nout = cv2.filter2D(img, -1, k)\nprint(out[1, 1])\n```",
+      "modelAnswer": "Output:\n45.0\n\nGiải thích: kernel sharpen có tâm 5, lân cận −1; tại tâm giá trị 9, lân cận đều 0 → 5·9 − 4·0 = 45.0.",
+      "rubric": [
+        "Kernel là sharpen (tâm 5, lân cận −1)",
+        "Tâm = 9, lân cận đều 0",
+        "Tích chập tại tâm: 5·9 − 4·0 = 45",
+        "Output[1,1] = 45.0"
+      ],
+      "tags": [
+        "cv",
+        "opencv",
+        "convolution",
+        "sharpen"
+      ]
+    },
+    {
+      "id": "E40-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích sự khác nhau giữa cv2.add và phép cộng '+' của NumPy trên ảnh uint8. Cho ví dụ giá trị cụ thể và nêu vì sao điều này quan trọng khi tăng độ sáng ảnh.",
+      "modelAnswer": "cv2.add cộng có BÃO HÒA (saturating): kết quả vượt 255 bị giữ ở 255, dưới 0 giữ ở 0. Phép '+' của NumPy trên uint8 cộng theo MODULO 256 (tràn vòng): vd 200 + 100 = 300 → 300 − 256 = 44.\nVí dụ: pixel sáng 200, cộng 100. cv2.add → 255 (sáng đúng kỳ vọng). NumPy '+' → 44 (đột nhiên tối đen) — gây 'đốm tối' sai khi tăng sáng. Vì vậy khi tăng độ sáng nên dùng cv2.add hoặc ép kiểu sang int/float, cộng rồi np.clip(0,255) trước khi đổi lại uint8.",
+      "rubric": [
+        "Nêu cv2.add bão hòa (clamp 0–255)",
+        "Nêu NumPy uint8 cộng tràn vòng modulo 256",
+        "Cho ví dụ số cụ thể (vd 200+100 → 255 vs 44)",
+        "Kết luận cách tăng sáng an toàn (cv2.add hoặc clip)"
+      ],
+      "tags": [
+        "cv",
+        "numpy",
+        "overflow",
+        "brightness"
+      ]
+    },
+    {
+      "id": "E40-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Bạn cần đếm số đối tượng sáng rời rạc trên nền tối trong một ảnh có nhiễu. Hãy trình bày một pipeline xử lý ảnh cổ điển (các bước) để làm việc này.",
+      "modelAnswer": "Pipeline gợi ý:\n1) Chuyển sang ảnh xám (cvtColor BGR2GRAY).\n2) Làm mờ nhẹ (GaussianBlur) để giảm nhiễu.\n3) Phân ngưỡng tách vật thể khỏi nền (threshold, có thể dùng Otsu để tự chọn ngưỡng) → ảnh nhị phân.\n4) Morphology: opening để xóa đốm nhiễu nhỏ, closing để lấp lỗ trong vật thể.\n5) Tìm thành phần liên thông / contour (cv2.connectedComponents hoặc cv2.findContours) và đếm số vùng (lọc theo diện tích tối thiểu để bỏ nhiễu còn sót).\nKết quả: số đối tượng = số contour/thành phần hợp lệ.",
+      "rubric": [
+        "Chuyển xám và làm mờ giảm nhiễu",
+        "Phân ngưỡng (Otsu) tạo ảnh nhị phân",
+        "Dùng morphology (opening/closing) làm sạch",
+        "Đếm bằng contour/connected components, lọc theo diện tích"
+      ],
+      "tags": [
+        "cv",
+        "pipeline",
+        "segmentation",
+        "counting"
+      ]
+    }
+  ]
+}

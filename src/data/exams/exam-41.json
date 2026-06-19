@@ -1,0 +1,1876 @@
+{
+  "id": "exam-41",
+  "title": "Computer Vision — CV cổ điển & Đặc trưng",
+  "description": "60 câu thị giác máy tính cổ điển: phát hiện góc (Harris, Shi-Tomasi, FAST), đặc trưng & descriptor (SIFT, SURF, ORB, BRIEF, HOG, Gabor), so khớp đặc trưng (BFMatcher, Lowe ratio, crossCheck), contour & nhận dạng hình, Hough (đường/tròn), image pyramid & đa tỉ lệ, optical flow (Lucas-Kanade, dense), homography & RANSAC, hiệu chỉnh camera & khử méo, stereo/độ sâu, template matching, background subtraction, watershed, Haar cascade/integral image, BoVW. Cân bằng lý thuyết và đọc code OpenCV. 56 trắc nghiệm + 4 tự luận; đáp án code đã chạy thật để kiểm chứng.",
+  "durationMinutes": 80,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E41-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng (feature) tốt trong thị giác máy tính cần tính chất gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bất biến/ổn định với thay đổi tỉ lệ, xoay, sáng và lặp lại được"
+        },
+        {
+          "key": "B",
+          "text": "Càng nhiều pixel càng tốt"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ phụ thuộc màu"
+        },
+        {
+          "key": "D",
+          "text": "Luôn nằm ở tâm ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng tốt cần distinctive, repeatable và bất biến với biến đổi (scale/rotation/illumination).",
+      "tags": [
+        "cv",
+        "feature"
+      ]
+    },
+    {
+      "id": "E41-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ phát hiện góc Harris dựa trên ý tưởng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Góc là nơi cường độ thay đổi mạnh theo MỌI hướng"
+        },
+        {
+          "key": "B",
+          "text": "Góc là pixel sáng nhất"
+        },
+        {
+          "key": "C",
+          "text": "Góc là vùng phẳng"
+        },
+        {
+          "key": "D",
+          "text": "Góc là biên ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Harris xét ma trận cấu trúc; tại góc, dịch chuyển nhỏ theo mọi hướng đều làm thay đổi lớn → hai trị riêng đều lớn.",
+      "tags": [
+        "cv",
+        "corner",
+        "harris"
+      ]
+    },
+    {
+      "id": "E41-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa CẠNH (edge) và GÓC (corner)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cạnh: thay đổi mạnh theo 1 hướng; góc: thay đổi mạnh theo 2 hướng"
+        },
+        {
+          "key": "B",
+          "text": "Không khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Góc luôn là vùng phẳng"
+        },
+        {
+          "key": "D",
+          "text": "Cạnh chỉ có ở ảnh màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tại cạnh chỉ một trị riêng lớn (biến thiên 1 hướng); tại góc cả hai trị riêng lớn.",
+      "tags": [
+        "cv",
+        "corner",
+        "edge"
+      ]
+    },
+    {
+      "id": "E41-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Shi-Tomasi (goodFeaturesToTrack) cải tiến Harris bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng min của hai trị riêng làm tiêu chí chọn góc tốt"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua trị riêng"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng màu"
+        },
+        {
+          "key": "D",
+          "text": "Dùng FFT"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Shi-Tomasi chọn điểm khi min(λ1, λ2) đủ lớn, cho điểm theo dõi (tracking) ổn định.",
+      "tags": [
+        "cv",
+        "corner",
+        "shi-tomasi"
+      ]
+    },
+    {
+      "id": "E41-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SIFT (Scale-Invariant Feature Transform) nổi bật vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bất biến với tỉ lệ và xoay, mô tả keypoint bằng histogram hướng gradient"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ chạy trên ảnh nhị phân"
+        },
+        {
+          "key": "C",
+          "text": "Không cần ảnh xám"
+        },
+        {
+          "key": "D",
+          "text": "Là bộ lọc làm mờ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SIFT dò keypoint qua không gian tỉ lệ (DoG) và mô tả bằng gradient orientation, bất biến scale/rotation.",
+      "tags": [
+        "cv",
+        "feature",
+        "sift"
+      ]
+    },
+    {
+      "id": "E41-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ORB khác SIFT chủ yếu ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ORB nhanh, mô tả nhị phân (so khớp bằng Hamming), miễn phí bản quyền"
+        },
+        {
+          "key": "B",
+          "text": "ORB chậm hơn nhiều"
+        },
+        {
+          "key": "C",
+          "text": "ORB chỉ cho ảnh màu"
+        },
+        {
+          "key": "D",
+          "text": "ORB không phát hiện keypoint"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ORB (FAST + BRIEF) cho descriptor nhị phân, rất nhanh, phù hợp thời gian thực và không vướng bằng sáng chế.",
+      "tags": [
+        "cv",
+        "feature",
+        "orb"
+      ]
+    },
+    {
+      "id": "E41-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Descriptor nhị phân (như BRIEF/ORB) được so khớp bằng khoảng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hamming"
+        },
+        {
+          "key": "B",
+          "text": "Euclid (L2)"
+        },
+        {
+          "key": "C",
+          "text": "Cosine"
+        },
+        {
+          "key": "D",
+          "text": "Manhattan trên float"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Descriptor nhị phân so khớp bằng khoảng cách Hamming (đếm bit khác nhau), rất nhanh.",
+      "tags": [
+        "cv",
+        "feature",
+        "matching"
+      ]
+    },
+    {
+      "id": "E41-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FAST là bộ phát hiện?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Góc/keypoint nhanh dựa trên so sánh cường độ trên vòng tròn quanh pixel"
+        },
+        {
+          "key": "B",
+          "text": "Cạnh bằng đạo hàm bậc hai"
+        },
+        {
+          "key": "C",
+          "text": "Màu da"
+        },
+        {
+          "key": "D",
+          "text": "Đường thẳng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FAST (Features from Accelerated Segment Test) kiểm tra các pixel trên cung tròn để phát hiện góc rất nhanh.",
+      "tags": [
+        "cv",
+        "corner",
+        "fast"
+      ]
+    },
+    {
+      "id": "E41-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "HOG (Histogram of Oriented Gradients) mô tả ảnh bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân bố hướng gradient trong các ô (cells) cục bộ"
+        },
+        {
+          "key": "B",
+          "text": "Màu trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Số pixel trắng"
+        },
+        {
+          "key": "D",
+          "text": "Tọa độ tâm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "HOG chia ảnh thành ô, gom histogram hướng gradient — đặc trưng kinh điển cho phát hiện người đi bộ.",
+      "tags": [
+        "cv",
+        "feature",
+        "hog"
+      ]
+    },
+    {
+      "id": "E41-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tỉ lệ kiểm tra Lowe (ratio test) trong so khớp SIFT dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loại bỏ match mơ hồ: giữ match nếu khoảng cách gần nhất < 0.7–0.8 lần khoảng cách gần nhì"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Resize ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ratio test so sánh hàng xóm gần nhất và gần nhì; tỉ lệ nhỏ nghĩa là match phân biệt rõ → giữ lại.",
+      "tags": [
+        "cv",
+        "matching",
+        "lowe"
+      ]
+    },
+    {
+      "id": "E41-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((10, 10), np.uint8)\nimg[2:5, 2:5] = 255\nimg[6:9, 6:9] = 255\ncnts, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\nprint(len(cnts))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Có hai hình vuông trắng rời nhau → 2 contour ngoài.",
+      "tags": [
+        "cv",
+        "opencv",
+        "contour"
+      ]
+    },
+    {
+      "id": "E41-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "cv2.findContours với cờ RETR_EXTERNAL trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ contour ngoài cùng (bỏ contour con bên trong)"
+        },
+        {
+          "key": "B",
+          "text": "Mọi contour kể cả lồng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ contour lớn nhất"
+        },
+        {
+          "key": "D",
+          "text": "Đường thẳng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RETR_EXTERNAL chỉ lấy biên ngoài cùng, bỏ qua các lỗ/contour con.",
+      "tags": [
+        "cv",
+        "contour",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "E41-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "cv2.contourArea và cv2.arcLength lần lượt đo?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Diện tích và chu vi của contour"
+        },
+        {
+          "key": "B",
+          "text": "Màu và độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Số góc"
+        },
+        {
+          "key": "D",
+          "text": "Tọa độ tâm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "contourArea = diện tích vùng; arcLength = chu vi (độ dài biên).",
+      "tags": [
+        "cv",
+        "contour",
+        "shape"
+      ]
+    },
+    {
+      "id": "E41-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "cv2.approxPolyDP dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xấp xỉ contour bằng đa giác ít đỉnh hơn (đơn giản hóa hình dạng)"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Đổi màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "approxPolyDP (Douglas–Peucker) giảm số điểm của contour theo dung sai ε; hữu ích nhận dạng hình (vd 4 đỉnh = tứ giác).",
+      "tags": [
+        "cv",
+        "contour",
+        "approx"
+      ]
+    },
+    {
+      "id": "E41-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để nhận diện một hình là tam giác/vuông/tròn từ contour, cách phổ biến là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đếm số đỉnh sau khi approxPolyDP (3=tam giác, 4=tứ giác, nhiều=tròn)"
+        },
+        {
+          "key": "B",
+          "text": "Đếm pixel trắng"
+        },
+        {
+          "key": "C",
+          "text": "Đo độ sáng trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Dùng FFT"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số đỉnh xấp xỉ của đa giác cho biết loại hình; vòng tròn cho nhiều đỉnh/độ tròn cao.",
+      "tags": [
+        "cv",
+        "contour",
+        "shape-recognition"
+      ]
+    },
+    {
+      "id": "E41-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Adaptive thresholding (ngưỡng thích nghi) tốt hơn ngưỡng toàn cục khi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh có độ chiếu sáng không đều"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh hoàn toàn đồng đều"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh nhị phân sẵn"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh chỉ 1 pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Adaptive tính ngưỡng theo từng vùng cục bộ nên xử lý tốt ảnh sáng/tối không đều (vd văn bản chụp nghiêng).",
+      "tags": [
+        "cv",
+        "threshold",
+        "adaptive"
+      ]
+    },
+    {
+      "id": "E41-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Biến đổi Hough (Hough transform) dùng để phát hiện?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các hình dạng tham số hóa được như đường thẳng, đường tròn"
+        },
+        {
+          "key": "B",
+          "text": "Màu da"
+        },
+        {
+          "key": "C",
+          "text": "Nhiễu Gaussian"
+        },
+        {
+          "key": "D",
+          "text": "Độ sáng trung bình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hough bỏ phiếu trong không gian tham số để tìm đường thẳng/đường tròn ngay cả khi bị đứt đoạn.",
+      "tags": [
+        "cv",
+        "hough",
+        "line"
+      ]
+    },
+    {
+      "id": "E41-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào điển hình cho Hough Line Transform là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh cạnh nhị phân (vd sau Canny)"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh màu gốc"
+        },
+        {
+          "key": "C",
+          "text": "Histogram"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh đã làm mờ mạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thường chạy Hough trên bản đồ cạnh (edge map) từ Canny để tìm đường thẳng.",
+      "tags": [
+        "cv",
+        "hough",
+        "canny"
+      ]
+    },
+    {
+      "id": "E41-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "HoughCircles cần tham số đặc trưng nào so với Hough đường thẳng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng bán kính (minRadius, maxRadius)"
+        },
+        {
+          "key": "B",
+          "text": "Số kênh màu"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ khung hình"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước file"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phát hiện đường tròn cần ràng buộc bán kính để giới hạn không gian tham số (x, y, r).",
+      "tags": [
+        "cv",
+        "hough",
+        "circle"
+      ]
+    },
+    {
+      "id": "E41-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Image pyramid (tháp ảnh) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuỗi phiên bản ảnh ở nhiều độ phân giải (mỗi tầng nhỏ hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Một bộ lọc cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Một loại nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Bảng màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pyramid (Gaussian/Laplacian) tạo ảnh đa tỉ lệ để xử lý/tìm kiếm bất biến scale.",
+      "tags": [
+        "cv",
+        "pyramid",
+        "scale"
+      ]
+    },
+    {
+      "id": "E41-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao phân tích đa tỉ lệ (multi-scale) quan trọng trong phát hiện đối tượng cổ điển?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đối tượng có thể xuất hiện ở nhiều kích thước; quét nhiều tỉ lệ giúp phát hiện đủ"
+        },
+        {
+          "key": "B",
+          "text": "Để đổi màu"
+        },
+        {
+          "key": "C",
+          "text": "Để nén ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cùng vật thể có thể to/nhỏ tùy khoảng cách; sliding window trên pyramid bắt được nhiều kích thước.",
+      "tags": [
+        "cv",
+        "scale",
+        "detection"
+      ]
+    },
+    {
+      "id": "E41-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Optical flow (luồng quang) ước lượng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển động biểu kiến của pixel/đặc trưng giữa các khung hình liên tiếp"
+        },
+        {
+          "key": "B",
+          "text": "Màu trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Độ sáng tuyệt đối"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Optical flow tính vector dịch chuyển của điểm ảnh giữa hai frame, dùng cho tracking/phân tích chuyển động.",
+      "tags": [
+        "cv",
+        "optical-flow"
+      ]
+    },
+    {
+      "id": "E41-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giả định cốt lõi của phương pháp Lucas–Kanade là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ sáng không đổi và chuyển động nhỏ, đồng nhất trong lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh phải màu"
+        },
+        {
+          "key": "C",
+          "text": "Vật thể đứng yên"
+        },
+        {
+          "key": "D",
+          "text": "Không có nhiễu nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lucas–Kanade giả định brightness constancy + chuyển động nhỏ và nhất quán trong cửa sổ lân cận.",
+      "tags": [
+        "cv",
+        "optical-flow",
+        "lucas-kanade"
+      ]
+    },
+    {
+      "id": "E41-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dense optical flow khác sparse optical flow ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dense tính flow cho mọi pixel; sparse chỉ cho một số keypoint"
+        },
+        {
+          "key": "B",
+          "text": "Dense chỉ cho 1 điểm"
+        },
+        {
+          "key": "C",
+          "text": "Sparse cho mọi pixel"
+        },
+        {
+          "key": "D",
+          "text": "Không khác nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sparse (vd LK trên goodFeatures) theo dõi vài điểm; dense (vd Farneback) cho trường flow toàn ảnh.",
+      "tags": [
+        "cv",
+        "optical-flow"
+      ]
+    },
+    {
+      "id": "E41-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận homography (3×3) ánh xạ giữa hai mặt phẳng dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến đổi phối cảnh (perspective), vd ghép ảnh panorama, chỉnh phối cảnh"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ"
+        },
+        {
+          "key": "C",
+          "text": "Đổi màu"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Homography mô tả quan hệ phối cảnh giữa hai view của một mặt phẳng; nền tảng cho stitching và rectification.",
+      "tags": [
+        "cv",
+        "homography",
+        "geometry"
+      ]
+    },
+    {
+      "id": "E41-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RANSAC trong ước lượng homography/đường dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ước lượng mô hình bền vững khi có nhiều điểm ngoại lai (outlier)"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ sáng"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RANSAC lấy mẫu ngẫu nhiên, chọn mô hình nhiều inlier nhất → bỏ qua match sai (outlier).",
+      "tags": [
+        "cv",
+        "ransac",
+        "robust"
+      ]
+    },
+    {
+      "id": "E41-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiệu chỉnh camera (camera calibration) ước lượng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tham số nội (tiêu cự, tâm ảnh) và hệ số méo ống kính"
+        },
+        {
+          "key": "B",
+          "text": "Màu nền"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ chụp"
+        },
+        {
+          "key": "D",
+          "text": "Định dạng ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Calibration tìm ma trận nội K và hệ số distortion để khử méo và đo lường 3D chính xác.",
+      "tags": [
+        "cv",
+        "calibration",
+        "camera"
+      ]
+    },
+    {
+      "id": "E41-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Méo ống kính kiểu 'thùng' (barrel distortion) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường thẳng bị cong ra ngoài, rõ ở ống kính góc rộng"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh bị mờ"
+        },
+        {
+          "key": "C",
+          "text": "Màu bị lệch"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh bị xoay"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Barrel distortion làm các đường thẳng cong lồi; cần khử méo bằng tham số đã calibrate.",
+      "tags": [
+        "cv",
+        "distortion",
+        "camera"
+      ]
+    },
+    {
+      "id": "E41-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((6, 6), np.float32)\nimg[2:4, 2:4] = 1\ntempl = np.ones((2, 2), np.float32)\nres = cv2.matchTemplate(img, templ, cv2.TM_CCORR)\n_, _, _, maxloc = cv2.minMaxLoc(res)\nprint(maxloc)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(0, 0)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 4)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Template 2×2 toàn 1 khớp nhất tại khối trắng ở (x=2, y=2); minMaxLoc trả (x, y).",
+      "tags": [
+        "cv",
+        "opencv",
+        "template-matching"
+      ]
+    },
+    {
+      "id": "E41-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hạn chế lớn của template matching cơ bản là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không bất biến với tỉ lệ và xoay"
+        },
+        {
+          "key": "B",
+          "text": "Quá chậm trên mọi ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy ảnh màu"
+        },
+        {
+          "key": "D",
+          "text": "Không tìm được vật giống mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Template matching nhạy với thay đổi scale/rotation/sáng; chỉ tốt khi vật gần giống mẫu về kích thước/hướng.",
+      "tags": [
+        "cv",
+        "template-matching"
+      ]
+    },
+    {
+      "id": "E41-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Background subtraction (trừ nền) dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách đối tượng chuyển động khỏi nền tĩnh trong video"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ nền"
+        },
+        {
+          "key": "C",
+          "text": "Đổi màu nền"
+        },
+        {
+          "key": "D",
+          "text": "Nén video"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình hóa nền (vd MOG2) rồi trừ để phát hiện vùng foreground chuyển động.",
+      "tags": [
+        "cv",
+        "background-subtraction",
+        "video"
+      ]
+    },
+    {
+      "id": "E41-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thuật toán watershed trong phân đoạn ảnh coi ảnh như?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bề mặt địa hình, 'ngập nước' từ các marker để tách vùng"
+        },
+        {
+          "key": "B",
+          "text": "Một đồ thị màu"
+        },
+        {
+          "key": "C",
+          "text": "Một histogram"
+        },
+        {
+          "key": "D",
+          "text": "Một chuỗi byte"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Watershed mô phỏng nước dâng từ các vùng markers, ranh giới gặp nhau là đường phân vùng — tốt để tách vật dính nhau.",
+      "tags": [
+        "cv",
+        "segmentation",
+        "watershed"
+      ]
+    },
+    {
+      "id": "E41-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((10, 10), np.uint8)\nimg[1:3, 1:3] = 255\nimg[5:8, 5:8] = 255\nn, _ = cv2.connectedComponents(img)\nprint(n)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "connectedComponents đếm cả nền: 1 nền + 2 vùng trắng = 3 nhãn.",
+      "tags": [
+        "cv",
+        "opencv",
+        "connected-components"
+      ]
+    },
+    {
+      "id": "E41-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Color histogram backprojection dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm vùng trong ảnh có phân bố màu giống một mẫu (vd theo dõi đối tượng theo màu)"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Làm sắc nét"
+        },
+        {
+          "key": "D",
+          "text": "Resize"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprojection gán cho mỗi pixel xác suất thuộc về phân bố màu mẫu; dùng trong CamShift/MeanShift tracking.",
+      "tags": [
+        "cv",
+        "histogram",
+        "tracking"
+      ]
+    },
+    {
+      "id": "E41-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bag of Visual Words (BoVW) trong phân loại ảnh cổ điển hoạt động bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng tử hóa các descriptor cục bộ thành 'từ vựng', biểu diễn ảnh bằng histogram từ"
+        },
+        {
+          "key": "B",
+          "text": "Đếm pixel trắng"
+        },
+        {
+          "key": "C",
+          "text": "Dùng một CNN"
+        },
+        {
+          "key": "D",
+          "text": "Lấy trung bình màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BoVW gom descriptor (vd SIFT) thành codebook bằng k-means, ảnh = histogram tần suất visual words → đưa vào SVM.",
+      "tags": [
+        "cv",
+        "bovw",
+        "classification"
+      ]
+    },
+    {
+      "id": "E41-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân loại ảnh cổ điển (trước deep learning) thường theo pipeline?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trích đặc trưng thủ công (SIFT/HOG) → mã hóa → bộ phân loại (SVM)"
+        },
+        {
+          "key": "B",
+          "text": "Đưa thẳng pixel vào cây quyết định"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng màu trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Không cần đặc trưng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pipeline kinh điển: hand-crafted features → encoding (BoVW) → classifier như SVM.",
+      "tags": [
+        "cv",
+        "pipeline",
+        "classification"
+      ]
+    },
+    {
+      "id": "E41-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khử méo (undistortion) ảnh cần dữ liệu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ma trận camera và hệ số méo từ calibration"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ ảnh xám"
+        },
+        {
+          "key": "C",
+          "text": "Histogram"
+        },
+        {
+          "key": "D",
+          "text": "Nhãn lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng K và distortion coefficients (từ calibrate) với cv2.undistort để nắn ảnh.",
+      "tags": [
+        "cv",
+        "calibration",
+        "undistort"
+      ]
+    },
+    {
+      "id": "E41-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Stereo vision (thị giác lập thể) ước lượng độ sâu nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ chênh lệch (disparity) vị trí điểm giữa hai camera đặt cách nhau"
+        },
+        {
+          "key": "B",
+          "text": "Màu sắc vật thể"
+        },
+        {
+          "key": "C",
+          "text": "Độ sáng"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước file"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đối tượng gần có disparity lớn; depth tỉ lệ nghịch với disparity (đã biết baseline và tiêu cự).",
+      "tags": [
+        "cv",
+        "stereo",
+        "depth"
+      ]
+    },
+    {
+      "id": "E41-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Haar Cascade (Viola–Jones) nổi tiếng với ứng dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phát hiện khuôn mặt thời gian thực"
+        },
+        {
+          "key": "B",
+          "text": "Tô màu ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Nén video"
+        },
+        {
+          "key": "D",
+          "text": "Cân bằng trắng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Viola–Jones dùng đặc trưng Haar + AdaBoost + cascade để phát hiện mặt nhanh, kinh điển trước deep learning.",
+      "tags": [
+        "cv",
+        "face-detection",
+        "haar"
+      ]
+    },
+    {
+      "id": "E41-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tích phân ảnh (integral image / summed-area table) giúp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính tổng pixel của vùng chữ nhật bất kỳ trong O(1)"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện màu"
+        },
+        {
+          "key": "D",
+          "text": "Nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Integral image cho phép tính tổng vùng chữ nhật bằng vài phép cộng — then chốt cho tốc độ của Haar features.",
+      "tags": [
+        "cv",
+        "integral-image",
+        "feature"
+      ]
+    },
+    {
+      "id": "E41-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mean Shift / CamShift trong theo dõi đối tượng hoạt động bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch cửa sổ về phía vùng có mật độ (màu) cao nhất qua các frame"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện cạnh Canny"
+        },
+        {
+          "key": "C",
+          "text": "Nhân chập với kernel ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "FFT"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean Shift leo dốc mật độ để bám vùng đặc trưng; CamShift còn thích nghi kích thước cửa sổ.",
+      "tags": [
+        "cv",
+        "tracking",
+        "meanshift"
+      ]
+    },
+    {
+      "id": "E41-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SLIC superpixels nhóm pixel thành?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các cụm pixel liền kề tương đồng (siêu pixel) để giảm số đơn vị xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Các đường thẳng"
+        },
+        {
+          "key": "C",
+          "text": "Các kênh màu"
+        },
+        {
+          "key": "D",
+          "text": "Các khung hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Superpixels gộp pixel tương đồng về màu/không gian, giảm độ phức tạp cho phân đoạn về sau.",
+      "tags": [
+        "cv",
+        "superpixel",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E41-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép biến đổi khoảng cách (distance transform) gán cho mỗi pixel foreground?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách tới pixel nền gần nhất"
+        },
+        {
+          "key": "B",
+          "text": "Màu trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Một nhãn lớp"
+        },
+        {
+          "key": "D",
+          "text": "Gradient"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Distance transform hữu ích để tìm tâm vật thể/markers cho watershed (pixel xa nền nhất nằm giữa vật).",
+      "tags": [
+        "cv",
+        "distance-transform"
+      ]
+    },
+    {
+      "id": "E41-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với SIFT, nhược điểm chính của template matching khi tìm vật thể là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không xử lý được biến dạng/scale/rotation và che khuất"
+        },
+        {
+          "key": "B",
+          "text": "Quá bất biến"
+        },
+        {
+          "key": "C",
+          "text": "Cần GPU"
+        },
+        {
+          "key": "D",
+          "text": "Không tìm được vật giống hệt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng cục bộ (SIFT/ORB) bền với scale/rotation/occlusion hơn template matching cứng nhắc.",
+      "tags": [
+        "cv",
+        "matching",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E41-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gabor filter thường dùng để phân tích?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết cấu (texture) và hướng/tần số cục bộ"
+        },
+        {
+          "key": "B",
+          "text": "Màu da chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Độ sâu"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ chuyển động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gabor (sóng sin × Gaussian) nhạy với tần số và hướng — tốt cho phân tích texture/vân.",
+      "tags": [
+        "cv",
+        "texture",
+        "gabor"
+      ]
+    },
+    {
+      "id": "E41-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np, cv2\nimg = np.zeros((5, 5), np.uint8)\nimg[2, 2] = 255\ndist = cv2.distanceTransform(255 - img, cv2.DIST_L2, 3)\nprint(round(float(dist[2, 2]), 1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tại (2,2) là pixel nền (sau 255−img), khoảng cách tới foreground gần nhất (chính nó là 0 vì nó là 0)... giá trị = 0.0.",
+      "tags": [
+        "cv",
+        "opencv",
+        "distance-transform"
+      ]
+    },
+    {
+      "id": "E41-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng SURF so với SIFT?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhanh hơn nhờ xấp xỉ bằng box filter và integral image"
+        },
+        {
+          "key": "B",
+          "text": "Chậm hơn nhiều"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cho ảnh nhị phân"
+        },
+        {
+          "key": "D",
+          "text": "Không bất biến scale"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SURF tăng tốc SIFT bằng xấp xỉ Hessian với box filter trên integral image.",
+      "tags": [
+        "cv",
+        "feature",
+        "surf"
+      ]
+    },
+    {
+      "id": "E41-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Keypoint và descriptor khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Keypoint là VỊ TRÍ (điểm) đáng chú ý; descriptor là VECTOR mô tả vùng quanh keypoint"
+        },
+        {
+          "key": "B",
+          "text": "Giống hệt nhau"
+        },
+        {
+          "key": "C",
+          "text": "Descriptor là tọa độ"
+        },
+        {
+          "key": "D",
+          "text": "Keypoint là màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Keypoint xác định ở đâu; descriptor mã hóa diện mạo cục bộ để so khớp giữa các ảnh.",
+      "tags": [
+        "cv",
+        "feature",
+        "descriptor"
+      ]
+    },
+    {
+      "id": "E41-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Brute-Force matcher với crossCheck=True làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ giữ cặp match đối ứng (A khớp B và B cũng khớp A)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ sáng"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ mọi match"
+        },
+        {
+          "key": "D",
+          "text": "Resize ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "crossCheck giữ match nhất quán hai chiều, lọc bớt match sai.",
+      "tags": [
+        "cv",
+        "matching",
+        "bfmatcher"
+      ]
+    },
+    {
+      "id": "E41-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Image stitching (ghép panorama) các bước cốt lõi gồm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phát hiện & khớp đặc trưng → ước lượng homography (RANSAC) → warp & blend"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ nối cạnh nhau"
+        },
+        {
+          "key": "C",
+          "text": "Lấy trung bình màu"
+        },
+        {
+          "key": "D",
+          "text": "Threshold rồi resize"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Panorama: tìm đặc trưng chung, ước lượng homography bền vững, biến đổi và hòa trộn các ảnh.",
+      "tags": [
+        "cv",
+        "stitching",
+        "homography"
+      ]
+    },
+    {
+      "id": "E41-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một ưu điểm của đặc trưng thủ công (SIFT/HOG) so với deep features là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không cần dữ liệu huấn luyện lớn, dễ diễn giải, chạy được trên phần cứng yếu"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chính xác hơn CNN"
+        },
+        {
+          "key": "C",
+          "text": "Tự học từ dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Không cần ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hand-crafted features hoạt động không cần training data lớn và minh bạch, dù thường kém deep features về độ chính xác trên dữ liệu lớn.",
+      "tags": [
+        "cv",
+        "feature",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E41-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "cv2.goodFeaturesToTrack trả về?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tập các góc mạnh (điểm) phù hợp để theo dõi"
+        },
+        {
+          "key": "B",
+          "text": "Các đường thẳng"
+        },
+        {
+          "key": "C",
+          "text": "Một ảnh mờ"
+        },
+        {
+          "key": "D",
+          "text": "Histogram màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàm này (Shi-Tomasi) trả về các góc tốt nhất làm điểm theo dõi cho optical flow.",
+      "tags": [
+        "cv",
+        "corner",
+        "tracking"
+      ]
+    },
+    {
+      "id": "E41-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi ánh sáng thay đổi mạnh giữa hai ảnh, đặc trưng nào bền hơn để khớp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặc trưng dựa gradient (SIFT/ORB) vốn ít nhạy với offset độ sáng"
+        },
+        {
+          "key": "B",
+          "text": "So sánh giá trị pixel thô"
+        },
+        {
+          "key": "C",
+          "text": "Màu trung bình toàn ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tổng cường độ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gradient ít bị ảnh hưởng bởi thay đổi sáng đồng đều hơn so với giá trị pixel tuyệt đối.",
+      "tags": [
+        "cv",
+        "feature",
+        "robustness"
+      ]
+    },
+    {
+      "id": "E41-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép 'non-maximum suppression' trong phát hiện góc/cạnh nhằm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ lại điểm phản hồi cực đại cục bộ, loại các điểm lân cận yếu hơn"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số điểm"
+        },
+        {
+          "key": "D",
+          "text": "Đổi màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NMS làm mảnh phản hồi, mỗi vùng chỉ giữ đỉnh mạnh nhất, tránh phát hiện trùng lặp.",
+      "tags": [
+        "cv",
+        "nms",
+        "edge"
+      ]
+    },
+    {
+      "id": "E41-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng bất biến xoay (rotation-invariant) đạt được trong SIFT bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán hướng chủ đạo cho keypoint rồi mô tả tương đối theo hướng đó"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua hướng"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng màu"
+        },
+        {
+          "key": "D",
+          "text": "Resize ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SIFT xác định hướng gradient chủ đạo và xoay khung mô tả theo hướng đó → bất biến xoay.",
+      "tags": [
+        "cv",
+        "sift",
+        "rotation"
+      ]
+    },
+    {
+      "id": "E41-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong môi trường thời gian thực trên thiết bị yếu, lựa chọn đặc trưng hợp lý là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ORB (nhanh, nhị phân, miễn phí)"
+        },
+        {
+          "key": "B",
+          "text": "SIFT độ phân giải cao trên mọi frame"
+        },
+        {
+          "key": "C",
+          "text": "Quét toàn bộ template ở mọi scale"
+        },
+        {
+          "key": "D",
+          "text": "Dense optical flow toàn ảnh ở 4K"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ORB cân bằng tốc độ và chất lượng, phù hợp real-time trên phần cứng hạn chế.",
+      "tags": [
+        "cv",
+        "feature",
+        "real-time"
+      ]
+    },
+    {
+      "id": "E41-B57",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày pipeline so khớp đặc trưng (feature matching) giữa hai ảnh để tìm cùng một vật thể, kể cả bước lọc match sai. Nêu tên hàm/kỹ thuật OpenCV tương ứng.",
+      "modelAnswer": "1) Chuyển ảnh xám. 2) Phát hiện keypoint + tính descriptor: vd ORB (cv2.ORB_create().detectAndCompute) hoặc SIFT. 3) So khớp descriptor: BFMatcher (Hamming cho ORB) hoặc FLANN; có thể dùng knnMatch (k=2). 4) Lọc match sai: Lowe ratio test (giữ match nếu d1 < 0.75·d2) hoặc crossCheck. 5) Ước lượng phép biến đổi/đối tượng: cv2.findHomography với RANSAC để loại outlier và xác định vị trí vật thể (perspectiveTransform khung bao). Kết quả: tập match tin cậy và (tùy chọn) khung vật thể trên ảnh đích.",
+      "rubric": [
+        "Phát hiện keypoint + descriptor (ORB/SIFT, detectAndCompute)",
+        "So khớp bằng BFMatcher/FLANN (knnMatch)",
+        "Lọc match sai bằng Lowe ratio/crossCheck",
+        "Dùng findHomography + RANSAC để loại outlier/định vị"
+      ],
+      "tags": [
+        "cv",
+        "feature",
+        "matching",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "E41-B58",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao SIFT bất biến với tỉ lệ (scale) và xoay (rotation), nêu ngắn gọn ý tưởng từng tính chất.",
+      "modelAnswer": "Bất biến tỉ lệ: SIFT dò keypoint trong KHÔNG GIAN TỈ LỆ bằng Difference of Gaussians (DoG) — tìm cực trị qua nhiều mức làm mờ/octave; đặc trưng được phát hiện ở tỉ lệ đặc trưng riêng nên nhận lại được dù ảnh phóng to/thu nhỏ. Bất biến xoay: mỗi keypoint được gán một HƯỚNG CHỦ ĐẠO (từ histogram gradient lân cận); descriptor được tính TƯƠNG ĐỐI so với hướng đó, nên khi ảnh xoay, mô tả vẫn nhất quán. Ngoài ra chuẩn hóa descriptor giúp bền với thay đổi sáng.",
+      "rubric": [
+        "Scale: dùng không gian tỉ lệ DoG, cực trị qua các octave",
+        "Mỗi keypoint có tỉ lệ đặc trưng nên nhận lại được khi đổi scale",
+        "Rotation: gán hướng chủ đạo từ gradient",
+        "Descriptor tính tương đối theo hướng → bất biến xoay"
+      ],
+      "tags": [
+        "cv",
+        "sift",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E41-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Bạn cần đo độ sâu (3D) của vật thể bằng hai camera. Trình bày nguyên lý stereo vision và các bước chính.",
+      "modelAnswer": "Nguyên lý: hai camera cách nhau một khoảng baseline B nhìn cùng cảnh; một điểm 3D chiếu lên hai ảnh ở vị trí lệch nhau gọi là disparity d. Với tiêu cự f: depth Z = f·B / d (vật gần → disparity lớn). Các bước: (1) Calibrate và rectify hai camera để các hàng tương ứng nằm trên cùng epipolar line. (2) Stereo matching tìm điểm tương ứng giữa trái–phải (vd block matching/SGBM) → bản đồ disparity. (3) Chuyển disparity sang độ sâu bằng công thức trên (reprojectImageTo3D). Kết quả: depth map / đám mây điểm 3D.",
+      "rubric": [
+        "Nêu quan hệ Z = f·B/d (depth ~ 1/disparity)",
+        "Calibrate & rectify hai camera (epipolar)",
+        "Stereo matching tạo disparity map (block matching/SGBM)",
+        "Chuyển disparity → depth/point cloud"
+      ],
+      "tags": [
+        "cv",
+        "stereo",
+        "depth",
+        "geometry"
+      ]
+    },
+    {
+      "id": "E41-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh cách tiếp cận đặc trưng thủ công (SIFT/HOG + SVM) với deep learning (CNN) trong nhận dạng ảnh: ưu, nhược điểm và khi nào nên dùng cái nào.",
+      "modelAnswer": "Thủ công (SIFT/HOG + SVM): ưu — cần ít dữ liệu, dễ diễn giải, nhẹ, chạy được trên phần cứng yếu, kiểm soát được đặc trưng; nhược — đặc trưng cố định do con người thiết kế, khó vượt trần độ chính xác trên bài toán phức tạp, phải tinh chỉnh thủ công cho từng miền. CNN: ưu — tự học đặc trưng phân cấp từ dữ liệu, độ chính xác cao trên dữ liệu lớn, tổng quát tốt; nhược — cần nhiều dữ liệu nhãn và tính toán (GPU), khó diễn giải, dễ overfit nếu ít dữ liệu. Khi nào: dữ liệu ít / cần giải thích / phần cứng hạn chế → hand-crafted; dữ liệu lớn, cần độ chính xác cao, có tài nguyên → CNN (hoặc transfer learning để giảm nhu cầu dữ liệu).",
+      "rubric": [
+        "Nêu ưu/nhược của SIFT/HOG+SVM (ít dữ liệu, diễn giải vs trần độ chính xác)",
+        "Nêu ưu/nhược của CNN (tự học, chính xác vs cần dữ liệu/tính toán)",
+        "Đưa tiêu chí lựa chọn theo dữ liệu/tài nguyên/diễn giải",
+        "Nhắc transfer learning như giải pháp trung gian"
+      ],
+      "tags": [
+        "cv",
+        "comparison",
+        "deep-learning"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1875 @@
+{
+  "id": "exam-42",
+  "title": "Computer Vision — Deep Learning (CNN, Detection, Segmentation)",
+  "description": "60 câu deep learning cho thị giác máy tính: CNN (tích chập, công thức kích thước đầu ra, số tham số, pooling, receptive field, 1×1 conv, dilated/stride), thành phần huấn luyện (BatchNorm, Dropout, ReLU, GAP), kiến trúc kinh điển (AlexNet, VGG, ResNet/residual, Inception, MobileNet), phát hiện đối tượng (IoU, NMS, anchor, YOLO/SSD, Faster R-CNN, mAP, FPN, focal loss), phân đoạn (semantic vs instance, U-Net, Mask R-CNN, transposed/dilated conv, RoIAlign), tăng cường dữ liệu, transfer learning & fine-tuning, Vision Transformer (patch, self-attention, positional embedding) và triển khai edge. 56 trắc nghiệm (gồm câu tính conv-size/IoU/params được kiểm chứng bằng Python) + 4 tự luận.",
+  "durationMinutes": 85,
+  "totalPoints": 100.0,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E42-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp tích chập (convolutional layer) trong CNN khác lớp fully-connected ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số (weight sharing) và kết nối cục bộ, ít tham số hơn nhiều"
+        },
+        {
+          "key": "B",
+          "text": "Dùng nhiều tham số hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không có trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy trên ảnh xám"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv dùng cùng bộ lọc trượt khắp ảnh (weight sharing) + kết nối cục bộ → ít tham số, khai thác cấu trúc không gian.",
+      "tags": [
+        "dlcv",
+        "cnn",
+        "conv"
+      ]
+    },
+    {
+      "id": "E42-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào 32×32, kernel 5×5, stride 1, không padding. Kích thước feature map đầu ra (mỗi chiều) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "28"
+        },
+        {
+          "key": "B",
+          "text": "32"
+        },
+        {
+          "key": "C",
+          "text": "27"
+        },
+        {
+          "key": "D",
+          "text": "30"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Công thức (W − F + 2P)/S + 1 = (32 − 5 + 0)/1 + 1 = 28.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E42-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào 28×28, kernel 3×3, stride 1, padding 1 ('same'). Kích thước đầu ra mỗi chiều?",
+      "options": [
+        {
+          "key": "A",
+          "text": "28"
+        },
+        {
+          "key": "B",
+          "text": "26"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "14"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(28 − 3 + 2·1)/1 + 1 = 28 — padding 1 với kernel 3×3 giữ nguyên kích thước.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "padding"
+      ]
+    },
+    {
+      "id": "E42-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào 224×224, kernel 7×7, stride 2, padding 3. Kích thước đầu ra mỗi chiều?",
+      "options": [
+        {
+          "key": "A",
+          "text": "112"
+        },
+        {
+          "key": "B",
+          "text": "224"
+        },
+        {
+          "key": "C",
+          "text": "110"
+        },
+        {
+          "key": "D",
+          "text": "56"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(224 − 7 + 2·3)/2 + 1 = (223)/2 + 1 = 111 + 1 = 112 (chia lấy nguyên).",
+      "tags": [
+        "dlcv",
+        "conv",
+        "stride"
+      ]
+    },
+    {
+      "id": "E42-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp max pooling 2×2 stride 2 trên feature map 28×28 cho đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "14×14"
+        },
+        {
+          "key": "B",
+          "text": "28×28"
+        },
+        {
+          "key": "C",
+          "text": "27×27"
+        },
+        {
+          "key": "D",
+          "text": "7×7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pooling 2×2 stride 2 giảm một nửa mỗi chiều → 14×14.",
+      "tags": [
+        "dlcv",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E42-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số tham số (weights, chưa kể bias) của một lớp conv: 32 bộ lọc 3×3 trên đầu vào 3 kênh là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "864"
+        },
+        {
+          "key": "B",
+          "text": "288"
+        },
+        {
+          "key": "C",
+          "text": "96"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi filter: 3×3×3 = 27 weight; ×32 filter = 864. (Thêm 32 bias nếu tính.)",
+      "tags": [
+        "dlcv",
+        "conv",
+        "params"
+      ]
+    },
+    {
+      "id": "E42-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bias của lớp conv ở câu trên có bao nhiêu tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "32 (một bias mỗi filter)"
+        },
+        {
+          "key": "B",
+          "text": "864"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi filter có 1 bias → 32 bias cho 32 filter.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "bias"
+      ]
+    },
+    {
+      "id": "E42-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của lớp pooling trong CNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước không gian, tạo bất biến cục bộ và giảm tính toán"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số kênh"
+        },
+        {
+          "key": "C",
+          "text": "Thêm tham số học"
+        },
+        {
+          "key": "D",
+          "text": "Đổi không gian màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pooling (max/avg) downsample feature map, giúp bất biến dịch chuyển nhỏ và giảm chi phí.",
+      "tags": [
+        "dlcv",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E42-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trường tiếp nhận (receptive field) của một neuron trong CNN là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vùng ảnh đầu vào ảnh hưởng tới giá trị của neuron đó"
+        },
+        {
+          "key": "B",
+          "text": "Số filter trong lớp"
+        },
+        {
+          "key": "C",
+          "text": "Learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp của mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Receptive field là vùng input mà một đơn vị 'nhìn thấy'; càng sâu càng lớn.",
+      "tags": [
+        "dlcv",
+        "cnn",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E42-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tích chập 1×1 (1×1 convolution) chủ yếu dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay đổi số kênh (giảm/tăng chiều) và trộn thông tin giữa các kênh"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ phân giải không gian"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv 1×1 là phép kết hợp tuyến tính theo kênh tại mỗi vị trí; dùng giảm chiều (bottleneck) như trong Inception/ResNet.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "1x1"
+      ]
+    },
+    {
+      "id": "E42-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Batch Normalization giúp ích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ổn định và tăng tốc huấn luyện bằng cách chuẩn hóa kích hoạt theo batch"
+        },
+        {
+          "key": "B",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hàm loss"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phân giải ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BatchNorm chuẩn hóa đầu ra mỗi lớp (mean 0, var 1) theo batch, giảm internal covariate shift, cho phép LR cao hơn.",
+      "tags": [
+        "dlcv",
+        "batchnorm",
+        "training"
+      ]
+    },
+    {
+      "id": "E42-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dropout là kỹ thuật?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngẫu nhiên 'tắt' một số neuron khi huấn luyện để giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số lớp"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout ngẫu nhiên bỏ qua neuron mỗi bước train, buộc mạng học đặc trưng dư thừa → giảm overfitting.",
+      "tags": [
+        "dlcv",
+        "dropout",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E42-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm kích hoạt ReLU phổ biến trong CNN vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm hiện tượng vanishing gradient và tính toán đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cho đầu ra âm"
+        },
+        {
+          "key": "C",
+          "text": "Bão hòa ở hai đầu"
+        },
+        {
+          "key": "D",
+          "text": "Không phi tuyến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU = max(0,x) không bão hòa ở phần dương nên gradient không triệt tiêu, lại rẻ về tính toán.",
+      "tags": [
+        "dlcv",
+        "activation",
+        "relu"
+      ]
+    },
+    {
+      "id": "E42-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm loss thường dùng cho phân loại ảnh nhiều lớp là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Categorical cross-entropy (kèm softmax)"
+        },
+        {
+          "key": "B",
+          "text": "Mean Squared Error"
+        },
+        {
+          "key": "C",
+          "text": "IoU loss"
+        },
+        {
+          "key": "D",
+          "text": "Hinge bậc ba"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân loại đa lớp dùng softmax + cross-entropy.",
+      "tags": [
+        "dlcv",
+        "loss",
+        "classification"
+      ]
+    },
+    {
+      "id": "E42-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Global Average Pooling (GAP) trước lớp phân loại có lợi ích?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm mạnh tham số (thay FC lớn), bớt overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ phân giải"
+        },
+        {
+          "key": "D",
+          "text": "Đổi màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAP lấy trung bình mỗi feature map thành 1 số, thay cho FC khổng lồ → ít tham số, regularize tốt.",
+      "tags": [
+        "dlcv",
+        "gap",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E42-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đóng góp đột phá của AlexNet (2012) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chứng minh CNN sâu + ReLU + dropout + GPU thắng lớn trên ImageNet"
+        },
+        {
+          "key": "B",
+          "text": "Phát minh ra convolution"
+        },
+        {
+          "key": "C",
+          "text": "Giới thiệu attention"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AlexNet khơi mào kỷ nguyên deep learning thị giác khi giảm mạnh lỗi ImageNet 2012.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "alexnet"
+      ]
+    },
+    {
+      "id": "E42-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng thiết kế của VGG là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xếp chồng nhiều conv 3×3 đồng nhất, mạng sâu và đều đặn"
+        },
+        {
+          "key": "B",
+          "text": "Dùng kernel rất lớn 11×11 khắp nơi"
+        },
+        {
+          "key": "C",
+          "text": "Không có lớp FC"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ 3 lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "VGG dùng toàn conv 3×3 xếp chồng (nhiều 3×3 thay 1 kernel lớn) — đơn giản, sâu, nhiều tham số.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "vgg"
+      ]
+    },
+    {
+      "id": "E42-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý tưởng cốt lõi của ResNet (skip/residual connection) giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Suy giảm gradient/độ chính xác khi mạng rất sâu, nhờ học phần dư F(x)+x"
+        },
+        {
+          "key": "B",
+          "text": "Thiếu dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Màu sai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kết nối tắt cho gradient chảy thẳng qua, cho phép huấn luyện mạng cực sâu (100+ lớp) hiệu quả.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "resnet"
+      ]
+    },
+    {
+      "id": "E42-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Module Inception (GoogLeNet) đặc trưng bởi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy song song nhiều kích thước kernel (1×1, 3×3, 5×5) rồi ghép lại"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một kernel 7×7"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng 1×1"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Inception kết hợp đa tỉ lệ trong cùng một khối, dùng 1×1 để giảm chiều trước conv lớn.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "inception"
+      ]
+    },
+    {
+      "id": "E42-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MobileNet giảm tính toán chủ yếu nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Depthwise separable convolution"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ activation"
+        },
+        {
+          "key": "D",
+          "text": "Dùng FC lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Depthwise separable tách conv thành depthwise + pointwise (1×1), giảm mạnh phép tính → phù hợp thiết bị di động.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "mobilenet"
+      ]
+    },
+    {
+      "id": "E42-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với nhiều conv 3×3 xếp chồng, một conv 7×7 đơn lẻ thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều tham số hơn và ít phi tuyến hơn (ba 3×3 có receptive field tương đương nhưng tốt hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Ít tham số hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không thay đổi gì"
+        },
+        {
+          "key": "D",
+          "text": "Không học được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba conv 3×3 có cùng receptive field như 7×7 nhưng ít tham số hơn và thêm phi tuyến — lý do VGG ưa 3×3.",
+      "tags": [
+        "dlcv",
+        "architecture",
+        "conv"
+      ]
+    },
+    {
+      "id": "E42-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "IoU (Intersection over Union) giữa hai bounding box được tính bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Diện tích giao / diện tích hợp"
+        },
+        {
+          "key": "B",
+          "text": "Diện tích giao / diện tích box dự đoán"
+        },
+        {
+          "key": "C",
+          "text": "Tổng diện tích hai box"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách tâm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = area(giao) / area(hợp), đo độ trùng khớp giữa box dự đoán và ground-truth.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "iou"
+      ]
+    },
+    {
+      "id": "E42-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai box [0,0,2,2] và [1,1,3,3] (x1,y1,x2,y2). IoU của chúng bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1/7"
+        },
+        {
+          "key": "B",
+          "text": "1/4"
+        },
+        {
+          "key": "C",
+          "text": "1/2"
+        },
+        {
+          "key": "D",
+          "text": "1/8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giao = 1×1 = 1; mỗi box diện tích 4; hợp = 4+4−1 = 7 → IoU = 1/7.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "iou"
+      ]
+    },
+    {
+      "id": "E42-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Non-Maximum Suppression (NMS) trong phát hiện đối tượng dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loại các box trùng lặp, giữ box điểm cao nhất cho mỗi đối tượng"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số box"
+        },
+        {
+          "key": "C",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NMS giữ box có score cao nhất, loại các box IoU cao với nó → mỗi vật chỉ còn một box.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "nms"
+      ]
+    },
+    {
+      "id": "E42-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sự khác biệt giữa detector hai giai đoạn (Faster R-CNN) và một giai đoạn (YOLO/SSD)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai giai đoạn: đề xuất vùng rồi phân loại (chính xác hơn); một giai đoạn: dự đoán trực tiếp (nhanh hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Một giai đoạn luôn chính xác hơn"
+        },
+        {
+          "key": "C",
+          "text": "Hai giai đoạn không dùng CNN"
+        },
+        {
+          "key": "D",
+          "text": "Không khác nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Two-stage tách region proposal + classification (thường chính xác hơn); one-stage hồi quy box trực tiếp (nhanh, real-time).",
+      "tags": [
+        "dlcv",
+        "detection",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E42-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Anchor boxes (hộp neo) trong object detection là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các box mẫu định sẵn (nhiều tỉ lệ/khung) để mô hình tinh chỉnh thành dự đoán"
+        },
+        {
+          "key": "B",
+          "text": "Box ground-truth duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Một loại pooling"
+        },
+        {
+          "key": "D",
+          "text": "Hàm loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Anchors là tập box tham chiếu ở nhiều scale/aspect ratio; mạng dự đoán offset so với anchor.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "anchor"
+      ]
+    },
+    {
+      "id": "E42-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "YOLO ('You Only Look Once') nổi bật vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phát hiện đối tượng một lần quét, rất nhanh (real-time)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ phân loại được 1 vật"
+        },
+        {
+          "key": "C",
+          "text": "Cần hai mạng riêng biệt"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng được video"
+        }
+      ],
+      "answer": "A",
+      "explanation": "YOLO chia ảnh thành lưới và dự đoán box+lớp trong một lần forward → tốc độ cao.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "yolo"
+      ]
+    },
+    {
+      "id": "E42-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "mAP (mean Average Precision) trong đánh giá phát hiện đối tượng là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình của Average Precision trên các lớp (thường ở các ngưỡng IoU)"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác pixel"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ khung hình"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "mAP tổng hợp precision-recall (qua AP) trên các lớp/ngưỡng IoU — thước đo chuẩn cho detection.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "map"
+      ]
+    },
+    {
+      "id": "E42-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bounding box regression trong detector dự đoán?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các offset/điều chỉnh để tinh chỉnh vị trí và kích thước box"
+        },
+        {
+          "key": "B",
+          "text": "Lớp của ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Màu vật thể"
+        },
+        {
+          "key": "D",
+          "text": "Số đối tượng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mạng học hồi quy (dx, dy, dw, dh) để chỉnh anchor/proposal sát ground-truth.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "bbox-regression"
+      ]
+    },
+    {
+      "id": "E42-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một dự đoán được tính là 'đúng' (true positive) trong detection thường khi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "IoU với ground-truth vượt ngưỡng (vd ≥ 0.5) và đúng lớp"
+        },
+        {
+          "key": "B",
+          "text": "Box bất kỳ chồng lên ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Score > 0"
+        },
+        {
+          "key": "D",
+          "text": "Cùng màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TP yêu cầu đúng nhãn và IoU đủ lớn với box thật (ngưỡng phổ biến 0.5).",
+      "tags": [
+        "dlcv",
+        "detection",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E42-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân đoạn ngữ nghĩa (semantic segmentation) gán nhãn cho?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từng pixel theo lớp, nhưng không phân biệt các thực thể cùng lớp"
+        },
+        {
+          "key": "B",
+          "text": "Toàn ảnh một nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ bounding box"
+        },
+        {
+          "key": "D",
+          "text": "Một điểm trung tâm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Semantic seg gán lớp cho mỗi pixel; hai con mèo cạnh nhau cùng nhãn 'mèo', không tách riêng.",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "semantic"
+      ]
+    },
+    {
+      "id": "E42-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân đoạn thực thể (instance segmentation) khác semantic ở chỗ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách riêng từng đối tượng cùng lớp (mỗi con mèo một mask riêng)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ gán nhãn ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng pixel"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Instance seg phân biệt từng thực thể riêng lẻ kể cả cùng lớp (vd Mask R-CNN).",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "instance"
+      ]
+    },
+    {
+      "id": "E42-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc U-Net đặc trưng bởi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encoder–decoder đối xứng với skip connections nối các tầng cùng độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ có encoder"
+        },
+        {
+          "key": "C",
+          "text": "Không có conv"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp FC duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net dùng skip connection để khôi phục chi tiết không gian khi giải mã — rất mạnh cho ảnh y sinh.",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "unet"
+      ]
+    },
+    {
+      "id": "E42-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed convolution (deconvolution) trong mạng phân đoạn dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ phân giải không gian (upsampling học được)"
+        },
+        {
+          "key": "B",
+          "text": "Giảm độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện cạnh"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transposed conv học cách upsample feature map về kích thước lớn hơn trong nhánh decoder.",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E42-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mask R-CNN mở rộng Faster R-CNN bằng cách thêm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một nhánh dự đoán mask nhị phân cho mỗi vùng (RoI)"
+        },
+        {
+          "key": "B",
+          "text": "Một lớp softmax màu"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ region proposal"
+        },
+        {
+          "key": "D",
+          "text": "Một GAN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mask R-CNN thêm nhánh FCN dự đoán mask song song với phân loại/box, kèm RoIAlign chính xác hơn.",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "mask-rcnn"
+      ]
+    },
+    {
+      "id": "E42-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tăng cường dữ liệu (data augmentation) trong CV nhằm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tính đa dạng dữ liệu huấn luyện (lật, xoay, crop, đổi màu) để giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Nén mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Augmentation tạo biến thể hợp lý của ảnh, giúp mô hình tổng quát tốt hơn và bớt overfit.",
+      "tags": [
+        "dlcv",
+        "augmentation"
+      ]
+    },
+    {
+      "id": "E42-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép augmentation nào KHÔNG phù hợp nếu nhãn nhạy với hướng (vd nhận dạng chữ số 6 và 9)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xoay 180 độ / lật dọc"
+        },
+        {
+          "key": "B",
+          "text": "Thay đổi độ sáng nhẹ"
+        },
+        {
+          "key": "C",
+          "text": "Dịch chuyển nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Thêm nhiễu nhẹ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lật/xoay mạnh có thể biến 6 thành 9 → đổi nhãn sai. Augmentation phải bảo toàn ngữ nghĩa nhãn.",
+      "tags": [
+        "dlcv",
+        "augmentation",
+        "pitfall"
+      ]
+    },
+    {
+      "id": "E42-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transfer learning trong CV thường là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng mạng đã pretrain trên ImageNet rồi fine-tune cho nhiệm vụ mới với ít dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện từ đầu mọi lần"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho NLP"
+        },
+        {
+          "key": "D",
+          "text": "Xóa toàn bộ trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng học từ ImageNet tổng quát tốt; fine-tune giúp đạt hiệu quả cao với dữ liệu nhỏ.",
+      "tags": [
+        "dlcv",
+        "transfer-learning"
+      ]
+    },
+    {
+      "id": "E42-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi fine-tune với tập dữ liệu nhỏ và rất giống ImageNet, chiến lược hợp lý là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đóng băng phần lớn lớp đầu, chỉ huấn luyện lớp cuối/classifier"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện lại toàn bộ từ ngẫu nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Xóa hết pretrain"
+        },
+        {
+          "key": "D",
+          "text": "Tăng dropout lên 1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu nhỏ + giống miền → freeze backbone, chỉ train lớp phân loại để tránh overfit.",
+      "tags": [
+        "dlcv",
+        "transfer-learning",
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "E42-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường chuẩn hóa ảnh bằng mean/std của ImageNet khi dùng mô hình pretrained?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để đầu vào khớp phân phối mà mô hình đã học, cho kết quả tốt nhất"
+        },
+        {
+          "key": "B",
+          "text": "Để ảnh đẹp hơn"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm dung lượng"
+        },
+        {
+          "key": "D",
+          "text": "Vì bắt buộc bởi định dạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình pretrained kỳ vọng đầu vào chuẩn hóa theo thống kê lúc train; lệch phân phối làm giảm hiệu năng.",
+      "tags": [
+        "dlcv",
+        "preprocessing",
+        "transfer-learning"
+      ]
+    },
+    {
+      "id": "E42-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vision Transformer (ViT) xử lý ảnh bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia ảnh thành các patch, nhúng thành token và dùng self-attention"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng convolution"
+        },
+        {
+          "key": "C",
+          "text": "Dùng cây quyết định"
+        },
+        {
+          "key": "D",
+          "text": "Lấy histogram màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ViT cắt ảnh thành patch (vd 16×16), coi như chuỗi token rồi áp Transformer encoder.",
+      "tags": [
+        "dlcv",
+        "vit",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E42-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với CNN, ViT thường cần gì để đạt hiệu quả cao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng dữ liệu lớn (hoặc pretrain mạnh) do thiếu thiên kiến quy nạp cục bộ"
+        },
+        {
+          "key": "B",
+          "text": "Ít dữ liệu hơn nhiều"
+        },
+        {
+          "key": "C",
+          "text": "Không cần huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Ảnh xám"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN có inductive bias (cục bộ, dịch chuyển); ViT thiếu nên cần nhiều dữ liệu/pretrain để học các quan hệ đó.",
+      "tags": [
+        "dlcv",
+        "vit",
+        "data"
+      ]
+    },
+    {
+      "id": "E42-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Self-attention trong ViT cho phép?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi patch tương tác với mọi patch khác (quan hệ toàn cục)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ nhìn lân cận 3×3"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua vị trí"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số token"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention mô hình hóa quan hệ toàn cục giữa các patch ngay từ lớp đầu, khác conv chỉ cục bộ.",
+      "tags": [
+        "dlcv",
+        "vit",
+        "attention"
+      ]
+    },
+    {
+      "id": "E42-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Positional embedding trong ViT cần thiết vì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-attention vốn không nhận biết thứ tự/vị trí; cần thêm thông tin vị trí patch"
+        },
+        {
+          "key": "B",
+          "text": "Để đổi màu"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm tham số"
+        },
+        {
+          "key": "D",
+          "text": "Để nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention là tập hợp bất biến thứ tự; positional embedding mã hóa vị trí không gian của patch.",
+      "tags": [
+        "dlcv",
+        "vit",
+        "position"
+      ]
+    },
+    {
+      "id": "E42-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Focal loss được thiết kế để xử lý vấn đề gì trong object detection?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mất cân bằng lớp cực lớn (nhiều background dễ) bằng cách giảm trọng số mẫu dễ"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh quá nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Thiếu GPU"
+        },
+        {
+          "key": "D",
+          "text": "Màu sai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Focal loss hạ trọng số các ví dụ dễ (background) để mạng tập trung vào mẫu khó — quan trọng cho one-stage detector.",
+      "tags": [
+        "dlcv",
+        "loss",
+        "focal"
+      ]
+    },
+    {
+      "id": "E42-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi mô hình CNN overfit tập huấn luyện ảnh, biện pháp KHÔNG phù hợp là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng số epoch huấn luyện thật nhiều mà không regularize"
+        },
+        {
+          "key": "B",
+          "text": "Thêm data augmentation"
+        },
+        {
+          "key": "C",
+          "text": "Dùng dropout/weight decay"
+        },
+        {
+          "key": "D",
+          "text": "Thu thập thêm dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Train thêm nhiều mà không regularize làm overfit nặng hơn; các phương án còn lại đều giảm overfit.",
+      "tags": [
+        "dlcv",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E42-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Confusion giữa 'classification', 'detection' và 'segmentation' — đâu là mô tả đúng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Classification: 1 nhãn/ảnh; Detection: nhãn + box; Segmentation: nhãn theo pixel"
+        },
+        {
+          "key": "B",
+          "text": "Cả ba đều cho 1 nhãn/ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Detection cho nhãn pixel"
+        },
+        {
+          "key": "D",
+          "text": "Segmentation chỉ cho box"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mức độ chi tiết tăng dần: nhãn ảnh → hộp quanh vật → mặt nạ từng pixel.",
+      "tags": [
+        "dlcv",
+        "tasks"
+      ]
+    },
+    {
+      "id": "E42-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Feature map ở các lớp SÂU của CNN thường biểu diễn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặc trưng trừu tượng/ngữ nghĩa cao (bộ phận, vật thể)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cạnh và màu thô"
+        },
+        {
+          "key": "C",
+          "text": "Pixel gốc"
+        },
+        {
+          "key": "D",
+          "text": "Không gì cả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp nông học cạnh/texture; lớp sâu kết hợp thành khái niệm cấp cao (mắt, bánh xe, vật thể).",
+      "tags": [
+        "dlcv",
+        "cnn",
+        "hierarchy"
+      ]
+    },
+    {
+      "id": "E42-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Stride lớn (vd stride 2) trong conv có tác dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước không gian đầu ra (downsample) thay cho pooling"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Thêm tham số"
+        },
+        {
+          "key": "D",
+          "text": "Đổi màu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stride > 1 nhảy bước khi trượt kernel → feature map nhỏ hơn, đôi khi thay thế pooling.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "stride"
+      ]
+    },
+    {
+      "id": "E42-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dilated (atrous) convolution dùng để?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mở rộng receptive field mà không tăng tham số/giảm độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Làm mờ ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số kênh"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dilated conv chèn 'lỗ' giữa các phần tử kernel, bao phủ vùng rộng hơn — hữu ích cho segmentation (DeepLab).",
+      "tags": [
+        "dlcv",
+        "conv",
+        "dilated"
+      ]
+    },
+    {
+      "id": "E42-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số kênh (channels) của feature map trong CNN tương ứng với?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số bộ lọc (filter) của lớp conv tạo ra nó"
+        },
+        {
+          "key": "B",
+          "text": "Kích thước ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Batch size"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi filter sinh một feature map; số filter = số kênh đầu ra.",
+      "tags": [
+        "dlcv",
+        "conv",
+        "channels"
+      ]
+    },
+    {
+      "id": "E42-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RoIAlign (trong Mask R-CNN) cải tiến RoIPooling nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng nội suy song tuyến, tránh làm tròn tọa độ → mask chính xác hơn"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua vùng đề xuất"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Dùng ít dữ liệu hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RoIAlign không làm tròn (quantize) như RoIPooling, giữ căn chỉnh không gian → quan trọng cho mask pixel-level.",
+      "tags": [
+        "dlcv",
+        "segmentation",
+        "roialign"
+      ]
+    },
+    {
+      "id": "E42-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mô hình detection cho FPS cao nhưng mAP thấp; đánh đổi điển hình là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ vs độ chính xác (one-stage nhanh nhưng thường kém chính xác hơn two-stage)"
+        },
+        {
+          "key": "B",
+          "text": "Màu vs kích thước"
+        },
+        {
+          "key": "C",
+          "text": "Không có đánh đổi"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu vs GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là đánh đổi speed–accuracy kinh điển; chọn theo yêu cầu real-time hay độ chính xác.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "E42-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Feature Pyramid Network (FPN) giúp detection bằng cách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp đặc trưng đa tỉ lệ để phát hiện cả vật nhỏ và lớn"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng một tỉ lệ"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua vật nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Làm mờ ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FPN trộn feature từ nhiều độ phân giải (top-down + lateral), cải thiện phát hiện đa kích thước, nhất là vật nhỏ.",
+      "tags": [
+        "dlcv",
+        "detection",
+        "fpn"
+      ]
+    },
+    {
+      "id": "E42-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi triển khai mô hình CV trên thiết bị biên (edge), kỹ thuật giảm kích thước/tăng tốc gồm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng tử hóa (quantization), cắt tỉa (pruning), distillation, kiến trúc nhẹ (MobileNet)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Dùng ảnh độ phân giải cao hơn"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ mọi tối ưu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quantization/pruning/knowledge distillation và backbone nhẹ giảm bộ nhớ & độ trễ cho edge.",
+      "tags": [
+        "dlcv",
+        "deployment",
+        "optimization"
+      ]
+    },
+    {
+      "id": "E42-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CNN có tính 'bất biến tịnh tiến' (translation invariance) một phần là nhờ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Weight sharing của convolution và pooling"
+        },
+        {
+          "key": "B",
+          "text": "Lớp fully-connected"
+        },
+        {
+          "key": "C",
+          "text": "Dropout"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cùng bộ lọc trượt khắp ảnh nên một đặc trưng được nhận diện dù dịch vị trí; pooling tăng thêm bất biến cục bộ.",
+      "tags": [
+        "dlcv",
+        "cnn",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E42-B57",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Tính kích thước đầu ra qua một khối CNN nhỏ: đầu vào ảnh 64×64×3 → Conv(16 filter, 3×3, stride 1, padding 1) → ReLU → MaxPool(2×2, stride 2). Cho biết shape sau mỗi bước và giải thích công thức.",
+      "modelAnswer": "Conv 3×3, pad 1, stride 1 giữ nguyên kích thước không gian: (64 − 3 + 2·1)/1 + 1 = 64. Số kênh = số filter = 16 → 64×64×16.\nReLU không đổi shape → 64×64×16.\nMaxPool 2×2 stride 2 giảm một nửa không gian: 64/2 = 32, kênh giữ nguyên → 32×32×16.\nCông thức đầu ra mỗi chiều: (W − F + 2P)/S + 1; pooling tương tự với P=0.",
+      "rubric": [
+        "Sau Conv: 64×64×16 (pad 1 giữ kích thước, kênh = 16)",
+        "ReLU không đổi shape",
+        "Sau MaxPool: 32×32×16",
+        "Nêu đúng công thức (W−F+2P)/S+1"
+      ],
+      "tags": [
+        "dlcv",
+        "cnn",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E42-B58",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích pipeline phát hiện đối tượng từ đầu ra thô của mạng tới các box cuối cùng, nêu vai trò của confidence threshold, IoU và NMS.",
+      "modelAnswer": "1) Mạng xuất nhiều box dự đoán kèm điểm tin cậy (confidence) và lớp. 2) Lọc theo confidence threshold: bỏ các box điểm thấp (vd < 0.5) để giảm nhiễu. 3) Với các box còn lại của mỗi lớp, áp Non-Maximum Suppression: sắp theo score giảm dần, giữ box cao nhất, loại các box có IoU với nó vượt ngưỡng (vd 0.5) vì chúng trùng cùng một vật; lặp lại. 4) Kết quả là tập box không trùng lặp, mỗi vật một box. IoU đo độ chồng để quyết định trùng lặp; NMS dùng IoU để dọn box dư; threshold cân bằng precision/recall.",
+      "rubric": [
+        "Mạng xuất box + confidence + lớp",
+        "Lọc theo confidence threshold",
+        "NMS dùng IoU loại box trùng, giữ score cao nhất",
+        "Nêu vai trò IoU và đánh đổi ngưỡng"
+      ],
+      "tags": [
+        "dlcv",
+        "detection",
+        "nms",
+        "iou"
+      ]
+    },
+    {
+      "id": "E42-B59",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Bạn có 500 ảnh X-quang để phân loại bệnh — dữ liệu rất ít. Trình bày chiến lược deep learning hợp lý (transfer learning, augmentation, chống overfitting) và lý do.",
+      "modelAnswer": "Dữ liệu ít nên KHÔNG train từ đầu. Chiến lược:\n1) Transfer learning: lấy backbone pretrained (ImageNet, hoặc model y tế nếu có), đóng băng phần lớn lớp đầu, fine-tune lớp cuối; mở dần lớp sâu hơn nếu cần với learning rate nhỏ.\n2) Data augmentation phù hợp y khoa: xoay nhẹ, dịch, lật ngang (nếu hợp lý về giải phẫu), thay đổi độ sáng/tương phản — tránh biến đổi làm sai bệnh lý.\n3) Chống overfitting: dropout, weight decay, early stopping theo validation, dùng cross-validation do dữ liệu nhỏ.\n4) Xử lý mất cân bằng lớp (class weights/oversampling) và đánh giá bằng AUC/recall thay vì chỉ accuracy. Cân nhắc giải thích (Grad-CAM) vì là y tế.",
+      "rubric": [
+        "Dùng transfer learning thay vì train từ đầu (freeze + fine-tune)",
+        "Augmentation phù hợp, bảo toàn ngữ nghĩa y khoa",
+        "Chống overfitting: dropout/weight decay/early stopping/CV",
+        "Xử lý mất cân bằng & chọn metric phù hợp (AUC/recall)"
+      ],
+      "tags": [
+        "dlcv",
+        "transfer-learning",
+        "medical"
+      ]
+    },
+    {
+      "id": "E42-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh CNN và Vision Transformer (ViT) về thiên kiến quy nạp (inductive bias), nhu cầu dữ liệu và cách mô hình hóa quan hệ không gian.",
+      "modelAnswer": "Thiên kiến quy nạp: CNN có sẵn bias cục bộ (kết nối lân cận) và bất biến tịnh tiến (weight sharing), nên học hiệu quả từ ít dữ liệu. ViT gần như không có bias không gian cài sẵn (ngoài positional embedding).\nNhu cầu dữ liệu: vì thiếu bias, ViT cần dữ liệu lớn hoặc pretrain mạnh để học các quan hệ mà CNN 'mặc định' biết; với dữ liệu vừa/nhỏ, CNN thường thắng nếu không pretrain.\nMô hình hóa quan hệ: CNN xây dựng ngữ cảnh theo lớp (cục bộ → toàn cục dần), receptive field tăng theo độ sâu. ViT dùng self-attention nên nắm quan hệ TOÀN CỤC ngay từ lớp đầu nhưng tốn tính toán O(n²) theo số patch.\nThực tế nhiều kiến trúc lai (hybrid) kết hợp conv + attention để tận dụng cả hai.",
+      "rubric": [
+        "CNN có inductive bias cục bộ + bất biến tịnh tiến; ViT thì ít",
+        "ViT cần nhiều dữ liệu/pretrain hơn",
+        "CNN: cục bộ→toàn cục theo độ sâu; ViT: toàn cục từ đầu (attention)",
+        "Nhắc chi phí O(n²) của attention và xu hướng hybrid"
+      ],
+      "tags": [
+        "dlcv",
+        "cnn",
+        "vit",
+        "comparison"
+      ]
+    }
+  ]
+}
