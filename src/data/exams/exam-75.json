@@ -1,0 +1,3029 @@
+{
+  "id": "exam-75",
+  "title": "GNN — Mạng Nơ-ron Đồ thị — Đề luyện chuyên sâu (100 câu)",
+  "description": "Đề luyện tập chuyên sâu và toàn diện về Mạng Nơ-ron Đồ thị (GNN): từ nền tảng đồ thị (đỉnh, cạnh, ma trận kề, bậc, Laplacian), lý do mạng tiêu chuẩn không xử lý được đồ thị, khung message passing, các hàm gộp, tới GCN, GraphSAGE, GAT, GIN, over-smoothing, readout và các bài toán node/link/graph. Nhiều câu tính toán được kiểm chứng bằng NumPy và có cả câu hỏi viết code.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E75-C001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong lý thuyết đồ thị áp dụng cho GNN, một 'đồ thị' G được định nghĩa cơ bản gồm những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tập đỉnh (nodes) và tập cạnh (edges)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ tập đỉnh, không cần cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Một ma trận trọng số và một hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "Một chuỗi tuần tự các điểm dữ liệu có thứ tự cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đồ thị G = (V, E) gồm tập đỉnh V và tập cạnh E nối các đỉnh; trên GNN mỗi đỉnh/cạnh có thể kèm đặc trưng.",
+      "tags": [
+        "fundamentals",
+        "graph"
+      ]
+    },
+    {
+      "id": "E75-C002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sự khác biệt cốt lõi giữa đồ thị có hướng (directed) và vô hướng (undirected) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đồ thị có hướng luôn có nhiều đỉnh hơn vô hướng"
+        },
+        {
+          "key": "B",
+          "text": "Cạnh có hướng có chiều (u→v khác v→u), cạnh vô hướng không có chiều"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị vô hướng không thể có ma trận kề"
+        },
+        {
+          "key": "D",
+          "text": "Đồ thị có hướng không cho phép tự vòng (self-loop)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong đồ thị có hướng cạnh (u,v) khác (v,u) nên ma trận kề nói chung không đối xứng; đồ thị vô hướng có ma trận kề đối xứng.",
+      "tags": [
+        "fundamentals",
+        "directed"
+      ]
+    },
+    {
+      "id": "E75-C003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị có trọng số (weighted graph) khác đồ thị thường ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi cạnh gắn một giá trị số (trọng số) thể hiện cường độ/khoảng cách"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi đỉnh bắt buộc có đúng một nhãn lớp"
+        },
+        {
+          "key": "C",
+          "text": "Số cạnh luôn bằng số đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Không thể biểu diễn bằng ma trận kề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đồ thị có trọng số gán cho mỗi cạnh một số thực; ma trận kề khi đó chứa trọng số thay vì chỉ 0/1.",
+      "tags": [
+        "fundamentals",
+        "weighted"
+      ]
+    },
+    {
+      "id": "E75-C004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận kề A của một đồ thị vô hướng đơn (không trọng số) có tính chất nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn là ma trận tam giác trên"
+        },
+        {
+          "key": "B",
+          "text": "Đối xứng và A[i][j]=1 khi có cạnh i–j, ngược lại 0"
+        },
+        {
+          "key": "C",
+          "text": "Đường chéo chính luôn bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Luôn khả nghịch"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Với đồ thị vô hướng, A đối xứng (A=Aᵀ); phần tử bằng 1 nếu hai đỉnh kề nhau, 0 nếu không; đường chéo bằng 0 nếu không có self-loop.",
+      "tags": [
+        "fundamentals",
+        "adjacency"
+      ]
+    },
+    {
+      "id": "E75-C005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bậc (degree) của một đỉnh trong đồ thị vô hướng được tính như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng đặc trưng của đỉnh đó"
+        },
+        {
+          "key": "B",
+          "text": "Số cạnh nối tới đỉnh đó (số hàng xóm trực tiếp)"
+        },
+        {
+          "key": "C",
+          "text": "Số đỉnh trong toàn đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách tới đỉnh xa nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bậc của đỉnh i là số cạnh kề nó, bằng tổng hàng i của ma trận kề: deg(i)=Σ_j A[i][j].",
+      "tags": [
+        "fundamentals",
+        "degree"
+      ]
+    },
+    {
+      "id": "E75-C006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận bậc (degree matrix) D của đồ thị là loại ma trận gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ma trận đường chéo với D[i][i]=bậc của đỉnh i"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận đầy đủ bằng A nhân chính nó"
+        },
+        {
+          "key": "C",
+          "text": "Ma trận đối xứng có mọi phần tử bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận đơn vị I"
+        }
+      ],
+      "answer": "A",
+      "explanation": "D là ma trận đường chéo, phần tử D[i][i] là bậc của đỉnh i, các phần tử ngoài đường chéo bằng 0.",
+      "tags": [
+        "fundamentals",
+        "degree-matrix"
+      ]
+    },
+    {
+      "id": "E75-C007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Laplacian không chuẩn hóa của đồ thị được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L = A − D"
+        },
+        {
+          "key": "B",
+          "text": "L = D − A"
+        },
+        {
+          "key": "C",
+          "text": "L = D·A"
+        },
+        {
+          "key": "D",
+          "text": "L = A·Aᵀ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Laplacian tổ hợp (combinatorial) L = D − A, với D là ma trận bậc và A là ma trận kề; L nửa xác định dương.",
+      "tags": [
+        "fundamentals",
+        "laplacian"
+      ]
+    },
+    {
+      "id": "E75-C008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Laplacian chuẩn hóa đối xứng L_sym được viết như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L_sym = I − D^{-1/2} A D^{-1/2}"
+        },
+        {
+          "key": "B",
+          "text": "L_sym = D + A"
+        },
+        {
+          "key": "C",
+          "text": "L_sym = A D^{-1}"
+        },
+        {
+          "key": "D",
+          "text": "L_sym = I + A"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Laplacian chuẩn hóa đối xứng L_sym = I − D^{-1/2} A D^{-1/2}; nó có phổ giá trị riêng nằm trong [0,2].",
+      "tags": [
+        "fundamentals",
+        "laplacian",
+        "normalized"
+      ]
+    },
+    {
+      "id": "E75-C009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận liên thuộc (incidence matrix) của đồ thị mô tả quan hệ giữa gì với gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữa đỉnh và đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Giữa đỉnh và cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Giữa cạnh và nhãn lớp"
+        },
+        {
+          "key": "D",
+          "text": "Giữa đặc trưng và trọng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ma trận liên thuộc có kích thước |V|×|E|, mỗi cột ứng với một cạnh và đánh dấu các đỉnh đầu mút của cạnh đó.",
+      "tags": [
+        "fundamentals",
+        "incidence"
+      ]
+    },
+    {
+      "id": "E75-C010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong GNN, ma trận đặc trưng đỉnh X có kích thước thường là gì (N đỉnh, d chiều đặc trưng)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "N × N"
+        },
+        {
+          "key": "B",
+          "text": "N × d"
+        },
+        {
+          "key": "C",
+          "text": "d × d"
+        },
+        {
+          "key": "D",
+          "text": "1 × N"
+        }
+      ],
+      "answer": "B",
+      "explanation": "X có kích thước N×d: mỗi hàng là vector đặc trưng d chiều của một đỉnh; đây là đầu vào đặc trưng đỉnh cho GNN.",
+      "tags": [
+        "fundamentals",
+        "features"
+      ]
+    },
+    {
+      "id": "E75-C011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khái niệm 'homophily' trong đồ thị nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các đỉnh kề nhau có xu hướng giống nhau (cùng nhãn/đặc trưng tương tự)"
+        },
+        {
+          "key": "B",
+          "text": "Mọi đỉnh đều có cùng bậc"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị không có cạnh nào"
+        },
+        {
+          "key": "D",
+          "text": "Các đỉnh kề nhau luôn khác nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Homophily là hiện tượng 'đồng thanh tương ứng': các đỉnh liền kề thường thuộc cùng lớp hoặc có đặc trưng tương đồng; nhiều GNN khai thác giả định này.",
+      "tags": [
+        "fundamentals",
+        "homophily"
+      ]
+    },
+    {
+      "id": "E75-C012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đặc trưng (features) trong đồ thị có thể gắn vào những cấp độ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ vào toàn đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Đỉnh, cạnh và toàn đồ thị (node/edge/graph features)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ vào cạnh"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ vào nhãn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đặc trưng có thể ở cấp đỉnh (node), cấp cạnh (edge) và cấp toàn đồ thị (graph-level), tuỳ bài toán.",
+      "tags": [
+        "fundamentals",
+        "features"
+      ]
+    },
+    {
+      "id": "E75-C013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao MLP/CNN/RNN tiêu chuẩn khó áp dụng trực tiếp lên dữ liệu đồ thị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì đồ thị luôn nhỏ hơn ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Vì đồ thị có cấu trúc bất quy tắc, kích thước thay đổi và không có thứ tự đỉnh cố định"
+        },
+        {
+          "key": "C",
+          "text": "Vì đồ thị không thể chứa số thực"
+        },
+        {
+          "key": "D",
+          "text": "Vì đồ thị không có nhãn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khác với lưới ảnh đều đặn hay chuỗi có thứ tự, đồ thị có số đỉnh thay đổi, mỗi đỉnh số hàng xóm khác nhau và không có thứ tự chuẩn, nên mạng tiêu chuẩn không áp dụng trực tiếp được.",
+      "tags": [
+        "motivation",
+        "irregular"
+      ]
+    },
+    {
+      "id": "E75-C014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN khai thác tính chất nào của ảnh mà đồ thị tổng quát KHÔNG có?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cấu trúc lưới đều với lân cận có vị trí/thứ tự cố định"
+        },
+        {
+          "key": "B",
+          "text": "Sự tồn tại của màu sắc"
+        },
+        {
+          "key": "C",
+          "text": "Hàm kích hoạt ReLU"
+        },
+        {
+          "key": "D",
+          "text": "Phép nhân ma trận"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN dựa trên lưới đều (Euclidean) nơi mỗi pixel có lân cận cố định theo lưới; đồ thị có lân cận thay đổi và không có thứ tự không gian, nên tích chập lưới không áp dụng được.",
+      "tags": [
+        "motivation",
+        "cnn"
+      ]
+    },
+    {
+      "id": "E75-C015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao 'không có thứ tự đỉnh cố định' là vấn đề với mạng MLP truyền thẳng trên đồ thị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP cần đầu vào có thứ tự cố định; hoán vị đỉnh sẽ cho đầu vào khác dù đồ thị không đổi"
+        },
+        {
+          "key": "B",
+          "text": "MLP không tính được tổng"
+        },
+        {
+          "key": "C",
+          "text": "MLP chỉ chạy trên GPU"
+        },
+        {
+          "key": "D",
+          "text": "MLP không có trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu xếp đỉnh thành vector đầu vào theo một thứ tự, hoán vị thứ tự đó tạo đầu vào khác nhưng mô tả cùng một đồ thị; MLP không bất biến hoán vị nên sẽ học sai.",
+      "tags": [
+        "motivation",
+        "permutation"
+      ]
+    },
+    {
+      "id": "E75-C016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một hàm f trên đồ thị được gọi là BẤT BIẾN hoán vị (permutation invariant) khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi hoán vị thứ tự đỉnh làm thay đổi kết quả tương ứng"
+        },
+        {
+          "key": "B",
+          "text": "Khi hoán vị thứ tự đỉnh KHÔNG làm thay đổi đầu ra (ví dụ dự đoán cấp đồ thị)"
+        },
+        {
+          "key": "C",
+          "text": "Khi f chỉ nhận một đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Khi f là tuyến tính"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bất biến hoán vị: f(PX, PAPᵀ)=f(X,A) — đổi thứ tự đỉnh không đổi đầu ra; phù hợp cho dự đoán cấp đồ thị (readout).",
+      "tags": [
+        "motivation",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E75-C017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một hàm f được gọi là TƯƠNG ĐƯƠNG hoán vị (permutation equivariant) khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoán vị đỉnh đầu vào làm đầu ra hoán vị theo cùng cách (f(PX,PAPᵀ)=P f(X,A))"
+        },
+        {
+          "key": "B",
+          "text": "Đầu ra luôn là một số vô hướng"
+        },
+        {
+          "key": "C",
+          "text": "Đầu ra không phụ thuộc đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "f phải có đúng một lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tương đương hoán vị: nếu đổi thứ tự đỉnh đầu vào thì đầu ra (ví dụ nhãn từng đỉnh) đổi thứ tự tương ứng; các lớp message passing có tính này.",
+      "tags": [
+        "motivation",
+        "equivariance"
+      ]
+    },
+    {
+      "id": "E75-C018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phép gộp (aggregation) hàng xóm trong GNN nên dùng hàm có tính chất gì để đảm bảo bất biến hoán vị của tập hàng xóm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàm phụ thuộc thứ tự như nối chuỗi (concatenation theo thứ tự)"
+        },
+        {
+          "key": "B",
+          "text": "Hàm đối xứng/không phụ thuộc thứ tự như sum, mean, max"
+        },
+        {
+          "key": "C",
+          "text": "Hàm chỉ lấy phần tử đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Hàm sắp xếp rồi lấy phần tử cuối"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tập hàng xóm không có thứ tự nên hàm gộp phải đối xứng (sum/mean/max) để kết quả không đổi khi hoán vị thứ tự hàng xóm.",
+      "tags": [
+        "aggregation",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E75-C019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khung 'message passing' (MPNN) tổng quát gồm các bước chính nào ở mỗi lớp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ một phép nhân ma trận trọng số"
+        },
+        {
+          "key": "B",
+          "text": "AGGREGATE thông điệp từ hàng xóm, rồi UPDATE biểu diễn đỉnh (và tuỳ chọn READOUT cuối)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chuẩn hóa batch"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp các đỉnh theo bậc rồi cắt bớt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi lớp MPNN: tính/gộp thông điệp từ các hàng xóm (AGGREGATE), cập nhật trạng thái đỉnh (UPDATE); với bài toán cấp đồ thị có thêm bước READOUT để gộp toàn bộ đỉnh.",
+      "tags": [
+        "message-passing",
+        "mpnn"
+      ]
+    },
+    {
+      "id": "E75-C020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong message passing, 'thông điệp' (message) gửi tới một đỉnh thường được tính từ đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ một đỉnh ngẫu nhiên bất kỳ trong đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Từ biểu diễn của các đỉnh hàng xóm (và đặc trưng cạnh nếu có)"
+        },
+        {
+          "key": "C",
+          "text": "Từ nhãn đúng của đỉnh đích"
+        },
+        {
+          "key": "D",
+          "text": "Từ ma trận đơn vị"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thông điệp tới đỉnh v được tính dựa trên biểu diễn các hàng xóm u∈N(v) (đôi khi kèm đặc trưng cạnh e_{uv}); sau đó được gộp lại.",
+      "tags": [
+        "message-passing",
+        "message"
+      ]
+    },
+    {
+      "id": "E75-C021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sau khi gộp thông điệp, bước UPDATE làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp biểu diễn cũ của đỉnh với thông điệp đã gộp để tạo biểu diễn mới (thường qua MLP/hàm phi tuyến)"
+        },
+        {
+          "key": "B",
+          "text": "Xóa đỉnh khỏi đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ sao chép thông điệp mà bỏ biểu diễn cũ trong mọi trường hợp"
+        },
+        {
+          "key": "D",
+          "text": "Tính ma trận nghịch đảo của A"
+        }
+      ],
+      "answer": "A",
+      "explanation": "UPDATE kết hợp trạng thái hiện tại h_v với thông điệp gộp m_v (ví dụ h_v' = σ(W·[h_v, m_v])) để cập nhật biểu diễn đỉnh.",
+      "tags": [
+        "message-passing",
+        "update"
+      ]
+    },
+    {
+      "id": "E75-C022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sau K lớp message passing, biểu diễn của một đỉnh phản ánh thông tin trong phạm vi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ chính đỉnh đó"
+        },
+        {
+          "key": "B",
+          "text": "Lân cận K-hop (các đỉnh cách nó tối đa K bước)"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ đồ thị bất kể K"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ các đỉnh có bậc lớn nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi lớp lan tỏa thông tin thêm một hop; sau K lớp, biểu diễn đỉnh tổng hợp thông tin từ lân cận trong vòng K bước (K-hop).",
+      "tags": [
+        "message-passing",
+        "k-hop"
+      ]
+    },
+    {
+      "id": "E75-C023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So với mean và max, vì sao SUM aggregation lại giữ được thông tin về số lượng (bội số) hàng xóm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì sum chia cho số hàng xóm"
+        },
+        {
+          "key": "B",
+          "text": "Vì sum cộng dồn nên kết quả phụ thuộc cả vào số lượng và giá trị hàng xóm"
+        },
+        {
+          "key": "C",
+          "text": "Vì sum luôn cho giá trị 0"
+        },
+        {
+          "key": "D",
+          "text": "Vì sum chỉ lấy phần tử lớn nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sum cộng tất cả thông điệp nên phân biệt được số lượng hàng xóm (ví dụ 2 hàng xóm giống nhau cho kết quả khác 1); mean và max bỏ qua bội số nên kém biểu cảm hơn ở khía cạnh này.",
+      "tags": [
+        "aggregation",
+        "sum"
+      ]
+    },
+    {
+      "id": "E75-C024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm gộp nào bỏ qua thông tin về số lượng hàng xóm (vì lấy giá trị lớn nhất theo từng chiều)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "sum"
+        },
+        {
+          "key": "B",
+          "text": "mean"
+        },
+        {
+          "key": "C",
+          "text": "max"
+        },
+        {
+          "key": "D",
+          "text": "tích chập tuyến tính"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Max chỉ giữ giá trị lớn nhất mỗi chiều nên không phân biệt được có bao nhiêu hàng xóm; nó nhạy với đặc trưng nổi bật chứ không phải số lượng.",
+      "tags": [
+        "aggregation",
+        "max"
+      ]
+    },
+    {
+      "id": "E75-C025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GIN (Graph Isomorphism Network) chọn hàm gộp nào để đạt sức biểu diễn tương đương kiểm tra Weisfeiler–Lehman?",
+      "options": [
+        {
+          "key": "A",
+          "text": "max aggregation"
+        },
+        {
+          "key": "B",
+          "text": "mean aggregation"
+        },
+        {
+          "key": "C",
+          "text": "sum aggregation (kết hợp MLP để xấp xỉ hàm đơn ánh)"
+        },
+        {
+          "key": "D",
+          "text": "không dùng gộp"
+        }
+      ],
+      "answer": "C",
+      "explanation": "GIN dùng sum aggregation cộng với MLP để có hàm gộp đơn ánh (injective) trên đa tập hàng xóm, đạt sức mạnh phân biệt tương đương thuật toán 1-WL.",
+      "tags": [
+        "aggregation",
+        "gin",
+        "wl"
+      ]
+    },
+    {
+      "id": "E75-C026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Điều kiện để một hàm gộp trên đa tập (multiset) hàng xóm có sức biểu diễn tối đa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàm phải là hằng số"
+        },
+        {
+          "key": "B",
+          "text": "Hàm phải đơn ánh (injective) trên đa tập"
+        },
+        {
+          "key": "C",
+          "text": "Hàm phải lấy trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Hàm phải bỏ qua đặc trưng đỉnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Để phân biệt được mọi cấu hình lân cận khác nhau, hàm gộp cần đơn ánh trên đa tập; sum-MLP của GIN thỏa điều này còn mean/max thì không.",
+      "tags": [
+        "aggregation",
+        "injective"
+      ]
+    },
+    {
+      "id": "E75-C027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Quy tắc lan truyền của GCN (Kipf & Welling) có dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "H' = σ( Â H W ) với Â = D̃^{-1/2}(A+I)D̃^{-1/2}"
+        },
+        {
+          "key": "B",
+          "text": "H' = σ( A⁻¹ H )"
+        },
+        {
+          "key": "C",
+          "text": "H' = H W không dùng đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "H' = max(A, H)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GCN cập nhật H' = σ(Â H W), trong đó Â là ma trận kề thêm self-loop (A+I) rồi chuẩn hóa đối xứng bằng D̃^{-1/2}(A+I)D̃^{-1/2}.",
+      "tags": [
+        "gcn",
+        "propagation"
+      ]
+    },
+    {
+      "id": "E75-C028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao GCN thêm self-loop (A+I) trước khi chuẩn hóa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để mỗi đỉnh giữ lại đặc trưng của chính nó khi gộp với hàng xóm"
+        },
+        {
+          "key": "B",
+          "text": "Để xóa các cạnh thừa"
+        },
+        {
+          "key": "C",
+          "text": "Để biến đồ thị thành có hướng"
+        },
+        {
+          "key": "D",
+          "text": "Để tăng số lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thêm I (self-loop) đảm bảo khi gộp, biểu diễn của chính đỉnh cũng được tính vào, tránh việc đỉnh chỉ phụ thuộc hàng xóm mà bỏ qua thông tin bản thân.",
+      "tags": [
+        "gcn",
+        "self-loop"
+      ]
+    },
+    {
+      "id": "E75-C029",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao GCN dùng chuẩn hóa đối xứng D^{-1/2}(A+I)D^{-1/2} thay vì chỉ A+I?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để các đỉnh bậc cao không lấn át, tránh thang giá trị bùng nổ và ổn định huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Để đồ thị trở thành cây"
+        },
+        {
+          "key": "C",
+          "text": "Để loại bỏ mọi đặc trưng"
+        },
+        {
+          "key": "D",
+          "text": "Để tăng số tham số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn hóa theo bậc giúp cân bằng đóng góp của hàng xóm (đỉnh bậc cao bị giảm tỉ lệ), giữ thang giá trị ổn định và tránh giá trị riêng quá lớn khi xếp nhiều lớp.",
+      "tags": [
+        "gcn",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E75-C030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Xếp chồng K lớp GCN tương đương về phạm vi thông tin với điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi đỉnh chỉ thấy chính nó"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi đỉnh tổng hợp thông tin từ lân cận K-hop"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ đồ thị bất kể K"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ các đỉnh cùng nhãn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi lớp GCN lan thông tin thêm một hop, nên K lớp giúp mỗi đỉnh nhìn được lân cận trong K bước.",
+      "tags": [
+        "gcn",
+        "k-hop"
+      ]
+    },
+    {
+      "id": "E75-C031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GCN xuất phát từ động lực nào trong lý thuyết phổ (spectral)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là xấp xỉ bậc nhất của tích chập phổ dùng đa thức Chebyshev trên Laplacian đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Là biến đổi Fourier của ảnh 2D"
+        },
+        {
+          "key": "C",
+          "text": "Là thuật toán sắp xếp đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Là phép quay trục tọa độ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GCN được rút ra như xấp xỉ bậc nhất (first-order) của tích chập phổ trên đồ thị (đơn giản hóa ChebNet), dẫn tới quy tắc lan truyền cục bộ Â H W.",
+      "tags": [
+        "gcn",
+        "spectral"
+      ]
+    },
+    {
+      "id": "E75-C032",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tên 'GraphSAGE' phản ánh cơ chế chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sample (lấy mẫu hàng xóm) and AggreGatE (gộp)"
+        },
+        {
+          "key": "B",
+          "text": "Sắp xếp đồ thị theo bậc"
+        },
+        {
+          "key": "C",
+          "text": "Xóa cạnh ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Tính ma trận nghịch đảo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GraphSAGE = Sample and Aggregate: lấy mẫu một số hàng xóm cố định rồi gộp đặc trưng của chúng để cập nhật đỉnh, giúp mở rộng quy mô.",
+      "tags": [
+        "graphsage",
+        "sampling"
+      ]
+    },
+    {
+      "id": "E75-C033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ưu điểm nổi bật của GraphSAGE so với GCN gốc về khả năng tổng quát hóa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GraphSAGE là inductive: học hàm gộp nên suy luận được cho đỉnh/đồ thị MỚI chưa thấy khi huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "GraphSAGE chỉ chạy được trên đồ thị cố định"
+        },
+        {
+          "key": "C",
+          "text": "GraphSAGE không cần đặc trưng đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "GraphSAGE không dùng hàng xóm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GraphSAGE học các hàm gộp (aggregator) tham số hóa nên có thể sinh embedding cho đỉnh mới chưa xuất hiện lúc train (inductive), trong khi GCN transductive cần toàn đồ thị cố định.",
+      "tags": [
+        "graphsage",
+        "inductive"
+      ]
+    },
+    {
+      "id": "E75-C034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GraphSAGE hỗ trợ những loại aggregator nào điển hình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "mean, pooling (max-pool), LSTM"
+        },
+        {
+          "key": "B",
+          "text": "chỉ duy nhất sum"
+        },
+        {
+          "key": "C",
+          "text": "chỉ phép nối chuỗi theo thứ tự bậc"
+        },
+        {
+          "key": "D",
+          "text": "chỉ phép nhân ma trận nghịch đảo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài báo GraphSAGE đề xuất các aggregator mean, pooling (qua MLP rồi max), và LSTM (áp lên hàng xóm theo thứ tự ngẫu nhiên).",
+      "tags": [
+        "graphsage",
+        "aggregator"
+      ]
+    },
+    {
+      "id": "E75-C035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Việc lấy mẫu một số hàng xóm cố định trong GraphSAGE chủ yếu giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khả năng mở rộng (scalability) trên đồ thị lớn với bậc rất cao"
+        },
+        {
+          "key": "B",
+          "text": "Làm đồ thị có hướng"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ nhu cầu hàm phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số lớp tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lấy mẫu cố định số hàng xóm giúp khống chế chi phí tính toán/bộ nhớ trên các đỉnh bậc cao, cho phép huấn luyện theo mini-batch trên đồ thị lớn.",
+      "tags": [
+        "graphsage",
+        "scalability"
+      ]
+    },
+    {
+      "id": "E75-C036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ý tưởng cốt lõi của GAT (Graph Attention Network) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học trọng số chú ý (attention) cho từng hàng xóm thay vì gộp đều"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua hoàn toàn hàng xóm"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng đỉnh có bậc cao nhất"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp hàng xóm theo nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAT dùng cơ chế attention để học hệ số quan trọng α_{uv} cho mỗi hàng xóm, sau đó gộp có trọng số; trọng số được học theo dữ liệu thay vì cố định theo bậc như GCN.",
+      "tags": [
+        "gat",
+        "attention"
+      ]
+    },
+    {
+      "id": "E75-C037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong GAT, hệ số chú ý α_{ij} sau khi tính thường được chuẩn hóa như thế nào trên tập hàng xóm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng hàm softmax trên các hàng xóm của i"
+        },
+        {
+          "key": "B",
+          "text": "Bằng cách chia cho tổng bậc toàn đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Luôn đặt bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Bằng phép max-pool"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAT chuẩn hóa các điểm chú ý bằng softmax trên tập hàng xóm N(i), để các hệ số α_{ij} cộng lại bằng 1 và thể hiện trọng số tương đối.",
+      "tags": [
+        "gat",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E75-C038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Multi-head attention trong GAT mang lại lợi ích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ổn định quá trình học và nắm bắt nhiều kiểu quan hệ hàng xóm khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số đỉnh của đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hàm phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Biến attention thành hằng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhiều 'đầu' attention học song song các trọng số khác nhau rồi nối/lấy trung bình, giúp ổn định huấn luyện và biểu diễn nhiều khía cạnh quan hệ.",
+      "tags": [
+        "gat",
+        "multi-head"
+      ]
+    },
+    {
+      "id": "E75-C039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So sánh GCN và GAT về cách gán trọng số cho hàng xóm:",
+      "options": [
+        {
+          "key": "A",
+          "text": "GCN dùng trọng số cố định theo bậc (chuẩn hóa); GAT học trọng số theo nội dung qua attention"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều dùng trọng số ngẫu nhiên không học"
+        },
+        {
+          "key": "C",
+          "text": "GAT cố định, GCN học attention"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai bỏ qua hàng xóm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GCN gộp hàng xóm với hệ số cố định phụ thuộc bậc (1/√(d_i d_j)); GAT học hệ số α phụ thuộc đặc trưng đỉnh, linh hoạt hơn.",
+      "tags": [
+        "gat",
+        "gcn"
+      ]
+    },
+    {
+      "id": "E75-C040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ChebNet xấp xỉ tích chập phổ bằng công cụ toán học nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đa thức Chebyshev của Laplacian (lọc cục bộ K-hop)"
+        },
+        {
+          "key": "B",
+          "text": "Biến đổi wavelet trên ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy logistic"
+        },
+        {
+          "key": "D",
+          "text": "Cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ChebNet dùng đa thức Chebyshev bậc K của Laplacian để xấp xỉ bộ lọc phổ, cho phép lọc cục bộ trong K-hop mà không cần phân rã giá trị riêng tốn kém.",
+      "tags": [
+        "chebnet",
+        "spectral"
+      ]
+    },
+    {
+      "id": "E75-C041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sức biểu diễn của các GNN truyền thông điệp cơ bản bị giới hạn bởi thuật toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thuật toán sắp xếp nhanh (quicksort)"
+        },
+        {
+          "key": "B",
+          "text": "Phép kiểm tra đẳng cấu 1-Weisfeiler–Lehman (1-WL)"
+        },
+        {
+          "key": "C",
+          "text": "Thuật toán Dijkstra"
+        },
+        {
+          "key": "D",
+          "text": "Phép biến đổi Fourier nhanh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Các GNN message passing nhiều nhất chỉ phân biệt được các đồ thị mà thuật toán 1-WL phân biệt được; GIN đạt đúng giới hạn này.",
+      "tags": [
+        "wl",
+        "expressiveness"
+      ]
+    },
+    {
+      "id": "E75-C042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai đồ thị mà 1-WL không phân biệt được thì GNN message passing cơ bản sẽ:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn phân biệt được dễ dàng"
+        },
+        {
+          "key": "B",
+          "text": "Cũng không phân biệt được (cho cùng biểu diễn)"
+        },
+        {
+          "key": "C",
+          "text": "Báo lỗi và dừng"
+        },
+        {
+          "key": "D",
+          "text": "Tự động thêm cạnh mới"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vì sức biểu diễn bị chặn bởi 1-WL, nếu 1-WL gán cùng nhãn cho hai đồ thị thì GNN message passing cơ bản cũng cho biểu diễn giống nhau, không phân biệt được.",
+      "tags": [
+        "wl",
+        "expressiveness"
+      ]
+    },
+    {
+      "id": "E75-C043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng 'over-smoothing' khi tăng số lớp GNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biểu diễn các đỉnh dần hội tụ về giống nhau, mất khả năng phân biệt"
+        },
+        {
+          "key": "B",
+          "text": "Đồ thị mất hết cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Số tham số giảm về 0"
+        },
+        {
+          "key": "D",
+          "text": "Đặc trưng đỉnh trở nên rời rạc hoàn toàn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Over-smoothing: lặp gộp hàng xóm nhiều lần khiến biểu diễn của các đỉnh trộn lẫn và hội tụ tới cùng một giá trị, làm mất thông tin phân biệt giữa các đỉnh.",
+      "tags": [
+        "depth",
+        "over-smoothing"
+      ]
+    },
+    {
+      "id": "E75-C044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nguyên nhân trực giác của over-smoothing là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi lớp là một bước làm mượt (giống lan tỏa/trung bình) trên đồ thị; lặp nhiều lần trộn đều thông tin"
+        },
+        {
+          "key": "B",
+          "text": "Do thiếu hàm mất mát"
+        },
+        {
+          "key": "C",
+          "text": "Do learning rate luôn quá nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Do đồ thị không có đặc trưng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lớp GCN tương tự một bước lan tỏa/trung bình theo Laplacian; lặp lại nhiều lần làm tín hiệu tiến tới trạng thái dừng đồng nhất trong mỗi thành phần liên thông.",
+      "tags": [
+        "depth",
+        "over-smoothing"
+      ]
+    },
+    {
+      "id": "E75-C045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giải pháp nào KHÔNG nhằm giảm over-smoothing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết nối tắt (residual/skip connection)"
+        },
+        {
+          "key": "B",
+          "text": "Jumping Knowledge (gộp biểu diễn nhiều lớp)"
+        },
+        {
+          "key": "C",
+          "text": "Tăng vô hạn số lớp mà không thêm cơ chế nào"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa theo cặp (PairNorm) hoặc dropout cạnh"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Residual, Jumping Knowledge, PairNorm/DropEdge giúp giảm over-smoothing; còn việc cứ tăng số lớp mà không thêm cơ chế nào lại làm over-smoothing trầm trọng hơn.",
+      "tags": [
+        "depth",
+        "mitigation"
+      ]
+    },
+    {
+      "id": "E75-C046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng 'over-squashing' trong GNN sâu nói về điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thông tin từ lân cận xa bị nén (squash) qua các nút thắt cổ chai (bottleneck) nên mất mát"
+        },
+        {
+          "key": "B",
+          "text": "Đồ thị bị nén thành một đỉnh"
+        },
+        {
+          "key": "C",
+          "text": "Trọng số bị làm tròn về 0"
+        },
+        {
+          "key": "D",
+          "text": "Số cạnh tăng theo cấp số nhân và làm tràn bộ nhớ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Over-squashing: khi cần truyền thông tin qua nhiều hop, số đỉnh ảnh hưởng tăng theo hàm mũ nhưng phải bị nén vào vector có chiều cố định, gây mất mát thông tin từ lân cận xa.",
+      "tags": [
+        "depth",
+        "over-squashing"
+      ]
+    },
+    {
+      "id": "E75-C047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cơ chế 'Jumping Knowledge' (JK) hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp biểu diễn từ nhiều lớp khác nhau (concat/max/LSTM) cho đầu ra của mỗi đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua mọi lớp ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng lớp đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp các đỉnh rồi nhảy cóc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "JK gộp các biểu diễn trung gian từ nhiều lớp (ví dụ nối, max-pool, hoặc LSTM) để mỗi đỉnh chọn được phạm vi lân cận phù hợp, giảm over-smoothing.",
+      "tags": [
+        "depth",
+        "jumping-knowledge"
+      ]
+    },
+    {
+      "id": "E75-C048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với bài toán phân loại cấp ĐỒ THỊ, bước readout (global pooling) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gộp biểu diễn của tất cả các đỉnh thành một vector biểu diễn cho cả đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Chọn ngẫu nhiên một đỉnh làm nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Xóa toàn bộ cạnh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số đỉnh lên gấp đôi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Readout (sum/mean/max global pooling) tổng hợp embedding các đỉnh thành một vector cấp đồ thị, dùng cho dự đoán cấp đồ thị; cần đối xứng để bất biến hoán vị.",
+      "tags": [
+        "readout",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E75-C049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao global pooling cho cấp đồ thị nên dùng phép đối xứng (sum/mean/max)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để dự đoán cấp đồ thị bất biến với thứ tự đỉnh (permutation invariant)"
+        },
+        {
+          "key": "B",
+          "text": "Để làm đồ thị có hướng"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Để loại bỏ đặc trưng cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đầu ra cấp đồ thị không nên phụ thuộc cách đánh số đỉnh; sum/mean/max là đối xứng nên đảm bảo bất biến hoán vị.",
+      "tags": [
+        "readout",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E75-C050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "DiffPool và TopK pooling thuộc loại pooling nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pooling phân cấp (hierarchical), gộp/chọn đỉnh dần để thu nhỏ đồ thị qua nhiều mức"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ là chuẩn hóa batch"
+        },
+        {
+          "key": "C",
+          "text": "Pooling chỉ cho ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Một loại hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DiffPool học cụm đỉnh thành siêu đỉnh, TopK giữ lại các đỉnh điểm cao nhất; cả hai là pooling phân cấp tạo biểu diễn đồ thị đa mức (coarsening).",
+      "tags": [
+        "readout",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E75-C051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán 'node classification' (phân loại đỉnh) dự đoán cái gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhãn cho từng đỉnh trong đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Có tồn tại cạnh giữa hai đỉnh hay không"
+        },
+        {
+          "key": "C",
+          "text": "Một nhãn duy nhất cho toàn đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số của tất cả các cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân loại đỉnh gán nhãn cho mỗi đỉnh (ví dụ chủ đề bài báo trong Cora), thường ở dạng bán giám sát.",
+      "tags": [
+        "task",
+        "node-classification"
+      ]
+    },
+    {
+      "id": "E75-C052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán 'link prediction' (dự đoán liên kết) nhằm mục tiêu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán khả năng tồn tại cạnh giữa các cặp đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại toàn bộ đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Đếm số đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Tính bậc trung bình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Link prediction ước lượng xác suất có cạnh giữa hai đỉnh, ứng dụng gợi ý kết bạn, gợi ý sản phẩm, hoàn thiện đồ thị tri thức.",
+      "tags": [
+        "task",
+        "link-prediction"
+      ]
+    },
+    {
+      "id": "E75-C053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán 'graph classification' khác node classification ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán một nhãn cho cả đồ thị (ví dụ phân tử độc/không độc) thay vì cho từng đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ phân loại cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Không cần đặc trưng đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho đồ thị có hướng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Graph classification gán nhãn cho toàn bộ một đồ thị (sau readout), ví dụ phân loại phân tử; node classification gán nhãn cho từng đỉnh.",
+      "tags": [
+        "task",
+        "graph-classification"
+      ]
+    },
+    {
+      "id": "E75-C054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân biệt thiết lập transductive và inductive:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transductive: dự đoán trên các đỉnh đã có sẵn trong đồ thị lúc train; Inductive: tổng quát hóa cho đỉnh/đồ thị mới chưa thấy"
+        },
+        {
+          "key": "B",
+          "text": "Transductive luôn nhanh hơn inductive"
+        },
+        {
+          "key": "C",
+          "text": "Inductive chỉ dùng cho ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Hai khái niệm hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transductive học trên một đồ thị cố định và dự đoán nhãn cho đỉnh chưa gán nhãn trong chính đồ thị đó; inductive học hàm tổng quát áp dụng được cho đỉnh/đồ thị mới (như GraphSAGE).",
+      "tags": [
+        "task",
+        "transductive",
+        "inductive"
+      ]
+    },
+    {
+      "id": "E75-C055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cora là tập dữ liệu chuẩn cho bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại đỉnh bán giám sát trên đồ thị trích dẫn (citation network)"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Dịch máy"
+        },
+        {
+          "key": "D",
+          "text": "Nhận dạng giọng nói"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cora là mạng trích dẫn bài báo; nhiệm vụ chuẩn là phân loại đỉnh (chủ đề bài báo) bán giám sát với ít nhãn — benchmark kinh điển cho GCN.",
+      "tags": [
+        "task",
+        "cora"
+      ]
+    },
+    {
+      "id": "E75-C056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong huấn luyện link prediction, vì sao cần 'negative sampling'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tạo các cặp đỉnh KHÔNG có cạnh làm mẫu âm, vì cạnh thực (mẫu dương) thưa thớt"
+        },
+        {
+          "key": "B",
+          "text": "Để xóa các đỉnh thừa"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Để làm đồ thị có hướng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đồ thị thực thường rất thưa: số cặp không-cạnh áp đảo. Negative sampling lấy ngẫu nhiên các cặp không có cạnh làm ví dụ âm, cân bằng với cạnh dương khi huấn luyện.",
+      "tags": [
+        "task",
+        "negative-sampling"
+      ]
+    },
+    {
+      "id": "E75-C057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "DeepWalk sinh embedding đỉnh bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo các bước đi ngẫu nhiên (random walk) trên đồ thị rồi áp dụng skip-gram như xử lý câu văn"
+        },
+        {
+          "key": "B",
+          "text": "Giải hệ phương trình tuyến tính của Laplacian"
+        },
+        {
+          "key": "C",
+          "text": "Dùng tích chập ảnh 2D"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp đỉnh theo bậc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DeepWalk coi mỗi bước đi ngẫu nhiên như một 'câu' gồm các đỉnh, rồi học embedding bằng skip-gram (như word2vec) để các đỉnh hay xuất hiện gần nhau có embedding gần nhau.",
+      "tags": [
+        "embedding",
+        "deepwalk"
+      ]
+    },
+    {
+      "id": "E75-C058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "node2vec mở rộng DeepWalk bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng bước đi ngẫu nhiên có thiên lệch (biased) điều khiển bởi tham số p, q để cân bằng giữa khám phá BFS và DFS"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn random walk"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng đỉnh bậc cao"
+        },
+        {
+          "key": "D",
+          "text": "Thay skip-gram bằng cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "node2vec dùng random walk thiên lệch với hai tham số p (return) và q (in-out) để điều chỉnh mức độ khám phá kiểu BFS (cấu trúc cục bộ) hay DFS (khám phá xa), linh hoạt hơn DeepWalk.",
+      "tags": [
+        "embedding",
+        "node2vec"
+      ]
+    },
+    {
+      "id": "E75-C059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt chính giữa các phương pháp embedding dựa trên random walk (DeepWalk/node2vec) và GNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Random walk học bảng tra cứu embedding (transductive, không dùng đặc trưng đỉnh); GNN học hàm dựa trên đặc trưng và có thể inductive"
+        },
+        {
+          "key": "B",
+          "text": "GNN không dùng đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "DeepWalk cần GPU còn GNN thì không"
+        },
+        {
+          "key": "D",
+          "text": "Hai cách hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DeepWalk/node2vec học một bảng embedding cho từng đỉnh dựa trên cấu trúc đi bộ (không tận dụng đặc trưng, khó tổng quát cho đỉnh mới); GNN học hàm tham số dựa trên đặc trưng đỉnh và có thể inductive.",
+      "tags": [
+        "embedding",
+        "gnn-vs-randomwalk"
+      ]
+    },
+    {
+      "id": "E75-C060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ứng dụng nào sau đây KHÔNG điển hình của GNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán tính chất phân tử/thuốc trong hóa học"
+        },
+        {
+          "key": "B",
+          "text": "Hệ gợi ý dựa trên đồ thị người dùng–sản phẩm"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện gian lận trong mạng giao dịch"
+        },
+        {
+          "key": "D",
+          "text": "Nén ảnh JPEG bằng biến đổi cosine rời rạc"
+        }
+      ],
+      "answer": "D",
+      "explanation": "GNN dùng cho phân tử, hệ gợi ý, phát hiện gian lận, mạng xã hội, đồ thị tri thức, giao thông...; nén ảnh JPEG bằng DCT không liên quan đến đồ thị.",
+      "tags": [
+        "applications"
+      ]
+    },
+    {
+      "id": "E75-C061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong dự đoán tính chất phân tử, đồ thị biểu diễn phân tử như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đỉnh là nguyên tử, cạnh là liên kết hóa học"
+        },
+        {
+          "key": "B",
+          "text": "Đỉnh là pixel, cạnh là màu"
+        },
+        {
+          "key": "C",
+          "text": "Đỉnh là từ, cạnh là khoảng cách câu"
+        },
+        {
+          "key": "D",
+          "text": "Đỉnh là nhãn lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân tử được mô hình hóa tự nhiên thành đồ thị: nguyên tử là đỉnh (đặc trưng như loại nguyên tử), liên kết là cạnh; GNN học dự đoán tính chất/độc tính.",
+      "tags": [
+        "applications",
+        "molecules"
+      ]
+    },
+    {
+      "id": "E75-C062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cluster-GCN cải thiện khả năng mở rộng bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân cụm đồ thị thành các cụm con và huấn luyện theo mini-batch trên từng cụm"
+        },
+        {
+          "key": "B",
+          "text": "Xóa toàn bộ cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Biến đồ thị thành ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số chiều đặc trưng vô hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cluster-GCN dùng thuật toán phân cụm (như METIS) chia đồ thị thành các cụm con dày đặc, rồi train mini-batch trên các cụm, giảm bộ nhớ và tăng tốc trên đồ thị lớn.",
+      "tags": [
+        "scalability",
+        "cluster-gcn"
+      ]
+    },
+    {
+      "id": "E75-C063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt giữa GNN phổ (spectral) và GNN không gian (spatial) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Spectral định nghĩa tích chập qua phổ Laplacian; spatial định nghĩa trực tiếp bằng gộp hàng xóm trong không gian đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Spatial không dùng đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Spectral chỉ chạy trên CPU"
+        },
+        {
+          "key": "D",
+          "text": "Hai cách không liên quan tới tích chập"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GNN phổ dựa trên biến đổi Fourier đồ thị/Laplacian; GNN không gian (message passing) gộp trực tiếp đặc trưng hàng xóm. GCN là cầu nối: xuất phát từ phổ nhưng có dạng cục bộ không gian.",
+      "tags": [
+        "spectral",
+        "spatial"
+      ]
+    },
+    {
+      "id": "E75-C064",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày khái niệm đồ thị KHÔNG ĐỒNG NHẤT (heterogeneous graph): nó khác đồ thị đồng nhất ở điểm nào, cho một ví dụ thực tế, và vì sao cần kiến trúc GNN chuyên biệt để xử lý.",
+      "modelAnswer": "Đồ thị không đồng nhất (heterogeneous graph) chứa NHIỀU LOẠI đỉnh và/hoặc NHIỀU LOẠI cạnh (quan hệ) khác nhau, trái với đồ thị đồng nhất chỉ một loại đỉnh và một loại cạnh. Ví dụ: đồ thị phim ảnh có loại đỉnh 'người dùng', 'phim', 'diễn viên' và các loại quan hệ 'xem', 'đánh giá', 'đóng vai'; hay đồ thị tri thức với nhiều loại thực thể và quan hệ. Cần kiến trúc chuyên biệt vì mỗi loại quan hệ mang ngữ nghĩa khác nhau, nên không thể gộp hàng xóm bằng một bộ trọng số duy nhất. Các mô hình như R-GCN gán ma trận trọng số RIÊNG cho từng loại quan hệ khi gộp; HAN dùng attention theo từng meta-path. Nhờ đó mô hình phân biệt được đóng góp của các loại láng giềng/quan hệ khác nhau, biểu diễn đúng cấu trúc đa dạng của dữ liệu.",
+      "rubric": [
+        "Định nghĩa đúng: nhiều loại đỉnh và/hoặc nhiều loại cạnh",
+        "Cho ví dụ thực tế hợp lý (đồ thị tri thức, người-phim...)",
+        "Giải thích vì sao cần kiến trúc riêng (trọng số theo loại quan hệ, R-GCN/HAN)"
+      ],
+      "tags": [
+        "essay",
+        "heterogeneous"
+      ]
+    },
+    {
+      "id": "E75-C065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị vô hướng 5 đỉnh với cạnh {(0,1),(1,2),(2,3),(3,4),(4,0),(0,2)}. Dùng công thức số cạnh = (tổng bậc)/2, số cạnh của đồ thị bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng bậc = 2×(số cạnh) với đồ thị vô hướng. Đếm trực tiếp có 6 cạnh, và (tổng bậc)/2 cũng cho 6.",
+      "tags": [
+        "computation",
+        "edges",
+        "temporal",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C066",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích vì sao nhiều GNN (như GCN) hoạt động kém trên đồ thị có tính HETEROPHILY (các đỉnh kề thường khác nhãn), và nêu hướng khắc phục.",
+      "modelAnswer": "Nhiều GNN, đặc biệt GCN, ngầm giả định HOMOPHILY: các đỉnh kề nhau thường cùng nhãn, nên việc gộp/làm mượt đặc trưng hàng xóm giúp củng cố tín hiệu lớp. Trên đồ thị HETEROPHILY (hàng xóm hay khác nhãn), phép làm mượt này lại TRỘN LẪN tín hiệu của các lớp khác nhau, làm biểu diễn đỉnh kém phân biệt và độ chính xác giảm — giống như over-smoothing nhưng do bản chất cấu trúc đồ thị. Hướng khắc phục gồm: tách riêng biểu diễn của đỉnh và của hàng xóm (ego- vs neighbor-embedding), gộp thông tin từ nhiều hop và kết hợp có chọn lọc (như H2GCN), dùng cạnh có dấu/trọng số học được, hoặc dùng attention để giảm trọng số các hàng xóm khác nhãn. Mục tiêu là không cưỡng ép giả định homophily mà để mô hình tự học mức độ tương đồng phù hợp với từng cặp đỉnh.",
+      "rubric": [
+        "Nêu GCN giả định homophily",
+        "Giải thích vì sao làm mượt gây hại khi heterophily (trộn lẫn nhãn khác nhau)",
+        "Nêu ít nhất một hướng khắc phục (tách ego/neighbor, đa hop, attention...)"
+      ],
+      "tags": [
+        "essay",
+        "pitfalls",
+        "heterophily"
+      ]
+    },
+    {
+      "id": "E75-C067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị hình sao 4 đỉnh: tâm là đỉnh 0 nối với 1, 2, 3. Sau khi thêm self-loop, d̃_0=4 và d̃_1=2. Giá trị Â[0][1] = 1/√(d̃_0·d̃_1) trong chuẩn hóa GCN bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.4082"
+        },
+        {
+          "key": "C",
+          "text": "0.3536"
+        },
+        {
+          "key": "D",
+          "text": "0.2500"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Â[0][1] = (A+I)[0][1]/√(d̃_0·d̃_1) = 1/√(4·2) = 1/√8 ≈ 0.3536.",
+      "tags": [
+        "computation",
+        "gcn",
+        "normalized-adjacency",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị tri thức (knowledge graph) thường được xử lý bằng GNN biến thể nào để phân biệt loại quan hệ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Relational GCN (R-GCN) với trọng số riêng cho từng loại quan hệ"
+        },
+        {
+          "key": "B",
+          "text": "CNN 2D thông thường"
+        },
+        {
+          "key": "C",
+          "text": "RNN một chiều"
+        },
+        {
+          "key": "D",
+          "text": "K-means"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đồ thị tri thức có nhiều loại quan hệ; R-GCN gán ma trận trọng số riêng cho từng loại quan hệ khi gộp, phù hợp dữ liệu đa quan hệ.",
+      "tags": [
+        "applications",
+        "knowledge-graph"
+      ]
+    },
+    {
+      "id": "E75-C069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi đồ thị quá lớn không vừa bộ nhớ để full-batch GCN, hướng tiếp cận hợp lý là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấy mẫu (neighbor/layer/subgraph sampling) như GraphSAGE, Cluster-GCN, GraphSAINT"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ toàn bộ đặc trưng đỉnh"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển sang dùng một MLP không dùng đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate lên rất lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các phương pháp lấy mẫu hàng xóm/lớp/đồ thị con cho phép huấn luyện mini-batch trên đồ thị khổng lồ, thay vì nạp toàn bộ vào bộ nhớ.",
+      "tags": [
+        "scalability",
+        "sampling"
+      ]
+    },
+    {
+      "id": "E75-C070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị vô hướng có 4 đỉnh và danh sách cạnh {(0,1),(1,2),(2,3),(0,2)}. Số cạnh của đồ thị là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đếm trực tiếp 4 cạnh; cũng bằng tổng bậc chia 2: Σdeg = 2+2+2+2... tính chính xác cho ra 4. Mỗi cạnh đóng góp 2 vào tổng bậc.",
+      "tags": [
+        "computation",
+        "edges",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị vô hướng {(0,1),(1,2),(2,3),(0,2)} với 4 đỉnh. Bậc (degree) của đỉnh 2 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đỉnh 2 nối với các đỉnh 1, 3 và 0, tức 3 cạnh, nên bậc bằng 3 (tổng hàng 2 của ma trận kề).",
+      "tags": [
+        "computation",
+        "degree",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với ma trận kề A của đồ thị vô hướng {(0,1),(1,2),(2,3),(0,2)}, giá trị phần tử A[0][3] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "-1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không có cạnh trực tiếp giữa đỉnh 0 và đỉnh 3, nên A[0][3] = 0.",
+      "tags": [
+        "computation",
+        "adjacency",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận bậc D của đồ thị {(0,1),(1,2),(2,3),(0,2)} là ma trận đường chéo. Giá trị D[1][1] bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "D[1][1] là bậc của đỉnh 1; đỉnh 1 nối với 0 và 2, nên bậc bằng 2.",
+      "tags": [
+        "computation",
+        "degree-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Laplacian L = D − A của đồ thị {(0,1),(1,2),(2,3),(0,2)}. Phần tử trên đường chéo L[2][2] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "-3"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Trên đường chéo, L[i][i] = bậc của đỉnh i (vì A[i][i]=0). Đỉnh 2 có bậc 3 nên L[2][2] = 3.",
+      "tags": [
+        "computation",
+        "laplacian",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với cùng Laplacian L = D − A của đồ thị {(0,1),(1,2),(2,3),(0,2)}, phần tử ngoài đường chéo L[0][1] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-1"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngoài đường chéo, L[i][j] = −A[i][j]. Có cạnh 0–1 nên A[0][1]=1, do đó L[0][1] = −1.",
+      "tags": [
+        "computation",
+        "laplacian",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị CÓ HƯỚNG 4 đỉnh với các cạnh có hướng {0→1, 0→2, 1→2, 3→0}. Bậc RA (out-degree) của đỉnh 0 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Out-degree là tổng hàng của ma trận kề có hướng: đỉnh 0 có hai cạnh đi ra (0→1, 0→2) nên out-degree = 2.",
+      "tags": [
+        "computation",
+        "directed",
+        "degree",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị có hướng {0→1, 0→2, 1→2, 3→0}. Bậc VÀO (in-degree) của đỉnh 2 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "C",
+      "explanation": "In-degree là tổng cột của ma trận kề: đỉnh 2 nhận cạnh từ 0 và 1 (0→2, 1→2) nên in-degree = 2.",
+      "tags": [
+        "computation",
+        "directed",
+        "degree",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị vô hướng {(0,1),(1,2),(0,2),(2,3)}. Số đường đi (walk) độ dài 2 từ đỉnh 0 đến đỉnh 2 bằng (A²)[0][2]. Giá trị đó là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đếm theo (A²)[0][2]: đi 0→1→2 và 0→2→? — cụ thể các đường độ dài 2 từ 0 tới 2 là 0–1–2 (qua đỉnh 1); kết quả tính bằng numpy cho (A²)[0][2].",
+      "tags": [
+        "computation",
+        "walk",
+        "matrix-power",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị {(0,1),(1,2),(0,2),(2,3)}. Giá trị phần tử trên đường chéo (A²)[0][0] bằng bao nhiêu (chính là bậc của đỉnh 0)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(A²)[i][i] = Σ_j A[i][j]² = bậc của đỉnh i (với đồ thị đơn 0/1). Đỉnh 0 nối với 1 và 2 nên bậc 2, do đó (A²)[0][0] = 2.",
+      "tags": [
+        "computation",
+        "walk",
+        "matrix-power",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị {(0,1),(1,2),(0,2),(2,3)}. Số đường đi độ dài 3 từ đỉnh 0 đến đỉnh 3 = (A³)[0][3]. Giá trị là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tính (A³)[0][3] bằng numpy: các đường độ dài 3 từ 0 tới 3 đi qua các đỉnh trung gian; kết quả là giá trị (A³)[0][3].",
+      "tags": [
+        "computation",
+        "walk",
+        "matrix-power",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị đường thẳng 0–1–2 với đặc trưng đỉnh X = [[1,2],[3,0],[5,4]]. Thực hiện một bước gộp trung bình (mean) đặc trưng hàng xóm (không tính chính đỉnh). Thành phần thứ NHẤT của vector kết quả tại đỉnh 1 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đỉnh 1 có hàng xóm là 0 và 2; trung bình đặc trưng chiều 1 = (1 + 5)/2 = 3.",
+      "tags": [
+        "computation",
+        "mean-aggregation",
+        "message-passing",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị 0–1–2 với X = [[1,2],[3,0],[5,4]], một bước gộp trung bình hàng xóm. Thành phần thứ HAI của kết quả tại đỉnh 0 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đỉnh 0 chỉ có một hàng xóm là đỉnh 1; trung bình bằng chính đặc trưng đỉnh 1, chiều 2 = 0.",
+      "tags": [
+        "computation",
+        "mean-aggregation",
+        "message-passing",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị 0–1–2 với X = [[1,2],[3,0],[5,4]]. Nếu dùng gộp TỔNG (sum) đặc trưng hàng xóm, thành phần thứ nhất của kết quả tại đỉnh 1 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đỉnh 1 có hàng xóm 0 và 2; tổng chiều 1 = 1 + 5 = 6.",
+      "tags": [
+        "computation",
+        "sum-aggregation",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đồ thị 0–1–2 với X = [[1,2],[3,0],[5,4]]. Gộp MAX đặc trưng hàng xóm tại đỉnh 1, thành phần thứ hai của kết quả bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đỉnh 1 có hàng xóm 0 (đặc trưng [1,2]) và 2 ([5,4]); max theo chiều 2 = max(2,4) = 4.",
+      "tags": [
+        "computation",
+        "max-aggregation",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tam giác 3 đỉnh {(0,1),(1,2),(0,2)}. Sau khi thêm self-loop (A+I) và chuẩn hóa đối xứng Â = D̃^{-1/2}(A+I)D̃^{-1/2}, mỗi đỉnh có bậc-có-self-loop bằng 3. Giá trị Â[0][1] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.1667"
+        },
+        {
+          "key": "C",
+          "text": "0.3333"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Â[i][j] = (A+I)[i][j] / √(d̃_i · d̃_j). Với cạnh 0–1 và d̃_0=d̃_1=3: Â[0][1] = 1/√(3·3) = 1/3 ≈ 0.3333.",
+      "tags": [
+        "computation",
+        "gcn",
+        "normalized-adjacency",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng tam giác sau chuẩn hóa GCN với Â = D̃^{-1/2}(A+I)D̃^{-1/2} (mỗi đỉnh bậc-có-self-loop bằng 3). Phần tử trên đường chéo Â[0][0] (ứng với self-loop) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3333"
+        },
+        {
+          "key": "B",
+          "text": "0.5774"
+        },
+        {
+          "key": "C",
+          "text": "1.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.1667"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Self-loop làm (A+I)[0][0]=1; Â[0][0] = 1/√(d̃_0·d̃_0) = 1/3 ≈ 0.3333.",
+      "tags": [
+        "computation",
+        "gcn",
+        "self-loop",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị đường thẳng 0–1–2. Sau khi thêm self-loop (A+I), bậc-có-self-loop của đỉnh 1 (tổng hàng của A+I) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đỉnh 1 có 2 hàng xóm (0 và 2) cộng thêm self-loop (+1) nên bậc-có-self-loop = 2 + 1 = 3.",
+      "tags": [
+        "computation",
+        "self-loop",
+        "degree",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng đường thẳng 0–1–2, sau thêm self-loop bậc d̃_0=2, d̃_1=3. Giá trị Â[0][1] = 1/√(d̃_0·d̃_1) bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4082"
+        },
+        {
+          "key": "B",
+          "text": "0.3333"
+        },
+        {
+          "key": "C",
+          "text": "0.5774"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Â[0][1] = (A+I)[0][1]/√(d̃_0·d̃_1) = 1/√(2·3) = 1/√6 ≈ 0.4082.",
+      "tags": [
+        "computation",
+        "gcn",
+        "normalized-adjacency",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị vô hướng {(0,1),(1,2),(2,3),(0,2)}. Ma trận chuyển bước đi ngẫu nhiên chuẩn hóa theo hàng P = D^{-1}A. Vì đỉnh 2 có bậc 3 và kề đỉnh 0, giá trị P[2][0] bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3333"
+        },
+        {
+          "key": "B",
+          "text": "1.0000"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.2500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P[i][j] = A[i][j]/deg(i). Đỉnh 2 bậc 3 và có cạnh tới 0 nên P[2][0] = 1/3 ≈ 0.3333.",
+      "tags": [
+        "computation",
+        "random-walk-normalization",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một lớp GCN có ma trận trọng số W ánh xạ từ in_dim = 16 chiều sang out_dim = 7 chiều (bỏ qua bias). Số tham số của W bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "112"
+        },
+        {
+          "key": "B",
+          "text": "128"
+        },
+        {
+          "key": "C",
+          "text": "23"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số tham số của W = in_dim × out_dim = 16 × 7 = 112 (bias nếu có thêm out_dim, nhưng đề bỏ qua).",
+      "tags": [
+        "computation",
+        "parameters",
+        "gcn",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C091",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một lớp GCN ánh xạ từ in_dim = 32 sang out_dim = 64 (bỏ qua bias). Số tham số của ma trận trọng số W là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "96"
+        },
+        {
+          "key": "B",
+          "text": "2048"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "64"
+        }
+      ],
+      "answer": "B",
+      "explanation": "W có kích thước 32×64 nên số tham số = 32 × 64 = 2048.",
+      "tags": [
+        "computation",
+        "parameters",
+        "gcn",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đồ thị đường thẳng 0–1–2–3–4. Số đỉnh KHÁC chính nó mà đỉnh 0 vươn tới được trong vòng 2 hop (tối đa 2 bước) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong 1 hop từ 0 tới {1}; trong 2 hop thêm {2}. Vậy các đỉnh khác chính nó vươn tới trong ≤2 hop là {1,2}, tổng 2 đỉnh.",
+      "tags": [
+        "computation",
+        "k-hop",
+        "reachability",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E75-C093",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm NumPy build_adjacency(n, edges) trả về ma trận kề n×n cho một đồ thị VÔ HƯỚNG không trọng số, với edges là danh sách các cặp (u, v). Cho ví dụ chạy với n=4, edges=[(0,1),(1,2),(2,3),(0,2)] và nêu ma trận kết quả.",
+      "modelAnswer": "import numpy as np\ndef build_adjacency(n, edges):\n    A = np.zeros((n, n), dtype=float)\n    for u, v in edges:\n        A[u, v] = 1\n        A[v, u] = 1   # vô hướng nên đối xứng\n    return A\n\nA = build_adjacency(4, [(0,1),(1,2),(2,3),(0,2)])\n# Kết quả A =\n# [[0 1 1 0]\n#  [1 0 1 0]\n#  [1 1 0 1]\n#  [0 0 1 0]]\nMa trận đối xứng, A[i][j]=1 nếu có cạnh i–j. Bậc mỗi đỉnh = tổng hàng: deg=[2,2,3,1].",
+      "rubric": [
+        "Khởi tạo ma trận 0 kích thước n×n đúng",
+        "Đặt cả A[u][v] và A[v][u] = 1 để đảm bảo đối xứng (vô hướng)",
+        "Trả về ma trận đúng và nêu được kết quả ví dụ (đối xứng, bậc tổng hàng)"
+      ],
+      "tags": [
+        "code",
+        "numpy",
+        "adjacency"
+      ]
+    },
+    {
+      "id": "E75-C094",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết đoạn NumPy tính vector BẬC (degree) của tất cả các đỉnh từ ma trận kề A của đồ thị vô hướng, rồi tạo ma trận bậc D (đường chéo). Minh họa với A của đồ thị {(0,1),(1,2),(2,3),(0,2)} (4 đỉnh) và cho kết quả.",
+      "modelAnswer": "import numpy as np\ndef degree_and_D(A):\n    deg = A.sum(axis=1)        # tổng mỗi hàng = bậc đỉnh\n    D = np.diag(deg)           # ma trận đường chéo bậc\n    return deg, D\n\nA = np.array([[0,1,1,0],[1,0,1,0],[1,1,0,1],[0,0,1,0]], dtype=float)\ndeg, D = degree_and_D(A)\n# deg = [2., 2., 3., 1.]\n# D = diag(2,2,3,1)\nBậc đỉnh i là tổng hàng i; đỉnh 2 có bậc 3 vì nối với 0,1,3.",
+      "rubric": [
+        "Tính deg = A.sum(axis=1) đúng (tổng theo hàng)",
+        "Tạo D bằng np.diag(deg) đúng dạng đường chéo",
+        "Đưa kết quả số đúng cho ví dụ (deg=[2,2,3,1])"
+      ],
+      "tags": [
+        "code",
+        "numpy",
+        "degree"
+      ]
+    },
+    {
+      "id": "E75-C095",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm NumPy thực hiện MỘT bước gộp trung bình (mean aggregation) đặc trưng hàng xóm: mean_aggregate(A, X) trả về ma trận trong đó hàng i là trung bình đặc trưng của các hàng xóm của đỉnh i. Minh họa với đồ thị 0–1–2 và X=[[1,2],[3,0],[5,4]], nêu kết quả.",
+      "modelAnswer": "import numpy as np\ndef mean_aggregate(A, X):\n    deg = A.sum(axis=1, keepdims=True)   # số hàng xóm\n    deg[deg == 0] = 1                    # tránh chia 0\n    return (A @ X) / deg                 # tổng hàng xóm / số hàng xóm\n\nA = np.array([[0,1,0],[1,0,1],[0,1,0]], dtype=float)\nX = np.array([[1,2],[3,0],[5,4]], dtype=float)\nH = mean_aggregate(A, X)\n# H = [[3., 0.],     # đỉnh 0 chỉ kề 1 -> đặc trưng đỉnh 1\n#      [3., 3.],     # đỉnh 1 kề 0 và 2 -> trung bình ([1,2],[5,4]) = [3,3]\n#      [3., 0.]]     # đỉnh 2 chỉ kề 1\nA@X gộp tổng hàng xóm, chia deg cho ra trung bình; đây là 1 bước message passing.",
+      "rubric": [
+        "Dùng A @ X để gộp tổng đặc trưng hàng xóm",
+        "Chia cho bậc (số hàng xóm) và xử lý chia 0",
+        "Nêu kết quả số đúng cho ví dụ (hàng đỉnh 1 = [3,3])"
+      ],
+      "tags": [
+        "code",
+        "numpy",
+        "mean-aggregation",
+        "message-passing"
+      ]
+    },
+    {
+      "id": "E75-C096",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết đoạn NumPy tính ma trận kề chuẩn hóa của GCN: Â = D̃^{-1/2}(A+I)D̃^{-1/2}, trong đó thêm self-loop rồi chuẩn hóa đối xứng. Minh họa với tam giác {(0,1),(1,2),(0,2)} và nêu một vài giá trị kết quả.",
+      "modelAnswer": "import numpy as np\ndef gcn_norm(A):\n    n = A.shape[0]\n    A_tilde = A + np.eye(n)              # thêm self-loop\n    deg = A_tilde.sum(axis=1)            # bậc có self-loop\n    Dinv = np.diag(1.0/np.sqrt(deg))    # D̃^{-1/2}\n    return Dinv @ A_tilde @ Dinv        # chuẩn hóa đối xứng\n\nA = np.array([[0,1,1],[1,0,1],[1,1,0]], dtype=float)\nAhat = gcn_norm(A)\n# Mỗi đỉnh bậc-có-self-loop = 3, nên mọi phần tử khác 0 đều = 1/3 ≈ 0.3333\n# Ahat[0][1] = 1/sqrt(3*3) = 0.3333; Ahat[0][0] = 0.3333 (self-loop)\nChuẩn hóa giúp cân bằng theo bậc và ổn định khi xếp nhiều lớp.",
+      "rubric": [
+        "Thêm self-loop A+I đúng",
+        "Tính D̃^{-1/2} và nhân hai phía Dinv @ A_tilde @ Dinv",
+        "Nêu giá trị số đúng cho ví dụ (1/3 ≈ 0.3333)"
+      ],
+      "tags": [
+        "code",
+        "numpy",
+        "gcn",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E75-C097",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích khung MESSAGE PASSING tổng quát của GNN gồm hai bước AGGREGATE và UPDATE (và tuỳ chọn READOUT). Nêu vai trò mỗi bước và vì sao hàm AGGREGATE phải đối xứng.",
+      "modelAnswer": "Khung message passing (MPNN) lặp qua mỗi lớp gồm hai bước. (1) AGGREGATE: với mỗi đỉnh v, thu thập 'thông điệp' từ các hàng xóm u∈N(v) (dựa trên biểu diễn h_u, có thể kèm đặc trưng cạnh) và gộp chúng bằng một hàm đối xứng như sum/mean/max thành m_v. (2) UPDATE: kết hợp biểu diễn cũ h_v với thông điệp gộp m_v qua một hàm học được (thường MLP + phi tuyến) để ra biểu diễn mới h_v'. Sau K lớp, mỗi đỉnh tổng hợp thông tin lân cận K-hop. Với bài toán cấp đồ thị, thêm bước READOUT gộp toàn bộ biểu diễn đỉnh thành vector đồ thị (cũng bằng phép đối xứng). AGGREGATE phải đối xứng (không phụ thuộc thứ tự hàng xóm) vì tập hàng xóm không có thứ tự chuẩn; nhờ vậy lớp có tính tương đương hoán vị và mô hình bất biến với cách đánh số đỉnh.",
+      "rubric": [
+        "Mô tả đúng AGGREGATE: gộp thông điệp hàng xóm bằng hàm đối xứng",
+        "Mô tả đúng UPDATE: kết hợp biểu diễn cũ với thông điệp gộp",
+        "Giải thích vì sao AGGREGATE phải đối xứng (bất biến/tương đương hoán vị)",
+        "Nhắc tới READOUT và phạm vi K-hop sau K lớp"
+      ],
+      "tags": [
+        "essay",
+        "message-passing",
+        "mpnn"
+      ]
+    },
+    {
+      "id": "E75-C098",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày hiện tượng OVER-SMOOTHING trong GNN sâu: nó là gì, vì sao xảy ra khi tăng số lớp, và nêu ít nhất hai biện pháp giảm thiểu.",
+      "modelAnswer": "Over-smoothing là hiện tượng khi xếp quá nhiều lớp GNN, biểu diễn của các đỉnh dần trở nên giống nhau và mất khả năng phân biệt. Nguyên nhân: mỗi lớp gộp hàng xóm tương tự một bước làm mượt/lan tỏa (theo Laplacian); lặp lại nhiều lần khiến tín hiệu hội tụ về trạng thái dừng đồng nhất trong mỗi thành phần liên thông (giống quá trình trung bình lặp). Hậu quả là các đỉnh khác lớp cũng có embedding gần nhau, làm giảm độ chính xác phân loại đỉnh. Biện pháp giảm thiểu gồm: (1) kết nối tắt residual/skip để giữ thông tin lớp trước; (2) Jumping Knowledge gộp biểu diễn từ nhiều lớp; (3) chuẩn hóa như PairNorm/normalization; (4) DropEdge (bỏ ngẫu nhiên cạnh); (5) giới hạn số lớp ở mức vừa phải. Các kỹ thuật này giúp giữ sự đa dạng giữa các đỉnh khi mô hình sâu hơn.",
+      "rubric": [
+        "Định nghĩa đúng over-smoothing (biểu diễn đỉnh hội tụ giống nhau)",
+        "Giải thích cơ chế: gộp lặp ~ làm mượt/lan tỏa theo Laplacian dẫn tới đồng nhất",
+        "Nêu ít nhất hai biện pháp giảm thiểu hợp lý (residual, JK, PairNorm, DropEdge...)"
+      ],
+      "tags": [
+        "essay",
+        "over-smoothing",
+        "depth"
+      ]
+    },
+    {
+      "id": "E75-C099",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "So sánh ba kiến trúc GCN, GraphSAGE và GAT về: (a) cách gộp hàng xóm, (b) tính transductive/inductive, (c) khả năng mở rộng. Nêu điểm mạnh đặc trưng của mỗi loại.",
+      "modelAnswer": "(a) Cách gộp: GCN gộp hàng xóm với trọng số CỐ ĐỊNH phụ thuộc bậc qua chuẩn hóa đối xứng Â=D^{-1/2}(A+I)D^{-1/2}; GraphSAGE LẤY MẪU một số hàng xóm rồi gộp bằng aggregator học được (mean/pool/LSTM) và nối với biểu diễn đỉnh; GAT học TRỌNG SỐ CHÚ Ý (attention) α cho từng hàng xóm qua softmax, có thể multi-head. (b) GCN gốc thường transductive (cần toàn đồ thị cố định); GraphSAGE thiết kế inductive (sinh embedding cho đỉnh/đồ thị mới nhờ học hàm gộp); GAT cũng có thể inductive vì attention dựa trên đặc trưng. (c) Mở rộng: GCN full-batch khó với đồ thị lớn; GraphSAGE lấy mẫu hàng xóm nên huấn luyện mini-batch và mở rộng tốt; GAT tốn hơn do tính attention nhưng vẫn cục bộ. Điểm mạnh: GCN đơn giản, hiệu quả, nền tảng; GraphSAGE inductive và mở rộng cho đồ thị lớn; GAT linh hoạt vì gán trọng số hàng xóm theo nội dung, tốt khi các hàng xóm quan trọng khác nhau.",
+      "rubric": [
+        "So sánh cách gộp: GCN cố định theo bậc, GraphSAGE sample+aggregator, GAT attention",
+        "Nêu đúng transductive (GCN) vs inductive (GraphSAGE/GAT)",
+        "Nêu khả năng mở rộng (GraphSAGE sampling tốt cho đồ thị lớn)",
+        "Nêu điểm mạnh đặc trưng của mỗi kiến trúc"
+      ],
+      "tags": [
+        "essay",
+        "gcn",
+        "graphsage",
+        "gat"
+      ]
+    },
+    {
+      "id": "E75-C100",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích vì sao các mạng nơ-ron tiêu chuẩn (CNN/RNN/MLP) không xử lý trực tiếp được đồ thị, và GNN khắc phục những vấn đề đó như thế nào. Liên hệ tới tính bất biến/tương đương hoán vị.",
+      "modelAnswer": "Dữ liệu đồ thị có cấu trúc bất quy tắc: số đỉnh thay đổi, mỗi đỉnh có số hàng xóm khác nhau và KHÔNG có thứ tự đỉnh chuẩn. CNN giả định lưới đều với lân cận cố định theo vị trí (Euclidean), RNN giả định chuỗi có thứ tự, MLP cần vector đầu vào kích thước/thứ tự cố định — đều không khớp với đồ thị. Quan trọng hơn, nếu ép xếp đỉnh thành vector theo một thứ tự, việc hoán vị thứ tự đó tạo đầu vào khác nhưng mô tả CÙNG một đồ thị; mạng tiêu chuẩn không bất biến hoán vị nên sẽ học sai. GNN khắc phục bằng cơ chế message passing cục bộ: mỗi đỉnh gộp thông tin hàng xóm bằng hàm ĐỐI XỨNG (sum/mean/max), nên lớp có tính TƯƠNG ĐƯƠNG hoán vị (đổi thứ tự đỉnh thì đầu ra đổi thứ tự tương ứng) và dự đoán cấp đồ thị sau readout có tính BẤT BIẾN hoán vị. Nhờ chia sẻ tham số trên mọi đỉnh và làm việc trực tiếp trên cấu trúc kề, GNN xử lý được đồ thị kích thước thay đổi mà tôn trọng cấu trúc kết nối.",
+      "rubric": [
+        "Nêu đặc tính đồ thị gây khó: bất quy tắc, kích thước thay đổi, không có thứ tự cố định",
+        "Giải thích vì sao CNN/RNN/MLP không phù hợp (lưới đều/chuỗi/vector cố định)",
+        "Liên hệ tới hoán vị: mạng tiêu chuẩn không bất biến hoán vị",
+        "Nêu GNN dùng gộp đối xứng để đạt bất biến/tương đương hoán vị"
+      ],
+      "tags": [
+        "essay",
+        "motivation",
+        "permutation"
+      ]
+    }
+  ]
+}

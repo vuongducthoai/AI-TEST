@@ -1,0 +1,3021 @@
+{
+  "id": "exam-66",
+  "title": "NumPy — Đề luyện chuyên sâu (100 câu)",
+  "description": "Đề luyện tập chuyên sâu gồm 100 câu hỏi bao quát toàn bộ NumPy: tạo mảng, kiểu dữ liệu và tràn số, reshape/transpose, các kiểu lập chỉ mục, broadcasting, ufunc, tổng hợp theo trục, so sánh và logic, sắp xếp, phép tập hợp, ghép/tách mảng, đại số tuyến tính, xử lý NaN/Inf, số ngẫu nhiên, einsum, histogram, view và bản sao. Phần lớn câu hỏi dạng đọc-đoán-kết-quả được kiểm chứng bằng cách chạy thật mã NumPy, kèm 12 câu lập trình ngắn có lời giải mẫu và đầu ra thực tế. Thời lượng 110 phút, thang 100 điểm.",
+  "durationMinutes": 110,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E66-B001",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lệnh nào tạo mảng [0, 2, 4, 6, 8] trong NumPy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "np.arange(0, 10, 2)"
+        },
+        {
+          "key": "B",
+          "text": "np.arange(0, 8, 2)"
+        },
+        {
+          "key": "C",
+          "text": "np.linspace(0, 8, 2)"
+        },
+        {
+          "key": "D",
+          "text": "np.arange(0, 10, 5)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.arange(0,10,2) sinh các số từ 0 đến dưới 10 với bước 2: 0,2,4,6,8. Tham số stop là loại trừ.",
+      "tags": [
+        "creation",
+        "arange"
+      ]
+    },
+    {
+      "id": "E66-B002",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.arange(2, 11, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 2  4  6  8 10]"
+        },
+        {
+          "key": "B",
+          "text": "[2 4 6 8]"
+        },
+        {
+          "key": "C",
+          "text": "[ 2  5  8 11]"
+        },
+        {
+          "key": "D",
+          "text": "[ 3  6  9 12]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "arange(2,11,2) đi từ 2, bước 2, dừng trước 11 → 2,4,6,8,10.",
+      "tags": [
+        "numpy",
+        "arange"
+      ]
+    },
+    {
+      "id": "E66-B003",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "np.eye(3) và np.identity(3) khác nhau cơ bản ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "np.eye có thể tạo ma trận chữ nhật và dịch đường chéo bằng tham số k, còn np.identity luôn vuông và đường chéo chính"
+        },
+        {
+          "key": "B",
+          "text": "Hai hàm hoàn toàn giống nhau về mọi tham số"
+        },
+        {
+          "key": "C",
+          "text": "np.identity tạo ma trận toàn số 1, np.eye tạo ma trận đơn vị"
+        },
+        {
+          "key": "D",
+          "text": "np.eye chỉ tạo ma trận 2x2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.eye(N, M, k) linh hoạt hơn: cho phép số hàng khác cột và dịch đường chéo qua k; np.identity chỉ tạo ma trận đơn vị vuông.",
+      "tags": [
+        "creation",
+        "eye",
+        "identity"
+      ]
+    },
+    {
+      "id": "E66-B004",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "np.full((2,2), 7) tạo ra mảng như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ma trận 2x2 mà mọi phần tử bằng 7"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận 2x2 toàn số 0"
+        },
+        {
+          "key": "C",
+          "text": "Mảng 1 chiều [7,7]"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận 7x7 toàn số 2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.full(shape, fill_value) tạo mảng với hình dạng cho trước và điền toàn bộ bằng giá trị 7.",
+      "tags": [
+        "creation",
+        "full"
+      ]
+    },
+    {
+      "id": "E66-B005",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đặc điểm của np.empty((2,3)) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cấp phát bộ nhớ nhưng KHÔNG khởi tạo giá trị nên các phần tử là rác (không xác định)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn trả về mảng toàn số 0"
+        },
+        {
+          "key": "C",
+          "text": "Luôn trả về mảng toàn số 1"
+        },
+        {
+          "key": "D",
+          "text": "Báo lỗi vì thiếu giá trị khởi tạo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.empty chỉ cấp phát vùng nhớ mà không gán giá trị, do đó nội dung là bất kỳ giá trị nào còn sót trong bộ nhớ.",
+      "tags": [
+        "creation",
+        "empty"
+      ]
+    },
+    {
+      "id": "E66-B006",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "np.fromfunction(lambda i, j: i + j, (2, 2), dtype=int) cho kết quả nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 1], [1, 2]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 0], [0, 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1, 2], [3, 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 1], [2, 3]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "fromfunction gọi hàm với các mảng chỉ số i, j; tại (0,0)=0, (0,1)=1, (1,0)=1, (1,1)=2.",
+      "tags": [
+        "creation",
+        "fromfunction"
+      ]
+    },
+    {
+      "id": "E66-B007",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2, 3)\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 1 2]\n [3 4 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 1 2 3 4 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3]\n [4 5 6]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0 3]\n [1 4]\n [2 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "arange(6) tạo [0..5], reshape(2,3) sắp theo thứ tự C (theo hàng) thành 2 hàng 3 cột.",
+      "tags": [
+        "creation",
+        "reshape",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B008",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([100, 50], dtype=np.int8)\nprint(x + np.int8(50))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-106  100]"
+        },
+        {
+          "key": "B",
+          "text": "[150 100]"
+        },
+        {
+          "key": "C",
+          "text": "[127 100]"
+        },
+        {
+          "key": "D",
+          "text": "[100  50]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "int8 có miền [-128,127]. 100+50=150 vượt ngưỡng nên tràn số bù hai: 150-256=-106; 50+50=100.",
+      "tags": [
+        "dtype",
+        "overflow",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B009",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.7, 2.9, -1.5])\nprint(a.astype(np.int32))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  2 -1]"
+        },
+        {
+          "key": "B",
+          "text": "[ 2  3 -2]"
+        },
+        {
+          "key": "C",
+          "text": "[ 1  2 -2]"
+        },
+        {
+          "key": "D",
+          "text": "[ 2  3 -1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "astype về số nguyên cắt phần thập phân về 0 (truncate, không làm tròn): 1.7->1, 2.9->2, -1.5->-1.",
+      "tags": [
+        "dtype",
+        "casting",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B010",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kết quả dtype của np.array([1, 2, 3]) + np.array([1.0]) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "float64"
+        },
+        {
+          "key": "B",
+          "text": "int64"
+        },
+        {
+          "key": "C",
+          "text": "int32"
+        },
+        {
+          "key": "D",
+          "text": "object"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy tắc type promotion: kết hợp số nguyên với số thực sẽ nâng kiểu lên float64.",
+      "tags": [
+        "dtype",
+        "promotion"
+      ]
+    },
+    {
+      "id": "E66-B011",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([255, 1], dtype=np.uint8)\nprint(x + x)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[254   2]"
+        },
+        {
+          "key": "B",
+          "text": "[510   2]"
+        },
+        {
+          "key": "C",
+          "text": "[255   2]"
+        },
+        {
+          "key": "D",
+          "text": "[0 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "uint8 miền [0,255]. 255+255=510 tràn vòng: 510 mod 256 = 254; 1+1=2.",
+      "tags": [
+        "dtype",
+        "overflow",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B012",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(8).reshape(2, 4)\nprint(a.reshape(-1, 2).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(8, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng 8 phần tử, cố định 2 cột, -1 tự suy ra 4 hàng nên hình dạng là (4,2).",
+      "tags": [
+        "reshape",
+        "shape",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B013",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(a.ravel())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1 3 2 4]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ravel trải phẳng theo thứ tự C (theo hàng) cho mảng 1 chiều [1 2 3 4].",
+      "tags": [
+        "ravel",
+        "flatten",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B014",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.zeros((1, 3, 1))\nprint(np.squeeze(a).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3,)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 3, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(1, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "squeeze loại bỏ mọi chiều có kích thước 1, chỉ còn lại chiều kích thước 3 nên shape là (3,).",
+      "tags": [
+        "squeeze",
+        "shape",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B015",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(a[:, np.newaxis].shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(3,)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.newaxis thêm một chiều mới; a[:, np.newaxis] biến vector (3,) thành cột (3,1).",
+      "tags": [
+        "newaxis",
+        "expand_dims",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B017",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6).reshape(2, 3)\nprint(a.T.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(6,)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị .T đảo thứ tự các trục, biến ma trận (2,3) thành (3,2).",
+      "tags": [
+        "transpose",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B018",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.zeros((2, 3, 4))\nprint(np.swapaxes(a, 0, 2).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 3, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 3, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 2, 4)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 2, 3)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "swapaxes(a,0,2) hoán đổi trục 0 và trục 2: từ (2,3,4) thành (4,3,2).",
+      "tags": [
+        "swapaxes",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B020",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(10)\nprint(a[2:8:2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 4 6]"
+        },
+        {
+          "key": "B",
+          "text": "[2 4 6 8]"
+        },
+        {
+          "key": "C",
+          "text": "[2 3 4 5 6 7]"
+        },
+        {
+          "key": "D",
+          "text": "[3 5 7]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lát cắt start=2, stop=8 (loại trừ), step=2 cho các chỉ số 2,4,6.",
+      "tags": [
+        "indexing",
+        "slice",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B021",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nprint(a[-2:])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[4]"
+        },
+        {
+          "key": "C",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "D",
+          "text": "[3 4 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ số âm -2 đếm từ cuối; a[-2:] lấy hai phần tử cuối là 3 và 4.",
+      "tags": [
+        "indexing",
+        "negative",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([10, 20, 30, 40, 50])\nidx = [0, 2, 4]\nprint(a[idx])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10 30 50]"
+        },
+        {
+          "key": "B",
+          "text": "[10 20 30]"
+        },
+        {
+          "key": "C",
+          "text": "[20 40]"
+        },
+        {
+          "key": "D",
+          "text": "[10 30 40]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fancy indexing dùng danh sách chỉ số [0,2,4] lấy các phần tử tương ứng 10,30,50.",
+      "tags": [
+        "indexing",
+        "fancy",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B023",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, -2, 3, -4, 5])\nprint(a[a > 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3 5]"
+        },
+        {
+          "key": "B",
+          "text": "[-2 -4]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4 5]"
+        },
+        {
+          "key": "D",
+          "text": "[ True False  True False  True]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Boolean indexing a>0 tạo mặt nạ [T,F,T,F,T], chọn ra các phần tử dương 1,3,5.",
+      "tags": [
+        "indexing",
+        "boolean",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B024",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(9).reshape(3, 3)\nrows = np.array([0, 2])\ncols = np.array([1, 2])\nprint(a[np.ix_(rows, cols)])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 2]\n [7 8]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 1]\n [6 7]]"
+        },
+        {
+          "key": "C",
+          "text": "[1 8]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2]\n [4 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.ix_ tạo lưới giao của hàng {0,2} và cột {1,2}, lấy submatrix [[1,2],[7,8]].",
+      "tags": [
+        "indexing",
+        "ix_",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B025",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([5, 6, 7, 8])\nprint(np.take(a, [3, 0, 1]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[8 5 6]"
+        },
+        {
+          "key": "B",
+          "text": "[5 6 7]"
+        },
+        {
+          "key": "C",
+          "text": "[7 5 6]"
+        },
+        {
+          "key": "D",
+          "text": "[8 7 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.take lấy phần tử theo chỉ số [3,0,1] tương ứng giá trị 8,5,6.",
+      "tags": [
+        "indexing",
+        "take",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B026",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2, 3], [4, 5, 6]])\nidx = np.array([[0, 2, 1], [2, 0, 1]])\nprint(np.take_along_axis(a, idx, axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 3 2]\n [6 4 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 2 3]\n [4 5 6]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3 1 2]\n [4 6 5]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 3 2]\n [4 6 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "take_along_axis lấy theo từng hàng: hàng 0 chỉ số [0,2,1]->[1,3,2]; hàng 1 chỉ số [2,0,1]->[6,4,5].",
+      "tags": [
+        "indexing",
+        "take_along_axis",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B027",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nnp.put(a, [0, 4], [99, 88])\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[99  1  2  3 88]"
+        },
+        {
+          "key": "B",
+          "text": "[88  1  2  3 99]"
+        },
+        {
+          "key": "C",
+          "text": "[99 88  2  3  4]"
+        },
+        {
+          "key": "D",
+          "text": "[ 0  1  2 99 88]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.put gán tại các chỉ số phẳng [0,4] các giá trị [99,88], biến mảng thành [99,1,2,3,88].",
+      "tags": [
+        "indexing",
+        "put",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B028",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai mảng hình dạng (3, 1) và (1, 4) khi cộng với nhau cho kết quả hình dạng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 4)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(1, 4)"
+        },
+        {
+          "key": "D",
+          "text": "Báo lỗi không broadcast được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Broadcasting căn theo từng chiều: (3,1) và (1,4) mở rộng thành (3,4).",
+      "tags": [
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E66-B029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([[10], [20]])\nprint(a + b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[11 12 13]\n [21 22 23]]"
+        },
+        {
+          "key": "B",
+          "text": "[[11 22 33]\n [11 22 33]]"
+        },
+        {
+          "key": "C",
+          "text": "[[11 12 13]]"
+        },
+        {
+          "key": "D",
+          "text": "[[10 20 30]\n [20 40 60]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a có shape (3,), b có shape (2,1); broadcast thành (2,3): mỗi hàng cộng 10 và 20.",
+      "tags": [
+        "broadcasting",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B031",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(a.sum(axis=1, keepdims=True))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3]\n [7]]"
+        },
+        {
+          "key": "B",
+          "text": "[3 7]"
+        },
+        {
+          "key": "C",
+          "text": "[[4 6]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3 7]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sum(axis=1) cộng theo cột trong mỗi hàng (3 và 7); keepdims=True giữ chiều thành cột (2,1).",
+      "tags": [
+        "broadcasting",
+        "keepdims",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([7, 8, 9])\nprint(a % 3)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2 0 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1 0 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép chia lấy dư từng phần tử: 7%3=1, 8%3=2, 9%3=0.",
+      "tags": [
+        "ufunc",
+        "mod",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B033",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.power(a, 3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  8 27]"
+        },
+        {
+          "key": "B",
+          "text": "[1 4 9]"
+        },
+        {
+          "key": "C",
+          "text": "[ 3  6  9]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1  6 27]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.power(a,3) lũy thừa bậc 3 từng phần tử: 1,8,27.",
+      "tags": [
+        "ufunc",
+        "power",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B034",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([-2.0, 0.0, 3.0])\nprint(np.sign(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1.  0.  1.]"
+        },
+        {
+          "key": "B",
+          "text": "[-2.  0.  3.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 0. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[-1.  1.  1.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.sign trả -1 cho số âm, 0 cho 0, 1 cho số dương.",
+      "tags": [
+        "ufunc",
+        "sign",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B035",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([0.5, 2.5, -1.5])\nprint(np.round(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 0.  2. -2.]"
+        },
+        {
+          "key": "B",
+          "text": "[ 1.  3. -2.]"
+        },
+        {
+          "key": "C",
+          "text": "[ 0.  3. -1.]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1.  2. -1.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.round dùng quy tắc làm tròn ngân hàng (về số chẵn gần nhất): 0.5->0, 2.5->2, -1.5->-2.",
+      "tags": [
+        "ufunc",
+        "round",
+        "banker",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B037",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.0, 4.0, 9.0])\nprint(np.sqrt(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 2. 3.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 4. 9.]"
+        },
+        {
+          "key": "C",
+          "text": "[ 1.  8. 18.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 2. 4.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.sqrt lấy căn bậc hai từng phần tử: 1,2,3.",
+      "tags": [
+        "ufunc",
+        "sqrt",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B038",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2, 3], [4, 5, 6]])\nprint(a.sum(axis=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5 7 9]"
+        },
+        {
+          "key": "B",
+          "text": "[ 6 15]"
+        },
+        {
+          "key": "C",
+          "text": "[5 7]"
+        },
+        {
+          "key": "D",
+          "text": "[21]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sum(axis=0) cộng dồn theo các hàng (gộp trục 0): cột1=1+4=5, cột2=2+5=7, cột3=3+6=9.",
+      "tags": [
+        "aggregation",
+        "sum",
+        "axis",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 4, 1, 5])\nprint(np.argmax(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argmax trả về chỉ số (không phải giá trị) của phần tử lớn nhất; giá trị 5 ở vị trí 4.",
+      "tags": [
+        "aggregation",
+        "argmax",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B040",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 4, 1, 5])\nprint(np.argmin(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argmin trả chỉ số phần tử nhỏ nhất; giá trị nhỏ nhất 1 xuất hiện đầu tiên ở chỉ số 1.",
+      "tags": [
+        "aggregation",
+        "argmin",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B041",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nprint(np.cumsum(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  3  6 10]"
+        },
+        {
+          "key": "B",
+          "text": "[ 1  2  6 24]"
+        },
+        {
+          "key": "C",
+          "text": "[1 3 5 7]"
+        },
+        {
+          "key": "D",
+          "text": "[10  6  3  1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cumsum cộng dồn lũy tiến: 1, 1+2=3, +3=6, +4=10.",
+      "tags": [
+        "aggregation",
+        "cumsum",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B042",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nprint(np.cumprod(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1  2  6 24]"
+        },
+        {
+          "key": "B",
+          "text": "[ 1  3  6 10]"
+        },
+        {
+          "key": "C",
+          "text": "[ 1  2  3  4]"
+        },
+        {
+          "key": "D",
+          "text": "[24  6  2  1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "cumprod nhân dồn lũy tiến: 1, 1*2=2, *3=6, *4=24.",
+      "tags": [
+        "aggregation",
+        "cumprod",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B043",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nprint(round(float(np.std(a)), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.118"
+        },
+        {
+          "key": "B",
+          "text": "1.291"
+        },
+        {
+          "key": "C",
+          "text": "1.25"
+        },
+        {
+          "key": "D",
+          "text": "2.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.std mặc định ddof=0 (chia N): phương sai=1.25, độ lệch chuẩn=sqrt(1.25)=1.118.",
+      "tags": [
+        "aggregation",
+        "std",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B044",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 3, 5, 7])\nprint(np.median(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "4.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung vị của số chẵn phần tử là trung bình hai giá trị giữa: (3+5)/2=4.0.",
+      "tags": [
+        "aggregation",
+        "median",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 5, 2, 8])\nprint(np.where(a > 3, a, 0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 5 0 8]"
+        },
+        {
+          "key": "B",
+          "text": "[1 0 2 0]"
+        },
+        {
+          "key": "C",
+          "text": "[1 5 2 8]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 0 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.where(cond, x, y) chọn a nơi a>3, ngược lại 0: chỉ giữ 5 và 8.",
+      "tags": [
+        "logic",
+        "where",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([2, 4, 6])\nprint(np.all(a % 2 == 0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "[ True  True  True]"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mọi phần tử đều chẵn nên np.all trả về True (kiểu bool vô hướng).",
+      "tags": [
+        "logic",
+        "all",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B048",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.allclose([1.0, 2.0], [1.0, 2.0 + 1e-9]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "[ True  True]"
+        },
+        {
+          "key": "D",
+          "text": "1e-09"
+        }
+      ],
+      "answer": "A",
+      "explanation": "allclose so sánh trong dung sai mặc định (atol=1e-8, rtol=1e-5); chênh 1e-9 nằm trong ngưỡng nên True.",
+      "tags": [
+        "logic",
+        "allclose",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B050",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 2])\nprint(np.argsort(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 0]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2 1 0]"
+        },
+        {
+          "key": "D",
+          "text": "[1 0 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort trả về chỉ số sắp xếp tăng dần: nhỏ nhất 1 ở vị trí 1, kế 2 ở vị trí 2, lớn nhất 3 ở vị trí 0.",
+      "tags": [
+        "sort",
+        "argsort",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B051",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[3, 1], [2, 5]])\nprint(np.sort(a, axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 3]\n [2 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[3 1]\n [2 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[2 1]\n [3 5]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2]\n [3 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort(axis=1) sắp xếp tăng dần trong từng hàng: [3,1]->[1,3], [2,5]->[2,5].",
+      "tags": [
+        "sort",
+        "axis",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B052",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([5, 2, 8, 1, 9, 3])\nprint(np.partition(a, 2)[2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "partition đảm bảo phần tử ở vị trí k=2 đúng như khi đã sắp xếp; giá trị nhỏ thứ ba của mảng là 3.",
+      "tags": [
+        "sort",
+        "partition",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B053",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 3, 5, 7, 9])\nprint(np.searchsorted(a, 6))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "searchsorted tìm vị trí chèn 6 để giữ mảng tăng dần; 6 nằm giữa 5 (chỉ số 2) và 7 (chỉ số 3) nên trả 3.",
+      "tags": [
+        "sort",
+        "searchsorted",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B054",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 1, 2, 2])\nb = np.array([4, 3, 2, 1])\nprint(np.lexsort((b, a)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 0 3 2]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[3 2 1 0]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 3 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "lexsort sắp theo khóa cuối (a) trước, rồi b làm khóa phụ; với a=[1,1,2,2], b=[4,3,2,1] thứ tự chỉ số là 1,0,3,2.",
+      "tags": [
+        "sort",
+        "lexsort",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B055",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 1, 2, 3, 1])\nprint(np.unique(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[3 1 2 3 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1 1 2 3 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.unique trả về các giá trị khác nhau đã được sắp xếp tăng dần: 1,2,3.",
+      "tags": [
+        "setops",
+        "unique",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B056",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([3, 4, 5, 6])\nprint(np.intersect1d(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 5 6]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4 5 6]"
+        },
+        {
+          "key": "D",
+          "text": "[5 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "intersect1d trả phần giao chung của hai mảng: 3 và 4.",
+      "tags": [
+        "setops",
+        "intersect1d",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B057",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([2, 4])\nprint(np.setdiff1d(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3]"
+        },
+        {
+          "key": "B",
+          "text": "[2 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[5 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "setdiff1d trả các phần tử có trong a nhưng không có trong b: 1 và 3.",
+      "tags": [
+        "setops",
+        "setdiff1d",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.vstack([a, b]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 3]\n [2 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "vstack xếp chồng theo chiều dọc, biến hai vector hàng thành ma trận 2x2.",
+      "tags": [
+        "stack",
+        "vstack",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B060",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.hstack([a, b]))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[4 3 2 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "hstack nối ngang hai mảng 1 chiều thành [1 2 3 4].",
+      "tags": [
+        "stack",
+        "hstack",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B061",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.stack([a, b], axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 3]\n [2 4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 2]\n [3 4]]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2 3 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.stack(axis=1) tạo trục mới ở vị trí 1, ghép thành các cột: [[1,3],[2,4]].",
+      "tags": [
+        "stack",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B062",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6)\nprint([x.tolist() for x in np.split(a, 3)])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 1], [2, 3], [4, 5]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 1, 2], [3, 4, 5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0], [1], [2]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 1, 2, 3, 4, 5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.split(a,3) chia đều mảng 6 phần tử thành 3 phần bằng nhau, mỗi phần 2 phần tử.",
+      "tags": [
+        "split",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B063",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(5)\nprint([x.tolist() for x in np.array_split(a, 3)])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0, 1], [2, 3], [4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0, 1, 2], [3], [4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0], [1, 2], [3, 4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0, 1, 2, 3, 4]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "array_split chia 5 phần tử thành 3 phần không đều: các phần đầu lớn hơn nên [2,2,1].",
+      "tags": [
+        "split",
+        "array_split",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B064",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.tile(a, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3 1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1 2 2 3 3]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 2 3]\n [1 2 3]]"
+        },
+        {
+          "key": "D",
+          "text": "[2 4 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.tile(a,2) lặp lại toàn bộ mảng 2 lần nối tiếp nhau.",
+      "tags": [
+        "stack",
+        "tile",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B065",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.repeat(a, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 1 2 2 3 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3 1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[2 4 6]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 2 3]\n [1 2 3]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.repeat lặp lại từng phần tử 2 lần liền kề: 1,1,2,2,3,3.",
+      "tags": [
+        "stack",
+        "repeat",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B066",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nprint(np.pad(a, (1, 2), constant_values=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 2 3 0 0]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3 0 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 1 2 3]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 2 3 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.pad đệm 1 số 0 ở đầu và 2 số 0 ở cuối: [0,1,2,3,0,0].",
+      "tags": [
+        "stack",
+        "pad",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B067",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4, 5])\nprint(np.roll(a, 2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 5 1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[3 4 5 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4 5]"
+        },
+        {
+          "key": "D",
+          "text": "[2 3 4 5 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.roll(a,2) xoay vòng sang phải 2 vị trí: hai phần tử cuối 4,5 chuyển lên đầu.",
+      "tags": [
+        "stack",
+        "roll",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B069",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nb = np.array([[5, 6], [7, 8]])\nprint(a @ b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[19 22]\n [43 50]]"
+        },
+        {
+          "key": "B",
+          "text": "[[ 5 12]\n [21 32]]"
+        },
+        {
+          "key": "C",
+          "text": "[[19 43]\n [22 50]]"
+        },
+        {
+          "key": "D",
+          "text": "[[12 14]\n [16 18]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép nhân ma trận @: hàng 0 [1,2]·cột [5,7]=19, ·[6,8]=22; hàng 1 [3,4]·[5,7]=43, ·[6,8]=50.",
+      "tags": [
+        "linalg",
+        "matmul",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B070",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\nprint(np.dot(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "[ 4 10 18]"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích vô hướng hai vector: 1*4+2*5+3*6=4+10+18=32.",
+      "tags": [
+        "linalg",
+        "dot",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B071",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.outer(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3 4]\n [6 8]]"
+        },
+        {
+          "key": "B",
+          "text": "[[3 6]\n [4 8]]"
+        },
+        {
+          "key": "C",
+          "text": "11"
+        },
+        {
+          "key": "D",
+          "text": "[[ 3  8]\n [ 6 16]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích ngoài outer(a,b)[i,j]=a_i*b_j: hàng 0 [1*3,1*4]=[3,4]; hàng 1 [2*3,2*4]=[6,8].",
+      "tags": [
+        "linalg",
+        "outer",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B072",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 0, 0])\nb = np.array([0, 1, 0])\nprint(np.cross(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 0 1]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 0]"
+        },
+        {
+          "key": "C",
+          "text": "[1 0 0]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích có hướng của hai vector đơn vị x và y cho vector đơn vị z = [0,0,1].",
+      "tags": [
+        "linalg",
+        "cross",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B073",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])\nprint(np.trace(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "15"
+        },
+        {
+          "key": "B",
+          "text": "45"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "trace là tổng đường chéo chính: 1+5+9=15.",
+      "tags": [
+        "linalg",
+        "trace",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B074",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(round(float(np.linalg.det(a)), 1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "-2.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "-1.0"
+        },
+        {
+          "key": "D",
+          "text": "10.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định thức ma trận 2x2 = 1*4 - 2*3 = 4 - 6 = -2.0.",
+      "tags": [
+        "linalg",
+        "det",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B075",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[2.0, 0.0], [0.0, 4.0]])\nb = np.array([2.0, 8.0])\nprint(np.linalg.solve(A, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 2.]"
+        },
+        {
+          "key": "B",
+          "text": "[2. 8.]"
+        },
+        {
+          "key": "C",
+          "text": "[4. 2.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 4.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ chéo: 2x=2 -> x=1; 4y=8 -> y=2. Nghiệm là [1,2].",
+      "tags": [
+        "linalg",
+        "solve",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B076",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([3, 4])\nprint(np.linalg.norm(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "25.0"
+        },
+        {
+          "key": "D",
+          "text": "3.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn L2 (Euclid) = sqrt(3^2+4^2)=sqrt(25)=5.0.",
+      "tags": [
+        "linalg",
+        "norm",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B077",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [2, 4]])\nprint(np.linalg.matrix_rank(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng 2 = 2 lần hàng 1 nên hai hàng phụ thuộc tuyến tính, hạng ma trận bằng 1.",
+      "tags": [
+        "linalg",
+        "matrix_rank",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B078",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nA = np.array([[2.0, 0.0], [0.0, 3.0]])\nprint(np.linalg.eigvalsh(A))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2. 3.]"
+        },
+        {
+          "key": "B",
+          "text": "[3. 2.]"
+        },
+        {
+          "key": "C",
+          "text": "[5. 0.]"
+        },
+        {
+          "key": "D",
+          "text": "[6. 1.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận đối xứng đường chéo có trị riêng đúng bằng các phần tử trên đường chéo, sắp tăng dần: 2 và 3.",
+      "tags": [
+        "linalg",
+        "eig",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B080",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.0, np.nan, 3.0])\nprint(np.isnan(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[False  True False]"
+        },
+        {
+          "key": "B",
+          "text": "[ True False  True]"
+        },
+        {
+          "key": "C",
+          "text": "[False False False]"
+        },
+        {
+          "key": "D",
+          "text": "[ True  True  True]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "isnan trả True tại vị trí giá trị NaN; chỉ phần tử giữa là NaN.",
+      "tags": [
+        "nan",
+        "isnan",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B081",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1.0, np.nan, 3.0])\nprint(np.nansum(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "nan"
+        },
+        {
+          "key": "C",
+          "text": "6.0"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nansum bỏ qua NaN khi cộng: 1.0+3.0=4.0.",
+      "tags": [
+        "nan",
+        "nansum",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B082",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([2.0, np.nan, 4.0])\nprint(np.nanmean(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "nan"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "6.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nanmean tính trung bình bỏ qua NaN: (2+4)/2=3.0.",
+      "tags": [
+        "nan",
+        "nanmean",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B084",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(42)\nprint(rng.integers(0, 10, size=5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 7 6 4 4]"
+        },
+        {
+          "key": "B",
+          "text": "[3 5 1 9 2]"
+        },
+        {
+          "key": "C",
+          "text": "[7 6 4 4 0]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3 4 5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với default_rng(seed=42) cố định, chuỗi số nguyên sinh ra là xác định và lặp lại được.",
+      "tags": [
+        "random",
+        "seed",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B085",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nnp.random.seed(0)\nprint(np.random.randint(0, 100, size=4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[44 47 64 67]"
+        },
+        {
+          "key": "B",
+          "text": "[ 0 10 20 30]"
+        },
+        {
+          "key": "C",
+          "text": "[67 64 47 44]"
+        },
+        {
+          "key": "D",
+          "text": "[12 34 56 78]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.random.seed(0) cố định bộ sinh legacy nên randint cho chuỗi xác định lặp lại được.",
+      "tags": [
+        "random",
+        "seed",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B086",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(1)\na = np.array([10, 20, 30, 40, 50])\nprint(rng.permutation(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[50 10 20 30 40]"
+        },
+        {
+          "key": "B",
+          "text": "[50 40 30 20 10]"
+        },
+        {
+          "key": "C",
+          "text": "[10 20 30 40 50]"
+        },
+        {
+          "key": "D",
+          "text": "[20 30 40 50 10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "permutation với seed cố định trộn mảng theo một thứ tự xác định và tái lập được.",
+      "tags": [
+        "random",
+        "permutation",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B087",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(7)\nprint(rng.choice([1, 2, 3, 4, 5], size=3, replace=False))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 4 5]"
+        },
+        {
+          "key": "B",
+          "text": "[5 4 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 1 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "choice không hoàn lại với seed cố định lấy mẫu ngẫu nhiên xác định, không lặp giá trị.",
+      "tags": [
+        "random",
+        "choice",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B088",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(np.einsum('ii', a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "[1 4]"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'ii' lấy tổng đường chéo (trace): 1+4=5.",
+      "tags": [
+        "einsum",
+        "trace",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B089",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\nprint(np.einsum('i,i->', a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "[ 4 10 18]"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'i,i->' là tích vô hướng: 1*4+2*5+3*6=32.",
+      "tags": [
+        "einsum",
+        "dot",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B091a",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([0, 1, 1, 2, 2, 2, 3])\nprint(np.bincount(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3 1]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 1 1 1]"
+        },
+        {
+          "key": "D",
+          "text": "[3 2 1 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bincount đếm số lần xuất hiện mỗi giá trị 0..3: 0 xuất hiện 1 lần, 1->2, 2->3, 3->1.",
+      "tags": [
+        "histogram",
+        "bincount",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B092",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([0.2, 1.5, 2.7, 4.1])\nbins = np.array([0, 1, 2, 3, 4])\nprint(np.digitize(x, bins))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3 5]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "D",
+          "text": "[0 1 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "digitize trả chỉ số bin: 0.2 trong [0,1)->1, 1.5->2, 2.7->3, 4.1>=4 nên thuộc bin cuối->5.",
+      "tags": [
+        "histogram",
+        "digitize",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nx = np.array([1, 2, 3])\ny = np.array([10, 20])\nX, Y = np.meshgrid(x, y)\nprint(X.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(6,)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "meshgrid mặc định (indexing='xy') cho lưới hình dạng (len(y), len(x)) = (2,3).",
+      "tags": [
+        "meshgrid",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B095",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nr, c = np.indices((2, 3))\nprint(r)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 0 0]\n [1 1 1]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 1 2]\n [0 1 2]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 1]\n [2 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 1 1]\n [0 0 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.indices trả mảng chỉ số; thành phần hàng r ghi chỉ số hàng: hàng 0 toàn 0, hàng 1 toàn 1.",
+      "tags": [
+        "indices",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B096",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([-2, 0, 5, 10])\nprint(np.clip(a, 0, 6))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 0 5 6]"
+        },
+        {
+          "key": "B",
+          "text": "[-2  0  5  6]"
+        },
+        {
+          "key": "C",
+          "text": "[0 0 6 6]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 5 10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "clip giới hạn vào [0,6]: -2->0, 0->0, 5 giữ nguyên, 10->6.",
+      "tags": [
+        "clip",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B097",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 5, 3])\nb = np.array([4, 2, 6])\nprint(np.maximum(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 5 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[5 5 6]"
+        },
+        {
+          "key": "D",
+          "text": "[4 2 3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.maximum so sánh từng cặp phần tử và lấy giá trị lớn hơn: max(1,4)=4, max(5,2)=5, max(3,6)=6.",
+      "tags": [
+        "maximum",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B098",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3, 4])\nb = a[1:3]\nb[0] = 99\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 1 99  3  4]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3 4]"
+        },
+        {
+          "key": "C",
+          "text": "[99  2  3  4]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1  2 99  4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lát cắt cơ bản trả về VIEW chia sẻ bộ nhớ; sửa b[0] cũng sửa a[1] thành 99.",
+      "tags": [
+        "view",
+        "copy",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B099",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = a.copy()\nb[0] = 100\nprint(a)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "B",
+          "text": "[100   2   3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2 100]"
+        },
+        {
+          "key": "D",
+          "text": "[100 100 100]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "copy() tạo bản sao độc lập; sửa b không ảnh hưởng tới a.",
+      "tags": [
+        "copy",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B100",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\na = np.arange(6)\nb = a.reshape(2, 3)\nprint(np.shares_memory(a, b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "[ True  True]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reshape trả về view khi có thể nên a và b dùng chung vùng nhớ, shares_memory trả True.",
+      "tags": [
+        "view",
+        "shares_memory",
+        "predict"
+      ]
+    },
+    {
+      "id": "E66-B101",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `minmax(a)` chuẩn hóa mảng về khoảng [0, 1] theo công thức (x - min) / (max - min). Minh họa với đầu vào [2, 4, 6, 8].",
+      "modelAnswer": "```python\nimport numpy as np\ndef minmax(a):\n    a = np.asarray(a, dtype=float)\n    return (a - a.min()) / (a.max() - a.min())\nprint(minmax([2, 4, 6, 8]))\n```\nKết quả khi chạy:\n```\n[0.         0.33333333 0.66666667 1.        ]\n```\nHàm dùng a.min()/a.max() và phép broadcasting để áp công thức cho toàn mảng; ép kiểu float để tránh chia nguyên.",
+      "rubric": [
+        "Định nghĩa hàm và ép kiểu float đúng (0.4đ)",
+        "Áp đúng công thức (x-min)/(max-min) bằng broadcasting (0.4đ)",
+        "Cho đầu ra đúng [0. 0.333... 0.667... 1.] (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "normalize"
+      ]
+    },
+    {
+      "id": "E66-B102",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `euclid(u, v)` tính khoảng cách Euclid giữa hai vector. Minh họa với u=[0,0], v=[3,4].",
+      "modelAnswer": "```python\nimport numpy as np\ndef euclid(u, v):\n    u = np.asarray(u, dtype=float); v = np.asarray(v, dtype=float)\n    return np.sqrt(np.sum((u - v) ** 2))\nprint(round(float(euclid([0, 0], [3, 4])), 4))\n```\nKết quả khi chạy:\n```\n5.0\n```\nKhoảng cách = sqrt((3-0)^2+(4-0)^2)=5.0; dùng np.sum bình phương hiệu rồi lấy căn.",
+      "rubric": [
+        "Tính hiệu hai vector và bình phương (0.4đ)",
+        "Dùng np.sum và np.sqrt đúng (0.4đ)",
+        "Cho đầu ra 5.0 (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "distance"
+      ]
+    },
+    {
+      "id": "E66-B103",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `count_above(a, t)` đếm số phần tử của mảng `a` lớn hơn ngưỡng `t` bằng phép vector hóa (không vòng lặp). Minh họa với a=[1,5,3,8,2,9], t=4.",
+      "modelAnswer": "```python\nimport numpy as np\ndef count_above(a, t):\n    return int(np.sum(np.asarray(a) > t))\nprint(count_above([1, 5, 3, 8, 2, 9], 4))\n```\nKết quả khi chạy:\n```\n3\n```\nMặt nạ boolean a>t có True=1, False=0 nên np.sum đếm được số phần tử thỏa điều kiện (5,8,9 -> 3).",
+      "rubric": [
+        "Tạo mặt nạ boolean a > t (0.4đ)",
+        "Dùng np.sum trên mặt nạ và ép kiểu int (0.4đ)",
+        "Cho đầu ra 3 (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "boolean",
+        "count"
+      ]
+    },
+    {
+      "id": "E66-B104",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `softmax_rows(a)` tính softmax theo từng hàng của ma trận 2D một cách ổn định số học (trừ max mỗi hàng). Minh họa với [[1,2,3],[1,1,1]].",
+      "modelAnswer": "```python\nimport numpy as np\ndef softmax_rows(a):\n    a = np.asarray(a, dtype=float)\n    e = np.exp(a - a.max(axis=1, keepdims=True))\n    return e / e.sum(axis=1, keepdims=True)\nout = softmax_rows([[1, 2, 3], [1, 1, 1]])\nprint(np.round(out, 4))\n```\nKết quả khi chạy:\n```\n[[0.09   0.2447 0.6652]\n [0.3333 0.3333 0.3333]]\n```\nTrừ max theo hàng (keepdims=True) trước khi exp để tránh tràn số, rồi chia cho tổng theo hàng. Hàng đều nhau cho phân phối đều 1/3.",
+      "rubric": [
+        "Trừ max theo axis=1 với keepdims để ổn định (0.4đ)",
+        "Chia exp cho tổng theo hàng đúng (0.4đ)",
+        "Cho đầu ra đúng từng hàng tổng bằng 1 (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E66-B105",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `zscore(a)` chuẩn hóa mảng về trung bình 0, độ lệch chuẩn 1 (z-score). Minh họa với [10,20,30,40].",
+      "modelAnswer": "```python\nimport numpy as np\ndef zscore(a):\n    a = np.asarray(a, dtype=float)\n    return (a - a.mean()) / a.std()\nprint(np.round(zscore([10, 20, 30, 40]), 4))\n```\nKết quả khi chạy:\n```\n[-1.3416 -0.4472  0.4472  1.3416]\n```\nTrừ trung bình rồi chia cho độ lệch chuẩn (ddof=0 mặc định). Kết quả có mean=0 và std=1.",
+      "rubric": [
+        "Tính mean và std của mảng (0.4đ)",
+        "Áp đúng công thức (a-mean)/std bằng broadcasting (0.4đ)",
+        "Cho đầu ra đối xứng quanh 0 (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "standardize"
+      ]
+    },
+    {
+      "id": "E66-B106",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `topk(a, k)` trả về chỉ số của `k` phần tử lớn nhất (giảm dần theo giá trị). Minh họa với a=[4,1,7,3,9,2], k=3.",
+      "modelAnswer": "```python\nimport numpy as np\ndef topk(a, k):\n    a = np.asarray(a)\n    idx = np.argsort(a)[::-1][:k]\n    return idx\nprint(topk([4, 1, 7, 3, 9, 2], 3))\n```\nKết quả khi chạy:\n```\n[4 2 0]\n```\nargsort sắp tăng dần, đảo ngược [::-1] thành giảm dần rồi lấy k chỉ số đầu. Giá trị 9 (idx4), 7 (idx2), 4 (idx0).",
+      "rubric": [
+        "Dùng argsort để lấy thứ tự (0.4đ)",
+        "Đảo ngược và cắt lấy k phần tử đầu (0.4đ)",
+        "Cho đầu ra [4 2 0] (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "sort",
+        "argsort"
+      ]
+    },
+    {
+      "id": "E66-B107",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `one_hot(labels, num_classes)` mã hóa one-hot cho danh sách nhãn nguyên. Minh họa với labels=[0,2,1], num_classes=3.",
+      "modelAnswer": "```python\nimport numpy as np\ndef one_hot(labels, num_classes):\n    labels = np.asarray(labels)\n    out = np.zeros((labels.size, num_classes), dtype=int)\n    out[np.arange(labels.size), labels] = 1\n    return out\nprint(one_hot([0, 2, 1], 3))\n```\nKết quả khi chạy:\n```\n[[1 0 0]\n [0 0 1]\n [0 1 0]]\n```\nTạo ma trận 0, dùng fancy indexing đặt 1 tại (hàng i, cột labels[i]). Mỗi hàng có đúng một số 1.",
+      "rubric": [
+        "Khởi tạo ma trận zeros kích thước (n, num_classes) (0.4đ)",
+        "Dùng fancy indexing với np.arange đặt 1 đúng vị trí (0.4đ)",
+        "Cho đầu ra ma trận one-hot đúng (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E66-B108",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `matmul(A, B)` nhân hai ma trận dùng toán tử @. Minh họa với A=[[1,0],[0,2]], B=[[3,4],[5,6]].",
+      "modelAnswer": "```python\nimport numpy as np\ndef matmul(A, B):\n    return np.asarray(A) @ np.asarray(B)\nA = [[1, 0], [0, 2]]\nB = [[3, 4], [5, 6]]\nprint(matmul(A, B))\n```\nKết quả khi chạy:\n```\n[[ 3  4]\n [10 12]]\n```\nA là ma trận chéo (1,2) nên kết quả là B với hàng 2 nhân đôi: [[3,4],[10,12]].",
+      "rubric": [
+        "Dùng toán tử @ (hoặc np.matmul) (0.4đ)",
+        "Ép đầu vào về ndarray (0.4đ)",
+        "Cho đầu ra [[3 4],[10 12]] (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "matmul"
+      ]
+    },
+    {
+      "id": "E66-B109",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `running_max(a)` trả về dãy giá trị lớn nhất tích lũy từ đầu đến vị trí hiện tại. Minh họa với [1,3,2,5,4,7].",
+      "modelAnswer": "```python\nimport numpy as np\ndef running_max(a):\n    return np.maximum.accumulate(np.asarray(a))\nprint(running_max([1, 3, 2, 5, 4, 7]))\n```\nKết quả khi chạy:\n```\n[1 3 3 5 5 7]\n```\nnp.maximum.accumulate quét trái-phải, giữ giá trị lớn nhất gặp được: [1,3,3,5,5,7].",
+      "rubric": [
+        "Dùng ufunc accumulate (np.maximum.accumulate) (0.4đ)",
+        "Không dùng vòng lặp Python thủ công (0.4đ)",
+        "Cho đầu ra [1 3 3 5 5 7] (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "cumulative",
+        "ufunc"
+      ]
+    },
+    {
+      "id": "E66-B110",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `fill_nan_colmean(a)` thay mỗi NaN bằng trung bình cột chứa nó (bỏ qua NaN khi tính trung bình). Minh họa với [[1.0, nan], [3.0, 4.0]].",
+      "modelAnswer": "```python\nimport numpy as np\ndef fill_nan_colmean(a):\n    a = np.array(a, dtype=float)\n    col_mean = np.nanmean(a, axis=0)\n    idx = np.where(np.isnan(a))\n    a[idx] = np.take(col_mean, idx[1])\n    return a\nA = [[1.0, np.nan], [3.0, 4.0]]\nprint(fill_nan_colmean(A))\n```\nKết quả khi chạy:\n```\n[[1. 4.]\n [3. 4.]]\n```\nDùng nanmean theo cột để có giá trị thay thế, np.where tìm vị trí NaN, rồi gán theo chỉ số cột. Cột 1 chỉ có 4.0 nên NaN -> 4.0.",
+      "rubric": [
+        "Dùng np.nanmean theo axis=0 (0.4đ)",
+        "Định vị NaN bằng np.isnan/np.where (0.4đ)",
+        "Cho đầu ra điền đúng giá trị trung bình cột (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "nan",
+        "imputation"
+      ]
+    },
+    {
+      "id": "E66-B111",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `cosine_matrix(M)` tính ma trận độ tương đồng cosine giữa mọi cặp hàng của M. Minh họa với [[1,0],[0,1],[1,1]].",
+      "modelAnswer": "```python\nimport numpy as np\ndef cosine_matrix(M):\n    M = np.asarray(M, dtype=float)\n    norms = np.linalg.norm(M, axis=1, keepdims=True)\n    Mn = M / norms\n    return np.round(Mn @ Mn.T, 4)\nprint(cosine_matrix([[1, 0], [0, 1], [1, 1]]))\n```\nKết quả khi chạy:\n```\n[[1.     0.     0.7071]\n [0.     1.     0.7071]\n [0.7071 0.7071 1.    ]]\n```\nChuẩn hóa từng hàng về vector đơn vị rồi nhân Mn @ Mn.T cho ma trận cosine; đường chéo bằng 1, cosine([1,0],[1,1])=0.7071.",
+      "rubric": [
+        "Tính chuẩn L2 theo hàng với keepdims (0.4đ)",
+        "Chuẩn hóa rồi nhân ma trận Mn @ Mn.T (0.4đ)",
+        "Cho đầu ra đối xứng, đường chéo = 1 (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "cosine",
+        "linalg"
+      ]
+    },
+    {
+      "id": "E66-B112",
+      "module": "B",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm `group_sum(groups, values)` tính tổng `values` theo từng nhóm (chỉ số nhóm nguyên) dùng np.bincount với weights. Minh họa groups=[0,1,0,2,1], values=[10,20,30,40,50].",
+      "modelAnswer": "```python\nimport numpy as np\ndef group_sum(groups, values):\n    groups = np.asarray(groups); values = np.asarray(values, dtype=float)\n    return np.bincount(groups, weights=values)\nprint(group_sum([0, 1, 0, 2, 1], [10, 20, 30, 40, 50]))\n```\nKết quả khi chạy:\n```\n[40. 70. 40.]\n```\nbincount với weights cộng dồn values theo từng nhãn nhóm: nhóm0=10+30=40, nhóm1=20+50=70, nhóm2=40.",
+      "rubric": [
+        "Dùng np.bincount với tham số weights (0.4đ)",
+        "Hiểu groups là chỉ số nhóm nguyên (0.4đ)",
+        "Cho đầu ra [40. 70. 40.] (0.2đ)"
+      ],
+      "tags": [
+        "code",
+        "bincount",
+        "groupby"
+      ]
+    }
+  ]
+}

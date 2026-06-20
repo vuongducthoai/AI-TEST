@@ -1,0 +1,3043 @@
+{
+  "id": "exam-69",
+  "title": "KMeans, Hồi quy Tuyến tính & Logistic — Đề luyện (100 câu)",
+  "description": "Đề luyện tập tổng hợp 100 câu bao quát ba chủ đề: phân cụm KMeans, hồi quy tuyến tính và hồi quy logistic. Đề gồm câu trắc nghiệm khái niệm lẫn câu tính toán bằng số (gán cụm, WCSS, OLS, sigmoid, log-loss, ma trận nhầm lẫn) và 6 câu tự luận/lập trình. Dùng để ôn tập và tự kiểm tra kiến thức học máy cơ bản.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E69-C001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans: điểm x=(2,3); ba tâm C1=(0,0), C2=(3,4), C3=(5,1). Theo Euclid, x gán vào cụm số mấy (1/2/3)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "17"
+        }
+      ],
+      "answer": "A",
+      "explanation": "d(C1)=3.606, d(C2)=1.414, d(C3)=3.606; nhỏ nhất là C2.",
+      "tags": [
+        "kmeans",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E69-C002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans cập nhật tâm: cụm gồm (1,2),(3,4),(5,0),(3,2). Tọa độ x của tâm mới (trung bình) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.00"
+        },
+        {
+          "key": "B",
+          "text": "3.00"
+        },
+        {
+          "key": "C",
+          "text": "2.00"
+        },
+        {
+          "key": "D",
+          "text": "3.50"
+        }
+      ],
+      "answer": "B",
+      "explanation": "x_tâm=(1+3+5+3)/4=3.00.",
+      "tags": [
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E69-C003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Inertia/WCSS: cụm (1,1),(2,2),(3,3), tâm là trung bình. Tổng bình phương khoảng cách tới tâm bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.00"
+        },
+        {
+          "key": "B",
+          "text": "3.00"
+        },
+        {
+          "key": "C",
+          "text": "4.00"
+        },
+        {
+          "key": "D",
+          "text": "2.00"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tâm (2,2); bình phương k/c: 2+0+2=4.0.",
+      "tags": [
+        "kmeans",
+        "wcss"
+      ]
+    },
+    {
+      "id": "E69-C004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khoảng cách Euclid giữa (1,2) và (4,6)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.00"
+        },
+        {
+          "key": "B",
+          "text": "3.00"
+        },
+        {
+          "key": "C",
+          "text": "7.00"
+        },
+        {
+          "key": "D",
+          "text": "5.00"
+        }
+      ],
+      "answer": "D",
+      "explanation": "sqrt(3^2+4^2)=sqrt(25)=5.0.",
+      "tags": [
+        "kmeans",
+        "euclidean"
+      ]
+    },
+    {
+      "id": "E69-C005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một bước Lloyd: cụm A chứa (0,0),(1,0),(0,1). Tọa độ y của tâm cập nhật?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3333"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "0.0000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "y=(0+0+1)/3=0.3333.",
+      "tags": [
+        "kmeans",
+        "lloyd"
+      ]
+    },
+    {
+      "id": "E69-C006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Silhouette một điểm: a=1.0 (trong cụm), b=3.0 (cụm gần nhất khác). s=?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.6667"
+        },
+        {
+          "key": "C",
+          "text": "-0.6667"
+        },
+        {
+          "key": "D",
+          "text": "0.3333"
+        }
+      ],
+      "answer": "B",
+      "explanation": "s=(b-a)/max(a,b)=(3-1)/3=0.6667.",
+      "tags": [
+        "kmeans",
+        "silhouette"
+      ]
+    },
+    {
+      "id": "E69-C007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tổng WCSS hai cụm: C1={(0,0),(2,0)}, C2={(10,10),(10,12)}. Tổng inertia?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.00"
+        },
+        {
+          "key": "B",
+          "text": "3.00"
+        },
+        {
+          "key": "C",
+          "text": "4.00"
+        },
+        {
+          "key": "D",
+          "text": "8.00"
+        }
+      ],
+      "answer": "C",
+      "explanation": "C1:1+1=2; C2:1+1=2; tổng=4.0.",
+      "tags": [
+        "kmeans",
+        "inertia"
+      ]
+    },
+    {
+      "id": "E69-C008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bình phương khoảng cách Euclid từ (3,4) tới gốc (0,0) (đại lượng dùng trong inertia)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "49"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "D",
+      "explanation": "3^2+4^2=25 (không phải 5).",
+      "tags": [
+        "kmeans",
+        "distance"
+      ]
+    },
+    {
+      "id": "E69-C009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gán cụm: điểm (4,4), tâm A=(1,1), B=(6,6). Thuộc cụm nào (1=A,2=B)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "d(A)=4.243, d(B)=2.828; gần B hơn.",
+      "tags": [
+        "kmeans",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E69-C010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans 1 chiều: cụm có các giá trị {2,4,9,5}. Tâm mới (trung bình) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.00"
+        },
+        {
+          "key": "B",
+          "text": "5.00"
+        },
+        {
+          "key": "C",
+          "text": "4.00"
+        },
+        {
+          "key": "D",
+          "text": "4.50"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(2+4+9+5)/4=5.00.",
+      "tags": [
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E69-C011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Elbow: tăng k làm WCSS giảm từ 100 xuống 40. Phần trăm WCSS giảm được là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "40.00"
+        },
+        {
+          "key": "B",
+          "text": "61.00"
+        },
+        {
+          "key": "C",
+          "text": "60.00"
+        },
+        {
+          "key": "D",
+          "text": "50.00"
+        }
+      ],
+      "answer": "C",
+      "explanation": "(100-40)/100*100=60.0%.",
+      "tags": [
+        "kmeans",
+        "elbow"
+      ]
+    },
+    {
+      "id": "E69-C012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Silhouette: a=2.0, b=0.5. s=? (giá trị âm gợi ý điểm bị gán sai cụm).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7500"
+        },
+        {
+          "key": "B",
+          "text": "-0.6667"
+        },
+        {
+          "key": "C",
+          "text": "1.5000"
+        },
+        {
+          "key": "D",
+          "text": "-0.7500"
+        }
+      ],
+      "answer": "D",
+      "explanation": "s=(0.5-2)/max(2,0.5)=-1.5/2=-0.7500<0.",
+      "tags": [
+        "kmeans",
+        "silhouette"
+      ]
+    },
+    {
+      "id": "E69-C013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gán 4 điểm (1,1),(8,8),(1.5,1),(9,7) vào tâm C1=(1,1) hoặc C2=(8,8). Có bao nhiêu điểm vào C1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(1,1)&(1.5,1)→C1; (8,8)&(9,7)→C2. Số vào C1=2.",
+      "tags": [
+        "kmeans",
+        "assignment"
+      ]
+    },
+    {
+      "id": "E69-C014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gộp hai cụm: cụm 1 (3 điểm, tâm x=2.0) và cụm 2 (2 điểm, tâm x=7.0). Tâm x sau khi gộp (trung bình có trọng số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.50"
+        },
+        {
+          "key": "B",
+          "text": "4.00"
+        },
+        {
+          "key": "C",
+          "text": "5.00"
+        },
+        {
+          "key": "D",
+          "text": "18.76"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(3*2+2*7)/5=4.00.",
+      "tags": [
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E69-C015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans tối thiểu hóa đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương khoảng cách trong cụm (WCSS/inertia)"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách giữa các tâm"
+        },
+        {
+          "key": "C",
+          "text": "Entropy của nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Log-likelihood của Gaussian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans cực tiểu hóa WCSS = tổng bình phương khoảng cách từ điểm tới tâm cụm của nó.",
+      "tags": [
+        "kmeans",
+        "objective"
+      ]
+    },
+    {
+      "id": "E69-C016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thuật toán Lloyd cho KMeans lặp hai bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán điểm vào tâm gần nhất và cập nhật tâm = trung bình"
+        },
+        {
+          "key": "B",
+          "text": "Tính gradient và cập nhật trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Chọn k và vẽ dendrogram"
+        },
+        {
+          "key": "D",
+          "text": "Ước lượng hậu nghiệm và cực đại hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lloyd lặp: (1) gán mỗi điểm vào tâm gần nhất; (2) cập nhật tâm bằng trung bình các điểm trong cụm, đến khi hội tụ.",
+      "tags": [
+        "kmeans",
+        "lloyd"
+      ]
+    },
+    {
+      "id": "E69-C017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "k-means++ cải thiện điều gì so với khởi tạo ngẫu nhiên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn tâm khởi tạo phân tán tốt hơn, giảm rủi ro hội tụ kém"
+        },
+        {
+          "key": "B",
+          "text": "Tự chọn số cụm k tối ưu"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn outlier"
+        },
+        {
+          "key": "D",
+          "text": "Đảm bảo tối ưu toàn cục tuyệt đối"
+        }
+      ],
+      "answer": "A",
+      "explanation": "k-means++ chọn các tâm ban đầu cách xa nhau theo xác suất tỉ lệ bình phương khoảng cách, cho kết quả ổn định hơn nhưng không đảm bảo tối ưu toàn cục.",
+      "tags": [
+        "kmeans",
+        "init"
+      ]
+    },
+    {
+      "id": "E69-C018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phương pháp Elbow dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn số cụm k bằng cách quan sát điểm gãy của WCSS theo k"
+        },
+        {
+          "key": "B",
+          "text": "Đánh giá độ chính xác phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa đặc trưng"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện đa cộng tuyến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Elbow vẽ WCSS theo k và chọn k tại 'khuỷu' nơi WCSS giảm chậm lại.",
+      "tags": [
+        "kmeans",
+        "elbow"
+      ]
+    },
+    {
+      "id": "E69-C019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khởi tạo k-means++ chọn các centroid ban đầu theo nguyên tắc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn centroid tiếp theo với xác suất tỉ lệ với bình phương khoảng cách tới centroid gần nhất đã chọn"
+        },
+        {
+          "key": "B",
+          "text": "Chọn toàn bộ centroid ngẫu nhiên đều như nhau"
+        },
+        {
+          "key": "C",
+          "text": "Luôn chọn k điểm đầu tiên của tập dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Vét cạn mọi tổ hợp để tìm k điểm tối ưu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "k-means++ phân tán centroid ban đầu bằng cách ưu tiên điểm ở xa các centroid đã chọn (xác suất ∝ D²), giúp hội tụ tốt và ổn định hơn khởi tạo ngẫu nhiên.",
+      "tags": [
+        "kmeans",
+        "kmeans++",
+        "initialization"
+      ]
+    },
+    {
+      "id": "E69-C020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans nhạy cảm với điều gì sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Outlier và khởi tạo tâm ban đầu"
+        },
+        {
+          "key": "B",
+          "text": "Thứ tự cột dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Tên biến"
+        },
+        {
+          "key": "D",
+          "text": "Định dạng file"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Outlier kéo tâm lệch và khởi tạo khác nhau có thể dẫn tới nghiệm cục bộ khác nhau.",
+      "tags": [
+        "kmeans",
+        "limitation"
+      ]
+    },
+    {
+      "id": "E69-C021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans giả định ngầm hình dạng cụm như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cụm dạng cầu, kích thước/mật độ tương đương"
+        },
+        {
+          "key": "B",
+          "text": "Cụm bất kỳ hình dạng và mật độ"
+        },
+        {
+          "key": "C",
+          "text": "Cụm lồng nhau"
+        },
+        {
+          "key": "D",
+          "text": "Cụm tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans hoạt động tốt với cụm gần hình cầu, kích thước tương đương; kém với cụm dài/cong/mật độ khác nhau.",
+      "tags": [
+        "kmeans",
+        "assumption"
+      ]
+    },
+    {
+      "id": "E69-C022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So với KMeans, DBSCAN có ưu điểm chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm cụm hình dạng tùy ý và đánh dấu nhiễu, không cần định trước k"
+        },
+        {
+          "key": "B",
+          "text": "Luôn nhanh hơn KMeans"
+        },
+        {
+          "key": "C",
+          "text": "Cho cụm dạng cầu hoàn hảo"
+        },
+        {
+          "key": "D",
+          "text": "Yêu cầu biết trước số cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN dựa trên mật độ, phát hiện cụm bất kỳ hình dạng, gắn nhãn nhiễu, không cần chọn k nhưng cần eps và minPts.",
+      "tags": [
+        "kmeans",
+        "dbscan"
+      ]
+    },
+    {
+      "id": "E69-C023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt cơ bản giữa KMeans (hard) và GMM (soft)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "KMeans gán cứng một cụm; GMM cho xác suất thuộc mỗi cụm"
+        },
+        {
+          "key": "B",
+          "text": "KMeans cho xác suất, GMM gán cứng"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều gán cứng"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều dùng mật độ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans gán mỗi điểm vào đúng một cụm; GMM (EM) cho xác suất thành viên mềm theo phân phối Gaussian.",
+      "tags": [
+        "kmeans",
+        "gmm"
+      ]
+    },
+    {
+      "id": "E69-C024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân cụm phân cấp (hierarchical) khác KMeans ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo cây dendrogram, không cần định trước k và cho phép cắt ở nhiều mức"
+        },
+        {
+          "key": "B",
+          "text": "Luôn yêu cầu k cố định"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho dữ liệu 1 chiều"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng khoảng cách"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hierarchical xây dendrogram (agglomerative/divisive) và chọn số cụm bằng cách cắt cây; KMeans cần k cho trước.",
+      "tags": [
+        "kmeans",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E69-C025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số silhouette nằm trong khoảng nào và giá trị cao nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1,1]; gần 1 nghĩa là cụm tách tốt"
+        },
+        {
+          "key": "B",
+          "text": "[0,100]; cao là tệ"
+        },
+        {
+          "key": "C",
+          "text": "[0,1]; 0 là tốt nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không giới hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Silhouette ∈ [-1,1]; gần 1: gắn kết trong cụm cao và tách biệt tốt; âm: có thể gán sai.",
+      "tags": [
+        "kmeans",
+        "silhouette"
+      ]
+    },
+    {
+      "id": "E69-C026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nhược điểm khi dùng KMeans với cụm có mật độ/kích thước rất khác nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có xu hướng chia cụm lớn và gộp sai cụm nhỏ vì tối thiểu hóa phương sai"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cho kết quả hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Tự động phát hiện nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Không bị ảnh hưởng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì cực tiểu hóa phương sai nội cụm, KMeans thiên về các cụm cầu kích thước tương đương, dễ sai với cụm lệch.",
+      "tags": [
+        "kmeans",
+        "limitation"
+      ]
+    },
+    {
+      "id": "E69-C027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ứng dụng điển hình của phân cụm KMeans là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân khúc khách hàng theo hành vi"
+        },
+        {
+          "key": "B",
+          "text": "Dự báo giá nhà liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại email spam có nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Hồi quy chuỗi thời gian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans là học không giám sát, phù hợp phân khúc khách hàng, nén ảnh, gom nhóm tài liệu.",
+      "tags": [
+        "kmeans",
+        "application"
+      ]
+    },
+    {
+      "id": "E69-C028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans đảm bảo điều gì về tính hội tụ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hội tụ tới cực tiểu cục bộ, không nhất thiết toàn cục"
+        },
+        {
+          "key": "B",
+          "text": "Luôn đạt cực tiểu toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "Không bao giờ hội tụ"
+        },
+        {
+          "key": "D",
+          "text": "Hội tụ tới cực đại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "WCSS giảm đơn điệu qua các bước nên thuật toán hội tụ, nhưng chỉ tới nghiệm cục bộ phụ thuộc khởi tạo.",
+      "tags": [
+        "kmeans",
+        "convergence"
+      ]
+    },
+    {
+      "id": "E69-C029",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Để giảm rủi ro nghiệm cục bộ xấu trong KMeans, cách phổ biến là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy nhiều lần với khởi tạo khác nhau (n_init) và chọn WCSS nhỏ nhất"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ chuẩn hóa"
+        },
+        {
+          "key": "D",
+          "text": "Dùng một khởi tạo duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chạy nhiều khởi tạo (kèm k-means++) và giữ nghiệm có inertia thấp nhất.",
+      "tags": [
+        "kmeans",
+        "init"
+      ]
+    },
+    {
+      "id": "E69-C030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đại lượng nào KHÔNG phù hợp để đánh giá chất lượng cụm khi không có nhãn thật?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ chính xác (accuracy) phân loại"
+        },
+        {
+          "key": "B",
+          "text": "Silhouette"
+        },
+        {
+          "key": "C",
+          "text": "Davies-Bouldin"
+        },
+        {
+          "key": "D",
+          "text": "Inertia kèm elbow"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy cần nhãn thật (giám sát); với phân cụm không nhãn dùng silhouette, Davies-Bouldin, inertia.",
+      "tags": [
+        "kmeans",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E69-C031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tại sao KMeans dùng khoảng cách Euclid lại không phù hợp cho dữ liệu phân loại (categorical)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì khái niệm trung bình và khoảng cách Euclid không có ý nghĩa với biến rời rạc"
+        },
+        {
+          "key": "B",
+          "text": "Vì Euclid quá nhanh"
+        },
+        {
+          "key": "C",
+          "text": "Vì categorical luôn cầu"
+        },
+        {
+          "key": "D",
+          "text": "Vì không có outlier"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với biến categorical nên dùng k-modes hoặc khoảng cách phù hợp; trung bình Euclid vô nghĩa cho nhãn.",
+      "tags": [
+        "kmeans",
+        "categorical"
+      ]
+    },
+    {
+      "id": "E69-C032",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong KMeans, nếu một cụm rỗng (không điểm nào được gán) thì thường xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo lại tâm đó (ví dụ chọn điểm xa nhất)"
+        },
+        {
+          "key": "B",
+          "text": "Dừng thuật toán báo lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Gộp tất cả cụm"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua và giữ NaN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cụm rỗng được xử lý bằng cách tái khởi tạo tâm, thường gán điểm có khoảng cách lớn nhất tới tâm hiện tại.",
+      "tags": [
+        "kmeans",
+        "empty"
+      ]
+    },
+    {
+      "id": "E69-C033",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "OLS: với x=[1,2,3,4], y=[2,4,5,4], hệ số góc (slope) closed-form bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.2000"
+        },
+        {
+          "key": "B",
+          "text": "0.7000"
+        },
+        {
+          "key": "C",
+          "text": "0.2000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "B",
+      "explanation": "slope=Σ(x-x̄)(y-ȳ)/Σ(x-x̄)^2=0.7000.",
+      "tags": [
+        "linreg",
+        "ols",
+        "slope"
+      ]
+    },
+    {
+      "id": "E69-C034",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "OLS: với x=[1,2,3,4], y=[2,4,5,4], hệ số chặn (intercept) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0000"
+        },
+        {
+          "key": "B",
+          "text": "1.0000"
+        },
+        {
+          "key": "C",
+          "text": "2.0000"
+        },
+        {
+          "key": "D",
+          "text": "16.7570"
+        }
+      ],
+      "answer": "C",
+      "explanation": "intercept=ȳ-slope*x̄=2.0000.",
+      "tags": [
+        "linreg",
+        "ols",
+        "intercept"
+      ]
+    },
+    {
+      "id": "E69-C035",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dùng mô hình OLS ở trên (slope/intercept), dự đoán y tại x=5 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.5000"
+        },
+        {
+          "key": "B",
+          "text": "4.5000"
+        },
+        {
+          "key": "C",
+          "text": "6.0000"
+        },
+        {
+          "key": "D",
+          "text": "5.5000"
+        }
+      ],
+      "answer": "D",
+      "explanation": "ŷ=intercept+slope*5=2.000+0.700*5=5.5000.",
+      "tags": [
+        "linreg",
+        "predict"
+      ]
+    },
+    {
+      "id": "E69-C036",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hồi quy y=1+2x khớp hoàn hảo với (0,1),(1,3),(2,5). Phần dư (residual) tại x=1 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.00"
+        },
+        {
+          "key": "B",
+          "text": "1.00"
+        },
+        {
+          "key": "C",
+          "text": "-1.00"
+        },
+        {
+          "key": "D",
+          "text": "0.50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ(1)=1+2*1=3=y → residual=0.0.",
+      "tags": [
+        "linreg",
+        "residual"
+      ]
+    },
+    {
+      "id": "E69-C037",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MSE: giá trị thật [3,5,7], dự đoán [2,5,9]. MSE bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.6667"
+        },
+        {
+          "key": "B",
+          "text": "1.6667"
+        },
+        {
+          "key": "C",
+          "text": "1.1667"
+        },
+        {
+          "key": "D",
+          "text": "5.0000"
+        }
+      ],
+      "answer": "B",
+      "explanation": "errs=[1,0,-2]; bình phương [1,0,4]; trung bình=1.6667.",
+      "tags": [
+        "linreg",
+        "mse"
+      ]
+    },
+    {
+      "id": "E69-C038",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với cùng dữ liệu trên (thật [3,5,7], dự đoán [2,5,9]), RMSE bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.7910"
+        },
+        {
+          "key": "B",
+          "text": "0.9910"
+        },
+        {
+          "key": "C",
+          "text": "1.2910"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "C",
+      "explanation": "RMSE=sqrt(MSE)=sqrt(1.667)=1.2910.",
+      "tags": [
+        "linreg",
+        "rmse"
+      ]
+    },
+    {
+      "id": "E69-C039",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MAE: thật [3,5,7], dự đoán [2,5,9]. MAE bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "2.0000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "D",
+      "explanation": "|errs|=[1,0,2]; trung bình=1.0000.",
+      "tags": [
+        "linreg",
+        "mae"
+      ]
+    },
+    {
+      "id": "E69-C040",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "R²: thật [1,2,3,4], dự đoán [1.2,1.9,3.1,3.8]. Hệ số xác định R² bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.9800"
+        },
+        {
+          "key": "B",
+          "text": "0.9300"
+        },
+        {
+          "key": "C",
+          "text": "1.0100"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R²=1-SSres/SStot=1-0.100/5.000=0.9800.",
+      "tags": [
+        "linreg",
+        "r2"
+      ]
+    },
+    {
+      "id": "E69-C041",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient descent (1 điểm, mất mát bình phương L=(wx-y)^2): w=0, lr=0.1, x=2, y=4. Sau 1 bước w bằng bao nhiêu? (dL/dw=2(wx-y)x)",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.6000"
+        },
+        {
+          "key": "B",
+          "text": "1.6000"
+        },
+        {
+          "key": "C",
+          "text": "0.6000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "B",
+      "explanation": "grad=2(0-4)*2=-16; w=0-0.1*(-16)=1.6000.",
+      "tags": [
+        "linreg",
+        "gd"
+      ]
+    },
+    {
+      "id": "E69-C042",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số tương quan Pearson r giữa x=[1,2,3,4,5] và y=[2,4,5,4,5] xấp xỉ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5746"
+        },
+        {
+          "key": "B",
+          "text": "0.9246"
+        },
+        {
+          "key": "C",
+          "text": "0.7746"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "C",
+      "explanation": "r=corrcoef≈0.7746.",
+      "tags": [
+        "linreg",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E69-C043",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong hồi quy đơn biến, với r≈0.7746 ở trên, R² (=r²) xấp xỉ bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.7000"
+        },
+        {
+          "key": "C",
+          "text": "15.3570"
+        },
+        {
+          "key": "D",
+          "text": "0.6000"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hồi quy đơn: R²=r²=0.6000.",
+      "tags": [
+        "linreg",
+        "r2"
+      ]
+    },
+    {
+      "id": "E69-C044",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "R² hiệu chỉnh: n=50 mẫu, k=3 biến, R²=0.80. R²_adj bằng bao nhiêu? [1-(1-R²)(n-1)/(n-k-1)]",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7870"
+        },
+        {
+          "key": "B",
+          "text": "0.8000"
+        },
+        {
+          "key": "C",
+          "text": "0.8170"
+        },
+        {
+          "key": "D",
+          "text": "0.7500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "adj=1-(1-0.8)*49/46=0.7870.",
+      "tags": [
+        "linreg",
+        "adjr2"
+      ]
+    },
+    {
+      "id": "E69-C045",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phương trình chuẩn β=(XᵀX)⁻¹Xᵀy (qua gốc, 1 biến): X=[1,2,3], y=[2,4,6]. β bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5000"
+        },
+        {
+          "key": "B",
+          "text": "2.0000"
+        },
+        {
+          "key": "C",
+          "text": "1.5000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "B",
+      "explanation": "y=2x hoàn hảo → β=2.0000.",
+      "tags": [
+        "linreg",
+        "normaleq"
+      ]
+    },
+    {
+      "id": "E69-C046",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân rã phương sai: SST=200, SSR (giải thích)=150. SSE (phần dư) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "60"
+        },
+        {
+          "key": "B",
+          "text": "40"
+        },
+        {
+          "key": "C",
+          "text": "50"
+        },
+        {
+          "key": "D",
+          "text": "100"
+        }
+      ],
+      "answer": "C",
+      "explanation": "SST=SSR+SSE → SSE=200-150=50.",
+      "tags": [
+        "linreg",
+        "variance"
+      ]
+    },
+    {
+      "id": "E69-C047",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một hồi quy có hệ số góc 3.5. Khi x tăng 2 đơn vị, y dự đoán thay đổi bao nhiêu (giữ yếu tố khác cố định)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8.00"
+        },
+        {
+          "key": "B",
+          "text": "6.00"
+        },
+        {
+          "key": "C",
+          "text": "3.50"
+        },
+        {
+          "key": "D",
+          "text": "7.00"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Δy=slope*Δx=3.5*2=7.0.",
+      "tags": [
+        "linreg",
+        "interpretation"
+      ]
+    },
+    {
+      "id": "E69-C048",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bốn giả định cốt lõi của hồi quy tuyến tính (OLS) gồm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tuyến tính, độc lập của phần dư, phương sai đồng nhất, phần dư phân phối chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Cụm cầu, mật độ đều"
+        },
+        {
+          "key": "C",
+          "text": "Sigmoid, MLE"
+        },
+        {
+          "key": "D",
+          "text": "Đa cộng tuyến cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OLS giả định quan hệ tuyến tính, phần dư độc lập, đồng phương sai (homoscedasticity) và phân phối chuẩn (cho suy diễn), cùng không đa cộng tuyến nghiêm trọng.",
+      "tags": [
+        "linreg",
+        "assumption"
+      ]
+    },
+    {
+      "id": "E69-C049",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "R² đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỉ lệ phương sai của y được mô hình giải thích"
+        },
+        {
+          "key": "B",
+          "text": "Sai số tuyệt đối trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Độ dốc của đường hồi quy"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất phân loại đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² = 1 - SSE/SST, tỉ lệ biến thiên của biến phụ thuộc được giải thích bởi mô hình, ∈ [0,1] (có thể âm nếu rất tệ).",
+      "tags": [
+        "linreg",
+        "r2"
+      ]
+    },
+    {
+      "id": "E69-C050",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tại sao R² hiệu chỉnh (adjusted) hữu ích hơn R² khi so sánh mô hình nhiều biến?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó phạt việc thêm biến không đóng góp, tránh tăng giả tạo"
+        },
+        {
+          "key": "B",
+          "text": "Vì luôn lớn hơn R²"
+        },
+        {
+          "key": "C",
+          "text": "Vì không phụ thuộc số mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Vì đo sai số tuyệt đối"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² luôn tăng khi thêm biến; R²_adj điều chỉnh theo số biến và mẫu nên có thể giảm nếu biến vô ích.",
+      "tags": [
+        "linreg",
+        "adjr2"
+      ]
+    },
+    {
+      "id": "E69-C051",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng đa cộng tuyến (multicollinearity) gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ số ước lượng không ổn định, sai số chuẩn lớn, khó diễn giải"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ chính xác dự đoán luôn luôn"
+        },
+        {
+          "key": "C",
+          "text": "Làm phần dư bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Biến mất bias"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các biến độc lập tương quan cao, ma trận XᵀX gần suy biến → hệ số dao động mạnh, khó tách ảnh hưởng từng biến. VIF dùng để phát hiện.",
+      "tags": [
+        "linreg",
+        "multicollinearity"
+      ]
+    },
+    {
+      "id": "E69-C052",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "VIF (Variance Inflation Factor) dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo mức độ đa cộng tuyến của từng biến độc lập"
+        },
+        {
+          "key": "B",
+          "text": "Đo độ chính xác phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Chọn số cụm"
+        },
+        {
+          "key": "D",
+          "text": "Tính learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "VIF_j = 1/(1-R²_j); VIF lớn (thường >5 hoặc >10) báo hiệu đa cộng tuyến cao cho biến j.",
+      "tags": [
+        "linreg",
+        "vif"
+      ]
+    },
+    {
+      "id": "E69-C053",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ridge regression (L2) khác Lasso (L1) ở điểm chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ridge co hệ số về gần 0 nhưng giữ tất cả; Lasso có thể đưa hệ số về đúng 0 (chọn biến)"
+        },
+        {
+          "key": "B",
+          "text": "Ridge chọn biến, Lasso không"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai không phạt hệ số"
+        },
+        {
+          "key": "D",
+          "text": "Lasso luôn cho R² cao hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phạt L2 co đều hệ số (hiếm khi bằ 0); phạt L1 tạo nghiệm thưa, đặt một số hệ số = 0, thực hiện chọn biến.",
+      "tags": [
+        "linreg",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E69-C054",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ElasticNet kết hợp điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả phạt L1 và L2"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ L2 hai lần"
+        },
+        {
+          "key": "C",
+          "text": "Sigmoid và softmax"
+        },
+        {
+          "key": "D",
+          "text": "Bagging và boosting"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ElasticNet trộn L1 (thưa) và L2 (ổn định khi biến tương quan), điều khiển bằng tỉ lệ l1_ratio.",
+      "tags": [
+        "linreg",
+        "elasticnet"
+      ]
+    },
+    {
+      "id": "E69-C055",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng quá khớp (overfitting) trong hồi quy đa thức bậc cao biểu hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khớp rất tốt train nhưng kém trên dữ liệu mới (phương sai cao)"
+        },
+        {
+          "key": "B",
+          "text": "Sai số train và test đều cao"
+        },
+        {
+          "key": "C",
+          "text": "Bias cao luôn"
+        },
+        {
+          "key": "D",
+          "text": "Không thể xảy ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đa thức bậc cao bám nhiễu của train, tổng quát hóa kém → lỗi test cao dù lỗi train thấp.",
+      "tags": [
+        "linreg",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E69-C056",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đánh đổi bias-variance khi tăng độ phức tạp mô hình là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bias giảm nhưng variance tăng"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai cùng giảm vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai cùng tăng"
+        },
+        {
+          "key": "D",
+          "text": "Không thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình phức tạp hơn giảm bias (sát dữ liệu) nhưng tăng variance (nhạy với mẫu); cần cân bằng để tổng lỗi nhỏ.",
+      "tags": [
+        "linreg",
+        "biasvariance"
+      ]
+    },
+    {
+      "id": "E69-C057",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao cần chuẩn hóa đặc trưng khi dùng gradient descent cho hồi quy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp hội tụ nhanh và ổn định khi các đặc trưng khác thang đo"
+        },
+        {
+          "key": "B",
+          "text": "Vì OLS closed-form cần nó"
+        },
+        {
+          "key": "C",
+          "text": "Vì để tạo nghiệm thưa"
+        },
+        {
+          "key": "D",
+          "text": "Vì để tăng bias"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng khác thang đo làm mặt mất mát kéo dài, gradient descent dao động/hội tụ chậm; chuẩn hóa làm contour tròn hơn.",
+      "tags": [
+        "linreg",
+        "scaling"
+      ]
+    },
+    {
+      "id": "E69-C058",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Biến giả (dummy variable) dùng để làm gì và 'bẫy biến giả' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa biến phân loại; bẫy là đưa đủ tất cả mức gây đa cộng tuyến hoàn hảo"
+        },
+        {
+          "key": "B",
+          "text": "Để chuẩn hóa số liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Để tạo phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Không liên quan categorical"
+        }
+      ],
+      "answer": "A",
+      "explanation": "One-hot mã hóa categorical; nếu giữ tất cả mức cùng intercept sẽ cộng tuyến hoàn hảo (dummy trap) → bỏ một mức làm tham chiếu.",
+      "tags": [
+        "linreg",
+        "dummy"
+      ]
+    },
+    {
+      "id": "E69-C059",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Số hạng tương tác (interaction term) x1*x2 cho phép điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ảnh hưởng của x1 lên y phụ thuộc vào giá trị x2"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ đa cộng tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Biến mô hình thành phi tuyến hoàn toàn theo y"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa biến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Interaction mô hình hóa việc tác động của một biến thay đổi theo mức của biến khác.",
+      "tags": [
+        "linreg",
+        "interaction"
+      ]
+    },
+    {
+      "id": "E69-C060",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Điểm có đòn bẩy cao (high leverage) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điểm có giá trị x cực đoan, có thể kéo mạnh đường hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Điểm có y bằng trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Điểm luôn là outlier về y"
+        },
+        {
+          "key": "D",
+          "text": "Điểm nằm chính giữa dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Leverage cao là x xa trung tâm; kết hợp residual lớn (điểm ảnh hưởng) có thể bẻ cong đường khớp.",
+      "tags": [
+        "linreg",
+        "leverage"
+      ]
+    },
+    {
+      "id": "E69-C061",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phần dư (residual) được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá trị thật trừ giá trị dự đoán (y - ŷ)"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán trừ trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Bình phương của hệ số"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách giữa hai tâm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Residual = y - ŷ; OLS cực tiểu hóa tổng bình phương phần dư.",
+      "tags": [
+        "linreg",
+        "residual"
+      ]
+    },
+    {
+      "id": "E69-C062",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Heteroscedasticity (phương sai phần dư thay đổi) ảnh hưởng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ước lượng hệ số vẫn không chệch nhưng sai số chuẩn sai, suy diễn không tin cậy"
+        },
+        {
+          "key": "B",
+          "text": "Làm hệ số chệch nặng"
+        },
+        {
+          "key": "C",
+          "text": "Làm R² luôn bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vi phạm đồng phương sai khiến SE và kiểm định t/F không còn hợp lệ; cần robust SE hoặc biến đổi.",
+      "tags": [
+        "linreg",
+        "homoscedasticity"
+      ]
+    },
+    {
+      "id": "E69-C063",
+      "module": "L",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Diễn giải hệ số β_j trong hồi quy bội?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay đổi kỳ vọng của y khi x_j tăng 1 đơn vị, giữ các biến khác cố định"
+        },
+        {
+          "key": "B",
+          "text": "Tổng ảnh hưởng của mọi biến"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất y=1"
+        },
+        {
+          "key": "D",
+          "text": "Độ dốc của sigmoid"
+        }
+      ],
+      "answer": "A",
+      "explanation": "β_j là tác động biên của x_j lên y khi cố định các biến còn lại (ceteris paribus).",
+      "tags": [
+        "linreg",
+        "interpretation"
+      ]
+    },
+    {
+      "id": "E69-C064",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sigmoid: σ(z)=1/(1+e^-z). Giá trị σ(0) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0000"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "1.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.7311"
+        }
+      ],
+      "answer": "B",
+      "explanation": "σ(0)=1/(1+1)=0.5000.",
+      "tags": [
+        "logistic",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E69-C065",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sigmoid: σ(2) bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000"
+        },
+        {
+          "key": "B",
+          "text": "0.7311"
+        },
+        {
+          "key": "C",
+          "text": "0.8808"
+        },
+        {
+          "key": "D",
+          "text": "0.9526"
+        }
+      ],
+      "answer": "C",
+      "explanation": "σ(2)=1/(1+e^-2)=0.8808.",
+      "tags": [
+        "logistic",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E69-C066",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logistic: w=[0.5,-1.0], bias=0.3, x=[2,1]. Xác suất dự đoán σ(wᵀx+b) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6744"
+        },
+        {
+          "key": "B",
+          "text": "0.4744"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.5744"
+        }
+      ],
+      "answer": "D",
+      "explanation": "z=0.5*2-1*1+0.3=0.3; σ(0.3)=0.5744.",
+      "tags": [
+        "logistic",
+        "probability"
+      ]
+    },
+    {
+      "id": "E69-C067",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Odds: xác suất p=0.8. Odds (p/(1-p)) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.00"
+        },
+        {
+          "key": "B",
+          "text": "5.00"
+        },
+        {
+          "key": "C",
+          "text": "3.00"
+        },
+        {
+          "key": "D",
+          "text": "1.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "odds=0.8/0.2=4.0.",
+      "tags": [
+        "logistic",
+        "odds"
+      ]
+    },
+    {
+      "id": "E69-C068",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logit: log-odds của p=0.5 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0000"
+        },
+        {
+          "key": "B",
+          "text": "0.0000"
+        },
+        {
+          "key": "C",
+          "text": "-1.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.6931"
+        }
+      ],
+      "answer": "B",
+      "explanation": "logit=ln(0.5/0.5)=ln(1)=0.0.",
+      "tags": [
+        "logistic",
+        "logit"
+      ]
+    },
+    {
+      "id": "E69-C069",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tỉ số odds: hệ số logistic β=0.6931. Odds ratio e^β (khi x tăng 1 đơn vị) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.4999"
+        },
+        {
+          "key": "B",
+          "text": "1.4999"
+        },
+        {
+          "key": "C",
+          "text": "1.9999"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "C",
+      "explanation": "e^0.6931≈1.9999 (odds nhân đôi).",
+      "tags": [
+        "logistic",
+        "oddsratio"
+      ]
+    },
+    {
+      "id": "E69-C070",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Log-loss (BCE) một mẫu: y=1, p=0.9. Mất mát -[y ln p+(1-y)ln(1-p)] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3054"
+        },
+        {
+          "key": "B",
+          "text": "0.0554"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.1054"
+        }
+      ],
+      "answer": "D",
+      "explanation": "-ln(0.9)=0.1054.",
+      "tags": [
+        "logistic",
+        "logloss"
+      ]
+    },
+    {
+      "id": "E69-C071",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "BCE trung bình: y=[1,0,1], p=[0.8,0.2,0.6]. Cross-entropy trung bình bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3190"
+        },
+        {
+          "key": "B",
+          "text": "0.4190"
+        },
+        {
+          "key": "C",
+          "text": "0.2690"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "-mean(ln0.8, ln0.8, ln0.6)=0.3190.",
+      "tags": [
+        "logistic",
+        "bce"
+      ]
+    },
+    {
+      "id": "E69-C072",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Quyết định: xác suất dự đoán 0.42, ngưỡng 0.5. Nhãn dự đoán (0 hay 1)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "B",
+      "explanation": "0.42<0.5 → lớp 0.",
+      "tags": [
+        "logistic",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E69-C073",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận nhầm lẫn TP=40, FP=10, FN=20, TN=30. Accuracy bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8000"
+        },
+        {
+          "key": "B",
+          "text": "0.6000"
+        },
+        {
+          "key": "C",
+          "text": "0.7000"
+        },
+        {
+          "key": "D",
+          "text": "15.4570"
+        }
+      ],
+      "answer": "C",
+      "explanation": "(40+30)/100=0.7000.",
+      "tags": [
+        "logistic",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E69-C074",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng ma trận (TP=40,FP=10,FN=20,TN=30). Precision bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7000"
+        },
+        {
+          "key": "B",
+          "text": "0.9000"
+        },
+        {
+          "key": "C",
+          "text": "0.6670"
+        },
+        {
+          "key": "D",
+          "text": "0.8000"
+        }
+      ],
+      "answer": "D",
+      "explanation": "TP/(TP+FP)=40/50=0.8000.",
+      "tags": [
+        "logistic",
+        "precision"
+      ]
+    },
+    {
+      "id": "E69-C075",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng ma trận (TP=40,FP=10,FN=20,TN=30). Recall bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6667"
+        },
+        {
+          "key": "B",
+          "text": "0.7667"
+        },
+        {
+          "key": "C",
+          "text": "0.5667"
+        },
+        {
+          "key": "D",
+          "text": "0.8000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TP/(TP+FN)=40/60=0.6667.",
+      "tags": [
+        "logistic",
+        "recall"
+      ]
+    },
+    {
+      "id": "E69-C076",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng ma trận (TP=40,FP=10,FN=20,TN=30). F1-score bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7773"
+        },
+        {
+          "key": "B",
+          "text": "0.7273"
+        },
+        {
+          "key": "C",
+          "text": "0.6773"
+        },
+        {
+          "key": "D",
+          "text": "0.7500"
+        }
+      ],
+      "answer": "B",
+      "explanation": "F1=2PR/(P+R)=2*0.8*0.667/(1.467)=0.7273.",
+      "tags": [
+        "logistic",
+        "f1"
+      ]
+    },
+    {
+      "id": "E69-C077",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient logistic: với BCE, gradient theo z là (p - y). Nếu p=0.7, y=1 thì (p-y) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-0.0000"
+        },
+        {
+          "key": "B",
+          "text": "0.3000"
+        },
+        {
+          "key": "C",
+          "text": "-0.3000"
+        },
+        {
+          "key": "D",
+          "text": "0.7000"
+        }
+      ],
+      "answer": "C",
+      "explanation": "p-y=0.7-1=-0.30.",
+      "tags": [
+        "logistic",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E69-C078",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng ma trận (TN=30, FP=10). Specificity (TN/(TN+FP)) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6500"
+        },
+        {
+          "key": "B",
+          "text": "0.8500"
+        },
+        {
+          "key": "C",
+          "text": "0.8000"
+        },
+        {
+          "key": "D",
+          "text": "0.7500"
+        }
+      ],
+      "answer": "D",
+      "explanation": "30/(30+10)=0.7500.",
+      "tags": [
+        "logistic",
+        "specificity"
+      ]
+    },
+    {
+      "id": "E69-C079",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao hồi quy logistic dùng hàm sigmoid?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để ánh xạ tổ hợp tuyến tính về (0,1) như xác suất"
+        },
+        {
+          "key": "B",
+          "text": "Để tạo nghiệm thưa"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng phương sai"
+        },
+        {
+          "key": "D",
+          "text": "Để bỏ qua bias"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid nén z∈(-∞,∞) về (0,1), diễn giải như xác suất lớp dương.",
+      "tags": [
+        "logistic",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E69-C080",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ranh giới quyết định của hồi quy logistic (nhị phân) có dạng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tuyến tính (siêu phẳng) trong không gian đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Luôn là đường cong sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Hình cầu"
+        },
+        {
+          "key": "D",
+          "text": "Cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tại ngưỡng 0.5, wᵀx+b=0 là siêu phẳng tuyến tính; logistic là bộ phân loại tuyến tính.",
+      "tags": [
+        "logistic",
+        "boundary"
+      ]
+    },
+    {
+      "id": "E69-C081",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao logistic dùng cross-entropy (log-loss) thay vì MSE?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì với sigmoid, MSE tạo hàm mất mát không lồi; cross-entropy lồi và phù hợp MLE"
+        },
+        {
+          "key": "B",
+          "text": "Vì MSE không tính được"
+        },
+        {
+          "key": "C",
+          "text": "Vì log-loss luôn nhỏ hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì MSE cần nhãn liên tục, log-loss không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE+sigmoid cho mặt mất mát không lồi và gradient nhỏ ở vùng bão hòa; BCE là hợp lý cực đại (lồi), gradient tốt hơn.",
+      "tags": [
+        "logistic",
+        "logloss"
+      ]
+    },
+    {
+      "id": "E69-C082",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hồi quy logistic ước lượng tham số bằng phương pháp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hợp lý cực đại (MLE) tương đương cực tiểu cross-entropy"
+        },
+        {
+          "key": "B",
+          "text": "OLS closed-form"
+        },
+        {
+          "key": "C",
+          "text": "KMeans"
+        },
+        {
+          "key": "D",
+          "text": "PCA"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không có nghiệm đóng; tối ưu log-likelihood bằng gradient/Newton, tương đương tối thiểu log-loss.",
+      "tags": [
+        "logistic",
+        "mle"
+      ]
+    },
+    {
+      "id": "E69-C083",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Odds ratio e^β trong logistic được diễn giải thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Odds của lớp dương nhân với e^β khi x tăng 1 đơn vị"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất tăng e^β lần"
+        },
+        {
+          "key": "C",
+          "text": "Bằng accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Bằng AUC"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ số tác động lên log-odds tuyến tính; e^β là hệ số nhân của odds khi đặc trưng tăng 1 đơn vị.",
+      "tags": [
+        "logistic",
+        "oddsratio"
+      ]
+    },
+    {
+      "id": "E69-C084",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hạ ngưỡng quyết định từ 0.5 xuống 0.3 thường gây ra điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng recall, giảm precision (bắt nhiều dương hơn nhưng nhiều FP)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng cả precision và recall"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi gì"
+        },
+        {
+          "key": "D",
+          "text": "Giảm recall"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngưỡng thấp gán nhiều mẫu là dương → recall tăng, precision thường giảm; đây là đánh đổi precision-recall.",
+      "tags": [
+        "logistic",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E69-C085",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi dữ liệu mất cân bằng nghiêm trọng, vì sao accuracy gây hiểu nhầm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình đoán toàn lớp đa số vẫn có accuracy cao dù bỏ sót lớp hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Vì accuracy luôn bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Vì accuracy = recall"
+        },
+        {
+          "key": "D",
+          "text": "Vì accuracy bỏ qua TN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với lớp hiếm, accuracy cao có thể đạt bằng cách bỏ qua lớp dương; nên dùng precision/recall/F1/PR-AUC.",
+      "tags": [
+        "logistic",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E69-C086",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đường cong ROC vẽ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TPR (recall) theo FPR khi thay đổi ngưỡng"
+        },
+        {
+          "key": "B",
+          "text": "Precision theo recall"
+        },
+        {
+          "key": "C",
+          "text": "Loss theo epoch"
+        },
+        {
+          "key": "D",
+          "text": "WCSS theo k"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROC = TPR vs FPR theo mọi ngưỡng; AUC tóm tắt khả năng xếp hạng dương trên âm.",
+      "tags": [
+        "logistic",
+        "roc"
+      ]
+    },
+    {
+      "id": "E69-C087",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "AUC = 0.5 nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình phân biệt như đoán ngẫu nhiên"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình tệ nhất có thể"
+        },
+        {
+          "key": "D",
+          "text": "Không tính được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AUC 0.5 = đường chéo = ngẫu nhiên; 1.0 = hoàn hảo; <0.5 tệ hơn ngẫu nhiên.",
+      "tags": [
+        "logistic",
+        "auc"
+      ]
+    },
+    {
+      "id": "E69-C088",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi nào nên ưu tiên đường cong Precision-Recall hơn ROC?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi lớp dương rất hiếm (mất cân bằng mạnh)"
+        },
+        {
+          "key": "B",
+          "text": "Khi dữ liệu cân bằng hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Khi không có nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Khi hồi quy liên tục"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PR curve nhạy với lớp dương hiếm hơn ROC (vốn lạc quan khi nhiều TN), nên tốt hơn cho dữ liệu lệch.",
+      "tags": [
+        "logistic",
+        "prcurve"
+      ]
+    },
+    {
+      "id": "E69-C089",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại đa lớp bằng One-vs-Rest (OvR) hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện một bộ nhị phân cho mỗi lớp chống phần còn lại, chọn xác suất cao nhất"
+        },
+        {
+          "key": "B",
+          "text": "Một bộ softmax duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Phân cụm rồi gán nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Hồi quy tuyến tính từng lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OvR xây K bộ phân loại nhị phân; dự đoán theo lớp có điểm/xác suất cao nhất.",
+      "tags": [
+        "logistic",
+        "ovr"
+      ]
+    },
+    {
+      "id": "E69-C090",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Softmax (multinomial logistic) khác OvR ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình hóa đồng thời mọi lớp với xác suất chuẩn hóa tổng bằng 1"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng cho 2 lớp"
+        },
+        {
+          "key": "C",
+          "text": "Không cần huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Là phương pháp phân cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax cho phân phối xác suất chung trên các lớp (tổng=1), tối ưu cross-entropy đa lớp một lần.",
+      "tags": [
+        "logistic",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E69-C091",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Chính quy hóa L2 trong logistic giúp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm overfitting bằng cách phạt hệ số lớn"
+        },
+        {
+          "key": "B",
+          "text": "Tăng hệ số lên vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Biến nó thành hồi quy tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Đảm bảo AUC=1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phạt ||w||² hạn chế độ lớn hệ số, đặc biệt hữu ích khi dữ liệu tách được hoàn toàn (tránh hệ số phân kỳ).",
+      "tags": [
+        "logistic",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E69-C092",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiệu chỉnh (calibration) của xác suất dự đoán nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong nhóm dự đoán p≈0.7 thì khoảng 70% thực sự là dương"
+        },
+        {
+          "key": "B",
+          "text": "Mọi xác suất bằng 0 hoặc 1"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy bằng 100%"
+        },
+        {
+          "key": "D",
+          "text": "Threshold bằng 0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình hiệu chỉnh tốt: xác suất phản ánh tần suất thực; có thể dùng Platt/Isotonic để hiệu chỉnh.",
+      "tags": [
+        "logistic",
+        "calibration"
+      ]
+    },
+    {
+      "id": "E69-C093",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi nào hồi quy logistic dễ thất bại/không phù hợp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi ranh giới giữa các lớp phi tuyến mạnh mà không thêm đặc trưng phi tuyến"
+        },
+        {
+          "key": "B",
+          "text": "Khi dữ liệu tách tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "Khi có nhiều mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Khi đặc trưng đã chuẩn hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logistic chỉ tạo ranh giới tuyến tính; với ranh giới phi tuyến phức tạp cần kernel/đặc trưng phi tuyến hoặc mô hình khác.",
+      "tags": [
+        "logistic",
+        "limitation"
+      ]
+    },
+    {
+      "id": "E69-C094",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient của log-loss theo z cho một mẫu bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(p - y), với p là xác suất dự đoán"
+        },
+        {
+          "key": "B",
+          "text": "(y - p²)"
+        },
+        {
+          "key": "C",
+          "text": "p*(1-p) luôn dương"
+        },
+        {
+          "key": "D",
+          "text": "2(p-y)x²"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm cross-entropy qua sigmoid rút gọn thành (p-y), dạng đẹp giống residual.",
+      "tags": [
+        "logistic",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E69-C095",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết đoạn mã numpy thực hiện MỘT vòng lặp của KMeans (một bước Lloyd): cho mảng X (n×d) và mảng tâm centroids (k×d), hãy (1) gán mỗi điểm vào tâm gần nhất theo Euclid, (2) cập nhật mỗi tâm bằng trung bình các điểm được gán. Trình bày mã và giải thích ngắn.",
+      "modelAnswer": "import numpy as np\n# X: (n,d), centroids: (k,d)\ndef one_lloyd_step(X, centroids):\n    # (1) tính khoảng cách tới từng tâm rồi gán\n    dists = np.linalg.norm(X[:,None,:] - centroids[None,:,:], axis=2)  # (n,k)\n    labels = np.argmin(dists, axis=1)\n    # (2) cập nhật tâm = trung bình điểm trong cụm\n    new_centroids = np.array([X[labels==j].mean(axis=0) if np.any(labels==j) else centroids[j]\n                              for j in range(centroids.shape[0])])\n    return labels, new_centroids\nGiải thích: broadcasting tạo ma trận khoảng cách (n,k); argmin theo trục cụm cho nhãn; sau đó mỗi tâm cập nhật bằng mean các điểm cùng nhãn, có xử lý cụm rỗng (giữ tâm cũ).",
+      "rubric": [
+        "Tính đúng ma trận khoảng cách Euclid và gán bằng argmin",
+        "Cập nhật tâm bằng trung bình các điểm trong cụm",
+        "Xử lý cụm rỗng và mã numpy chạy được",
+        "Giải thích rõ hai bước gán/cập nhật"
+      ],
+      "tags": [
+        "kmeans",
+        "code",
+        "lloyd"
+      ]
+    },
+    {
+      "id": "E69-C096",
+      "module": "L",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày các giả định chính của hồi quy tuyến tính OLS và nêu hậu quả khi mỗi giả định bị vi phạm (ít nhất 4 giả định).",
+      "modelAnswer": "Các giả định OLS: (1) Tuyến tính theo tham số — nếu sai, mô hình thiếu khớp, dự đoán chệch. (2) Phần dư độc lập — nếu tự tương quan (dữ liệu chuỗi thời gian), sai số chuẩn bị đánh giá thấp, kiểm định sai. (3) Phương sai đồng nhất (homoscedasticity) — nếu heteroscedasticity, hệ số vẫn không chệch nhưng SE sai → suy diễn không tin cậy, cần robust SE. (4) Phần dư phân phối chuẩn — quan trọng cho kiểm định/khoảng tin cậy ở mẫu nhỏ. (5) Không đa cộng tuyến nghiêm trọng — nếu vi phạm, hệ số bất ổn, SE lớn, khó diễn giải (dùng VIF). (6) X đo không sai/ngoại sinh — nếu nội sinh, ước lượng chệch. Cần kiểm tra bằng đồ thị phần dư, QQ-plot, VIF, Durbin-Watson.",
+      "rubric": [
+        "Nêu đúng tối thiểu 4 giả định cốt lõi",
+        "Giải thích hậu quả của việc vi phạm từng giả định",
+        "Đề cập công cụ kiểm tra (đồ thị phần dư, VIF, v.v.)",
+        "Diễn đạt rõ ràng, chính xác"
+      ],
+      "tags": [
+        "linreg",
+        "assumption",
+        "essay"
+      ]
+    },
+    {
+      "id": "E69-C097",
+      "module": "L",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "So sánh Ridge (L2) và Lasso (L1) trong hồi quy: cơ chế phạt, ảnh hưởng tới hệ số, khi nào dùng cái nào, và ElasticNet giải quyết gì.",
+      "modelAnswer": "Ridge thêm phạt λΣβ² (L2): co đều các hệ số về gần 0 nhưng hiếm khi bằng 0; ổn định khi có đa cộng tuyến, giữ mọi biến. Lasso thêm phạt λΣ|β| (L1): có thể đưa một số hệ số về đúng 0 → chọn biến, cho mô hình thưa và dễ diễn giải; nhưng khi nhóm biến tương quan, Lasso chọn ngẫu nhiên một biến. Dùng Ridge khi nhiều biến đều có chút đóng góp và lo đa cộng tuyến; dùng Lasso khi nghi ngờ nhiều biến vô ích và muốn chọn biến. ElasticNet kết hợp L1+L2 (qua l1_ratio): vừa tạo thưa vừa ổn định với nhóm biến tương quan, khắc phục nhược điểm chọn thất thường của Lasso. Tất cả đều cần chuẩn hóa đặc trưng và chọn λ qua cross-validation.",
+      "rubric": [
+        "Mô tả đúng phạt L2 vs L1 và ảnh hưởng tới hệ số (co vs đưa về 0)",
+        "Nêu khi nào dùng Ridge, khi nào dùng Lasso",
+        "Giải thích ElasticNet kết hợp và lợi ích",
+        "Nhắc tới chuẩn hóa và chọn λ bằng CV"
+      ],
+      "tags": [
+        "linreg",
+        "regularization",
+        "essay"
+      ]
+    },
+    {
+      "id": "E69-C098",
+      "module": "G",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Vì sao hồi quy logistic dùng hàm mất mát log-loss (cross-entropy) thay vì MSE? Liên hệ tính lồi, MLE và gradient.",
+      "modelAnswer": "Với sigmoid, dùng MSE tạo hàm mất mát KHÔNG lồi theo tham số, có nhiều cực tiểu cục bộ và gradient triệt tiêu ở vùng bão hòa (p gần 0/1) làm học chậm. Log-loss xuất phát từ nguyên lý hợp lý cực đại (MLE) cho phân phối Bernoulli: -[y ln p+(1-y)ln(1-p)]. Hàm này LỒI theo trọng số (với mô hình tuyến tính + sigmoid) nên gradient descent hội tụ về cực tiểu toàn cục. Gradient của log-loss qua sigmoid rút gọn đẹp thành (p-y)·x, tỉ lệ với sai số, không bị bão hòa như MSE. Vì vậy log-loss vừa có nền tảng xác suất (MLE), vừa tối ưu tốt hơn.",
+      "rubric": [
+        "Chỉ ra MSE+sigmoid không lồi / gradient bão hòa",
+        "Liên hệ log-loss với MLE / Bernoulli",
+        "Nêu tính lồi và gradient (p-y) gọn",
+        "Kết luận vì sao log-loss tốt hơn"
+      ],
+      "tags": [
+        "logistic",
+        "logloss",
+        "essay"
+      ]
+    },
+    {
+      "id": "E69-C099",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày các phương pháp chọn số cụm k trong KMeans (ít nhất hai phương pháp) và ưu nhược điểm của chúng.",
+      "modelAnswer": "Hai phương pháp chính: (1) Elbow — vẽ WCSS/inertia theo k; chọn k ở 'khuỷu' nơi mức giảm chậm lại. Ưu: trực quan, rẻ. Nhược: khuỷu thường mơ hồ, chủ quan. (2) Silhouette — tính hệ số silhouette trung bình theo k; chọn k cho silhouette cao nhất. Ưu: định lượng độ tách cụm ∈[-1,1]. Nhược: tốn tính toán hơn. Bổ sung: chỉ số Davies-Bouldin (thấp tốt), Gap statistic (so với phân phối tham chiếu), và kiến thức miền/ràng buộc nghiệp vụ. Nên chuẩn hóa đặc trưng trước, chạy nhiều khởi tạo, và đối chiếu nhiều tiêu chí thay vì chỉ một.",
+      "rubric": [
+        "Nêu ít nhất hai phương pháp (Elbow, Silhouette...)",
+        "Mô tả đúng cách thực hiện mỗi phương pháp",
+        "Nêu ưu/nhược điểm",
+        "Đề cập chuẩn hóa hoặc kiến thức miền hỗ trợ chọn k"
+      ],
+      "tags": [
+        "kmeans",
+        "choosingk",
+        "essay"
+      ]
+    },
+    {
+      "id": "E69-C100",
+      "module": "G",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "So sánh đường cong ROC và Precision-Recall (PR): chúng vẽ gì, khi nào nên dùng PR thay ROC, và ý nghĩa của AUC tương ứng.",
+      "modelAnswer": "ROC vẽ TPR (recall) theo FPR khi quét ngưỡng; AUC-ROC là xác suất một mẫu dương được xếp hạng cao hơn một mẫu âm ngẫu nhiên (0.5=ngẫu nhiên, 1=hoàn hảo). PR vẽ Precision theo Recall; tập trung vào lớp dương. Khi lớp dương rất hiếm (mất cân bằng mạnh), ROC có thể lạc quan vì FPR nhỏ do số TN lớn áp đảo; PR phản ánh trung thực hơn hiệu năng trên lớp hiếm vì precision nhạy với FP so với TP. Do đó dùng PR cho dữ liệu lệch (gian lận, bệnh hiếm) và dùng ROC khi lớp tương đối cân bằng hoặc cần so sánh độc lập tỉ lệ lớp. AUC-PR có baseline bằng tỉ lệ lớp dương (không phải 0.5).",
+      "rubric": [
+        "Mô tả đúng trục của ROC (TPR vs FPR) và PR (Precision vs Recall)",
+        "Giải thích vì sao PR tốt hơn khi lớp mất cân bằng",
+        "Nêu ý nghĩa AUC-ROC và baseline AUC-PR",
+        "Cho ví dụ tình huống dùng mỗi loại"
+      ],
+      "tags": [
+        "logistic",
+        "roc",
+        "prcurve",
+        "essay"
+      ]
+    }
+  ]
+}

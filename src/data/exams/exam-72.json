@@ -1,0 +1,3153 @@
+{
+  "id": "exam-72",
+  "title": "NLP Cơ bản — Đề luyện chuyên sâu (100 câu)",
+  "description": "Đề luyện tập chuyên sâu, toàn diện về NLP cổ điển/cơ bản: tiền xử lý văn bản (tokenization, chuẩn hoá, stemming/lemmatization, subword), biểu diễn (one-hot, BoW, TF-IDF), n-gram và mô hình ngôn ngữ, word embedding, độ tương đồng, phân loại văn bản, gán nhãn chuỗi, các tác vụ kinh điển và đánh giá. Nhiều câu tính toán được kiểm chứng bằng NumPy, kèm câu hỏi tự luận và viết code.",
+  "durationMinutes": 110,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E72-C001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Quá trình tách một câu thành các đơn vị nhỏ hơn như từ hoặc dấu câu được gọi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tokenization (tách token)"
+        },
+        {
+          "key": "B",
+          "text": "Stemming"
+        },
+        {
+          "key": "C",
+          "text": "Lemmatization"
+        },
+        {
+          "key": "D",
+          "text": "Vectorization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tokenization là bước chia văn bản thành các token (từ, dấu câu, hoặc subword), là bước nền tảng đầu tiên trong hầu hết pipeline NLP.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "tokenization"
+      ]
+    },
+    {
+      "id": "E72-C002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi đưa toàn bộ văn bản về chữ thường (ví dụ 'Apple' và 'apple' coi là một), kỹ thuật đó gọi là gì và mục đích chính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lowercasing — giảm kích thước từ vựng và tránh tách trùng do hoa/thường"
+        },
+        {
+          "key": "B",
+          "text": "Stemming — cắt hậu tố của từ"
+        },
+        {
+          "key": "C",
+          "text": "Stopword removal — loại từ dừng"
+        },
+        {
+          "key": "D",
+          "text": "Lemmatization — đưa về từ gốc theo từ điển"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lowercasing chuẩn hoá hoa/thường, khiến 'Apple' và 'apple' trở thành cùng một token, qua đó giảm số từ vựng và tránh đếm tách rời.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E72-C003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Stopwords (từ dừng) trong tiếng Anh điển hình là nhóm từ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các từ rất phổ biến, ít mang nghĩa phân biệt như 'the', 'is', 'and'"
+        },
+        {
+          "key": "B",
+          "text": "Các danh từ riêng hiếm gặp"
+        },
+        {
+          "key": "C",
+          "text": "Các từ sai chính tả cần sửa"
+        },
+        {
+          "key": "D",
+          "text": "Các từ chuyên ngành kỹ thuật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stopwords là những từ xuất hiện rất thường xuyên nhưng mang ít thông tin phân biệt (the, is, and...), nên đôi khi bị loại bỏ để giảm nhiễu.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "stopwords"
+      ]
+    },
+    {
+      "id": "E72-C004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kỹ thuật 'hashing trick' (feature hashing) trong biểu diễn văn bản dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ánh xạ token vào chỉ số đặc trưng cố định bằng hàm băm, tránh phải lưu từ điển lớn"
+        },
+        {
+          "key": "B",
+          "text": "Mã hóa mật khẩu người dùng an toàn"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp các từ theo tần suất giảm dần"
+        },
+        {
+          "key": "D",
+          "text": "Dịch văn bản sang một ngôn ngữ khác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Feature hashing dùng hàm băm để gán token vào không gian đặc trưng kích thước cố định, tiết kiệm bộ nhớ và xử lý được từ mới (đổi lại có thể va chạm hash).",
+      "tags": [
+        "nlp",
+        "hashing-trick"
+      ]
+    },
+    {
+      "id": "E72-C005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thuật toán Porter Stemmer thuộc loại kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Stemming dựa trên tập luật cắt/biến đổi hậu tố"
+        },
+        {
+          "key": "B",
+          "text": "Lemmatization dựa trên WordNet"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình ngôn ngữ thống kê"
+        },
+        {
+          "key": "D",
+          "text": "Mạng nơ-ron hồi quy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Porter Stemmer là thuật toán stemming cổ điển dựa trên một loạt luật cắt và biến đổi hậu tố theo nhiều giai đoạn, không tra từ điển.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "stemming",
+        "porter"
+      ]
+    },
+    {
+      "id": "E72-C006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "BPE (Byte Pair Encoding) và WordPiece là các kỹ thuật tách token ở cấp độ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Subword (từ con) — ghép dần các cặp ký tự/đơn vị phổ biến để xử lý từ hiếm và OOV"
+        },
+        {
+          "key": "B",
+          "text": "Câu (sentence)"
+        },
+        {
+          "key": "C",
+          "text": "Đoạn văn (paragraph)"
+        },
+        {
+          "key": "D",
+          "text": "Ký tự đơn lẻ cố định không gộp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BPE và WordPiece là tokenization mức subword: gộp dần các cặp đơn vị xuất hiện nhiều, giúp biểu diễn từ hiếm bằng các mảnh con và giảm vấn đề OOV.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "subword",
+        "bpe",
+        "wordpiece"
+      ]
+    },
+    {
+      "id": "E72-C007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ưu điểm chính của tách token mức subword (BPE/WordPiece) so với tách mức từ (word-level)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm mạnh vấn đề từ ngoài từ vựng (OOV) vì từ lạ vẫn ghép được từ các mảnh con"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cho ít token hơn tách mức từ"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn nhu cầu về từ vựng"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua được bước chuẩn hoá chữ thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Subword cho phép biểu diễn từ chưa từng thấy bằng các mảnh con đã biết, nhờ đó giảm OOV mà vẫn giữ từ vựng ở mức quản lý được.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "subword",
+        "oov"
+      ]
+    },
+    {
+      "id": "E72-C008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong câu 'Dr. Smith arrived at 5 p.m.', thách thức nào khiến tách CÂU (sentence tokenization) khó?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dấu chấm vừa kết thúc câu vừa nằm trong viết tắt (Dr., p.m.) gây nhập nhằng ranh giới câu"
+        },
+        {
+          "key": "B",
+          "text": "Câu chứa số nên không tách được"
+        },
+        {
+          "key": "C",
+          "text": "Câu quá ngắn để tách"
+        },
+        {
+          "key": "D",
+          "text": "Tiếng Anh không dùng dấu chấm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dấu '.' trong 'Dr.' và 'p.m.' không phải dấu kết thúc câu, nên bộ tách câu phải phân biệt viết tắt với ranh giới câu thực sự.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "sentence-tokenization"
+      ]
+    },
+    {
+      "id": "E72-C009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Normalization (chuẩn hoá văn bản) trong NLP KHÔNG bao gồm thao tác nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện mạng nơ-ron sâu để dự đoán nhãn"
+        },
+        {
+          "key": "B",
+          "text": "Đưa về chữ thường"
+        },
+        {
+          "key": "C",
+          "text": "Gỡ dấu câu/ký tự thừa"
+        },
+        {
+          "key": "D",
+          "text": "Quy đổi các biến thể về dạng chuẩn (vd 'U.S.A'->'usa')"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Normalization gồm các thao tác chuẩn hoá bề mặt văn bản (lowercasing, gỡ dấu câu, hợp nhất biến thể). Huấn luyện mô hình dự đoán không phải là bước chuẩn hoá.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E72-C010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong NLP, biểu thức chính quy (regex) thường dùng cho việc gì ở bước tiền xử lý?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khớp và trích/loại bỏ mẫu chuỗi như email, URL, số điện thoại, khoảng trắng thừa"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện embedding từ"
+        },
+        {
+          "key": "C",
+          "text": "Tính độ tương đồng cosine"
+        },
+        {
+          "key": "D",
+          "text": "Suy diễn cây cú pháp phụ thuộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Regex là công cụ khớp mẫu chuỗi, rất hữu ích để trích xuất hoặc làm sạch các mẫu như email, URL, số, hay gỡ khoảng trắng dư trong tiền xử lý.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "regex"
+      ]
+    },
+    {
+      "id": "E72-C011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thứ tự pipeline tiền xử lý cổ điển nào hợp lý nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm sạch/chuẩn hoá -> tokenization -> bỏ stopwords -> stemming/lemmatization -> vector hoá"
+        },
+        {
+          "key": "B",
+          "text": "Vector hoá -> tokenization -> chuẩn hoá -> bỏ stopwords"
+        },
+        {
+          "key": "C",
+          "text": "Stemming -> vector hoá -> tokenization -> chuẩn hoá"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ stopwords -> vector hoá -> chuẩn hoá -> tokenization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thứ tự hợp lý là làm sạch/chuẩn hoá văn bản, tách token, loại stopwords, rồi stem/lemmatize, cuối cùng mới vector hoá để đưa vào mô hình.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "E72-C012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sửa lỗi chính tả (spelling correction) thường dùng độ đo nào để tìm từ ứng viên gần nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách chỉnh sửa (edit/Levenshtein distance)"
+        },
+        {
+          "key": "B",
+          "text": "Độ tương đồng cosine giữa embedding câu"
+        },
+        {
+          "key": "C",
+          "text": "Perplexity của mô hình ngôn ngữ"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số IDF"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sửa lỗi chính tả thường dựa trên edit distance để xếp hạng các từ trong từ điển gần với từ viết sai nhất.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "spelling",
+        "edit-distance"
+      ]
+    },
+    {
+      "id": "E72-C013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hình thái học (morphology) trong NLP nghiên cứu điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cấu trúc bên trong của từ: gốc từ, tiền tố, hậu tố, biến tố"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ ngữ pháp giữa các câu"
+        },
+        {
+          "key": "C",
+          "text": "Ý nghĩa toàn văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Phân phối xác suất n-gram"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Morphology nghiên cứu cách từ được cấu tạo từ các hình vị (morpheme) như gốc, tiền tố, hậu tố và các dạng biến tố.",
+      "tags": [
+        "nlp",
+        "morphology"
+      ]
+    },
+    {
+      "id": "E72-C014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao việc loại bỏ stopwords KHÔNG phải lúc nào cũng tốt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Với một số tác vụ (phân tích cảm xúc, dịch máy), stopwords như 'not' mang thông tin quan trọng nên loại bỏ có thể làm sai nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Loại stopwords luôn làm tăng kích thước từ vựng"
+        },
+        {
+          "key": "C",
+          "text": "Stopwords là các từ hiếm nên rất quan trọng"
+        },
+        {
+          "key": "D",
+          "text": "Không có công cụ nào hỗ trợ loại stopwords"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một số từ dừng (vd 'not', 'no') đảo ngược nghĩa; loại bỏ vô tội vạ có thể làm hỏng tín hiệu cho các tác vụ như phân tích cảm xúc hay dịch máy.",
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "stopwords"
+      ]
+    },
+    {
+      "id": "E72-C015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Biểu diễn one-hot cho một từ trong từ vựng kích thước V có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector dài V, đúng một phần tử bằng 1 còn lại bằng 0, không mã hoá quan hệ ngữ nghĩa giữa các từ"
+        },
+        {
+          "key": "B",
+          "text": "Vector dày đặc kích thước nhỏ mã hoá ngữ nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Vector nhị phân có nhiều phần tử bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Vector số thực phân phối chuẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "One-hot là vector thưa dài bằng V với một vị trí bằng 1; mọi cặp từ đều trực giao nên không thể hiện được sự tương đồng ngữ nghĩa.",
+      "tags": [
+        "nlp",
+        "representation",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E72-C016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mô hình Bag-of-Words (BoW) biểu diễn một văn bản bằng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector đếm/tần suất các từ, bỏ qua thứ tự từ"
+        },
+        {
+          "key": "B",
+          "text": "Chuỗi các từ giữ nguyên thứ tự"
+        },
+        {
+          "key": "C",
+          "text": "Cây cú pháp phụ thuộc"
+        },
+        {
+          "key": "D",
+          "text": "Một số thực duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BoW coi văn bản như một 'túi từ', biểu diễn bằng vector đếm số lần xuất hiện của mỗi từ trong từ vựng và bỏ qua thứ tự.",
+      "tags": [
+        "nlp",
+        "representation",
+        "bow"
+      ]
+    },
+    {
+      "id": "E72-C017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hạn chế cơ bản nào của Bag-of-Words?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mất thông tin thứ tự từ và không nắm bắt ngữ nghĩa/đồng nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Không thể áp dụng cho văn bản tiếng Anh"
+        },
+        {
+          "key": "C",
+          "text": "Luôn tạo vector dày đặc kích thước nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Yêu cầu mạng nơ-ron để tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BoW bỏ qua thứ tự từ nên 'dog bites man' và 'man bites dog' giống nhau, và không nắm được đồng nghĩa/ngữ nghĩa vì mỗi từ là một chiều độc lập.",
+      "tags": [
+        "nlp",
+        "representation",
+        "bow",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E72-C018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Từ vựng theo thứ tự là ['cat','dog','fish','bird']. Câu 'cat dog cat bird cat dog'. Vector đếm BoW (theo thứ tự từ vựng) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 2, 0, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[2, 3, 0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 2, 1, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 1, 0, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'cat' xuất hiện 3 lần, 'dog' 2 lần, 'fish' 0, 'bird' 1 -> [3,2,0,1]. Đếm trực tiếp trên câu.",
+      "tags": [
+        "nlp",
+        "representation",
+        "bow",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một văn bản có 50 token, trong đó từ 'data' xuất hiện 6 lần. Tần suất từ TF('data') tính theo tỉ lệ (count/tổng token) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.12"
+        },
+        {
+          "key": "B",
+          "text": "0.06"
+        },
+        {
+          "key": "C",
+          "text": "0.18"
+        },
+        {
+          "key": "D",
+          "text": "0.24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TF = số lần xuất hiện / tổng số token = 6/50 = 0.12.",
+      "tags": [
+        "nlp",
+        "representation",
+        "tf",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Có N=1000 văn bản; từ 'neural' xuất hiện trong df=10 văn bản. Tính IDF = log10(N/df).",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "1.7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IDF = log10(1000/10) = log10(100) = 2.0.",
+      "tags": [
+        "nlp",
+        "representation",
+        "idf",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho TF('model')=0.04 và IDF('model')=log10(10000/100)=2.0. Giá trị TF-IDF('model') = TF*IDF bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.08"
+        },
+        {
+          "key": "B",
+          "text": "0.04"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "0.16"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TF-IDF = TF * IDF = 0.04 * 2.0 = 0.08.",
+      "tags": [
+        "nlp",
+        "representation",
+        "tfidf",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trực giác của IDF trong TF-IDF là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hạ trọng số các từ xuất hiện trong nhiều văn bản (phổ biến, ít phân biệt) và nâng trọng số các từ hiếm, đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Nâng trọng số mọi từ xuất hiện nhiều lần"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ đếm số token của văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hoá độ dài văn bản về 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IDF tỉ lệ nghịch với độ phổ biến tài liệu: từ xuất hiện trong càng nhiều văn bản thì IDF càng nhỏ, qua đó hạ trọng số các từ chung và đề cao từ hiếm, giàu thông tin.",
+      "tags": [
+        "nlp",
+        "representation",
+        "tfidf",
+        "idf"
+      ]
+    },
+    {
+      "id": "E72-C023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong sklearn, CountVectorizer và TfidfVectorizer khác nhau ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CountVectorizer tạo vector đếm thô (BoW); TfidfVectorizer tạo vector trọng số TF-IDF"
+        },
+        {
+          "key": "B",
+          "text": "CountVectorizer tạo embedding dày đặc; TfidfVectorizer tạo one-hot"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều tạo vector TF-IDF giống hệt nhau"
+        },
+        {
+          "key": "D",
+          "text": "CountVectorizer dùng cho ảnh, TfidfVectorizer dùng cho văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CountVectorizer trả ma trận đếm từ (BoW thô), còn TfidfVectorizer trả ma trận trọng số TF-IDF đã giảm trọng số các từ phổ biến.",
+      "tags": [
+        "nlp",
+        "representation",
+        "countvectorizer",
+        "tfidf"
+      ]
+    },
+    {
+      "id": "E72-C024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao biểu diễn BoW/TF-IDF thường được lưu ở dạng ma trận thưa (sparse) thay vì dày đặc (dense)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi văn bản chỉ chứa một phần nhỏ trong từ vựng rất lớn nên hầu hết phần tử bằng 0, lưu thưa tiết kiệm bộ nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Vì ma trận thưa luôn tính nhanh hơn mọi phép toán"
+        },
+        {
+          "key": "C",
+          "text": "Vì TF-IDF không thể biểu diễn dạng dày đặc"
+        },
+        {
+          "key": "D",
+          "text": "Vì dạng dày đặc làm mất thông tin"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Từ vựng có thể hàng chục nghìn từ nhưng mỗi văn bản chỉ dùng ít từ, nên ma trận BoW/TF-IDF gần như toàn số 0; biểu diễn thưa chỉ lưu phần tử khác 0 để tiết kiệm bộ nhớ.",
+      "tags": [
+        "nlp",
+        "representation",
+        "sparse"
+      ]
+    },
+    {
+      "id": "E72-C025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hashing trick (feature hashing) trong NLP giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ánh xạ từ trực tiếp sang chỉ số đặc trưng bằng hàm băm, tránh phải lưu/duy trì từ điển từ vựng lớn"
+        },
+        {
+          "key": "B",
+          "text": "Mã hoá ngữ nghĩa giữa các từ đồng nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ chính xác bằng cách loại bỏ va chạm"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp từ theo tần suất giảm dần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hashing trick dùng hàm băm để gán từ vào chỉ số đặc trưng cố định, không cần lưu từ điển; đánh đổi là có thể xảy ra va chạm băm.",
+      "tags": [
+        "nlp",
+        "representation",
+        "hashing-trick"
+      ]
+    },
+    {
+      "id": "E72-C026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Câu (đã tách): ['the','cat','sat','on','the','mat']. Số bigram (2-gram liên tiếp) sinh ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số n-gram liên tiếp = số token - n + 1 = 6 - 2 + 1 = 5.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tập từ (đã tách): ['ai','ml','ai','dl','ml','nlp','ai']. Kích thước từ vựng (số từ phân biệt) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các từ phân biệt là {ai, ml, dl, nlp} -> 4 từ. Kích thước từ vựng = số token duy nhất.",
+      "tags": [
+        "nlp",
+        "representation",
+        "vocabulary",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Câu có 8 token. Số trigram (3-gram liên tiếp) sinh ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số trigram = số token - 3 + 1 = 8 - 3 + 1 = 6.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C029",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai tập từ A={'i','love','nlp'} và B={'i','love','ml','ai'}. Hệ số Jaccard = |giao| / |hợp| bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.33"
+        },
+        {
+          "key": "D",
+          "text": "0.6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giao = {'i','love'} có 2 phần tử; hợp = {'i','love','nlp','ml','ai'} có 5; Jaccard = 2/5 = 0.4.",
+      "tags": [
+        "nlp",
+        "similarity",
+        "jaccard",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai vector BoW: u=[1,0,1,0] và v=[1,1,0,0]. Độ tương đồng cosine cos(u,v) bằng (làm tròn 1 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích vô hướng = 1; |u|=sqrt(2), |v|=sqrt(2); cosine = 1/(sqrt2*sqrt2) = 1/2 = 0.5.",
+      "tags": [
+        "nlp",
+        "similarity",
+        "cosine",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mô hình ngôn ngữ n-gram giả định Markov bậc (n-1) nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất một từ chỉ phụ thuộc (n-1) từ liền trước, không phụ thuộc toàn bộ lịch sử"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất một từ phụ thuộc toàn bộ câu phía sau"
+        },
+        {
+          "key": "C",
+          "text": "Mọi từ độc lập hoàn toàn với nhau"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất từ chỉ phụ thuộc từ đầu câu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả định Markov bậc (n-1) xấp xỉ P(w_i|toàn bộ lịch sử) ≈ P(w_i| (n-1) từ liền trước), giúp mô hình khả thi về dữ liệu.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "markov"
+      ]
+    },
+    {
+      "id": "E72-C032",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong kho ngữ liệu, count('the cat')=15 và count('the')=60. Theo MLE, P(cat | the) = count('the cat')/count('the') bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.15"
+        },
+        {
+          "key": "C",
+          "text": "0.4"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P(cat|the) = c(the cat)/c(the) = 15/60 = 0.25.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "mle",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Làm mượt Laplace (add-1): count('good morning')=2, count('good')=4, kích thước từ vựng V=10. P_Laplace(morning|good) = (c+1)/(c('good')+V) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.214 (3/14)"
+        },
+        {
+          "key": "B",
+          "text": "0.5 (2/4)"
+        },
+        {
+          "key": "C",
+          "text": "0.3 (3/10)"
+        },
+        {
+          "key": "D",
+          "text": "0.143 (2/14)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P = (2+1)/(4+10) = 3/14 ≈ 0.214. Add-1 cộng 1 vào tử và cộng V vào mẫu.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "smoothing",
+        "laplace",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao mô hình n-gram cần làm mượt (smoothing)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tránh xác suất bằng 0 cho các n-gram chưa từng xuất hiện trong dữ liệu huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng tốc độ tính toán"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm kích thước từ vựng"
+        },
+        {
+          "key": "D",
+          "text": "Để loại bỏ stopwords"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu một n-gram không xuất hiện trong huấn luyện, MLE gán xác suất 0 làm cả câu có xác suất 0; smoothing phân bổ một lượng xác suất nhỏ cho n-gram chưa thấy để tránh điều đó.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "smoothing"
+      ]
+    },
+    {
+      "id": "E72-C035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kỹ thuật add-k smoothing khác Laplace (add-1) ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cộng một hằng k (có thể nhỏ hơn 1) thay vì luôn cộng 1, cho phép điều chỉnh mức làm mượt"
+        },
+        {
+          "key": "B",
+          "text": "Không cộng gì vào tử số"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ áp dụng cho unigram"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cộng đúng kích thước từ vựng vào tử số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Add-k tổng quát hoá Laplace bằng cách cộng hằng k tuỳ chọn (thường <1) vào mỗi đếm, giúp tinh chỉnh mức độ làm mượt thay vì cố định 1.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "smoothing",
+        "add-k"
+      ]
+    },
+    {
+      "id": "E72-C036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Backoff và interpolation trong mô hình ngôn ngữ nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp ước lượng từ n-gram bậc cao với bậc thấp hơn để xử lý dữ liệu thưa khi n-gram bậc cao hiếm/không có"
+        },
+        {
+          "key": "B",
+          "text": "Tăng bậc n vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn unigram"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho mô hình nơ-ron"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi n-gram bậc cao thưa, backoff lùi về bậc thấp hơn còn interpolation trộn tuyến tính các bậc; cả hai dùng thông tin bậc thấp ổn định hơn để bù dữ liệu thưa.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "backoff",
+        "interpolation"
+      ]
+    },
+    {
+      "id": "E72-C037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một mô hình ngôn ngữ gán xác suất cho chuỗi 2 từ là P=1/16. Perplexity = P^(-1/N) với N=2 token bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "16.0"
+        },
+        {
+          "key": "C",
+          "text": "8.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perplexity = (1/16)^(-1/2) = 16^(1/2) = 4.0.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "perplexity",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Perplexity của một mô hình ngôn ngữ được hiểu như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ 'bối rối' trung bình — số lựa chọn hiệu dụng khi dự đoán từ tiếp theo; perplexity càng THẤP càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác phần trăm; càng cao càng tốt"
+        },
+        {
+          "key": "C",
+          "text": "Số token trong văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước từ vựng cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perplexity là trung bình hình học nghịch đảo xác suất gán cho từ; có thể coi là số lựa chọn hiệu dụng trên mỗi bước, nên giá trị thấp nghĩa là mô hình dự đoán tốt hơn.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "perplexity"
+      ]
+    },
+    {
+      "id": "E72-C039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mô hình gán xác suất cho 3 từ lần lượt 0.5, 0.25, 0.5. Perplexity = (tích xác suất)^(-1/3). Tích = 0.0625; perplexity bằng (làm tròn 2 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.52"
+        },
+        {
+          "key": "B",
+          "text": "0.40"
+        },
+        {
+          "key": "C",
+          "text": "16.0"
+        },
+        {
+          "key": "D",
+          "text": "1.59"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích = 0.5*0.25*0.5 = 0.0625; perplexity = 0.0625^(-1/3) ≈ 2.52.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "perplexity",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "OOV (out-of-vocabulary) trong mô hình ngôn ngữ là gì và thường xử lý ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ không có trong từ vựng huấn luyện; thường thay bằng token đặc biệt <UNK>"
+        },
+        {
+          "key": "B",
+          "text": "Từ xuất hiện quá nhiều lần; thường bị loại bỏ"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi chính tả; luôn được tự sửa"
+        },
+        {
+          "key": "D",
+          "text": "Token kết thúc câu </s>"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OOV là từ chưa từng thấy khi huấn luyện; chiến lược phổ biến là gộp chúng thành token <UNK> để mô hình vẫn gán được xác suất.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "oov",
+        "unk"
+      ]
+    },
+    {
+      "id": "E72-C041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Chuỗi token ['a','b','a','b','a'] (5 token). Số bigram PHÂN BIỆT (loại bigram khác nhau) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các bigram: (a,b),(b,a),(a,b),(b,a) -> loại phân biệt là {(a,b),(b,a)} = 2.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tăng bậc n trong mô hình n-gram (vd từ bigram lên 5-gram) gây ra đánh đổi gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nắm ngữ cảnh dài hơn nhưng dữ liệu thưa hơn nhiều, cần nhiều dữ liệu và bộ nhớ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cải thiện perplexity mà không tốn gì"
+        },
+        {
+          "key": "C",
+          "text": "Giảm kích thước từ vựng"
+        },
+        {
+          "key": "D",
+          "text": "Khiến mô hình không cần làm mượt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "n lớn nắm ngữ cảnh dài hơn nhưng số tổ hợp n-gram bùng nổ, hầu hết hiếm hoặc không xuất hiện (dữ liệu thưa), đòi hỏi nhiều dữ liệu/bộ nhớ và làm mượt mạnh hơn.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E72-C043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Add-k với k=0.5: c('big data')=1, c('big')=3, V=4. P=(1+0.5)/(3+0.5*4) = 1.5/5 bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3"
+        },
+        {
+          "key": "B",
+          "text": "0.333"
+        },
+        {
+          "key": "C",
+          "text": "0.214"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P = (1+0.5)/(3+0.5*4) = 1.5/5 = 0.3.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "smoothing",
+        "add-k",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hạn chế cơ bản của mô hình ngôn ngữ n-gram so với mô hình nơ-ron là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không nắm được phụ thuộc xa và không tổng quát hoá ngữ nghĩa giữa các từ tương tự"
+        },
+        {
+          "key": "B",
+          "text": "Không thể tính xác suất câu"
+        },
+        {
+          "key": "C",
+          "text": "Không cần dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Luôn yêu cầu GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "n-gram chỉ thấy ngữ cảnh (n-1) từ và coi mỗi từ là rời rạc nên không nắm phụ thuộc xa và không chia sẻ thông tin giữa các từ đồng nghĩa/tương tự.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E72-C045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Theo mô hình bigram: P(I)=0.4, P(love|I)=0.5, P(nlp|love)=0.2. Xác suất chuỗi 'I love nlp' = tích = ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.04"
+        },
+        {
+          "key": "B",
+          "text": "0.10"
+        },
+        {
+          "key": "C",
+          "text": "0.40"
+        },
+        {
+          "key": "D",
+          "text": "0.02"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P = 0.4 * 0.5 * 0.2 = 0.04 (quy tắc chuỗi với giả định bigram).",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Token <s> và </s> trong mô hình ngôn ngữ n-gram dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh dấu bắt đầu và kết thúc câu để mô hình hoá xác suất từ đầu/cuối câu"
+        },
+        {
+          "key": "B",
+          "text": "Đại diện cho từ ngoài từ vựng"
+        },
+        {
+          "key": "C",
+          "text": "Là dấu phân tách subword"
+        },
+        {
+          "key": "D",
+          "text": "Là nhãn POS đặc biệt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "<s> và </s> là token ranh giới câu, cho phép mô hình ước lượng xác suất từ đầu câu và xác suất câu kết thúc đúng cách.",
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm"
+      ]
+    },
+    {
+      "id": "E72-C047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Word2Vec tạo ra biểu diễn từ dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector dày đặc (dense) số thực, chiều thấp, sao cho từ ngữ cảnh tương tự có vector gần nhau"
+        },
+        {
+          "key": "B",
+          "text": "Vector one-hot thưa"
+        },
+        {
+          "key": "C",
+          "text": "Cây cú pháp"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận đếm n-gram"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Word2Vec học vector dày đặc chiều thấp cho từ; các từ xuất hiện trong ngữ cảnh tương tự sẽ có vector gần nhau, mã hoá được ngữ nghĩa.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "word2vec"
+      ]
+    },
+    {
+      "id": "E72-C048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt giữa hai kiến trúc Word2Vec CBOW và Skip-gram là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CBOW dự đoán từ trung tâm từ các từ ngữ cảnh; Skip-gram dự đoán các từ ngữ cảnh từ từ trung tâm"
+        },
+        {
+          "key": "B",
+          "text": "CBOW dùng one-hot, Skip-gram dùng TF-IDF"
+        },
+        {
+          "key": "C",
+          "text": "CBOW cho dịch máy, Skip-gram cho phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Hai kiến trúc hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CBOW lấy ngữ cảnh để đoán từ trung tâm, còn Skip-gram lấy từ trung tâm để đoán các từ ngữ cảnh xung quanh; Skip-gram thường tốt hơn với từ hiếm.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "word2vec",
+        "cbow",
+        "skipgram"
+      ]
+    },
+    {
+      "id": "E72-C049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Negative sampling trong Word2Vec dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay softmax đầy đủ tốn kém bằng việc phân biệt từ ngữ cảnh thật với một ít mẫu 'âm' lấy ngẫu nhiên, giúp huấn luyện nhanh"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ stopwords khỏi corpus"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước từ vựng"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hoá độ dài vector về 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Negative sampling biến bài toán thành phân loại nhị phân giữa cặp (từ, ngữ cảnh) thật và một số ít mẫu âm ngẫu nhiên, tránh phải tính softmax trên toàn từ vựng nên nhanh hơn nhiều.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "word2vec",
+        "negative-sampling"
+      ]
+    },
+    {
+      "id": "E72-C050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GloVe học embedding dựa trên thông tin nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thống kê đồng xuất hiện (co-occurrence) từ-từ trên toàn corpus"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ ngữ cảnh cục bộ của từng câu, không dùng thống kê toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "Cây cú pháp phụ thuộc"
+        },
+        {
+          "key": "D",
+          "text": "Nhãn POS thủ công"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GloVe (Global Vectors) học vector từ ma trận đồng xuất hiện toàn cục, kết hợp ưu điểm thống kê toàn cục với mục tiêu giữ tỉ lệ đồng xuất hiện.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "glove",
+        "cooccurrence"
+      ]
+    },
+    {
+      "id": "E72-C051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "fastText cải tiến Word2Vec chủ yếu nhờ điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biểu diễn từ như tổng các n-gram ký tự con, nên xử lý được từ hiếm và OOV qua các mảnh con"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn việc dùng ngữ cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho tiếng Anh"
+        },
+        {
+          "key": "D",
+          "text": "Thay embedding bằng one-hot"
+        }
+      ],
+      "answer": "A",
+      "explanation": "fastText biểu diễn mỗi từ bằng tập n-gram ký tự con; nhờ đó có thể dựng vector cho từ chưa thấy (OOV) và nắm hình thái tốt hơn.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "fasttext",
+        "subword"
+      ]
+    },
+    {
+      "id": "E72-C052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tính chất 'analogies' nổi tiếng của word embedding (vd vua - đàn ông + đàn bà ≈ nữ hoàng) phản ánh điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ ngữ nghĩa/cú pháp được mã hoá thành các hướng tuyến tính nhất quán trong không gian vector"
+        },
+        {
+          "key": "B",
+          "text": "Embedding chỉ là số ngẫu nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Mọi vector từ đều trực giao"
+        },
+        {
+          "key": "D",
+          "text": "Embedding không mã hoá ngữ nghĩa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các phép tương tự cho thấy quan hệ ngữ nghĩa (giới tính, số nhiều...) tương ứng với những vector hiệu nhất quán, nên có thể giải bằng phép cộng/trừ vector.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "analogy"
+      ]
+    },
+    {
+      "id": "E72-C053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai embedding a=[3,4] và b=[4,3]. Cosine similarity = (a·b)/(|a||b|) bằng (làm tròn 2 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.96"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.84"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a·b = 12+12 = 24; |a|=|b|=5; cosine = 24/25 = 0.96.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "cosine",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So với one-hot, ưu điểm chính của word embedding dày đặc là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chiều thấp hơn và mã hoá được độ tương đồng ngữ nghĩa (từ giống nghĩa có vector gần nhau)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn thưa hơn one-hot"
+        },
+        {
+          "key": "C",
+          "text": "Không cần dữ liệu để học"
+        },
+        {
+          "key": "D",
+          "text": "Mỗi từ luôn trực giao với từ khác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Embedding dày đặc có số chiều nhỏ hơn nhiều so với V và đặt các từ tương tự ngữ nghĩa gần nhau, điều mà one-hot (mọi từ trực giao) không làm được.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E72-C055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Số chiều (dimensionality) phổ biến của word embedding cổ điển (Word2Vec/GloVe) thường nằm khoảng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vài chục đến vài trăm (vd 50, 100, 300)"
+        },
+        {
+          "key": "B",
+          "text": "Bằng đúng kích thước từ vựng"
+        },
+        {
+          "key": "C",
+          "text": "Luôn đúng 2 chiều"
+        },
+        {
+          "key": "D",
+          "text": "Hàng triệu chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các embedding cổ điển thường có 50–300 chiều, nhỏ hơn nhiều so với kích thước từ vựng, tạo biểu diễn dày đặc và hiệu quả.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "dimensionality"
+      ]
+    },
+    {
+      "id": "E72-C056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Embedding tĩnh (static) như Word2Vec/GloVe có hạn chế gì với từ đa nghĩa (polysemy)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi từ chỉ có một vector cố định nên không phân biệt được các nghĩa khác nhau theo ngữ cảnh (vd 'bank' sông vs ngân hàng)"
+        },
+        {
+          "key": "B",
+          "text": "Không thể biểu diễn từ phổ biến"
+        },
+        {
+          "key": "C",
+          "text": "Luôn cho mỗi nghĩa một vector riêng"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng được cho tiếng Anh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Word2Vec/GloVe gán một vector duy nhất cho mỗi từ, nên các nghĩa khác nhau của từ đa nghĩa bị trộn vào một biểu diễn, không phân biệt theo ngữ cảnh.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "polysemy"
+      ]
+    },
+    {
+      "id": "E72-C057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai vector u=[1,2,3] và v=[4,0,1]. Tích vô hướng u·v bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "u·v = 1*4 + 2*0 + 3*1 = 4+0+3 = 7.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phát biểu nào ĐÚNG về cosine similarity dùng cho vector từ/văn bản?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo góc giữa hai vector, không phụ thuộc độ lớn (độ dài) vector, giá trị trong [-1,1]"
+        },
+        {
+          "key": "B",
+          "text": "Phụ thuộc mạnh vào độ dài văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Luôn cho giá trị dương từ 0 đến 100"
+        },
+        {
+          "key": "D",
+          "text": "Bằng khoảng cách Euclid giữa hai vector"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cosine similarity đo góc giữa hai vector (chuẩn hoá theo độ lớn), nên không bị chi phối bởi độ dài; giá trị nằm trong [-1,1], 1 là cùng hướng.",
+      "tags": [
+        "nlp",
+        "similarity",
+        "cosine"
+      ]
+    },
+    {
+      "id": "E72-C059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khoảng cách chỉnh sửa (Levenshtein) giữa 'cat' và 'cut' (chỉ thay/chèn/xoá, mỗi thao tác chi phí 1) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ cần thay 'a' -> 'u' là biến 'cat' thành 'cut', tốn 1 thao tác.",
+      "tags": [
+        "nlp",
+        "similarity",
+        "edit-distance",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khoảng cách chỉnh sửa (Levenshtein) giữa 'sunday' và 'saturday' bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biến 'sunday'->'saturday' cần 3 thao tác (chèn 'a','t' và thay 'n'->'r'), đây là kết quả kinh điển.",
+      "tags": [
+        "nlp",
+        "similarity",
+        "edit-distance",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giả định 'naive' (ngây thơ) trong Naive Bayes cho phân loại văn bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các đặc trưng (từ) độc lập điều kiện với nhau khi đã biết nhãn lớp"
+        },
+        {
+          "key": "B",
+          "text": "Mọi lớp có xác suất tiên nghiệm bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Văn bản luôn có độ dài cố định"
+        },
+        {
+          "key": "D",
+          "text": "Các từ không bao giờ lặp lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Naive Bayes giả định các từ độc lập điều kiện cho trước nhãn lớp, giúp nhân các xác suất P(từ|lớp); giả định này 'ngây thơ' nhưng thực tế hoạt động tốt.",
+      "tags": [
+        "nlp",
+        "classification",
+        "naive-bayes"
+      ]
+    },
+    {
+      "id": "E72-C062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong lớp 'spam', từ 'free' xuất hiện 3 lần, tổng số từ của lớp là 20, kích thước từ vựng V=5. P('free'|spam) với Laplace = (3+1)/(20+5) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.16"
+        },
+        {
+          "key": "B",
+          "text": "0.15"
+        },
+        {
+          "key": "C",
+          "text": "0.20"
+        },
+        {
+          "key": "D",
+          "text": "0.12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P = (3+1)/(20+5) = 4/25 = 0.16 (mô hình đa thức Naive Bayes với add-1).",
+      "tags": [
+        "nlp",
+        "classification",
+        "naive-bayes",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kết hợp TF-IDF với hồi quy logistic (logistic regression) là một baseline phổ biến cho tác vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại văn bản (vd phân loại chủ đề, phân tích cảm xúc)"
+        },
+        {
+          "key": "B",
+          "text": "Sinh ảnh từ văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Tách câu"
+        },
+        {
+          "key": "D",
+          "text": "Nén ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TF-IDF biến văn bản thành vector đặc trưng, hồi quy logistic học trọng số tuyến tính trên đó; đây là baseline mạnh và rẻ cho phân loại văn bản.",
+      "tags": [
+        "nlp",
+        "classification",
+        "logistic-regression",
+        "tfidf"
+      ]
+    },
+    {
+      "id": "E72-C064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một bộ phân loại cảm xúc có TP=40, FP=10, FN=20. Precision = TP/(TP+FP) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.667"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision = 40/(40+10) = 40/50 = 0.8.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "precision",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với TP=40, FP=10, FN=20, Recall = TP/(TP+FN) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.667"
+        },
+        {
+          "key": "B",
+          "text": "0.8"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall = 40/(40+20) = 40/60 ≈ 0.667.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "recall",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Precision=0.8 và Recall=0.667 (=2/3). F1 = 2*P*R/(P+R) bằng (làm tròn 3 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.727"
+        },
+        {
+          "key": "B",
+          "text": "0.733"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "F1 = 2*0.8*(2/3)/(0.8+2/3) = (1.0667)/(1.4667) ≈ 0.727 (trung bình điều hoà của P và R).",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "f1",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận nhầm lẫn nhị phân: TP=30, TN=50, FP=10, FN=10. Accuracy = (TP+TN)/tổng bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.75"
+        },
+        {
+          "key": "C",
+          "text": "0.6"
+        },
+        {
+          "key": "D",
+          "text": "0.9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy = (30+50)/(30+50+10+10) = 80/100 = 0.8.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "accuracy",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "POS tagging (gán nhãn từ loại) là tác vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán cho mỗi từ một nhãn từ loại (danh từ, động từ, tính từ...) dựa trên ngữ cảnh"
+        },
+        {
+          "key": "B",
+          "text": "Tách văn bản thành câu"
+        },
+        {
+          "key": "C",
+          "text": "Dịch văn bản sang ngôn ngữ khác"
+        },
+        {
+          "key": "D",
+          "text": "Tóm tắt văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "POS tagging gán mỗi token một nhãn từ loại theo ngữ cảnh, là tác vụ gán nhãn chuỗi cơ bản.",
+      "tags": [
+        "nlp",
+        "sequence-labeling",
+        "pos"
+      ]
+    },
+    {
+      "id": "E72-C069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NER (Named Entity Recognition) nhằm xác định điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các thực thể có tên trong văn bản như người, tổ chức, địa điểm, ngày tháng"
+        },
+        {
+          "key": "B",
+          "text": "Từ loại của mỗi từ"
+        },
+        {
+          "key": "C",
+          "text": "Cảm xúc của câu"
+        },
+        {
+          "key": "D",
+          "text": "Chủ đề ẩn của tập văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NER trích xuất và phân loại các cụm thực thể có tên (người, tổ chức, địa điểm, thời gian...) trong văn bản.",
+      "tags": [
+        "nlp",
+        "sequence-labeling",
+        "ner"
+      ]
+    },
+    {
+      "id": "E72-C070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong sơ đồ gán nhãn BIO (IOB), các tiền tố B-, I-, O lần lượt nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "B = bắt đầu một thực thể, I = bên trong (tiếp nối) thực thể, O = ngoài mọi thực thể"
+        },
+        {
+          "key": "B",
+          "text": "B = backward, I = inside, O = order"
+        },
+        {
+          "key": "C",
+          "text": "B = begin câu, I = inside câu, O = out câu"
+        },
+        {
+          "key": "D",
+          "text": "Ba ký hiệu không liên quan nhãn thực thể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BIO dùng B- cho token bắt đầu thực thể, I- cho token tiếp theo cùng thực thể, và O cho token không thuộc thực thể nào, giúp đánh dấu cụm thực thể nhiều từ.",
+      "tags": [
+        "nlp",
+        "sequence-labeling",
+        "ner",
+        "bio"
+      ]
+    },
+    {
+      "id": "E72-C071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Chunking (phân đoạn nông) trong NLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhóm các từ liền kề thành cụm cú pháp nông như cụm danh từ (NP), cụm động từ (VP)"
+        },
+        {
+          "key": "B",
+          "text": "Cắt văn bản thành các tệp nhỏ để lưu"
+        },
+        {
+          "key": "C",
+          "text": "Mã hoá từ thành subword"
+        },
+        {
+          "key": "D",
+          "text": "Sinh embedding cho cụm từ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chunking (shallow parsing) gom các token thành các cụm cú pháp nông như NP, VP mà không dựng cây phân tích đầy đủ.",
+      "tags": [
+        "nlp",
+        "sequence-labeling",
+        "chunking"
+      ]
+    },
+    {
+      "id": "E72-C072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân tích cú pháp phụ thuộc (dependency parsing) khác phân tích thành phần (constituency parsing) ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dependency biểu diễn quan hệ chi phối trực tiếp giữa các TỪ; constituency dựng cây các cụm/thành phần lồng nhau"
+        },
+        {
+          "key": "B",
+          "text": "Dependency chỉ dùng cho tiếng Anh"
+        },
+        {
+          "key": "C",
+          "text": "Constituency không có cây"
+        },
+        {
+          "key": "D",
+          "text": "Hai phương pháp cho kết quả y hệt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dependency parsing biểu diễn cây quan hệ phụ thuộc giữa các từ (head-dependent), còn constituency parsing dựng cây phân cấp các cụm thành phần (NP, VP...).",
+      "tags": [
+        "nlp",
+        "syntax",
+        "parsing"
+      ]
+    },
+    {
+      "id": "E72-C073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại 3 lớp, precision từng lớp là 0.6, 0.9, 0.9. Macro-precision = trung bình cộng bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.7"
+        },
+        {
+          "key": "C",
+          "text": "0.9"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Macro-precision = (0.6+0.9+0.9)/3 = 2.4/3 = 0.8.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "macro",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E72-C074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân tích cảm xúc (sentiment analysis) ở mức cơ bản thường được mô hình hoá như bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại văn bản thành các nhãn (vd tích cực / tiêu cực / trung tính)"
+        },
+        {
+          "key": "B",
+          "text": "Sinh chuỗi (sequence generation)"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Phân cụm không giám sát bắt buộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ở mức cơ bản, phân tích cảm xúc là bài toán phân loại văn bản gán nhãn cảm xúc (tích cực/tiêu cực/trung tính) cho câu hoặc tài liệu.",
+      "tags": [
+        "nlp",
+        "classification",
+        "sentiment"
+      ]
+    },
+    {
+      "id": "E72-C075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao trong dữ liệu mất cân bằng lớp, accuracy có thể gây hiểu lầm còn F1 hữu ích hơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mô hình đoán toàn lớp đa số vẫn cho accuracy cao trong khi bỏ sót lớp thiểu số; F1 cân bằng precision và recall nên phản ánh tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì accuracy không tính được khi mất cân bằng"
+        },
+        {
+          "key": "C",
+          "text": "Vì F1 luôn lớn hơn accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Vì accuracy chỉ dùng cho hồi quy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi một lớp chiếm đa số, đoán luôn lớp đó cho accuracy cao nhưng bỏ qua lớp thiểu số; F1 (trung bình điều hoà của precision và recall) phạt việc bỏ sót nên phản ánh hiệu năng tốt hơn.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "imbalance",
+        "f1"
+      ]
+    },
+    {
+      "id": "E72-C076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Feature engineering cổ điển cho phân loại văn bản có thể gồm những đặc trưng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BoW/TF-IDF của unigram và n-gram, độ dài văn bản, tỉ lệ từ viết hoa, sự hiện diện của từ khoá"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ duy nhất số ký tự của câu đầu tiên"
+        },
+        {
+          "key": "C",
+          "text": "Trọng số của mạng nơ-ron đã huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Giá trị pixel của ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng cổ điển thường là BoW/TF-IDF của n-gram cùng các đặc trưng thủ công như độ dài, tỉ lệ viết hoa, hiện diện từ khoá — giúp mô hình tuyến tính phân loại tốt hơn.",
+      "tags": [
+        "nlp",
+        "classification",
+        "feature-engineering"
+      ]
+    },
+    {
+      "id": "E72-C077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "LDA (Latent Dirichlet Allocation) là phương pháp cho tác vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình hoá chủ đề (topic modeling) — khám phá các chủ đề ẩn dưới dạng phân phối từ trong tập văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Dịch máy"
+        },
+        {
+          "key": "C",
+          "text": "Nhận dạng thực thể có tên"
+        },
+        {
+          "key": "D",
+          "text": "Sửa lỗi chính tả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LDA là mô hình sinh không giám sát coi mỗi tài liệu là hỗn hợp các chủ đề ẩn, mỗi chủ đề là phân phối trên từ; dùng để khám phá chủ đề trong corpus.",
+      "tags": [
+        "nlp",
+        "topic-modeling",
+        "lda"
+      ]
+    },
+    {
+      "id": "E72-C078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân biệt tóm tắt trích rút (extractive) và tóm tắt trừu tượng (abstractive)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Extractive chọn và ghép các câu/đoạn có sẵn trong văn bản gốc; abstractive sinh câu mới có thể diễn đạt lại nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Extractive sinh câu mới, abstractive chỉ sao chép"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều chỉ sao chép nguyên văn"
+        },
+        {
+          "key": "D",
+          "text": "Extractive chỉ dùng cho ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tóm tắt trích rút chọn các câu quan trọng có sẵn; tóm tắt trừu tượng tạo câu mới (paraphrase) để diễn đạt lại ý chính, giống cách con người tóm tắt.",
+      "tags": [
+        "nlp",
+        "summarization"
+      ]
+    },
+    {
+      "id": "E72-C079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "BLEU là độ đo thường dùng để đánh giá tác vụ nào và dựa trên ý tưởng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch máy/sinh văn bản — đo độ trùng n-gram giữa câu sinh và câu tham chiếu (thiên về precision)"
+        },
+        {
+          "key": "B",
+          "text": "Phân cụm tài liệu — đo độ thuần khiết cụm"
+        },
+        {
+          "key": "C",
+          "text": "Tách câu — đo số ranh giới đúng"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu — đo tỉ lệ nén"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BLEU đánh giá đầu ra dịch máy bằng cách so khớp n-gram của câu sinh với một hay nhiều câu tham chiếu, nhấn mạnh precision n-gram (kèm phạt độ ngắn).",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "bleu",
+        "mt"
+      ]
+    },
+    {
+      "id": "E72-C080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ROUGE thường dùng để đánh giá tác vụ nào và thiên về điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tóm tắt văn bản — đo độ trùng n-gram/chuỗi con với bản tham chiếu, thiên về recall"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại ảnh — đo accuracy"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình ngôn ngữ — đo perplexity"
+        },
+        {
+          "key": "D",
+          "text": "Tách subword — đo số mảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROUGE chủ yếu dùng cho tóm tắt, đo mức bao phủ n-gram/dãy con chung giữa bản tóm tắt sinh và bản tham chiếu, nghiêng về recall.",
+      "tags": [
+        "nlp",
+        "evaluation",
+        "rouge",
+        "summarization"
+      ]
+    },
+    {
+      "id": "E72-C081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dịch máy (machine translation) ở mức ý niệm là tác vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển một chuỗi văn bản từ ngôn ngữ nguồn sang chuỗi tương đương về nghĩa ở ngôn ngữ đích"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại ngôn ngữ của văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Tóm tắt văn bản trong cùng ngôn ngữ"
+        },
+        {
+          "key": "D",
+          "text": "Sửa lỗi ngữ pháp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dịch máy ánh xạ chuỗi nguồn sang chuỗi đích giữ nguyên nghĩa, là bài toán seq-to-seq giữa hai ngôn ngữ.",
+      "tags": [
+        "nlp",
+        "mt"
+      ]
+    },
+    {
+      "id": "E72-C082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ thống hỏi đáp (QA) trích rút (extractive QA) thường làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm và trả về đoạn văn bản (span) chứa câu trả lời trong một văn bản/ngữ cảnh cho trước"
+        },
+        {
+          "key": "B",
+          "text": "Sinh ảnh minh hoạ câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Dịch câu hỏi sang ngôn ngữ khác"
+        },
+        {
+          "key": "D",
+          "text": "Phân cụm các câu hỏi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Extractive QA xác định đoạn (span) trong đoạn văn ngữ cảnh chính là câu trả lời cho câu hỏi, thay vì sinh câu trả lời mới.",
+      "tags": [
+        "nlp",
+        "qa"
+      ]
+    },
+    {
+      "id": "E72-C083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng 'polysemy' (đa nghĩa) trong NLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một từ có nhiều nghĩa khác nhau tuỳ ngữ cảnh (vd 'bank': bờ sông / ngân hàng)"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều từ khác nhau cùng một nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Từ bị viết sai chính tả"
+        },
+        {
+          "key": "D",
+          "text": "Từ không có trong từ điển"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Polysemy là khi một từ mang nhiều nghĩa phụ thuộc ngữ cảnh, gây nhập nhằng cho các tác vụ NLP và là điểm yếu của embedding tĩnh.",
+      "tags": [
+        "nlp",
+        "challenges",
+        "polysemy"
+      ]
+    },
+    {
+      "id": "E72-C084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng 'synonymy' (đồng nghĩa) gây khó khăn gì cho BoW/one-hot?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các từ đồng nghĩa (vd 'big' và 'large') bị xem là hoàn toàn khác nhau, nên mô hình không nhận ra chúng cùng nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Làm tăng thứ tự từ trong câu"
+        },
+        {
+          "key": "C",
+          "text": "Khiến từ vựng nhỏ lại"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì đến biểu diễn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong BoW/one-hot mỗi từ là một chiều riêng, nên các từ đồng nghĩa nằm ở chiều khác nhau và bị coi là không liên quan, làm mất tín hiệu ngữ nghĩa chung.",
+      "tags": [
+        "nlp",
+        "challenges",
+        "synonymy"
+      ]
+    },
+    {
+      "id": "E72-C085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mỉa mai (sarcasm) là thách thức cho phân tích cảm xúc vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bề mặt từ ngữ có thể tích cực nhưng nghĩa thực lại tiêu cực (hoặc ngược lại), nên mô hình dựa trên từ khoá dễ đoán sai"
+        },
+        {
+          "key": "B",
+          "text": "Vì câu mỉa mai luôn quá dài"
+        },
+        {
+          "key": "C",
+          "text": "Vì mỉa mai không chứa từ cảm xúc nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì mỉa mai chỉ xuất hiện trong dịch máy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỉa mai đảo cực nghĩa so với từ ngữ bề mặt (vd 'Thật tuyệt vời, lại hỏng nữa'), khiến mô hình dựa trên từ tích cực/tiêu cực dễ phân loại sai.",
+      "tags": [
+        "nlp",
+        "challenges",
+        "sarcasm",
+        "sentiment"
+      ]
+    },
+    {
+      "id": "E72-C086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nhập nhằng (ambiguity) trong NLP có thể xảy ra ở những cấp độ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ vựng (nghĩa từ), cú pháp (cấu trúc câu) và ngữ nghĩa/quy chiếu (đại từ trỏ ai)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ duy nhất ở cấp ký tự"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ ở định dạng tệp"
+        },
+        {
+          "key": "D",
+          "text": "Không tồn tại trong ngôn ngữ tự nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhập nhằng xuất hiện ở nhiều cấp: từ vựng (đa nghĩa), cú pháp (một câu có nhiều cây phân tích), và ngữ nghĩa/quy chiếu (đại từ trỏ thực thể nào), khiến NLP khó.",
+      "tags": [
+        "nlp",
+        "challenges",
+        "ambiguity"
+      ]
+    },
+    {
+      "id": "E72-C087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vấn đề thưa dữ liệu (data sparsity) trong NLP cổ điển thể hiện rõ nhất ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phần lớn n-gram/tổ hợp từ hiếm hoặc không xuất hiện trong huấn luyện, làm ước lượng xác suất kém tin cậy"
+        },
+        {
+          "key": "B",
+          "text": "Văn bản luôn quá ngắn để xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Từ vựng luôn nhỏ hơn 100 từ"
+        },
+        {
+          "key": "D",
+          "text": "Không có từ nào lặp lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Do định luật Zipf, đa số n-gram rất hiếm; nhiều tổ hợp không xuất hiện trong dữ liệu, khiến mô hình thống kê thiếu dữ liệu để ước lượng đáng tin và cần làm mượt.",
+      "tags": [
+        "nlp",
+        "challenges",
+        "sparsity"
+      ]
+    },
+    {
+      "id": "E72-C088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So sánh TF-IDF với word embedding, phát biểu nào ĐÚNG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TF-IDF là biểu diễn thưa dựa trên đếm, không nắm ngữ nghĩa giữa từ; embedding là biểu diễn dày đặc học được, nắm tương đồng ngữ nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều là biểu diễn dày đặc học bằng mạng nơ-ron"
+        },
+        {
+          "key": "C",
+          "text": "TF-IDF mã hoá ngữ nghĩa tốt hơn embedding"
+        },
+        {
+          "key": "D",
+          "text": "Embedding luôn thưa hơn TF-IDF"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TF-IDF là vector thưa dựa trên thống kê đếm và độ hiếm, không biết 'big' gần 'large'; embedding là vector dày đặc học từ ngữ cảnh, đặt từ tương tự gần nhau.",
+      "tags": [
+        "nlp",
+        "representation",
+        "tfidf",
+        "embeddings"
+      ]
+    },
+    {
+      "id": "E72-C089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tại sao thứ tự từ quan trọng mà BoW lại bỏ qua nó có thể gây sai nghĩa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì 'dog bites man' và 'man bites dog' có cùng vector BoW nhưng nghĩa hoàn toàn khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Vì BoW làm thay đổi kích thước từ vựng"
+        },
+        {
+          "key": "C",
+          "text": "Vì thứ tự từ không bao giờ ảnh hưởng nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Vì BoW giữ nguyên thứ tự từ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BoW chỉ đếm từ nên hai câu đảo thứ tự cho cùng vector dù nghĩa trái ngược; đây là minh hoạ kinh điển cho hạn chế mất thông tin thứ tự của BoW.",
+      "tags": [
+        "nlp",
+        "representation",
+        "bow",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E72-C090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Embedding ngữ cảnh (contextual) khác embedding tĩnh (Word2Vec/GloVe) ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Embedding ngữ cảnh sinh vector khác nhau cho cùng một từ tuỳ câu chứa nó, giải quyết được đa nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Embedding ngữ cảnh gán một vector cố định cho mỗi từ"
+        },
+        {
+          "key": "C",
+          "text": "Embedding tĩnh thay đổi theo câu"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều bỏ qua ngữ cảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Embedding tĩnh cho mỗi từ một vector cố định, còn embedding ngữ cảnh tính vector phụ thuộc câu cụ thể nên cùng một từ có biểu diễn khác nhau theo ngữ cảnh, xử lý được đa nghĩa.",
+      "tags": [
+        "nlp",
+        "embeddings",
+        "contextual"
+      ]
+    },
+    {
+      "id": "E72-C091",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích công thức TF-IDF và vì sao thành phần IDF lại hạ trọng số các từ phổ biến. Cho một ví dụ cụ thể minh hoạ.",
+      "modelAnswer": "TF-IDF(t,d) = TF(t,d) * IDF(t), trong đó TF là tần suất từ t trong tài liệu d (vd count/tổng token), còn IDF(t) = log(N/df(t)) với N là tổng số tài liệu và df(t) là số tài liệu chứa t. IDF lớn khi từ hiếm (df nhỏ) và nhỏ khi từ phổ biến (df lớn): từ 'the' xuất hiện ở gần như mọi tài liệu nên N/df ≈ 1, log ≈ 0, làm trọng số gần 0; ngược lại từ chuyên biệt như 'photosynthesis' chỉ ở vài tài liệu nên IDF cao. Ví dụ: N=1000, từ 'the' có df=1000 -> IDF=log10(1)=0; từ 'enzyme' có df=10 -> IDF=log10(100)=2. Dù 'the' xuất hiện nhiều (TF cao) thì TF-IDF vẫn ≈0, còn 'enzyme' được đề cao, nhờ đó TF-IDF làm nổi bật các từ đặc trưng phân biệt tài liệu thay vì các từ chung chung.",
+      "rubric": [
+        "Nêu đúng công thức TF-IDF = TF * IDF và định nghĩa IDF=log(N/df)",
+        "Giải thích cơ chế IDF hạ trọng số từ phổ biến (df lớn -> IDF nhỏ)",
+        "Có ví dụ số cụ thể minh hoạ (vd 'the' vs từ hiếm)",
+        "Kết luận TF-IDF làm nổi bật từ đặc trưng/phân biệt"
+      ],
+      "tags": [
+        "nlp",
+        "representation",
+        "tfidf",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C092",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "So sánh stemming và lemmatization: định nghĩa, cách hoạt động, ưu nhược điểm, và khi nào nên dùng cái nào. Cho ví dụ.",
+      "modelAnswer": "Stemming cắt hậu tố của từ theo tập luật heuristic (vd Porter Stemmer) để đưa về 'gốc', nhưng gốc có thể không phải từ thật: 'studies'->'studi', 'running'->'run', 'caresses'->'caress'. Lemmatization đưa từ về lemma là dạng từ điển hợp lệ, dựa trên phân tích hình thái và từ loại (POS): 'studies'->'study', 'better'->'good', 'running'(động từ)->'run'. Ưu điểm stemming: nhanh, đơn giản, không cần từ điển; nhược: thô, có thể tạo gốc không phải từ và gây over/under-stemming. Ưu điểm lemmatization: kết quả chính xác, là từ hợp lệ, nhạy với ngữ cảnh từ loại; nhược: chậm hơn, cần từ điển/POS tagger. Nên dùng stemming khi cần tốc độ và độ chính xác ngôn ngữ không quá quan trọng (vd truy hồi thông tin quy mô lớn); dùng lemmatization khi cần kết quả ngôn ngữ chuẩn xác (vd phân tích ngữ nghĩa, hiển thị cho người dùng).",
+      "rubric": [
+        "Định nghĩa đúng stemming (cắt hậu tố theo luật) và lemmatization (về lemma từ điển + POS)",
+        "Nêu ưu nhược điểm của mỗi phương pháp",
+        "Có ví dụ cụ thể (vd 'studies', 'better')",
+        "Đưa ra gợi ý chọn dùng theo tình huống"
+      ],
+      "tags": [
+        "nlp",
+        "preprocessing",
+        "stemming",
+        "lemmatization",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C093",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày cách Naive Bayes phân loại văn bản: giả định độc lập, công thức Bayes, vì sao cần làm mượt, và một điểm mạnh thực tế.",
+      "modelAnswer": "Naive Bayes chọn lớp c tối đa hoá P(c|d) ∝ P(c) * tích P(t|c) trên các từ t trong tài liệu d, dựa trên định lý Bayes P(c|d) ∝ P(d|c)P(c). Giả định 'naive' là các từ độc lập điều kiện cho trước lớp, nên P(d|c) tách thành tích các P(t|c); điều này không đúng thực tế nhưng đơn giản hoá việc ước lượng. P(t|c) ước lượng theo đếm: count(t,c)/tổng từ trong c, và P(c) theo tỉ lệ tài liệu mỗi lớp. Cần làm mượt (vd Laplace add-1: (count+1)/(tổng+V)) để tránh một từ chưa từng thấy trong lớp làm P(t|c)=0, kéo cả tích về 0 và loại bỏ lớp một cách bất hợp lý. Điểm mạnh thực tế: rất nhanh, ít dữ liệu, dễ huấn luyện và thường là baseline mạnh cho lọc spam và phân loại chủ đề, dù giả định độc lập bị vi phạm.",
+      "rubric": [
+        "Nêu công thức Bayes/quy tắc quyết định argmax P(c)·∏P(t|c)",
+        "Giải thích giả định độc lập điều kiện của các từ",
+        "Giải thích vì sao cần làm mượt (tránh xác suất 0)",
+        "Nêu một điểm mạnh thực tế của Naive Bayes"
+      ],
+      "tags": [
+        "nlp",
+        "classification",
+        "naive-bayes",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C094",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "So sánh biểu diễn Bag-of-Words/TF-IDF với word embedding (Word2Vec/GloVe) về độ thưa, ngữ nghĩa, thứ tự từ và OOV.",
+      "modelAnswer": "BoW/TF-IDF là biểu diễn thưa, chiều bằng kích thước từ vựng (hàng chục nghìn), dựa trên đếm/trọng số tần suất; mỗi từ là một chiều độc lập nên KHÔNG mã hoá tương đồng ngữ nghĩa ('big' và 'large' hoàn toàn khác chiều), bỏ qua thứ tự từ, và với từ mới (OOV) thì không có cột tương ứng. Word embedding là vector dày đặc chiều thấp (vd 100–300) học từ ngữ cảnh, đặt các từ tương tự ngữ nghĩa gần nhau và hỗ trợ phép tương tự (analogy); embedding tĩnh vẫn bỏ qua thứ tự khi lấy trung bình và embedding cố định cho mỗi từ vẫn gặp khó với từ đa nghĩa, còn fastText giảm OOV nhờ n-gram ký tự. Tóm lại: BoW/TF-IDF đơn giản, dễ giải thích, mạnh cho phân loại tuyến tính nhưng nông về ngữ nghĩa; embedding nắm ngữ nghĩa tốt hơn nhưng cần dữ liệu để học và bản thân embedding tĩnh không nắm thứ tự/đa nghĩa.",
+      "rubric": [
+        "So sánh độ thưa/chiều (thưa lớn vs dày đặc nhỏ)",
+        "So sánh khả năng nắm ngữ nghĩa/đồng nghĩa",
+        "Đề cập thứ tự từ và vấn đề OOV",
+        "Kết luận cân bằng ưu nhược của hai cách"
+      ],
+      "tags": [
+        "nlp",
+        "representation",
+        "bow",
+        "tfidf",
+        "embeddings",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C095",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích mô hình ngôn ngữ n-gram và perplexity: cách tính xác suất câu, perplexity là gì, và mối liên hệ giữa perplexity và chất lượng mô hình.",
+      "modelAnswer": "Mô hình n-gram ước lượng xác suất câu bằng quy tắc chuỗi với giả định Markov: P(w1..wL) ≈ ∏ P(wi | wi-(n-1)..wi-1). Vd bigram: P(câu)=∏P(wi|wi-1), mỗi xác suất ước lượng bằng MLE c(wi-1,wi)/c(wi-1) (có làm mượt). Perplexity trên tập kiểm tra với N token là PPL = P(w1..wN)^(-1/N) = exp(-(1/N)·∑ ln P(wi|ngữ cảnh)); nó là trung bình hình học nghịch đảo xác suất, có thể hiểu là số lựa chọn hiệu dụng khi dự đoán từ kế. Perplexity càng THẤP nghĩa mô hình gán xác suất càng cao cho dữ liệu thật, tức dự đoán tốt hơn; perplexity cao nghĩa mô hình 'bối rối'. Vd nếu mô hình gán đều xác suất 1/V cho mọi từ thì perplexity = V. Do đó perplexity là thước đo nội tại phổ biến để so sánh mô hình ngôn ngữ.",
+      "rubric": [
+        "Viết được xác suất câu theo quy tắc chuỗi + giả định Markov n-gram",
+        "Định nghĩa perplexity (PPL = P^(-1/N) hoặc dạng exp của entropy)",
+        "Giải thích perplexity thấp = mô hình tốt hơn",
+        "Có diễn giải trực giác hoặc ví dụ"
+      ],
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "perplexity",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C096",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Vì sao mô hình n-gram cần làm mượt (smoothing)? Trình bày add-1 (Laplace) và một kỹ thuật nâng cao (backoff hoặc interpolation).",
+      "modelAnswer": "Với MLE, một n-gram chưa từng xuất hiện trong huấn luyện sẽ có xác suất 0; do dữ liệu thưa (đa số n-gram hiếm theo Zipf), điều này rất phổ biến và khiến cả câu chứa n-gram đó có xác suất 0, đồng thời perplexity hoá vô hạn. Làm mượt phân bổ lại một phần khối xác suất cho các sự kiện chưa thấy. Laplace (add-1): P(wi|wi-1) = (c(wi-1,wi)+1)/(c(wi-1)+V) với V là kích thước từ vựng — đơn giản nhưng lấy quá nhiều khối lượng từ n-gram tần suất cao. Kỹ thuật nâng cao: backoff (vd Katz) dùng n-gram bậc cao nếu có đủ đếm, nếu không thì 'lùi' về bậc thấp hơn với hệ số chiết khấu; interpolation trộn tuyến tính ước lượng các bậc, P = λ3·P(tri)+λ2·P(bi)+λ1·P(uni) với ∑λ=1. Cả hai tận dụng thống kê bậc thấp ổn định để bù cho n-gram bậc cao thưa, cho ước lượng mượt và tổng quát hơn.",
+      "rubric": [
+        "Giải thích vấn đề xác suất 0 do dữ liệu thưa",
+        "Trình bày công thức add-1 (Laplace)",
+        "Mô tả một kỹ thuật nâng cao (backoff hoặc interpolation)",
+        "Liên hệ tới việc dùng thống kê bậc thấp để bù dữ liệu thưa"
+      ],
+      "tags": [
+        "nlp",
+        "ngram",
+        "lm",
+        "smoothing",
+        "essay"
+      ]
+    },
+    {
+      "id": "E72-C097",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm Python dùng numpy tính cosine similarity giữa hai vector BoW. Áp dụng cho u=[1,1,0,2] và v=[2,0,1,2] và cho biết kết quả (làm tròn 4 chữ số).",
+      "modelAnswer": "import numpy as np\n\ndef cosine_sim(u, v):\n    u = np.asarray(u, dtype=float)\n    v = np.asarray(v, dtype=float)\n    denom = np.linalg.norm(u) * np.linalg.norm(v)\n    if denom == 0:\n        return 0.0\n    return float(u.dot(v) / denom)\n\nu = [1,1,0,2]\nv = [2,0,1,2]\nprint(round(cosine_sim(u, v), 4))\n# u·v = 1*2+1*0+0*1+2*2 = 6\n# |u| = sqrt(1+1+0+4)=sqrt(6); |v| = sqrt(4+0+1+4)=sqrt(9)=3\n# cosine = 6/(sqrt(6)*3) = 6/7.3485 ≈ 0.8165\n# Kết quả in ra: 0.8165",
+      "rubric": [
+        "Hàm tính tích vô hướng và chuẩn (norm) đúng bằng numpy",
+        "Xử lý mẫu số 0 hoặc dùng numpy.linalg.norm hợp lệ",
+        "Áp dụng đúng cho u, v và ra kết quả ≈ 0.8165",
+        "Code chạy được, đúng cú pháp"
+      ],
+      "tags": [
+        "nlp",
+        "similarity",
+        "cosine",
+        "code"
+      ]
+    },
+    {
+      "id": "E72-C098",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết đoạn code numpy tính ma trận TF-IDF cho 3 tài liệu nhỏ. Cho biết IDF được tính theo log10(N/df) và mô tả kết quả mong đợi cho một từ xuất hiện ở cả 3 tài liệu.",
+      "modelAnswer": "import numpy as np\n\ndocs = [['ai','ml','ai'], ['ml','dl'], ['ai','dl','nlp']]\nvocab = sorted({w for d in docs for w in d})  # ['ai','dl','ml','nlp']\nV = len(vocab); N = len(docs)\nidx = {w:i for i,w in enumerate(vocab)}\n\n# TF: count / so token cua tai lieu\ntf = np.zeros((N, V))\nfor di, d in enumerate(docs):\n    for w in d:\n        tf[di, idx[w]] += 1\n    tf[di] /= len(d)\n\n# DF va IDF = log10(N/df)\ndf = (tf > 0).sum(axis=0)\nidf = np.log10(N / df)\n\ntfidf = tf * idf  # broadcasting theo cot\nprint('vocab =', vocab)\nprint('idf =', np.round(idf, 4))\nprint('tfidf =\\n', np.round(tfidf, 4))\n# 'ai' xuat hien o tai lieu 0 va 2 -> df=2, idf=log10(3/2)=0.1761\n# Mot tu xuat hien o CA 3 tai lieu se co df=3 -> idf=log10(3/3)=log10(1)=0,\n# nen cot TF-IDF cua no bang 0 (bi ha trong so hoan toan vi khong phan biet).",
+      "rubric": [
+        "Xây dựng từ vựng và ma trận TF đúng (count/độ dài tài liệu)",
+        "Tính DF và IDF = log10(N/df) bằng numpy",
+        "Nhân TF với IDF (broadcasting) ra ma trận TF-IDF",
+        "Giải thích từ xuất hiện ở cả 3 tài liệu có IDF=0 nên TF-IDF=0"
+      ],
+      "tags": [
+        "nlp",
+        "representation",
+        "tfidf",
+        "code"
+      ]
+    },
+    {
+      "id": "E72-C099",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm numpy/Python tính vector Bag-of-Words cho một tài liệu cho trước một từ vựng. Áp dụng vocab=['good','bad','movie','great'] và doc='great movie good great movie' rồi cho biết vector.",
+      "modelAnswer": "import numpy as np\n\ndef bow_vector(doc, vocab):\n    tokens = doc.split()\n    idx = {w:i for i,w in enumerate(vocab)}\n    vec = np.zeros(len(vocab), dtype=int)\n    for t in tokens:\n        if t in idx:\n            vec[idx[t]] += 1\n    return vec\n\nvocab = ['good','bad','movie','great']\ndoc = 'great movie good great movie'\nprint(bow_vector(doc, vocab))\n# 'good'->1, 'bad'->0, 'movie'->2, 'great'->2\n# Ket qua: [1 0 2 2]",
+      "rubric": [
+        "Tạo ánh xạ từ -> chỉ số từ vựng",
+        "Đếm đúng số lần xuất hiện mỗi từ vào vector numpy",
+        "Bỏ qua từ ngoài từ vựng (OOV) một cách an toàn",
+        "Áp dụng đúng và ra vector [1, 0, 2, 2]"
+      ],
+      "tags": [
+        "nlp",
+        "representation",
+        "bow",
+        "code"
+      ]
+    },
+    {
+      "id": "E72-C100",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày một pipeline NLP cổ điển hoàn chỉnh cho bài toán phân loại cảm xúc văn bản, từ văn bản thô tới dự đoán, và nêu vai trò từng bước.",
+      "modelAnswer": "Pipeline cổ điển gồm: (1) Thu thập & làm sạch văn bản thô — gỡ HTML, ký tự lạ, chuẩn hoá unicode. (2) Chuẩn hoá — lowercasing, gỡ dấu câu/khoảng trắng thừa, có thể sửa chính tả. (3) Tokenization — tách thành từ/subword. (4) Loại stopwords (thận trọng vì 'not' quan trọng cho cảm xúc) và stemming/lemmatization để gộp biến thể. (5) Vector hoá — biến token thành đặc trưng: BoW hoặc TF-IDF của unigram/bigram, có thể thêm đặc trưng thủ công (độ dài, từ phủ định). (6) Huấn luyện mô hình phân loại — Naive Bayes hoặc Logistic Regression trên ma trận TF-IDF. (7) Đánh giá — chia train/test, đo accuracy, precision, recall, F1 (F1 quan trọng nếu lớp mất cân bằng). (8) Dự đoán — áp dụng cùng các bước tiền xử lý và vector hoá (dùng đúng từ vựng/IDF đã fit) cho văn bản mới rồi cho mô hình ra nhãn cảm xúc. Mỗi bước chuẩn hoá đầu vào để giảm nhiễu và thưa, còn vector hoá + mô hình tuyến tính học ranh giới phân loại; điểm mấu chốt là tiền xử lý ở dự đoán phải nhất quán với lúc huấn luyện.",
+      "rubric": [
+        "Liệt kê các bước theo thứ tự hợp lý từ thô tới dự đoán",
+        "Nêu vai trò của tiền xử lý (chuẩn hoá, token, stopword, stem/lemma)",
+        "Nêu bước vector hoá (BoW/TF-IDF) và mô hình phân loại (NB/LogReg)",
+        "Đề cập đánh giá (F1...) và tính nhất quán tiền xử lý train/test"
+      ],
+      "tags": [
+        "nlp",
+        "pipeline",
+        "classification",
+        "sentiment",
+        "essay"
+      ]
+    }
+  ]
+}

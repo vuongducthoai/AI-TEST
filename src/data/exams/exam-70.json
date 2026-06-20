@@ -1,0 +1,3021 @@
+{
+  "id": "exam-70",
+  "title": "MLP — Đề luyện chuyên sâu (100 câu)",
+  "description": "Đề luyện tập chuyên sâu về Mạng Nơ-ron Nhiều lớp (MLP): từ perceptron, kiến trúc và lan truyền xuôi, hàm kích hoạt, đếm tham số, hàm mất mát, lan truyền ngược, khởi tạo, tối ưu hóa cho tới điều chuẩn. Nhiều câu tính toán được kiểm chứng bằng NumPy và có cả câu hỏi viết code.",
+  "durationMinutes": 110,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E70-C001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Perceptron của Rosenblatt (1958) ban đầu được thiết kế để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một bộ phân loại tuyến tính nhị phân lấy cảm hứng từ nơ-ron sinh học"
+        },
+        {
+          "key": "B",
+          "text": "Một mô hình sinh ảnh độ phân giải cao"
+        },
+        {
+          "key": "C",
+          "text": "Một thuật toán sắp xếp danh sách số"
+        },
+        {
+          "key": "D",
+          "text": "Một cơ sở dữ liệu quan hệ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perceptron là bộ phân loại tuyến tính nhị phân: tính tổng có trọng số của đầu vào rồi áp ngưỡng, mô phỏng cách nơ-ron 'kích hoạt' khi vượt ngưỡng.",
+      "tags": [
+        "perceptron",
+        "history"
+      ]
+    },
+    {
+      "id": "E70-C002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cuốn sách 'Perceptrons' (Minsky & Papert, 1969) chỉ ra hạn chế nào của perceptron đơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thể học các hàm không tách tuyến tính như XOR"
+        },
+        {
+          "key": "B",
+          "text": "Không thể chạy trên máy tính"
+        },
+        {
+          "key": "C",
+          "text": "Luôn cần GPU để huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ hoạt động với dữ liệu ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Họ chứng minh perceptron một lớp không biểu diễn được XOR vì XOR không tách tuyến tính; điều này góp phần gây 'mùa đông AI' cho tới khi MLP + lan truyền ngược phổ biến.",
+      "tags": [
+        "perceptron",
+        "history",
+        "xor"
+      ]
+    },
+    {
+      "id": "E70-C003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thuật ngữ 'fully-connected' (kết nối đầy đủ) trong một lớp MLP nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi nơ-ron của lớp nhận tín hiệu từ TẤT CẢ nơ-ron của lớp trước"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi nơ-ron chỉ nối với một nơ-ron lớp trước"
+        },
+        {
+          "key": "C",
+          "text": "Các nơ-ron trong cùng lớp nối với nhau"
+        },
+        {
+          "key": "D",
+          "text": "Không có trọng số giữa các lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong lớp dày (dense/fully-connected), mỗi đơn vị đầu ra là tổ hợp có trọng số của toàn bộ đơn vị lớp trước cộng bias; do đó ma trận trọng số có kích thước (n_out, n_in).",
+      "tags": [
+        "mlp",
+        "fully-connected"
+      ]
+    },
+    {
+      "id": "E70-C004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong MLP, 'độ rộng' (width) và 'độ sâu' (depth) lần lượt chỉ điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Width = số nơ-ron mỗi lớp; Depth = số lớp (đặc biệt lớp ẩn)"
+        },
+        {
+          "key": "B",
+          "text": "Width = số lớp; Depth = số nơ-ron mỗi lớp"
+        },
+        {
+          "key": "C",
+          "text": "Width = learning rate; Depth = batch size"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều chỉ kích thước batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Độ rộng là số đơn vị trong một lớp, độ sâu là số lớp. Mạng sâu hơn có thể học biểu diễn phân cấp nhưng dễ gặp vanishing gradient hơn.",
+      "tags": [
+        "mlp",
+        "architecture",
+        "width-depth"
+      ]
+    },
+    {
+      "id": "E70-C005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nếu một MLP dùng kích hoạt tuyến tính (identity) ở MỌI lớp ẩn thì hệ quả là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Toàn mạng tương đương một biến đổi affine duy nhất, mất khả năng học hàm phi tuyến"
+        },
+        {
+          "key": "B",
+          "text": "Mạng học được mọi hàm phi tuyến tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Mạng tự động trở thành CNN"
+        },
+        {
+          "key": "D",
+          "text": "Mạng không cần trọng số nữa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hợp của các biến đổi affine vẫn là affine, nên nhiều lớp tuyến tính 'sụp' về một lớp tuyến tính. Phải có phi tuyến giữa các lớp thì độ sâu mới có ý nghĩa.",
+      "tags": [
+        "mlp",
+        "nonlinearity"
+      ]
+    },
+    {
+      "id": "E70-C006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao cần hàm kích hoạt PHI TUYẾN trong các lớp ẩn của MLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để mạng biểu diễn được các hàm/ranh giới quyết định phi tuyến phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Để giảm số tham số xuống 0"
+        },
+        {
+          "key": "C",
+          "text": "Để loại bỏ hoàn toàn nhu cầu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Để biến mọi đầu ra thành số nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phi tuyến phá vỡ tính tuyến tính của phép xếp chồng lớp, cho phép mạng xấp xỉ ranh giới cong và hàm phức tạp như XOR.",
+      "tags": [
+        "mlp",
+        "nonlinearity",
+        "activation"
+      ]
+    },
+    {
+      "id": "E70-C007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán XOR cho thấy điều gì về sức mạnh của lớp ẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm một lớp ẩn phi tuyến giúp tạo ranh giới không tách tuyến tính, giải được XOR"
+        },
+        {
+          "key": "B",
+          "text": "XOR chỉ giải được bằng hồi quy tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "XOR không bao giờ giải được bằng mạng nơ-ron"
+        },
+        {
+          "key": "D",
+          "text": "XOR cần ít nhất 100 lớp ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một MLP với một lớp ẩn (vài nơ-ron) và phi tuyến có thể tách lớp dữ liệu XOR; lớp ẩn tạo các đặc trưng trung gian khiến bài toán trở nên tách tuyến tính ở không gian mới.",
+      "tags": [
+        "xor",
+        "hidden-layer"
+      ]
+    },
+    {
+      "id": "E70-C008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Định lý xấp xỉ phổ quát (Universal Approximation) nói gì về MLP một lớp ẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Với đủ nơ-ron và phi tuyến phù hợp, nó xấp xỉ được mọi hàm liên tục trên tập compact với sai số tùy ý"
+        },
+        {
+          "key": "B",
+          "text": "Nó chỉ xấp xỉ được hàm tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "Nó cần vô hạn lớp để xấp xỉ bất kỳ hàm nào"
+        },
+        {
+          "key": "D",
+          "text": "Nó chỉ áp dụng cho dữ liệu ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định lý bảo đảm khả năng biểu diễn (đủ rộng là đủ), nhưng không bảo đảm dễ huấn luyện hay số nơ-ron nhỏ; thực tế mạng sâu thường hiệu quả tham số hơn.",
+      "tags": [
+        "universal-approximation",
+        "capacity"
+      ]
+    },
+    {
+      "id": "E70-C009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt cốt lõi giữa MLP và hồi quy logistic (logistic regression) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP có lớp ẩn phi tuyến nên học được ranh giới phi tuyến; logistic regression chỉ tạo ranh giới tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Logistic regression có nhiều lớp ẩn hơn MLP"
+        },
+        {
+          "key": "C",
+          "text": "MLP không dùng được cho phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Hai mô hình hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy logistic tương đương một MLP không lớp ẩn với sigmoid ở đầu ra — ranh giới tuyến tính. MLP thêm lớp ẩn phi tuyến để mô hình hóa quan hệ phức tạp.",
+      "tags": [
+        "mlp",
+        "logistic-regression"
+      ]
+    },
+    {
+      "id": "E70-C010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "So với hồi quy tuyến tính, MLP cho bài toán hồi quy có ưu thế gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP mô hình hóa được quan hệ phi tuyến giữa đầu vào và đầu ra liên tục"
+        },
+        {
+          "key": "B",
+          "text": "MLP luôn ít tham số hơn"
+        },
+        {
+          "key": "C",
+          "text": "MLP không cần dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "MLP chỉ dùng cho phân loại, không hồi quy được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy tuyến tính giả định quan hệ tuyến tính; MLP với lớp ẩn phi tuyến và đầu ra tuyến tính có thể khớp các quan hệ cong/phi tuyến phức tạp.",
+      "tags": [
+        "mlp",
+        "linear-regression",
+        "regression"
+      ]
+    },
+    {
+      "id": "E70-C011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP đặc biệt phù hợp với loại dữ liệu nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu dạng bảng (tabular) với các đặc trưng số/đã mã hóa"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ ảnh thô độ phân giải cao"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chuỗi thời gian rất dài hàng triệu bước"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đồ thị (graph) lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MLP nối đầy đủ hợp với dữ liệu bảng nơi vị trí đặc trưng không mang cấu trúc không gian; với ảnh thì CNN khai thác cấu trúc cục bộ tốt hơn.",
+      "tags": [
+        "mlp",
+        "tabular"
+      ]
+    },
+    {
+      "id": "E70-C012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong một lớp dày, công thức tiền-kích-hoạt cho một mẫu x là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "z = W x + b, rồi a = activation(z)"
+        },
+        {
+          "key": "B",
+          "text": "z = activation(x), rồi a = W z"
+        },
+        {
+          "key": "C",
+          "text": "z = x / W, không có bias"
+        },
+        {
+          "key": "D",
+          "text": "z = W + x + b nhân từng phần tử"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tiền-kích-hoạt z là phép nhân ma trận trọng số với đầu vào cộng bias; sau đó áp hàm kích hoạt phần tử-wise để ra activation a.",
+      "tags": [
+        "mlp",
+        "forward"
+      ]
+    },
+    {
+      "id": "E70-C013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Miền giá trị (range) của hàm sigmoid σ(z)=1/(1+e^{-z}) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(-1, 1)"
+        },
+        {
+          "key": "C",
+          "text": "[0, ∞)"
+        },
+        {
+          "key": "D",
+          "text": "(-∞, ∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid nén mọi số thực về khoảng mở (0,1), nên hợp để biểu diễn xác suất ở đầu ra phân loại nhị phân.",
+      "tags": [
+        "activation",
+        "sigmoid",
+        "range"
+      ]
+    },
+    {
+      "id": "E70-C014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Miền giá trị của hàm tanh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(-1, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "C",
+          "text": "[0, ∞)"
+        },
+        {
+          "key": "D",
+          "text": "{-1, 0, 1}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tanh nén đầu vào về (-1,1) và đối xứng quanh 0, nên trung bình đầu ra gần 0 — thường hội tụ tốt hơn sigmoid ở lớp ẩn.",
+      "tags": [
+        "activation",
+        "tanh",
+        "range"
+      ]
+    },
+    {
+      "id": "E70-C015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đầu ra của ReLU(z)=max(0,z) nằm trong miền nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, ∞)"
+        },
+        {
+          "key": "B",
+          "text": "(-∞, 0]"
+        },
+        {
+          "key": "C",
+          "text": "(-1, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(0, 1)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU trả 0 với đầu vào âm và chính đầu vào với đầu vào dương, nên miền giá trị là [0, ∞); rẻ tính và giảm vanishing gradient ở vùng dương.",
+      "tags": [
+        "activation",
+        "relu",
+        "range"
+      ]
+    },
+    {
+      "id": "E70-C016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "'Dead ReLU' (ReLU chết) là hiện tượng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nơ-ron luôn nhận đầu vào âm nên đầu ra và gradient luôn bằng 0, ngừng cập nhật"
+        },
+        {
+          "key": "B",
+          "text": "Nơ-ron luôn xuất giá trị lớn vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Nơ-ron đổi hàm kích hoạt mỗi epoch"
+        },
+        {
+          "key": "D",
+          "text": "Nơ-ron sao chép trọng số của lớp khác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu z luôn âm, ReLU cho 0 và đạo hàm 0, gradient không truyền qua nên trọng số nơ-ron không còn được cập nhật — nó 'chết'. LeakyReLU/ELU giảm vấn đề này.",
+      "tags": [
+        "activation",
+        "relu",
+        "dead-relu"
+      ]
+    },
+    {
+      "id": "E70-C017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "LeakyReLU khác ReLU ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Với z<0 nó cho αz (α nhỏ, ví dụ 0.01) thay vì 0, giúp gradient không bị triệt tiêu hoàn toàn"
+        },
+        {
+          "key": "B",
+          "text": "Nó nén đầu ra về (0,1)"
+        },
+        {
+          "key": "C",
+          "text": "Nó luôn trả về 0 với mọi z"
+        },
+        {
+          "key": "D",
+          "text": "Nó là một hàm tuyến tính thuần túy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LeakyReLU có độ dốc nhỏ α ở miền âm, nên đạo hàm khác 0 khi z<0, hạn chế hiện tượng dead ReLU.",
+      "tags": [
+        "activation",
+        "leakyrelu"
+      ]
+    },
+    {
+      "id": "E70-C018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ELU (Exponential Linear Unit) có đặc điểm nào so với ReLU?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho giá trị âm mượt (α(e^z−1)) khi z<0, giúp trung bình kích hoạt gần 0 hơn"
+        },
+        {
+          "key": "B",
+          "text": "Luôn trả 0 với z dương"
+        },
+        {
+          "key": "C",
+          "text": "Giới hạn đầu ra trong (0,1)"
+        },
+        {
+          "key": "D",
+          "text": "Không khả vi tại mọi điểm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ELU bão hòa nhẹ ở miền âm với giá trị âm mượt, đẩy trung bình kích hoạt về gần 0 và có thể cải thiện hội tụ so với ReLU.",
+      "tags": [
+        "activation",
+        "elu"
+      ]
+    },
+    {
+      "id": "E70-C019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GELU (Gaussian Error Linear Unit) thường dùng ở đâu và có tính chất gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phổ biến trong Transformer; là hàm mượt xấp xỉ z·Φ(z) (Φ là CDF chuẩn)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng trong cây quyết định, không khả vi"
+        },
+        {
+          "key": "C",
+          "text": "Là hàm bậc thang rời rạc"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cho đầu ra trong {0,1}"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GELU đánh trọng số đầu vào theo xác suất chuẩn, là hàm mượt, được dùng rộng rãi trong các kiến trúc Transformer hiện đại.",
+      "tags": [
+        "activation",
+        "gelu"
+      ]
+    },
+    {
+      "id": "E70-C020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm softmax được dùng ở đâu trong MLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ở lớp đầu ra phân loại đa lớp, biến vector logit thành phân phối xác suất tổng bằng 1"
+        },
+        {
+          "key": "B",
+          "text": "Ở mỗi lớp ẩn để thay ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Để chuẩn hóa dữ liệu đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Để khởi tạo trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax(z_i)=e^{z_i}/Σ e^{z_j} cho ra các xác suất không âm tổng bằng 1, phù hợp đầu ra phân loại nhiều lớp loại trừ lẫn nhau.",
+      "tags": [
+        "activation",
+        "softmax",
+        "output"
+      ]
+    },
+    {
+      "id": "E70-C021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nhược điểm chính khiến sigmoid ít được dùng ở LỚP ẨN sâu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bão hòa hai đầu làm đạo hàm rất nhỏ → vanishing gradient; đầu ra không tâm 0"
+        },
+        {
+          "key": "B",
+          "text": "Nó không khả vi"
+        },
+        {
+          "key": "C",
+          "text": "Nó cho đầu ra âm vô hạn"
+        },
+        {
+          "key": "D",
+          "text": "Nó nhanh hơn ReLU nhiều lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi |z| lớn, σ'(z)≈0, gradient teo dần qua nhiều lớp; ngoài ra đầu ra luôn dương (không tâm 0) làm cập nhật zig-zag. Vì vậy ReLU thường được ưu tiên ở lớp ẩn.",
+      "tags": [
+        "activation",
+        "sigmoid",
+        "vanishing-gradient"
+      ]
+    },
+    {
+      "id": "E70-C022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm của sigmoid σ(z) biểu diễn theo chính σ là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "σ'(z) = σ(z)·(1 − σ(z))"
+        },
+        {
+          "key": "B",
+          "text": "σ'(z) = 1 − σ(z)^2"
+        },
+        {
+          "key": "C",
+          "text": "σ'(z) = max(0, z)"
+        },
+        {
+          "key": "D",
+          "text": "σ'(z) = σ(z)^2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm sigmoid là σ(1−σ), cực đại 0.25 tại z=0 và tiến 0 ở hai đầu — nguồn gốc vanishing gradient.",
+      "tags": [
+        "activation",
+        "sigmoid",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E70-C023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm của tanh(z) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 − tanh(z)^2"
+        },
+        {
+          "key": "B",
+          "text": "tanh(z)·(1 − tanh(z))"
+        },
+        {
+          "key": "C",
+          "text": "1 + tanh(z)^2"
+        },
+        {
+          "key": "D",
+          "text": "max(0, z)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tanh'(z)=1−tanh²(z), cực đại bằng 1 tại z=0, lớn hơn cực đại của sigmoid (0.25) nên tanh ít teo gradient hơn ở vùng quanh 0.",
+      "tags": [
+        "activation",
+        "tanh",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E70-C024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm của ReLU tại z>0 và z<0 lần lượt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 khi z>0 và 0 khi z<0"
+        },
+        {
+          "key": "B",
+          "text": "0 khi z>0 và 1 khi z<0"
+        },
+        {
+          "key": "C",
+          "text": "z khi z>0 và −z khi z<0"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng 0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU có đạo hàm 1 ở miền dương và 0 ở miền âm (tại z=0 thường quy ước 0 hoặc 1). Đạo hàm hằng 1 ở miền dương giúp giữ độ lớn gradient.",
+      "tags": [
+        "activation",
+        "relu",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E70-C025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho z = 0.5. Giá trị sigmoid σ(0.5) gần nhất với số nào (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6225"
+        },
+        {
+          "key": "B",
+          "text": "0.3775"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.7311"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(0.5)=1/(1+e^{-0.5})≈0.6225. Đáp án dùng đúng công thức sigmoid với z=0.5.",
+      "tags": [
+        "activation",
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho z = 1.2. Giá trị tanh(1.2) gần nhất với số nào (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8337"
+        },
+        {
+          "key": "B",
+          "text": "0.7616"
+        },
+        {
+          "key": "C",
+          "text": "0.9051"
+        },
+        {
+          "key": "D",
+          "text": "0.6225"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tanh(1.2)≈0.8337. Đáp án tính trực tiếp bằng định nghĩa tanh.",
+      "tags": [
+        "activation",
+        "tanh",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho vector z = [−1.0, 2.0, 0.0]. Áp ReLU phần tử-wise cho kết quả nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.0, 2.0, 0.0]"
+        },
+        {
+          "key": "B",
+          "text": "[−1.0, 2.0, 0.0]"
+        },
+        {
+          "key": "C",
+          "text": "[0.0, 2.0, 1.0]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 2.0, 0.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(z)=max(0,z) theo từng phần tử: −1.0→0, 2.0→2.0, 0.0→0. Vậy kết quả là [0,2,0].",
+      "tags": [
+        "activation",
+        "relu",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm sigmoid tại z=0 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(0)=0.5 nên σ'(0)=0.5·(1−0.5)=0.25 — đây là giá trị cực đại của đạo hàm sigmoid.",
+      "tags": [
+        "activation",
+        "sigmoid",
+        "derivative",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C029",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm tanh tại z=0 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "0.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tanh(0)=0 nên tanh'(0)=1−0²=1.0 — lớn hơn cực đại của sigmoid, lý do tanh thường được ưu tiên hơn sigmoid ở lớp ẩn.",
+      "tags": [
+        "activation",
+        "tanh",
+        "derivative",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho z = −2.0. LeakyReLU với α=0.01 cho giá trị nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "−0.02"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "−2.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với z<0, LeakyReLU = α·z = 0.01·(−2.0) = −0.02 (giữ một độ dốc nhỏ ở miền âm).",
+      "tags": [
+        "activation",
+        "leakyrelu",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong lớp dày từ 6 đầu vào sang 4 đầu ra (có bias), ma trận trọng số W có kích thước nào (quy ước z=Wx+b)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 6)"
+        },
+        {
+          "key": "B",
+          "text": "(6, 4)"
+        },
+        {
+          "key": "C",
+          "text": "(4, 4)"
+        },
+        {
+          "key": "D",
+          "text": "(6, 6)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với z=Wx+b, x∈R^6, z∈R^4 nên W phải là (4,6) để phép nhân hợp lệ; bias b∈R^4.",
+      "tags": [
+        "param-count",
+        "shape"
+      ]
+    },
+    {
+      "id": "E70-C032",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lớp dày 6→4 có bias. Tổng số tham số (trọng số + bias) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "28"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "32"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số trọng số = 6·4 = 24, số bias = 4, tổng = 28. Công thức: (n_in·n_out)+n_out.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP kiến trúc 100 → 64 → 10 (tất cả lớp có bias). Tổng số tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7114"
+        },
+        {
+          "key": "B",
+          "text": "7040"
+        },
+        {
+          "key": "C",
+          "text": "6464"
+        },
+        {
+          "key": "D",
+          "text": "7104"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp 1: 100·64+64 = 6464. Lớp 2: 64·10+10 = 650. Tổng = 6464+650 = 7114.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP 50 → 30 → 20 → 5 (có bias mọi lớp). Tổng tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2245"
+        },
+        {
+          "key": "B",
+          "text": "2200"
+        },
+        {
+          "key": "C",
+          "text": "2150"
+        },
+        {
+          "key": "D",
+          "text": "2255"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1: 50·30+30=1530. L2: 30·20+20=620. L3: 20·5+5=105. Tổng = 1530+620+105 = 2255.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng MLP 50 → 30 → 20 → 5 nhưng BỎ bias ở mọi lớp. Tổng tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2200"
+        },
+        {
+          "key": "B",
+          "text": "2255"
+        },
+        {
+          "key": "C",
+          "text": "2150"
+        },
+        {
+          "key": "D",
+          "text": "2100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không bias: L1=50·30=1500, L2=30·20=600, L3=20·5=100. Tổng = 1500+600+100 = 2200.",
+      "tags": [
+        "param-count",
+        "bias",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP 784 → 128 → 64 → 10 (có bias). Số tham số của RIÊNG lớp ẩn đầu tiên (784→128) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "100480"
+        },
+        {
+          "key": "B",
+          "text": "100352"
+        },
+        {
+          "key": "C",
+          "text": "100608"
+        },
+        {
+          "key": "D",
+          "text": "8320"
+        }
+      ],
+      "answer": "A",
+      "explanation": "784·128 = 100352 trọng số, cộng 128 bias = 100480 tham số cho lớp đầu tiên.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vẫn MLP 784 → 128 → 64 → 10 (có bias). TỔNG tham số toàn mạng là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "109386"
+        },
+        {
+          "key": "B",
+          "text": "100480"
+        },
+        {
+          "key": "C",
+          "text": "109056"
+        },
+        {
+          "key": "D",
+          "text": "108736"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1=784·128+128=100480; L2=128·64+64=8256; L3=64·10+10=650. Tổng=100480+8256+650=109386.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với z=Wx+b, nếu lớp có 12 đầu vào và 7 nơ-ron đầu ra thì vector bias b có shape nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(7,)"
+        },
+        {
+          "key": "B",
+          "text": "(12,)"
+        },
+        {
+          "key": "C",
+          "text": "(7, 12)"
+        },
+        {
+          "key": "D",
+          "text": "(12, 7)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bias có một giá trị cho mỗi nơ-ron đầu ra, nên b∈R^7, shape (7,). Nó được cộng broadcast vào mỗi mẫu.",
+      "tags": [
+        "shape",
+        "bias"
+      ]
+    },
+    {
+      "id": "E70-C039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với batch X có shape (N, d_in)=(32, 20) và W^T dùng theo công thức Z = X W^T + b (W shape (h, d_in), h=8), Z có shape nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(32, 8)"
+        },
+        {
+          "key": "B",
+          "text": "(8, 32)"
+        },
+        {
+          "key": "C",
+          "text": "(32, 20)"
+        },
+        {
+          "key": "D",
+          "text": "(20, 8)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "X(32,20) nhân W^T(20,8) cho (32,8); cộng bias (8,) broadcast theo hàng. Vậy Z có shape (32,8).",
+      "tags": [
+        "shape",
+        "batch",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Broadcasting của bias trong batch nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cùng một vector bias được cộng vào TẤT CẢ các hàng (mẫu) của ma trận tiền-kích-hoạt"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi mẫu có một vector bias riêng được học độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Bias chỉ cộng vào mẫu đầu tiên trong batch"
+        },
+        {
+          "key": "D",
+          "text": "Bias được nhân chứ không cộng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NumPy broadcast vector b shape (h,) lên (N,h) bằng cách lặp theo trục mẫu, nên mọi mẫu chia sẻ cùng bias — đúng ý nghĩa tham số dùng chung.",
+      "tags": [
+        "bias",
+        "broadcasting",
+        "batch"
+      ]
+    },
+    {
+      "id": "E70-C041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP 200 → 100 → 100 → 50 → 10 (có bias). Số tham số lớp ẩn 100→100 (lớp thứ hai) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10100"
+        },
+        {
+          "key": "B",
+          "text": "10000"
+        },
+        {
+          "key": "C",
+          "text": "10050"
+        },
+        {
+          "key": "D",
+          "text": "20100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "100·100 = 10000 trọng số + 100 bias = 10100 tham số cho lớp ẩn 100→100.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vai trò của tham số bias b trong z=Wx+b là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch (shift) ngưỡng kích hoạt, cho phép nơ-ron kích hoạt ngay cả khi tổng có trọng số bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Quy định learning rate của lớp"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa đầu vào về phương sai 1"
+        },
+        {
+          "key": "D",
+          "text": "Quyết định số lớp của mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bias cho phép tịnh tiến hàm kích hoạt theo trục hoành, tăng tính linh hoạt; thiếu bias thì siêu phẳng buộc đi qua gốc tọa độ.",
+      "tags": [
+        "bias",
+        "role"
+      ]
+    },
+    {
+      "id": "E70-C043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Số tham số của một MLP CHỈ phụ thuộc vào yếu tố nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số đơn vị mỗi lớp và việc có dùng bias hay không (không phụ thuộc số mẫu dữ liệu)"
+        },
+        {
+          "key": "B",
+          "text": "Số mẫu trong tập huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Số epoch huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate được chọn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tham số = các ma trận W và vector b, xác định bởi kích thước các lớp. Số mẫu, epoch, learning rate là siêu tham số/dữ liệu, không làm tăng số tham số.",
+      "tags": [
+        "param-count",
+        "concept"
+      ]
+    },
+    {
+      "id": "E70-C044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lớp dày 16→16 KHÔNG bias có bao nhiêu tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "256"
+        },
+        {
+          "key": "B",
+          "text": "272"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "240"
+        }
+      ],
+      "answer": "A",
+      "explanation": "16·16 = 256 trọng số, không có bias nên tổng = 256.",
+      "tags": [
+        "param-count",
+        "bias",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với z=Wx+b cho một mẫu, x∈R^{d}, W∈R^{h×d}. Tích Wx có shape nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(h,)"
+        },
+        {
+          "key": "B",
+          "text": "(d,)"
+        },
+        {
+          "key": "C",
+          "text": "(h, d)"
+        },
+        {
+          "key": "D",
+          "text": "(d, h)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân ma trận (h,d) với vector (d,) cho vector (h,); cộng bias (h,) giữ shape (h,).",
+      "tags": [
+        "shape",
+        "forward"
+      ]
+    },
+    {
+      "id": "E70-C046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP 30 → 16 → 8 → 1 cho hồi quy (có bias). Tổng tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "641"
+        },
+        {
+          "key": "B",
+          "text": "640"
+        },
+        {
+          "key": "C",
+          "text": "633"
+        },
+        {
+          "key": "D",
+          "text": "649"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1: 30·16+16=496. L2: 16·8+8=136. L3: 8·1+1=9. Tổng=496+136+9=641.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nếu tăng GẤP ĐÔI độ rộng mọi lớp ẩn của một MLP, số tham số trong các lớp ẩn-ẩn xấp xỉ thay đổi thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng khoảng GẤP 4 lần (vì cả số hàng và số cột của W đều nhân đôi)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng đúng 2 lần"
+        },
+        {
+          "key": "C",
+          "text": "Giảm một nửa"
+        },
+        {
+          "key": "D",
+          "text": "Không đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số trọng số của lớp giữa hai lớp ẩn ~ tích hai độ rộng; nhân đôi cả hai làm tích tăng ~4 lần. Tham số phình rất nhanh theo độ rộng.",
+      "tags": [
+        "param-count",
+        "width"
+      ]
+    },
+    {
+      "id": "E70-C048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong batch X shape (N, d), việc nhân X@W.T với W shape (h,d) tận dụng điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector hóa: xử lý cả batch bằng một phép nhân ma trận thay vì vòng lặp từng mẫu"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số tham số của mạng"
+        },
+        {
+          "key": "C",
+          "text": "Thay đổi kiến trúc thành CNN"
+        },
+        {
+          "key": "D",
+          "text": "Tự động chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một phép nhân ma trận (N,d)·(d,h) tính forward cho toàn batch, khai thác BLAS/GPU hiệu quả hơn nhiều so với lặp từng mẫu.",
+      "tags": [
+        "batch",
+        "vectorization"
+      ]
+    },
+    {
+      "id": "E70-C049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho W=[[1,2],[0,3],[−1,1]] (shape 3×2) và x=[2,1]. Vector Wx bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4, 3, −1]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 4, −1]"
+        },
+        {
+          "key": "C",
+          "text": "[4, 3, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[2, 3, −1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng 1: 1·2+2·1=4; hàng 2: 0·2+3·1=3; hàng 3: −1·2+1·1=−1. Vậy Wx=[4,3,−1].",
+      "tags": [
+        "forward",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP 12 → 8 → 8 → 8 → 3 (có bias). Tổng tham số là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "267"
+        },
+        {
+          "key": "B",
+          "text": "264"
+        },
+        {
+          "key": "C",
+          "text": "243"
+        },
+        {
+          "key": "D",
+          "text": "275"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1:12·8+8=104; L2:8·8+8=72; L3:8·8+8=72; L4:8·3+3=27. Tổng=104+72+72+27=275.",
+      "tags": [
+        "param-count",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho W=[[0.5,−0.5]], b=[0.1], x=[2,4]. Tiền-kích-hoạt z = Wx+b bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "−0.9"
+        },
+        {
+          "key": "B",
+          "text": "−1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.9"
+        },
+        {
+          "key": "D",
+          "text": "−0.8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Wx = 0.5·2 + (−0.5)·4 = 1 − 2 = −1; cộng b=0.1 → z=−0.9.",
+      "tags": [
+        "forward",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tiếp câu trên: với z=−0.9, áp ReLU thì activation a bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "−0.9"
+        },
+        {
+          "key": "C",
+          "text": "0.9"
+        },
+        {
+          "key": "D",
+          "text": "0.1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(−0.9)=max(0,−0.9)=0.0 vì z âm.",
+      "tags": [
+        "forward",
+        "relu",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho z=−0.9, áp sigmoid. Giá trị a≈ bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.2891"
+        },
+        {
+          "key": "B",
+          "text": "0.7109"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.3100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(−0.9)=1/(1+e^{0.9})≈0.2891.",
+      "tags": [
+        "forward",
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Softmax của logits z=[2, 1, 0]. Xác suất của phần tử ĐẦU TIÊN gần nhất với?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6652"
+        },
+        {
+          "key": "B",
+          "text": "0.2447"
+        },
+        {
+          "key": "C",
+          "text": "0.0900"
+        },
+        {
+          "key": "D",
+          "text": "0.3333"
+        }
+      ],
+      "answer": "A",
+      "explanation": "e^2≈7.389, e^1≈2.718, e^0=1, tổng≈11.107; p_1=7.389/11.107≈0.6652.",
+      "tags": [
+        "softmax",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vẫn softmax z=[2,1,0]. Tổng cả ba xác suất bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "11.107"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo định nghĩa softmax, các xác suất luôn cộng lại bằng 1 (phân phối chuẩn hóa).",
+      "tags": [
+        "softmax",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tính ổn định số (numerical stability) của softmax thường đạt bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trừ max(z) khỏi mọi logit trước khi lấy e mũ, tránh tràn số (overflow)"
+        },
+        {
+          "key": "B",
+          "text": "Cộng max(z) vào mọi logit"
+        },
+        {
+          "key": "C",
+          "text": "Nhân tất cả logit với learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua mẫu số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax(z)=softmax(z−c) với mọi hằng c; chọn c=max(z) khiến số mũ lớn nhất là 0, tránh e^{lớn} gây tràn.",
+      "tags": [
+        "softmax",
+        "stability"
+      ]
+    },
+    {
+      "id": "E70-C057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Batch X shape (4, 3), lớp W (5,3) bias (5,), Z = X@W.T+b. Số phần tử của Z là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Z có shape (4,5) → 4·5 = 20 phần tử.",
+      "tags": [
+        "batch",
+        "shape",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho x=[1,0,−1], W=[[1,1,1],[2,0,−2]] (2×3), b=[0,1]. z=Wx+b bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 5]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng1: 1−0−1=0, +0=0. Hàng2: 2−0+2=4, +1=5. Vậy z=[0,5].",
+      "tags": [
+        "forward",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai lớp: a1=ReLU(W1 x+b1), y=W2 a1+b2. Đây là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một lượt forward propagation qua MLP một lớp ẩn với đầu ra tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Một bước lan truyền ngược"
+        },
+        {
+          "key": "C",
+          "text": "Một bước cập nhật gradient descent"
+        },
+        {
+          "key": "D",
+          "text": "Một phép chuẩn hóa batch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính tuần tự z và activation từ đầu vào tới đầu ra chính là forward propagation; ở đây đầu ra y tuyến tính phù hợp bài toán hồi quy.",
+      "tags": [
+        "forward",
+        "mlp"
+      ]
+    },
+    {
+      "id": "E70-C060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho logits z=[0,0,0] (3 lớp). Softmax cho phân phối nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1/3, 1/3, 1/3]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 0, 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 1]"
+        },
+        {
+          "key": "D",
+          "text": "[0.5, 0.3, 0.2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mọi logit bằng nhau → e mũ bằng nhau → xác suất đều = 1/3 mỗi lớp.",
+      "tags": [
+        "softmax",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong forward batch, vì sao nên dùng float32/float64 nhất quán?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tránh sai số/tràn số và đảm bảo phép nhân ma trận đúng kiểu dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng số tham số mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Để thay đổi số lớp tự động"
+        },
+        {
+          "key": "D",
+          "text": "Để bỏ qua hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kiểu dữ liệu nhất quán tránh ép kiểu ngầm gây sai số; float32 tiết kiệm bộ nhớ/nhanh trên GPU, float64 chính xác hơn khi cần.",
+      "tags": [
+        "forward",
+        "numeric",
+        "precision"
+      ]
+    },
+    {
+      "id": "E70-C062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho a=[0.2, 0.8], W2=[[1,−1]], b2=[0.5]. Đầu ra y=W2 a+b2 bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1"
+        },
+        {
+          "key": "B",
+          "text": "−0.1"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "1.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "W2 a = 1·0.2 + (−1)·0.8 = 0.2 − 0.8 = −0.6; cộng 0.5 → y = −0.1... kiểm: −0.6+0.5=−0.1.",
+      "tags": [
+        "forward",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán HỒI QUY giá trị liên tục thường dùng hàm mất mát nào và kích hoạt đầu ra nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MSE (hoặc MAE) với đầu ra TUYẾN TÍNH (không kích hoạt)"
+        },
+        {
+          "key": "B",
+          "text": "Cross-entropy với softmax"
+        },
+        {
+          "key": "C",
+          "text": "Binary cross-entropy với sigmoid"
+        },
+        {
+          "key": "D",
+          "text": "Hinge loss với tanh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy cần đầu ra số thực không giới hạn nên dùng kích hoạt tuyến tính; MSE phạt bình phương sai lệch (hoặc MAE phạt tuyến tính).",
+      "tags": [
+        "loss",
+        "output",
+        "regression"
+      ]
+    },
+    {
+      "id": "E70-C064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại NHỊ PHÂN một nhãn dùng cặp nào ở đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một nơ-ron sigmoid + Binary Cross-Entropy (BCE)"
+        },
+        {
+          "key": "B",
+          "text": "Softmax 1 nơ-ron + MSE"
+        },
+        {
+          "key": "C",
+          "text": "ReLU + MAE"
+        },
+        {
+          "key": "D",
+          "text": "tanh + hinge"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid cho xác suất lớp dương trong (0,1); BCE là hàm mất mát likelihood phù hợp cho nhị phân.",
+      "tags": [
+        "loss",
+        "output",
+        "binary"
+      ]
+    },
+    {
+      "id": "E70-C065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại ĐA LỚP loại trừ lẫn nhau (mỗi mẫu một nhãn) dùng đầu ra gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Softmax + Categorical Cross-Entropy"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid mỗi lớp + MSE"
+        },
+        {
+          "key": "C",
+          "text": "Linear + MAE"
+        },
+        {
+          "key": "D",
+          "text": "tanh + BCE"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax tạo phân phối xác suất trên các lớp loại trừ nhau; cross-entropy đo khoảng cách giữa phân phối dự đoán và nhãn one-hot.",
+      "tags": [
+        "loss",
+        "output",
+        "multiclass"
+      ]
+    },
+    {
+      "id": "E70-C066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại ĐA NHÃN (multi-label, một mẫu có thể thuộc nhiều lớp) dùng đầu ra gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid ĐỘC LẬP cho mỗi nhãn + BCE cho từng nhãn"
+        },
+        {
+          "key": "B",
+          "text": "Softmax trên tất cả nhãn + CE"
+        },
+        {
+          "key": "C",
+          "text": "Một nơ-ron tuyến tính + MSE"
+        },
+        {
+          "key": "D",
+          "text": "tanh + hinge cho toàn vector"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì các nhãn không loại trừ nhau, mỗi nhãn cần xác suất riêng (sigmoid) và mất mát BCE độc lập; softmax sai vì ép tổng xác suất bằng 1.",
+      "tags": [
+        "loss",
+        "output",
+        "multilabel"
+      ]
+    },
+    {
+      "id": "E70-C067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MSE và MAE khác nhau chủ yếu ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MSE phạt bình phương sai lệch (nhạy với ngoại lai), MAE phạt giá trị tuyệt đối (bền hơn với ngoại lai)"
+        },
+        {
+          "key": "B",
+          "text": "MAE chỉ dùng cho phân loại"
+        },
+        {
+          "key": "C",
+          "text": "MSE luôn cho gradient bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Hai hàm hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE bình phương lỗi nên ngoại lai bị phạt nặng, gradient tỷ lệ với lỗi; MAE phạt tuyến tính nên bền với ngoại lai hơn nhưng gradient hằng độ lớn.",
+      "tags": [
+        "loss",
+        "mse",
+        "mae"
+      ]
+    },
+    {
+      "id": "E70-C068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lan truyền ngược (backpropagation) về bản chất là áp dụng quy tắc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quy tắc chuỗi (chain rule) để tính gradient của loss theo từng tham số, lan từ đầu ra về đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Quy tắc nhân ma trận nghịch đảo"
+        },
+        {
+          "key": "C",
+          "text": "Phép biến đổi Fourier"
+        },
+        {
+          "key": "D",
+          "text": "Quy tắc l'Hôpital"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprop tính ∂L/∂tham_số bằng cách nhân dồn các đạo hàm cục bộ theo chain rule, đi ngược từ lớp đầu ra về lớp đầu vào, tái sử dụng kết quả trung gian.",
+      "tags": [
+        "backprop",
+        "chain-rule"
+      ]
+    },
+    {
+      "id": "E70-C069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong backprop, 'gradient flow' (luồng gradient) qua một lớp bị nhân với yếu tố nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đạo hàm của hàm kích hoạt và (chuyển vị) ma trận trọng số của lớp đó"
+        },
+        {
+          "key": "B",
+          "text": "Learning rate bình phương"
+        },
+        {
+          "key": "C",
+          "text": "Số epoch còn lại"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước batch lập phương"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gradient lan ngược được nhân với đạo hàm activation (element-wise) và W^T; tích nhiều thừa số nhỏ gây vanishing, nhiều thừa số lớn gây exploding.",
+      "tags": [
+        "backprop",
+        "gradient-flow"
+      ]
+    },
+    {
+      "id": "E70-C070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với softmax + cross-entropy, gradient của loss theo logit z_i có dạng gọn nào (p là softmax, y one-hot)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "∂L/∂z = p − y"
+        },
+        {
+          "key": "B",
+          "text": "∂L/∂z = y − p^2"
+        },
+        {
+          "key": "C",
+          "text": "∂L/∂z = p·(1−p) cho mọi i"
+        },
+        {
+          "key": "D",
+          "text": "∂L/∂z = log(p)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm kết hợp softmax–CE rút gọn đẹp thành p−y, đơn giản và ổn định số, là lý do hai hàm này hay đi cặp.",
+      "tags": [
+        "backprop",
+        "softmax",
+        "cross-entropy"
+      ]
+    },
+    {
+      "id": "E70-C071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho p=[0.7,0.2,0.1] (softmax) và nhãn đúng là lớp 0 (one-hot [1,0,0]). Vector gradient p−y bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[−0.3, 0.2, 0.1]"
+        },
+        {
+          "key": "B",
+          "text": "[0.3, −0.2, −0.1]"
+        },
+        {
+          "key": "C",
+          "text": "[−0.7, 0.2, 0.1]"
+        },
+        {
+          "key": "D",
+          "text": "[0.7, 0.2, 0.1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "p−y = [0.7−1, 0.2−0, 0.1−0] = [−0.3, 0.2, 0.1].",
+      "tags": [
+        "backprop",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cross-entropy cho nhãn đúng có xác suất dự đoán p=0.25. Giá trị loss −ln(p) gần nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.3863"
+        },
+        {
+          "key": "B",
+          "text": "0.2500"
+        },
+        {
+          "key": "C",
+          "text": "0.6931"
+        },
+        {
+          "key": "D",
+          "text": "2.0000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CE cho một mẫu một-hot = −ln(p_đúng) = −ln(0.25) ≈ 1.3863.",
+      "tags": [
+        "loss",
+        "cross-entropy",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao KHỞI TẠO TẤT CẢ trọng số bằng 0 trong MLP là sai lầm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi nơ-ron trong một lớp tính cùng giá trị và nhận cùng gradient → đối xứng không bị phá vỡ, các nơ-ron học giống hệt nhau"
+        },
+        {
+          "key": "B",
+          "text": "Vì máy không thể lưu số 0"
+        },
+        {
+          "key": "C",
+          "text": "Vì như vậy mạng không có tham số"
+        },
+        {
+          "key": "D",
+          "text": "Vì 0 làm learning rate vô hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khởi tạo 0 (hoặc cùng một hằng) khiến các nơ-ron đồng nhất, gradient bằng nhau, cập nhật như nhau — không học được đặc trưng đa dạng. Cần khởi tạo ngẫu nhiên để phá đối xứng.",
+      "tags": [
+        "init",
+        "symmetry"
+      ]
+    },
+    {
+      "id": "E70-C074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khởi tạo Xavier/Glorot phù hợp nhất với hàm kích hoạt nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid/tanh (kích hoạt đối xứng, tuyến tính quanh 0)"
+        },
+        {
+          "key": "B",
+          "text": "ReLU và biến thể"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ softmax đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Không phụ thuộc hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Xavier giữ phương sai tín hiệu ổn định giả định kích hoạt tuyến tính quanh 0 (tanh/sigmoid); với ReLU thì He init phù hợp hơn.",
+      "tags": [
+        "init",
+        "xavier"
+      ]
+    },
+    {
+      "id": "E70-C075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khởi tạo He (Kaiming) được thiết kế cho hàm kích hoạt nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU và các biến thể (vì ReLU cắt nửa miền âm)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ softmax"
+        },
+        {
+          "key": "D",
+          "text": "Hàm tuyến tính identity"
+        }
+      ],
+      "answer": "A",
+      "explanation": "He init dùng phương sai 2/n_in để bù việc ReLU triệt tiêu nửa số kích hoạt, giữ phương sai tín hiệu qua các lớp.",
+      "tags": [
+        "init",
+        "he",
+        "relu"
+      ]
+    },
+    {
+      "id": "E70-C076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vanishing gradient trong MLP sâu thường xuất hiện khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi dùng kích hoạt bão hòa (sigmoid/tanh) và nhiều lớp, đạo hàm <1 nhân dồn làm gradient lớp đầu teo về 0"
+        },
+        {
+          "key": "B",
+          "text": "Khi learning rate quá lớn gây tràn số"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi batch size = 1"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ khi dùng ReLU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích nhiều đạo hàm nhỏ (sigmoid' ≤ 0.25) qua nhiều lớp làm gradient ở các lớp gần đầu vào tiến 0, khiến chúng học rất chậm.",
+      "tags": [
+        "vanishing-gradient",
+        "deep"
+      ]
+    },
+    {
+      "id": "E70-C077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Exploding gradient là gì và một cách xử lý phổ biến?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gradient phình rất lớn (đạo hàm/trọng số >1 nhân dồn); xử lý bằng gradient clipping"
+        },
+        {
+          "key": "B",
+          "text": "Gradient luôn bằng 0; xử lý bằng tăng epoch"
+        },
+        {
+          "key": "C",
+          "text": "Gradient âm; xử lý bằng đổi dấu loss"
+        },
+        {
+          "key": "D",
+          "text": "Gradient không liên quan tới độ sâu mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các thừa số trong chain rule >1, gradient bùng nổ gây cập nhật bất ổn/NaN; gradient clipping giới hạn chuẩn gradient là cách khắc phục thường dùng.",
+      "tags": [
+        "exploding-gradient",
+        "clipping"
+      ]
+    },
+    {
+      "id": "E70-C078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một bước gradient descent: w=2.0, gradient ∂L/∂w=0.5, learning rate η=0.1. Giá trị w mới là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.95"
+        },
+        {
+          "key": "B",
+          "text": "2.05"
+        },
+        {
+          "key": "C",
+          "text": "1.50"
+        },
+        {
+          "key": "D",
+          "text": "2.50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "w ← w − η·grad = 2.0 − 0.1·0.5 = 2.0 − 0.05 = 1.95.",
+      "tags": [
+        "gradient-descent",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vector w=[1.0,−2.0], grad=[0.4,−0.2], η=0.5. w mới bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.8, −1.9]"
+        },
+        {
+          "key": "B",
+          "text": "[1.2, −2.1]"
+        },
+        {
+          "key": "C",
+          "text": "[0.8, −2.1]"
+        },
+        {
+          "key": "D",
+          "text": "[0.6, −1.9]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "w−η·grad = [1.0−0.5·0.4, −2.0−0.5·(−0.2)] = [1.0−0.2, −2.0+0.1] = [0.8, −1.9].",
+      "tags": [
+        "gradient-descent",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một bước backprop số: loss L, ∂L/∂a=0.6, a=ReLU(z) với z=1.5. ∂L/∂z bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "0.9"
+        },
+        {
+          "key": "D",
+          "text": "−0.6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU'(1.5)=1 (vì z>0), nên ∂L/∂z = ∂L/∂a · ReLU'(z) = 0.6·1 = 0.6.",
+      "tags": [
+        "backprop",
+        "relu",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cùng tình huống nhưng z=−0.7 (ReLU). ∂L/∂z bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.6"
+        },
+        {
+          "key": "C",
+          "text": "−0.7"
+        },
+        {
+          "key": "D",
+          "text": "0.42"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU'(−0.7)=0 vì z<0, nên ∂L/∂z = 0.6·0 = 0 — gradient không truyền qua nơ-ron này (liên hệ dead ReLU).",
+      "tags": [
+        "backprop",
+        "relu",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Backprop qua sigmoid: ∂L/∂a=1.0, a=σ(z) với σ(z)=0.8. ∂L/∂z bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.16"
+        },
+        {
+          "key": "B",
+          "text": "0.80"
+        },
+        {
+          "key": "C",
+          "text": "0.20"
+        },
+        {
+          "key": "D",
+          "text": "0.64"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ'(z)=a(1−a)=0.8·0.2=0.16; ∂L/∂z = 1.0·0.16 = 0.16.",
+      "tags": [
+        "backprop",
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E70-C083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Momentum cải thiện SGD bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích lũy trung bình mũ của các gradient quá khứ để tăng tốc theo hướng nhất quán và giảm dao động"
+        },
+        {
+          "key": "B",
+          "text": "Tăng learning rate lên vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn gradient"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho phân loại nhị phân"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Momentum giữ một 'vận tốc' là tổ hợp gradient hiện tại và quá khứ, giúp vượt vùng phẳng/nhiễu và hội tụ nhanh hơn SGD thuần.",
+      "tags": [
+        "optimizer",
+        "momentum"
+      ]
+    },
+    {
+      "id": "E70-C084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Adam kết hợp hai ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Momentum (moment bậc 1) và scaling theo bình phương gradient kiểu RMSprop (moment bậc 2)"
+        },
+        {
+          "key": "B",
+          "text": "Dropout và batchnorm"
+        },
+        {
+          "key": "C",
+          "text": "L1 và L2 regularization"
+        },
+        {
+          "key": "D",
+          "text": "Early stopping và data augmentation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Adam duy trì ước lượng trung bình động của gradient (m) và của bình phương gradient (v), có hiệu chỉnh bias, cho learning rate thích nghi từng tham số.",
+      "tags": [
+        "optimizer",
+        "adam"
+      ]
+    },
+    {
+      "id": "E70-C085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "AdamW khác Adam thông thường ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách weight decay ra khỏi cập nhật gradient (decoupled), thường tổng quát hóa tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn moment bậc 2"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy được trên CPU"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng learning rate"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AdamW áp dụng weight decay trực tiếp lên trọng số thay vì gộp vào gradient như L2 trong Adam, giúp điều chuẩn hiệu quả và đúng hơn.",
+      "tags": [
+        "optimizer",
+        "adamw",
+        "weight-decay"
+      ]
+    },
+    {
+      "id": "E70-C086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Learning rate quá LỚN thường gây hiện tượng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loss dao động mạnh hoặc phân kỳ (diverge), không hội tụ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn hội tụ nhanh và chính xác tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Mạng tự thêm lớp ẩn"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số giảm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước cập nhật quá lớn có thể nhảy vọt qua cực tiểu, làm loss tăng/dao động/NaN. Learning rate quá nhỏ thì hội tụ chậm.",
+      "tags": [
+        "learning-rate",
+        "training"
+      ]
+    },
+    {
+      "id": "E70-C087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dropout hoạt động thế nào để chống overfitting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngẫu nhiên tắt một tỉ lệ nơ-ron mỗi lần forward khi huấn luyện, buộc mạng học biểu diễn dư thừa/bền vững"
+        },
+        {
+          "key": "B",
+          "text": "Xóa vĩnh viễn các lớp ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate mỗi epoch"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa nhãn đầu ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout đặt ngẫu nhiên một phần activation về 0 khi train (và scale khi infer), như huấn luyện tập hợp nhiều mạng con, giảm đồng thích nghi và overfitting.",
+      "tags": [
+        "regularization",
+        "dropout"
+      ]
+    },
+    {
+      "id": "E70-C088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "L2 regularization (weight decay) thêm gì vào loss và có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm λ·Σw² (phạt trọng số lớn), khuyến khích trọng số nhỏ, giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Thêm λ·Σ|w|, ép nhiều trọng số về đúng 0 tạo thưa"
+        },
+        {
+          "key": "C",
+          "text": "Nhân loss với số epoch"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ bias khỏi mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L2 phạt bình phương trọng số nên kéo trọng số về nhỏ (mượt mô hình); L1 (λ·Σ|w|) mới tạo độ thưa. Cả hai hạn chế overfitting bằng cách giới hạn độ phức tạp.",
+      "tags": [
+        "regularization",
+        "l2"
+      ]
+    },
+    {
+      "id": "E70-C089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dấu hiệu điển hình của OVERFITTING khi huấn luyện MLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loss huấn luyện tiếp tục giảm nhưng loss validation bắt đầu tăng"
+        },
+        {
+          "key": "B",
+          "text": "Cả train loss và validation loss đều cao và không giảm"
+        },
+        {
+          "key": "C",
+          "text": "Validation loss luôn thấp hơn train loss"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số tự động giảm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overfitting: mô hình ghi nhớ tập train (train loss thấp) nhưng tổng quát hóa kém (val loss tăng). Underfitting là cả hai đều cao.",
+      "tags": [
+        "overfitting",
+        "training"
+      ]
+    },
+    {
+      "id": "E70-C090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao nên CHUẨN HÓA/scale đặc trưng đầu vào trước khi huấn luyện MLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để các đặc trưng cùng thang đo, giúp gradient ổn định và hội tụ nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng số lớp ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Để mạng không cần hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Để loại bỏ nhãn nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng lệch thang làm bề mặt loss kéo dài, gradient descent zig-zag và chậm; chuẩn hóa (z-score/min-max) cân bằng thang đo, ổn định huấn luyện.",
+      "tags": [
+        "scaling",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E70-C091",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm NumPy forward_one_layer(W, b, x) thực hiện z=Wx+b rồi áp ReLU. Cho W=[[1.0,−1.0],[0.5,0.5]], b=[0.0,−0.2], x=[2.0,1.0], hãy tính và nêu kết quả activation thực tế.",
+      "modelAnswer": "import numpy as np\n\ndef forward_one_layer(W, b, x):\n    z = W @ x + b           # tiền-kích-hoạt\n    a = np.maximum(0, z)    # ReLU phần tử-wise\n    return a\n\nW = np.array([[1.0, -1.0], [0.5, 0.5]])\nb = np.array([0.0, -0.2])\nx = np.array([2.0, 1.0])\nprint(forward_one_layer(W, b, x))\n# z = [1*2 + (-1)*1, 0.5*2 + 0.5*1] + b = [1.0, 1.5] + [0.0,-0.2] = [1.0, 1.3]\n# ReLU([1.0, 1.3]) = [1.0, 1.3]  -> activation = [1.0, 1.3]",
+      "rubric": [
+        "Dùng đúng z=W@x+b (1 điểm)",
+        "Áp ReLU bằng np.maximum(0,z) đúng phần tử-wise (1 điểm)",
+        "Tính ra kết quả số đúng [1.0, 1.3] (1 điểm)"
+      ],
+      "tags": [
+        "code",
+        "forward",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E70-C092",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết forward NumPy cho MLP 2 lớp ẩn: h1=ReLU(W1 x+b1), h2=ReLU(W2 h1+b2), y=W3 h2+b3 (đầu ra tuyến tính). Trình bày cấu trúc hàm và shape mong đợi của từng bước.",
+      "modelAnswer": "import numpy as np\n\ndef mlp_forward(x, params):\n    W1,b1,W2,b2,W3,b3 = params\n    z1 = W1 @ x + b1\n    h1 = np.maximum(0, z1)   # lớp ẩn 1\n    z2 = W2 @ h1 + b2\n    h2 = np.maximum(0, z2)   # lớp ẩn 2\n    y  = W3 @ h2 + b3        # đầu ra tuyến tính (hồi quy)\n    return y\n# Ví dụ shapes: x(d,), W1(h1,d) -> h1(h1,), W2(h2,h1) -> h2(h2,), W3(o,h2) -> y(o,).\n# Mỗi bias có shape bằng số nơ-ron lớp đó. Có thể vector hóa batch bằng X(N,d) và X@W.T+b.",
+      "rubric": [
+        "Thực hiện đúng 3 phép z=W@h+b tuần tự (1 điểm)",
+        "Áp ReLU ở hai lớp ẩn, đầu ra để tuyến tính (1 điểm)",
+        "Nêu đúng shape các bước/bias phù hợp (1 điểm)"
+      ],
+      "tags": [
+        "code",
+        "forward",
+        "mlp",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E70-C093",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết hàm NumPy softmax(z) ổn định số (trừ max) và áp dụng cho z=[1.0, 2.0, 3.0]; nêu xác suất kết quả và giải thích vì sao trừ max.",
+      "modelAnswer": "import numpy as np\n\ndef softmax(z):\n    z = z - np.max(z)        # ổn định số, tránh tràn\n    e = np.exp(z)\n    return e / e.sum()\n\nprint(softmax(np.array([1.0,2.0,3.0])))\n# Kết quả xấp xỉ [0.0900, 0.2447, 0.6652], tổng = 1.0\n# Trừ max khiến số mũ lớn nhất = 0 nên e^(.) không tràn (overflow); softmax bất biến với phép trừ hằng số.",
+      "rubric": [
+        "Cài softmax đúng công thức e^z / sum (1 điểm)",
+        "Có bước trừ max để ổn định số và giải thích (1 điểm)",
+        "Cho kết quả số hợp lý tổng bằng 1 (1 điểm)"
+      ],
+      "tags": [
+        "code",
+        "softmax",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E70-C094",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Đếm tham số chi tiết cho MLP 256 → 128 → 64 → 10 (có bias mọi lớp). Trình bày từng lớp và tổng số tham số.",
+      "modelAnswer": "Lớp 1 (256→128): 256·128 + 128 = 32768 + 128 = 32896.\nLớp 2 (128→64): 128·64 + 64 = 8192 + 64 = 8256.\nLớp 3 (64→10): 64·10 + 10 = 640 + 10 = 650.\nTổng = 32896 + 8256 + 650 = 41802 tham số.\nCông thức mỗi lớp: (n_in · n_out) trọng số + n_out bias.",
+      "rubric": [
+        "Tính đúng tham số lớp 1 = 32896 (1 điểm)",
+        "Tính đúng lớp 2 = 8256 và lớp 3 = 650 (1 điểm)",
+        "Cộng tổng đúng = 41802 và nêu công thức tổng quát (1 điểm)"
+      ],
+      "tags": [
+        "param-count",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C095",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích vì sao MLP cần CẢ lớp ẩn LẪN hàm kích hoạt phi tuyến mới học được hàm phức tạp như XOR. Nêu hệ quả nếu thiếu một trong hai.",
+      "modelAnswer": "MLP cần lớp ẩn để tạo các đặc trưng trung gian và cần phi tuyến để các lớp không 'sụp' về một biến đổi tuyến tính. Nếu CÓ lớp ẩn nhưng kích hoạt tuyến tính: hợp các phép affine vẫn là affine, toàn mạng tương đương một lớp tuyến tính, chỉ tạo ranh giới tuyến tính nên không giải được XOR. Nếu CÓ phi tuyến nhưng KHÔNG lớp ẩn (perceptron đơn): cũng chỉ là ranh giới tuyến tính, thất bại với XOR. Chỉ khi kết hợp lớp ẩn + phi tuyến, mạng tạo được ranh giới cong/không tách tuyến tính và giải được XOR.",
+      "rubric": [
+        "Giải thích vai trò lớp ẩn tạo đặc trưng trung gian (1 điểm)",
+        "Giải thích phi tuyến chống 'sụp tuyến tính', liên hệ XOR (1 điểm)",
+        "Phân tích hệ quả khi thiếu lớp ẩn hoặc thiếu phi tuyến (1 điểm)"
+      ],
+      "tags": [
+        "nonlinearity",
+        "xor",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C096",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày ngắn gọn cách lan truyền ngược (backprop) tính gradient cho một lớp dày z=Wx+b, a=f(z): viết ∂L/∂W, ∂L/∂b, ∂L/∂x theo δ=∂L/∂z.",
+      "modelAnswer": "Đặt δ = ∂L/∂z = (∂L/∂a) ⊙ f'(z) (nhân phần tử-wise đạo hàm kích hoạt). Khi đó:\n- ∂L/∂W = δ · xᵀ (ngoại tích, shape giống W).\n- ∂L/∂b = δ (cộng theo trục batch nếu có nhiều mẫu).\n- ∂L/∂x = Wᵀ · δ (truyền gradient về lớp trước).\nĐây là áp dụng quy tắc chuỗi: gradient lan ngược nhân với f'(z) và Wᵀ; nguồn gốc vanishing/exploding gradient nằm ở các thừa số này khi xếp nhiều lớp.",
+      "rubric": [
+        "Định nghĩa đúng δ = ∂L/∂a ⊙ f'(z) (1 điểm)",
+        "Viết đúng ∂L/∂W = δ xᵀ và ∂L/∂b = δ (1 điểm)",
+        "Viết đúng ∂L/∂x = Wᵀ δ và liên hệ chain rule (1 điểm)"
+      ],
+      "tags": [
+        "backprop",
+        "chain-rule",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C097",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Vì sao không nên khởi tạo trọng số bằng 0? Giải thích vấn đề đối xứng và nêu hai sơ đồ khởi tạo phổ biến cùng hàm kích hoạt phù hợp.",
+      "modelAnswer": "Khởi tạo mọi trọng số bằng 0 (hoặc cùng một hằng) khiến mọi nơ-ron trong một lớp tính ra cùng giá trị và nhận cùng gradient, nên chúng cập nhật giống hệt nhau mãi mãi — 'đối xứng' không bị phá vỡ và mạng coi như chỉ có một nơ-ron mỗi lớp. Cần khởi tạo ngẫu nhiên để phá đối xứng. Hai sơ đồ phổ biến: Xavier/Glorot (phương sai ~1/n, phù hợp tanh/sigmoid) và He/Kaiming (phương sai ~2/n_in, phù hợp ReLU vì ReLU cắt nửa miền âm). Khởi tạo tốt giữ phương sai tín hiệu và gradient ổn định qua các lớp, giảm vanishing/exploding.",
+      "rubric": [
+        "Giải thích vấn đề đối xứng khi khởi tạo 0 (1 điểm)",
+        "Nêu Xavier cho tanh/sigmoid và He cho ReLU (1 điểm)",
+        "Liên hệ giữ phương sai/ổn định gradient (1 điểm)"
+      ],
+      "tags": [
+        "init",
+        "symmetry",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C098",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Cho ba bài toán: (1) dự đoán giá nhà liên tục, (2) phân loại email spam/không-spam, (3) phân loại ảnh thành 10 lớp loại trừ nhau. Hãy chọn kích hoạt đầu ra và hàm mất mát phù hợp cho từng bài và giải thích.",
+      "modelAnswer": "(1) Hồi quy giá nhà: đầu ra TUYẾN TÍNH (không kích hoạt), loss MSE (hoặc MAE nếu nhiều ngoại lai) vì cần số thực không giới hạn.\n(2) Phân loại nhị phân spam: một nơ-ron SIGMOID cho xác suất lớp dương, loss Binary Cross-Entropy.\n(3) Đa lớp loại trừ nhau (10 lớp): SOFTMAX trên 10 logit, loss Categorical Cross-Entropy với nhãn one-hot. Lý do: đầu ra và loss phải khớp dạng mục tiêu — liên tục, xác suất nhị phân, hay phân phối trên các lớp loại trừ.",
+      "rubric": [
+        "Chọn đúng linear + MSE/MAE cho hồi quy (1 điểm)",
+        "Chọn đúng sigmoid + BCE cho nhị phân (1 điểm)",
+        "Chọn đúng softmax + CE cho đa lớp và giải thích (1 điểm)"
+      ],
+      "tags": [
+        "output",
+        "loss",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C099",
+      "module": "C",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trong MLP rất SÂU dùng sigmoid, hãy giải thích cơ chế vanishing gradient và đề xuất ít nhất ba biện pháp khắc phục.",
+      "modelAnswer": "Vanishing gradient: khi lan truyền ngược, gradient ở mỗi lớp bị nhân với σ'(z) (≤0.25) và Wᵀ. Qua nhiều lớp, tích nhiều số <1 làm gradient ở các lớp gần đầu vào teo về ~0, nên chúng học rất chậm hoặc đứng yên. Biện pháp: (1) đổi sang kích hoạt ReLU/LeakyReLU (đạo hàm 1 ở miền dương); (2) khởi tạo tốt (He/Xavier) giữ phương sai tín hiệu; (3) batch normalization để chuẩn hóa tiền-kích-hoạt; (4) kết nối tắt (residual/skip connections); (5) chọn learning rate/optimizer thích nghi (Adam). Bất kỳ ba biện pháp hợp lý trên đều được.",
+      "rubric": [
+        "Giải thích đúng cơ chế nhân dồn σ'<1 gây teo gradient (1 điểm)",
+        "Nêu ít nhất ba biện pháp khắc phục hợp lý (1 điểm)",
+        "Liên hệ độ sâu/khởi tạo/kích hoạt mạch lạc (1 điểm)"
+      ],
+      "tags": [
+        "vanishing-gradient",
+        "essay"
+      ]
+    },
+    {
+      "id": "E70-C100",
+      "module": "C",
+      "type": "code",
+      "points": 1.0,
+      "prompt": "Viết đoạn NumPy thực hiện MỘT bước gradient descent cho w (vector) với loss MSE đơn giản. Cho w=[0.0,0.0], một mẫu x=[1.0,2.0], nhãn y=1.0, dự đoán ŷ=w·x, η=0.1. Tính gradient và w mới.",
+      "modelAnswer": "import numpy as np\n\nw = np.array([0.0, 0.0])\nx = np.array([1.0, 2.0])\ny = 1.0\nlr = 0.1\n\nyhat = w @ x                 # = 0.0\nloss = (yhat - y)**2        # MSE 1 mẫu\ngrad = 2*(yhat - y) * x     # ∂L/∂w = 2(ŷ-y)x = 2*(-1)*[1,2] = [-2,-4]\nw_new = w - lr*grad         # [0,0] - 0.1*[-2,-4] = [0.2, 0.4]\nprint(grad, w_new)\n# grad = [-2.0, -4.0], w_new = [0.2, 0.4]",
+      "rubric": [
+        "Tính dự đoán ŷ=w·x và loss MSE đúng (1 điểm)",
+        "Tính gradient ∂L/∂w = 2(ŷ−y)x = [-2,-4] đúng (1 điểm)",
+        "Cập nhật w←w−η·grad ra [0.2, 0.4] đúng (1 điểm)"
+      ],
+      "tags": [
+        "code",
+        "gradient-descent",
+        "numpy"
+      ]
+    }
+  ]
+}

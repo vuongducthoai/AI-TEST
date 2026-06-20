@@ -1,0 +1,3020 @@
+{
+  "id": "exam-68",
+  "title": "Thống kê Cơ bản — Đề luyện chuyên sâu (100 câu)",
+  "description": "Đề luyện tập 100 câu bao quát toàn diện thống kê cơ bản: thống kê mô tả, xác suất, tổ hợp, biến ngẫu nhiên, các phân phối, lấy mẫu, khoảng tin cậy và kiểm định giả thuyết. Nhiều câu tính toán bằng số cụ thể kèm lời giải chi tiết, cùng 8 câu tự luận giải thích khái niệm. Phù hợp ôn tập nền tảng trước khi học thống kê suy diễn nâng cao.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E68-A001",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho tập dữ liệu {4, 8, 15, 16, 23, 42}. Trung bình cộng (mean) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "15.5"
+        },
+        {
+          "key": "D",
+          "text": "18"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Trung bình = tổng/số phần tử = (4+8+15+16+23+42)/6 = 108/6 = 18.",
+      "tags": [
+        "mean",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A002",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu {7, 3, 9, 1, 5, 11}. Trung vị (median) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sắp xếp: 1,3,5,7,9,11. Số chẵn phần tử nên median là trung bình hai giá trị giữa (5 và 7) = 6.",
+      "tags": [
+        "median",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A003",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu {2, 3, 3, 5, 7, 3, 8, 5}. Mốt (mode) là giá trị nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mode là giá trị xuất hiện nhiều nhất. Số 3 xuất hiện 3 lần, nhiều hơn mọi giá trị khác, nên mode = 3.",
+      "tags": [
+        "mode",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A004",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu {12, 45, 7, 23, 56, 9}. Khoảng biến thiên (range) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "42"
+        },
+        {
+          "key": "B",
+          "text": "56"
+        },
+        {
+          "key": "C",
+          "text": "49"
+        },
+        {
+          "key": "D",
+          "text": "54"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Range = giá trị lớn nhất - giá trị nhỏ nhất = 56 - 7 = 49.",
+      "tags": [
+        "range",
+        "phân tán"
+      ]
+    },
+    {
+      "id": "E68-A005",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu tổng thể {2, 4, 6, 8, 10}. Phương sai tổng thể (population variance) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "10.01"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean = 6. Phương sai tổng thể = trung bình của bình phương độ lệch = (16+4+0+4+16)/5 = 40/5 = 8.",
+      "tags": [
+        "variance",
+        "tổng thể"
+      ]
+    },
+    {
+      "id": "E68-A006",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho mẫu {2, 4, 6, 8, 10}. Phương sai mẫu (sample variance, dùng n-1) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "12"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "10"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mean = 6, tổng bình phương độ lệch = 40. Phương sai mẫu chia cho n-1 = 4: 40/4 = 10.",
+      "tags": [
+        "variance",
+        "mẫu"
+      ]
+    },
+    {
+      "id": "E68-A007",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho tổng thể {4, 8, 6, 5, 3, 2}. Độ lệch chuẩn tổng thể (population std) bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.1602"
+        },
+        {
+          "key": "B",
+          "text": "2.472"
+        },
+        {
+          "key": "C",
+          "text": "3.8889"
+        },
+        {
+          "key": "D",
+          "text": "1.972"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mean = 28/6 ≈ 4.6667. Phương sai tổng thể ≈ 3.8889, độ lệch chuẩn = căn bậc hai ≈ 1.9720.",
+      "tags": [
+        "std",
+        "tổng thể"
+      ]
+    },
+    {
+      "id": "E68-A008",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu {1,3,5,...,19} (10 số lẻ liên tiếp). Khoảng tứ phân vị IQR (theo phương pháp linear/numpy) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "14.5"
+        },
+        {
+          "key": "B",
+          "text": "9"
+        },
+        {
+          "key": "C",
+          "text": "11"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Q1 = 5.5, Q3 = 14.5 (nội suy tuyến tính). IQR = Q3 - Q1 = 9.0.",
+      "tags": [
+        "IQR",
+        "tứ phân vị"
+      ]
+    },
+    {
+      "id": "E68-A009",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho dữ liệu {10,20,...,100}. Phân vị thứ 90 (90th percentile, nội suy tuyến tính numpy) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "91"
+        },
+        {
+          "key": "B",
+          "text": "82"
+        },
+        {
+          "key": "C",
+          "text": "96"
+        },
+        {
+          "key": "D",
+          "text": "100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với 10 điểm cách đều, percentile 90 (linear) = 91. (vị trí 0.9*(n-1)=8.1 -> giữa 90 và 100).",
+      "tags": [
+        "percentile",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A010",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một học sinh đạt 85 điểm. Lớp có trung bình 70 và độ lệch chuẩn 10. Điểm z (z-score) của học sinh là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "-1.5"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z = (x - mean)/std = (85 - 70)/10 = 15/10 = 1.5.",
+      "tags": [
+        "z-score",
+        "chuẩn hóa"
+      ]
+    },
+    {
+      "id": "E68-A011",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ba bài kiểm tra có điểm 8, 6, 9 với trọng số lần lượt 2, 3, 5. Trung bình có trọng số (weighted mean) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7.9"
+        },
+        {
+          "key": "B",
+          "text": "7.7"
+        },
+        {
+          "key": "C",
+          "text": "7.67"
+        },
+        {
+          "key": "D",
+          "text": "8.9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Weighted mean = (8*2+6*3+9*5)/(2+3+5) = (16+18+45)/10 = 79/10 = 7.9.",
+      "tags": [
+        "weighted mean",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A012",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tốc độ tăng trưởng nhân các năm là 2, 8, 4 (lần). Trung bình nhân (geometric mean) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "4.6667"
+        },
+        {
+          "key": "C",
+          "text": "4.67"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Geometric mean = căn bậc 3 của (2*8*4) = căn bậc 3 của 64 = 4.",
+      "tags": [
+        "geometric mean",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A013",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho x = {1,2,3,4,5}, y = {2,4,5,4,5}. Hiệp phương sai mẫu Cov(x,y) (dùng n-1) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.2"
+        },
+        {
+          "key": "B",
+          "text": "1.5"
+        },
+        {
+          "key": "C",
+          "text": "2.5"
+        },
+        {
+          "key": "D",
+          "text": "-1.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cov mẫu = Σ(xi-x̄)(yi-ȳ)/(n-1). x̄=3, ȳ=4; tổng tích độ lệch = 3; chia n-1=4 -> 0.75... thực tế = 0.75? tính: =1.5.",
+      "tags": [
+        "covariance",
+        "tương quan"
+      ]
+    },
+    {
+      "id": "E68-A014",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho x = {1,2,3,4,5}, y = {2,4,6,8,10}. Hệ số tương quan Pearson r bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "-1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "y = 2x là quan hệ tuyến tính dương hoàn hảo, nên r = +1.00.",
+      "tags": [
+        "pearson",
+        "tương quan"
+      ]
+    },
+    {
+      "id": "E68-A015",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một túi có 3 bi đỏ và 5 bi xanh. Rút ngẫu nhiên 1 bi. Xác suất rút được bi đỏ là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.625"
+        },
+        {
+          "key": "B",
+          "text": "0.375"
+        },
+        {
+          "key": "C",
+          "text": "0.6"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "P(đỏ) = số bi đỏ / tổng số bi = 3/(3+5) = 3/8 = 0.375.",
+      "tags": [
+        "xác suất",
+        "cơ bản"
+      ]
+    },
+    {
+      "id": "E68-A016",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Xác suất một sự kiện xảy ra là 0.27. Xác suất nó KHÔNG xảy ra (biến cố đối) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.27"
+        },
+        {
+          "key": "B",
+          "text": "0.77"
+        },
+        {
+          "key": "C",
+          "text": "0.73"
+        },
+        {
+          "key": "D",
+          "text": "1.27"
+        }
+      ],
+      "answer": "C",
+      "explanation": "P(không xảy ra) = 1 - P(xảy ra) = 1 - 0.27 = 0.73.",
+      "tags": [
+        "xác suất",
+        "biến cố đối"
+      ]
+    },
+    {
+      "id": "E68-A017",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố A, B xung khắc (mutually exclusive) với P(A)=0.3, P(B)=0.45. P(A hoặc B) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.135"
+        },
+        {
+          "key": "B",
+          "text": "0.15"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "0.615"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vì xung khắc nên P(A∩B)=0. P(A∪B) = P(A)+P(B) = 0.3 + 0.45 = 0.75.",
+      "tags": [
+        "xác suất",
+        "cộng"
+      ]
+    },
+    {
+      "id": "E68-A018",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố độc lập có P(A)=0.6, P(B)=0.5. P(A và B) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.1"
+        },
+        {
+          "key": "B",
+          "text": "0.1"
+        },
+        {
+          "key": "C",
+          "text": "0.55"
+        },
+        {
+          "key": "D",
+          "text": "0.3"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Với biến cố độc lập, P(A∩B) = P(A)*P(B) = 0.6 * 0.5 = 0.30.",
+      "tags": [
+        "xác suất",
+        "độc lập"
+      ]
+    },
+    {
+      "id": "E68-A019",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho P(A∩B) = 0.12 và P(B) = 0.4. Xác suất có điều kiện P(A|B) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.048"
+        },
+        {
+          "key": "B",
+          "text": "3.3333"
+        },
+        {
+          "key": "C",
+          "text": "0.3"
+        },
+        {
+          "key": "D",
+          "text": "0.12"
+        }
+      ],
+      "answer": "C",
+      "explanation": "P(A|B) = P(A∩B)/P(B) = 0.12/0.4 = 0.30.",
+      "tags": [
+        "xác suất",
+        "điều kiện"
+      ]
+    },
+    {
+      "id": "E68-A020",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho P(A)=0.5, P(B)=0.4, P(A∩B)=0.2. P(A∪B) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.9"
+        },
+        {
+          "key": "B",
+          "text": "0.2"
+        },
+        {
+          "key": "C",
+          "text": "0.21"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Quy tắc cộng tổng quát: P(A∪B) = P(A)+P(B)-P(A∩B) = 0.5+0.4-0.2 = 0.7.",
+      "tags": [
+        "xác suất",
+        "cộng"
+      ]
+    },
+    {
+      "id": "E68-A021",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bệnh hiếm có tỉ lệ 1%. Xét nghiệm dương tính đúng 99% với người bệnh và dương tính giả 5% với người khỏe. Nếu dương tính, xác suất thật sự mắc bệnh (Bayes) gần nhất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.99"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.95"
+        },
+        {
+          "key": "D",
+          "text": "0.1667"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bayes: P(bệnh|+) = (0.99*0.01)/(0.99*0.01 + 0.05*0.99) = 0.0099/0.0594 ≈ 0.1667.",
+      "tags": [
+        "Bayes",
+        "điều kiện"
+      ]
+    },
+    {
+      "id": "E68-A022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nhà máy A sản xuất 60% sản phẩm (2% lỗi), nhà máy B 40% (5% lỗi). Xác suất một sản phẩm bất kỳ bị lỗi (xác suất toàn phần) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.02"
+        },
+        {
+          "key": "B",
+          "text": "0.05"
+        },
+        {
+          "key": "C",
+          "text": "0.035"
+        },
+        {
+          "key": "D",
+          "text": "0.032"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Xác suất toàn phần: 0.6*0.02 + 0.4*0.05 = 0.012 + 0.020 = 0.032.",
+      "tags": [
+        "xác suất toàn phần",
+        "Bayes"
+      ]
+    },
+    {
+      "id": "E68-A023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Có bao nhiêu cách chọn và sắp xếp 3 người vào 3 vị trí khác nhau từ nhóm 7 người (chỉnh hợp P(7,3))?",
+      "options": [
+        {
+          "key": "A",
+          "text": "35"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "210"
+        },
+        {
+          "key": "D",
+          "text": "5040"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chỉnh hợp A(7,3) = 7!/(7-3)! = 7*6*5 = 210.",
+      "tags": [
+        "chỉnh hợp",
+        "tổ hợp"
+      ]
+    },
+    {
+      "id": "E68-A024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Có bao nhiêu cách chọn 3 người (không phân biệt thứ tự) từ nhóm 10 người (tổ hợp C(10,3))?",
+      "options": [
+        {
+          "key": "A",
+          "text": "120"
+        },
+        {
+          "key": "B",
+          "text": "720"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "721"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổ hợp C(10,3) = 10!/(3!*7!) = (10*9*8)/(3*2*1) = 720/6 = 120.",
+      "tags": [
+        "tổ hợp"
+      ]
+    },
+    {
+      "id": "E68-A025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giá trị của 6! (6 giai thừa) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "120"
+        },
+        {
+          "key": "B",
+          "text": "720"
+        },
+        {
+          "key": "C",
+          "text": "36"
+        },
+        {
+          "key": "D",
+          "text": "5040"
+        }
+      ],
+      "answer": "B",
+      "explanation": "6! = 6*5*4*3*2*1 = 720.",
+      "tags": [
+        "giai thừa",
+        "tổ hợp"
+      ]
+    },
+    {
+      "id": "E68-A026",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Biến ngẫu nhiên rời rạc X nhận giá trị 0,1,2,3 với xác suất 0.1, 0.3, 0.4, 0.2. Kỳ vọng E[X] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.7"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "1.5"
+        },
+        {
+          "key": "D",
+          "text": "2.2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "E[X] = Σ x*P(x) = 0*0.1 + 1*0.3 + 2*0.4 + 3*0.2 = 0 + 0.3 + 0.8 + 0.6 = 1.7.",
+      "tags": [
+        "kỳ vọng",
+        "biến ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A027",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với X như câu trên (giá trị 0,1,2,3; xác suất 0.1,0.3,0.4,0.2; E[X]=1.7), phương sai Var(X) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.7"
+        },
+        {
+          "key": "B",
+          "text": "1.7"
+        },
+        {
+          "key": "C",
+          "text": "1.31"
+        },
+        {
+          "key": "D",
+          "text": "0.81"
+        }
+      ],
+      "answer": "D",
+      "explanation": "E[X^2]=0+0.3+1.6+1.8=3.7; Var = E[X^2]-(E[X])^2 = 3.7 - 1.7^2 = 3.7 - 2.89 = 0.81.",
+      "tags": [
+        "phương sai",
+        "biến ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A028",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cho E[X] = 1.7. Theo tính tuyến tính kỳ vọng, E[2X + 5] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.7"
+        },
+        {
+          "key": "B",
+          "text": "8.4"
+        },
+        {
+          "key": "C",
+          "text": "3.4"
+        },
+        {
+          "key": "D",
+          "text": "13.4"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tính tuyến tính: E[aX+b] = aE[X]+b = 2*1.7 + 5 = 3.4 + 5 = 8.4.",
+      "tags": [
+        "kỳ vọng",
+        "tuyến tính"
+      ]
+    },
+    {
+      "id": "E68-A029",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "X tuân theo phân phối nhị thức Binomial(n=20, p=0.3). Kỳ vọng E[X] = np bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.2"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "14"
+        },
+        {
+          "key": "D",
+          "text": "0.3"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Với phân phối nhị thức, E[X] = n*p = 20*0.3 = 6.0.",
+      "tags": [
+        "binomial",
+        "kỳ vọng"
+      ]
+    },
+    {
+      "id": "E68-A030",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với X ~ Binomial(n=20, p=0.3), phương sai Var(X) = np(1-p) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "2.45"
+        },
+        {
+          "key": "D",
+          "text": "4.2"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phương sai nhị thức = n*p*(1-p) = 20*0.3*0.7 = 4.2.",
+      "tags": [
+        "binomial",
+        "phương sai"
+      ]
+    },
+    {
+      "id": "E68-A031",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tung một đồng xu cân đối 5 lần. Xác suất có đúng 2 lần mặt ngửa (Binomial n=5, p=0.5, k=2) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3125"
+        },
+        {
+          "key": "B",
+          "text": "0.0312"
+        },
+        {
+          "key": "C",
+          "text": "0.4"
+        },
+        {
+          "key": "D",
+          "text": "0.625"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P(X=2) = C(5,2)*0.5^2*0.5^3 = 10*0.03125 = 0.3125.",
+      "tags": [
+        "binomial",
+        "xác suất"
+      ]
+    },
+    {
+      "id": "E68-A032",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Số cuộc gọi trung bình mỗi giờ là 3 (Poisson, λ=3). Xác suất có đúng 2 cuộc gọi trong một giờ là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0498"
+        },
+        {
+          "key": "B",
+          "text": "0.6667"
+        },
+        {
+          "key": "C",
+          "text": "0.224"
+        },
+        {
+          "key": "D",
+          "text": "0.4481"
+        }
+      ],
+      "answer": "C",
+      "explanation": "P(X=2) = e^(-3) * 3^2 / 2! = e^(-3)*9/2 ≈ 0.2240.",
+      "tags": [
+        "poisson",
+        "xác suất"
+      ]
+    },
+    {
+      "id": "E68-A033",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với phân phối Poisson có λ = 4, phương sai Var(X) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "2.01"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân phối Poisson có kỳ vọng = phương sai = λ = 4.",
+      "tags": [
+        "poisson",
+        "phương sai"
+      ]
+    },
+    {
+      "id": "E68-A034",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Theo quy tắc 68-95-99.7 của phân phối chuẩn, khoảng nào sau đây chứa khoảng 95% dữ liệu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong khoảng 2 độ lệch chuẩn quanh trung bình"
+        },
+        {
+          "key": "B",
+          "text": "Trong khoảng 1 độ lệch chuẩn quanh trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Trong khoảng 3 độ lệch chuẩn quanh trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Trong khoảng 0.5 độ lệch chuẩn quanh trung bình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy tắc thực nghiệm: ~68% nằm trong ±1σ, ~95% trong ±2σ, ~99.7% trong ±3σ.",
+      "tags": [
+        "normal",
+        "68-95-99.7"
+      ]
+    },
+    {
+      "id": "E68-A035",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với phân phối chuẩn tắc Z, xác suất P(Z < 1.96) xấp xỉ bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.975"
+        },
+        {
+          "key": "B",
+          "text": "0.95"
+        },
+        {
+          "key": "C",
+          "text": "0.99"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giá trị tới hạn 1.96 ứng với phân vị 0.975 của chuẩn tắc (đuôi phải 0.025).",
+      "tags": [
+        "normal",
+        "z"
+      ]
+    },
+    {
+      "id": "E68-A036",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tổng thể có độ lệch chuẩn σ = 15. Lấy mẫu cỡ n = 25. Sai số chuẩn của trung bình mẫu (SE) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "0.6"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "1.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SE = σ/√n = 15/√25 = 15/5 = 3.0.",
+      "tags": [
+        "SE",
+        "phân phối mẫu"
+      ]
+    },
+    {
+      "id": "E68-A037",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với σ = 10, n = 100, độ tin cậy 95% (z = 1.96). Độ rộng của khoảng tin cậy cho trung bình (bằng 2 lần biên sai số) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.96"
+        },
+        {
+          "key": "B",
+          "text": "19.6"
+        },
+        {
+          "key": "C",
+          "text": "4.92"
+        },
+        {
+          "key": "D",
+          "text": "3.92"
+        }
+      ],
+      "answer": "D",
+      "explanation": "SE = 10/10 = 1. Biên sai số = 1.96*1 = 1.96. Độ rộng CI = 2*1.96 = 3.92.",
+      "tags": [
+        "CI",
+        "khoảng tin cậy"
+      ]
+    },
+    {
+      "id": "E68-A038",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với SE = 2.5 và z = 1.96 (độ tin cậy 95%), biên sai số (margin of error) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5"
+        },
+        {
+          "key": "B",
+          "text": "4.9"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "1.96"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Biên sai số = z * SE = 1.96 * 2.5 = 4.9.",
+      "tags": [
+        "CI",
+        "biên sai số"
+      ]
+    },
+    {
+      "id": "E68-A039",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kiểm định một mẫu: x̄ = 52, μ0 = 50, s = 4, n = 16. Thống kê t = (x̄-μ0)/(s/√n) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3.01"
+        }
+      ],
+      "answer": "C",
+      "explanation": "SE = s/√n = 4/4 = 1. t = (52-50)/1 = 2.0.",
+      "tags": [
+        "t-test",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A040",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kiểm định z: x̄ = 105, μ0 = 100, σ = 20, n = 64. Thống kê z = (x̄-μ0)/(σ/√n) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SE = 20/√64 = 20/8 = 2.5. z = (105-100)/2.5 = 2.0.",
+      "tags": [
+        "z-test",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A041",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đại lượng đo xu hướng trung tâm nào ít bị ảnh hưởng nhất bởi giá trị ngoại lai (outlier)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung vị (median)"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình cộng (mean)"
+        },
+        {
+          "key": "C",
+          "text": "Tổng (sum)"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng biến thiên (range)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung vị chỉ phụ thuộc vị trí giữa nên rất bền với ngoại lai, trong khi mean bị kéo lệch mạnh bởi giá trị cực đoan.",
+      "tags": [
+        "xu hướng trung tâm",
+        "robust"
+      ]
+    },
+    {
+      "id": "E68-A042",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong phân phối lệch phải (right-skewed / positive skew), quan hệ giữa mean và median thường là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mean nhỏ hơn median"
+        },
+        {
+          "key": "B",
+          "text": "Mean bằng median"
+        },
+        {
+          "key": "C",
+          "text": "Mean bằng mode"
+        },
+        {
+          "key": "D",
+          "text": "Mean lớn hơn median"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đuôi dài bên phải kéo trung bình về phía giá trị lớn, nên mean > median trong phân phối lệch phải.",
+      "tags": [
+        "skewness",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A043",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Quy tắc IQR để xác định ngoại lai: một điểm bị coi là outlier nếu nằm ngoài khoảng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[Q1 - IQR, Q3 + IQR]"
+        },
+        {
+          "key": "B",
+          "text": "[Q1 - 1.5*IQR, Q3 + 1.5*IQR]"
+        },
+        {
+          "key": "C",
+          "text": "[mean - 2*std, mean + 2*std]"
+        },
+        {
+          "key": "D",
+          "text": "[min, max]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Theo quy tắc boxplot, ngoại lai là điểm nhỏ hơn Q1 - 1.5*IQR hoặc lớn hơn Q3 + 1.5*IQR.",
+      "tags": [
+        "IQR",
+        "outlier",
+        "boxplot"
+      ]
+    },
+    {
+      "id": "E68-A044",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong biểu đồ hộp (boxplot), đường kẻ bên trong hộp biểu diễn đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trung bình (mean)"
+        },
+        {
+          "key": "B",
+          "text": "Mốt (mode)"
+        },
+        {
+          "key": "C",
+          "text": "Độ lệch chuẩn"
+        },
+        {
+          "key": "D",
+          "text": "Trung vị (median)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hộp giới hạn bởi Q1 và Q3, và đường bên trong hộp là trung vị (Q2).",
+      "tags": [
+        "boxplot",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A045",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Độ lệch chuẩn (standard deviation) có cùng đơn vị với đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bình phương đơn vị dữ liệu gốc"
+        },
+        {
+          "key": "B",
+          "text": "Không có đơn vị"
+        },
+        {
+          "key": "C",
+          "text": "Đơn vị phần trăm"
+        },
+        {
+          "key": "D",
+          "text": "Cùng đơn vị với dữ liệu gốc"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Độ lệch chuẩn là căn bậc hai của phương sai, nên trở về cùng đơn vị với dữ liệu gốc (khác với phương sai có đơn vị bình phương).",
+      "tags": [
+        "std",
+        "phân tán"
+      ]
+    },
+    {
+      "id": "E68-A046",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vì sao phương sai mẫu chia cho (n-1) thay vì n?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để ước lượng không chệch (unbiased) cho phương sai tổng thể"
+        },
+        {
+          "key": "B",
+          "text": "Để giá trị luôn nhỏ hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì n-1 dễ tính hơn"
+        },
+        {
+          "key": "D",
+          "text": "Để kết quả luôn là số nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chia cho n-1 (hiệu chỉnh Bessel) bù cho việc dùng trung bình mẫu, cho ước lượng không chệch của phương sai tổng thể.",
+      "tags": [
+        "variance",
+        "mẫu",
+        "unbiased"
+      ]
+    },
+    {
+      "id": "E68-A047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố 'xung khắc' (mutually exclusive) nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chúng luôn cùng xảy ra"
+        },
+        {
+          "key": "B",
+          "text": "Chúng độc lập với nhau"
+        },
+        {
+          "key": "C",
+          "text": "Tổng xác suất của chúng bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Chúng không thể cùng xảy ra (giao bằng rỗng)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Xung khắc nghĩa là P(A∩B)=0; hai biến cố không thể đồng thời xảy ra. Khác với độc lập.",
+      "tags": [
+        "xác suất",
+        "xung khắc"
+      ]
+    },
+    {
+      "id": "E68-A048",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố 'độc lập' (independent) được định nghĩa bởi đẳng thức nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(A∩B) = 0"
+        },
+        {
+          "key": "B",
+          "text": "P(A∩B) = P(A)*P(B)"
+        },
+        {
+          "key": "C",
+          "text": "P(A∪B) = P(A)+P(B)"
+        },
+        {
+          "key": "D",
+          "text": "P(A|B) = P(B|A)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Độc lập nghĩa là việc xảy ra của biến cố này không ảnh hưởng xác suất biến cố kia: P(A∩B)=P(A)P(B).",
+      "tags": [
+        "xác suất",
+        "độc lập"
+      ]
+    },
+    {
+      "id": "E68-A049",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Xác suất của một biến cố luôn nằm trong khoảng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[-1, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 100]"
+        },
+        {
+          "key": "D",
+          "text": "[1, ∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo tiên đề xác suất, mọi biến cố có xác suất từ 0 (không thể) đến 1 (chắc chắn).",
+      "tags": [
+        "xác suất",
+        "tiên đề"
+      ]
+    },
+    {
+      "id": "E68-A050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt cơ bản giữa chỉnh hợp (permutation) và tổ hợp (combination) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổ hợp có phân biệt thứ tự, chỉnh hợp thì không"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều phân biệt thứ tự"
+        },
+        {
+          "key": "C",
+          "text": "Chỉnh hợp có phân biệt thứ tự, tổ hợp thì không"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều không phân biệt thứ tự"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chỉnh hợp quan tâm thứ tự sắp xếp, tổ hợp chỉ quan tâm tập con được chọn (không kể thứ tự).",
+      "tags": [
+        "tổ hợp",
+        "chỉnh hợp"
+      ]
+    },
+    {
+      "id": "E68-A051",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Biến ngẫu nhiên rời rạc (discrete) khác biến ngẫu nhiên liên tục (continuous) ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rời rạc nhận tập giá trị đếm được; liên tục nhận giá trị trong khoảng số thực"
+        },
+        {
+          "key": "B",
+          "text": "Rời rạc luôn nhận giá trị âm"
+        },
+        {
+          "key": "C",
+          "text": "Liên tục chỉ nhận số nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Không có khác biệt nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biến rời rạc nhận các giá trị tách biệt đếm được (mô tả bằng PMF), biến liên tục nhận vô hạn giá trị trong khoảng (mô tả bằng PDF).",
+      "tags": [
+        "biến ngẫu nhiên",
+        "discrete",
+        "continuous"
+      ]
+    },
+    {
+      "id": "E68-A052",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "PMF (probability mass function) dùng cho loại biến ngẫu nhiên nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến ngẫu nhiên rời rạc"
+        },
+        {
+          "key": "B",
+          "text": "Biến ngẫu nhiên liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Cả rời rạc và liên tục như nhau"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho phân phối chuẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PMF gán xác suất cho từng giá trị cụ thể của biến rời rạc; biến liên tục dùng PDF (hàm mật độ).",
+      "tags": [
+        "PMF",
+        "biến ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A053",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đối với biến ngẫu nhiên liên tục, xác suất tại một điểm cụ thể P(X = a) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "Bằng giá trị PDF tại a"
+        },
+        {
+          "key": "D",
+          "text": "Bằng diện tích toàn miền"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với biến liên tục, xác suất tại một điểm đơn lẻ bằng 0; chỉ có xác suất trên một khoảng mới khác 0 (diện tích dưới PDF).",
+      "tags": [
+        "PDF",
+        "biến ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A054",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm phân phối tích lũy CDF F(x) biểu diễn đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(X = x)"
+        },
+        {
+          "key": "B",
+          "text": "P(X > x) luôn bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "P(X ≤ x)"
+        },
+        {
+          "key": "D",
+          "text": "Mật độ tại x"
+        }
+      ],
+      "answer": "C",
+      "explanation": "CDF là F(x) = P(X ≤ x), không giảm, tiến tới 0 ở -∞ và 1 ở +∞.",
+      "tags": [
+        "CDF",
+        "biến ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A055",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối Bernoulli mô tả tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một phép thử có đúng hai kết quả (thành công/thất bại)"
+        },
+        {
+          "key": "B",
+          "text": "Tổng của nhiều phép thử"
+        },
+        {
+          "key": "C",
+          "text": "Số sự kiện trong khoảng thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu phân phối đối xứng hình chuông"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bernoulli(p) là biến nhị phân: thành công với xác suất p, thất bại với 1-p; nhị thức là tổng n Bernoulli độc lập.",
+      "tags": [
+        "bernoulli",
+        "phân phối"
+      ]
+    },
+    {
+      "id": "E68-A056",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối nào thường dùng để mô hình số lần một sự kiện hiếm xảy ra trong một khoảng thời gian cố định?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối đều"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối Poisson"
+        },
+        {
+          "key": "D",
+          "text": "Phân phối Bernoulli"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Poisson mô hình số biến cố trong khoảng thời gian/không gian cố định với tốc độ trung bình λ.",
+      "tags": [
+        "poisson",
+        "phân phối"
+      ]
+    },
+    {
+      "id": "E68-A057",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối chuẩn tắc (standard normal) có trung bình và độ lệch chuẩn bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mean = 1, std = 0"
+        },
+        {
+          "key": "B",
+          "text": "Mean = 0, std = 0"
+        },
+        {
+          "key": "C",
+          "text": "Mean = 1, std = 1"
+        },
+        {
+          "key": "D",
+          "text": "Mean = 0, std = 1"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân phối chuẩn tắc Z có μ = 0 và σ = 1; mọi chuẩn N(μ,σ²) đều chuẩn hóa được về Z qua z=(x-μ)/σ.",
+      "tags": [
+        "normal",
+        "z"
+      ]
+    },
+    {
+      "id": "E68-A058",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối đều (uniform) liên tục trên [a, b] có đặc điểm gì về mật độ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mật độ cao nhất ở giữa"
+        },
+        {
+          "key": "B",
+          "text": "Mật độ giảm dần về hai phía"
+        },
+        {
+          "key": "C",
+          "text": "Mật độ là hằng số trên [a, b]"
+        },
+        {
+          "key": "D",
+          "text": "Mật độ bằng 0 ở mọi nơi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phân phối đều có hàm mật độ hằng số 1/(b-a) trên đoạn [a,b], nghĩa là mọi khoảng con cùng độ dài có xác suất bằng nhau.",
+      "tags": [
+        "uniform",
+        "phân phối"
+      ]
+    },
+    {
+      "id": "E68-A059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Theo quy tắc Bayes, công thức P(A|B) được tính bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(A)*P(B)"
+        },
+        {
+          "key": "B",
+          "text": "P(A∩B)+P(B)"
+        },
+        {
+          "key": "C",
+          "text": "P(B|A)*P(A)/P(B)"
+        },
+        {
+          "key": "D",
+          "text": "P(B|A)/P(A)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Định lý Bayes: P(A|B) = P(B|A)P(A)/P(B), liên hệ xác suất hậu nghiệm với khả năng và tiên nghiệm.",
+      "tags": [
+        "Bayes",
+        "điều kiện"
+      ]
+    },
+    {
+      "id": "E68-A060",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Định lý giới hạn trung tâm (CLT) phát biểu điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi dữ liệu đều có phân phối chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình mẫu luôn bằng trung bình tổng thể"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối của trung bình mẫu tiến tới phân phối chuẩn khi cỡ mẫu đủ lớn, bất kể phân phối gốc"
+        },
+        {
+          "key": "D",
+          "text": "Cỡ mẫu càng nhỏ phân phối càng chuẩn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "CLT: với n lớn, phân phối lấy mẫu của trung bình xấp xỉ chuẩn với trung bình μ và độ lệch chuẩn σ/√n, dù phân phối gốc thế nào.",
+      "tags": [
+        "CLT",
+        "phân phối mẫu"
+      ]
+    },
+    {
+      "id": "E68-A061",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sai số chuẩn (standard error) của trung bình mẫu thay đổi thế nào khi cỡ mẫu n tăng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tỉ lệ thuận với n"
+        },
+        {
+          "key": "B",
+          "text": "Giảm (tỉ lệ nghịch với căn bậc hai của n)"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Tăng theo n binh phuong"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SE = sigma/can(n), nen n cang lon SE cang nho, uoc luong trung binh cang chinh xac.",
+      "tags": [
+        "SE",
+        "phân phối mẫu"
+      ]
+    },
+    {
+      "id": "E68-A062",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân biệt 'thống kê mẫu' (statistic) và 'tham số tổng thể' (parameter)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều tính từ mẫu"
+        },
+        {
+          "key": "B",
+          "text": "Tham số mô tả tổng thể; thống kê tính từ mẫu để ước lượng tham số"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều mô tả tổng thể"
+        },
+        {
+          "key": "D",
+          "text": "Thống kê mô tả tổng thể, tham số tính từ mẫu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tham so (nhu muy, sigma) la dac trung co dinh cua tong the; thong ke (nhu x ngang, s) tinh tu mau va dung de suy dien tham so.",
+      "tags": [
+        "sampling",
+        "tham số"
+      ]
+    },
+    {
+      "id": "E68-A063",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lấy mẫu ngẫu nhiên đơn (simple random sampling) đảm bảo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn phần tử thuận tiện nhất"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ chọn phần tử lớn nhất"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi phần tử của tổng thể có xác suất được chọn như nhau"
+        },
+        {
+          "key": "D",
+          "text": "Chọn theo ý kiến chủ quan"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lay mau ngau nhien don cho moi phan tu co hoi duoc chon bang nhau, giup mau dai dien va giam thien lech.",
+      "tags": [
+        "sampling",
+        "ngẫu nhiên"
+      ]
+    },
+    {
+      "id": "E68-A064",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thiên lệch chọn mẫu (selection bias) gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ chính xác của ước lượng"
+        },
+        {
+          "key": "B",
+          "text": "Mẫu không đại diện cho tổng thể, dẫn đến suy diễn sai"
+        },
+        {
+          "key": "C",
+          "text": "Luôn làm SE bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng đến kết luận"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thien lech chon mau khien mot so nhom bi thua/thieu dai dien, lam ket luan ve tong the bi sai lech he thong.",
+      "tags": [
+        "bias",
+        "sampling"
+      ]
+    },
+    {
+      "id": "E68-A065",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khoảng tin cậy 95% cho trung bình được diễn giải đúng nhất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có 95% xác suất trung bình mẫu nằm trong khoảng"
+        },
+        {
+          "key": "B",
+          "text": "Nếu lặp lại lấy mẫu nhiều lần, khoảng 95% các khoảng tạo ra sẽ chứa trung bình tổng thể thật"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình tổng thể nằm trong khoảng cụ thể này với xác suất 95%"
+        },
+        {
+          "key": "D",
+          "text": "95% dữ liệu nằm trong khoảng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dien giai tan suat: voi phuong phap tao CI 95%, ve lau dai 95% cac khoang se bao phu tham so that; mot khoang cu the da co dinh nen chua hoac khong chua.",
+      "tags": [
+        "CI",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E68-A066",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi nào nên dùng phân phối t (t-distribution) thay vì z để xây khoảng tin cậy cho trung bình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cỡ mẫu rất lớn và biết sigma"
+        },
+        {
+          "key": "B",
+          "text": "Luôn luôn dùng t"
+        },
+        {
+          "key": "C",
+          "text": "Khi độ lệch chuẩn tổng thể chưa biết và cỡ mẫu nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Khi dữ liệu là phân loại"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Khi sigma chua biet (uoc luong bang s) va n nho, dung phan phoi t co duoi day hon de phan anh them bat dinh.",
+      "tags": [
+        "t-distribution",
+        "CI"
+      ]
+    },
+    {
+      "id": "E68-A067",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi tăng độ tin cậy từ 90% lên 99% (giữ nguyên n và sigma), độ rộng khoảng tin cậy thay đổi thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hẹp hơn"
+        },
+        {
+          "key": "B",
+          "text": "Rộng hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Bằng 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Do tin cay cao hon can gia tri toi han lon hon, lam bien sai so va do rong khoang tang len.",
+      "tags": [
+        "CI",
+        "độ tin cậy"
+      ]
+    },
+    {
+      "id": "E68-A068",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giả thuyết không (H0) và giả thuyết đối (H1) trong kiểm định khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "H0 là phát biểu mặc định/không có hiệu ứng; H1 là điều ta muốn tìm bằng chứng ủng hộ"
+        },
+        {
+          "key": "B",
+          "text": "H0 là điều ta muốn chứng minh đúng"
+        },
+        {
+          "key": "C",
+          "text": "H1 luôn là 'không có khác biệt'"
+        },
+        {
+          "key": "D",
+          "text": "H0 và H1 giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "H0 thuong la 'khong co hieu ung/khac biet' va duoc gia dinh dung cho toi khi du lieu cung cap du bang chung bac bo de ung ho H1.",
+      "tags": [
+        "kiểm định",
+        "H0"
+      ]
+    },
+    {
+      "id": "E68-A069",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "p-value được diễn giải đúng nhất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất H0 đúng"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất H1 đúng"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất quan sát được dữ liệu cực đoan như (hoặc hơn) dữ liệu thực tế, giả sử H0 đúng"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất mắc sai lầm loại II"
+        }
+      ],
+      "answer": "C",
+      "explanation": "p-value = P(thong ke cuc doan >= quan sat | H0). No KHONG phai xac suat H0 dung.",
+      "tags": [
+        "p-value",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A070",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nếu p-value = 0.03 và mức ý nghĩa alpha = 0.05, kết luận là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chấp nhận H0 vì p-value < alpha"
+        },
+        {
+          "key": "B",
+          "text": "Bác bỏ H0 vì p-value < alpha"
+        },
+        {
+          "key": "C",
+          "text": "Không đủ thông tin để quyết định"
+        },
+        {
+          "key": "D",
+          "text": "Bác bỏ H1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi p-value (0.03) nho hon alpha (0.05), ta bac bo H0; co bang chung thong ke ung ho H1 o muc y nghia 5%.",
+      "tags": [
+        "p-value",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A071",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Diễn giải ĐÚNG về một khoảng tin cậy 95% cho trung bình tổng thể là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu lặp lại lấy mẫu và dựng khoảng nhiều lần, khoảng 95% trong số đó sẽ chứa trung bình tổng thể thật"
+        },
+        {
+          "key": "B",
+          "text": "Có đúng 95% xác suất trung bình mẫu nằm trong khoảng"
+        },
+        {
+          "key": "C",
+          "text": "95% dữ liệu của tổng thể nằm trong khoảng"
+        },
+        {
+          "key": "D",
+          "text": "Trung bình tổng thể có 95% khả năng bằng trung bình mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CI là tính chất của QUY TRÌNH lấy mẫu lặp lại: 95% các khoảng dựng theo cách đó chứa tham số thật; không phải xác suất cho một khoảng cụ thể.",
+      "tags": [
+        "statistics",
+        "confidence-interval"
+      ]
+    },
+    {
+      "id": "E68-A072",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Sai lầm loại II (Type II error) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bác bỏ H0 khi H0 đúng"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chấp nhận H0"
+        },
+        {
+          "key": "C",
+          "text": "Chọn sai mức ý nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Không bác bỏ H0 khi H0 thực sự sai (âm tính giả)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sai lam loai II la khong bac bo H0 sai; xac suat cua no la beta, va 1-beta la luc (power).",
+      "tags": [
+        "type II",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A073",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khi nào dùng kiểm định một phía (one-tailed) thay vì hai phía (two-tailed)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn dùng một phía cho mọi bài toán"
+        },
+        {
+          "key": "B",
+          "text": "Khi giả thuyết đối chỉ quan tâm một chiều (lớn hơn HOẶC nhỏ hơn)"
+        },
+        {
+          "key": "C",
+          "text": "Khi cỡ mẫu nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Khi dữ liệu là phân loại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mot phia dung khi H1 co dinh huong (vd muy > 50); hai phia khi chi quan tam co khac biet (muy != 50).",
+      "tags": [
+        "one-tailed",
+        "kiểm định"
+      ]
+    },
+    {
+      "id": "E68-A074",
+      "module": "F",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giảm mức ý nghĩa α (vd từ 0.05 xuống 0.01) ảnh hưởng thế nào đến sai lầm loại I và II?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm sai lầm loại I nhưng tăng sai lầm loại II"
+        },
+        {
+          "key": "B",
+          "text": "Giảm cả hai loại sai lầm"
+        },
+        {
+          "key": "C",
+          "text": "Tăng cả hai loại sai lầm"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "alpha nho hon kho bac bo H0 hon -> it sai lam loai I hon nhung de bo sot hieu ung that -> tang sai lam loai II.",
+      "tags": [
+        "type I",
+        "type II"
+      ]
+    },
+    {
+      "id": "E68-A075",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Loại thang đo (data type) nào sau đây thuộc 'định danh' (nominal)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Màu mắt (xanh, nâu, đen)"
+        },
+        {
+          "key": "B",
+          "text": "Nhiệt độ Celsius"
+        },
+        {
+          "key": "C",
+          "text": "Thứ hạng cuộc thi (1,2,3)"
+        },
+        {
+          "key": "D",
+          "text": "Chiều cao (cm)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nominal la nhan phan loai khong co thu tu (nhu mau mat); ordinal co thu tu; interval/ratio la so do dinh luong.",
+      "tags": [
+        "data type",
+        "nominal"
+      ]
+    },
+    {
+      "id": "E68-A076",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thang đo nào CÓ thứ tự nhưng khoảng cách giữa các bậc không nhất thiết bằng nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ordinal (thứ bậc)"
+        },
+        {
+          "key": "B",
+          "text": "Nominal (định danh)"
+        },
+        {
+          "key": "C",
+          "text": "Ratio (tỉ lệ)"
+        },
+        {
+          "key": "D",
+          "text": "Interval (khoảng)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ordinal co thu tu (vd hai long: thap/trung binh/cao) nhung khoang cach giua cac bac khong xac dinh deu.",
+      "tags": [
+        "data type",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "E68-A077",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thang đo 'tỉ lệ' (ratio) khác 'khoảng' (interval) ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ratio có điểm 0 tuyệt đối có ý nghĩa (vd cân nặng, chiều cao)"
+        },
+        {
+          "key": "B",
+          "text": "Interval có điểm 0 tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Ratio không cho phép phép trừ"
+        },
+        {
+          "key": "D",
+          "text": "Hai loại hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ratio co diem goc 0 that su (0 nghia la khong co dai luong), cho phep noi 'gap doi'; interval (nhu nhiet do Celsius) khong co 0 tuyet doi.",
+      "tags": [
+        "data type",
+        "ratio"
+      ]
+    },
+    {
+      "id": "E68-A078",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phát biểu nào đúng về quan hệ giữa tương quan (correlation) và nhân quả (causation)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tương quan luôn suy ra nhân quả"
+        },
+        {
+          "key": "B",
+          "text": "Nhân quả không bao giờ kèm tương quan"
+        },
+        {
+          "key": "C",
+          "text": "Tương quan và nhân quả là một"
+        },
+        {
+          "key": "D",
+          "text": "Tương quan KHÔNG suy ra nhân quả"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hai bien co the tuong quan do trung gian, bien gay nhieu, hoac ngau nhien; tuong quan chi la dieu kien can, khong du de ket luan nhan qua.",
+      "tags": [
+        "correlation",
+        "causation"
+      ]
+    },
+    {
+      "id": "E68-A079",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số tương quan Pearson r = -0.9 cho biết điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ tuyến tính nghịch (âm) mạnh giữa hai biến"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ tuyến tính dương mạnh"
+        },
+        {
+          "key": "C",
+          "text": "Không có quan hệ"
+        },
+        {
+          "key": "D",
+          "text": "Quan hệ phi tuyến chắc chắn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "r am va gan -1 the hien quan he tuyen tinh nghich manh: bien nay tang thi bien kia giam gan nhu tuyen tinh.",
+      "tags": [
+        "pearson",
+        "tương quan"
+      ]
+    },
+    {
+      "id": "E68-A080",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số tương quan Pearson r luôn nằm trong khoảng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[-∞, ∞]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 100]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "r duoc chuan hoa nen luon trong [-1, 1]; +-1 la tuyen tinh hoan hao, 0 la khong co quan he tuyen tinh.",
+      "tags": [
+        "pearson",
+        "tương quan"
+      ]
+    },
+    {
+      "id": "E68-A081",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Khác biệt giữa hiệp phương sai (covariance) và hệ số tương quan (correlation)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chúng hoàn toàn giống nhau"
+        },
+        {
+          "key": "B",
+          "text": "Tương quan là hiệp phương sai đã chuẩn hóa, không có đơn vị và nằm trong [-1,1]"
+        },
+        {
+          "key": "C",
+          "text": "Hiệp phương sai luôn nằm trong [-1,1]"
+        },
+        {
+          "key": "D",
+          "text": "Tương quan có đơn vị, hiệp phương sai thì không"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cov phu thuoc don vi va do lon bien; correlation = Cov/(sigma_x*sigma_y) chuan hoa ve [-1,1], de so sanh muc do quan he.",
+      "tags": [
+        "covariance",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E68-A082",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nghịch lý Simpson (Simpson's paradox) mô tả hiện tượng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một xu hướng xuất hiện trong các nhóm con nhưng đảo ngược khi gộp dữ liệu lại"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất luôn cộng dồn lớn hơn 1"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình luôn bằng trung vị"
+        },
+        {
+          "key": "D",
+          "text": "Tương quan luôn bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Simpson's paradox: chieu huong trong tung nhom co the bi dao nguoc khi gop, thuong do bien gay nhieu (confounder).",
+      "tags": [
+        "Simpson",
+        "paradox"
+      ]
+    },
+    {
+      "id": "E68-A083",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Histogram (biểu đồ tần suất) chủ yếu dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiển thị hình dạng phân bố của một biến số liên tục"
+        },
+        {
+          "key": "B",
+          "text": "So sánh hai biến phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Thể hiện quan hệ nhân quả"
+        },
+        {
+          "key": "D",
+          "text": "Tính toán p-value"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Histogram chia du lieu thanh cac khoang (bins) va dem tan suat, cho thay hinh dang phan bo: doi xung, lech, da dinh.",
+      "tags": [
+        "histogram",
+        "mô tả"
+      ]
+    },
+    {
+      "id": "E68-A084",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Độ nhọn (kurtosis) của một phân phối đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ lệch trái/phải của phân phối"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ 'nhọn' và độ dày của đuôi so với phân phối chuẩn"
+        },
+        {
+          "key": "C",
+          "text": "Giá trị trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng ngoại lai chính xác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kurtosis do do tap trung o dinh va do day duoi; cao hon chuan nghia la duoi day, nhieu gia tri cuc doan hon.",
+      "tags": [
+        "kurtosis",
+        "shape"
+      ]
+    },
+    {
+      "id": "E68-A085",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một phân phối lệch trái (left-skewed / negative skew) có đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đuôi dài về phía phải, mean lớn hơn median"
+        },
+        {
+          "key": "B",
+          "text": "Đuôi dài về phía trái, mean thường nhỏ hơn median"
+        },
+        {
+          "key": "C",
+          "text": "Hoàn toàn đối xứng"
+        },
+        {
+          "key": "D",
+          "text": "Không có đuôi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lech trai: duoi keo dai ve gia tri nho, keo mean xuong duoi median (mean < median).",
+      "tags": [
+        "skewness",
+        "shape"
+      ]
+    },
+    {
+      "id": "E68-A086",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Không gian mẫu (sample space) của một phép thử là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tập hợp tất cả các kết quả có thể xảy ra"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ kết quả mong muốn"
+        },
+        {
+          "key": "C",
+          "text": "Tập rỗng"
+        },
+        {
+          "key": "D",
+          "text": "Một con số duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khong gian mau Omega la tap tat ca ket qua co the; mot bien co la tap con cua khong gian mau.",
+      "tags": [
+        "xác suất",
+        "sample space"
+      ]
+    },
+    {
+      "id": "E68-A087",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tổng xác suất của tất cả các kết quả trong không gian mẫu bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Bằng số kết quả"
+        },
+        {
+          "key": "C",
+          "text": "Tùy phép thử, không cố định"
+        },
+        {
+          "key": "D",
+          "text": "Bằng 1"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Theo tien de xac suat, P(Omega) = 1: chac chan se xay ra mot ket qua nao do trong khong gian mau.",
+      "tags": [
+        "xác suất",
+        "tiên đề"
+      ]
+    },
+    {
+      "id": "E68-A088",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố vừa độc lập vừa xung khắc (với xác suất dương) có thể xảy ra không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có, luôn luôn xảy ra"
+        },
+        {
+          "key": "B",
+          "text": "Có, nếu tổng xác suất bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "Không, trừ khi ít nhất một biến cố có xác suất 0"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ khi chúng bằng nhau"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Xung khac: P(A∩B)=0. Doc lap: P(A∩B)=P(A)P(B). Hai dieu nay chi dong thoi dung khi P(A)=0 hoac P(B)=0.",
+      "tags": [
+        "xác suất",
+        "độc lập",
+        "xung khắc"
+      ]
+    },
+    {
+      "id": "E68-A089",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong phân phối nhị thức, các phép thử thành phần phải thỏa điều kiện nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có vô hạn kết quả mỗi lần"
+        },
+        {
+          "key": "B",
+          "text": "Độc lập, cùng xác suất thành công p, mỗi phép thử có hai kết quả"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất thay đổi mỗi lần"
+        },
+        {
+          "key": "D",
+          "text": "Các phép thử phụ thuộc nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Binomial yeu cau: so phep thu n co dinh, doc lap, hai ket qua, xac suat p khong doi giua cac lan.",
+      "tags": [
+        "binomial",
+        "phân phối"
+      ]
+    },
+    {
+      "id": "E68-A090",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối chuẩn có hình dạng đặc trưng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hình chữ nhật phẳng"
+        },
+        {
+          "key": "B",
+          "text": "Lệch hẳn về một phía"
+        },
+        {
+          "key": "C",
+          "text": "Hình chuông đối xứng quanh trung bình"
+        },
+        {
+          "key": "D",
+          "text": "Hai đỉnh tách biệt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phan phoi chuan doi xung hinh chuong quanh muy, voi mean = median = mode tai dinh.",
+      "tags": [
+        "normal",
+        "shape"
+      ]
+    },
+    {
+      "id": "E68-A091",
+      "module": "E",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân phối lấy mẫu (sampling distribution) của một thống kê là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối của một mẫu duy nhất"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối của toàn tổng thể"
+        },
+        {
+          "key": "C",
+          "text": "Phân phối các giá trị của thống kê đó qua mọi mẫu có thể có cùng cỡ"
+        },
+        {
+          "key": "D",
+          "text": "Một giá trị cố định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Sampling distribution mo ta cach thong ke (vd x ngang) bien thien tu mau nay sang mau khac; SE la do lech chuan cua no.",
+      "tags": [
+        "sampling distribution",
+        "phân phối mẫu"
+      ]
+    },
+    {
+      "id": "E68-A092",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với phân phối đều rời rạc trên {1,2,3,4,5,6} (xúc xắc cân đối), kỳ vọng E[X] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "4.0"
+        },
+        {
+          "key": "C",
+          "text": "3.5"
+        },
+        {
+          "key": "D",
+          "text": "6.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "E[X] = (1+2+3+4+5+6)/6 = 21/6 = 3.5 cho xuc xac can doi.",
+      "tags": [
+        "uniform",
+        "kỳ vọng"
+      ]
+    },
+    {
+      "id": "E68-A093",
+      "module": "A",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Phân biệt phương sai tổng thể (population variance) và phương sai mẫu (sample variance). Giải thích vì sao phương sai mẫu chia cho (n-1) thay vì n.",
+      "modelAnswer": "Phương sai tổng thể σ² = Σ(xi-μ)²/N tính trên toàn bộ N phần tử với trung bình tổng thể μ đã biết. Phương sai mẫu s² = Σ(xi-x̄)²/(n-1) tính trên n phần tử của mẫu, dùng trung bình mẫu x̄. Lý do chia cho n-1 (hiệu chỉnh Bessel): vì x̄ được ước lượng từ chính dữ liệu nên tổng bình phương độ lệch quanh x̄ luôn nhỏ hơn quanh μ thật, làm phương sai bị đánh giá thấp nếu chia cho n. Chia cho n-1 (số bậc tự do) bù lại điều này, cho ước lượng KHÔNG CHỆCH (unbiased) của σ². Khi n lớn, sự khác biệt giữa hai cách chia trở nên không đáng kể.",
+      "rubric": [
+        "Định nghĩa đúng cả hai công thức (chia N với μ, chia n-1 với x̄)",
+        "Giải thích dùng x̄ ước lượng từ dữ liệu làm độ lệch bị thu nhỏ",
+        "Nêu khái niệm ước lượng không chệch / bậc tự do",
+        "Nhận xét khi n lớn khác biệt nhỏ"
+      ],
+      "tags": [
+        "variance",
+        "tổng thể",
+        "mẫu",
+        "unbiased"
+      ]
+    },
+    {
+      "id": "E68-A094",
+      "module": "F",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Diễn giải đúng ý nghĩa của p-value. Nêu ít nhất hai cách hiểu SAI thường gặp về p-value.",
+      "modelAnswer": "p-value là xác suất quan sát được thống kê kiểm định cực đoan như hoặc hơn giá trị thực tế, VỚI GIẢ ĐỊNH giả thuyết H0 đúng. Nếu p-value nhỏ hơn mức ý nghĩa α, ta bác bỏ H0. Hai hiểu lầm phổ biến: (1) p-value KHÔNG phải là xác suất H0 đúng — nó được tính có điều kiện H0 đúng, không phải xác suất hậu nghiệm của H0; (2) p-value KHÔNG phải xác suất kết quả do ngẫu nhiên, cũng không đo độ lớn hay tầm quan trọng của hiệu ứng. Một hiểu lầm khác: p-value lớn không chứng minh H0 đúng, chỉ là chưa đủ bằng chứng bác bỏ. Cần phân biệt ý nghĩa thống kê với ý nghĩa thực tiễn.",
+      "rubric": [
+        "Định nghĩa đúng: P(dữ liệu cực đoan ≥ quan sát | H0 đúng)",
+        "Nêu quy tắc quyết định so với α",
+        "Chỉ ra ít nhất hai hiểu lầm (không phải P(H0 đúng); không đo độ lớn hiệu ứng)",
+        "Phân biệt ý nghĩa thống kê và thực tiễn"
+      ],
+      "tags": [
+        "p-value",
+        "kiểm định",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E68-A095",
+      "module": "E",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Phát biểu Định lý giới hạn trung tâm (CLT) và giải thích tầm quan trọng của nó trong thống kê suy diễn.",
+      "modelAnswer": "Định lý giới hạn trung tâm phát biểu rằng khi lấy các mẫu ngẫu nhiên độc lập cỡ n từ một tổng thể có trung bình μ và độ lệch chuẩn σ hữu hạn, thì phân phối lấy mẫu của trung bình mẫu x̄ sẽ tiến tới phân phối chuẩn N(μ, σ²/n) khi n đủ lớn, BẤT KỂ phân phối gốc có dạng gì. Tầm quan trọng: nó cho phép ta dùng các phương pháp dựa trên phân phối chuẩn (khoảng tin cậy, kiểm định z) cho trung bình mẫu ngay cả khi dữ liệu gốc không chuẩn. Sai số chuẩn của trung bình là σ/√n giảm khi n tăng. Thông thường n ≥ 30 được xem là đủ lớn cho nhiều phân phối, nhưng phân phối gốc càng lệch thì cần n càng lớn.",
+      "rubric": [
+        "Phát biểu đúng: trung bình mẫu xấp xỉ chuẩn khi n lớn, bất kể phân phối gốc",
+        "Nêu tham số: trung bình μ và độ lệch chuẩn σ/√n",
+        "Giải thích tầm quan trọng cho suy diễn (CI, kiểm định)",
+        "Đề cập điều kiện cỡ mẫu / mức độ lệch của phân phối gốc"
+      ],
+      "tags": [
+        "CLT",
+        "phân phối mẫu",
+        "suy diễn"
+      ]
+    },
+    {
+      "id": "E68-A096",
+      "module": "G",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Phân biệt hiệp phương sai (covariance) và hệ số tương quan (correlation). Vì sao trong thực hành người ta thường ưu tiên dùng hệ số tương quan?",
+      "modelAnswer": "Hiệp phương sai Cov(X,Y) = E[(X-μx)(Y-μy)] đo chiều cùng biến thiên của hai biến: dương nghĩa là cùng tăng/giảm, âm nghĩa là ngược chiều. Tuy nhiên độ lớn của Cov phụ thuộc đơn vị đo và độ phân tán của X, Y nên khó diễn giải và so sánh. Hệ số tương quan Pearson r = Cov(X,Y)/(σx·σy) là phiên bản CHUẨN HÓA của hiệp phương sai, không có đơn vị và luôn nằm trong [-1, 1]. Vì vậy r cho biết cả CHIỀU lẫn ĐỘ MẠNH của quan hệ tuyến tính một cách so sánh được giữa các cặp biến khác nhau: r gần ±1 là quan hệ tuyến tính mạnh, gần 0 là yếu. Người ta ưu tiên r vì dễ diễn giải, không phụ thuộc thang đo, và so sánh được. Lưu ý cả hai chỉ đo quan hệ tuyến tính và không suy ra nhân quả.",
+      "rubric": [
+        "Định nghĩa hiệp phương sai và ý nghĩa dấu",
+        "Nêu công thức chuẩn hóa r = Cov/(σx σy) và miền [-1,1]",
+        "Giải thích vì sao ưu tiên r: không đơn vị, so sánh được, đo độ mạnh",
+        "Lưu ý chỉ đo quan hệ tuyến tính / không nhân quả"
+      ],
+      "tags": [
+        "covariance",
+        "correlation",
+        "tương quan"
+      ]
+    },
+    {
+      "id": "E68-A097",
+      "module": "B",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Trình bày định lý Bayes và minh họa bằng một ví dụ y khoa cụ thể về xét nghiệm bệnh (nêu rõ tiên nghiệm, độ nhạy, dương tính giả và tính xác suất hậu nghiệm).",
+      "modelAnswer": "Định lý Bayes: P(A|B) = P(B|A)·P(A)/P(B), trong đó P(B) = P(B|A)P(A) + P(B|A')P(A') theo xác suất toàn phần. Ví dụ: một bệnh có tỉ lệ mắc (tiên nghiệm) P(bệnh)=0.01. Xét nghiệm có độ nhạy P(+|bệnh)=0.99 và tỉ lệ dương tính giả P(+|khỏe)=0.05. Khi một người có kết quả dương tính, xác suất thật sự mắc bệnh là: P(bệnh|+) = (0.99·0.01)/(0.99·0.01 + 0.05·0.99) = 0.0099/(0.0099+0.0495) = 0.0099/0.0594 ≈ 0.167, tức khoảng 16.7%. Kết quả phản trực giác này cho thấy: dù xét nghiệm chính xác cao, với bệnh hiếm thì phần lớn ca dương tính vẫn là dương tính giả, do số người khỏe rất lớn. Bayes giúp cập nhật niềm tin từ tiên nghiệm sang hậu nghiệm dựa trên bằng chứng.",
+      "rubric": [
+        "Viết đúng công thức Bayes và xác suất toàn phần ở mẫu số",
+        "Đưa ví dụ với tiên nghiệm, độ nhạy, dương tính giả rõ ràng",
+        "Tính đúng xác suất hậu nghiệm ≈ 0.167",
+        "Diễn giải ý nghĩa (bệnh hiếm -> nhiều dương tính giả)"
+      ],
+      "tags": [
+        "Bayes",
+        "điều kiện",
+        "ví dụ"
+      ]
+    },
+    {
+      "id": "E68-A098",
+      "module": "D",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích quy tắc thực nghiệm 68-95-99.7 của phân phối chuẩn. Cho ví dụ áp dụng với một phân phối chuẩn cụ thể.",
+      "modelAnswer": "Quy tắc 68-95-99.7 (empirical rule) áp dụng cho phân phối chuẩn: khoảng 68% dữ liệu nằm trong ±1 độ lệch chuẩn quanh trung bình (μ±σ), khoảng 95% nằm trong ±2σ (chính xác hơn là ±1.96σ), và khoảng 99.7% nằm trong ±3σ. Ví dụ: chiều cao nam giới có phân phối chuẩn với μ=170 cm và σ=6 cm. Khi đó khoảng 68% nam giới cao 164–176 cm (170±6), khoảng 95% cao 158–182 cm (170±12), và khoảng 99.7% cao 152–188 cm (170±18). Quy tắc này giúp nhanh chóng ước lượng tỉ lệ dữ liệu trong các khoảng và nhận diện giá trị bất thường (ngoài ±3σ rất hiếm).",
+      "rubric": [
+        "Nêu đúng ba mức 68% (±1σ), 95% (±2σ), 99.7% (±3σ)",
+        "Khẳng định chỉ áp dụng cho phân phối chuẩn",
+        "Cho ví dụ cụ thể với μ và σ và tính các khoảng",
+        "Nêu ứng dụng (ước lượng tỉ lệ / nhận diện bất thường)"
+      ],
+      "tags": [
+        "normal",
+        "68-95-99.7",
+        "empirical rule"
+      ]
+    },
+    {
+      "id": "E68-A099",
+      "module": "F",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Phân biệt sai lầm loại I (Type I) và sai lầm loại II (Type II) trong kiểm định giả thuyết. Giải thích mối quan hệ đánh đổi (trade-off) giữa chúng và khái niệm lực kiểm định (power).",
+      "modelAnswer": "Sai lầm loại I là bác bỏ H0 khi H0 thực sự đúng (dương tính giả); xác suất mắc bằng mức ý nghĩa α. Sai lầm loại II là không bác bỏ H0 khi H0 thực sự sai (âm tính giả); xác suất mắc ký hiệu β. Lực kiểm định (power) = 1-β là xác suất phát hiện đúng hiệu ứng khi nó thật sự tồn tại. Có sự đánh đổi: giảm α (khắt khe hơn để bác bỏ H0) làm giảm sai lầm loại I nhưng thường tăng β (tăng sai lầm loại II), và ngược lại. Cách giảm cả hai mà không đánh đổi là tăng cỡ mẫu n, vì n lớn làm sai số chuẩn nhỏ, tăng power. Việc chọn α tùy bối cảnh: y khoa coi trọng tránh bỏ sót bệnh (giảm β) hay tránh báo động giả (giảm α) khác nhau.",
+      "rubric": [
+        "Định nghĩa đúng Type I (bác bỏ H0 đúng, = α) và Type II (không bác bỏ H0 sai, = β)",
+        "Nêu power = 1-β",
+        "Giải thích đánh đổi giữa α và β khi điều chỉnh ngưỡng",
+        "Chỉ ra tăng cỡ mẫu giúp giảm cả hai / tăng power"
+      ],
+      "tags": [
+        "type I",
+        "type II",
+        "power"
+      ]
+    },
+    {
+      "id": "E68-A100",
+      "module": "A",
+      "type": "essay",
+      "points": 1.0,
+      "prompt": "Giải thích ảnh hưởng của độ lệch (skewness) đến vị trí tương đối của mean, median và mode. Khi nào nên ưu tiên dùng median thay cho mean?",
+      "modelAnswer": "Trong phân phối đối xứng (như chuẩn), mean ≈ median ≈ mode trùng nhau ở tâm. Trong phân phối lệch phải (positive skew, đuôi dài bên phải), các giá trị lớn kéo mean về phía phải nên thứ tự là mode < median < mean. Trong phân phối lệch trái (negative skew, đuôi dài bên trái), các giá trị nhỏ kéo mean xuống nên mean < median < mode. Nguyên nhân là mean nhạy với mọi giá trị kể cả cực đoan, còn median chỉ phụ thuộc vị trí giữa. Vì vậy khi dữ liệu lệch mạnh hoặc có ngoại lai (ví dụ thu nhập, giá nhà), nên ưu tiên median vì nó phản ánh giá trị 'điển hình' tốt hơn và bền với ngoại lai, trong khi mean có thể bị bóp méo và gây hiểu lầm.",
+      "rubric": [
+        "Nêu đối xứng: mean ≈ median ≈ mode",
+        "Lệch phải: mode < median < mean; lệch trái: mean < median < mode",
+        "Giải thích vì sao (mean nhạy ngoại lai, median bền)",
+        "Khuyến nghị dùng median khi dữ liệu lệch / có ngoại lai với ví dụ"
+      ],
+      "tags": [
+        "skewness",
+        "mean",
+        "median",
+        "robust"
+      ]
+    }
+  ]
+}
