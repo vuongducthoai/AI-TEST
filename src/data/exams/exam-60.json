@@ -1,0 +1,1830 @@
+{
+  "id": "exam-60",
+  "title": "KMeans & Phân cụm (Clustering) — Học không giám sát",
+  "description": "Đề ôn tập về học không giám sát và phân cụm: thuật toán KMeans (Lloyd), hàm mục tiêu WCSS/inertia, k-means++, chọn số cụm (elbow, silhouette), GMM/EM, DBSCAN, phân cụm phân cấp và các độ đo đánh giá. Gồm câu trắc nghiệm khái niệm, câu tính toán bằng số và câu tự luận/lập trình bằng numpy.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E60-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho điểm dữ liệu P=(4,5) và ba centroid C1=(1,1), C2=(5,4), C3=(8,8). Trong bước gán cụm của KMeans (theo khoảng cách Euclid), P được gán vào cụm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cụm 2 (centroid C2)"
+        },
+        {
+          "key": "B",
+          "text": "Cụm 1 (centroid C1)"
+        },
+        {
+          "key": "C",
+          "text": "Cụm 3 (centroid C3)"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định được vì cần chuẩn hóa trước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khoảng cách Euclid: d(P,C1)=5.000, d(P,C2)=1.414, d(P,C3)=5.000. Nhỏ nhất là tới C2 nên P thuộc cụm 2.",
+      "tags": [
+        "kmeans",
+        "assignment",
+        "euclidean"
+      ]
+    },
+    {
+      "id": "E60-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một cụm chứa 3 điểm: (2,1), (4,3), (6,5). Sau bước cập nhật centroid của KMeans, tọa độ centroid mới của cụm này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4.0, 3.0)"
+        },
+        {
+          "key": "B",
+          "text": "(4.0, 4.0)"
+        },
+        {
+          "key": "C",
+          "text": "(6.0, 5.0)"
+        },
+        {
+          "key": "D",
+          "text": "(2.0, 1.0)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Centroid mới = trung bình cộng các điểm = ((2+4+6)/3, (1+3+5)/3) = (4.0, 3.0).",
+      "tags": [
+        "kmeans",
+        "centroid",
+        "mean"
+      ]
+    },
+    {
+      "id": "E60-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cụm có centroid (3,3) gồm các điểm (1,2), (3,4), (5,3). Tính inertia (WCSS) của cụm = tổng bình phương khoảng cách Euclid từ mỗi điểm tới centroid.",
+      "options": [
+        {
+          "key": "A",
+          "text": "10.0"
+        },
+        {
+          "key": "B",
+          "text": "12.0"
+        },
+        {
+          "key": "C",
+          "text": "5.0"
+        },
+        {
+          "key": "D",
+          "text": "20.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "WCSS = Σ||x-c||^2 = [(1-3)^2+(2-3)^2] + [(3-3)^2+(4-3)^2] + [(5-3)^2+(3-3)^2] = 5+1+4 = 10.0.",
+      "tags": [
+        "wcss",
+        "inertia",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khoảng cách Euclid giữa hai điểm A=(0,0) và B=(3,4) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "5.5"
+        },
+        {
+          "key": "D",
+          "text": "12.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "d = sqrt((3-0)^2+(4-0)^2) = sqrt(9+16) = sqrt(25) = 5.0.",
+      "tags": [
+        "euclidean",
+        "distance"
+      ]
+    },
+    {
+      "id": "E60-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "KMeans với k=2, điểm: (1,1),(1.5,2),(8,8),(9,9); centroid khởi tạo (1,1) và (9,9). Sau MỘT vòng lặp Lloyd (gán + cập nhật), centroid của cụm khởi tạo từ (1,1) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(1.25, 1.50)"
+        },
+        {
+          "key": "B",
+          "text": "(1.00, 1.00)"
+        },
+        {
+          "key": "C",
+          "text": "(5.00, 5.00)"
+        },
+        {
+          "key": "D",
+          "text": "(4.88, 5.00)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai điểm (1,1) và (1.5,2) gần (1,1); centroid mới = trung bình của chúng = (1.25, 1.50).",
+      "tags": [
+        "lloyd",
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E60-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai cụm: cụm A gồm (1,1),(1.5,2); cụm B gồm (8,8),(9,9). Tính tổng inertia (WCSS toàn cục) khi centroid mỗi cụm là trung bình các điểm của nó.",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.62"
+        },
+        {
+          "key": "B",
+          "text": "2.62"
+        },
+        {
+          "key": "C",
+          "text": "3.25"
+        },
+        {
+          "key": "D",
+          "text": "2.50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Centroid A=(1.25,1.50), B=(8.50,8.50). WCSS_A=0.62, WCSS_B=1.00, tổng = 1.62.",
+      "tags": [
+        "wcss",
+        "inertia"
+      ]
+    },
+    {
+      "id": "E60-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điểm (2,3); hai centroid (0,0) và (5,5). Theo khoảng cách Euclid, điểm được gán vào centroid nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "centroid (5,5)"
+        },
+        {
+          "key": "B",
+          "text": "centroid (0,0)"
+        },
+        {
+          "key": "C",
+          "text": "cả hai như nhau"
+        },
+        {
+          "key": "D",
+          "text": "cần chuẩn hóa mới biết"
+        }
+      ],
+      "answer": "A",
+      "explanation": "d tới (0,0)=3.606, d tới (5,5)=3.606; gán vào centroid (5,5) vì khoảng cách nhỏ hơn.",
+      "tags": [
+        "assignment",
+        "euclidean"
+      ]
+    },
+    {
+      "id": "E60-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong một vòng lặp gán cụm của KMeans với 10 điểm dữ liệu và k=3 centroid, cần tính bao nhiêu phép khoảng cách điểm–tới–centroid?",
+      "options": [
+        {
+          "key": "A",
+          "text": "30"
+        },
+        {
+          "key": "B",
+          "text": "13"
+        },
+        {
+          "key": "C",
+          "text": "100"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi điểm phải so với cả k centroid, nên số khoảng cách = n*k = 10*3 = 30.",
+      "tags": [
+        "complexity",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với một điểm, khoảng cách trung bình tới các điểm cùng cụm a=1.0, khoảng cách trung bình tới cụm gần nhất khác b=4.0. Hệ số silhouette s = (b-a)/max(a,b) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "-0.75"
+        },
+        {
+          "key": "C",
+          "text": "3.00"
+        },
+        {
+          "key": "D",
+          "text": "0.00"
+        }
+      ],
+      "answer": "A",
+      "explanation": "s = (b-a)/max(a,b) = (4.0-1.0)/max(1.0,4.0) = 3.0/4.0 = 0.75; giá trị gần 1 nghĩa là điểm được phân cụm tốt.",
+      "tags": [
+        "silhouette",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E60-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một cụm 1 chiều gồm các giá trị {10,12,14,16,18}. Centroid mới (trung bình) của cụm là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "14.0"
+        },
+        {
+          "key": "B",
+          "text": "13.0"
+        },
+        {
+          "key": "C",
+          "text": "15.5"
+        },
+        {
+          "key": "D",
+          "text": "12.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình = (10+12+14+16+18)/5 = 70/5 = 14.0.",
+      "tags": [
+        "centroid",
+        "mean"
+      ]
+    },
+    {
+      "id": "E60-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "KMeans thuộc loại học máy nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học không giám sát (unsupervised)"
+        },
+        {
+          "key": "B",
+          "text": "Học có giám sát (supervised)"
+        },
+        {
+          "key": "C",
+          "text": "Học tăng cường (reinforcement)"
+        },
+        {
+          "key": "D",
+          "text": "Học bán giám sát có nhãn đầy đủ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans phân cụm dữ liệu không có nhãn, tìm cấu trúc nội tại nên là học không giám sát.",
+      "tags": [
+        "kmeans",
+        "basics"
+      ]
+    },
+    {
+      "id": "E60-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mục tiêu mà KMeans tối thiểu hóa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương khoảng cách trong cụm (WCSS/inertia)"
+        },
+        {
+          "key": "B",
+          "text": "Tổng khoảng cách giữa các centroid"
+        },
+        {
+          "key": "C",
+          "text": "Entropy chéo của nhãn dự đoán"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách Manhattan tối đa giữa hai cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans cực tiểu hóa WCSS = tổng bình phương khoảng cách từ mỗi điểm tới centroid cụm của nó.",
+      "tags": [
+        "kmeans",
+        "objective"
+      ]
+    },
+    {
+      "id": "E60-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thứ tự đúng các bước của thuật toán Lloyd trong KMeans là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo centroid → gán điểm vào centroid gần nhất → cập nhật centroid = mean → lặp tới hội tụ"
+        },
+        {
+          "key": "B",
+          "text": "Gán nhãn thật → tính loss → lan truyền ngược → cập nhật"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa → hồi quy → dự đoán → đánh giá"
+        },
+        {
+          "key": "D",
+          "text": "Khởi tạo ngẫu nhiên nhãn → cố định centroid mãi mãi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lloyd lặp giữa hai bước: gán cụm theo centroid gần nhất rồi cập nhật centroid bằng trung bình, tới khi hội tụ.",
+      "tags": [
+        "lloyd",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao k-means++ thường tốt hơn khởi tạo ngẫu nhiên thuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn các centroid khởi tạo cách xa nhau theo xác suất tỉ lệ với bình phương khoảng cách, giảm nguy cơ kết quả tệ"
+        },
+        {
+          "key": "B",
+          "text": "Đảm bảo luôn tìm được nghiệm tối ưu toàn cục"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn nhu cầu chọn k"
+        },
+        {
+          "key": "D",
+          "text": "Biến KMeans thành thuật toán có giám sát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "k-means++ rải centroid ban đầu xa nhau (xác suất ∝ D^2), cho khởi tạo tốt hơn và thường hội tụ nhanh, ít kẹt ở cực tiểu cục bộ.",
+      "tags": [
+        "kmeans++",
+        "init"
+      ]
+    },
+    {
+      "id": "E60-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tham số n_init trong KMeans dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy thuật toán nhiều lần với khởi tạo khác nhau rồi giữ kết quả có inertia thấp nhất"
+        },
+        {
+          "key": "B",
+          "text": "Số chiều của dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Số điểm dữ liệu tối đa"
+        },
+        {
+          "key": "D",
+          "text": "Số nhãn thật cần cung cấp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì KMeans nhạy với khởi tạo và chỉ đảm bảo cực tiểu cục bộ, chạy nhiều lần (n_init) rồi chọn lời giải tốt nhất giúp ổn định kết quả.",
+      "tags": [
+        "n_init",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phương pháp elbow (khuỷu tay) để chọn k dựa trên điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẽ inertia theo k và chọn k tại điểm 'gãy khuỷu' nơi inertia giảm chậm lại"
+        },
+        {
+          "key": "B",
+          "text": "Chọn k lớn nhất có thể"
+        },
+        {
+          "key": "C",
+          "text": "Chọn k sao cho mọi cụm có đúng 1 điểm"
+        },
+        {
+          "key": "D",
+          "text": "Chọn k bằng số đặc trưng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi tăng k, inertia luôn giảm; điểm khuỷu là nơi việc thêm cụm không còn giảm inertia đáng kể, gợi ý k hợp lý.",
+      "tags": [
+        "elbow",
+        "choose-k"
+      ]
+    },
+    {
+      "id": "E60-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Silhouette score đo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức độ một điểm gắn với cụm của nó so với cụm gần nhất khác, giá trị trong [-1,1]"
+        },
+        {
+          "key": "B",
+          "text": "Sai số bình phương của hồi quy"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác phân loại có nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Số vòng lặp tới hội tụ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Silhouette s=(b-a)/max(a,b) so sánh độ gắn kết trong cụm (a) với độ tách biệt cụm khác (b); gần 1 là tốt, âm là gán sai.",
+      "tags": [
+        "silhouette",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E60-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao nên chuẩn hóa (scale) đặc trưng trước khi chạy KMeans?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì KMeans dùng khoảng cách Euclid nên đặc trưng có thang đo lớn sẽ chi phối, làm méo kết quả cụm"
+        },
+        {
+          "key": "B",
+          "text": "Vì chuẩn hóa biến KMeans thành supervised"
+        },
+        {
+          "key": "C",
+          "text": "Vì KMeans không thể chạy trên số thực"
+        },
+        {
+          "key": "D",
+          "text": "Vì chuẩn hóa làm tăng số cụm tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khoảng cách Euclid nhạy với thang đo; nếu một đặc trưng có đơn vị lớn hơn nhiều nó sẽ áp đảo khoảng cách, nên cần chuẩn hóa để các đặc trưng đóng góp công bằng.",
+      "tags": [
+        "scaling",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E60-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giả định ngầm nào KHÔNG phù hợp với KMeans?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các cụm có dạng kéo dài, không lồi và mật độ rất khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Các cụm gần hình cầu và kích thước tương đương"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng cách Euclid có ý nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Mỗi điểm thuộc đúng một cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans giả định cụm cầu, kích thước/mật độ tương đương; với cụm kéo dài, không lồi hay mật độ chênh lệch nó hoạt động kém.",
+      "tags": [
+        "assumptions",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E60-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "KMeans nhạy với outlier vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì centroid là trung bình nên một điểm ngoại lai có thể kéo lệch centroid đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó dùng trung vị thay vì trung bình"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó bỏ qua mọi điểm xa"
+        },
+        {
+          "key": "D",
+          "text": "Vì outlier luôn tạo cụm riêng tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Centroid = mean rất nhạy với giá trị cực trị; một outlier có thể kéo centroid ra xa, làm méo cụm.",
+      "tags": [
+        "outlier",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E60-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt chính giữa KMeans và KMedoids (PAM) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "KMedoids dùng một điểm dữ liệu thực làm tâm (medoid) và bền với outlier hơn"
+        },
+        {
+          "key": "B",
+          "text": "KMedoids cần nhãn thật"
+        },
+        {
+          "key": "C",
+          "text": "KMeans dùng medoid còn KMedoids dùng mean"
+        },
+        {
+          "key": "D",
+          "text": "KMedoids chỉ chạy được với k=2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMedoids chọn medoid là điểm dữ liệu thực tế thay vì trung bình, nên ít nhạy outlier và dùng được khoảng cách tùy ý.",
+      "tags": [
+        "kmedoids",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E60-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hard assignment khác soft assignment thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hard: mỗi điểm thuộc đúng một cụm; soft: mỗi điểm có xác suất/độ thuộc về nhiều cụm"
+        },
+        {
+          "key": "B",
+          "text": "Hard luôn chính xác hơn soft"
+        },
+        {
+          "key": "C",
+          "text": "Soft chỉ dùng cho dữ liệu có nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Hard yêu cầu GMM, soft yêu cầu KMeans"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans gán cứng (một cụm/điểm), còn các mô hình như GMM gán mềm với xác suất thành viên cho từng cụm.",
+      "tags": [
+        "hard-soft",
+        "gmm"
+      ]
+    },
+    {
+      "id": "E60-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GMM (Gaussian Mixture Model) mô hình hóa dữ liệu như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là hỗn hợp nhiều phân phối Gaussian, mỗi cụm có trung bình và ma trận hiệp phương sai riêng"
+        },
+        {
+          "key": "B",
+          "text": "Là một đường thẳng hồi quy"
+        },
+        {
+          "key": "C",
+          "text": "Là cây quyết định nhị phân"
+        },
+        {
+          "key": "D",
+          "text": "Là một Gaussian duy nhất cho toàn bộ dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GMM giả định dữ liệu sinh từ tổ hợp các Gaussian; mỗi thành phần có mean và covariance, cho phép cụm hình elip và gán mềm.",
+      "tags": [
+        "gmm",
+        "soft-clustering"
+      ]
+    },
+    {
+      "id": "E60-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong EM cho GMM, bước E (Expectation) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính trách nhiệm (responsibility) — xác suất mỗi điểm thuộc về mỗi thành phần dựa trên tham số hiện tại"
+        },
+        {
+          "key": "B",
+          "text": "Cập nhật mean và covariance"
+        },
+        {
+          "key": "C",
+          "text": "Chọn số cụm k"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước E tính posterior (responsibility) của mỗi điểm với từng Gaussian; bước M sau đó cập nhật tham số theo các trách nhiệm này.",
+      "tags": [
+        "em",
+        "gmm"
+      ]
+    },
+    {
+      "id": "E60-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GMM khác KMeans ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GMM gán mềm theo xác suất và mô hình hiệp phương sai nên xử lý được cụm elip; KMeans gán cứng, cụm cầu"
+        },
+        {
+          "key": "B",
+          "text": "GMM là supervised, KMeans là unsupervised"
+        },
+        {
+          "key": "C",
+          "text": "GMM không dùng được EM"
+        },
+        {
+          "key": "D",
+          "text": "KMeans luôn cho cụm elip còn GMM cho cụm cầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "KMeans có thể xem như GMM giới hạn với covariance đẳng hướng và gán cứng; GMM tổng quát hơn nhờ covariance và xác suất thành viên.",
+      "tags": [
+        "gmm",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E60-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DBSCAN phân cụm dựa trên nguyên lý nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mật độ — nhóm các điểm nằm trong vùng đủ dày đặc, dùng eps và minPts"
+        },
+        {
+          "key": "B",
+          "text": "Trung bình các centroid như KMeans"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Số cụm k phải cho trước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN dựa trên mật độ: điểm có đủ minPts láng giềng trong bán kính eps là điểm lõi, từ đó mở rộng cụm.",
+      "tags": [
+        "dbscan",
+        "density"
+      ]
+    },
+    {
+      "id": "E60-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai tham số chính của DBSCAN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "eps (bán kính lân cận) và minPts (số điểm tối thiểu để thành lõi)"
+        },
+        {
+          "key": "B",
+          "text": "k và n_init"
+        },
+        {
+          "key": "C",
+          "text": "learning rate và epoch"
+        },
+        {
+          "key": "D",
+          "text": "số tầng và linkage"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN cần eps (kích thước lân cận) và minPts (số láng giềng tối thiểu) để định nghĩa vùng mật độ cao.",
+      "tags": [
+        "dbscan",
+        "params"
+      ]
+    },
+    {
+      "id": "E60-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong DBSCAN, điểm 'noise' (nhiễu) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điểm không phải lõi và không nằm trong lân cận của điểm lõi nào"
+        },
+        {
+          "key": "B",
+          "text": "Điểm có nhiều láng giềng nhất"
+        },
+        {
+          "key": "C",
+          "text": "Điểm trung tâm của cụm dày đặc"
+        },
+        {
+          "key": "D",
+          "text": "Điểm có nhãn thật bị sai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm nhiễu không đủ mật độ và không tiếp cận được từ điểm lõi nào nên không thuộc cụm nào — đây cũng là cách DBSCAN xử lý outlier.",
+      "tags": [
+        "dbscan",
+        "noise"
+      ]
+    },
+    {
+      "id": "E60-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ưu điểm nổi bật của DBSCAN so với KMeans là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm được cụm hình dạng bất kỳ, không cần định trước k và xử lý được outlier"
+        },
+        {
+          "key": "B",
+          "text": "Luôn nhanh hơn với mọi dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Không cần bất kỳ tham số nào"
+        },
+        {
+          "key": "D",
+          "text": "Đảm bảo cụm cầu kích thước bằng nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN không cần k, phát hiện cụm không lồi/bất kỳ hình dạng và đánh dấu nhiễu, khác với KMeans giả định cụm cầu và cần k.",
+      "tags": [
+        "dbscan",
+        "advantages"
+      ]
+    },
+    {
+      "id": "E60-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhược điểm của DBSCAN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khó chọn eps và hoạt động kém khi các cụm có mật độ rất khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Bắt buộc phải có nhãn thật"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy được trong 1 chiều"
+        },
+        {
+          "key": "D",
+          "text": "Không thể phát hiện outlier"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN nhạy với eps/minPts và gặp khó khi mật độ các cụm chênh lệch lớn vì một eps khó phù hợp mọi vùng.",
+      "tags": [
+        "dbscan",
+        "limitations"
+      ]
+    },
+    {
+      "id": "E60-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Agglomerative hierarchical clustering hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt đầu mỗi điểm là một cụm, lặp lại gộp hai cụm gần nhất cho tới khi còn một cụm"
+        },
+        {
+          "key": "B",
+          "text": "Bắt đầu một cụm lớn rồi cố định"
+        },
+        {
+          "key": "C",
+          "text": "Cần chọn k trước khi chạy"
+        },
+        {
+          "key": "D",
+          "text": "Dựa trên gradient descent"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân cụm phân cấp kiểu gộp (bottom-up) khởi đầu mỗi điểm một cụm, liên tục hợp nhất cặp cụm gần nhất tạo nên cây phân cấp.",
+      "tags": [
+        "hierarchical",
+        "agglomerative"
+      ]
+    },
+    {
+      "id": "E60-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Linkage 'single' (đơn) đo khoảng cách giữa hai cụm bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách nhỏ nhất giữa một cặp điểm thuộc hai cụm"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách lớn nhất giữa hai điểm"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng cách giữa hai centroid"
+        },
+        {
+          "key": "D",
+          "text": "Phương sai gộp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Single linkage dùng khoảng cách cặp điểm gần nhất giữa hai cụm; dễ tạo hiệu ứng 'chuỗi' (chaining).",
+      "tags": [
+        "linkage",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E60-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Linkage 'complete' (đầy đủ) đo khoảng cách giữa hai cụm bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách lớn nhất giữa một cặp điểm thuộc hai cụm"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách nhỏ nhất giữa hai điểm"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình mọi khoảng cách cặp"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách hai medoid"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Complete linkage lấy khoảng cách cặp xa nhất giữa hai cụm, có xu hướng tạo các cụm chặt, đường kính nhỏ.",
+      "tags": [
+        "linkage",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E60-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ward linkage tối thiểu hóa điều gì khi gộp cụm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức tăng tổng phương sai trong cụm (within-cluster variance)"
+        },
+        {
+          "key": "B",
+          "text": "Số điểm dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng cách Manhattan tối đa"
+        },
+        {
+          "key": "D",
+          "text": "Entropy của nhãn thật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ward gộp cặp cụm sao cho tăng tổng bình phương sai trong cụm ít nhất, thường cho các cụm cân đối tương tự KMeans.",
+      "tags": [
+        "linkage",
+        "ward"
+      ]
+    },
+    {
+      "id": "E60-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dendrogram là gì và dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cây biểu diễn quá trình gộp cụm; cắt cây ở một độ cao cho ra số cụm tương ứng"
+        },
+        {
+          "key": "B",
+          "text": "Biểu đồ phân tán dữ liệu thô"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị inertia theo k"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận nhầm lẫn của phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dendrogram thể hiện thứ tự và khoảng cách hợp nhất; cắt ngang ở một ngưỡng chiều cao xác định số cụm cuối cùng.",
+      "tags": [
+        "dendrogram",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E60-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Davies-Bouldin index có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá trị càng thấp càng tốt, đo tỉ lệ giữa độ phân tán trong cụm và khoảng cách giữa các cụm"
+        },
+        {
+          "key": "B",
+          "text": "Giá trị càng cao càng tốt, trong [0,1]"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng khi có nhãn thật"
+        },
+        {
+          "key": "D",
+          "text": "Đo độ chính xác phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Davies-Bouldin trung bình tỉ số (phân tán trong cụm)/(khoảng cách giữa các cụm); chỉ số thấp nghĩa cụm chặt và tách biệt tốt.",
+      "tags": [
+        "davies-bouldin",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E60-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chỉ số nào là external metric (cần nhãn thật) để đánh giá clustering?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Adjusted Rand Index (ARI) và Normalized Mutual Information (NMI)"
+        },
+        {
+          "key": "B",
+          "text": "Inertia (WCSS)"
+        },
+        {
+          "key": "C",
+          "text": "Silhouette score"
+        },
+        {
+          "key": "D",
+          "text": "Davies-Bouldin index"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ARI và NMI so sánh cụm dự đoán với nhãn thật nên là độ đo ngoài (external); inertia/silhouette/DB là độ đo trong (internal).",
+      "tags": [
+        "ari",
+        "nmi",
+        "external"
+      ]
+    },
+    {
+      "id": "E60-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Internal metric khác external metric ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Internal chỉ dùng dữ liệu và cụm (vd silhouette, inertia); external cần nhãn thật (vd ARI, NMI)"
+        },
+        {
+          "key": "B",
+          "text": "Internal cần nhãn thật còn external thì không"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều yêu cầu nhãn thật"
+        },
+        {
+          "key": "D",
+          "text": "External chỉ đo tốc độ chạy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Độ đo trong đánh giá cấu trúc cụm không cần nhãn; độ đo ngoài so với nhãn tham chiếu có sẵn.",
+      "tags": [
+        "internal-external",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E60-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Curse of dimensionality ảnh hưởng clustering dựa trên khoảng cách thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ở số chiều cao, khoảng cách giữa các điểm trở nên gần như bằng nhau, làm khái niệm 'gần nhất' kém ý nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Làm khoảng cách luôn bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ chính xác của KMeans"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ nhu cầu chuẩn hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi số chiều tăng, độ tương phản khoảng cách giảm (mọi điểm gần như cách đều), khiến phân cụm theo khoảng cách kém hiệu quả — nên thường giảm chiều trước.",
+      "tags": [
+        "curse-dimensionality",
+        "clustering"
+      ]
+    },
+    {
+      "id": "E60-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Color quantization (nén ảnh) dùng KMeans như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân cụm các pixel theo màu RGB thành k cụm, thay mỗi pixel bằng màu centroid của nó"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số màu lên vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Dùng nhãn thật của ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Hồi quy giá trị pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi pixel là một điểm trong không gian màu; KMeans tìm k màu đại diện (centroid) và thay pixel bằng màu cụm, giảm số màu để nén ảnh.",
+      "tags": [
+        "application",
+        "color-quantization"
+      ]
+    },
+    {
+      "id": "E60-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân khúc khách hàng bằng clustering nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhóm khách hàng có hành vi/đặc điểm tương tự để cá nhân hóa chiến lược tiếp thị"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán chính xác doanh thu từng cá nhân có nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại spam email có giám sát"
+        },
+        {
+          "key": "D",
+          "text": "Tối ưu trọng số mạng nơ-ron có nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Clustering chia khách hàng thành các phân khúc đồng nhất (theo chi tiêu, hành vi...) giúp marketing nhắm mục tiêu phù hợp từng nhóm.",
+      "tags": [
+        "application",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E60-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao KMeans chỉ đảm bảo hội tụ tới cực tiểu cục bộ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì hàm mục tiêu không lồi theo phép gán nên kết quả phụ thuộc khởi tạo"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó dùng gradient descent có learning rate"
+        },
+        {
+          "key": "C",
+          "text": "Vì dữ liệu luôn có nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó tối đa hóa likelihood toàn cục"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài toán KMeans là NP-khó nói chung; Lloyd hội tụ nhưng tới cực tiểu cục bộ tùy khởi tạo, nên cần n_init hoặc k-means++.",
+      "tags": [
+        "kmeans",
+        "local-minima"
+      ]
+    },
+    {
+      "id": "E60-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điều gì luôn đúng khi tăng k trong KMeans?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Inertia (WCSS) không tăng, thường giảm"
+        },
+        {
+          "key": "B",
+          "text": "Silhouette luôn tăng"
+        },
+        {
+          "key": "C",
+          "text": "Số outlier luôn giảm"
+        },
+        {
+          "key": "D",
+          "text": "Cụm luôn có dạng cầu hoàn hảo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thêm cụm cho phép centroid sát điểm hơn nên WCSS giảm hoặc giữ nguyên; vì vậy không thể chỉ dựa inertia để chọn k.",
+      "tags": [
+        "kmeans",
+        "wcss"
+      ]
+    },
+    {
+      "id": "E60-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DBSCAN không cần tham số nào mà KMeans bắt buộc?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số cụm k"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách Euclid"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu số"
+        },
+        {
+          "key": "D",
+          "text": "Vòng lặp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN tự xác định số cụm từ mật độ nên không cần định trước k, khác với KMeans phải cho k.",
+      "tags": [
+        "dbscan",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong KMeans, nếu một cụm trở thành rỗng (không điểm nào được gán), cách xử lý phổ biến là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo lại centroid đó, ví dụ tại điểm xa nhất so với centroid hiện có"
+        },
+        {
+          "key": "B",
+          "text": "Dừng thuật toán và báo lỗi vĩnh viễn"
+        },
+        {
+          "key": "C",
+          "text": "Gán nhãn thật cho cụm"
+        },
+        {
+          "key": "D",
+          "text": "Hợp nhất toàn bộ dữ liệu thành một cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi cụm rỗng, thực hành thường đặt lại centroid (vd tại điểm có WCSS đóng góp lớn nhất) để tiếp tục lặp.",
+      "tags": [
+        "kmeans",
+        "empty-cluster"
+      ]
+    },
+    {
+      "id": "E60-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với KMeans, hierarchical clustering có ưu điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho cây phân cấp đầy đủ, có thể chọn số cụm sau bằng cách cắt dendrogram"
+        },
+        {
+          "key": "B",
+          "text": "Luôn nhanh hơn trên dữ liệu lớn"
+        },
+        {
+          "key": "C",
+          "text": "Không nhạy với độ đo khoảng cách"
+        },
+        {
+          "key": "D",
+          "text": "Không cần dữ liệu số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân cụm phân cấp tạo dendrogram cho mọi mức k cùng lúc, giúp khám phá cấu trúc đa mức mà không phải định trước k.",
+      "tags": [
+        "hierarchical",
+        "advantages"
+      ]
+    },
+    {
+      "id": "E60-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phát hiện bất thường (anomaly detection) bằng clustering thường dựa trên ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điểm nằm xa mọi centroid hoặc bị đánh dấu nhiễu (DBSCAN) được coi là bất thường"
+        },
+        {
+          "key": "B",
+          "text": "Điểm gần centroid nhất là bất thường"
+        },
+        {
+          "key": "C",
+          "text": "Mọi điểm trong cụm lớn nhất là bất thường"
+        },
+        {
+          "key": "D",
+          "text": "Bất thường là điểm có nhãn thật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm có khoảng cách lớn tới centroid gần nhất hoặc bị DBSCAN xếp là noise thường là ứng viên bất thường.",
+      "tags": [
+        "anomaly",
+        "application"
+      ]
+    },
+    {
+      "id": "E60-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong agglomerative clustering, single linkage dễ gặp hiện tượng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chaining — các cụm bị nối thành chuỗi dài qua các điểm trung gian"
+        },
+        {
+          "key": "B",
+          "text": "Luôn tạo cụm cầu hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua mọi outlier"
+        },
+        {
+          "key": "D",
+          "text": "Hội tụ về một Gaussian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì chỉ cần một cặp điểm gần là gộp, single linkage có thể nối các cụm khác nhau thành chuỗi dài (chaining effect).",
+      "tags": [
+        "linkage",
+        "single"
+      ]
+    },
+    {
+      "id": "E60-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao inertia một mình không đủ để so sánh chất lượng clustering giữa các k khác nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì inertia luôn giảm khi tăng k nên sẽ thiên về chọn k lớn"
+        },
+        {
+          "key": "B",
+          "text": "Vì inertia chỉ dùng cho dữ liệu có nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Vì inertia không liên quan tới khoảng cách"
+        },
+        {
+          "key": "D",
+          "text": "Vì inertia luôn bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Inertia đơn điệu giảm theo k, nên cần kết hợp elbow/silhouette để cân bằng giữa độ chặt cụm và số cụm.",
+      "tags": [
+        "inertia",
+        "choose-k"
+      ]
+    },
+    {
+      "id": "E60-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi các đặc trưng có đơn vị rất khác nhau (vd tuổi và thu nhập), nên làm gì trước KMeans?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuẩn hóa (standardize/normalize) để các đặc trưng cùng thang đo"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hết đặc trưng số"
+        },
+        {
+          "key": "C",
+          "text": "Tăng k lên thật lớn"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhãn thật để chia cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không chuẩn hóa thì thu nhập (giá trị lớn) sẽ chi phối khoảng cách Euclid; standardize giúp mọi đặc trưng đóng góp công bằng.",
+      "tags": [
+        "scaling",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E60-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GMM cho phép cụm có hình dạng gì mà KMeans (chuẩn) khó biểu diễn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cụm elip với hướng và độ giãn khác nhau nhờ ma trận hiệp phương sai"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cụm cầu bán kính bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cụm hình vuông"
+        },
+        {
+          "key": "D",
+          "text": "Không cụm nào cả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhờ covariance đầy đủ, mỗi thành phần GMM có thể là elip xoay/giãn khác nhau, linh hoạt hơn cụm cầu của KMeans.",
+      "tags": [
+        "gmm",
+        "covariance"
+      ]
+    },
+    {
+      "id": "E60-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong EM cho GMM, bước M (Maximization) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cập nhật trọng số, trung bình và hiệp phương sai mỗi thành phần dựa trên responsibility"
+        },
+        {
+          "key": "B",
+          "text": "Tính responsibility của từng điểm"
+        },
+        {
+          "key": "C",
+          "text": "Chọn eps và minPts"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ dendrogram"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước M dùng các trách nhiệm từ bước E để cập nhật tham số (π, μ, Σ) sao cho tối đa likelihood kỳ vọng.",
+      "tags": [
+        "em",
+        "gmm"
+      ]
+    },
+    {
+      "id": "E60-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đâu là cách phổ biến chọn eps cho DBSCAN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẽ đồ thị k-distance (khoảng cách tới láng giềng thứ k) và tìm điểm 'khuỷu'"
+        },
+        {
+          "key": "B",
+          "text": "Luôn đặt eps = 1"
+        },
+        {
+          "key": "C",
+          "text": "Đặt eps bằng số điểm dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Chọn eps bằng số chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đồ thị k-distance sắp xếp khoảng cách tới điểm láng giềng thứ k; điểm khuỷu của đường này gợi ý eps hợp lý.",
+      "tags": [
+        "dbscan",
+        "eps"
+      ]
+    },
+    {
+      "id": "E60-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên ưu tiên DBSCAN thay vì KMeans?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cụm có hình dạng bất kỳ, mật độ khá đồng đều và dữ liệu có nhiều nhiễu/outlier"
+        },
+        {
+          "key": "B",
+          "text": "Khi cụm hình cầu rõ ràng và đã biết k"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần gán mọi điểm vào đúng một cụm"
+        },
+        {
+          "key": "D",
+          "text": "Khi dữ liệu hoàn toàn không có nhiễu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DBSCAN mạnh với cụm hình dạng tùy ý và nhiễu; nếu cụm cầu rõ và biết k thì KMeans thường đơn giản và hiệu quả hơn.",
+      "tags": [
+        "dbscan",
+        "when"
+      ]
+    },
+    {
+      "id": "E60-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điều kiện hội tụ thực tế của KMeans (Lloyd) thường là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi phép gán cụm không còn thay đổi hoặc giảm inertia dưới ngưỡng/đạt số vòng tối đa"
+        },
+        {
+          "key": "B",
+          "text": "Khi mọi điểm có cùng nhãn thật"
+        },
+        {
+          "key": "C",
+          "text": "Khi số cụm bằng số điểm"
+        },
+        {
+          "key": "D",
+          "text": "Khi learning rate về 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lloyd dừng khi nhãn ổn định (không điểm nào đổi cụm) hoặc thay đổi inertia rất nhỏ, hoặc chạm max_iter.",
+      "tags": [
+        "kmeans",
+        "convergence"
+      ]
+    },
+    {
+      "id": "E60-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lý do nên thử nhiều giá trị k và nhiều khởi tạo khi clustering là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì không có nhãn thật, ta cần dùng các độ đo trong (silhouette, elbow) và sự ổn định để chọn cấu hình tốt"
+        },
+        {
+          "key": "B",
+          "text": "Vì k luôn bằng 2"
+        },
+        {
+          "key": "C",
+          "text": "Vì khởi tạo không ảnh hưởng kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Vì clustering luôn có một đáp án đúng duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Clustering không có đáp án 'đúng' cố định; thử nhiều k và khởi tạo rồi đánh giá bằng độ đo trong giúp chọn lời giải hợp lý và ổn định.",
+      "tags": [
+        "choose-k",
+        "methodology"
+      ]
+    },
+    {
+      "id": "E60-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh ba thuật toán phân cụm KMeans, DBSCAN và phân cụm phân cấp (hierarchical agglomerative): nêu nguyên lý, điểm mạnh, điểm yếu của từng thuật toán và cho biết tình huống nên dùng mỗi loại.",
+      "modelAnswer": "KMeans phân hoạch dữ liệu thành k cụm bằng cách lặp gán điểm vào centroid gần nhất rồi cập nhật centroid = trung bình (Lloyd), tối thiểu hóa WCSS. Điểm mạnh: đơn giản, nhanh, mở rộng tốt cho dữ liệu lớn. Điểm yếu: phải định trước k, giả định cụm cầu kích thước tương đương, nhạy với khởi tạo (cần k-means++/n_init), nhạy outlier và thang đo (cần chuẩn hóa). DBSCAN dựa trên mật độ: điểm có >= minPts láng giềng trong bán kính eps là điểm lõi, mở rộng cụm qua các điểm lõi liền kề; điểm không thuộc vùng dày là noise. Điểm mạnh: không cần k, tìm được cụm hình dạng bất kỳ (không lồi), tự phát hiện outlier. Điểm yếu: nhạy với eps/minPts, kém khi mật độ các cụm chênh lệch lớn, khó ở số chiều cao. Phân cụm phân cấp gộp (agglomerative) khởi đầu mỗi điểm một cụm rồi lặp gộp hai cụm gần nhất theo linkage (single/complete/average/ward), tạo dendrogram; cắt cây ở một độ cao cho số cụm. Điểm mạnh: không cần định trước k (chọn sau khi cắt cây), cho cấu trúc đa mức, trực quan bằng dendrogram. Điểm yếu: tốn O(n^2) bộ nhớ/thời gian nên kém mở rộng, single linkage dễ chaining, quyết định gộp không thể đảo ngược. Khi nào dùng: KMeans khi cụm cầu rõ và biết xấp xỉ k với dữ liệu lớn; DBSCAN khi cụm hình dạng tùy ý, có nhiễu/outlier và mật độ khá đồng đều; hierarchical khi dữ liệu vừa phải và muốn khám phá cấu trúc phân cấp hoặc chưa rõ k.",
+      "rubric": [
+        "Nêu đúng nguyên lý cả ba thuật toán (Lloyd/WCSS, mật độ eps-minPts, gộp theo linkage + dendrogram)",
+        "Nêu điểm mạnh và điểm yếu của từng thuật toán (vd KMeans cần k & nhạy outlier, DBSCAN nhạy eps & mật độ, hierarchical O(n^2) & chaining)",
+        "Đưa ra tình huống áp dụng phù hợp cho mỗi thuật toán",
+        "Trình bày mạch lạc, có so sánh đối chiếu rõ ràng giữa ba phương pháp"
+      ],
+      "tags": [
+        "compare",
+        "kmeans",
+        "dbscan",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "E60-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cách chọn số cụm k cho KMeans bằng phương pháp elbow và silhouette score. Nêu cách tính/diễn giải mỗi phương pháp, ưu nhược điểm và vì sao nên dùng kết hợp.",
+      "modelAnswer": "Phương pháp elbow: chạy KMeans với nhiều giá trị k (vd 1..10), tính inertia (WCSS = tổng bình phương khoảng cách điểm tới centroid cụm) cho mỗi k, rồi vẽ inertia theo k. Vì inertia luôn giảm khi k tăng, ta tìm điểm 'khuỷu tay' nơi đường cong gãy — tại đó việc thêm cụm không còn giảm inertia đáng kể; k tại khuỷu là lựa chọn hợp lý. Ưu điểm: trực quan, rẻ. Nhược điểm: điểm khuỷu nhiều khi mơ hồ, khó xác định khách quan, và chỉ dựa độ chặt trong cụm chứ không xét độ tách biệt giữa cụm. Silhouette score: với mỗi điểm tính a = khoảng cách trung bình tới các điểm cùng cụm, b = khoảng cách trung bình tới cụm gần nhất khác, hệ số s = (b - a)/max(a, b) nằm trong [-1, 1]. Lấy trung bình s trên toàn bộ điểm cho mỗi k; chọn k có silhouette trung bình cao nhất. Giá trị gần 1 nghĩa cụm chặt và tách biệt tốt, gần 0 là chồng lấn, âm là gán sai. Ưu điểm: cho con số định lượng xét cả độ chặt lẫn độ tách biệt, dễ so sánh giữa các k. Nhược điểm: tốn tính toán O(n^2) khoảng cách, kém tin cậy với cụm mật độ/hình dạng bất thường. Nên kết hợp: elbow gợi ý vùng k hợp lý còn silhouette định lượng và xác nhận; nếu hai phương pháp đồng thuận thì lựa chọn k đáng tin hơn, đồng thời nên cân nhắc ý nghĩa thực tế của bài toán.",
+      "rubric": [
+        "Mô tả đúng elbow: vẽ inertia theo k và tìm điểm khuỷu",
+        "Mô tả đúng silhouette: công thức s=(b-a)/max(a,b), khoảng [-1,1] và cách diễn giải",
+        "Nêu ưu nhược điểm của mỗi phương pháp",
+        "Giải thích vì sao nên dùng kết hợp hai phương pháp để chọn k"
+      ],
+      "tags": [
+        "choose-k",
+        "elbow",
+        "silhouette"
+      ]
+    },
+    {
+      "id": "E60-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày mô hình hỗn hợp Gaussian (GMM) và thuật toán EM. GMM/EM khác KMeans như thế nào về cách gán cụm, mô hình hình dạng cụm và quan hệ giữa hai phương pháp?",
+      "modelAnswer": "GMM giả định dữ liệu được sinh từ hỗn hợp K phân phối Gaussian, mỗi thành phần k có trọng số π_k, trung bình μ_k và ma trận hiệp phương sai Σ_k. Mục tiêu là tối đa likelihood của dữ liệu, giải bằng thuật toán EM lặp hai bước: bước E (Expectation) tính responsibility γ(z_nk) — xác suất hậu nghiệm điểm n thuộc thành phần k dựa trên tham số hiện tại; bước M (Maximization) cập nhật π_k, μ_k, Σ_k theo các responsibility đó để tăng likelihood. Lặp tới khi log-likelihood hội tụ. Khác KMeans về gán cụm: KMeans gán cứng (mỗi điểm thuộc đúng một cụm), GMM gán mềm (mỗi điểm có xác suất thành viên với mọi cụm), phản ánh độ không chắc chắn ở vùng biên. Khác về hình dạng cụm: KMeans dùng khoảng cách Euclid nên ngầm giả định cụm cầu đẳng hướng kích thước tương đương; GMM nhờ Σ_k có thể mô hình cụm elip với hướng và độ giãn khác nhau, linh hoạt hơn. Quan hệ: KMeans là trường hợp giới hạn của GMM khi mọi Σ_k = σ^2 I với σ -> 0 và dùng gán cứng; cả hai đều lặp kiểu EM (gán rồi cập nhật) và đều có thể kẹt ở cực trị cục bộ, nhạy khởi tạo. Đánh đổi: GMM biểu diễn cụm phong phú hơn và cho xác suất nhưng nhiều tham số hơn (dễ overfit, cần đủ dữ liệu) và tốn tính toán hơn KMeans.",
+      "rubric": [
+        "Mô tả GMM: hỗn hợp Gaussian với π, μ, Σ và mục tiêu tối đa likelihood",
+        "Mô tả EM: bước E tính responsibility, bước M cập nhật tham số",
+        "Chỉ ra khác biệt gán cứng (KMeans) vs gán mềm (GMM) và hình dạng cụm cầu vs elip",
+        "Nêu quan hệ KMeans là trường hợp giới hạn của GMM và/hoặc đánh đổi giữa hai phương pháp"
+      ],
+      "tags": [
+        "gmm",
+        "em",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E60-C60",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm Python dùng numpy thực hiện MỘT vòng lặp của thuật toán Lloyd cho KMeans: nhận ma trận dữ liệu X (n×d) và mảng centroids (k×d), trả về (labels, new_centroids) trong đó labels là cụm gần nhất của mỗi điểm theo khoảng cách Euclid và new_centroids là trung bình các điểm trong mỗi cụm. Minh họa với X = [[1,1],[1.5,2],[3,4],[5,7],[3.5,5],[4.5,5],[3.5,4.5]] và centroids khởi tạo [[1,1],[5,7]], in ra labels và new_centroids.",
+      "modelAnswer": "import numpy as np\n\ndef kmeans_one_step(X, centroids):\n    # X: (n,d), centroids: (k,d). Thuc hien MOT vong Lloyd: gan cum + cap nhat centroid.\n    # Buoc gan: tinh khoang cach Euclid moi diem toi moi centroid\n    dists = np.sqrt(((X[:, None, :] - centroids[None, :, :])**2).sum(axis=2))  # (n,k)\n    labels = dists.argmin(axis=1)  # gan vao centroid gan nhat\n    # Buoc cap nhat: centroid moi = trung binh cac diem trong cum\n    k = centroids.shape[0]\n    new_centroids = np.array([X[labels==j].mean(axis=0) if np.any(labels==j) else centroids[j]\n                              for j in range(k)])\n    return labels, new_centroids\n\nX = np.array([[1,1],[1.5,2],[3,4],[5,7],[3.5,5],[4.5,5],[3.5,4.5]])\ncentroids = np.array([[1.0,1.0],[5.0,7.0]])\nlabels, new_centroids = kmeans_one_step(X, centroids)\nprint('labels =', labels)\nprint('new_centroids =\\n', new_centroids)\n\n# KET QUA THUC TE khi chay:\n# labels = [0, 0, 0, 1, 1, 1, 1]\n# new_centroids =\n#  [[1.8333 2.3333]\n#   [4.125 5.375]]\n# Giai thich: cac diem gan (1,1) hop thanh cum 0, cac diem gan (5,7) hop thanh cum 1;\n# centroid moi la trung binh toa do cac diem trong tung cum. Lap lai ham nay toi khi labels khong doi -> hoi tu.",
+      "rubric": [
+        "Bước gán đúng: tính khoảng cách Euclid tới mọi centroid và lấy argmin (vectorized hoặc vòng lặp)",
+        "Bước cập nhật đúng: centroid mới = trung bình (mean) các điểm trong cụm, xử lý cụm rỗng hợp lý",
+        "Hàm trả về (labels, new_centroids) đúng định dạng và chạy được với dữ liệu minh họa",
+        "Kết quả/đầu ra in ra khớp với tính toán (labels và new_centroids chính xác)"
+      ],
+      "tags": [
+        "code",
+        "kmeans",
+        "numpy",
+        "lloyd"
+      ]
+    }
+  ]
+}

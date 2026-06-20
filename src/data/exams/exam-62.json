@@ -1,0 +1,1861 @@
+{
+  "id": "exam-62",
+  "title": "CNN Nâng cao — Phép tích chập, im2col & Thiết kế (Chuyên sâu)",
+  "description": "Đề cương ôn tập chuyên sâu về cơ chế tính toán của mạng tích chập (CNN). Tập trung vào phép tương quan chéo và tích chập thật, cách tính conv 2D bằng tay, kỹ thuật im2col biến tích chập thành phép nhân ma trận, trường tiếp nhận, dilated/transposed conv, và các biến thể depthwise/pointwise/grouped. Bao gồm nhiều câu kiểm chứng số học và bài tập cài đặt thực tế.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E62-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh đầu vào 32x32, kernel 5x5, padding P=2, stride S=1. Kích thước không gian đầu ra là bao nhiêu? (dùng (W-F+2P)/S+1)",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "28"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Áp dụng công thức (W-F+2P)/S+1 = (32-5+2*2)/1+1 = 32. Với padding=2 và kernel 5 thì 'same' giữ nguyên 32x32.",
+      "tags": [
+        "conv",
+        "output-size",
+        "padding"
+      ]
+    },
+    {
+      "id": "E62-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh 224x224, kernel 7x7, padding P=3, stride S=2 (lớp đầu kiểu ResNet). Kích thước đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "110"
+        },
+        {
+          "key": "B",
+          "text": "112"
+        },
+        {
+          "key": "C",
+          "text": "114"
+        },
+        {
+          "key": "D",
+          "text": "109"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(224-7+2*3)/2+1 = (224-7+6)/2+1 = 223//2+1 = 111+1 = 112. Stride 2 giảm độ phân giải xuống một nửa.",
+      "tags": [
+        "conv",
+        "stride",
+        "resnet-stem"
+      ]
+    },
+    {
+      "id": "E62-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng 28x28, kernel 3x3 với dilation D=2, padding=0, stride=1. Kích thước đầu ra? (F_eff = D*(F-1)+1)",
+      "options": [
+        {
+          "key": "A",
+          "text": "26"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "22"
+        },
+        {
+          "key": "D",
+          "text": "28"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kernel hiệu dụng F_eff = D*(F-1)+1 = 2*(3-1)+1 = 5. (28-5)/1+1 = 24. Dilation phình kernel nhưng không thêm tham số.",
+      "tags": [
+        "conv",
+        "dilation",
+        "atrous"
+      ]
+    },
+    {
+      "id": "E62-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp conv: Cin=3, kernel 3x3, Cout=64 filter, có bias. Tổng số tham số học được?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1792"
+        },
+        {
+          "key": "B",
+          "text": "1728"
+        },
+        {
+          "key": "C",
+          "text": "1856"
+        },
+        {
+          "key": "D",
+          "text": "640"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tham số = Cin*F*F*Cout + Cout = 3*3*3*64 + 64 = 1728 + 64 = 1792. Bias đóng góp Cout=64 tham số.",
+      "tags": [
+        "conv",
+        "params",
+        "bias"
+      ]
+    },
+    {
+      "id": "E62-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp conv Cin=64, kernel 3x3, Cout=128, KHÔNG bias. Số tham số trọng số (weight)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "73728"
+        },
+        {
+          "key": "B",
+          "text": "8192"
+        },
+        {
+          "key": "C",
+          "text": "294912"
+        },
+        {
+          "key": "D",
+          "text": "18432"
+        }
+      ],
+      "answer": "A",
+      "explanation": "64*3*3*128 = 73728. Số tham số độc lập với kích thước không gian nhờ chia sẻ trọng số (weight sharing).",
+      "tags": [
+        "conv",
+        "params",
+        "weight-sharing"
+      ]
+    },
+    {
+      "id": "E62-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh xám 5x5, muốn ra bản đồ đặc trưng 3x3 (conv 3x3 valid, 1 filter, không bias) so với một lớp FC nối đầy đủ từ 25 pixel tới 9 đầu ra. Số trọng số mỗi loại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Conv: 9; FC: 225"
+        },
+        {
+          "key": "B",
+          "text": "Conv: 25; FC: 225"
+        },
+        {
+          "key": "C",
+          "text": "Conv: 9; FC: 25"
+        },
+        {
+          "key": "D",
+          "text": "Conv: 225; FC: 9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv chia sẻ một kernel 3x3 = 9 trọng số cho mọi vị trí. FC nối đầy đủ 25 đầu vào x 9 đầu ra = 225 trọng số. Conv vừa thưa (sparse) vừa chia sẻ trọng số nên ít tham số hơn nhiều.",
+      "tags": [
+        "conv",
+        "fc",
+        "weight-sharing",
+        "sparse-connectivity"
+      ]
+    },
+    {
+      "id": "E62-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv lớp: đầu ra 56x56x64, Cin=64, kernel 3x3. Số phép nhân-cộng (MACs) ~? (MACs = H*W*Cout*Cin*F*F)",
+      "options": [
+        {
+          "key": "A",
+          "text": "115605504"
+        },
+        {
+          "key": "B",
+          "text": "57802752"
+        },
+        {
+          "key": "C",
+          "text": "231211008"
+        },
+        {
+          "key": "D",
+          "text": "14450688"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MACs = 56*56*64 * 64*3*3 = 200704 * 576 = 115605504. Mỗi giá trị đầu ra cần Cin*F*F phép nhân-cộng.",
+      "tags": [
+        "conv",
+        "flops",
+        "macs"
+      ]
+    },
+    {
+      "id": "E62-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Xếp chồng 3 lớp conv 3x3 (stride=1, không dilation) liên tiếp. Trường tiếp nhận (receptive field) của một neuron lớp cuối trên ảnh gốc là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lớp 3x3 stride 1 cộng thêm (F-1)=2 vào RF: 1->3->5->7. Vậy RF = 7. Ba lớp 3x3 cho RF tương đương 7x7 nhưng ít tham số hơn.",
+      "tags": [
+        "receptive-field",
+        "depth",
+        "vgg"
+      ]
+    },
+    {
+      "id": "E62-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai lớp conv 3x3, mỗi lớp stride=2. Trường tiếp nhận của neuron lớp 2 là bao nhiêu? (rf_{l}=rf_{l-1}+(F-1)*jump, jump nhân với stride mỗi lớp)",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "11"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp 1: RF=1+(3-1)*1=3, jump=2. Lớp 2: RF=3+(3-1)*2=7, jump=4. RF cuối = 7. Stride làm RF tăng nhanh vì jump tích lũy.",
+      "tags": [
+        "receptive-field",
+        "stride"
+      ]
+    },
+    {
+      "id": "E62-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lớp conv 3x3 với dilation D=2 (stride 1). Trường tiếp nhận trên đầu vào của nó là bao nhiêu pixel?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kernel hiệu dụng = D*(F-1)+1 = 2*2+1 = 5, nên RF = 5x5 dù chỉ có 9 trọng số. Dilated conv mở rộng RF mà không tăng tham số hay giảm độ phân giải.",
+      "tags": [
+        "dilation",
+        "receptive-field",
+        "atrous"
+      ]
+    },
+    {
+      "id": "E62-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho ma trận X=[[1,2,3],[4,5,6],[7,8,9]] và kernel K=[[1,0],[0,-1]]. Tính tương quan chéo (cross-correlation) hợp lệ (valid). Kết quả 2x2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[-4,-4],[-4,-4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[-4,-4],[-4,-3]]"
+        },
+        {
+          "key": "C",
+          "text": "[[4,4],[4,4]]"
+        },
+        {
+          "key": "D",
+          "text": "[[-2,-2],[-2,-2]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi ô = tổng tích từng phần tử. Ví dụ ô (0,0): 1*1+2*0+4*0+5*(-1) = 1-5 = -4. Tất cả ô đều = -4 do cấu trúc đều của X. Cross-correlation KHÔNG lật kernel.",
+      "tags": [
+        "conv",
+        "cross-correlation",
+        "hand-compute"
+      ]
+    },
+    {
+      "id": "E62-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vẫn X=[[1,2,3],[4,5,6],[7,8,9]], K=[[1,0],[0,-1]], nhưng tính TÍCH CHẬP THẬT (true convolution, lật kernel 180 độ) valid. Kết quả 2x2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[4,4],[4,4]]"
+        },
+        {
+          "key": "B",
+          "text": "[[-4,-4],[-4,-4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0,0],[0,0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[5,5],[5,5]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích chập thật lật kernel: K_lật=[[-1,0],[0,1]]. Ô (0,0)= -1*1+0*2+0*4+1*5 = 4. Mọi ô = 4 (trái dấu so với cross-correlation vì kernel đối xứng lệch dấu).",
+      "tags": [
+        "conv",
+        "true-convolution",
+        "kernel-flip"
+      ]
+    },
+    {
+      "id": "E62-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận 4x4 [[1,3,2,4],[5,6,1,2],[7,2,3,0],[1,2,4,8]], max-pooling 2x2 stride 2. Kết quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[6,4],[7,8]]"
+        },
+        {
+          "key": "B",
+          "text": "[[6,4],[7,4]]"
+        },
+        {
+          "key": "C",
+          "text": "[[5,4],[7,8]]"
+        },
+        {
+          "key": "D",
+          "text": "[[6,2],[7,8]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi cửa sổ 2x2 lấy max: góc trên trái {1,3,5,6}->6; trên phải {2,4,1,2}->4; dưới trái {7,2,1,2}->7; dưới phải {3,0,4,8}->8. Kết quả [[6,4],[7,8]].",
+      "tags": [
+        "pooling",
+        "max-pool",
+        "hand-compute"
+      ]
+    },
+    {
+      "id": "E62-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng ma trận 4x4 [[1,3,2,4],[5,6,1,2],[7,2,3,0],[1,2,4,8]], average-pooling 2x2 stride 2. Kết quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[3.75,2.25],[3.0,3.75]]"
+        },
+        {
+          "key": "B",
+          "text": "[[3.5,2.25],[3.0,3.75]]"
+        },
+        {
+          "key": "C",
+          "text": "[[3.75,2.5],[3.0,3.75]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3.75,2.25],[3.0,4.0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình mỗi cửa sổ 2x2: (1+3+5+6)/4=3.75; (2+4+1+2)/4=2.25; (7+2+1+2)/4=3.0; (3+0+4+8)/4=3.75. Kết quả [[3.75,2.25],[3.0,3.75]].",
+      "tags": [
+        "pooling",
+        "avg-pool",
+        "hand-compute"
+      ]
+    },
+    {
+      "id": "E62-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So sánh số tham số (không bias): conv chuẩn Cin=32, 3x3, Cout=64 với depthwise separable (depthwise 3x3 + pointwise 1x1). Mỗi loại bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuẩn 18432; tách 2336"
+        },
+        {
+          "key": "B",
+          "text": "Chuẩn 18432; tách 4608"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn 2336; tách 18432"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn 9216; tách 2336"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn = 32*3*3*64 = 18432. Depthwise separable = depthwise(32*3*3=288) + pointwise(32*1*1*64=2048) = 2336. Tiết kiệm khoảng 7.9 lần.",
+      "tags": [
+        "depthwise-separable",
+        "params",
+        "mobilenet"
+      ]
+    },
+    {
+      "id": "E62-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào 3x32x32 (CxHxW), conv 3x3 stride 1 pad 0. Ma trận im2col (cột hóa các patch) có kích thước (Cin*F*F) x (Hout*Wout) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(27, 900)"
+        },
+        {
+          "key": "B",
+          "text": "(9, 900)"
+        },
+        {
+          "key": "C",
+          "text": "(27, 1024)"
+        },
+        {
+          "key": "D",
+          "text": "(900, 27)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hout=Wout=30, mỗi patch có Cin*F*F=3*3*3=27 phần tử, có 30*30=900 vị trí. Ma trận im2col = (27, 900). Conv trở thành W(Cout x 27) @ im2col(27 x 900).",
+      "tags": [
+        "im2col",
+        "matmul",
+        "shape"
+      ]
+    },
+    {
+      "id": "E62-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed conv (deconv): đầu vào 7x7, kernel 4x4, stride 2, padding 1. Kích thước đầu ra? (Hout=(Hin-1)*S-2P+F)",
+      "options": [
+        {
+          "key": "A",
+          "text": "14"
+        },
+        {
+          "key": "B",
+          "text": "13"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hout = (7-1)*2 - 2*1 + 4 = 12 - 2 + 4 = 14. Transposed conv dùng để upsampling, nhân đôi độ phân giải ở đây.",
+      "tags": [
+        "transposed-conv",
+        "upsampling",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E62-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv 1x1: Cin=256, Cout=64, có bias. Số tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "16448"
+        },
+        {
+          "key": "B",
+          "text": "16384"
+        },
+        {
+          "key": "C",
+          "text": "512"
+        },
+        {
+          "key": "D",
+          "text": "320"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1x1 conv: Cin*1*1*Cout + Cout = 256*64 + 64 = 16384 + 64 = 16448. Dùng để giảm chiều kênh (bottleneck) với chi phí thấp.",
+      "tags": [
+        "1x1-conv",
+        "bottleneck",
+        "params"
+      ]
+    },
+    {
+      "id": "E62-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Grouped conv: Cin=64, Cout=64, kernel 3x3, groups g=2 (không bias). Số tham số trọng số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "18432"
+        },
+        {
+          "key": "B",
+          "text": "36864"
+        },
+        {
+          "key": "C",
+          "text": "9216"
+        },
+        {
+          "key": "D",
+          "text": "73728"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi nhóm: (Cin/g)*F*F*(Cout/g) = 32*9*32 = 9216, nhân g=2 nhóm = 18432. Bằng nửa conv chuẩn (36864) vì mỗi nhóm chỉ thấy 1 phần kênh.",
+      "tags": [
+        "grouped-conv",
+        "params"
+      ]
+    },
+    {
+      "id": "E62-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu vào 2 kênh (mỗi kênh 2x2): K1ênh1=[[1,2],[3,4]], Kênh2=[[1,1],[1,1]]. Kernel 2 kênh: [[1,0],[0,1]] và [[1,1],[1,1]]. Một filter valid cho ra 1 số = tổng theo kênh. Giá trị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "13"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv đa kênh cộng kết quả qua tất cả kênh: kênh1 (1*1+2*0+3*0+4*1)=5; kênh2 (1+1+1+1)=4; tổng = 9. Một filter luôn cộng dồn qua mọi kênh đầu vào.",
+      "tags": [
+        "multi-channel",
+        "conv",
+        "sum-over-channels"
+      ]
+    },
+    {
+      "id": "E62-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phép toán mà các thư viện học sâu (PyTorch, TensorFlow) thực tế dùng trong lớp 'convolution' thường là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tương quan chéo (cross-correlation), không lật kernel"
+        },
+        {
+          "key": "B",
+          "text": "Tích chập thật có lật kernel 180 độ"
+        },
+        {
+          "key": "C",
+          "text": "Phép biến đổi Fourier bắt buộc"
+        },
+        {
+          "key": "D",
+          "text": "Phép nhân ma trận đầy đủ giữa mọi pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hầu hết framework gọi là 'conv' nhưng thực thi cross-correlation (không lật kernel). Vì trọng số được học, việc lật hay không không ảnh hưởng khả năng biểu diễn, chỉ khác quy ước.",
+      "tags": [
+        "cross-correlation",
+        "convention"
+      ]
+    },
+    {
+      "id": "E62-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao tích chập thật (true convolution) và tương quan chéo cho cùng kết quả huấn luyện trong CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì kernel được học, mô hình tự học kernel đã lật nếu cần"
+        },
+        {
+          "key": "B",
+          "text": "Vì kernel luôn đối xứng"
+        },
+        {
+          "key": "C",
+          "text": "Vì ảnh luôn được lật trước"
+        },
+        {
+          "key": "D",
+          "text": "Vì stride bằng 1 triệt tiêu khác biệt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lật kernel chỉ là hoán vị chỉ số cố định; vì trọng số kernel được tối ưu trong huấn luyện, mạng có thể học trực tiếp dạng đã lật. Do đó hai phép cho cùng năng lực biểu diễn.",
+      "tags": [
+        "cross-correlation",
+        "true-convolution",
+        "learning"
+      ]
+    },
+    {
+      "id": "E62-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "im2col biến phép tích chập thành phép toán nào để tận dụng thư viện đại số tuyến tính tối ưu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phép nhân ma trận (GEMM)"
+        },
+        {
+          "key": "B",
+          "text": "Phép cộng phần tử"
+        },
+        {
+          "key": "C",
+          "text": "Phép biến đổi wavelet"
+        },
+        {
+          "key": "D",
+          "text": "Phép sắp xếp (sort)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "im2col trải mỗi patch thành một cột; tích chập trở thành W @ Patches (GEMM). GEMM được tối ưu cao trên CPU/GPU (BLAS, cuBLAS) nên rất nhanh, đổi lại tốn bộ nhớ trùng lặp.",
+      "tags": [
+        "im2col",
+        "gemm",
+        "matmul"
+      ]
+    },
+    {
+      "id": "E62-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhược điểm chính của im2col là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốn thêm bộ nhớ do nhân bản các pixel chồng lấn"
+        },
+        {
+          "key": "B",
+          "text": "Không thể chạy trên GPU"
+        },
+        {
+          "key": "C",
+          "text": "Làm mất tính chia sẻ trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng được cho kernel 1x1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các patch chồng lấn khiến mỗi pixel xuất hiện nhiều lần trong ma trận im2col, tăng đáng kể bộ nhớ. Đây là sự đánh đổi bộ nhớ lấy tốc độ GEMM.",
+      "tags": [
+        "im2col",
+        "memory",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "E62-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai đặc tính giúp conv hiệu quả hơn lớp fully-connected khi xử lý ảnh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số (weight sharing) và kết nối thưa (sparse/local connectivity)"
+        },
+        {
+          "key": "B",
+          "text": "Dropout và batch norm"
+        },
+        {
+          "key": "C",
+          "text": "Hàm kích hoạt phi tuyến và softmax"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số tham số và pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv dùng cùng một kernel nhỏ trượt khắp ảnh (weight sharing) và mỗi neuron chỉ nối tới vùng cục bộ (sparse connectivity), giảm mạnh số tham số và khai thác tính cục bộ của ảnh.",
+      "tags": [
+        "weight-sharing",
+        "sparse-connectivity",
+        "efficiency"
+      ]
+    },
+    {
+      "id": "E62-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính chất 'translation equivariance' của phép tích chập nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch ảnh đầu vào thì bản đồ đặc trưng đầu ra dịch tương ứng"
+        },
+        {
+          "key": "B",
+          "text": "Đầu ra không đổi khi ảnh bị dịch"
+        },
+        {
+          "key": "C",
+          "text": "Conv bất biến với phép xoay"
+        },
+        {
+          "key": "D",
+          "text": "Conv bất biến với thay đổi tỉ lệ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv là equivariant với dịch chuyển: nếu đầu vào dịch đi, đặc trưng đầu ra cũng dịch đi cùng lượng. Đây là khác biệt với invariance (không đổi).",
+      "tags": [
+        "equivariance",
+        "translation"
+      ]
+    },
+    {
+      "id": "E62-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thành phần nào trong CNN bổ sung tính 'translation invariance' (bất biến) một phần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pooling (max/avg)"
+        },
+        {
+          "key": "B",
+          "text": "Hàm ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Lớp conv 1x1"
+        },
+        {
+          "key": "D",
+          "text": "Batch normalization"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pooling tổng hợp cục bộ (lấy max/trung bình) nên dịch nhỏ trong vùng pooling không đổi đầu ra, thêm tính bất biến dịch chuyển. Conv chỉ equivariant; pooling/GAP mới thêm invariance.",
+      "tags": [
+        "pooling",
+        "invariance"
+      ]
+    },
+    {
+      "id": "E62-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số bản đồ đặc trưng (feature map) ở đầu ra của một lớp conv bằng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số filter (Cout)"
+        },
+        {
+          "key": "B",
+          "text": "Số kênh đầu vào Cin"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước kernel F"
+        },
+        {
+          "key": "D",
+          "text": "Stride S"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi filter tạo ra đúng một bản đồ đặc trưng, nên số feature map đầu ra = số filter = Cout. Mỗi filter có độ sâu Cin để khớp đầu vào.",
+      "tags": [
+        "feature-map",
+        "filters"
+      ]
+    },
+    {
+      "id": "E62-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong tích chập đa kênh, một filter xử lý các kênh đầu vào thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có độ sâu bằng Cin và cộng dồn kết quả qua tất cả kênh thành 1 bản đồ"
+        },
+        {
+          "key": "B",
+          "text": "Áp dụng độc lập từng kênh và giữ riêng"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng kênh đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Nhân các kênh với nhau theo pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một filter có kích thước F×F×Cin; nó tích chập trên từng kênh rồi CỘNG các kết quả lại thành một bản đồ đặc trưng duy nhất. Vì vậy filter 'nhìn' toàn bộ kênh.",
+      "tags": [
+        "multi-channel",
+        "filter-depth"
+      ]
+    },
+    {
+      "id": "E62-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Padding 'valid' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thêm padding, đầu ra nhỏ hơn đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Thêm padding để giữ nguyên kích thước"
+        },
+        {
+          "key": "C",
+          "text": "Padding đủ để đầu ra lớn hơn đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Padding bằng kích thước kernel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'valid' = P=0, chỉ tính ở các vị trí kernel nằm hoàn toàn trong ảnh, nên đầu ra co lại (W-F+1). 'same' thêm padding để giữ kích thước.",
+      "tags": [
+        "padding",
+        "valid"
+      ]
+    },
+    {
+      "id": "E62-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Padding 'same' với stride 1 nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ kích thước không gian đầu ra bằng đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Tăng gấp đôi độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn biên ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'same' chọn padding (thường (F-1)/2 với F lẻ) sao cho Hout=Hin khi stride=1, bảo toàn độ phân giải không gian qua lớp conv.",
+      "tags": [
+        "padding",
+        "same"
+      ]
+    },
+    {
+      "id": "E62-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Padding 'full' tạo ra đầu ra có kích thước thế nào so với đầu vào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lớn hơn: W+F-1"
+        },
+        {
+          "key": "B",
+          "text": "Nhỏ hơn: W-F+1"
+        },
+        {
+          "key": "C",
+          "text": "Bằng W"
+        },
+        {
+          "key": "D",
+          "text": "Bằng F"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'full' padding (P=F-1) cho phép kernel chồng lên ảnh ngay cả khi chỉ 1 pixel giao nhau, đầu ra = W+F-1, lớn hơn đầu vào. Hiếm dùng nhưng xuất hiện trong một số phép.",
+      "tags": [
+        "padding",
+        "full"
+      ]
+    },
+    {
+      "id": "E62-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cách downsampling nào KHÔNG thêm tham số học và chỉ chọn lọc giá trị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Max pooling"
+        },
+        {
+          "key": "B",
+          "text": "Conv stride 2"
+        },
+        {
+          "key": "C",
+          "text": "Transposed conv"
+        },
+        {
+          "key": "D",
+          "text": "Conv 1x1 stride 2 có học"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max pooling không có tham số; nó chỉ lấy giá trị lớn nhất trong cửa sổ. Conv stride 2 cũng giảm kích thước nhưng có trọng số học được.",
+      "tags": [
+        "pooling",
+        "downsampling",
+        "stride"
+      ]
+    },
+    {
+      "id": "E62-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ưu điểm của dùng conv stride 2 thay cho max pooling để downsampling là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Việc giảm mẫu được học (learnable) thay vì cố định"
+        },
+        {
+          "key": "B",
+          "text": "Không bao giờ mất thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số tham số xuống 0"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv stride 2 cho mạng tự học cách tổng hợp/giảm mẫu (learnable downsampling), linh hoạt hơn quy tắc cố định của pooling. Nhiều kiến trúc hiện đại thay pooling bằng strided conv.",
+      "tags": [
+        "stride",
+        "pooling",
+        "downsampling"
+      ]
+    },
+    {
+      "id": "E62-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dilated (atrous) convolution mang lại lợi ích chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng trường tiếp nhận mà không giảm độ phân giải hay thêm tham số"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số kênh tự động"
+        },
+        {
+          "key": "C",
+          "text": "Luôn tăng số tham số gấp đôi"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hàm kích hoạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dilation chèn 'lỗ' giữa các phần tử kernel, mở rộng RF theo cấp số nhân mà giữ nguyên số trọng số và độ phân giải không gian. Rất hữu ích cho phân đoạn ngữ nghĩa (DeepLab).",
+      "tags": [
+        "dilation",
+        "atrous",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E62-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed convolution (deconvolution) thường dùng cho mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Upsampling / tăng độ phân giải không gian"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số kênh"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa batch"
+        },
+        {
+          "key": "D",
+          "text": "Tính loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transposed conv (fractionally-strided conv) học cách tăng độ phân giải, dùng trong decoder của autoencoder, segmentation (FCN, U-Net), GAN generator.",
+      "tags": [
+        "transposed-conv",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E62-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng 'checkerboard artifacts' trong transposed conv xuất phát từ đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự chồng lấn không đều của kernel khi kernel không chia hết cho stride"
+        },
+        {
+          "key": "B",
+          "text": "Thiếu hàm kích hoạt"
+        },
+        {
+          "key": "C",
+          "text": "Batch size quá lớn"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate thấp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi kích thước kernel không chia hết cho stride, các vùng đầu ra nhận số đóng góp khác nhau, tạo hoa văn ô cờ. Giảm bằng cách chọn kernel chia hết cho stride hoặc dùng resize+conv.",
+      "tags": [
+        "transposed-conv",
+        "checkerboard"
+      ]
+    },
+    {
+      "id": "E62-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Depthwise convolution khác conv chuẩn ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi kênh đầu vào được tích chập bởi một kernel riêng, không trộn kênh"
+        },
+        {
+          "key": "B",
+          "text": "Trộn tất cả kênh trong một kernel lớn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng kernel 1x1"
+        },
+        {
+          "key": "D",
+          "text": "Không có trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Depthwise conv áp dụng một kernel F×F độc lập cho từng kênh (groups=Cin), không kết hợp thông tin giữa các kênh. Việc trộn kênh để cho pointwise (1x1) đảm nhiệm.",
+      "tags": [
+        "depthwise",
+        "mobilenet"
+      ]
+    },
+    {
+      "id": "E62-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pointwise convolution là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Conv 1x1 dùng để trộn/kết hợp thông tin giữa các kênh"
+        },
+        {
+          "key": "B",
+          "text": "Conv 3x3 không bias"
+        },
+        {
+          "key": "C",
+          "text": "Pooling toàn cục"
+        },
+        {
+          "key": "D",
+          "text": "Conv với dilation lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pointwise = conv 1x1: trộn tuyến tính các kênh tại từng vị trí không gian, thay đổi số kênh (Cin->Cout). Kết hợp với depthwise tạo depthwise separable conv.",
+      "tags": [
+        "pointwise",
+        "1x1"
+      ]
+    },
+    {
+      "id": "E62-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lý do depthwise separable conv tiết kiệm tính toán so với conv chuẩn là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách phần lọc không gian (depthwise) khỏi phần trộn kênh (pointwise), giảm tích số"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn phần lọc không gian"
+        },
+        {
+          "key": "C",
+          "text": "Dùng ít dữ liệu hơn"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kernel size"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv chuẩn làm lọc không gian VÀ trộn kênh cùng lúc (Cin*F*F*Cout). Tách thành depthwise (Cin*F*F) + pointwise (Cin*Cout) giảm chi phí ~ 1/Cout + 1/F^2 lần.",
+      "tags": [
+        "depthwise-separable",
+        "efficiency"
+      ]
+    },
+    {
+      "id": "E62-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Backpropagation qua một lớp conv: gradient theo đầu vào được tính bằng phép gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích chập của gradient đầu ra với kernel ĐÃ LẬT 180 độ"
+        },
+        {
+          "key": "B",
+          "text": "Phép chia phần tử"
+        },
+        {
+          "key": "C",
+          "text": "Softmax của gradient"
+        },
+        {
+          "key": "D",
+          "text": "Phép nhân ma trận với ma trận đơn vị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong backprop, gradient theo đầu vào = full convolution của gradient đầu ra với kernel đã lật 180 độ (tương đương cross-correlation chuyển vị). Đây là tính chất đối ngẫu của conv.",
+      "tags": [
+        "backprop",
+        "gradient",
+        "conv"
+      ]
+    },
+    {
+      "id": "E62-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient theo trọng số kernel trong backprop của conv được tính thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tương quan giữa đầu vào và gradient đầu ra"
+        },
+        {
+          "key": "B",
+          "text": "Bằng chính kernel"
+        },
+        {
+          "key": "C",
+          "text": "Bằng tổng các pixel đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dL/dW = cross-correlation giữa activation đầu vào và gradient đầu ra (dL/dY). Vì trọng số được chia sẻ, gradient được cộng dồn qua mọi vị trí trượt.",
+      "tags": [
+        "backprop",
+        "gradient",
+        "weight-sharing"
+      ]
+    },
+    {
+      "id": "E62-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bias trong lớp conv đóng vai trò gì và có bao nhiêu giá trị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một bias cho mỗi filter (Cout giá trị), cộng vào toàn bản đồ đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Một bias cho mỗi pixel đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Một bias chung cho cả lớp"
+        },
+        {
+          "key": "D",
+          "text": "Không có bias trong conv"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi filter có một bias scalar được cộng vào mọi vị trí của bản đồ đặc trưng tương ứng, nên có Cout giá trị bias. Khi theo sau là BatchNorm, bias thường bị bỏ vì BN đã có dịch.",
+      "tags": [
+        "bias",
+        "conv",
+        "params"
+      ]
+    },
+    {
+      "id": "E62-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao nhiều mạng đặt bias=False ở conv khi ngay sau là BatchNorm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BatchNorm có tham số dịch (beta) làm bias trở nên dư thừa"
+        },
+        {
+          "key": "B",
+          "text": "Bias gây tràn số"
+        },
+        {
+          "key": "C",
+          "text": "Bias làm chậm GPU đáng kể"
+        },
+        {
+          "key": "D",
+          "text": "BatchNorm yêu cầu bias âm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BatchNorm trừ trung bình rồi thêm tham số dịch beta; bias của conv bị triệt tiêu khi chuẩn hóa và beta thay thế vai trò của nó, nên bias=False tiết kiệm tham số mà không mất gì.",
+      "tags": [
+        "bias",
+        "batchnorm"
+      ]
+    },
+    {
+      "id": "E62-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv 3D (ví dụ cho video) khác conv 2D ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kernel trượt theo cả chiều thời gian/độ sâu (3 chiều không-thời gian)"
+        },
+        {
+          "key": "B",
+          "text": "Không có kênh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng kernel 1x1"
+        },
+        {
+          "key": "D",
+          "text": "Không có trọng số học"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv 3D dùng kernel F×F×F trượt theo chiều cao, rộng VÀ thời gian (hoặc độ sâu), bắt được động học thời gian trong video hay khối thể tích y khoa. Tốn nhiều tham số/tính toán hơn 2D.",
+      "tags": [
+        "conv3d",
+        "temporal",
+        "video"
+      ]
+    },
+    {
+      "id": "E62-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Spatially separable convolution (vd kernel 3x3 = 3x1 nhân 1x3) đòi hỏi điều kiện gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kernel phải có hạng (rank) 1 để tách thành tích hai vector"
+        },
+        {
+          "key": "B",
+          "text": "Kernel phải đối xứng"
+        },
+        {
+          "key": "C",
+          "text": "Stride phải bằng 2"
+        },
+        {
+          "key": "D",
+          "text": "Không cần điều kiện gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ kernel hạng 1 (ví dụ Sobel, box blur) mới tách chính xác thành tích hai conv 1D, giảm F*F xuống 2F phép tính. Đa số kernel học được không hạng 1 nên ít dùng kiểu này.",
+      "tags": [
+        "separable",
+        "spatial",
+        "rank"
+      ]
+    },
+    {
+      "id": "E62-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Layout NCHW so với NHWC khác nhau ở điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thứ tự sắp xếp chiều kênh trong bộ nhớ (channels-first vs channels-last)"
+        },
+        {
+          "key": "B",
+          "text": "Số tham số của mạng"
+        },
+        {
+          "key": "C",
+          "text": "Hàm kích hoạt sử dụng"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước kernel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NCHW (channels-first, mặc định PyTorch/cuDNN) và NHWC (channels-last, mặc định TensorFlow) chỉ khác cách bố trí dữ liệu trong bộ nhớ; ảnh hưởng hiệu năng GPU chứ không đổi kết quả toán học.",
+      "tags": [
+        "layout",
+        "nchw",
+        "nhwc"
+      ]
+    },
+    {
+      "id": "E62-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Effective receptive field' (ERF) theo nghiên cứu Luo et al. có đặc điểm gì so với RF lý thuyết?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhỏ hơn RF lý thuyết và phân bố kiểu Gaussian, tập trung ở trung tâm"
+        },
+        {
+          "key": "B",
+          "text": "Luôn bằng đúng RF lý thuyết"
+        },
+        {
+          "key": "C",
+          "text": "Lớn hơn RF lý thuyết"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng kích thước ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ERF đo mức ảnh hưởng thực tế của các pixel đầu vào lên đầu ra; nó thường NHỎ hơn RF lý thuyết, đậm ở trung tâm và mờ dần (gần Gaussian), vì pixel trung tâm đóng góp qua nhiều đường hơn.",
+      "tags": [
+        "effective-receptive-field",
+        "erf"
+      ]
+    },
+    {
+      "id": "E62-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao xếp chồng nhiều conv 3x3 được ưa chuộng hơn một conv 7x7 (cùng RF)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ít tham số hơn và thêm phi tuyến giữa các lớp"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều tham số hơn nhưng nhanh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ nhu cầu hàm kích hoạt"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước đầu ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba conv 3x3 (RF 7) có 3*(9 C^2)=27C^2 tham số so với 49C^2 của 7x7, lại chèn thêm 2 hàm phi tuyến tăng khả năng biểu diễn. Đây là triết lý của VGG.",
+      "tags": [
+        "vgg",
+        "receptive-field",
+        "params"
+      ]
+    },
+    {
+      "id": "E62-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi tăng stride trong conv, ảnh hưởng tới kích thước đầu ra và RF thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước đầu ra và tăng nhanh RF (do jump tích lũy)"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng RF"
+        },
+        {
+          "key": "D",
+          "text": "Giảm RF"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stride>1 lấy mẫu thưa hơn nên đầu ra nhỏ đi, đồng thời 'jump' tích lũy khiến RF của các lớp sau tăng nhanh hơn. Stride vừa downsample vừa mở rộng RF.",
+      "tags": [
+        "stride",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E62-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Conv 1x1 (pointwise) có thể thực hiện chức năng nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm hoặc tăng số kênh và trộn thông tin kênh với rất ít tham số"
+        },
+        {
+          "key": "B",
+          "text": "Mở rộng trường tiếp nhận không gian"
+        },
+        {
+          "key": "C",
+          "text": "Thực hiện pooling không gian"
+        },
+        {
+          "key": "D",
+          "text": "Lật kernel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Conv 1x1 không thay đổi không gian (RF=1) nhưng trộn tuyến tính các kênh, dùng để đổi số kênh (bottleneck) và tăng phi tuyến khi kèm activation. Chi phí Cin*Cout mỗi vị trí.",
+      "tags": [
+        "1x1-conv",
+        "channel-mixing"
+      ]
+    },
+    {
+      "id": "E62-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bộ nhớ activation (activation footprint) của một lớp conv tỉ lệ với gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "H*W*Cout (kích thước bản đồ đặc trưng đầu ra) cho mỗi mẫu"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ số tham số của kernel"
+        },
+        {
+          "key": "C",
+          "text": "Kích thước kernel F*F"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp trong mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bộ nhớ lưu activation để backprop tỉ lệ H*W*Cout mỗi mẫu (và nhân batch). Ở lớp đầu độ phân giải cao, activation footprint có thể lớn hơn nhiều so với bộ nhớ tham số.",
+      "tags": [
+        "memory",
+        "activation",
+        "footprint"
+      ]
+    },
+    {
+      "id": "E62-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với tham số, vì sao activation thường chiếm nhiều bộ nhớ hơn ở các lớp đầu của CNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì độ phân giải không gian H*W còn lớn ở lớp đầu"
+        },
+        {
+          "key": "B",
+          "text": "Vì lớp đầu có nhiều filter nhất"
+        },
+        {
+          "key": "C",
+          "text": "Vì kernel lớn nhất ở lớp đầu"
+        },
+        {
+          "key": "D",
+          "text": "Vì bias nhiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp đầu giữ H*W lớn (vd 112x112) dù Cout nhỏ, nên activation H*W*Cout rất lớn; tham số lại ít. Càng sâu H*W giảm nhưng Cout tăng, cân bằng dịch chuyển.",
+      "tags": [
+        "memory",
+        "activation"
+      ]
+    },
+    {
+      "id": "E62-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong conv, 'sparse connectivity' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi neuron đầu ra chỉ nối tới một vùng cục bộ nhỏ của đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Mọi neuron nối tới mọi pixel"
+        },
+        {
+          "key": "C",
+          "text": "Một số trọng số bằng 0 ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Không có kết nối nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khác FC (nối đầy đủ), neuron conv chỉ nhận đầu vào từ vùng kernel cục bộ, nên ma trận kết nối thưa. Điều này giảm tham số và khai thác cấu trúc cục bộ của ảnh.",
+      "tags": [
+        "sparse-connectivity",
+        "local"
+      ]
+    },
+    {
+      "id": "E62-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu một lớp conv có Cout=128 filter, đầu ra sẽ có bao nhiêu kênh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "128"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "bằng Cin"
+        },
+        {
+          "key": "D",
+          "text": "bằng F*F"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số kênh đầu ra = số filter = Cout = 128, độc lập với Cin và kích thước không gian. Mỗi filter sinh đúng một kênh đặc trưng.",
+      "tags": [
+        "feature-map",
+        "channels"
+      ]
+    },
+    {
+      "id": "E62-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao conv có tính 'equivariant' với dịch chuyển nhưng không bất biến với xoay?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kernel trượt đều theo không gian nên dịch được phản ánh, nhưng kernel cố định hướng nên xoay làm đổi đáp ứng"
+        },
+        {
+          "key": "B",
+          "text": "Vì pooling loại xoay"
+        },
+        {
+          "key": "C",
+          "text": "Vì stride khử xoay"
+        },
+        {
+          "key": "D",
+          "text": "Vì padding làm mất xoay"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép trượt cùng kernel khắp ảnh tạo equivariance với tịnh tiến; nhưng kernel có hướng cố định, nên khi ảnh xoay đáp ứng thay đổi — conv không tự nhiên bất biến xoay (cần data augmentation hoặc kiến trúc đặc biệt).",
+      "tags": [
+        "equivariance",
+        "rotation"
+      ]
+    },
+    {
+      "id": "E62-C57",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cài đặt hàm conv2d_valid(X, K) bằng NumPy thực hiện tương quan chéo (cross-correlation) 'valid' giữa ma trận 2D X và kernel K (không padding, stride 1). Sau đó áp dụng cho X=[[1,2,3,0],[0,1,2,3],[3,0,1,2],[2,3,0,1]] và K=[[1,0],[0,-1]], in ra kết quả 3x3 thực tế. Giải thích ngắn từng bước.",
+      "modelAnswer": "Cài đặt: \n```python\nimport numpy as np\n\ndef conv2d_valid(X, K):\n    X = np.asarray(X, dtype=float)\n    K = np.asarray(K, dtype=float)\n    Xh, Xw = X.shape\n    Kh, Kw = K.shape\n    oh, ow = Xh - Kh + 1, Xw - Kw + 1   # kích thước valid\n    O = np.zeros((oh, ow))\n    for i in range(oh):\n        for j in range(ow):\n            patch = X[i:i+Kh, j:j+Kw]\n            O[i, j] = np.sum(patch * K)   # tích phần tử rồi cộng\n    return O\n\nX = [[1,2,3,0],[0,1,2,3],[3,0,1,2],[2,3,0,1]]\nK = [[1,0],[0,-1]]\nprint(conv2d_valid(X, K))\n```\nKết quả tính tay/kiểm chứng (mỗi ô = X[i,i]-X[i+1,j+1] do K=[[1,0],[0,-1]]):\nÔ(0,0)=1*1+2*0+0*0+1*(-1)=0; Ô(0,1)=2-2=0; Ô(0,2)=3-3=0;\nÔ(1,0)=0-0=0; Ô(1,1)=1-1=0; Ô(1,2)=2-2=0;\nÔ(2,0)=3-3=0; Ô(2,1)=0-0=0; Ô(2,2)=1-1=0.\nVậy đầu ra là ma trận 3x3 toàn 0 (vì X là ma trận vòng/đối xứng đường chéo nên K bắt hiệu hai đường chéo đều bằng nhau). Các bước: (1) xác định kích thước valid oh=ow=4-2+1=3; (2) trượt kernel qua từng vị trí; (3) tại mỗi vị trí lấy patch cùng kích thước kernel, nhân phần tử rồi tính tổng; (4) lưu vào O. Đây là cross-correlation; muốn true convolution thì np.flip(K) hai chiều trước.",
+      "rubric": [
+        "Định nghĩa hàm với tính đúng kích thước valid (Xh-Kh+1, Xw-Kw+1)",
+        "Vòng lặp trượt và phép np.sum(patch*K) đúng (tích phần tử rồi cộng)",
+        "Tính ra kết quả 3x3 cụ thể đúng (ma trận toàn 0) và giải thích từng bước",
+        "Phân biệt cross-correlation với true convolution (lật kernel)"
+      ],
+      "tags": [
+        "code",
+        "conv2d",
+        "numpy",
+        "cross-correlation"
+      ]
+    },
+    {
+      "id": "E62-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cơ chế im2col: nó biến phép tích chập thành phép nhân ma trận (GEMM) như thế nào, và vì sao điều đó tăng tốc độ. Nêu rõ kích thước các ma trận (cho ví dụ Cin=3, F=3, đầu ra 30x30, Cout=64) và phân tích đánh đổi bộ nhớ.",
+      "modelAnswer": "im2col ('image to column') trải mỗi patch không gian mà kernel sẽ phủ thành một CỘT của ma trận. Với mỗi vị trí đầu ra (i,j), ta lấy khối Cin×F×F của đầu vào và duỗi thành vector dài Cin*F*F; xếp các vector này theo cột ta được ma trận im2col kích thước (Cin*F*F) × (Hout*Wout). Trong ví dụ: Cin*F*F = 3*3*3 = 27 và Hout*Wout = 30*30 = 900, nên ma trận im2col là (27, 900). Trọng số của Cout=64 filter được reshape thành ma trận W kích thước (Cout, Cin*F*F) = (64, 27). Khi đó phép tích chập trở thành một phép nhân ma trận duy nhất: Y = W @ im2col, kích thước (64, 27) @ (27, 900) = (64, 900), rồi reshape về (64, 30, 30) là 64 bản đồ đặc trưng. \nVì sao nhanh hơn: phép nhân ma trận dày đặc (GEMM) là nguyên thủy được tối ưu cực mạnh trong các thư viện BLAS (OpenBLAS, MKL) và cuBLAS trên GPU — chúng khai thác cache, vector hóa SIMD, và song song hóa massive trên hàng nghìn lõi GPU, đạt thông lượng FLOPs gần đỉnh phần cứng. Thực thi conv trực tiếp bằng vòng lặp lồng nhau khó đạt hiệu suất đó. Bằng cách quy về một GEMM lớn, ta tái dùng toàn bộ hạ tầng đã được tối ưu hàng chục năm. \nĐánh đổi: các patch lân cận chồng lấn (overlap), nên mỗi pixel đầu vào bị NHÂN BẢN nhiều lần trong ma trận im2col (lên tới ~F*F lần khi stride nhỏ), làm bộ nhớ tạm phình to (ở ví dụ, 27*900 phần tử thay vì 3*32*32). Đây là đánh đổi bộ nhớ lấy tốc độ. Các biến thể như implicit GEMM (cuDNN) hoặc thuật toán Winograd/FFT giảm chi phí bộ nhớ hoặc số phép nhân, nhưng im2col+GEMM vẫn là phương pháp tham chiếu đơn giản và hiệu quả.",
+      "rubric": [
+        "Mô tả đúng im2col duỗi patch thành cột và ra ma trận (Cin*F*F)×(Hout*Wout) = (27,900)",
+        "Nêu reshape trọng số (Cout, Cin*F*F)=(64,27) và Y = W@im2col cho (64,900) rồi reshape (64,30,30)",
+        "Giải thích vì sao GEMM nhanh (BLAS/cuBLAS, cache, SIMD, song song GPU)",
+        "Phân tích đánh đổi bộ nhớ do nhân bản pixel chồng lấn"
+      ],
+      "tags": [
+        "im2col",
+        "gemm",
+        "matmul",
+        "memory"
+      ]
+    },
+    {
+      "id": "E62-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân tích depthwise separable convolution: chứng minh bằng phép tính cụ thể vì sao nó tiết kiệm tính toán so với conv chuẩn. Cho đầu vào H=W=14, Cin=512, Cout=512, kernel 3x3. Tính FLOPs/MACs của conv chuẩn và của depthwise separable, rồi tính tỉ lệ tiết kiệm. Nêu công thức tổng quát của tỉ lệ.",
+      "modelAnswer": "Conv chuẩn làm đồng thời hai việc: lọc không gian VÀ trộn kênh. Số MACs của conv chuẩn = H*W * Cin * F*F * Cout. Với H=W=14, Cin=Cout=512, F=3: MACs_std = 14*14 * 512 * 3*3 * 512 = 196 * 512 * 9 * 512 = 196 * 9 * 262144 = 1764 * 262144 = 462,422,016 ≈ 4.62e8. \nDepthwise separable tách thành 2 bước: \n(1) Depthwise: mỗi kênh một kernel F*F riêng, không trộn kênh. MACs_dw = H*W * Cin * F*F = 196 * 512 * 9 = 903,168. \n(2) Pointwise (1x1): trộn kênh Cin->Cout. MACs_pw = H*W * Cin * Cout = 196 * 512 * 512 = 51,380,224. \nTổng MACs_ds = 903,168 + 51,380,224 = 52,283,392 ≈ 5.23e7. \nTỉ lệ tiết kiệm = MACs_ds / MACs_std = 52,283,392 / 462,422,016 ≈ 0.113, tức depthwise separable chỉ tốn ~11.3% so với conv chuẩn, tiết kiệm ~8.8 lần. \nCông thức tổng quát: tỉ lệ = (Cin*F*F + Cin*Cout) / (Cin*F*F*Cout) = 1/Cout + 1/F^2. Với Cout=512 và F=3: 1/512 + 1/9 ≈ 0.00195 + 0.1111 ≈ 0.1131, khớp với tính ở trên. Khi Cout lớn, số hạng 1/Cout nhỏ, nên tiết kiệm xấp xỉ 1/F^2 = 1/9 lần (với kernel 3x3, tức ~9 lần). Về tham số cũng theo đúng tỉ lệ này (bỏ bias). Đây là lý do MobileNet/Xception đạt hiệu năng cao trên thiết bị hạn chế tài nguyên — đánh đổi nhỏ về độ chính xác lấy giảm lớn về chi phí.",
+      "rubric": [
+        "Tính đúng MACs conv chuẩn = H*W*Cin*F*F*Cout (≈4.62e8) với số cụ thể",
+        "Tính đúng MACs depthwise (H*W*Cin*F*F) + pointwise (H*W*Cin*Cout) và tổng (≈5.23e7)",
+        "Tính tỉ lệ tiết kiệm ≈0.113 (~8.8 lần) khớp số",
+        "Nêu và áp dụng công thức tổng quát 1/Cout + 1/F^2"
+      ],
+      "tags": [
+        "depthwise-separable",
+        "flops",
+        "mobilenet",
+        "compute"
+      ]
+    },
+    {
+      "id": "E62-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích trường tiếp nhận (receptive field) trong CNN: định nghĩa, công thức tính qua nhiều lớp (chaining), ảnh hưởng của stride và dilation. Tính RF cụ thể cho chuỗi: conv 3x3 s1 -> conv 3x3 s2 -> conv 3x3 s1 dilation 2. Bàn về khác biệt giữa RF lý thuyết và effective receptive field, và vì sao dilated conv hữu ích cho phân đoạn ngữ nghĩa.",
+      "modelAnswer": "Receptive field (RF) của một neuron là vùng pixel trên ẢNH GỐC ảnh hưởng tới giá trị của neuron đó. RF khởi đầu = 1 (một pixel) ở đầu vào. Công thức chaining: với mỗi lớp l có kernel F_l, stride S_l, ta theo dõi 'jump' (khoảng cách giữa hai vị trí lấy mẫu liên tiếp trên ảnh gốc):\n  RF_l = RF_{l-1} + (F_eff_l - 1) * jump_{l-1};   jump_l = jump_{l-1} * S_l;\nvới F_eff = D*(F-1)+1 (dilation D). Khởi tạo RF_0=1, jump_0=1.\nTính cho chuỗi đã cho:\n- Lớp 1 (F=3, S=1, D=1, F_eff=3): RF = 1 + (3-1)*1 = 3; jump = 1*1 = 1.\n- Lớp 2 (F=3, S=2, D=1, F_eff=3): RF = 3 + (3-1)*1 = 5; jump = 1*2 = 2.\n- Lớp 3 (F=3, S=1, D=2, F_eff=D*(F-1)+1=2*2+1=5): RF = 5 + (5-1)*2 = 5 + 8 = 13; jump = 2*1 = 2.\nVậy RF cuối = 13x13 pixel trên ảnh gốc.\nẢnh hưởng: tăng độ sâu (thêm lớp) tăng RF tuyến tính qua (F-1)*jump; stride>1 nhân jump nên các lớp sau mở RF nhanh hơn; dilation phình F_eff làm RF nhảy lớn mà KHÔNG thêm tham số và KHÔNG giảm độ phân giải. \nRF lý thuyết vs effective RF (ERF): RF lý thuyết là vùng tối đa có thể ảnh hưởng; nhưng Luo et al. (2016) chỉ ra mức ảnh hưởng THỰC TẾ phân bố kiểu gần Gaussian, đậm ở trung tâm và mờ dần ra biên — ERF thường NHỎ hơn nhiều so với RF lý thuyết (xấp xỉ tỉ lệ căn bậc hai số lớp). Vì pixel trung tâm đóng góp qua nhiều đường truyền hơn nên có trọng số ảnh hưởng lớn hơn. \nDilated conv cho phân đoạn ngữ nghĩa: bài toán segmentation cần đồng thời (a) RF lớn để hiểu ngữ cảnh toàn cục và (b) giữ độ phân giải cao để dự đoán nhãn từng pixel. Pooling/stride tăng RF nhưng làm mất độ phân giải. Dilated/atrous conv tăng RF theo cấp số nhân mà giữ nguyên kích thước không gian, nên DeepLab dùng atrous conv và ASPP (nhiều dilation rate song song) để gộp ngữ cảnh đa tỉ lệ mà vẫn cho bản đồ nhãn mịn.",
+      "rubric": [
+        "Định nghĩa RF và nêu công thức chaining RF_l = RF_{l-1}+(F_eff-1)*jump với jump tích lũy stride",
+        "Tính đúng RF chuỗi ra 13 (qua từng lớp, gồm xử lý dilation F_eff=5)",
+        "Phân biệt RF lý thuyết và effective RF (phân bố Gaussian, nhỏ hơn)",
+        "Giải thích vì sao dilated conv hữu ích cho segmentation (RF lớn + giữ độ phân giải)"
+      ],
+      "tags": [
+        "receptive-field",
+        "dilation",
+        "effective-receptive-field",
+        "segmentation"
+      ]
+    }
+  ]
+}

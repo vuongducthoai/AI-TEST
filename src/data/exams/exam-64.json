@@ -1,0 +1,1874 @@
+{
+  "id": "exam-64",
+  "title": "U-Net & Phân đoạn Ngữ nghĩa — Kiến trúc Encoder-Decoder",
+  "description": "Đề cương ôn tập đi sâu vào kiến trúc U-Net và mô hình encoder-decoder cho phân đoạn ngữ nghĩa. Bao gồm đường co lại/mở rộng, bottleneck, skip connections, các kỹ thuật down/up-sampling, hàm loss và chỉ số cho segmentation, các biến thể U-Net (U-Net++, Attention U-Net, 3D U-Net, nnU-Net, TransUNet) và ứng dụng ảnh y sinh. Có các câu tính toán số (kích thước feature map, số kênh, Dice/IoU) và câu lập trình.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E64-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc U-Net có hình dạng đặc trưng nào và gồm hai nhánh chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hình chữ U, gồm đường co lại (encoder) và đường mở rộng (decoder) đối xứng"
+        },
+        {
+          "key": "B",
+          "text": "Hình chữ V, gồm hai encoder song song không có decoder"
+        },
+        {
+          "key": "C",
+          "text": "Hình chữ T, chỉ có một encoder và một lớp phân loại fully-connected"
+        },
+        {
+          "key": "D",
+          "text": "Hình tròn, gồm các khối lặp đệ quy không có bottleneck"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net có hình chữ U: nhánh co lại (contracting path/encoder) trích đặc trưng và giảm độ phân giải, nhánh mở rộng (expanding path/decoder) khôi phục độ phân giải, hai nhánh đối xứng nối qua skip connections.",
+      "tags": [
+        "unet",
+        "kiến-trúc",
+        "encoder-decoder"
+      ]
+    },
+    {
+      "id": "E64-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong U-Net, vai trò của 'bottleneck' (đáy chữ U) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nơi có độ phân giải không gian thấp nhất nhưng số kênh đặc trưng cao nhất, mang ngữ cảnh trừu tượng"
+        },
+        {
+          "key": "B",
+          "text": "Lớp đầu ra cuối cùng tạo mask nhị phân"
+        },
+        {
+          "key": "C",
+          "text": "Lớp pooling đầu tiên ngay sau ảnh đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp fully-connected nối toàn bộ pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bottleneck nằm ở đáy chữ U, độ phân giải không gian nhỏ nhất nhưng nhiều kênh nhất, nắm bắt ngữ cảnh ngữ nghĩa cấp cao trừu tượng trước khi decoder bắt đầu khôi phục độ phân giải.",
+      "tags": [
+        "unet",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E64-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi đi sâu xuống encoder của U-Net, số kênh (channels) và độ phân giải không gian thay đổi như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số kênh tăng (thường nhân đôi), độ phân giải không gian giảm"
+        },
+        {
+          "key": "B",
+          "text": "Số kênh giảm, độ phân giải không gian tăng"
+        },
+        {
+          "key": "C",
+          "text": "Cả số kênh lẫn độ phân giải đều tăng"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều giữ nguyên không đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi tầng encoder thường nhân đôi số kênh và giảm một nửa độ phân giải (qua max-pool/strided conv), đánh đổi thông tin không gian lấy biểu diễn đặc trưng giàu ngữ nghĩa hơn.",
+      "tags": [
+        "unet",
+        "encoder",
+        "channels"
+      ]
+    },
+    {
+      "id": "E64-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong decoder của U-Net, mỗi bước upsampling thường làm gì với số kênh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm một nửa số kênh và tăng gấp đôi độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Nhân đôi số kênh và giảm một nửa độ phân giải"
+        },
+        {
+          "key": "C",
+          "text": "Giữ nguyên số kênh và độ phân giải"
+        },
+        {
+          "key": "D",
+          "text": "Đưa số kênh về 1 ngay tại bước đầu tiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Decoder đối xứng với encoder: mỗi bước upsampling tăng gấp đôi độ phân giải không gian và giảm một nửa số kênh, dần khôi phục kích thước ảnh gốc.",
+      "tags": [
+        "unet",
+        "decoder",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E64-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Skip connection trong U-Net nối những gì với nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Feature map của encoder với feature map của decoder ở cùng độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh đầu vào trực tiếp với mask đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Hai lớp pooling liên tiếp trong encoder"
+        },
+        {
+          "key": "D",
+          "text": "Lớp fully-connected với lớp softmax"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Skip connection nối đặc trưng encoder sang decoder cùng độ phân giải, đưa thông tin không gian cấp thấp (biên, chi tiết) bị mất khi downsampling trở lại để decoder tái tạo chính xác.",
+      "tags": [
+        "unet",
+        "skip-connection"
+      ]
+    },
+    {
+      "id": "E64-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao skip connections quan trọng cho việc khôi phục chi tiết không gian trong U-Net?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì downsampling làm mất thông tin vị trí/biên; skip đưa đặc trưng phân giải cao từ encoder bù lại cho decoder"
+        },
+        {
+          "key": "B",
+          "text": "Vì chúng làm giảm số tham số của mạng xuống 0"
+        },
+        {
+          "key": "C",
+          "text": "Vì chúng thay thế hoàn toàn cho hàm loss"
+        },
+        {
+          "key": "D",
+          "text": "Vì chúng biến mạng thành fully-connected"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quá trình pooling/strided conv làm mất chi tiết không gian và biên; skip connection mang đặc trưng độ phân giải cao trực tiếp từ encoder, giúp decoder định vị biên chính xác, kết hợp thông tin cấp thấp và cấp cao.",
+      "tags": [
+        "unet",
+        "skip-connection",
+        "chi-tiết"
+      ]
+    },
+    {
+      "id": "E64-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "U-Net gốc (Ronneberger 2015) kết hợp đặc trưng skip với đặc trưng decoder bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Concatenate (nối theo chiều kênh)"
+        },
+        {
+          "key": "B",
+          "text": "Element-wise add (cộng từng phần tử như ResNet)"
+        },
+        {
+          "key": "C",
+          "text": "Nhân ma trận hai feature map"
+        },
+        {
+          "key": "D",
+          "text": "Lấy giá trị lớn nhất theo từng pixel (max)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net gốc dùng concatenate: nối feature map encoder và decoder theo chiều kênh rồi cho qua conv, khác với ResNet vốn dùng phép cộng element-wise (add).",
+      "tags": [
+        "unet",
+        "skip-connection",
+        "concatenate"
+      ]
+    },
+    {
+      "id": "E64-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cơ bản giữa 'concatenate' và 'add' khi hợp nhất skip features là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Concatenate giữ riêng cả hai luồng đặc trưng (tăng số kênh); add gộp lại giữ nguyên số kênh nhưng yêu cầu cùng số kênh"
+        },
+        {
+          "key": "B",
+          "text": "Concatenate luôn làm mất thông tin, add luôn bảo toàn"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai hoàn toàn giống nhau về số kênh đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Add yêu cầu hai tensor khác kích thước không gian"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Concatenate xếp chồng theo kênh nên đầu ra có tổng số kênh và mạng tự học cách trộn; add cộng trực tiếp, giữ nguyên số kênh nhưng đòi hỏi hai tensor cùng số kênh và cùng kích thước.",
+      "tags": [
+        "skip-connection",
+        "concatenate",
+        "add"
+      ]
+    },
+    {
+      "id": "E64-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cách nào KHÔNG phải là phương pháp giảm độ phân giải (downsampling) thường dùng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bilinear upsampling"
+        },
+        {
+          "key": "B",
+          "text": "Max pooling"
+        },
+        {
+          "key": "C",
+          "text": "Average pooling"
+        },
+        {
+          "key": "D",
+          "text": "Strided convolution (conv bước nhảy >1)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max pooling, average pooling và strided convolution đều giảm độ phân giải; bilinear upsampling ngược lại làm tăng độ phân giải nên không phải kỹ thuật downsampling.",
+      "tags": [
+        "downsampling",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E64-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phương pháp upsampling nào học được tham số (learnable) thay vì nội suy cố định?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transposed convolution (deconvolution)"
+        },
+        {
+          "key": "B",
+          "text": "Bilinear interpolation thuần"
+        },
+        {
+          "key": "C",
+          "text": "Nearest-neighbor interpolation"
+        },
+        {
+          "key": "D",
+          "text": "Average unpooling cố định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transposed convolution có trọng số học được nên là upsampling learnable; bilinear và nearest-neighbor là nội suy cố định không có tham số huấn luyện.",
+      "tags": [
+        "upsampling",
+        "transposed-conv"
+      ]
+    },
+    {
+      "id": "E64-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Unpooling' với max-unpooling tận dụng thông tin gì lưu từ bước max-pool tương ứng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vị trí (chỉ số) của phần tử max để đặt giá trị lại đúng chỗ, các vị trí khác bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Giá trị trung bình của toàn vùng pooling"
+        },
+        {
+          "key": "C",
+          "text": "Gradient của hàm loss tại lớp cuối"
+        },
+        {
+          "key": "D",
+          "text": "Số kênh của ảnh đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max-unpooling (dùng trong SegNet) lưu chỉ số vị trí max khi pooling, rồi khi unpool đặt giá trị về đúng vị trí đó và điền 0 ở các vị trí còn lại, giúp giữ vị trí biên.",
+      "tags": [
+        "upsampling",
+        "unpooling",
+        "segnet"
+      ]
+    },
+    {
+      "id": "E64-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Pixel-shuffle (sub-pixel convolution) thực hiện upsampling bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sắp xếp lại các kênh thành vùng không gian lớn hơn (rearrange channels to spatial)"
+        },
+        {
+          "key": "B",
+          "text": "Lấy trung bình các pixel lân cận"
+        },
+        {
+          "key": "C",
+          "text": "Xóa bớt một nửa số kênh ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Áp dụng max-pool ngược lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pixel-shuffle nhân số kênh lên r^2 rồi sắp xếp lại (rearrange) các kênh đó thành vùng không gian r×r lớn hơn, tăng độ phân giải mà ít gây checkerboard hơn transposed conv.",
+      "tags": [
+        "upsampling",
+        "pixel-shuffle"
+      ]
+    },
+    {
+      "id": "E64-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao U-Net đặc biệt phù hợp với ảnh y sinh (biomedical)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoạt động tốt với ít ảnh huấn luyện và cho định vị (localization) chính xác từng pixel nhờ skip connections"
+        },
+        {
+          "key": "B",
+          "text": "Vì yêu cầu hàng triệu ảnh gán nhãn mới chạy được"
+        },
+        {
+          "key": "C",
+          "text": "Vì chỉ làm phân loại toàn ảnh chứ không phân đoạn"
+        },
+        {
+          "key": "D",
+          "text": "Vì loại bỏ hoàn toàn nhu cầu gán nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ảnh y sinh thường khan hiếm và cần định vị chính xác biên cấu trúc; U-Net học tốt với ít dữ liệu (kết hợp augmentation mạnh) và skip connections cho phân đoạn chi tiết theo từng pixel.",
+      "tags": [
+        "unet",
+        "y-sinh",
+        "localization"
+      ]
+    },
+    {
+      "id": "E64-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chiến lược 'overlap-tile' của U-Net dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân đoạn ảnh lớn theo từng patch chồng lấn, dùng mirror padding ở biên để dự đoán liền mạch không hở viền"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số lớp pooling lên gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Giảm số kênh ở bottleneck về 1"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế hàm loss bằng accuracy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overlap-tile chia ảnh lớn thành các patch chồng lấn và dùng mirror (phản chiếu) padding ở biên ảnh để dự đoán phần biên patch một cách liền mạch, xử lý ảnh quá lớn so với bộ nhớ GPU.",
+      "tags": [
+        "unet",
+        "overlap-tile",
+        "patch"
+      ]
+    },
+    {
+      "id": "E64-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi tăng cường dữ liệu (augmentation) cho phân đoạn, điều BẮT BUỘC phải đảm bảo là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến đổi hình học phải áp dụng ĐỒNG BỘ trên cả ảnh và mask"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ biến đổi ảnh, giữ nguyên mask"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ biến đổi mask, giữ nguyên ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Phải đổi cả nhãn lớp của mask một cách ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với segmentation, mọi phép biến đổi hình học (xoay, lật, co giãn, elastic) phải áp dụng đồng bộ cho ảnh và mask để pixel-nhãn vẫn khớp; nếu không mask sẽ lệch khỏi ảnh.",
+      "tags": [
+        "augmentation",
+        "segmentation",
+        "mask"
+      ]
+    },
+    {
+      "id": "E64-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Elastic deformation' đặc biệt hữu ích cho augmentation ảnh y sinh vì lý do nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô phỏng biến dạng mô tự nhiên, tăng đa dạng mẫu một cách thực tế cho mô sinh học"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó xóa ngẫu nhiên một nửa số pixel"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó chuyển ảnh sang ảnh xám bắt buộc"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó làm giảm độ phân giải ảnh đi 4 lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Elastic deformation tạo biến dạng cục bộ mềm mại giống biến dạng tự nhiên của mô, giúp mạng học bất biến với những biến đổi hình thái mà mô sinh học thường gặp, rất hữu ích khi dữ liệu y sinh ít.",
+      "tags": [
+        "augmentation",
+        "elastic",
+        "y-sinh"
+      ]
+    },
+    {
+      "id": "E64-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "U-Net++ cải tiến U-Net gốc chủ yếu bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng skip connection lồng nhau, dày đặc (nested dense skip pathways) để thu hẹp khoảng cách ngữ nghĩa encoder-decoder"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ hoàn toàn decoder"
+        },
+        {
+          "key": "C",
+          "text": "Thay tất cả conv bằng fully-connected"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng một tầng duy nhất không pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net++ đưa vào các skip pathway lồng nhau và dày đặc cùng deep supervision, làm cho đặc trưng encoder và decoder gần nhau hơn về mặt ngữ nghĩa trước khi hợp nhất.",
+      "tags": [
+        "unet++",
+        "variants",
+        "nested-skip"
+      ]
+    },
+    {
+      "id": "E64-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Attention U-Net thêm thành phần gì để xử lý skip features?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Attention gate lọc/định trọng số vùng skip features liên quan, bỏ qua vùng nền không liên quan"
+        },
+        {
+          "key": "B",
+          "text": "Một lớp dropout 100% trên skip"
+        },
+        {
+          "key": "C",
+          "text": "Một bộ pooling toàn cục thay cho decoder"
+        },
+        {
+          "key": "D",
+          "text": "Một softmax trên toàn bộ ảnh đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention gate trong Attention U-Net học trọng số chú ý để làm nổi bật vùng đặc trưng liên quan trong skip connection và ức chế vùng nền không liên quan trước khi hợp nhất với decoder.",
+      "tags": [
+        "attention-unet",
+        "variants",
+        "attention-gate"
+      ]
+    },
+    {
+      "id": "E64-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ResUNet kết hợp U-Net với ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khối residual (skip cộng kiểu ResNet) bên trong các block để dễ huấn luyện mạng sâu"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ mọi skip connection"
+        },
+        {
+          "key": "C",
+          "text": "Dùng transformer thay toàn bộ conv"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy trên ảnh 1 chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ResUNet đưa các khối residual (đường tắt cộng kiểu ResNet) vào trong các block của U-Net, giúp gradient lan truyền tốt hơn và huấn luyện mạng sâu ổn định hơn.",
+      "tags": [
+        "resunet",
+        "variants",
+        "residual"
+      ]
+    },
+    {
+      "id": "E64-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "3D U-Net khác U-Net 2D ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng convolution và pooling 3D để xử lý dữ liệu thể tích (volumetric) như ảnh CT/MRI"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ xử lý ảnh RGB 2D nhanh hơn"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hết skip connection"
+        },
+        {
+          "key": "D",
+          "text": "Thay conv bằng fully-connected"
+        }
+      ],
+      "answer": "A",
+      "explanation": "3D U-Net thay conv/pooling 2D bằng phiên bản 3D để học ngữ cảnh không gian theo cả ba chiều của dữ liệu thể tích y khoa (CT, MRI), nắm bắt liên hệ giữa các lát cắt.",
+      "tags": [
+        "3d-unet",
+        "variants",
+        "volumetric"
+      ]
+    },
+    {
+      "id": "E64-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "nnU-Net nổi bật ở đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tự động cấu hình pipeline (tiền xử lý, kiến trúc, huấn luyện) theo từng tập dữ liệu mà không cần tinh chỉnh thủ công"
+        },
+        {
+          "key": "B",
+          "text": "Là một transformer thuần không có conv"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy cho ảnh tự nhiên ngoài trời"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ bước huấn luyện hoàn toàn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "nnU-Net (no-new-Net) tự động cấu hình tiền xử lý, kích thước patch, kiến trúc và siêu tham số dựa trên đặc tính tập dữ liệu, đạt hiệu năng mạnh trên nhiều bài toán y khoa mà ít cần can thiệp thủ công.",
+      "tags": [
+        "nnunet",
+        "variants",
+        "auto-config"
+      ]
+    },
+    {
+      "id": "E64-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "TransUNet và Swin-UNet đưa thành phần nào vào kiến trúc U-Net?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transformer (self-attention) làm encoder hoặc khối, để mô hình hóa ngữ cảnh toàn cục"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ thêm nhiều lớp max-pool"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ decoder và skip"
+        },
+        {
+          "key": "D",
+          "text": "Thay toàn bộ bằng cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TransUNet và Swin-UNet tích hợp transformer (self-attention) vào encoder/khối của U-Net để nắm bắt phụ thuộc tầm xa và ngữ cảnh toàn cục, kết hợp với decoder kiểu U-Net để khôi phục chi tiết.",
+      "tags": [
+        "transunet",
+        "swin-unet",
+        "transformer"
+      ]
+    },
+    {
+      "id": "E64-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dùng encoder là backbone đã pretrained (ví dụ ResNet/EfficientNet trên ImageNet) mang lại lợi ích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo đặc trưng tốt, hội tụ nhanh và chính xác hơn khi dữ liệu phân đoạn ít"
+        },
+        {
+          "key": "B",
+          "text": "Làm mạng không thể học được nữa"
+        },
+        {
+          "key": "C",
+          "text": "Bắt buộc phải bỏ decoder"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng được cho ảnh 1 kênh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Encoder pretrained mang đặc trưng thị giác tổng quát đã học, giúp transfer learning: hội tụ nhanh hơn và hiệu năng tốt hơn, đặc biệt khi dữ liệu phân đoạn có nhãn khan hiếm.",
+      "tags": [
+        "backbone",
+        "pretrained",
+        "transfer-learning"
+      ]
+    },
+    {
+      "id": "E64-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Deep supervision' trong các biến thể U-Net nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm nhánh dự đoán/loss phụ ở các tầng decoder trung gian, không chỉ ở đầu ra cuối"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ giám sát lớp đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Tắt toàn bộ gradient trong huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhãn ngẫu nhiên cho mọi pixel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Deep supervision gắn thêm các đầu ra phụ và hàm loss ở những tầng decoder trung gian, giúp gradient lan truyền tốt hơn và các đặc trưng trung gian học có ý nghĩa hơn.",
+      "tags": [
+        "deep-supervision",
+        "training"
+      ]
+    },
+    {
+      "id": "E64-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dice loss đặc biệt hữu ích trong tình huống nào của phân đoạn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi foreground rất nhỏ so với background (mất cân bằng lớp), vì Dice tập trung vào vùng chồng lấn"
+        },
+        {
+          "key": "B",
+          "text": "Khi các lớp hoàn toàn cân bằng 50-50"
+        },
+        {
+          "key": "C",
+          "text": "Khi không có nhãn ground truth"
+        },
+        {
+          "key": "D",
+          "text": "Khi chỉ phân loại toàn ảnh thành một nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice loss đo độ chồng lấn giữa dự đoán và ground truth, ít bị áp đảo bởi background lớn, nên xử lý tốt mất cân bằng khi foreground nhỏ (ví dụ khối u nhỏ trong ảnh y khoa).",
+      "tags": [
+        "dice-loss",
+        "class-imbalance"
+      ]
+    },
+    {
+      "id": "E64-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao pixel accuracy có thể gây hiểu lầm khi đánh giá phân đoạn mất cân bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình đoán toàn bộ là background vẫn đạt accuracy rất cao dù bỏ sót hoàn toàn foreground nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Vì accuracy luôn bằng 0 khi imbalance"
+        },
+        {
+          "key": "C",
+          "text": "Vì accuracy chỉ tính trên foreground"
+        },
+        {
+          "key": "D",
+          "text": "Vì accuracy yêu cầu phải có 1000 lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi foreground rất nhỏ, dự đoán tất cả là background đạt accuracy gần như tuyệt đối nhưng IoU/Dice của foreground bằng 0; do đó pixel accuracy đánh lừa, cần dùng IoU/Dice.",
+      "tags": [
+        "pixel-accuracy",
+        "metrics",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E64-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường kết hợp BCE (cross-entropy) + Dice loss thay vì chỉ một?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BCE cho gradient ổn định theo từng pixel, Dice xử lý mất cân bằng vùng; kết hợp tận dụng ưu điểm cả hai"
+        },
+        {
+          "key": "B",
+          "text": "Vì BCE và Dice luôn bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Vì kết hợp làm mất hoàn toàn gradient"
+        },
+        {
+          "key": "D",
+          "text": "Vì chỉ Dice mới chạy được trên GPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cross-entropy cung cấp tín hiệu gradient mượt và ổn định theo từng pixel nhưng nhạy với imbalance; Dice nhắm trực tiếp vào độ chồng lấn vùng; kết hợp BCE+Dice cân bằng ổn định huấn luyện và hiệu năng trên foreground nhỏ.",
+      "tags": [
+        "bce-dice",
+        "loss",
+        "combination"
+      ]
+    },
+    {
+      "id": "E64-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Boundary loss được thiết kế để cải thiện điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ chính xác tại đường biên của vùng phân đoạn, giảm sai lệch ở ranh giới"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ đọc ảnh từ ổ đĩa"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng lớp trong mạng"
+        },
+        {
+          "key": "D",
+          "text": "Màu sắc của ảnh đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Boundary loss đưa thông tin khoảng cách tới biên vào hàm mục tiêu, phạt nặng sai lệch gần ranh giới, giúp cải thiện độ chính xác đường biên mà các loss vùng đôi khi bỏ qua.",
+      "tags": [
+        "boundary-loss",
+        "loss"
+      ]
+    },
+    {
+      "id": "E64-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Focal loss (hoặc weighted cross-entropy) giải quyết vấn đề gì trong segmentation?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm trọng số mẫu dễ (background đông), tập trung vào mẫu khó/lớp hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải ảnh đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ skip connection"
+        },
+        {
+          "key": "D",
+          "text": "Biến mọi pixel thành cùng một lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Focal/weighted cross-entropy giảm đóng góp của các pixel dễ phân loại (thường là background nhiều) và tăng trọng số cho lớp hiếm/mẫu khó, giúp chống mất cân bằng lớp.",
+      "tags": [
+        "focal-loss",
+        "weighted-ce",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E64-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hausdorff distance đo điều gì trong đánh giá phân đoạn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng cách lớn nhất giữa biên dự đoán và biên ground truth (độ lệch biên tệ nhất)"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ pixel đúng trên toàn ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Số kênh của feature map"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian suy luận của mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hausdorff distance đo khoảng cách lớn nhất từ một điểm trên biên này tới biên kia, phản ánh sai lệch biên tệ nhất; nhạy với outlier biên, bổ sung cho Dice/IoU vốn đo chồng lấn vùng.",
+      "tags": [
+        "hausdorff",
+        "metrics",
+        "boundary"
+      ]
+    },
+    {
+      "id": "E64-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quan hệ giữa Dice (F1 theo vùng) và IoU (Jaccard) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai cùng tăng/giảm theo độ chồng lấn; Dice = 2·IoU/(1+IoU), Dice luôn ≥ IoU"
+        },
+        {
+          "key": "B",
+          "text": "Chúng hoàn toàn độc lập và không liên hệ"
+        },
+        {
+          "key": "C",
+          "text": "Dice luôn nhỏ hơn IoU"
+        },
+        {
+          "key": "D",
+          "text": "IoU luôn bằng 0 khi Dice = 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice và IoU đều đo chồng lấn và đơn điệu theo nhau, liên hệ bởi Dice = 2·IoU/(1+IoU); với cùng cặp mask, Dice luôn lớn hơn hoặc bằng IoU.",
+      "tags": [
+        "dice",
+        "iou",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E64-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điểm khác biệt chính giữa U-Net và FCN (Fully Convolutional Network) gốc về skip?",
+      "options": [
+        {
+          "key": "A",
+          "text": "U-Net dùng decoder đối xứng đầy đủ và concatenate skip ở nhiều mức; FCN gốc chỉ cộng (sum) một vài skip và upsample thô hơn"
+        },
+        {
+          "key": "B",
+          "text": "FCN có decoder lớn hơn U-Net rất nhiều"
+        },
+        {
+          "key": "C",
+          "text": "U-Net không có bất kỳ skip nào"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net có đường mở rộng đối xứng đầy đủ với nhiều skip concatenate ở mỗi mức phân giải, trong khi FCN gốc chỉ cộng vài skip (FCN-8s/16s) và upsample bằng vài bước thô, nên U-Net khôi phục chi tiết tốt hơn.",
+      "tags": [
+        "unet",
+        "fcn",
+        "so-sánh"
+      ]
+    },
+    {
+      "id": "E64-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SegNet khác U-Net chủ yếu ở cơ chế upsampling nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SegNet dùng max-unpooling với chỉ số pooling đã lưu (không concatenate đặc trưng encoder)"
+        },
+        {
+          "key": "B",
+          "text": "SegNet concatenate toàn bộ encoder như U-Net"
+        },
+        {
+          "key": "C",
+          "text": "SegNet không có decoder"
+        },
+        {
+          "key": "D",
+          "text": "SegNet chỉ dùng fully-connected"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SegNet upsample bằng max-unpooling dùng chỉ số (indices) lưu từ bước pooling tương ứng, tiết kiệm bộ nhớ vì không cần lưu/nối toàn bộ feature map encoder như U-Net.",
+      "tags": [
+        "segnet",
+        "unet",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E64-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với U-Net, DeepLab (v3+) tạo trường tiếp nhận lớn mà vẫn giữ độ phân giải chủ yếu nhờ kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Atrous/dilated convolution và ASPP thay vì giảm độ phân giải sâu rồi upsample đối xứng"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng max-pool nhiều hơn U-Net"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ mọi convolution"
+        },
+        {
+          "key": "D",
+          "text": "Dùng fully-connected toàn ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DeepLab dùng atrous (dilated) convolution và ASPP để mở rộng trường tiếp nhận và lấy ngữ cảnh đa tỉ lệ mà không giảm độ phân giải quá nhiều, khác cách encoder-decoder đối xứng của U-Net.",
+      "tags": [
+        "deeplab",
+        "atrous",
+        "so-sánh"
+      ]
+    },
+    {
+      "id": "E64-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với phân đoạn đa lớp (multi-class, mỗi pixel thuộc đúng 1 lớp), lớp đầu ra thường dùng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Softmax theo chiều kênh rồi argmax để chọn lớp cho mỗi pixel"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid độc lập từng kênh rồi cộng tổng"
+        },
+        {
+          "key": "C",
+          "text": "Một fully-connected ra 1 số duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Hàm ReLU làm lớp cuối"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Multi-class segmentation cho mỗi pixel một phân phối qua softmax trên các kênh lớp, rồi argmax chọn lớp có xác suất cao nhất tạo mask, vì mỗi pixel thuộc đúng một lớp loại trừ lẫn nhau.",
+      "tags": [
+        "output",
+        "softmax",
+        "multi-class"
+      ]
+    },
+    {
+      "id": "E64-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân đoạn nhị phân (binary) và multi-label khác nhau ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Binary dùng sigmoid 1 kênh (foreground/background); multi-label dùng sigmoid nhiều kênh độc lập vì một pixel có thể thuộc nhiều lớp"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều bắt buộc dùng softmax loại trừ"
+        },
+        {
+          "key": "C",
+          "text": "Multi-label nghĩa là mỗi pixel chỉ 1 lớp duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Binary luôn có nhiều hơn 100 kênh đầu ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Binary segmentation dùng một kênh sigmoid (ngưỡng để tách foreground/background). Multi-label dùng nhiều kênh sigmoid độc lập vì một pixel có thể đồng thời thuộc nhiều lớp (không loại trừ lẫn nhau).",
+      "tags": [
+        "binary",
+        "multi-label",
+        "output"
+      ]
+    },
+    {
+      "id": "E64-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để chuyển bản đồ xác suất per-pixel thành mask cuối cùng trong binary segmentation, ta thường làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Áp ngưỡng (threshold, ví dụ 0.5) lên xác suất sigmoid"
+        },
+        {
+          "key": "B",
+          "text": "Nhân xác suất với số kênh"
+        },
+        {
+          "key": "C",
+          "text": "Lấy đạo hàm theo không gian"
+        },
+        {
+          "key": "D",
+          "text": "Cộng tất cả pixel lại thành một số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với binary segmentation, đầu ra sigmoid cho xác suất foreground mỗi pixel; áp ngưỡng (thường 0.5) để gán nhãn 1/0, tạo mask nhị phân cuối cùng.",
+      "tags": [
+        "output",
+        "threshold",
+        "binary"
+      ]
+    },
+    {
+      "id": "E64-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Checkerboard artifacts (hiện tượng ô bàn cờ) trong decoder thường do đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transposed convolution với chồng lấn không đều giữa kernel size và stride"
+        },
+        {
+          "key": "B",
+          "text": "Do dùng skip connection"
+        },
+        {
+          "key": "C",
+          "text": "Do hàm Dice loss"
+        },
+        {
+          "key": "D",
+          "text": "Do ảnh đầu vào quá nhỏ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Checkerboard artifacts xuất hiện khi transposed convolution có vùng chồng lấn không đồng đều (ví dụ kernel không chia hết cho stride), khiến một số pixel đầu ra nhận đóng góp nhiều hơn pixel khác.",
+      "tags": [
+        "checkerboard",
+        "transposed-conv",
+        "artifacts"
+      ]
+    },
+    {
+      "id": "E64-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cách phổ biến để tránh checkerboard artifacts là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Resize-convolution: nội suy (nearest/bilinear) trước rồi mới convolution thường"
+        },
+        {
+          "key": "B",
+          "text": "Tăng stride của transposed conv lên rất lớn"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hết lớp convolution"
+        },
+        {
+          "key": "D",
+          "text": "Dùng fully-connected thay decoder"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thay transposed conv bằng resize-conv (upsample bằng nearest/bilinear rồi conv thường) phân bố đóng góp đều cho mọi pixel, tránh chồng lấn không đều nên giảm checkerboard artifacts.",
+      "tags": [
+        "checkerboard",
+        "resize-conv",
+        "artifacts"
+      ]
+    },
+    {
+      "id": "E64-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong segmentation, vì sao IoU/Dice được ưu tiên hơn accuracy làm chỉ số chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chúng đo chất lượng chồng lấn vùng foreground, không bị thổi phồng bởi background đông"
+        },
+        {
+          "key": "B",
+          "text": "Vì chúng dễ tính hơn accuracy"
+        },
+        {
+          "key": "C",
+          "text": "Vì chúng luôn bằng 1"
+        },
+        {
+          "key": "D",
+          "text": "Vì chúng không cần ground truth"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU và Dice phản ánh trực tiếp mức chồng lấn giữa dự đoán và ground truth của vùng quan tâm, không bị background lớn làm sai lệch như accuracy, nên là chỉ số chính cho segmentation.",
+      "tags": [
+        "iou",
+        "dice",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E64-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Feature map kích thước 256×256 đi qua max-pooling 2×2 (stride 2). Kích thước cạnh đầu ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "128"
+        },
+        {
+          "key": "B",
+          "text": "64"
+        },
+        {
+          "key": "C",
+          "text": "256"
+        },
+        {
+          "key": "D",
+          "text": "127"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max-pool 2×2 stride 2 giảm một nửa độ phân giải: (256-2)/2 + 1 = 128. Vậy đầu ra 128×128.",
+      "tags": [
+        "computation",
+        "maxpool",
+        "downsampling"
+      ]
+    },
+    {
+      "id": "E64-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ảnh 512×512 qua encoder U-Net với 4 lần max-pool 2×2 (stride 2). Kích thước cạnh feature map tại bottleneck là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "64"
+        },
+        {
+          "key": "D",
+          "text": "128"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lần pool 2× chia đôi cạnh: 512 → 256 → 128 → 64 → 32. Sau 4 lần còn 32×32 (= 512/16).",
+      "tags": [
+        "computation",
+        "encoder",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "E64-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Encoder U-Net bắt đầu với 64 kênh và nhân đôi số kênh sau mỗi lần downsampling. Sau 4 lần downsampling, số kênh là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1024"
+        },
+        {
+          "key": "B",
+          "text": "512"
+        },
+        {
+          "key": "C",
+          "text": "256"
+        },
+        {
+          "key": "D",
+          "text": "2048"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số kênh nhân đôi 4 lần: 64 → 128 → 256 → 512 → 1024 (= 64×2^4).",
+      "tags": [
+        "computation",
+        "channels",
+        "encoder"
+      ]
+    },
+    {
+      "id": "E64-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed convolution với đầu vào cạnh W=16, stride S=2, padding P=1, kernel F=4. Theo công thức (W-1)·S - 2P + F, cạnh đầu ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "31"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(W-1)·S - 2P + F = (16-1)·2 - 2·1 + 4 = 30 - 2 + 4 = 32. Đầu ra 32×32.",
+      "tags": [
+        "computation",
+        "transposed-conv",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E64-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Transposed conv đầu vào cạnh W=8, stride=2, padding=0, kernel F=2. Cạnh đầu ra (W-1)·S - 2P + F bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "18"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(8-1)·2 - 0 + 2 = 14 + 2 = 16. Đây chính là phép tăng gấp đôi độ phân giải lên 16×16.",
+      "tags": [
+        "computation",
+        "transposed-conv",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E64-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Feature map 32×32 được upsample gấp đôi bằng bilinear interpolation (scale factor 2). Kích thước cạnh đầu ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "64"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "128"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Upsample scale 2 nhân đôi cạnh: 32×2 = 64. Đầu ra 64×64.",
+      "tags": [
+        "computation",
+        "bilinear",
+        "upsampling"
+      ]
+    },
+    {
+      "id": "E64-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai mask nhị phân có |A∩B| = 4 pixel, |A| = 5 pixel, |B| = 6 pixel. Hệ số Dice = 2|A∩B|/(|A|+|B|) bằng bao nhiêu (làm tròn 2 số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.73"
+        },
+        {
+          "key": "B",
+          "text": "0.67"
+        },
+        {
+          "key": "C",
+          "text": "0.50"
+        },
+        {
+          "key": "D",
+          "text": "0.40"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice = 2·4 / (5+6) = 8/11 ≈ 0.7273 → 0.73. Các giá trị 0.67, 0.50, 0.40 không khớp công thức.",
+      "tags": [
+        "computation",
+        "dice",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E64-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng hai mask trên có |A∩B| = 4 và |A∪B| = 7 pixel. IoU (Jaccard) = |A∩B|/|A∪B| bằng bao nhiêu (làm tròn 2 số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.57"
+        },
+        {
+          "key": "B",
+          "text": "0.73"
+        },
+        {
+          "key": "C",
+          "text": "0.50"
+        },
+        {
+          "key": "D",
+          "text": "0.67"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = 4/7 ≈ 0.5714 → 0.57. Lưu ý Dice (0.73) luôn lớn hơn hoặc bằng IoU cho cùng cặp mask.",
+      "tags": [
+        "computation",
+        "iou",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E64-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại mức pixel: TP = 30, FP = 10, FN = 20. Dice = 2·TP/(2·TP + FP + FN) bằng bao nhiêu (làm tròn 2 số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.67"
+        },
+        {
+          "key": "B",
+          "text": "0.50"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "0.60"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice = 2·30/(2·30 + 10 + 20) = 60/90 ≈ 0.6667 → 0.67. Dice tương đương F1 tính từ confusion pixel.",
+      "tags": [
+        "computation",
+        "dice",
+        "confusion"
+      ]
+    },
+    {
+      "id": "E64-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với TP = 30, FP = 10, FN = 20, IoU = TP/(TP + FP + FN) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.50"
+        },
+        {
+          "key": "B",
+          "text": "0.67"
+        },
+        {
+          "key": "C",
+          "text": "0.60"
+        },
+        {
+          "key": "D",
+          "text": "0.40"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = 30/(30+10+20) = 30/60 = 0.50. So với Dice 0.67 ở cùng dữ liệu, IoU luôn nhỏ hơn hoặc bằng.",
+      "tags": [
+        "computation",
+        "iou",
+        "confusion"
+      ]
+    },
+    {
+      "id": "E64-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một ảnh 100 pixel chỉ có 1 pixel foreground. Mô hình dự đoán TẤT CẢ là background. Pixel accuracy bằng bao nhiêu, và điều đó cho thấy gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.99 (cao dù bỏ sót toàn bộ foreground)"
+        },
+        {
+          "key": "B",
+          "text": "0.01"
+        },
+        {
+          "key": "C",
+          "text": "0.50"
+        },
+        {
+          "key": "D",
+          "text": "0.00"
+        }
+      ],
+      "answer": "A",
+      "explanation": "99/100 pixel đoán đúng (toàn background) nên accuracy = 0.99, nhưng IoU/Dice của foreground = 0. Minh họa vì sao accuracy gây hiểu lầm khi mất cân bằng.",
+      "tags": [
+        "computation",
+        "pixel-accuracy",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E64-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao decoder của U-Net cần thông tin cấp thấp (low-level) từ encoder qua skip thay vì chỉ dùng đặc trưng bottleneck?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì bottleneck giàu ngữ nghĩa nhưng mất chi tiết không gian; đặc trưng cấp thấp giữ biên/kết cấu cần cho định vị chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Vì bottleneck không có thông tin gì cả"
+        },
+        {
+          "key": "C",
+          "text": "Vì đặc trưng cấp thấp dùng để tính loss thay ground truth"
+        },
+        {
+          "key": "D",
+          "text": "Vì decoder không thể xử lý số kênh lớn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặc trưng bottleneck giàu ngữ nghĩa 'cái gì' nhưng độ phân giải thấp nên mờ về vị trí; skip mang đặc trưng cấp thấp độ phân giải cao (biên, kết cấu) để decoder tái tạo ranh giới chính xác.",
+      "tags": [
+        "skip-connection",
+        "low-level",
+        "localization"
+      ]
+    },
+    {
+      "id": "E64-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong U-Net, để concatenate được, feature map encoder và decoder ở cùng mức phải thỏa điều kiện gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cùng kích thước không gian (H×W); nếu lệch do padding 'valid' thì phải crop cho khớp"
+        },
+        {
+          "key": "B",
+          "text": "Phải có cùng số kênh chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Phải là ảnh xám 1 kênh"
+        },
+        {
+          "key": "D",
+          "text": "Phải khác nhau hoàn toàn về độ phân giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Concatenate theo kênh đòi hỏi hai feature map cùng H×W; U-Net gốc dùng conv 'valid' nên feature encoder lớn hơn và được crop (cắt giữa) cho khớp kích thước decoder trước khi nối.",
+      "tags": [
+        "unet",
+        "concatenate",
+        "crop"
+      ]
+    },
+    {
+      "id": "E64-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Strided convolution (stride 2) so với max-pooling khi downsampling có ưu điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là phép giảm mẫu có tham số học được, để mạng tự học cách giảm mẫu phù hợp thay vì lấy max cố định"
+        },
+        {
+          "key": "B",
+          "text": "Luôn tăng độ phân giải thay vì giảm"
+        },
+        {
+          "key": "C",
+          "text": "Không cần trọng số nào"
+        },
+        {
+          "key": "D",
+          "text": "Bắt buộc làm mất toàn bộ thông tin"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Strided conv giảm độ phân giải đồng thời học trọng số, cho phép mạng tự quyết định cách tổng hợp/giảm mẫu, linh hoạt hơn max-pool vốn chỉ lấy giá trị lớn nhất cố định.",
+      "tags": [
+        "downsampling",
+        "strided-conv",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E64-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc trưng nào KHÔNG đúng về kiến trúc encoder-decoder cho phân đoạn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu ra cuối cùng có độ phân giải nhỏ hơn ảnh đầu vào và là một nhãn lớp duy nhất cho cả ảnh"
+        },
+        {
+          "key": "B",
+          "text": "Encoder giảm độ phân giải và tăng kênh"
+        },
+        {
+          "key": "C",
+          "text": "Decoder khôi phục độ phân giải về kích thước ảnh đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Đầu ra là bản đồ nhãn theo từng pixel (dense prediction)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai ở A: phân đoạn là dự đoán dày đặc theo từng pixel, đầu ra có cùng độ phân giải ảnh đầu vào và mỗi pixel có nhãn riêng, không phải một nhãn duy nhất cho cả ảnh.",
+      "tags": [
+        "encoder-decoder",
+        "dense-prediction",
+        "output"
+      ]
+    },
+    {
+      "id": "E64-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao Dice loss thường được làm 'mềm' (soft Dice, dùng xác suất thay vì mask nhị phân) khi huấn luyện?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để hàm khả vi, cho gradient lan truyền ngược; argmax/nhị phân hóa không khả vi"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng độ phân giải đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Vì mask nhị phân không tồn tại"
+        },
+        {
+          "key": "D",
+          "text": "Để loại bỏ background khỏi tính toán"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Soft Dice dùng trực tiếp xác suất sigmoid/softmax (giá trị liên tục) nên hàm khả vi và cho gradient huấn luyện; nếu nhị phân hóa bằng threshold/argmax thì không khả vi, không lan truyền ngược được.",
+      "tags": [
+        "dice-loss",
+        "soft-dice",
+        "training"
+      ]
+    },
+    {
+      "id": "E64-C57",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết một hàm Python dùng numpy nhận hai mask nhị phân 2D (giá trị 0/1) và trả về Dice và IoU. Áp dụng cho hai mask cụ thể sau và nêu GIÁ TRỊ THẬT của Dice và IoU:\nA = [[1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,0]]\nB = [[1,1,1,0],[1,0,0,0],[0,0,1,1],[0,0,0,0]]",
+      "modelAnswer": "import numpy as np\ndef dice_iou(a, b):\n    a = (np.asarray(a) > 0); b = (np.asarray(b) > 0)\n    inter = np.logical_and(a, b).sum()\n    union = np.logical_or(a, b).sum()\n    sa = a.sum(); sb = b.sum()\n    dice = 2.0 * inter / (sa + sb) if (sa + sb) > 0 else 1.0\n    iou = inter / union if union > 0 else 1.0\n    return float(dice), float(iou)\n\nA = [[1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,0]]\nB = [[1,1,1,0],[1,0,0,0],[0,0,1,1],[0,0,0,0]]\nprint(dice_iou(A, B))  # (0.7272727272727273, 0.5714285714285714)\n\nGiải thích: |A∩B| = 4, |A| = 5, |B| = 6, |A∪B| = 7. Dice = 2·4/(5+6) = 8/11 ≈ 0.7273; IoU = 4/7 ≈ 0.5714. Hàm dùng logical_and/logical_or trên mảng boolean để đếm giao và hợp một cách an toàn, và xử lý trường hợp mẫu rỗng (mẫu số 0) bằng cách trả về 1.0.",
+      "rubric": [
+        "Hàm numpy đúng dùng logical_and cho giao và logical_or cho hợp (hoặc tương đương) [1.5đ]",
+        "Công thức Dice = 2|A∩B|/(|A|+|B|) và IoU = |A∩B|/|A∪B| đúng [1.0đ]",
+        "Giá trị thật chính xác: Dice ≈ 0.7273 và IoU ≈ 0.5714 [1.0đ]",
+        "Xử lý biên (mẫu số bằng 0) hoặc ép kiểu boolean hợp lý [0.5đ]"
+      ],
+      "tags": [
+        "code",
+        "dice",
+        "iou",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E64-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày vai trò của SKIP CONNECTIONS trong U-Net: chúng nối gì, vì sao giúp khôi phục chi tiết không gian/biên, và vì sao kết hợp được thông tin cấp thấp với cấp cao. Nêu khác biệt giữa concatenate và add.",
+      "modelAnswer": "Skip connection nối feature map của encoder với feature map decoder ở CÙNG độ phân giải. Khi encoder downsampling (max-pool/strided conv), thông tin không gian như vị trí chính xác và biên bị mất dần để đổi lấy đặc trưng ngữ nghĩa trừu tượng ở bottleneck. Skip connection mang trực tiếp đặc trưng độ phân giải cao (giàu chi tiết cấp thấp: biên, kết cấu, vị trí) từ encoder sang decoder, nên decoder không phải tái tạo chi tiết từ con số 0 mà có thể KẾT HỢP ngữ nghĩa cấp cao (cái gì) từ bottleneck với chi tiết không gian cấp thấp (ở đâu) từ skip. Nhờ đó biên đối tượng được định vị sắc nét, giảm hiện tượng mask mờ/lệch biên. Skip cũng tạo đường tắt cho gradient, giúp huấn luyện ổn định hơn. Về cách hợp nhất: U-Net gốc dùng CONCATENATE (nối theo chiều kênh), giữ riêng cả hai luồng đặc trưng và để các lớp conv sau tự học cách trộn, làm tăng số kênh; còn ADD (kiểu ResNet) cộng element-wise, giữ nguyên số kênh nhưng yêu cầu hai tensor cùng số kênh và cùng kích thước. Concatenate linh hoạt và bảo toàn thông tin hơn, đổi lại tốn bộ nhớ hơn.",
+      "rubric": [
+        "Nêu đúng skip nối encoder↔decoder cùng độ phân giải [1.0đ]",
+        "Giải thích downsampling làm mất chi tiết/biên và skip khôi phục lại [1.0đ]",
+        "Nêu kết hợp thông tin cấp thấp (vị trí) và cấp cao (ngữ nghĩa) [1.0đ]",
+        "Phân biệt concatenate vs add chính xác [1.0đ]"
+      ],
+      "tags": [
+        "essay",
+        "skip-connection",
+        "unet"
+      ]
+    },
+    {
+      "id": "E64-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao trong phân đoạn khi FOREGROUND nhỏ (mất cân bằng lớp) người ta dùng Dice loss thay cho hoặc kết hợp với cross-entropy. Phân tích ưu nhược điểm và lý do thường kết hợp BCE + Dice.",
+      "modelAnswer": "Khi foreground chiếm tỉ lệ rất nhỏ (ví dụ khối u nhỏ), cross-entropy tính trung bình trên TẤT CẢ pixel nên bị áp đảo bởi vô số pixel background dễ phân loại; mô hình có thể đạt loss thấp và accuracy cao bằng cách đoán gần như toàn background, nhưng bỏ sót foreground. Dice loss = 1 - Dice đo trực tiếp độ CHỒNG LẤN giữa dự đoán và ground truth của foreground, không bị số lượng pixel background lấn át, nên nhạy với việc bắt đúng vùng nhỏ và phù hợp với mất cân bằng lớp. Tuy nhiên Dice loss có nhược điểm: gradient kém ổn định khi vùng giao nhỏ hoặc rỗng (mẫu số/tử số gần 0), có thể dao động lúc đầu huấn luyện. Cross-entropy ngược lại cho gradient mượt, ổn định theo từng pixel và hội tụ tốt giai đoạn đầu nhưng nhạy với imbalance. Vì vậy thực tế thường KẾT HỢP BCE + Dice (cộng có trọng số): BCE giữ huấn luyện ổn định và tối ưu theo pixel, Dice đẩy mô hình tối ưu trực tiếp chỉ số chồng lấn và xử lý imbalance — tận dụng ưu điểm của cả hai. Có thể bổ sung weighted/focal CE để nhấn thêm lớp hiếm.",
+      "rubric": [
+        "Giải thích CE bị background áp đảo khi foreground nhỏ [1.0đ]",
+        "Giải thích Dice đo chồng lấn nên chống imbalance tốt [1.0đ]",
+        "Nêu nhược điểm của Dice (gradient kém ổn định khi vùng nhỏ/rỗng) [1.0đ]",
+        "Lý do kết hợp BCE+Dice tận dụng ưu điểm cả hai [1.0đ]"
+      ],
+      "tags": [
+        "essay",
+        "dice-loss",
+        "cross-entropy",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E64-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh các cách upsampling trong decoder của kiến trúc encoder-decoder: transposed convolution, bilinear/nearest + convolution, unpooling, pixel-shuffle. Phân tích hiện tượng checkerboard artifacts của transposed conv và cách tránh (resize-conv).",
+      "modelAnswer": "Có nhiều cách tăng độ phân giải trong decoder. (1) TRANSPOSED CONVOLUTION (deconv): học được tham số, vừa upsample vừa biến đổi đặc trưng, mạnh mẽ nhưng dễ gây checkerboard. (2) BILINEAR/NEAREST + CONV (resize-conv): nội suy cố định để tăng độ phân giải rồi dùng conv thường học đặc trưng; phân bố đóng góp đều nên tránh được checkerboard, là lựa chọn phổ biến hiện nay. (3) UNPOOLING (max-unpooling, SegNet): dùng chỉ số vị trí max lưu khi pooling để đặt giá trị về đúng chỗ và điền 0 phần còn lại, tiết kiệm bộ nhớ và giữ vị trí biên, nhưng đầu ra thưa cần conv làm dày. (4) PIXEL-SHUFFLE (sub-pixel conv): nhân số kênh lên r^2 rồi sắp xếp lại thành vùng không gian r×r lớn hơn, hiệu quả tính toán và ít artifact. CHECKERBOARD ARTIFACTS xuất hiện ở transposed conv khi kernel size không chia hết cho stride, khiến vùng chồng lấn (overlap) của kernel không đồng đều: một số pixel đầu ra nhận nhiều đóng góp hơn pixel khác, tạo mẫu ô bàn cờ. Cách tránh: chọn kernel chia hết cho stride; nhưng giải pháp phổ biến và hiệu quả hơn là RESIZE-CONV — upsample bằng nearest/bilinear trước rồi mới convolution thường, nhờ đó mọi pixel nhận đóng góp đều và artifact biến mất. Pixel-shuffle khởi tạo phù hợp (ICNR) cũng giảm artifact.",
+      "rubric": [
+        "So sánh ít nhất 3 phương pháp upsampling (transposed conv, resize-conv, unpooling, pixel-shuffle) [1.5đ]",
+        "Giải thích nguyên nhân checkerboard (overlap kernel không đều khi kernel không chia hết stride) [1.0đ]",
+        "Nêu resize-conv (nội suy rồi conv) như cách tránh checkerboard [1.0đ]",
+        "Trình bày rõ ràng, có phân biệt learnable vs cố định [0.5đ]"
+      ],
+      "tags": [
+        "essay",
+        "upsampling",
+        "checkerboard",
+        "decoder"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1850 @@
+{
+  "id": "exam-59",
+  "title": "Hồi quy Logistic & Phân loại — Chuyên sâu",
+  "description": "Đề ôn tập chuyên sâu về hồi quy logistic và phân loại nhị phân/đa lớp. Bao gồm hàm sigmoid và logit, mô hình xác suất, maximum likelihood và log-loss, decision boundary, ảnh hưởng ngưỡng, mất cân bằng lớp, regularization, softmax đa lớp, các metric của confusion matrix, ROC/PR curve và calibration. Phần lớn câu hỏi có tính toán số cụ thể kèm giải thích.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E59-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính giá trị hàm sigmoid σ(z)=1/(1+e^(−z)) tại z=0 (làm tròn 4 chữ số thập phân).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0000"
+        },
+        {
+          "key": "C",
+          "text": "1.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.7311"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tại z=0 ta có e^0=1, nên σ(0)=1/(1+1)=0.5. Đây là điểm đối xứng của sigmoid, ứng với ngưỡng quyết định mặc định 0.5 và xác suất 50%.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính σ(z) tại z=2 (làm tròn 4 chữ số thập phân).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8808"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "0.1192"
+        },
+        {
+          "key": "D",
+          "text": "0.9526"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(2)=1/(1+e^(−2))=1/(1+0.13534)=0.8808. Khi z dương lớn, sigmoid tiến gần 1, thể hiện xác suất cao cho lớp dương.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính σ(z) tại z=−1.5 (làm tròn 4 chữ số thập phân).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1824"
+        },
+        {
+          "key": "B",
+          "text": "0.8176"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.6225"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(−1.5)=1/(1+e^(1.5))=1/(1+4.4817)=0.1824. Giá trị nhỏ hơn 0.5 vì z âm, mô hình nghiêng về lớp 0. Lưu ý σ(−z)=1−σ(z).",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mô hình dự đoán xác suất p=0.8. Tính logit (log-odds) = ln(p/(1−p)) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.3863"
+        },
+        {
+          "key": "B",
+          "text": "0.0000"
+        },
+        {
+          "key": "C",
+          "text": "-1.3863"
+        },
+        {
+          "key": "D",
+          "text": "0.8000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Odds = 0.8/0.2 = 4. Logit = ln(4) = 1.3863. Logit chính là z=wx+b, ánh xạ xác suất (0,1) sang toàn trục thực; sigmoid là hàm nghịch của logit.",
+      "tags": [
+        "logit",
+        "log-odds",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với xác suất p=0.25, tính odds = p/(1−p) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3333"
+        },
+        {
+          "key": "B",
+          "text": "0.7500"
+        },
+        {
+          "key": "C",
+          "text": "3.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.2500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Odds = 0.25/0.75 = 0.3333, nghĩa là tỉ lệ xảy ra so với không xảy ra là 1:3. Odds nhỏ hơn 1 khi p<0.5. Odds là cơ sở để diễn giải hệ số qua odds ratio = e^w.",
+      "tags": [
+        "odds",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số hồi quy logistic của một đặc trưng là w=0.7. Odds ratio khi đặc trưng tăng 1 đơn vị là e^w bằng bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0138"
+        },
+        {
+          "key": "B",
+          "text": "0.4966"
+        },
+        {
+          "key": "C",
+          "text": "1.7000"
+        },
+        {
+          "key": "D",
+          "text": "0.7000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Odds ratio = e^0.7 = 2.0138. Nghĩa là mỗi khi đặc trưng tăng 1 đơn vị, odds của lớp dương nhân với ~2.01 (tăng ~101%), giữ nguyên các biến khác. Đây là cách diễn giải hệ số logistic.",
+      "tags": [
+        "odds-ratio",
+        "interpretability",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho w=[1.2, −0.5], b=0.3, x=[2.0, 3.0]. Tính P(y=1|x)=σ(w·x+b) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7685"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "0.7311"
+        },
+        {
+          "key": "D",
+          "text": "0.1192"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z = 1.2·2 + (−0.5)·3 + 0.3 = 2.4 − 1.5 + 0.3 = 1.2. σ(1.2)=1/(1+e^(−1.2))=0.7685. Đây là cách mô hình logistic chuyển tổ hợp tuyến tính thành xác suất.",
+      "tags": [
+        "probability",
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mẫu có nhãn thật y=1 và xác suất dự đoán p=0.9. Tính log-loss (BCE) = −[y·ln p + (1−y)·ln(1−p)] (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1054"
+        },
+        {
+          "key": "B",
+          "text": "2.3026"
+        },
+        {
+          "key": "C",
+          "text": "0.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.6931"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì y=1, loss = −ln(0.9) = 0.1054. Dự đoán đúng và tự tin nên mất mát nhỏ. Nếu p càng gần 1 thì loss càng gần 0.",
+      "tags": [
+        "log-loss",
+        "BCE",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhãn thật y=1 nhưng mô hình dự đoán p=0.05 (tự tin sai). Tính log-loss = −ln(p) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.9957"
+        },
+        {
+          "key": "B",
+          "text": "0.0513"
+        },
+        {
+          "key": "C",
+          "text": "0.6931"
+        },
+        {
+          "key": "D",
+          "text": "1.6094"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Loss = −ln(0.05) = 2.9957. Log-loss phạt RẤT nặng các dự đoán tự tin nhưng sai: khi p→0 mà y=1, loss →∞. Đây là lý do log-loss thúc đẩy mô hình hiệu chỉnh xác suất hợp lý.",
+      "tags": [
+        "log-loss",
+        "confident-wrong",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho 4 mẫu với y=[1,0,1,0] và p=[0.8,0.2,0.6,0.3]. Tính log-loss trung bình (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3284"
+        },
+        {
+          "key": "B",
+          "text": "0.5108"
+        },
+        {
+          "key": "C",
+          "text": "0.0000"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các loss: −ln0.8=0.2231; −ln0.8=0.2231; −ln0.6=0.5108; −ln0.7=0.3567. Trung bình = (0.2231+0.2231+0.5108+0.3567)/4 = 0.3284. Log-loss tổng hợp đánh giá chất lượng xác suất trên cả batch.",
+      "tags": [
+        "log-loss",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với w=[2,−1], b=−1, một điểm x=[1,1] nằm trên decision boundary. Xác suất P(y=1|x) tại điểm đó là bao nhiêu (làm tròn 4 chữ số)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.7311"
+        },
+        {
+          "key": "C",
+          "text": "0.2689"
+        },
+        {
+          "key": "D",
+          "text": "1.0000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z = 2·1 + (−1)·1 + (−1) = 0. Decision boundary là tập điểm có z=0, tức σ(0)=0.5. Tại đúng ranh giới, mô hình hoàn toàn không chắc chắn giữa hai lớp.",
+      "tags": [
+        "decision-boundary",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Confusion matrix: TP=40, FP=10, FN=20, TN=30. Tính accuracy (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7"
+        },
+        {
+          "key": "B",
+          "text": "0.6667"
+        },
+        {
+          "key": "C",
+          "text": "0.8000"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy = (TP+TN)/tổng = (40+30)/100 = 0.7. Accuracy đo tỉ lệ dự đoán đúng tổng thể nhưng có thể gây hiểu lầm khi dữ liệu mất cân bằng lớp.",
+      "tags": [
+        "accuracy",
+        "confusion-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng confusion matrix TP=40, FP=10, FN=20, TN=30. Tính precision (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.6667"
+        },
+        {
+          "key": "C",
+          "text": "0.7000"
+        },
+        {
+          "key": "D",
+          "text": "0.7500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision = TP/(TP+FP) = 40/50 = 0.8. Precision trả lời: trong những mẫu được dự đoán dương, bao nhiêu thực sự dương. Quan trọng khi chi phí của false positive cao.",
+      "tags": [
+        "precision",
+        "confusion-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng confusion matrix TP=40, FP=10, FN=20, TN=30. Tính recall (độ nhạy) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6667"
+        },
+        {
+          "key": "B",
+          "text": "0.8000"
+        },
+        {
+          "key": "C",
+          "text": "0.7000"
+        },
+        {
+          "key": "D",
+          "text": "0.5714"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall = TP/(TP+FN) = 40/60 = 0.6667. Recall trả lời: trong các mẫu dương thực sự, mô hình bắt được bao nhiêu. Quan trọng khi bỏ sót dương (false negative) tốn kém, ví dụ chẩn đoán bệnh.",
+      "tags": [
+        "recall",
+        "confusion-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng confusion matrix (precision=0.8, recall=0.6667). Tính F1-score = 2·P·R/(P+R) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7273"
+        },
+        {
+          "key": "B",
+          "text": "0.7000"
+        },
+        {
+          "key": "C",
+          "text": "0.7333"
+        },
+        {
+          "key": "D",
+          "text": "0.6667"
+        }
+      ],
+      "answer": "A",
+      "explanation": "F1 = 2·0.8·0.6667/(0.8+0.6667) = 1.0667/1.4667 = 0.7273. F1 là trung bình điều hòa của precision và recall, phạt sự mất cân bằng giữa hai chỉ số.",
+      "tags": [
+        "F1",
+        "confusion-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A16",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng confusion matrix TP=40, FP=10, FN=20, TN=30. Tính specificity = TN/(TN+FP) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "0.6667"
+        },
+        {
+          "key": "C",
+          "text": "0.8000"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Specificity = 30/(30+10) = 0.75. Specificity đo khả năng nhận đúng lớp âm. FPR = 1 − specificity = 0.25, là trục hoành của đường ROC.",
+      "tags": [
+        "specificity",
+        "confusion-matrix",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A17",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cùng confusion matrix TP=40, FP=10, FN=20, TN=30. Tính False Positive Rate = FP/(FP+TN) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.7500"
+        },
+        {
+          "key": "C",
+          "text": "0.3333"
+        },
+        {
+          "key": "D",
+          "text": "0.1000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FPR = 10/(10+40_? )... FPR = FP/(FP+TN) = 10/(10+30) = 0.25. FPR là tỉ lệ báo động giả trên các mẫu âm thực sự, dùng làm trục x của ROC curve.",
+      "tags": [
+        "FPR",
+        "ROC",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A18",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mẫu có p=0.45. Nếu hạ ngưỡng quyết định từ 0.5 xuống 0.4, nhãn dự đoán của mẫu này thay đổi thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.45 ≥ 0.4 nên dự đoán lớp 1"
+        },
+        {
+          "key": "B",
+          "text": "0.45 ≥ 0.5 nên dự đoán lớp 1"
+        },
+        {
+          "key": "C",
+          "text": "Luôn lớp 0 bất kể ngưỡng"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với ngưỡng 0.5, p=0.45<0.5 nên dự đoán lớp 0. Khi hạ ngưỡng xuống 0.4, p=0.45≥0.4 nên dự đoán lớp 1. Hạ ngưỡng làm tăng recall (bắt nhiều dương hơn) nhưng thường giảm precision.",
+      "tags": [
+        "threshold",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A19",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho y=[1,0,1] và p=[0.9,0.2,0.7]. Tính Brier score = trung bình (p−y)² (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0467"
+        },
+        {
+          "key": "B",
+          "text": "0.1000"
+        },
+        {
+          "key": "C",
+          "text": "0.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.2500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các phần: (0.9−1)²=0.01; (0.2−0)²=0.04; (0.7−1)²=0.09. Trung bình = 0.14/3 = 0.0467. Brier score đo sai số bình phương của xác suất dự đoán, dùng để đánh giá độ hiệu chỉnh (calibration).",
+      "tags": [
+        "brier",
+        "calibration",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A20",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho logits đa lớp z=[2.0, 1.0]. Tính softmax xác suất của lớp thứ nhất (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7311"
+        },
+        {
+          "key": "B",
+          "text": "0.5000"
+        },
+        {
+          "key": "C",
+          "text": "0.2689"
+        },
+        {
+          "key": "D",
+          "text": "0.8808"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax_1 = e^2/(e^2+e^1) = 7.389/(7.389+2.718) = 7.389/10.107 = 0.7311. Softmax tổng quát hóa sigmoid cho đa lớp, đảm bảo các xác suất dương và tổng bằng 1.",
+      "tags": [
+        "softmax",
+        "multiclass",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A21",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Logits z=[1.0, 2.0, 0.5], lớp thật là lớp index 1. Tính cross-entropy = −ln(softmax của lớp thật) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4644"
+        },
+        {
+          "key": "B",
+          "text": "1.0986"
+        },
+        {
+          "key": "C",
+          "text": "0.5514"
+        },
+        {
+          "key": "D",
+          "text": "2.3026"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax: e^1=2.718, e^2=7.389, e^0.5=1.649, tổng=11.756. p_1=7.389/11.756=0.6285. CE=−ln(0.6285)=0.4644. Cross-entropy đa lớp chỉ phạt theo log xác suất gán cho lớp đúng.",
+      "tags": [
+        "cross-entropy",
+        "multiclass",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A22",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đạo hàm của sigmoid là σ'(z)=σ(z)(1−σ(z)). Tính σ'(1) (làm tròn 4 chữ số).",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1966"
+        },
+        {
+          "key": "B",
+          "text": "0.2500"
+        },
+        {
+          "key": "C",
+          "text": "0.7311"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(1)=0.7311. σ'(1)=0.7311·(1−0.7311)=0.7311·0.2689=0.1966. Đạo hàm sigmoid đạt cực đại 0.25 tại z=0 và tiến về 0 ở hai cực, gây hiện tượng vanishing gradient khi z lớn.",
+      "tags": [
+        "sigmoid",
+        "gradient",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E59-A23",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao hồi quy logistic dùng cross-entropy (log-loss) thay vì MSE làm hàm mất mát?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Với sigmoid, MSE tạo hàm mất mát không lồi (nhiều cực tiểu cục bộ) còn log-loss là hàm lồi, dễ tối ưu"
+        },
+        {
+          "key": "B",
+          "text": "MSE không thể tính được cho bài toán phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Log-loss luôn cho accuracy cao hơn MSE"
+        },
+        {
+          "key": "D",
+          "text": "MSE yêu cầu nhiều dữ liệu hơn log-loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi kết hợp sigmoid với MSE, bề mặt mất mát theo tham số trở nên không lồi và có vùng gradient gần 0, khiến gradient descent dễ kẹt. Cross-entropy (xuất phát từ maximum likelihood của phân phối Bernoulli) cho hàm mất mát lồi theo tham số tuyến tính, hội tụ ổn định và gradient không bị bão hòa khi sai nặng.",
+      "tags": [
+        "log-loss",
+        "MSE",
+        "convexity"
+      ]
+    },
+    {
+      "id": "E59-A24",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Decision boundary của hồi quy logistic (không có biến đổi đặc trưng) có dạng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một siêu phẳng tuyến tính w·x+b=0"
+        },
+        {
+          "key": "B",
+          "text": "Một đường cong bậc hai"
+        },
+        {
+          "key": "C",
+          "text": "Một hình tròn quanh tâm dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Luôn là đường thẳng đứng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình dự đoán lớp 1 khi σ(w·x+b)≥0.5, tương đương w·x+b≥0. Ranh giới w·x+b=0 là một siêu phẳng tuyến tính. Vì vậy logistic chỉ tách được dữ liệu tuyến tính trừ khi ta thêm đặc trưng phi tuyến hoặc kernel.",
+      "tags": [
+        "decision-boundary",
+        "linear"
+      ]
+    },
+    {
+      "id": "E59-A25",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi dữ liệu KHÔNG tách được tuyến tính, hồi quy logistic cơ bản sẽ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thất bại trong việc phân tách tốt; cần thêm đặc trưng phi tuyến hoặc kernel"
+        },
+        {
+          "key": "B",
+          "text": "Tự động học ranh giới phi tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Luôn đạt accuracy 100%"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển thành cây quyết định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì ranh giới là tuyến tính, logistic không thể tách hai lớp lồng nhau (như XOR). Giải pháp là kỹ thuật đặc trưng (thêm x², tích chéo), ánh xạ đa thức, hoặc dùng kernel/mô hình phi tuyến. Bản thân logistic không tự tạo ranh giới cong.",
+      "tags": [
+        "non-linear",
+        "feature-engineering"
+      ]
+    },
+    {
+      "id": "E59-A26",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý nghĩa của hệ số w_j trong hồi quy logistic là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi đơn vị tăng của x_j làm log-odds tăng w_j, và odds nhân với e^(w_j)"
+        },
+        {
+          "key": "B",
+          "text": "Là xác suất trực tiếp của lớp dương"
+        },
+        {
+          "key": "C",
+          "text": "Là độ chính xác của đặc trưng j"
+        },
+        {
+          "key": "D",
+          "text": "Luôn nằm trong khoảng [0,1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong logistic, log-odds = w·x+b là tuyến tính theo đặc trưng. Tăng x_j một đơn vị làm log-odds cộng thêm w_j, tương đương odds nhân với e^(w_j) (odds ratio). Đây là nền tảng để diễn giải mô hình một cách định lượng.",
+      "tags": [
+        "interpretability",
+        "odds-ratio"
+      ]
+    },
+    {
+      "id": "E59-A27",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Regularization L2 (ridge) trong hồi quy logistic có tác dụng chính gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu nhỏ độ lớn các hệ số, giảm overfitting nhưng hiếm khi đưa hệ số về đúng 0"
+        },
+        {
+          "key": "B",
+          "text": "Đưa nhiều hệ số về đúng 0 tạo mô hình thưa"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ lớn hệ số để khớp dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ hoàn toàn bias b"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L2 thêm λ·Σw² vào hàm mất mát, kéo các hệ số về gần 0 một cách mượt, giảm phương sai và overfitting. Khác với L1, L2 hiếm khi tạo hệ số đúng bằng 0. Bias b thường không bị phạt.",
+      "tags": [
+        "regularization",
+        "L2"
+      ]
+    },
+    {
+      "id": "E59-A28",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Regularization L1 (lasso) khác L2 ở điểm nào trong logistic?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L1 có xu hướng đưa một số hệ số về đúng 0, thực hiện chọn lọc đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "L1 không bao giờ làm hệ số bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "L1 luôn cho mô hình kém hơn L2"
+        },
+        {
+          "key": "D",
+          "text": "L1 chỉ áp dụng cho hồi quy tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phạt L1 (λ·Σ|w|) có hình học tạo nghiệm thưa: nhiều hệ số bị đẩy về đúng 0, qua đó tự động chọn đặc trưng. L2 chỉ thu nhỏ chứ không triệt tiêu. Lựa chọn giữa L1/L2 tùy nhu cầu mô hình thưa hay ổn định.",
+      "tags": [
+        "regularization",
+        "L1",
+        "feature-selection"
+      ]
+    },
+    {
+      "id": "E59-A29",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "One-vs-Rest (OvR) cho phân loại đa lớp hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện K bộ phân loại nhị phân, mỗi bộ phân biệt một lớp với phần còn lại"
+        },
+        {
+          "key": "B",
+          "text": "Huấn luyện một mô hình softmax duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng cho 2 lớp"
+        },
+        {
+          "key": "D",
+          "text": "Ghép cặp mọi cặp lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OvR xây K mô hình logistic nhị phân; mô hình k học 'lớp k vs tất cả lớp khác'. Khi dự đoán, chọn lớp có điểm số/xác suất cao nhất. Khác với softmax (multinomial) tối ưu đồng thời mọi lớp với một hàm mất mát chung.",
+      "tags": [
+        "multiclass",
+        "OvR"
+      ]
+    },
+    {
+      "id": "E59-A30",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Softmax regression (multinomial logistic) khác OvR ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Softmax tối ưu chung một hàm cross-entropy, đảm bảo các xác suất tổng bằng 1"
+        },
+        {
+          "key": "B",
+          "text": "Softmax chỉ chạy được với 2 lớp"
+        },
+        {
+          "key": "C",
+          "text": "Softmax không cần hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "OvR đảm bảo xác suất tổng bằng 1 còn softmax thì không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax ước lượng xác suất tất cả các lớp đồng thời và chuẩn hóa để tổng bằng 1, huấn luyện bằng cross-entropy đa lớp. OvR huấn luyện độc lập từng bộ nhị phân nên xác suất không nhất thiết chuẩn hóa và cần so sánh điểm số.",
+      "tags": [
+        "multiclass",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E59-A31",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong bài toán mất cân bằng lớp nặng (1% dương), vì sao accuracy gây hiểu lầm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình dự đoán tất cả là lớp đa số vẫn đạt accuracy ~99% dù bỏ sót hết lớp hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy không tính được khi mất cân bằng"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy luôn bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy luôn bằng recall"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi 99% mẫu là âm, một mô hình ngây thơ dự đoán toàn âm đạt 99% accuracy nhưng recall lớp dương = 0. Vì vậy với dữ liệu mất cân bằng nên dùng precision, recall, F1, PR-AUC thay vì chỉ accuracy.",
+      "tags": [
+        "imbalance",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E59-A32",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi lớp dương hiếm và bỏ sót dương rất tốn kém, nên điều chỉnh ngưỡng thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hạ ngưỡng xuống dưới 0.5 để tăng recall, chấp nhận precision giảm"
+        },
+        {
+          "key": "B",
+          "text": "Tăng ngưỡng lên gần 1 để tăng recall"
+        },
+        {
+          "key": "C",
+          "text": "Giữ nguyên 0.5 vì luôn tối ưu"
+        },
+        {
+          "key": "D",
+          "text": "Ngưỡng không ảnh hưởng tới recall"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hạ ngưỡng quyết định khiến nhiều mẫu được gán dương hơn, tăng recall (bắt được nhiều ca dương) nhưng tăng false positive nên precision giảm. Đây là đánh đổi cần cân nhắc theo chi phí của FN so với FP.",
+      "tags": [
+        "threshold",
+        "imbalance",
+        "recall"
+      ]
+    },
+    {
+      "id": "E59-A33",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường ROC vẽ quan hệ giữa hai đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "True Positive Rate (recall) theo False Positive Rate khi quét ngưỡng"
+        },
+        {
+          "key": "B",
+          "text": "Precision theo recall"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy theo ngưỡng"
+        },
+        {
+          "key": "D",
+          "text": "Loss theo epoch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROC vẽ TPR (trục y) đối với FPR (trục x) khi thay đổi ngưỡng từ 0 đến 1. Đường càng gần góc trên-trái càng tốt. AUC là diện tích dưới ROC, đo khả năng phân biệt hai lớp bất kể ngưỡng.",
+      "tags": [
+        "ROC",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E59-A34",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "AUC = 0.5 có ý nghĩa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình phân biệt hai lớp không tốt hơn đoán ngẫu nhiên"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình luôn sai"
+        },
+        {
+          "key": "D",
+          "text": "Không thể xảy ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AUC là xác suất mô hình xếp một mẫu dương ngẫu nhiên cao hơn một mẫu âm ngẫu nhiên. AUC=0.5 nghĩa là khả năng phân biệt ngang với tung đồng xu; AUC=1.0 là phân tách hoàn hảo; AUC<0.5 nghĩa là xếp hạng ngược.",
+      "tags": [
+        "AUC",
+        "ROC"
+      ]
+    },
+    {
+      "id": "E59-A35",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên ưu tiên PR-AUC hơn ROC-AUC?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi dữ liệu mất cân bằng nặng và ta quan tâm hiệu năng trên lớp dương hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Khi hai lớp cân bằng hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Khi không có lớp dương"
+        },
+        {
+          "key": "D",
+          "text": "ROC-AUC luôn tốt hơn nên không bao giờ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROC-AUC có thể lạc quan giả khi lớp âm áp đảo vì FPR nhỏ dù nhiều false positive. PR curve (precision-recall) nhạy với lớp dương hiếm hơn, nên PR-AUC phản ánh trung thực hơn trong bài toán mất cân bằng.",
+      "tags": [
+        "PR-AUC",
+        "imbalance",
+        "ROC"
+      ]
+    },
+    {
+      "id": "E59-A36",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Calibration (hiệu chỉnh) của một mô hình phân loại nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong nhóm mẫu dự đoán p≈0.7 thì khoảng 70% thực sự thuộc lớp dương"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình luôn dự đoán đúng nhãn"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất luôn bằng 0 hoặc 1"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy đạt 100%"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một mô hình hiệu chỉnh tốt có xác suất dự đoán phản ánh tần suất thực: trong tập các mẫu được gán p=0.7, tỉ lệ dương thực tế nên xấp xỉ 70%. Calibration quan trọng khi cần dùng xác suất để ra quyết định, không chỉ phân loại nhãn.",
+      "tags": [
+        "calibration",
+        "probability"
+      ]
+    },
+    {
+      "id": "E59-A37",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Brier score đo điều gì và hướng tốt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sai số bình phương trung bình của xác suất dự đoán; càng thấp càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác phân loại; càng cao càng tốt"
+        },
+        {
+          "key": "C",
+          "text": "Diện tích dưới ROC; càng cao càng tốt"
+        },
+        {
+          "key": "D",
+          "text": "Số tham số mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Brier score = trung bình (p−y)², đo cả độ chính xác lẫn calibration của xác suất. Giá trị 0 là hoàn hảo, càng thấp càng tốt. Nó là một proper scoring rule giống log-loss nhưng phạt nhẹ hơn với dự đoán tự tin sai.",
+      "tags": [
+        "brier",
+        "calibration"
+      ]
+    },
+    {
+      "id": "E59-A38",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao feature scaling giúp hồi quy logistic hội tụ nhanh hơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi các đặc trưng cùng thang đo, bề mặt mất mát cân đối hơn nên gradient descent hội tụ nhanh và ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Scaling thay đổi nhãn dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Scaling làm mô hình phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Logistic không bao giờ cần scaling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu đặc trưng có thang đo rất khác nhau, các đường đồng mức của hàm mất mát bị kéo dài, gradient descent dao động và hội tụ chậm. Chuẩn hóa (standardize) đưa về cùng thang, làm bề mặt tròn hơn, bước cập nhật hiệu quả hơn. Còn giúp diễn giải hệ số công bằng và phối hợp tốt với regularization.",
+      "tags": [
+        "scaling",
+        "convergence"
+      ]
+    },
+    {
+      "id": "E59-A39",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient của log-loss theo z (logit) cho một mẫu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(p − y), tức xác suất dự đoán trừ nhãn thật"
+        },
+        {
+          "key": "B",
+          "text": "(y − p²)"
+        },
+        {
+          "key": "C",
+          "text": "p·(1−p)"
+        },
+        {
+          "key": "D",
+          "text": "ln(p)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi đạo hàm cross-entropy qua sigmoid, các số hạng rút gọn đẹp thành ∂L/∂z = p − y. Gradient theo w_j là (p−y)·x_j. Dạng đơn giản này giải thích vì sao cập nhật ổn định và vì sao log-loss + sigmoid là cặp tự nhiên.",
+      "tags": [
+        "gradient",
+        "log-loss"
+      ]
+    },
+    {
+      "id": "E59-A40",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao log-loss phạt dự đoán 'tự tin nhưng sai' nặng hơn nhiều so với sai nhẹ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì −ln(p) tiến tới vô cùng khi xác suất gán cho lớp đúng tiến về 0"
+        },
+        {
+          "key": "B",
+          "text": "Vì log-loss là hàm tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "Vì log-loss bỏ qua dự đoán đúng"
+        },
+        {
+          "key": "D",
+          "text": "Vì log-loss chỉ đếm số lỗi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Log-loss của một mẫu là −ln(xác suất gán cho lớp đúng). Khi mô hình rất tự tin sai (gán xác suất gần 0 cho lớp đúng), −ln(p)→∞. Điều này buộc mô hình tránh quá tự tin một cách vô căn cứ, khuyến khích xác suất hợp lý.",
+      "tags": [
+        "log-loss",
+        "penalty"
+      ]
+    },
+    {
+      "id": "E59-A41",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Precision và recall thường có quan hệ thế nào khi thay đổi ngưỡng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh đổi: tăng ngưỡng thường tăng precision nhưng giảm recall, và ngược lại"
+        },
+        {
+          "key": "B",
+          "text": "Luôn tăng hoặc giảm cùng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Hoàn toàn độc lập với ngưỡng"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tăng ngưỡng làm mô hình thận trọng hơn khi gán lớp dương: precision tăng (ít báo động giả) nhưng bỏ sót nhiều hơn nên recall giảm. PR curve mô tả toàn bộ đánh đổi này; điểm làm việc được chọn theo chi phí FP và FN của bài toán.",
+      "tags": [
+        "precision",
+        "recall",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E59-A42",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình logistic xuất ra xác suất nhờ thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàm sigmoid (hoặc softmax) nén tổ hợp tuyến tính về khoảng (0,1)"
+        },
+        {
+          "key": "B",
+          "text": "Hàm ReLU"
+        },
+        {
+          "key": "C",
+          "text": "Phép chuẩn hóa min-max trên đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Hàm bậc thang cứng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logistic tính z=w·x+b rồi đưa qua sigmoid σ(z)∈(0,1) để cho xác suất P(y=1|x). Với đa lớp dùng softmax. Hàm bậc thang cứng không khả vi nên không dùng để huấn luyện bằng gradient.",
+      "tags": [
+        "sigmoid",
+        "probability"
+      ]
+    },
+    {
+      "id": "E59-A43",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính chất σ(−z)=1−σ(z) phản ánh điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính đối xứng của sigmoid quanh điểm (0, 0.5)"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid là hàm chẵn"
+        },
+        {
+          "key": "C",
+          "text": "Sigmoid không khả vi"
+        },
+        {
+          "key": "D",
+          "text": "Sigmoid luôn lớn hơn 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid đối xứng tâm tại (0, 0.5): σ(−z)=1−σ(z). Nghĩa là xác suất lớp 0 tại logit −z bằng xác suất lớp 1 tại logit z. Tính chất này giúp đối xứng vai trò hai lớp trong phân loại nhị phân.",
+      "tags": [
+        "sigmoid",
+        "properties"
+      ]
+    },
+    {
+      "id": "E59-A44",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Maximum likelihood trong hồi quy logistic dẫn tới hàm mất mát nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Negative log-likelihood của Bernoulli, chính là cross-entropy (log-loss)"
+        },
+        {
+          "key": "B",
+          "text": "Mean squared error"
+        },
+        {
+          "key": "C",
+          "text": "Hinge loss"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách Euclid"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả định y|x theo phân phối Bernoulli với tham số p=σ(w·x+b). Likelihood = ∏ p^y (1−p)^(1−y). Lấy −log và trung bình cho đúng cross-entropy. Vì vậy tối thiểu log-loss tương đương cực đại likelihood.",
+      "tags": [
+        "MLE",
+        "cross-entropy"
+      ]
+    },
+    {
+      "id": "E59-A45",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FNR (False Negative Rate) được tính thế nào và liên hệ với recall ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "FNR = FN/(FN+TP) = 1 − recall"
+        },
+        {
+          "key": "B",
+          "text": "FNR = FP/(FP+TN)"
+        },
+        {
+          "key": "C",
+          "text": "FNR = recall"
+        },
+        {
+          "key": "D",
+          "text": "FNR = 1 − precision"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FNR là tỉ lệ các mẫu dương thực bị bỏ sót: FN/(FN+TP). Vì recall = TP/(TP+FN), ta có FNR = 1 − recall. Trong y tế, FNR cao nghĩa là bỏ sót nhiều ca bệnh, thường nguy hiểm hơn FPR.",
+      "tags": [
+        "FNR",
+        "recall"
+      ]
+    },
+    {
+      "id": "E59-A46",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao dùng hàm bậc thang cứng (0/1 loss) khó huấn luyện logistic bằng gradient descent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0/1 loss có gradient bằng 0 hầu khắp nơi và không khả vi tại điểm nhảy"
+        },
+        {
+          "key": "B",
+          "text": "0/1 loss luôn lồi và dễ tối ưu"
+        },
+        {
+          "key": "C",
+          "text": "0/1 loss cho gradient quá lớn"
+        },
+        {
+          "key": "D",
+          "text": "Không có lý do, 0/1 loss được dùng phổ biến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàm mất mát 0/1 (đếm số lỗi) bằng phẳng từng đoạn nên gradient = 0 hầu khắp nơi và không khả vi tại bước nhảy, khiến gradient descent không có hướng cập nhật. Log-loss là thay thế khả vi, lồi, làm 'surrogate' mượt cho 0/1 loss.",
+      "tags": [
+        "loss",
+        "optimization"
+      ]
+    },
+    {
+      "id": "E59-A47",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong PR curve, trục tung và trục hoành lần lượt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Precision (trục tung) theo Recall (trục hoành)"
+        },
+        {
+          "key": "B",
+          "text": "Recall theo FPR"
+        },
+        {
+          "key": "C",
+          "text": "TPR theo FPR"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy theo ngưỡng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision-Recall curve vẽ precision (y) theo recall (x) khi quét ngưỡng. Khác ROC (TPR theo FPR), PR curve không dùng true negative nên nhạy với lớp dương hiếm, hữu ích cho dữ liệu mất cân bằng.",
+      "tags": [
+        "PR-curve",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E59-A48",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu mô hình logistic bị overfit, biện pháp nào hợp lý nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm regularization (L1/L2), giảm số đặc trưng, hoặc thu thập thêm dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ lớn hệ số"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "Tăng learning rate vô hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overfitting thể hiện hệ số lớn và khớp nhiễu. Regularization phạt độ lớn hệ số, giảm phương sai; giảm số đặc trưng và thêm dữ liệu cũng giúp. Đây là các kỹ thuật chuẩn để cải thiện khả năng tổng quát hóa.",
+      "tags": [
+        "overfitting",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E59-A49",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong chẩn đoán ung thư (bỏ sót ca bệnh rất nguy hiểm), nên ưu tiên metric nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Recall (độ nhạy) cao để giảm false negative"
+        },
+        {
+          "key": "B",
+          "text": "Precision cao bằng mọi giá"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Specificity là duy nhất quan trọng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi false negative (bỏ sót bệnh nhân) cực kỳ tốn kém, ưu tiên recall cao để bắt được tối đa ca dương, thường bằng cách hạ ngưỡng. Ta chấp nhận một số false positive (sẽ kiểm tra thêm) để không bỏ sót ca bệnh thật.",
+      "tags": [
+        "recall",
+        "application"
+      ]
+    },
+    {
+      "id": "E59-A50",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong lọc thư rác mà việc đánh nhầm thư quan trọng thành spam rất tệ, nên ưu tiên gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Precision cao để giảm false positive (thư thật bị gắn nhãn spam)"
+        },
+        {
+          "key": "B",
+          "text": "Recall cao bằng mọi giá"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ tối đa hóa số thư bị chặn"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua mọi metric"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đánh nhầm email quan trọng thành spam (false positive) gây hậu quả nặng, nên ưu tiên precision cao bằng cách nâng ngưỡng. Ta chấp nhận để lọt một số spam (recall thấp hơn) để bảo vệ thư hợp lệ.",
+      "tags": [
+        "precision",
+        "application"
+      ]
+    },
+    {
+      "id": "E59-A51",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hằng số bias b trong logit z=w·x+b có vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch chuyển ranh giới/điểm giữa, điều chỉnh xác suất nền khi tất cả đặc trưng bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Quyết định độ dốc của sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "Luôn bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Là xác suất của lớp dương"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bias b dịch chuyển hàm sigmoid theo trục logit: khi mọi x=0, P(y=1)=σ(b). Nó cho phép ranh giới quyết định không bắt buộc đi qua gốc tọa độ, điều chỉnh xác suất nền của bài toán.",
+      "tags": [
+        "bias",
+        "model"
+      ]
+    },
+    {
+      "id": "E59-A52",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao xác suất softmax luôn nằm trong (0,1) và tổng bằng 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì softmax lấy lũy thừa e (luôn dương) rồi chia cho tổng các lũy thừa"
+        },
+        {
+          "key": "B",
+          "text": "Vì softmax cắt giá trị tại 0 và 1"
+        },
+        {
+          "key": "C",
+          "text": "Vì các logit luôn dương"
+        },
+        {
+          "key": "D",
+          "text": "Đó là do làm tròn số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax_i = e^(z_i)/Σ_j e^(z_j). Tử số dương nên mỗi giá trị >0; mẫu là tổng nên mỗi giá trị <1 và tổng tất cả = 1. Nhờ vậy đầu ra là một phân phối xác suất hợp lệ trên các lớp.",
+      "tags": [
+        "softmax",
+        "probability"
+      ]
+    },
+    {
+      "id": "E59-A53",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với log-loss, Brier score phạt dự đoán tự tin sai như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Brier phạt theo bình phương sai số nên hữu hạn, nhẹ hơn log-loss (vốn tiến tới vô cùng)"
+        },
+        {
+          "key": "B",
+          "text": "Brier phạt nặng hơn vô hạn"
+        },
+        {
+          "key": "C",
+          "text": "Hai loss hoàn toàn giống nhau"
+        },
+        {
+          "key": "D",
+          "text": "Brier không phạt sai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số tối đa của Brier cho một mẫu là (1−0)²=1 nên hữu hạn. Log-loss −ln(p)→∞ khi p→0 ở lớp đúng, phạt cực mạnh. Vì vậy log-loss nhạy hơn với dự đoán tự tin sai, còn Brier bền hơn với ngoại lệ.",
+      "tags": [
+        "brier",
+        "log-loss"
+      ]
+    },
+    {
+      "id": "E59-A54",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu tăng cường (oversample) lớp thiểu số khi huấn luyện, hệ quả với xác suất đầu ra là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất đầu ra có thể bị lệch (calibration kém), thường cần hiệu chỉnh lại"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất luôn được hiệu chỉnh hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng gì tới xác suất"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình mất khả năng dự đoán"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Oversampling/undersampling thay đổi tỉ lệ nền so với thực tế, làm xác suất dự đoán lệch khỏi tần suất thật (calibration kém). Sau khi cân bằng để học ranh giới, thường cần hiệu chỉnh lại ngưỡng hoặc dùng calibration (Platt/isotonic) để khôi phục xác suất đáng tin.",
+      "tags": [
+        "imbalance",
+        "calibration"
+      ]
+    },
+    {
+      "id": "E59-A55",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phát biểu nào ĐÚNG về mối quan hệ giữa sigmoid và softmax?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Softmax 2 lớp tương đương sigmoid; sigmoid là trường hợp riêng của softmax"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid là tổng quát của softmax"
+        },
+        {
+          "key": "C",
+          "text": "Hai hàm không liên quan"
+        },
+        {
+          "key": "D",
+          "text": "Sigmoid dùng cho đa lớp còn softmax cho nhị phân"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với 2 lớp, softmax([z,0]) cho xác suất lớp 1 là e^z/(e^z+1)=σ(z). Do đó sigmoid là trường hợp đặc biệt của softmax cho phân loại nhị phân; softmax mở rộng tự nhiên cho K lớp.",
+      "tags": [
+        "sigmoid",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E59-A56",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi quét ngưỡng từ 1 xuống 0 để vẽ ROC, điểm bắt đầu và kết thúc của đường cong là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt đầu ở (0,0) khi ngưỡng=1 và kết thúc ở (1,1) khi ngưỡng=0"
+        },
+        {
+          "key": "B",
+          "text": "Bắt đầu ở (1,1) và kết thúc ở (0,0) không đổi"
+        },
+        {
+          "key": "C",
+          "text": "Luôn là đường chéo"
+        },
+        {
+          "key": "D",
+          "text": "Bắt đầu ở (0.5,0.5)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngưỡng=1: không mẫu nào được gán dương nên TPR=0, FPR=0 → điểm (0,0). Ngưỡng=0: mọi mẫu gán dương nên TPR=1, FPR=1 → điểm (1,1). Giảm ngưỡng làm cả TPR và FPR tăng, vẽ nên đường ROC giữa hai điểm này.",
+      "tags": [
+        "ROC",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E59-A57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao hồi quy logistic dùng cross-entropy (log-loss) làm hàm mất mát thay vì Mean Squared Error (MSE). Phân tích vấn đề tính lồi (non-convex), gradient, và liên hệ với maximum likelihood.",
+      "modelAnswer": "Hồi quy logistic dùng cross-entropy thay vì MSE vì nhiều lý do cốt lõi. Thứ nhất, về tính lồi: khi đặt p=σ(w·x+b) và dùng MSE = (p−y)², bề mặt mất mát theo tham số w trở nên KHÔNG lồi do tính phi tuyến của sigmoid lồng trong bình phương; nó có nhiều cực tiểu cục bộ và vùng phẳng, khiến gradient descent dễ kẹt và phụ thuộc khởi tạo. Ngược lại, cross-entropy −[y·ln p+(1−y)·ln(1−p)] kết hợp với logit tuyến tính cho hàm mất mát LỒI theo tham số, đảm bảo gradient descent hội tụ về cực tiểu toàn cục. Thứ hai, về gradient: với MSE+sigmoid, gradient chứa thừa số σ'(z)=p(1−p) bị bão hòa (gần 0) khi mô hình rất tự tin sai, làm việc học chậm lại đúng lúc cần sửa nhất (vanishing gradient). Với cross-entropy, gradient theo logit rút gọn đẹp thành (p−y), tỉ lệ thuận với sai số, nên khi sai nặng gradient lớn và học nhanh. Thứ ba, về maximum likelihood: giả định y|x ~ Bernoulli(p) với p=σ(w·x+b); likelihood của dữ liệu là tích p^y(1−p)^(1−y). Lấy log âm và trung bình cho ra ĐÚNG cross-entropy. Vậy tối thiểu log-loss tương đương cực đại likelihood — một nền tảng thống kê vững chắc mà MSE không có cho dữ liệu nhị phân. Cuối cùng, log-loss phạt mạnh dự đoán tự tin sai (−ln p →∞ khi p→0 ở lớp đúng), khuyến khích xác suất hiệu chỉnh tốt. Tổng hợp lại, cross-entropy cho bài toán tối ưu lồi, gradient lành mạnh và diễn giải xác suất đúng, nên là lựa chọn chuẩn cho logistic.",
+      "rubric": [
+        "Nêu rõ MSE+sigmoid tạo hàm mất mát non-convex (nhiều cực tiểu cục bộ) còn cross-entropy lồi (1.0đ)",
+        "Phân tích gradient: MSE bị bão hòa qua σ'(z)=p(1−p), còn cross-entropy cho gradient (p−y) lành mạnh (1.0đ)",
+        "Liên hệ cross-entropy với maximum likelihood của phân phối Bernoulli (1.0đ)",
+        "Đề cập log-loss phạt nặng dự đoán tự tin sai và lợi ích calibration (1.0đ)"
+      ],
+      "tags": [
+        "log-loss",
+        "MSE",
+        "MLE",
+        "convexity",
+        "essay"
+      ]
+    },
+    {
+      "id": "E59-A58",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân tích đánh đổi giữa precision và recall. Trình bày cách ngưỡng quyết định ảnh hưởng tới hai chỉ số này, và đưa ra hai ví dụ ứng dụng cụ thể (một ưu tiên precision, một ưu tiên recall) kèm cách chọn ngưỡng phù hợp.",
+      "modelAnswer": "Precision = TP/(TP+FP) đo độ tinh khiết của các dự đoán dương (trong số được gán dương, bao nhiêu thực sự dương). Recall = TP/(TP+FN) đo độ bao phủ (trong số dương thực, bắt được bao nhiêu). Hai chỉ số thường đánh đổi nhau khi ta thay đổi NGƯỠNG quyết định. Khi TĂNG ngưỡng (ví dụ từ 0.5 lên 0.8), mô hình chỉ gán dương khi rất chắc chắn: false positive giảm nên precision tăng, nhưng nhiều ca dương bị bỏ qua nên false negative tăng và recall giảm. Khi HẠ ngưỡng (xuống 0.3), mô hình gán dương rộng rãi hơn: recall tăng (bắt nhiều dương) nhưng kéo theo nhiều false positive nên precision giảm. PR curve mô tả toàn bộ đánh đổi này; F1 (trung bình điều hòa) là một cách cân bằng. Ví dụ 1 — ưu tiên RECALL: sàng lọc ung thư. Bỏ sót một ca bệnh (false negative) có thể gây tử vong, trong khi false positive chỉ dẫn tới xét nghiệm bổ sung. Do đó nên HẠ ngưỡng xuống dưới 0.5 để tối đa recall, chấp nhận precision thấp; các ca dương sẽ được kiểm tra kỹ hơn ở bước sau. Ví dụ 2 — ưu tiên PRECISION: lọc thư rác hoặc đề xuất khóa tài khoản gian lận có hậu quả lớn. Đánh nhầm email quan trọng thành spam (false positive) gây thiệt hại nặng, nên NÂNG ngưỡng lên (ví dụ 0.9) để chỉ chặn khi rất chắc chắn, chấp nhận để lọt một số spam (recall thấp hơn). Cách chọn ngưỡng tổng quát: định lượng chi phí của FP và FN theo bài toán, vẽ PR curve hoặc tối ưu một hàm chi phí (hoặc Fβ với β>1 nghiêng về recall, β<1 nghiêng về precision), rồi chọn ngưỡng tại điểm làm việc tối ưu trên tập validation. Không có ngưỡng 0.5 'mặc định đúng' cho mọi bài toán.",
+      "rubric": [
+        "Định nghĩa đúng precision và recall theo TP/FP/FN và nêu bản chất đánh đổi (1.0đ)",
+        "Giải thích chính xác hướng thay đổi precision/recall khi tăng/giảm ngưỡng (1.0đ)",
+        "Đưa ví dụ ưu tiên recall (ví dụ y tế) với lập luận chi phí FN và chọn ngưỡng thấp (1.0đ)",
+        "Đưa ví dụ ưu tiên precision (ví dụ lọc spam/gian lận) với chọn ngưỡng cao, kèm cách chọn ngưỡng theo chi phí FP/FN (1.0đ)"
+      ],
+      "tags": [
+        "precision",
+        "recall",
+        "threshold",
+        "application",
+        "essay"
+      ]
+    },
+    {
+      "id": "E59-A59",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh ROC-AUC và PR-AUC. Giải thích ý nghĩa từng đường cong, cách tính các trục, và phân tích khi nào nên dùng PR-AUC thay vì ROC-AUC, đặc biệt với dữ liệu mất cân bằng lớp.",
+      "modelAnswer": "ROC curve vẽ True Positive Rate (TPR=recall=TP/(TP+FN)) trên trục tung theo False Positive Rate (FPR=FP/(FP+TN)) trên trục hoành, khi quét ngưỡng từ 1 xuống 0; đường đi từ (0,0) tới (1,1). ROC-AUC là diện tích dưới đường này, bằng xác suất mô hình xếp một mẫu dương ngẫu nhiên cao hơn một mẫu âm ngẫu nhiên; AUC=0.5 là ngẫu nhiên, 1.0 là hoàn hảo. PR curve vẽ Precision (TP/(TP+FP)) theo Recall, cũng khi quét ngưỡng; PR-AUC là diện tích dưới đường này (average precision). Khác biệt cốt lõi nằm ở việc dùng True Negative: FPR ở mẫu số có TN, mà khi lớp âm áp đảo (mất cân bằng nặng), TN rất lớn làm FPR nhỏ ngay cả khi số false positive tuyệt đối lớn. Hệ quả là ROC-AUC có thể trông LẠC QUAN GIẢ: đường ROC đẹp nhưng thực tế trong các dự đoán dương có rất nhiều báo động giả. Precision thì KHÔNG dùng TN — nó so sánh TP với FP trực tiếp — nên PR curve và PR-AUC nhạy cảm với chất lượng dự đoán trên lớp dương hiếm và phản ánh trung thực hiệu năng. Vì vậy: dùng ROC-AUC khi hai lớp tương đối cân bằng hoặc khi quan tâm khả năng phân biệt tổng quát bất kể tỉ lệ lớp; dùng PR-AUC khi dữ liệu mất cân bằng nặng (gian lận, bệnh hiếm, truy hồi tài liệu) và ta đặc biệt quan tâm hiệu năng trên lớp dương. Một điểm tinh tế: đường baseline của PR curve không phải 0.5 mà bằng tỉ lệ lớp dương (prevalence), nên PR-AUC phải được diễn giải tương đối với baseline đó. Trong thực hành, khi báo cáo mô hình trên dữ liệu lệch, nên trình bày cả hai nhưng nhấn mạnh PR-AUC để tránh đánh giá quá cao mô hình.",
+      "rubric": [
+        "Mô tả đúng các trục của ROC (TPR theo FPR) và PR (precision theo recall) và ý nghĩa AUC (1.0đ)",
+        "Giải thích vì sao FPR dùng TN khiến ROC-AUC lạc quan giả khi mất cân bằng, còn precision không dùng TN (1.5đ)",
+        "Nêu rõ khi nào dùng ROC-AUC (cân bằng) và khi nào dùng PR-AUC (mất cân bằng/quan tâm lớp dương) (1.0đ)",
+        "Đề cập baseline PR bằng prevalence hoặc khuyến nghị thực hành báo cáo cả hai (0.5đ)"
+      ],
+      "tags": [
+        "ROC",
+        "PR-AUC",
+        "AUC",
+        "imbalance",
+        "essay"
+      ]
+    },
+    {
+      "id": "E59-A60",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cách diễn giải hệ số của mô hình hồi quy logistic thông qua log-odds và odds ratio. Dùng một ví dụ số cụ thể (ví dụ hệ số w=0.693 cho một đặc trưng) để minh họa, và nêu các lưu ý khi diễn giải.",
+      "modelAnswer": "Trong hồi quy logistic, log-odds (logit) là tuyến tính theo đặc trưng: ln(odds)=ln(p/(1−p))=w·x+b, trong đó odds=p/(1−p). Do đó mỗi hệ số w_j có ý nghĩa định lượng rõ ràng: khi đặc trưng x_j TĂNG 1 đơn vị (giữ nguyên các biến khác), log-odds của lớp dương tăng thêm đúng w_j. Tương đương, odds được NHÂN với e^(w_j), gọi là odds ratio (OR). Ví dụ số: giả sử hệ số của đặc trưng 'số giờ học' là w=0.693. Khi đó OR=e^0.693≈2.0. Nghĩa là mỗi khi số giờ học tăng 1 đơn vị, odds đỗ (lớp dương) NHÂN ĐÔI, giữ các yếu tố khác cố định. Nếu ban đầu xác suất đỗ là 0.5 (odds=1), sau khi tăng 1 giờ học odds=2, tức p=2/3≈0.667. Nếu w âm, ví dụ w=−0.693 thì OR=0.5, odds giảm một nửa cho mỗi đơn vị tăng. OR=1 (w=0) nghĩa là đặc trưng không ảnh hưởng. Các lưu ý quan trọng khi diễn giải: (1) OR tác động lên ODDS, không phải trực tiếp lên xác suất; tác động lên xác suất phụ thuộc điểm xuất phát do quan hệ phi tuyến của sigmoid — cùng một thay đổi log-odds gây thay đổi xác suất lớn nhất quanh p=0.5 và nhỏ ở hai cực. (2) Diễn giải 'giữ nguyên các biến khác' chỉ hợp lệ khi không có đa cộng tuyến mạnh; nếu các đặc trưng tương quan cao, hệ số khó tách bạch. (3) Nếu đặc trưng được chuẩn hóa (scaling), một đơn vị là một độ lệch chuẩn chứ không phải đơn vị gốc, nên cần quy đổi khi diễn giải thực tế. (4) Tương quan không phải nhân quả: hệ số mô tả liên hệ trong dữ liệu, không khẳng định quan hệ nhân quả. (5) Cần kèm khoảng tin cậy của OR để đánh giá độ chắc chắn. Tóm lại, e^(w_j) là công cụ diễn giải mạnh và trực quan của logistic, nhưng phải hiểu nó tác động lên odds và đi kèm các giả định trên.",
+      "rubric": [
+        "Trình bày quan hệ log-odds tuyến tính: ln(p/(1−p))=w·x+b và ý nghĩa w_j cộng vào log-odds (1.0đ)",
+        "Định nghĩa odds ratio e^(w_j) và tính đúng ví dụ số (w=0.693 → OR≈2, odds nhân đôi) (1.0đ)",
+        "Phân biệt tác động lên odds so với xác suất (phi tuyến của sigmoid quanh p=0.5) (1.0đ)",
+        "Nêu ít nhất hai lưu ý: giữ biến khác cố định/đa cộng tuyến, scaling, hoặc nhân quả vs tương quan (1.0đ)"
+      ],
+      "tags": [
+        "interpretability",
+        "odds-ratio",
+        "log-odds",
+        "essay"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1830 @@
+{
+  "id": "exam-65",
+  "title": "NLP Cơ bản & Mạng Nơ-ron Đồ thị (GNN)",
+  "description": "Đề cương ôn tập gồm 60 câu về xử lý ngôn ngữ tự nhiên cổ điển (tiền xử lý, BoW, n-gram, TF-IDF, embedding, phân loại văn bản, NER/POS, mô hình ngôn ngữ) và Mạng Nơ-ron Đồ thị (ma trận kề/bậc, message passing, GCN, GraphSAGE, GAT, over-smoothing, các tác vụ trên đồ thị). Có các câu tính toán định lượng được kiểm chứng bằng numpy. Thời lượng 85 phút, thang 100 điểm.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E65-N01",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tokenization trong NLP là quá trình gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách văn bản thành các đơn vị nhỏ hơn như từ hoặc subword (token)"
+        },
+        {
+          "key": "B",
+          "text": "Mã hóa văn bản thành số nhị phân để nén dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Dịch văn bản từ ngôn ngữ này sang ngôn ngữ khác"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp các câu theo thứ tự thời gian xuất hiện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tokenization chia chuỗi văn bản thành các token (từ, subword hoặc ký tự) làm đơn vị xử lý cơ bản cho các bước NLP tiếp theo.",
+      "tags": [
+        "tokenization",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E65-N02",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Việc lowercasing (chuyển về chữ thường) trong tiền xử lý nhằm mục đích chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước từ vựng bằng cách coi 'Apple' và 'apple' là cùng một token"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ chính xác phát âm của văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn dấu câu khỏi văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển danh từ riêng thành danh từ chung về mặt ngữ nghĩa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lowercasing hợp nhất các biến thể hoa/thường của cùng một từ, làm giảm số token khác nhau và độ thưa của biểu diễn, dù đôi khi mất thông tin về danh từ riêng.",
+      "tags": [
+        "preprocessing",
+        "lowercasing"
+      ]
+    },
+    {
+      "id": "E65-N03",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Stop words là gì trong xử lý văn bản?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Những từ rất phổ biến, ít mang thông tin phân biệt (ví dụ 'là', 'và', 'của')"
+        },
+        {
+          "key": "B",
+          "text": "Các từ kết thúc một câu"
+        },
+        {
+          "key": "C",
+          "text": "Những từ viết sai chính tả cần loại bỏ"
+        },
+        {
+          "key": "D",
+          "text": "Các từ chỉ xuất hiện đúng một lần trong corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stop words là các từ chức năng xuất hiện rất thường xuyên nhưng ít giá trị phân biệt nội dung; nhiều pipeline loại bỏ chúng để giảm nhiễu và kích thước đặc trưng.",
+      "tags": [
+        "stopwords",
+        "preprocessing"
+      ]
+    },
+    {
+      "id": "E65-N04",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cốt lõi giữa stemming và lemmatization là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Stemming cắt hậu tố theo luật thô tạo gốc có thể không phải từ thật, còn lemmatization đưa về dạng từ điển hợp lệ dựa trên hình thái/ngữ pháp"
+        },
+        {
+          "key": "B",
+          "text": "Stemming dùng từ điển còn lemmatization chỉ cắt ký tự cuối"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai cho ra kết quả giống hệt nhau trong mọi trường hợp"
+        },
+        {
+          "key": "D",
+          "text": "Lemmatization nhanh hơn và luôn kém chính xác hơn stemming"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stemming (ví dụ Porter) áp dụng luật cắt hậu tố, có thể tạo ra gốc không phải từ thật; lemmatization tra dạng chuẩn (lemma) hợp lệ dựa trên từ điển và thông tin từ loại.",
+      "tags": [
+        "stemming",
+        "lemmatization"
+      ]
+    },
+    {
+      "id": "E65-N05",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình Bag-of-Words (BoW) biểu diễn văn bản như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bằng vector đếm/tần suất các từ, bỏ qua thứ tự xuất hiện của từ"
+        },
+        {
+          "key": "B",
+          "text": "Bằng cây cú pháp đầy đủ giữ nguyên thứ tự ngữ pháp"
+        },
+        {
+          "key": "C",
+          "text": "Bằng một số thực duy nhất tóm tắt toàn bộ văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Bằng ảnh bitmap của các ký tự trong văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BoW biểu diễn văn bản bằng vector trên từ vựng với giá trị là số lần xuất hiện (hoặc tần suất) của mỗi từ, hoàn toàn bỏ qua thứ tự từ.",
+      "tags": [
+        "bow",
+        "representation"
+      ]
+    },
+    {
+      "id": "E65-N07",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong câu 'tôi yêu học máy' (4 token), số lượng bigram (2-gram) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với n token liên tiếp, số bigram là n-1; câu có 4 token nên có 4-1 = 3 bigram.",
+      "tags": [
+        "ngram",
+        "bigram"
+      ]
+    },
+    {
+      "id": "E65-N08",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với chuỗi 5 token, số bigram đếm được (numpy verified) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số bigram = số token - 1 = 5 - 1 = 4, được xác minh bằng numpy/len(tokens)-1.",
+      "tags": [
+        "ngram",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N09",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong công thức TF-IDF, thành phần IDF (inverse document frequency) thường được tính như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "idf(t) = log(N / df(t)), với N là tổng số tài liệu và df(t) là số tài liệu chứa từ t"
+        },
+        {
+          "key": "B",
+          "text": "idf(t) = df(t) / N, tỷ lệ tài liệu chứa từ"
+        },
+        {
+          "key": "C",
+          "text": "idf(t) = tổng số lần từ t xuất hiện trong toàn corpus"
+        },
+        {
+          "key": "D",
+          "text": "idf(t) = log(df(t)) bất kể số tài liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IDF đo độ hiếm của từ qua nghịch đảo tần suất tài liệu: idf = log(N/df). Từ xuất hiện trong nhiều tài liệu (df lớn) có idf nhỏ, bị hạ trọng số.",
+      "tags": [
+        "tfidf",
+        "idf"
+      ]
+    },
+    {
+      "id": "E65-N10",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao TF-IDF lại hạ trọng số những từ xuất hiện trong rất nhiều tài liệu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì từ phổ biến khắp nơi ít có khả năng phân biệt tài liệu này với tài liệu khác"
+        },
+        {
+          "key": "B",
+          "text": "Vì từ phổ biến luôn là lỗi chính tả"
+        },
+        {
+          "key": "C",
+          "text": "Vì từ phổ biến tốn nhiều bộ nhớ hơn để lưu"
+        },
+        {
+          "key": "D",
+          "text": "Vì từ phổ biến luôn là stop words bị xóa trước đó"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Từ xuất hiện ở hầu hết tài liệu (df lớn) mang ít thông tin phân biệt; IDF nhỏ làm giảm trọng số của chúng, nhấn mạnh từ đặc trưng cho tài liệu.",
+      "tags": [
+        "tfidf",
+        "idf"
+      ]
+    },
+    {
+      "id": "E65-N11",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho N=4 tài liệu, từ 'máy' có df=2 và tần suất tf=3 trong một tài liệu. Giá trị TF-IDF (dùng idf=ln(N/df)) xấp xỉ bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0794"
+        },
+        {
+          "key": "B",
+          "text": "3.0000"
+        },
+        {
+          "key": "C",
+          "text": "1.0397"
+        },
+        {
+          "key": "D",
+          "text": "4.1589"
+        }
+      ],
+      "answer": "A",
+      "explanation": "idf = ln(4/2) = ln(2) ≈ 0.6931; tfidf = tf*idf = 3 * 0.6931 ≈ 2.0794 (xác minh bằng numpy/math).",
+      "tags": [
+        "tfidf",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N12",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với corpus N=10 tài liệu, một từ hiếm chỉ xuất hiện trong df=1 tài liệu thì idf = ln(N/df) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.3026"
+        },
+        {
+          "key": "B",
+          "text": "1.0000"
+        },
+        {
+          "key": "C",
+          "text": "0.0000"
+        },
+        {
+          "key": "D",
+          "text": "3.3219"
+        }
+      ],
+      "answer": "A",
+      "explanation": "idf = ln(10/1) = ln(10) ≈ 2.3026; từ càng hiếm thì idf càng lớn (xác minh bằng math.log).",
+      "tags": [
+        "tfidf",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N13",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vấn đề OOV (out-of-vocabulary) trong NLP đề cập đến điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ xuất hiện lúc dự đoán nhưng không có trong từ vựng đã xây dựng từ tập huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Từ có quá nhiều nghĩa khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Từ bị viết hoa sai vị trí"
+        },
+        {
+          "key": "D",
+          "text": "Từ có tần suất quá cao trong corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OOV là các từ chưa từng thấy khi huấn luyện nên không có trong từ vựng; mô hình phải xử lý bằng token <UNK> hoặc biểu diễn subword để giảm OOV.",
+      "tags": [
+        "oov",
+        "vocabulary"
+      ]
+    },
+    {
+      "id": "E65-N14",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với one-hot, dense embedding có ưu điểm chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số chiều thấp, dày đặc và nắm bắt được mối quan hệ ngữ nghĩa giữa các từ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn dùng đúng một bit cho mỗi từ"
+        },
+        {
+          "key": "C",
+          "text": "Không cần huấn luyện và luôn chính xác tuyệt đối"
+        },
+        {
+          "key": "D",
+          "text": "Có số chiều bằng kích thước từ vựng nên dễ diễn giải"
+        }
+      ],
+      "answer": "A",
+      "explanation": "One-hot là vector thưa, chiều bằng từ vựng và mọi từ trực giao (không thể hiện quan hệ). Dense embedding có chiều thấp, học được nên các từ gần nghĩa nằm gần nhau.",
+      "tags": [
+        "embedding",
+        "onehot"
+      ]
+    },
+    {
+      "id": "E65-N15",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Word2Vec, mô hình CBOW và skip-gram khác nhau ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CBOW dự đoán từ trung tâm từ các từ ngữ cảnh, còn skip-gram dự đoán các từ ngữ cảnh từ từ trung tâm"
+        },
+        {
+          "key": "B",
+          "text": "CBOW chỉ dùng cho tiếng Anh, skip-gram cho mọi ngôn ngữ"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều dự đoán nhãn cảm xúc của câu"
+        },
+        {
+          "key": "D",
+          "text": "Skip-gram không cần dữ liệu huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CBOW lấy ngữ cảnh xung quanh để dự đoán từ trung tâm; skip-gram làm ngược lại, lấy từ trung tâm để dự đoán các từ ngữ cảnh xung quanh.",
+      "tags": [
+        "word2vec",
+        "cbow"
+      ]
+    },
+    {
+      "id": "E65-N16",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Negative sampling trong Word2Vec được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xấp xỉ softmax tốn kém bằng cách chỉ cập nhật một số ít mẫu âm thay vì toàn bộ từ vựng"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ các từ tiêu cực mang nghĩa xấu"
+        },
+        {
+          "key": "C",
+          "text": "Làm tăng kích thước từ vựng một cách ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Đảo dấu của tất cả các vector embedding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thay vì tính softmax trên toàn bộ từ vựng (rất tốn kém), negative sampling chỉ phân biệt cặp đúng với vài từ âm lấy mẫu ngẫu nhiên, giảm chi phí huấn luyện.",
+      "tags": [
+        "word2vec",
+        "negative-sampling"
+      ]
+    },
+    {
+      "id": "E65-N17",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GloVe học embedding chủ yếu dựa trên thông tin gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thống kê đồng xuất hiện (co-occurrence) toàn cục của các cặp từ trong corpus"
+        },
+        {
+          "key": "B",
+          "text": "Cú pháp ngữ pháp của từng câu riêng lẻ"
+        },
+        {
+          "key": "C",
+          "text": "Độ dài trung bình của các tài liệu"
+        },
+        {
+          "key": "D",
+          "text": "Số lần người dùng nhấp vào từ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GloVe phân tích ma trận đồng xuất hiện toàn cục giữa các từ, tối ưu sao cho tích vô hướng embedding phản ánh log của xác suất đồng xuất hiện.",
+      "tags": [
+        "glove",
+        "cooccurrence"
+      ]
+    },
+    {
+      "id": "E65-N18",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai văn bản có vector BoW va=[1,2,0,1] và vb=[2,0,1,1]. Cosine similarity của chúng là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5000000000000001"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "dot=1*2+2*0+0*1+1*1=3; |va|=|vb|=sqrt(6); cos=3/(sqrt6*sqrt6)=3/6=0.5000000000000001 (xác minh bằng numpy).",
+      "tags": [
+        "cosine",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N19",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cosine similarity giữa hai vector embedding đo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ tương đồng về hướng (góc) giữa hai vector, không phụ thuộc độ dài"
+        },
+        {
+          "key": "B",
+          "text": "Hiệu số tuyệt đối giữa hai vector"
+        },
+        {
+          "key": "C",
+          "text": "Số chiều khác nhau giữa hai vector"
+        },
+        {
+          "key": "D",
+          "text": "Tổng các phần tử của hai vector"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cosine similarity = dot(u,v)/(||u||*||v||), đo cosin của góc giữa hai vector; giá trị gần 1 nghĩa là cùng hướng (tương đồng), không bị ảnh hưởng bởi độ lớn.",
+      "tags": [
+        "cosine",
+        "embedding"
+      ]
+    },
+    {
+      "id": "E65-N20",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Naive Bayes cho phân loại văn bản dựa trên giả định 'naive' nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các đặc trưng (từ) độc lập có điều kiện với nhau khi đã biết nhãn lớp"
+        },
+        {
+          "key": "B",
+          "text": "Mọi tài liệu có cùng độ dài"
+        },
+        {
+          "key": "C",
+          "text": "Mọi từ có xác suất xuất hiện như nhau"
+        },
+        {
+          "key": "D",
+          "text": "Nhãn lớp luôn phân bố đều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Naive Bayes giả định các từ độc lập có điều kiện khi biết lớp, cho phép nhân các xác suất P(từ|lớp); giả định đơn giản hóa này thường vẫn hiệu quả cho phân loại văn bản.",
+      "tags": [
+        "naive-bayes",
+        "classification"
+      ]
+    },
+    {
+      "id": "E65-N21",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao TF-IDF thường kết hợp tốt với logistic regression cho phân loại văn bản?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TF-IDF tạo đặc trưng có trọng số phản ánh độ quan trọng của từ, còn logistic regression học trọng số tuyến tính trên các đặc trưng đó"
+        },
+        {
+          "key": "B",
+          "text": "Vì logistic regression yêu cầu đầu vào là ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Vì TF-IDF chỉ hoạt động khi có mạng nơ-ron sâu"
+        },
+        {
+          "key": "D",
+          "text": "Vì cả hai đều bỏ qua hoàn toàn nội dung từ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TF-IDF chuyển văn bản thành vector đặc trưng có trọng số ý nghĩa; logistic regression là bộ phân loại tuyến tính nhẹ, dễ huấn luyện, học trọng số cho từng đặc trưng từ.",
+      "tags": [
+        "tfidf",
+        "logistic-regression"
+      ]
+    },
+    {
+      "id": "E65-N23",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong BIO tagging cho NER, nhãn 'B-PER' và 'I-PER' biểu thị điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "B-PER đánh dấu token bắt đầu một thực thể người, I-PER đánh dấu token bên trong (tiếp nối) của thực thể đó"
+        },
+        {
+          "key": "B",
+          "text": "B-PER là tên đầu, I-PER là tên cuối của mọi người"
+        },
+        {
+          "key": "C",
+          "text": "B-PER nghĩa là token sai, I-PER nghĩa là token đúng"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều đánh dấu token nằm ngoài thực thể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong sơ đồ BIO, B- (Begin) đánh dấu token mở đầu thực thể, I- (Inside) đánh dấu token tiếp theo cùng thực thể, còn O là ngoài thực thể; PER là loại thực thể người.",
+      "tags": [
+        "ner",
+        "bio"
+      ]
+    },
+    {
+      "id": "E65-N24",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Named Entity Recognition (NER) nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phát hiện và phân loại các thực thể có tên (người, tổ chức, địa điểm...) trong văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Đếm tần suất các nguyên âm"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp các câu theo độ dài"
+        },
+        {
+          "key": "D",
+          "text": "Tính độ dài trung bình của từ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NER xác định các cụm từ là thực thể có tên và gán loại cho chúng (PERSON, ORG, LOC, ...), là một tác vụ gán nhãn chuỗi quan trọng trong trích xuất thông tin.",
+      "tags": [
+        "ner",
+        "ie"
+      ]
+    },
+    {
+      "id": "E65-N25",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "POS tagging là tác vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gán nhãn từ loại (danh từ, động từ, tính từ...) cho mỗi token trong câu"
+        },
+        {
+          "key": "B",
+          "text": "Tính vị trí pixel của chữ trên màn hình"
+        },
+        {
+          "key": "C",
+          "text": "Xác định cảm xúc của câu"
+        },
+        {
+          "key": "D",
+          "text": "Nén văn bản thành ít từ hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Part-of-Speech tagging gán cho mỗi từ một nhãn từ loại theo ngữ cảnh, là một dạng gán nhãn chuỗi (sequence labeling) cơ bản trong NLP.",
+      "tags": [
+        "pos",
+        "sequence-labeling"
+      ]
+    },
+    {
+      "id": "E65-N27",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong mô hình ngôn ngữ n-gram, Laplace (add-one) smoothing giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tránh xác suất bằng 0 cho các n-gram chưa từng thấy trong tập huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ huấn luyện gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ stop words tự động"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số chiều embedding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Add-one smoothing cộng 1 vào mọi đếm n-gram để các n-gram không xuất hiện vẫn có xác suất dương, tránh nhân với 0 khi tính xác suất chuỗi.",
+      "tags": [
+        "smoothing",
+        "laplace"
+      ]
+    },
+    {
+      "id": "E65-N28",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một từ có count=2 trong lớp, tổng số token N=8, kích thước từ vựng V=5. Xác suất với Laplace smoothing P=(count+1)/(N+V) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.2308"
+        },
+        {
+          "key": "B",
+          "text": "0.2500"
+        },
+        {
+          "key": "C",
+          "text": "0.4000"
+        },
+        {
+          "key": "D",
+          "text": "0.1538"
+        }
+      ],
+      "answer": "A",
+      "explanation": "P = (2+1)/(8+5) = 3/13 ≈ 0.2308 (xác minh bằng numpy/math).",
+      "tags": [
+        "smoothing",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N29",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mô hình gán xác suất 1/4 cho mỗi từ trong chuỗi 2 từ. Perplexity của chuỗi (PP = exp(-trung bình log xác suất)) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "8.0"
+        },
+        {
+          "key": "D",
+          "text": "0.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình log = (ln0.25+ln0.25)/2 = ln0.25; PP = exp(-ln0.25) = 1/0.25 = 4.0 (xác minh bằng math).",
+      "tags": [
+        "perplexity",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-N30",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Perplexity của một mô hình ngôn ngữ cho biết điều gì? (giá trị thấp nghĩa là gì)",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức độ 'bối rối' khi dự đoán; perplexity càng thấp thì mô hình dự đoán càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Số tham số của mô hình; càng thấp càng nhiều tham số"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ huấn luyện tính bằng giây"
+        },
+        {
+          "key": "D",
+          "text": "Số tài liệu trong corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perplexity là số mũ của entropy trung bình, đo độ bất định của mô hình khi dự đoán từ tiếp theo; giá trị thấp nghĩa mô hình gán xác suất cao cho dữ liệu thật, dự đoán tốt hơn.",
+      "tags": [
+        "perplexity",
+        "lm"
+      ]
+    },
+    {
+      "id": "E65-N31",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "BLEU và ROUGE thường được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh giá chất lượng văn bản sinh ra (dịch máy, tóm tắt) bằng cách so khớp n-gram với tham chiếu"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ tokenization"
+        },
+        {
+          "key": "C",
+          "text": "Huấn luyện embedding từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ stop words khỏi văn bản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BLEU (thiên về precision n-gram, hay dùng cho dịch máy) và ROUGE (thiên về recall, hay dùng cho tóm tắt) đo độ trùng khớp n-gram giữa văn bản sinh và văn bản tham chiếu.",
+      "tags": [
+        "bleu",
+        "rouge",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E65-N32",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Polysemy (đa nghĩa) gây khó khăn gì cho biểu diễn từ tĩnh (như Word2Vec gốc)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một từ nhiều nghĩa chỉ có một vector duy nhất nên không phân biệt được các nghĩa theo ngữ cảnh"
+        },
+        {
+          "key": "B",
+          "text": "Từ đa nghĩa không thể được tokenize"
+        },
+        {
+          "key": "C",
+          "text": "Từ đa nghĩa luôn là stop words"
+        },
+        {
+          "key": "D",
+          "text": "Từ đa nghĩa làm giảm kích thước từ vựng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Embedding tĩnh gán một vector cố định cho mỗi từ, nên với từ đa nghĩa (ví dụ 'đá' = hòn đá / đá bóng) một vector phải gộp mọi nghĩa, không tách được theo ngữ cảnh.",
+      "tags": [
+        "polysemy",
+        "embedding"
+      ]
+    },
+    {
+      "id": "E65-N33",
+      "module": "N",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cơ bản giữa biểu diễn sparse (TF-IDF) và dense (embedding) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sparse có số chiều lớn với hầu hết phần tử bằng 0; dense có số chiều thấp với hầu hết phần tử khác 0 và mã hóa ngữ nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Sparse luôn chính xác hơn dense trong mọi tác vụ"
+        },
+        {
+          "key": "C",
+          "text": "Dense chỉ dùng được cho ảnh, sparse chỉ cho văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Hai loại này hoàn toàn giống nhau về số chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biểu diễn sparse (TF-IDF/BoW) có chiều bằng từ vựng, đa số 0, dựa trên tần suất; dense embedding ít chiều, giá trị thực, học được và đặt các từ gần nghĩa gần nhau trong không gian.",
+      "tags": [
+        "sparse",
+        "dense"
+      ]
+    },
+    {
+      "id": "E65-G01",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong dữ liệu đồ thị, ma trận kề A (adjacency matrix) biểu diễn điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ kết nối giữa các cặp đỉnh: A[i][j] cho biết có cạnh giữa đỉnh i và j hay không"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng nội tại của từng đỉnh"
+        },
+        {
+          "key": "C",
+          "text": "Nhãn lớp của mỗi đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Thứ tự thời gian các đỉnh được tạo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận kề A có kích thước n×n; A[i][j] khác 0 (thường =1) khi có cạnh nối đỉnh i và j. Đặc trưng đỉnh được lưu riêng trong ma trận X.",
+      "tags": [
+        "graph",
+        "adjacency"
+      ]
+    },
+    {
+      "id": "E65-G02",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ma trận bậc D (degree matrix) của một đồ thị là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ma trận đường chéo với D[i][i] = bậc (số cạnh kề) của đỉnh i"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận chứa đặc trưng của các cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Ma trận xác suất chuyển giữa các đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Ma trận nhãn của các đỉnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận bậc D là ma trận đường chéo, mỗi phần tử D[i][i] bằng bậc của đỉnh i (tổng hàng tương ứng của A); D dùng để chuẩn hóa ma trận kề trong GCN.",
+      "tags": [
+        "graph",
+        "degree"
+      ]
+    },
+    {
+      "id": "E65-G03",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đồ thị vô hướng 4 đỉnh có cạnh (0-1),(0-2),(1-2),(2-3). Bậc của đỉnh số 2 là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đỉnh 2 nối với 0, 1 và 3 nên bậc = 3; bằng tổng hàng 2 của ma trận kề (xác minh bằng numpy A.sum(axis=1)).",
+      "tags": [
+        "graph",
+        "degree",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-G04",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đồ thị vô hướng có ma trận kề đối xứng với tổng tất cả phần tử bằng 8. Số cạnh của đồ thị là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi cạnh vô hướng được đếm hai lần trong ma trận kề, nên số cạnh = tổng/2 = 8/2 = 4 (xác minh bằng numpy).",
+      "tags": [
+        "graph",
+        "edges",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-G05",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao CNN và RNN không áp dụng trực tiếp được cho dữ liệu đồ thị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đồ thị không có cấu trúc lưới cố định hay thứ tự tuyến tính, và số lân cận của mỗi đỉnh thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Vì đồ thị luôn quá lớn để lưu trong bộ nhớ"
+        },
+        {
+          "key": "C",
+          "text": "Vì đồ thị không chứa số liệu, chỉ chứa chữ"
+        },
+        {
+          "key": "D",
+          "text": "Vì CNN/RNN không hỗ trợ phép cộng vector"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN giả định lưới đều (ảnh) và RNN giả định chuỗi có thứ tự; đồ thị có cấu trúc bất quy tắc, không thứ tự cố định, mỗi đỉnh có số lân cận khác nhau nên cần kiến trúc riêng.",
+      "tags": [
+        "gnn",
+        "motivation"
+      ]
+    },
+    {
+      "id": "E65-G06",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý tưởng cốt lõi của message passing (truyền tin) trong GNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi đỉnh thu thập (aggregate) thông tin từ các đỉnh lân cận rồi cập nhật (update) biểu diễn của chính nó"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi đỉnh gửi nhãn lớp cho server trung tâm"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi cạnh được xóa lần lượt để đơn giản hóa đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Toàn bộ đồ thị được làm phẳng thành một chuỗi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Message passing gồm hai bước: aggregate (gộp thông điệp từ các đỉnh lân cận) và update (kết hợp với trạng thái hiện tại để tạo biểu diễn mới); lặp qua nhiều lớp mở rộng vùng lân cận.",
+      "tags": [
+        "gnn",
+        "message-passing"
+      ]
+    },
+    {
+      "id": "E65-G07",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao hàm aggregation trong GNN nên là permutation invariant (bất biến hoán vị)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì các đỉnh lân cận không có thứ tự cố định, kết quả không nên phụ thuộc vào thứ tự liệt kê chúng"
+        },
+        {
+          "key": "B",
+          "text": "Vì điều đó làm mô hình chạy nhanh hơn gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Vì các đỉnh luôn được sắp xếp theo bảng chữ cái"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó loại bỏ nhu cầu có ma trận kề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tập lân cận của một đỉnh là một tập hợp không có thứ tự; hàm aggregate như sum/mean/max bất biến với hoán vị nên đầu ra giống nhau dù sắp xếp lân cận theo thứ tự nào.",
+      "tags": [
+        "gnn",
+        "aggregation"
+      ]
+    },
+    {
+      "id": "E65-G08",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ví dụ nào sau đây KHÔNG phải là một aggregator hợp lệ (permutation invariant) cho GNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấy phần tử đầu tiên theo thứ tự liệt kê các lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Sum (tổng) các vector lân cận"
+        },
+        {
+          "key": "C",
+          "text": "Mean (trung bình) các vector lân cận"
+        },
+        {
+          "key": "D",
+          "text": "Max theo từng chiều của các vector lân cận"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sum, mean, max đều bất biến hoán vị. Lấy 'phần tử đầu tiên theo thứ tự' phụ thuộc vào thứ tự liệt kê nên không bất biến hoán vị, không phù hợp làm aggregator.",
+      "tags": [
+        "gnn",
+        "aggregation"
+      ]
+    },
+    {
+      "id": "E65-G09",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đỉnh 0 có hai lân cận với đặc trưng [2,2] và [4,0]. Kết quả aggregation kiểu MEAN của lân cận là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[6, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 2]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean = ([2,2]+[4,0])/2 = [6,2]/2 = [3,1] (xác minh bằng numpy X[neighbors].mean(axis=0)).",
+      "tags": [
+        "gnn",
+        "aggregation",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-G10",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Công thức lan truyền một lớp GCN (Kipf & Welling) có dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "H' = σ( Â X W ), với Â là ma trận kề đã chuẩn hóa đối xứng (có self-loop), X đặc trưng, W trọng số"
+        },
+        {
+          "key": "B",
+          "text": "H' = σ( X + nhãn lớp )"
+        },
+        {
+          "key": "C",
+          "text": "H' = sắp xếp các đỉnh theo bậc giảm dần"
+        },
+        {
+          "key": "D",
+          "text": "H' = tích các nhãn cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GCN thực hiện H^(l+1) = σ(Â H^(l) W^(l)) với Â = D̃^(-1/2)(A+I)D̃^(-1/2) là ma trận kề chuẩn hóa đối xứng có self-loop, W là ma trận trọng số học được.",
+      "tags": [
+        "gcn",
+        "kipf"
+      ]
+    },
+    {
+      "id": "E65-G11",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong GCN, vì sao người ta thêm self-loop (cộng ma trận đơn vị I vào A)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để mỗi đỉnh cũng tính cả đặc trưng của chính nó khi tổng hợp thông tin lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Để xóa toàn bộ cạnh hiện có"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng số đỉnh của đồ thị lên gấp đôi"
+        },
+        {
+          "key": "D",
+          "text": "Để biến đồ thị vô hướng thành có hướng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng I tạo self-loop để khi nhân Â X, biểu diễn mới của một đỉnh bao gồm cả đặc trưng của chính nó chứ không chỉ của các lân cận, tránh mất thông tin bản thân.",
+      "tags": [
+        "gcn",
+        "self-loop"
+      ]
+    },
+    {
+      "id": "E65-G12",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với self-loop (A+I), đỉnh 0 vốn có bậc 2. Bậc của đỉnh 0 sau khi thêm self-loop là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thêm self-loop cộng 1 vào đường chéo, nên bậc đỉnh 0 = 2 + 1 = 3 (xác minh bằng numpy (A+I).sum(axis=1)).",
+      "tags": [
+        "gcn",
+        "self-loop",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-G13",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đỉnh 2 có bậc 3 với các lân cận 0,1,3. Trong chuẩn hóa random-walk Â = D^(-1)A, giá trị Â[2][0] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.3333"
+        },
+        {
+          "key": "B",
+          "text": "1.0000"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.0000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn hóa theo hàng chia mỗi cạnh cho bậc đỉnh: Â[2][0] = 1/deg(2) = 1/3 ≈ 0.3333 (xác minh bằng numpy diag(1/deg)@A).",
+      "tags": [
+        "gcn",
+        "normalization",
+        "computational"
+      ]
+    },
+    {
+      "id": "E65-G14",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GraphSAGE khác GCN gốc chủ yếu ở đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GraphSAGE lấy mẫu (sample) một tập con lân cận và là phương pháp inductive, tổng quát cho đỉnh chưa thấy"
+        },
+        {
+          "key": "B",
+          "text": "GraphSAGE không dùng đặc trưng đỉnh"
+        },
+        {
+          "key": "C",
+          "text": "GraphSAGE chỉ chạy trên đồ thị có hướng"
+        },
+        {
+          "key": "D",
+          "text": "GraphSAGE bỏ hoàn toàn bước aggregation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GraphSAGE lấy mẫu cố định số lân cận rồi aggregate (mean/pool/LSTM) và học hàm tạo embedding, nên inductive: áp dụng được cho đỉnh/đồ thị mới chưa xuất hiện lúc huấn luyện.",
+      "tags": [
+        "graphsage",
+        "inductive"
+      ]
+    },
+    {
+      "id": "E65-G15",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đóng góp chính của GAT (Graph Attention Network) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học trọng số attention cho từng cạnh, cho phép các lân cận khác nhau đóng góp khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ hoàn toàn các đỉnh ít quan trọng"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển đồ thị thành ảnh để dùng CNN"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng tổng đơn giản với trọng số cố định bằng nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAT dùng cơ chế self-attention trên cạnh để tính trọng số học được cho mỗi lân cận, thay vì trọng số cố định như GCN, nên đỉnh chú ý nhiều hơn vào lân cận quan trọng.",
+      "tags": [
+        "gat",
+        "attention"
+      ]
+    },
+    {
+      "id": "E65-G16",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Số lớp (layers) trong một GNN liên quan thế nào tới vùng lân cận mà mỗi đỉnh 'nhìn thấy'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số lớp bằng số hop (bước nhảy) lân cận mà thông tin có thể lan tới một đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Số lớp không liên quan gì tới vùng lân cận"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi lớp giảm một nửa số đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp quyết định số nhãn lớp đầu ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lớp GNN cho phép một đỉnh tổng hợp thông tin từ lân cận trực tiếp; sau k lớp, một đỉnh đã thu thập thông tin từ các đỉnh trong phạm vi k-hop.",
+      "tags": [
+        "gnn",
+        "layers",
+        "receptive-field"
+      ]
+    },
+    {
+      "id": "E65-G17",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng over-smoothing trong GNN sâu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi quá nhiều lớp khiến biểu diễn của các đỉnh hội tụ giống nhau, khó phân biệt"
+        },
+        {
+          "key": "B",
+          "text": "Khi đồ thị bị xóa hết cạnh"
+        },
+        {
+          "key": "C",
+          "text": "Khi mô hình huấn luyện quá nhanh"
+        },
+        {
+          "key": "D",
+          "text": "Khi số đỉnh tăng vô hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Over-smoothing xảy ra khi xếp chồng quá nhiều lớp: mỗi lớp trộn thông tin lân cận khiến đặc trưng các đỉnh dần đồng nhất, mất khả năng phân biệt và giảm hiệu năng.",
+      "tags": [
+        "gnn",
+        "over-smoothing"
+      ]
+    },
+    {
+      "id": "E65-G18",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Over-squashing trong GNN đề cập đến vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thông tin từ vùng lân cận xa bị nén ép vào vector kích thước cố định, gây mất mát thông tin"
+        },
+        {
+          "key": "B",
+          "text": "Đồ thị bị nén thành một đỉnh duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ huấn luyện bị giảm một nửa"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số attention luôn bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Over-squashing là việc thông tin từ nhiều đỉnh xa (số mũ lân cận) phải dồn nén qua các nút cổ chai (bottleneck) vào biểu diễn cố định, khiến thông tin xa bị bóp méo/mất.",
+      "tags": [
+        "gnn",
+        "over-squashing"
+      ]
+    },
+    {
+      "id": "E65-G19",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bước readout (pooling toàn cục) trong GNN dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gộp biểu diễn của tất cả các đỉnh thành một vector duy nhất biểu diễn cả đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Xóa các đỉnh có bậc thấp"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp các đỉnh theo nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Tạo thêm cạnh ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Để có biểu diễn ở mức đồ thị (graph-level), readout tổng hợp (sum/mean/max hoặc hierarchical pooling) embedding của mọi đỉnh thành một vector duy nhất cho phân loại cả đồ thị.",
+      "tags": [
+        "gnn",
+        "readout",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E65-G20",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tác vụ node classification (phân loại đỉnh) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán nhãn cho từng đỉnh trong đồ thị dựa trên đặc trưng của nó và cấu trúc lân cận"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán có cạnh giữa hai đỉnh hay không"
+        },
+        {
+          "key": "C",
+          "text": "Gán một nhãn duy nhất cho toàn bộ đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Đếm số đỉnh trong đồ thị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Node classification gán nhãn cho mỗi đỉnh (ví dụ phân loại người dùng trong mạng xã hội), tận dụng cả đặc trưng đỉnh lẫn thông tin từ các đỉnh lân cận.",
+      "tags": [
+        "gnn",
+        "node-classification"
+      ]
+    },
+    {
+      "id": "E65-G21",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tác vụ link prediction (dự đoán liên kết) nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán khả năng tồn tại hoặc xuất hiện của một cạnh giữa hai đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại toàn bộ đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Đếm số lớp của GNN"
+        },
+        {
+          "key": "D",
+          "text": "Gán nhãn từ loại cho mỗi đỉnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Link prediction ước lượng xác suất có cạnh giữa hai đỉnh, ứng dụng trong gợi ý bạn bè, gợi ý sản phẩm và hoàn thiện knowledge graph.",
+      "tags": [
+        "gnn",
+        "link-prediction"
+      ]
+    },
+    {
+      "id": "E65-G22",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa học transductive và inductive trên đồ thị là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transductive học trên đồ thị cố định đã thấy mọi đỉnh; inductive tổng quát được cho đỉnh/đồ thị mới chưa thấy"
+        },
+        {
+          "key": "B",
+          "text": "Transductive luôn nhanh hơn inductive gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Inductive không dùng đặc trưng đỉnh"
+        },
+        {
+          "key": "D",
+          "text": "Hai cách hoàn toàn giống nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong transductive, tất cả đỉnh (kể cả cần dự đoán) đã có mặt lúc huấn luyện; inductive học một hàm tổng quát để áp dụng cho đỉnh hoặc đồ thị mới chưa xuất hiện.",
+      "tags": [
+        "gnn",
+        "transductive",
+        "inductive"
+      ]
+    },
+    {
+      "id": "E65-G23",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ứng dụng nào sau đây là điển hình của GNN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán tính chất phân tử trong hóa học, hệ gợi ý và phân tích mạng xã hội"
+        },
+        {
+          "key": "B",
+          "text": "Nén ảnh JPEG"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp mảng số nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Mã hóa mật khẩu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GNN phù hợp với dữ liệu có cấu trúc quan hệ: phân tử (nguyên tử-liên kết), mạng xã hội (người-quan hệ), hệ gợi ý (người dùng-sản phẩm) và knowledge graph.",
+      "tags": [
+        "gnn",
+        "applications"
+      ]
+    },
+    {
+      "id": "E65-G24",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phương pháp DeepWalk và node2vec tạo embedding đỉnh dựa trên ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinh các bước đi ngẫu nhiên (random walk) trên đồ thị rồi áp dụng kỹ thuật giống Word2Vec lên các chuỗi đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Giải hệ phương trình tuyến tính của ma trận kề"
+        },
+        {
+          "key": "C",
+          "text": "Áp dụng tích chập ảnh lên ma trận kề"
+        },
+        {
+          "key": "D",
+          "text": "Đếm số tam giác trong đồ thị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DeepWalk/node2vec xem các random walk như 'câu' gồm các đỉnh, rồi dùng skip-gram (giống Word2Vec) để học embedding sao cho các đỉnh hay cùng xuất hiện gần nhau có vector gần nhau.",
+      "tags": [
+        "node2vec",
+        "deepwalk",
+        "random-walk"
+      ]
+    },
+    {
+      "id": "E65-G25",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt giữa GNN dựa trên phổ (spectral) và dựa trên không gian (spatial) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Spectral định nghĩa tích chập qua biến đổi phổ của Laplacian đồ thị; spatial định nghĩa trực tiếp qua tổng hợp lân cận trong không gian đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Spectral chỉ chạy trên CPU, spatial chỉ chạy trên GPU"
+        },
+        {
+          "key": "C",
+          "text": "Spatial không dùng ma trận kề"
+        },
+        {
+          "key": "D",
+          "text": "Hai cách tiếp cận cho kết quả ngược dấu nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phương pháp spectral dựa trên phân tích phổ của Laplacian đồ thị (miền tần số), còn spatial (như GraphSAGE, GAT) định nghĩa tích chập trực tiếp bằng aggregation từ các lân cận.",
+      "tags": [
+        "gnn",
+        "spectral",
+        "spatial"
+      ]
+    },
+    {
+      "id": "E65-G26",
+      "module": "G",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Graph classification (phân loại đồ thị) khác node classification ở chỗ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Graph classification gán một nhãn cho toàn bộ đồ thị, thường cần bước readout; node classification gán nhãn cho từng đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Graph classification chỉ dùng cho đồ thị có hướng"
+        },
+        {
+          "key": "C",
+          "text": "Node classification cần readout còn graph classification thì không"
+        },
+        {
+          "key": "D",
+          "text": "Hai tác vụ này giống hệt nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Node classification dự đoán nhãn cho mỗi đỉnh, còn graph classification dự đoán một nhãn cho cả đồ thị (ví dụ phân tử độc/không độc), cần readout/pooling để gộp embedding các đỉnh.",
+      "tags": [
+        "gnn",
+        "graph-classification",
+        "readout"
+      ]
+    },
+    {
+      "id": "E65-N57",
+      "module": "N",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích công thức TF-IDF (term frequency và inverse document frequency) và vì sao nó hạ trọng số những từ phổ biến. Cho một ví dụ nhỏ minh họa.",
+      "modelAnswer": "TF-IDF gán cho mỗi từ trong một tài liệu trọng số = tf(t,d) * idf(t). Term frequency tf(t,d) đo tần suất từ t trong tài liệu d (số lần xuất hiện, có thể chuẩn hóa). Inverse document frequency idf(t) = log(N/df(t)), với N là tổng số tài liệu và df(t) là số tài liệu chứa t. Khi một từ xuất hiện ở rất nhiều tài liệu (df lớn), N/df nhỏ và log của nó tiến về 0, nên idf nhỏ và trọng số TF-IDF bị giảm; ngược lại từ hiếm (df nhỏ) có idf lớn. Ý nghĩa: từ phổ biến khắp nơi (như 'là', 'và') mang ít thông tin phân biệt tài liệu nên cần hạ trọng số, còn từ đặc trưng cho một số ít tài liệu được nhấn mạnh. Ví dụ: corpus N=4 tài liệu, từ 'máy' xuất hiện trong df=2 tài liệu, và trong một tài liệu có tf=3. Khi đó idf = ln(4/2) = ln(2) ≈ 0.693 và TF-IDF = 3 * 0.693 ≈ 2.079. Nếu một từ khác xuất hiện ở cả 4 tài liệu thì idf = ln(4/4) = 0, nên dù tf lớn TF-IDF vẫn bằng 0, thể hiện rõ cơ chế hạ trọng số từ phổ biến.",
+      "rubric": [
+        "Nêu đúng công thức tf*idf và idf=log(N/df) cùng ý nghĩa từng thành phần (1.5đ)",
+        "Giải thích đúng vì sao từ phổ biến (df lớn) bị hạ trọng số do idf nhỏ/tiến về 0 (1.5đ)",
+        "Đưa ví dụ số cụ thể tính ra giá trị TF-IDF hợp lý (1.0đ)"
+      ],
+      "tags": [
+        "tfidf",
+        "essay"
+      ]
+    },
+    {
+      "id": "E65-N58",
+      "module": "N",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân biệt stemming và lemmatization trong tiền xử lý văn bản; đồng thời so sánh biểu diễn Bag-of-Words (BoW/TF-IDF) với biểu diễn embedding (dense). Nêu ưu nhược điểm.",
+      "modelAnswer": "Stemming và lemmatization đều đưa các biến thể của một từ về dạng chung để giảm độ thưa. Stemming dùng luật cắt hậu tố thô (ví dụ thuật toán Porter): nhanh, đơn giản nhưng kết quả có thể không phải từ thật (ví dụ 'studies' -> 'studi'). Lemmatization tra cứu từ điển và thông tin từ loại để đưa về lemma hợp lệ (ví dụ 'studies' -> 'study', 'better' -> 'good'): chính xác hơn nhưng tốn tài nguyên và cần thông tin ngữ pháp. Về biểu diễn văn bản: BoW/TF-IDF tạo vector thưa, số chiều bằng kích thước từ vựng, mỗi chiều ứng với một từ; ưu điểm là đơn giản, dễ diễn giải, hiệu quả với mô hình tuyến tính; nhược điểm là chiều rất lớn, thưa, mất thứ tự từ và không nắm bắt quan hệ ngữ nghĩa (các từ trực giao nhau, 'tốt' và 'hay' xa nhau như 'tốt' và 'xe'). Embedding (Word2Vec, GloVe) là vector dày đặc, số chiều thấp (vài chục đến vài trăm), học từ dữ liệu sao cho các từ gần nghĩa nằm gần nhau, nắm bắt quan hệ ngữ nghĩa và có thể đo bằng cosine similarity; nhược điểm là cần dữ liệu/huấn luyện, khó diễn giải từng chiều, và embedding tĩnh không phân biệt được đa nghĩa theo ngữ cảnh. Tóm lại stemming/lemmatization là bước chuẩn hóa, còn BoW vs embedding là hai triết lý biểu diễn: thưa-đếm so với dày-ngữ nghĩa.",
+      "rubric": [
+        "Phân biệt đúng stemming (luật, gốc có thể không phải từ thật) và lemmatization (từ điển, lemma hợp lệ) (1.5đ)",
+        "So sánh BoW/TF-IDF (thưa, nhiều chiều, mất ngữ nghĩa) với embedding (dày, ít chiều, có ngữ nghĩa) (1.5đ)",
+        "Nêu được ưu nhược điểm hai bên và ví dụ minh họa (1.0đ)"
+      ],
+      "tags": [
+        "stemming",
+        "embedding",
+        "essay"
+      ]
+    },
+    {
+      "id": "E65-G57",
+      "module": "G",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích cơ chế message passing / neighborhood aggregation trong GNN. Mô tả hai bước aggregate và update, vai trò của aggregator bất biến hoán vị, và liên hệ số lớp với phạm vi lân cận.",
+      "modelAnswer": "Message passing (truyền tin) là nguyên lý nền tảng của hầu hết GNN hiện đại. Tại mỗi lớp, mỗi đỉnh cập nhật biểu diễn của nó qua hai bước. Bước 1 - aggregate: đỉnh thu thập các 'thông điệp' (vector đặc trưng/ẩn) từ tập đỉnh lân cận của nó và gộp lại bằng một hàm tổng hợp như sum, mean hoặc max. Bước 2 - update: kết hợp kết quả tổng hợp được với biểu diễn hiện tại của chính đỉnh (thường qua một biến đổi tuyến tính có trọng số W rồi qua hàm phi tuyến σ) để tạo biểu diễn mới. Ví dụ trong GCN: H^(l+1) = σ(Â H^(l) W^(l)) với Â là ma trận kề chuẩn hóa có self-loop, chính là một dạng aggregate-update viết dưới dạng ma trận. Hàm aggregate phải bất biến hoán vị (permutation invariant) vì tập lân cận của một đỉnh không có thứ tự cố định; sum/mean/max thỏa mãn điều này nên kết quả không phụ thuộc vào cách liệt kê lân cận, đảm bảo mô hình nhất quán với bản chất của đồ thị. Việc xếp chồng nhiều lớp mở rộng phạm vi: sau lớp thứ nhất một đỉnh thấy lân cận 1-hop, sau k lớp nó tổng hợp thông tin từ toàn bộ đỉnh trong phạm vi k-hop, nên số lớp xấp xỉ bằng số bước nhảy lân cận. Nhờ chia sẻ trọng số giữa các đỉnh và dùng aggregator bất biến, GNN xử lý được đồ thị có kích thước và cấu trúc lân cận khác nhau.",
+      "rubric": [
+        "Mô tả đúng hai bước aggregate và update của message passing (1.5đ)",
+        "Giải thích vai trò aggregator bất biến hoán vị (sum/mean/max) và lý do (1.0đ)",
+        "Liên hệ số lớp với phạm vi k-hop lân cận, có ví dụ/công thức GCN (1.5đ)"
+      ],
+      "tags": [
+        "message-passing",
+        "gnn",
+        "essay"
+      ]
+    },
+    {
+      "id": "E65-G58",
+      "module": "G",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Over-smoothing trong GNN là gì? Giải thích vì sao nó xảy ra khi GNN quá sâu, hậu quả của nó và nêu một vài cách giảm thiểu.",
+      "modelAnswer": "Over-smoothing là hiện tượng khi xếp chồng quá nhiều lớp GNN, biểu diễn (embedding) của các đỉnh dần trở nên giống nhau và khó phân biệt. Nguyên nhân: mỗi lớp message passing thực hiện một dạng trung bình/làm mượt thông tin trên lân cận (đặc biệt với aggregator mean và ma trận kề chuẩn hóa, mỗi lớp giống một bước khuếch tán/Laplacian smoothing). Khi lặp lại nhiều lần, thông tin lan rộng và bị trộn đều khắp đồ thị, khiến đặc trưng các đỉnh hội tụ về cùng một giá trị (hoặc tỷ lệ với bậc đỉnh), gần như độc lập với đặc trưng ban đầu của từng đỉnh. Về mặt phổ, các bước làm mượt lặp lại đẩy tín hiệu về thành phần tần số thấp chung. Hậu quả: các đỉnh thuộc lớp khác nhau trở nên không phân biệt được, độ chính xác của node classification giảm khi tăng số lớp quá mức; do đó GNN thường chỉ dùng 2-3 lớp. Một số cách giảm thiểu: dùng residual/skip connection (như JKNet, GCNII) để giữ lại đặc trưng ban đầu; chuẩn hóa (PairNorm, BatchNorm trên đồ thị); DropEdge để ngẫu nhiên bỏ bớt cạnh; giới hạn số lớp; hoặc dùng các kiến trúc chống over-smoothing. Cần phân biệt over-smoothing (đặc trưng đỉnh đồng nhất) với over-squashing (thông tin từ xa bị nén ép qua nút cổ chai).",
+      "rubric": [
+        "Định nghĩa đúng over-smoothing: embedding các đỉnh hội tụ giống nhau khi GNN quá sâu (1.0đ)",
+        "Giải thích nguyên nhân: mỗi lớp là một bước làm mượt/khuếch tán, lặp nhiều lần làm đặc trưng đồng nhất (1.5đ)",
+        "Nêu hậu quả (giảm khả năng phân biệt/độ chính xác) và ít nhất một cách giảm thiểu (1.5đ)"
+      ],
+      "tags": [
+        "over-smoothing",
+        "gnn",
+        "essay"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1869 @@
+{
+  "id": "exam-61",
+  "title": "MLP — Mạng Nơ-ron Nhiều lớp (Chuyên sâu + Code)",
+  "description": "60 câu chuyên sâu về Mạng Nơ-ron Nhiều lớp (MLP): kiến trúc input/hidden/output và fully-connected, vì sao cần hidden layer & phi tuyến (bài toán XOR), perceptron đơn vs MLP, biểu diễn ma trận của forward pass, đếm tham số theo kiến trúc, capacity theo độ sâu/rộng, định lý xấp xỉ phổ quát, backpropagation qua nhiều lớp (chain rule, gradient flow), chọn activation cho hidden/output, batch & broadcasting, dropout/L2/init, dead neuron & vanishing gradient, so sánh MLP với CNN và logistic regression. Nhiều câu tính toán được kiểm chứng bằng NumPy, kèm câu code forward MLP.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E61-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mạng MLP (Multi-Layer Perceptron) điển hình gồm những loại lớp nào theo thứ tự?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lớp đầu vào (input) → một/nhiều lớp ẩn (hidden) → lớp đầu ra (output)"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ một lớp đầu vào và một lớp đầu ra, không có lớp ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Các lớp tích chập rồi tới lớp gộp (pooling)"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp duy nhất chứa toàn bộ neuron"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MLP gồm lớp đầu vào, ít nhất một lớp ẩn và lớp đầu ra; các lớp nối đầy đủ (fully-connected). Đây là khác biệt cơ bản so với perceptron đơn (không có lớp ẩn).",
+      "tags": [
+        "mlp",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E61-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao một perceptron ĐƠN (single-layer, không lớp ẩn, không phi tuyến) KHÔNG học được hàm XOR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì XOR không tách được tuyến tính (not linearly separable), cần ranh giới phi tuyến"
+        },
+        {
+          "key": "B",
+          "text": "Vì XOR cần quá nhiều dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Vì XOR là bài toán hồi quy chứ không phải phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Vì perceptron đơn không có trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "XOR không tách được bằng một siêu phẳng tuyến tính. Perceptron đơn chỉ tạo ranh giới tuyến tính nên thất bại; thêm lớp ẩn phi tuyến mới giải được XOR.",
+      "tags": [
+        "mlp",
+        "xor",
+        "perceptron"
+      ]
+    },
+    {
+      "id": "E61-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu một MLP dùng hàm kích hoạt TUYẾN TÍNH (identity) ở mọi lớp ẩn thì điều gì xảy ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Toàn mạng tương đương một phép biến đổi tuyến tính duy nhất, mất khả năng học hàm phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Mạng vẫn học được mọi hàm phi tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Mạng huấn luyện nhanh hơn nhưng chính xác hơn"
+        },
+        {
+          "key": "D",
+          "text": "Mạng trở thành một CNN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hợp của nhiều phép tuyến tính vẫn là một phép tuyến tính, nên nhiều lớp tuyến tính sụp về một lớp tuyến tính. Phi tuyến (ReLU…) mới cho phép biểu diễn hàm phức tạp.",
+      "tags": [
+        "mlp",
+        "nonlinearity"
+      ]
+    },
+    {
+      "id": "E61-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của 'lớp ẩn' (hidden layer) trong MLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học các biểu diễn trung gian/đặc trưng phi tuyến của dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ sao chép đầu vào sang đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Lưu trữ nhãn của tập huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa dữ liệu về [0,1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp ẩn kết hợp đầu vào qua trọng số và phi tuyến để tạo các đặc trưng trung gian ngày càng trừu tượng, giúp mạng xấp xỉ hàm phức tạp.",
+      "tags": [
+        "mlp",
+        "hidden-layer",
+        "feature-learning"
+      ]
+    },
+    {
+      "id": "E61-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định lý xấp xỉ phổ quát (Universal Approximation Theorem) phát biểu điều gì về MLP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một MLP với MỘT lớp ẩn đủ rộng (đủ neuron) và phi tuyến có thể xấp xỉ mọi hàm liên tục trên tập compact với độ chính xác tùy ý"
+        },
+        {
+          "key": "B",
+          "text": "MLP luôn cần ít nhất 10 lớp ẩn để học bất kỳ hàm nào"
+        },
+        {
+          "key": "C",
+          "text": "MLP không thể xấp xỉ hàm phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ CNN mới có tính xấp xỉ phổ quát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định lý nói một lớp ẩn đủ rộng với hàm kích hoạt phi tuyến phù hợp đủ để xấp xỉ hàm liên tục bất kỳ; tuy nhiên 'đủ rộng' có thể rất lớn, nên thực tế dùng mạng sâu cho hiệu quả.",
+      "tags": [
+        "mlp",
+        "universal-approximation"
+      ]
+    },
+    {
+      "id": "E61-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Fully-connected' (kết nối đầy đủ) giữa hai lớp trong MLP nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi neuron của lớp trước nối tới MỌI neuron của lớp sau bằng một trọng số riêng"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ neuron đầu tiên được nối"
+        },
+        {
+          "key": "C",
+          "text": "Các neuron chia sẻ chung một trọng số duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không có kết nối nào, chỉ truyền nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong lớp dense/FC, mỗi đơn vị đầu vào nối tới mỗi đơn vị đầu ra; số trọng số = (số đầu vào)×(số đầu ra), cộng bias mỗi đơn vị ra.",
+      "tags": [
+        "mlp",
+        "fully-connected"
+      ]
+    },
+    {
+      "id": "E61-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với hồi quy tuyến tính/logistic, điểm khác biệt cốt lõi của MLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MLP xếp chồng nhiều lớp với phi tuyến nên học được ranh giới quyết định/hàm PHI TUYẾN, không chỉ tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "MLP không có trọng số học được"
+        },
+        {
+          "key": "C",
+          "text": "MLP chỉ dùng cho dữ liệu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "MLP luôn ít tham số hơn hồi quy tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy tuyến tính/logistic tạo ranh giới tuyến tính; MLP nhờ lớp ẩn + phi tuyến biểu diễn hàm phi tuyến phức tạp hơn nhiều. Logistic regression chính là một MLP không lớp ẩn với sigmoid.",
+      "tags": [
+        "mlp",
+        "comparison",
+        "logistic"
+      ]
+    },
+    {
+      "id": "E61-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho lớp với W=[[1,−1],[2,0]], b=[−1,0], đầu vào x=[3,1]. Tính z=Wx+b rồi áp ReLU. Kết quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[2, 6]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 7]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z1=1·3+(−1)·1+(−1)=1; z2=2·3+0·1+0=6; ReLU([1,6])=[1,6] vì cả hai dương.",
+      "tags": [
+        "mlp",
+        "forward",
+        "relu"
+      ]
+    },
+    {
+      "id": "E61-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một neuron có w=[0.5,−0.5], b=1, đầu vào x=[2,4], dùng sigmoid. Đầu ra a=σ(w·x+b) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.731"
+        },
+        {
+          "key": "C",
+          "text": "0.269"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z=0.5·2+(−0.5)·4+1=1−2+1=0; σ(0)=1/(1+e^0)=0.5.",
+      "tags": [
+        "mlp",
+        "forward",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E61-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiến trúc MLP 784→128→64→10 (đều fully-connected, có bias). Tổng số THAM SỐ (weights+biases) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "109386"
+        },
+        {
+          "key": "B",
+          "text": "108160"
+        },
+        {
+          "key": "C",
+          "text": "101770"
+        },
+        {
+          "key": "D",
+          "text": "110000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp1: 784·128+128=100480; Lớp2: 128·64+64=8256; Lớp3: 64·10+10=650. Tổng=100480+8256+650=109386.",
+      "tags": [
+        "mlp",
+        "param-count"
+      ]
+    },
+    {
+      "id": "E61-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giữa lớp có 256 neuron và lớp kế tiếp có 64 neuron, ma trận trọng số W (theo quy ước a=Wx, x là vector cột) có kích thước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "64 × 256"
+        },
+        {
+          "key": "B",
+          "text": "256 × 64"
+        },
+        {
+          "key": "C",
+          "text": "64 × 64"
+        },
+        {
+          "key": "D",
+          "text": "256 × 256"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với a=Wx và x∈R^256, a∈R^64, ta cần W ánh xạ 256→64 nên W có dạng (64×256). Vector bias dài 64.",
+      "tags": [
+        "mlp",
+        "weight-shape"
+      ]
+    },
+    {
+      "id": "E61-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp fully-connected nối 100 đầu vào với 50 đầu ra, CÓ bias. Số tham số của riêng lớp này là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5050"
+        },
+        {
+          "key": "B",
+          "text": "5000"
+        },
+        {
+          "key": "C",
+          "text": "150"
+        },
+        {
+          "key": "D",
+          "text": "500"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Weights=100·50=5000; bias=50; tổng=5050.",
+      "tags": [
+        "mlp",
+        "param-count"
+      ]
+    },
+    {
+      "id": "E61-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Forward vector hóa cho cả batch: X có shape (32, 784), W có shape (784, 128), tính H=X·W+b. Shape của H?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(32, 128)"
+        },
+        {
+          "key": "B",
+          "text": "(128, 32)"
+        },
+        {
+          "key": "C",
+          "text": "(32, 784)"
+        },
+        {
+          "key": "D",
+          "text": "(784, 128)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân ma trận (32,784)·(784,128)=(32,128); bias b shape (128,) được broadcast cộng vào mỗi hàng.",
+      "tags": [
+        "mlp",
+        "batch",
+        "shape",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E61-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho vector tiền kích hoạt z=[−2, 0.5, 3, −0.1] qua ReLU. Có bao nhiêu phần tử có đạo hàm ReLU bằng 1 (tức z>0)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU'(z)=1 khi z>0, =0 khi z<0. Các phần tử dương: 0.5 và 3 → 2 phần tử.",
+      "tags": [
+        "mlp",
+        "relu",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E61-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Logits đầu ra z=[2,1,0], nhãn đúng là lớp 0 (one-hot [1,0,0]). Cross-entropy L=−ln(p_0) với p=softmax(z) ≈?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.408"
+        },
+        {
+          "key": "B",
+          "text": "0.665"
+        },
+        {
+          "key": "C",
+          "text": "1.099"
+        },
+        {
+          "key": "D",
+          "text": "0.000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax: p=[0.665,0.245,0.090]; L=−ln(0.665)≈0.408.",
+      "tags": [
+        "mlp",
+        "softmax",
+        "cross-entropy"
+      ]
+    },
+    {
+      "id": "E61-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với softmax + cross-entropy, gradient ∂L/∂z = p − y. Cho z=[1,2,3], nhãn đúng lớp 2. Thành phần gradient tại lớp 2 ≈?",
+      "options": [
+        {
+          "key": "A",
+          "text": "−0.335"
+        },
+        {
+          "key": "B",
+          "text": "0.665"
+        },
+        {
+          "key": "C",
+          "text": "0.245"
+        },
+        {
+          "key": "D",
+          "text": "0.090"
+        }
+      ],
+      "answer": "A",
+      "explanation": "p=softmax([1,2,3])=[0.090,0.245,0.665]; y=[0,0,1]; (p−y) tại lớp 2 = 0.665−1=−0.335.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E61-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một neuron tuyến tính ŷ=w·x (vô hướng), x=2, w=3, mục tiêu y=4, loss L=½(ŷ−y)². Gradient ∂L/∂w =?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "−4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ=6; ∂L/∂ŷ=(ŷ−y)=2; ∂ŷ/∂w=x=2; theo chain rule ∂L/∂w=2·2=4.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "chain-rule"
+      ]
+    },
+    {
+      "id": "E61-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bài toán phân loại 10 lớp (loại trừ nhau, ví dụ chữ số 0–9). Lớp đầu ra MLP nên có bao nhiêu neuron và dùng activation gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 neuron + softmax"
+        },
+        {
+          "key": "B",
+          "text": "1 neuron + sigmoid"
+        },
+        {
+          "key": "C",
+          "text": "10 neuron + ReLU"
+        },
+        {
+          "key": "D",
+          "text": "1 neuron + linear"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân loại đa lớp loại trừ nhau: 10 neuron đầu ra (mỗi lớp một logit) + softmax để cho phân phối xác suất tổng = 1.",
+      "tags": [
+        "mlp",
+        "output-layer",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E61-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong forward cho batch H=X·W+b với X·W shape (64, 256) và b shape (256,), phép cộng b hoạt động nhờ cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Broadcasting: b (256,) được nhân bản cho cả 64 hàng"
+        },
+        {
+          "key": "B",
+          "text": "b được cộng vào đúng một hàng duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "b phải có shape (64,256) thì mới cộng được"
+        },
+        {
+          "key": "D",
+          "text": "NumPy báo lỗi vì shape không khớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "NumPy broadcasting căn chiều phải: b (256,) khớp chiều cuối (256) của (64,256) và được mở rộng cho mỗi trong 64 hàng.",
+      "tags": [
+        "mlp",
+        "broadcasting",
+        "batch"
+      ]
+    },
+    {
+      "id": "E61-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MLP 2 lớp cho batch: input (16, 20), W1 (20, 8), W2 (8, 3). Shape đầu ra cuối (sau W2) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(16, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(16, 8)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 16)"
+        },
+        {
+          "key": "D",
+          "text": "(16, 20)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(16,20)·(20,8)=(16,8) sau lớp 1; (16,8)·(8,3)=(16,3) sau lớp 2 — mỗi mẫu cho 3 logit.",
+      "tags": [
+        "mlp",
+        "forward",
+        "shape"
+      ]
+    },
+    {
+      "id": "E61-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lựa chọn hàm kích hoạt phổ biến cho các lớp ẨN của MLP hiện đại là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU (và biến thể) vì giảm vanishing gradient và tính rẻ"
+        },
+        {
+          "key": "B",
+          "text": "Sigmoid ở mọi lớp ẩn vì luôn tốt nhất"
+        },
+        {
+          "key": "C",
+          "text": "Softmax ở mọi lớp ẩn"
+        },
+        {
+          "key": "D",
+          "text": "Không dùng activation nào ở lớp ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU là mặc định cho lớp ẩn: đạo hàm 1 ở vùng dương (ít vanishing), tính toán rẻ. Sigmoid/tanh ở lớp ẩn dễ bão hòa gây vanishing gradient.",
+      "tags": [
+        "mlp",
+        "activation",
+        "hidden"
+      ]
+    },
+    {
+      "id": "E61-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Bài toán HỒI QUY (dự đoán giá nhà, giá trị thực không giới hạn). Lớp đầu ra MLP nên dùng activation gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tuyến tính (identity), không giới hạn miền giá trị"
+        },
+        {
+          "key": "B",
+          "text": "Softmax"
+        },
+        {
+          "key": "C",
+          "text": "Sigmoid (ép về (0,1))"
+        },
+        {
+          "key": "D",
+          "text": "ReLU bắt buộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy đầu ra thực không giới hạn → dùng kích hoạt tuyến tính ở lớp ra. Softmax/sigmoid sẽ ép miền giá trị, không phù hợp.",
+      "tags": [
+        "mlp",
+        "output-layer",
+        "regression"
+      ]
+    },
+    {
+      "id": "E61-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân loại NHỊ PHÂN (1 đầu ra xác suất thuộc lớp dương). Activation lớp ra phù hợp nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid (1 neuron, xuất xác suất trong (0,1))"
+        },
+        {
+          "key": "B",
+          "text": "Softmax với 1 neuron"
+        },
+        {
+          "key": "C",
+          "text": "Tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "ReLU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhị phân: 1 neuron + sigmoid cho xác suất p∈(0,1) (dùng binary cross-entropy). Softmax 1 neuron luôn ra 1 nên vô nghĩa.",
+      "tags": [
+        "mlp",
+        "output-layer",
+        "binary"
+      ]
+    },
+    {
+      "id": "E61-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vai trò của tham số BIAS trong một neuron là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch chuyển hàm kích hoạt (cho phép ngưỡng kích hoạt khác 0), tăng khả năng biểu diễn"
+        },
+        {
+          "key": "B",
+          "text": "Luôn bằng 0 và không học được"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hoàn toàn cho trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho lớp đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bias dịch z=Wx+b, cho phép ranh giới quyết định không bắt buộc đi qua gốc; nếu bỏ bias, mô hình kém linh hoạt hơn.",
+      "tags": [
+        "mlp",
+        "bias"
+      ]
+    },
+    {
+      "id": "E61-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân loại ĐA NHÃN (multi-label, mỗi mẫu có thể thuộc NHIỀU lớp cùng lúc) với 5 nhãn. Lớp ra nên là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "5 neuron + sigmoid độc lập (mỗi nhãn một xác suất riêng)"
+        },
+        {
+          "key": "B",
+          "text": "5 neuron + softmax (tổng = 1)"
+        },
+        {
+          "key": "C",
+          "text": "1 neuron + sigmoid"
+        },
+        {
+          "key": "D",
+          "text": "5 neuron + tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Multi-label: các nhãn không loại trừ nhau, dùng sigmoid trên mỗi neuron để cho xác suất độc lập; softmax sai vì ép tổng = 1 (giả định loại trừ).",
+      "tags": [
+        "mlp",
+        "output-layer",
+        "multi-label"
+      ]
+    },
+    {
+      "id": "E61-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tăng số lớp ẩn / số neuron mỗi lớp của MLP nhìn chung ảnh hưởng thế nào tới CAPACITY (sức chứa) của mô hình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng capacity (học được hàm phức tạp hơn) nhưng tăng nguy cơ overfit và chi phí tính toán"
+        },
+        {
+          "key": "B",
+          "text": "Giảm capacity"
+        },
+        {
+          "key": "C",
+          "text": "Không thay đổi capacity"
+        },
+        {
+          "key": "D",
+          "text": "Luôn cải thiện độ chính xác trên tập test"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mạng rộng/sâu hơn có nhiều tham số → biểu diễn hàm phức tạp hơn (capacity cao), nhưng dễ overfit và tốn tài nguyên; cần regularization và đủ dữ liệu.",
+      "tags": [
+        "mlp",
+        "capacity",
+        "depth-width"
+      ]
+    },
+    {
+      "id": "E61-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong backpropagation qua nhiều lớp, gradient được tính theo nguyên tắc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quy tắc dây chuyền (chain rule): nhân các đạo hàm cục bộ theo chiều ngược từ loss về đầu"
+        },
+        {
+          "key": "B",
+          "text": "Lấy trung bình các trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cập nhật lớp đầu ra, bỏ qua lớp ẩn"
+        },
+        {
+          "key": "D",
+          "text": "Cộng dồn các đầu vào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprop áp dụng chain rule: ∂L/∂(lớp trước)=∂L/∂(lớp sau)·∂(lớp sau)/∂(lớp trước), lan truyền gradient ngược từ output về input.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "chain-rule"
+      ]
+    },
+    {
+      "id": "E61-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong một MLP, gradient của loss theo trọng số một lớp ∂L/∂W^(l) thường có dạng (tích) gồm những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tích của 'gradient lan về tới lớp đó' (delta) với 'đầu vào (activation) của lớp đó'"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ là đầu ra cuối cùng của mạng"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ là nhãn y"
+        },
+        {
+          "key": "D",
+          "text": "Một hằng số không phụ thuộc dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "∂L/∂W^(l) = δ^(l) · (a^(l−1))^T: delta của lớp nhân với activation đầu vào của lớp đó; delta tự lan truyền ngược qua các lớp.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E61-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao MLP RẤT SÂU (nhiều lớp) dùng sigmoid/tanh dễ gặp 'vanishing gradient'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đạo hàm sigmoid/tanh < 1, nhân nhiều lần qua các lớp làm gradient co về gần 0 ở các lớp đầu"
+        },
+        {
+          "key": "B",
+          "text": "Vì gradient luôn phát nổ thành vô cùng"
+        },
+        {
+          "key": "C",
+          "text": "Vì các lớp đầu không có trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Vì ReLU làm gradient biến mất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo chain rule, gradient là tích các đạo hàm cục bộ; với sigmoid/tanh đạo hàm ≤0.25/≤1, nhân qua nhiều lớp → tiến về 0, lớp đầu gần như không cập nhật. ReLU/skip-connection giảm vấn đề này.",
+      "tags": [
+        "mlp",
+        "vanishing-gradient",
+        "depth"
+      ]
+    },
+    {
+      "id": "E61-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng 'dead neuron' (neuron chết) với ReLU trong MLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neuron luôn nhận tiền kích hoạt âm nên xuất 0 và gradient 0, không bao giờ cập nhật được nữa"
+        },
+        {
+          "key": "B",
+          "text": "Neuron phát nổ thành vô cùng"
+        },
+        {
+          "key": "C",
+          "text": "Neuron bị xóa khỏi mạng khi huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Neuron luôn xuất giá trị 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu z luôn âm, ReLU(z)=0 và ReLU'(z)=0, trọng số neuron không nhận gradient → 'chết'. Learning rate quá lớn hoặc init xấu gây ra; Leaky ReLU giảm thiểu.",
+      "tags": [
+        "mlp",
+        "relu",
+        "dead-neuron"
+      ]
+    },
+    {
+      "id": "E61-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một MLP có 3 lớp trọng số. Khi lan truyền ngược, thứ tự tính gradient là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ lớp đầu ra (gần loss) ngược dần về lớp đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Từ lớp đầu vào tiến dần tới lớp đầu ra"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả các lớp đồng thời, không theo thứ tự"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ lớp giữa được tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backprop bắt đầu từ loss ở đầu ra, dùng chain rule lan delta ngược qua từng lớp về phía đầu vào — vì gradient lớp trước phụ thuộc gradient lớp sau.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "order"
+      ]
+    },
+    {
+      "id": "E61-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong MLP, vì sao KHÔNG nên khởi tạo tất cả trọng số bằng 0?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi neuron trong cùng lớp sẽ tính giống nhau và nhận gradient giống nhau → 'phá vỡ đối xứng' thất bại, không học được đặc trưng đa dạng"
+        },
+        {
+          "key": "B",
+          "text": "Vì 0 làm tràn số (overflow)"
+        },
+        {
+          "key": "C",
+          "text": "Vì 0 làm mạng học quá nhanh"
+        },
+        {
+          "key": "D",
+          "text": "Init 0 luôn cho độ chính xác cao nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Init 0 (hay cùng một hằng) khiến các neuron đối xứng: cùng đầu ra, cùng gradient, cập nhật như nhau mãi mãi. Cần init ngẫu nhiên (Xavier/He) để phá vỡ đối xứng.",
+      "tags": [
+        "mlp",
+        "init",
+        "symmetry"
+      ]
+    },
+    {
+      "id": "E61-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Dropout trong MLP hoạt động thế nào khi HUẤN LUYỆN?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngẫu nhiên 'tắt' (cho bằng 0) một tỉ lệ neuron mỗi bước, buộc mạng không phụ thuộc một neuron đơn lẻ"
+        },
+        {
+          "key": "B",
+          "text": "Xóa vĩnh viễn các neuron khỏi mạng"
+        },
+        {
+          "key": "C",
+          "text": "Nhân đôi số neuron"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng ở lớp đầu vào và không bao giờ ở lớp ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout tắt ngẫu nhiên neuron theo xác suất p khi train (và scale phù hợp), giảm đồng thích nghi (co-adaptation), hoạt động như regularization; khi eval thì tắt dropout.",
+      "tags": [
+        "mlp",
+        "dropout",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E61-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Regularization L2 (weight decay) thêm vào loss thành phần nào, và tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm λ·Σw² → phạt trọng số lớn, làm trọng số nhỏ và mượt hơn, giảm overfit"
+        },
+        {
+          "key": "B",
+          "text": "Thêm λ·Σ|w| và làm trọng số đúng bằng 0 hết"
+        },
+        {
+          "key": "C",
+          "text": "Thêm một hằng số không phụ thuộc w"
+        },
+        {
+          "key": "D",
+          "text": "Nhân loss với số neuron"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L2 cộng λΣw² vào loss, gradient thêm 2λw kéo trọng số về nhỏ (weight decay), giảm độ phức tạp hiệu dụng và overfit. (L1 mới tạo sparsity).",
+      "tags": [
+        "mlp",
+        "l2",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E61-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khởi tạo He (He initialization) thường được khuyến nghị cho MLP dùng hàm kích hoạt nào ở lớp ẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReLU (và biến thể)"
+        },
+        {
+          "key": "B",
+          "text": "Softmax"
+        },
+        {
+          "key": "C",
+          "text": "Hàm tuyến tính thuần"
+        },
+        {
+          "key": "D",
+          "text": "Hàm bậc thang (step)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "He init (phương sai ~2/n_in) thiết kế cho ReLU để giữ phương sai tín hiệu ổn định qua các lớp; Xavier/Glorot hợp với sigmoid/tanh.",
+      "tags": [
+        "mlp",
+        "init",
+        "he"
+      ]
+    },
+    {
+      "id": "E61-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nhược điểm chính của MLP fully-connected khi xử lý ẢNH (so với CNN) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không khai thác cấu trúc không gian cục bộ và bùng nổ số tham số khi ảnh lớn (mỗi pixel một trọng số riêng)"
+        },
+        {
+          "key": "B",
+          "text": "MLP không thể nhận đầu vào dạng số"
+        },
+        {
+          "key": "C",
+          "text": "MLP luôn chính xác hơn CNN trên ảnh"
+        },
+        {
+          "key": "D",
+          "text": "MLP không cần huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MLP làm phẳng ảnh, mỗi pixel nối tới mọi neuron → rất nhiều tham số và bỏ qua tính bất biến dịch chuyển/cục bộ. CNN chia sẻ trọng số (kernel) và khai thác lân cận không gian, hiệu quả hơn nhiều cho ảnh.",
+      "tags": [
+        "mlp",
+        "cnn",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E61-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "CNN giảm số tham số so với MLP trên ảnh chủ yếu nhờ cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số (weight sharing) qua các bộ lọc tích chập và kết nối cục bộ"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhiều bias hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CNN dùng cùng một kernel nhỏ trượt khắp ảnh (weight sharing) và mỗi neuron chỉ nối vùng cục bộ (receptive field), nên ít tham số hơn rất nhiều so với FC của MLP.",
+      "tags": [
+        "mlp",
+        "cnn",
+        "weight-sharing"
+      ]
+    },
+    {
+      "id": "E61-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Loại dữ liệu nào MLP thường là lựa chọn hợp lý (không nhất thiết cần CNN/RNN)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu dạng bảng (tabular) với các đặc trưng không có cấu trúc không gian/chuỗi rõ rệt"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh độ phân giải cao"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi văn bản dài cần ngữ cảnh tuần tự"
+        },
+        {
+          "key": "D",
+          "text": "Video"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với dữ liệu bảng (các cột đặc trưng độc lập, không có cấu trúc lưới/chuỗi), MLP là baseline hợp lý; ảnh dùng CNN, chuỗi/văn bản dùng RNN/Transformer.",
+      "tags": [
+        "mlp",
+        "tabular",
+        "application"
+      ]
+    },
+    {
+      "id": "E61-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "'Feature learning' (học đặc trưng) của MLP nghĩa là gì so với mô hình tuyến tính dùng đặc trưng thủ công?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các lớp ẩn TỰ học biểu diễn/đặc trưng từ dữ liệu thay vì phải thiết kế đặc trưng bằng tay"
+        },
+        {
+          "key": "B",
+          "text": "MLP không học gì, chỉ ghi nhớ dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "MLP yêu cầu đặc trưng được chuẩn hóa hoàn hảo mới chạy"
+        },
+        {
+          "key": "D",
+          "text": "MLP chỉ sao chép đặc trưng đầu vào ra đầu ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhờ lớp ẩn + phi tuyến, MLP học các biểu diễn trung gian hữu ích trực tiếp từ dữ liệu thô, giảm nhu cầu feature engineering thủ công như ở mô hình tuyến tính.",
+      "tags": [
+        "mlp",
+        "feature-learning"
+      ]
+    },
+    {
+      "id": "E61-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào một MLP nông (ít lớp) là 'đủ' và không cần mô hình phức tạp hơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi quan hệ dữ liệu tương đối đơn giản/ít chiều, dữ liệu hạn chế — mạng nhỏ tránh overfit và rẻ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Luôn luôn, mạng càng nhỏ càng tốt cho mọi bài toán"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi có hàng tỉ mẫu dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Không bao giờ, luôn cần mạng cực sâu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu bài toán đơn giản hoặc dữ liệu ít, MLP nông đủ biểu diễn và ít overfit hơn; tăng độ sâu chỉ hữu ích khi hàm mục tiêu phức tạp và có đủ dữ liệu.",
+      "tags": [
+        "mlp",
+        "capacity",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "E61-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lớp fully-connected nối 64 đầu vào với 32 đầu ra nhưng KHÔNG dùng bias. Số tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2048"
+        },
+        {
+          "key": "B",
+          "text": "2080"
+        },
+        {
+          "key": "C",
+          "text": "96"
+        },
+        {
+          "key": "D",
+          "text": "32"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ có weights = 64·32 = 2048; không bias nên không cộng thêm 32.",
+      "tags": [
+        "mlp",
+        "param-count",
+        "bias"
+      ]
+    },
+    {
+      "id": "E61-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MLP 4→5→3 (fully-connected, có bias ở mỗi lớp). Tổng số tham số?",
+      "options": [
+        {
+          "key": "A",
+          "text": "43"
+        },
+        {
+          "key": "B",
+          "text": "35"
+        },
+        {
+          "key": "C",
+          "text": "47"
+        },
+        {
+          "key": "D",
+          "text": "40"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp1: 4·5+5=25; Lớp2: 5·3+3=18; tổng=25+18=43.",
+      "tags": [
+        "mlp",
+        "param-count"
+      ]
+    },
+    {
+      "id": "E61-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Áp ReLU lên ma trận tiền kích hoạt Z=[[−1, 2],[3, −4]]. Có bao nhiêu phần tử bằng 0 ở đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU([[−1,2],[3,−4]])=[[0,2],[3,0]]; các giá trị âm (−1 và −4) thành 0 → 2 phần tử bằng 0.",
+      "tags": [
+        "mlp",
+        "relu",
+        "batch"
+      ]
+    },
+    {
+      "id": "E61-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Softmax trên hai logit [z, 0] cho thành phần đầu bằng e^z/(e^z+1). Với z=2, giá trị này ≈?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.881"
+        },
+        {
+          "key": "B",
+          "text": "0.500"
+        },
+        {
+          "key": "C",
+          "text": "0.119"
+        },
+        {
+          "key": "D",
+          "text": "0.731"
+        }
+      ],
+      "answer": "A",
+      "explanation": "e^2/(e^2+1)=7.389/8.389≈0.881 (đúng bằng sigmoid(2)) — minh họa softmax 2 lớp tương đương sigmoid.",
+      "tags": [
+        "mlp",
+        "softmax",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E61-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi backprop qua ReLU, nếu tiền kích hoạt tại một neuron là z=−1 thì gradient ∂L/∂z = (∂L/∂a)·ReLU'(z) bằng bao nhiêu (với ∂L/∂a bất kỳ)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "Bằng chính ∂L/∂a"
+        },
+        {
+          "key": "C",
+          "text": "−∂L/∂a"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU'(z)=0 khi z<0, nên gradient bị chặn lại = 0 bất kể ∂L/∂a; đây là lý do neuron có z âm không nhận cập nhật.",
+      "tags": [
+        "mlp",
+        "backprop",
+        "relu"
+      ]
+    },
+    {
+      "id": "E61-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Riêng MA TRẬN TRỌNG SỐ (không tính bias) của lớp 784→256 có bao nhiêu phần tử?",
+      "options": [
+        {
+          "key": "A",
+          "text": "200704"
+        },
+        {
+          "key": "B",
+          "text": "200960"
+        },
+        {
+          "key": "C",
+          "text": "1040"
+        },
+        {
+          "key": "D",
+          "text": "256"
+        }
+      ],
+      "answer": "A",
+      "explanation": "784·256=200704 trọng số (bias 256 không tính ở câu này).",
+      "tags": [
+        "mlp",
+        "param-count",
+        "weights"
+      ]
+    },
+    {
+      "id": "E61-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một lý do thực tế khiến người ta dùng mạng SÂU thay vì một lớp ẩn cực rộng (dù lý thuyết một lớp ẩn đã đủ)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mạng sâu thường biểu diễn cùng một hàm với SỐ neuron/tham số ÍT hơn (hiệu quả tham số) và học đặc trưng phân cấp"
+        },
+        {
+          "key": "B",
+          "text": "Mạng sâu luôn không bao giờ overfit"
+        },
+        {
+          "key": "C",
+          "text": "Một lớp ẩn không thể có phi tuyến"
+        },
+        {
+          "key": "D",
+          "text": "Mạng sâu không cần huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Universal approximation chỉ đảm bảo tồn tại nhưng số neuron có thể bùng nổ theo cấp số; mạng sâu thường biểu diễn hàm hiệu quả hơn và học đặc trưng theo tầng, dù khó huấn luyện hơn.",
+      "tags": [
+        "mlp",
+        "depth",
+        "capacity"
+      ]
+    },
+    {
+      "id": "E61-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong ma trận đầu vào X có shape (N, D) cho MLP, N và D lần lượt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "N = số mẫu trong batch, D = số chiều đặc trưng mỗi mẫu"
+        },
+        {
+          "key": "B",
+          "text": "N = số đặc trưng, D = số mẫu"
+        },
+        {
+          "key": "C",
+          "text": "N = số lớp, D = số neuron"
+        },
+        {
+          "key": "D",
+          "text": "N và D đều là số lớp ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quy ước phổ biến: mỗi hàng là một mẫu (N mẫu), mỗi cột là một đặc trưng (D chiều). Vector hóa cho phép xử lý cả batch bằng một phép nhân ma trận.",
+      "tags": [
+        "mlp",
+        "batch",
+        "shape"
+      ]
+    },
+    {
+      "id": "E61-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lớp đầu ra phân loại 10 lớp nhận đầu vào từ lớp ẩn 64 neuron (có bias). Số tham số của RIÊNG lớp đầu ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "650"
+        },
+        {
+          "key": "B",
+          "text": "640"
+        },
+        {
+          "key": "C",
+          "text": "74"
+        },
+        {
+          "key": "D",
+          "text": "660"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Weights=64·10=640; bias=10; tổng=650.",
+      "tags": [
+        "mlp",
+        "param-count",
+        "output-layer"
+      ]
+    },
+    {
+      "id": "E61-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "MLP: h=ReLU(W1·x+b1) với W1=I₂ (đơn vị 2×2), b1=0, x=[1,1] → h=[1,1]; rồi y=W2·h+b2 với W2=[1,1], b2=−1. Giá trị y?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "−1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "h=ReLU([1,1])=[1,1]; y=1·1+1·1+(−1)=1.",
+      "tags": [
+        "mlp",
+        "forward",
+        "two-layer"
+      ]
+    },
+    {
+      "id": "E61-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một MLP KHÔNG có lớp ẩn, lớp ra 1 neuron với sigmoid, huấn luyện bằng binary cross-entropy, tương đương mô hình nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hồi quy logistic (logistic regression)"
+        },
+        {
+          "key": "B",
+          "text": "Hồi quy tuyến tính thuần"
+        },
+        {
+          "key": "C",
+          "text": "Cây quyết định"
+        },
+        {
+          "key": "D",
+          "text": "K-means"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không lớp ẩn + sigmoid + BCE chính là logistic regression; lớp ẩn phi tuyến mới là thứ nâng MLP vượt logistic regression.",
+      "tags": [
+        "mlp",
+        "logistic",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E61-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai lớp tuyến tính liên tiếp y=W2(W1 x) có thể viết lại thành y=W·x với W=W2·W1. Điều này minh họa điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có phi tuyến, nhiều lớp tuyến tính sụp về MỘT phép tuyến tính tương đương"
+        },
+        {
+          "key": "B",
+          "text": "Hai lớp tuyến tính mạnh hơn một lớp phi tuyến"
+        },
+        {
+          "key": "C",
+          "text": "Nhân ma trận không kết hợp được"
+        },
+        {
+          "key": "D",
+          "text": "W2·W1 luôn bằng ma trận đơn vị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì nhân ma trận có tính kết hợp, W2(W1 x)=(W2 W1)x; nên xếp chồng lớp tuyến tính vô ích nếu thiếu phi tuyến.",
+      "tags": [
+        "mlp",
+        "nonlinearity",
+        "linear"
+      ]
+    },
+    {
+      "id": "E61-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quy tắc cập nhật trọng số bằng gradient descent trong MLP là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "W ← W − η·∂L/∂W (đi ngược hướng gradient với learning rate η)"
+        },
+        {
+          "key": "B",
+          "text": "W ← W + η·∂L/∂W"
+        },
+        {
+          "key": "C",
+          "text": "W ← W · ∂L/∂W"
+        },
+        {
+          "key": "D",
+          "text": "W ← ∂L/∂W"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gradient descent cập nhật ngược hướng gradient: W ← W − η∂L/∂W, để giảm loss; η (learning rate) điều chỉnh bước.",
+      "tags": [
+        "mlp",
+        "gradient-descent",
+        "training"
+      ]
+    },
+    {
+      "id": "E61-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu một MLP quá NHỎ (ít neuron/lớp) cho một bài toán phức tạp, hiện tượng có khả năng xảy ra nhất là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Underfit (thiếu khớp): capacity không đủ, lỗi cao cả trên train lẫn test"
+        },
+        {
+          "key": "B",
+          "text": "Overfit nghiêm trọng"
+        },
+        {
+          "key": "C",
+          "text": "Mạng đạt độ chính xác 100% ngay lập tức"
+        },
+        {
+          "key": "D",
+          "text": "Gradient luôn phát nổ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mạng quá nhỏ thiếu sức biểu diễn → underfit: không khớp được dữ liệu train, lỗi cao ở cả train và test. Cần tăng capacity hoặc cải thiện đặc trưng.",
+      "tags": [
+        "mlp",
+        "underfit",
+        "capacity"
+      ]
+    },
+    {
+      "id": "E61-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu ra của ReLU luôn nằm trong miền giá trị nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, +∞)"
+        },
+        {
+          "key": "B",
+          "text": "(−1, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(−∞, +∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(x)=max(0,x) nên đầu ra không âm, từ 0 tới +∞; khác sigmoid (0,1) và tanh (−1,1).",
+      "tags": [
+        "mlp",
+        "relu",
+        "range"
+      ]
+    },
+    {
+      "id": "E61-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để nhân hợp lệ X·W với X shape (N, D) thì W phải có shape dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(D, M) — chiều đầu của W phải bằng D"
+        },
+        {
+          "key": "B",
+          "text": "(M, D)"
+        },
+        {
+          "key": "C",
+          "text": "(N, M)"
+        },
+        {
+          "key": "D",
+          "text": "(N, D)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhân ma trận (N,D)·(D,M)=(N,M); để khớp, chiều đầu của W phải bằng D (số đặc trưng), M là số neuron lớp sau.",
+      "tags": [
+        "mlp",
+        "shape",
+        "matmul"
+      ]
+    },
+    {
+      "id": "E61-C57",
+      "module": "C",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm forward pass cho một MLP 2 lớp bằng NumPy: lớp ẩn dùng ReLU, lớp đầu ra dùng softmax. Với input x=[1,2], W1=[[1,0],[0,1],[1,1]] (3×2), b1=[0,0,−1], W2=[[1,0,0],[0,1,0]] (2×3), b2=[0,0], hãy tính và in ra vector xác suất đầu ra. Trình bày code và kết quả số.",
+      "modelAnswer": "Code mẫu:\n```python\nimport numpy as np\ndef forward(x, W1, b1, W2, b2):\n    z1 = W1 @ x + b1\n    h1 = np.maximum(0, z1)          # ReLU lớp ẩn\n    z2 = W2 @ h1 + b2\n    z2 = z2 - z2.max()             # ổn định số học\n    p = np.exp(z2) / np.exp(z2).sum()  # softmax lớp ra\n    return p\n\nx  = np.array([1.0, 2.0])\nW1 = np.array([[1.0, 0.0],\n               [0.0, 1.0],\n               [1.0, 1.0]])   # 3x2: input 2 -> hidden 3\nb1 = np.array([0.0, 0.0, -1.0])\nW2 = np.array([[1.0, 0.0, 0.0],\n               [0.0, 1.0, 0.0]])  # 2x3: hidden 3 -> output 2\nb2 = np.array([0.0, 0.0])\nprint(forward(x, W1, b1, W2, b2))\n```\nDiễn giải tính tay: z1=W1·x+b1=[1·1+0·2, 0·1+1·2, 1·1+1·2−1]=[1,2,2]; ReLU(z1)=h1=[1,2,2] (đều dương). z2=W2·h1+b2=[1, 2]. softmax([1,2]): e^1=2.718, e^2=7.389, tổng=10.107 → p=[0.2689, 0.7311]. Kết quả in ra: [0.2689 0.7311]. Lưu ý trừ max trước khi exp để ổn định số học; tổng xác suất = 1.",
+      "rubric": [
+        "Định nghĩa hàm forward đúng với z=W·x+b cho cả hai lớp (1đ)",
+        "Áp ReLU ở lớp ẩn và softmax (có ổn định số học) ở lớp ra đúng (1.5đ)",
+        "Tính/in được vector xác suất đúng ≈[0.269, 0.731] và tổng = 1 (1.5đ)"
+      ],
+      "tags": [
+        "mlp",
+        "code",
+        "forward",
+        "numpy"
+      ]
+    },
+    {
+      "id": "E61-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích VÌ SAO MLP cần lớp ẩn với hàm kích hoạt PHI TUYẾN. Dùng bài toán XOR làm ví dụ để minh họa vì sao perceptron đơn (tuyến tính) thất bại còn MLP có lớp ẩn thì giải được.",
+      "modelAnswer": "MLP cần phi tuyến vì hợp của nhiều phép biến đổi tuyến tính vẫn là một phép tuyến tính: nếu mọi lớp đều tuyến tính thì y=W2(W1 x)=(W2 W1)x, toàn mạng sụp về một lớp tuyến tính duy nhất, chỉ tạo được ranh giới quyết định tuyến tính. Hàm kích hoạt phi tuyến (ReLU, sigmoid, tanh) giữa các lớp phá vỡ điều đó, cho phép mạng tổ hợp các ranh giới để biểu diễn hàm phi tuyến phức tạp (theo định lý xấp xỉ phổ quát). Ví dụ XOR: các điểm (0,0)→0, (1,1)→0, (0,1)→1, (1,0)→1 KHÔNG tách được bằng một đường thẳng (not linearly separable), nên perceptron đơn — vốn chỉ vẽ một siêu phẳng tuyến tính — không thể phân loại đúng cả 4 điểm. Một MLP với một lớp ẩn (ví dụ 2 neuron ẩn) có thể: lớp ẩn tạo các đặc trưng trung gian (ví dụ một neuron học OR, một neuron học AND/NAND), rồi lớp ra kết hợp chúng (XOR = OR AND NAND) để tạo ranh giới phi tuyến phân tách đúng XOR. Nhờ vậy lớp ẩn + phi tuyến cho mạng khả năng biểu diễn vượt mô hình tuyến tính.",
+      "rubric": [
+        "Nêu rõ hợp các lớp tuyến tính vẫn tuyến tính, nên cần phi tuyến để tăng khả năng biểu diễn (1.5đ)",
+        "Giải thích XOR không tách được tuyến tính nên perceptron đơn thất bại (1.5đ)",
+        "Mô tả cách lớp ẩn tạo đặc trưng trung gian để MLP giải được XOR / ranh giới phi tuyến (1đ)"
+      ],
+      "tags": [
+        "mlp",
+        "xor",
+        "nonlinearity",
+        "essay"
+      ]
+    },
+    {
+      "id": "E61-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Cho MLP kiến trúc 784→256→128→10 (fully-connected, có bias). Hãy ĐẾM chi tiết số tham số ở mỗi lớp và tổng, đồng thời giải thích công thức đếm tham số cho một lớp fully-connected.",
+      "modelAnswer": "Công thức tham số một lớp fully-connected từ n_in đầu vào tới n_out đầu ra: số trọng số = n_in·n_out (ma trận W kích thước n_out×n_in, mỗi cặp đầu vào–đầu ra một trọng số), số bias = n_out (mỗi neuron đầu ra một bias), nên tổng mỗi lớp = n_in·n_out + n_out = n_out·(n_in+1).\nÁp dụng cho 784→256→128→10:\n- Lớp 1 (784→256): 784·256 + 256 = 200704 + 256 = 200960.\n- Lớp 2 (256→128): 256·128 + 128 = 32768 + 128 = 32896.\n- Lớp 3 (128→10): 128·10 + 10 = 1280 + 10 = 1290.\nTổng = 200960 + 32896 + 1290 = 235146 tham số.\nNhận xét: phần lớn tham số nằm ở lớp đầu (vì n_in=784 lớn); đây là lý do MLP fully-connected trên ảnh có rất nhiều tham số, dễ overfit và tốn bộ nhớ — động cơ để dùng CNN với weight sharing.",
+      "rubric": [
+        "Nêu đúng công thức đếm: weights=n_in·n_out, bias=n_out cho mỗi lớp FC (1đ)",
+        "Tính đúng số tham số từng lớp: 200960; 32896; 1290 (2đ)",
+        "Cộng đúng tổng = 235146 và nêu nhận xét hợp lý (lớp đầu chiếm nhiều tham số) (1đ)"
+      ],
+      "tags": [
+        "mlp",
+        "param-count",
+        "essay"
+      ]
+    },
+    {
+      "id": "E61-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh MLP fully-connected với CNN khi áp dụng cho dữ liệu ẢNH. Nêu các nhược điểm của MLP và cơ chế của CNN khắc phục những nhược điểm đó.",
+      "modelAnswer": "Khi xử lý ảnh, MLP fully-connected phải làm phẳng (flatten) ảnh thành vector và nối mỗi pixel tới mọi neuron, dẫn tới ba nhược điểm chính: (1) BÙNG NỔ THAM SỐ — ví dụ ảnh 224×224×3 ≈150k đầu vào, một lớp ẩn 1000 neuron đã cần ~150 triệu trọng số, rất tốn bộ nhớ và dễ overfit; (2) KHÔNG khai thác cấu trúc KHÔNG GIAN cục bộ — MLP coi mọi pixel độc lập, bỏ qua việc các pixel lân cận liên quan chặt chẽ (cạnh, kết cấu); (3) KHÔNG bất biến dịch chuyển — một vật dịch sang vị trí khác bị xem là hoàn toàn khác, mạng phải học lại.\nCNN khắc phục bằng: (a) KẾT NỐI CỤC BỘ (local receptive field) — mỗi neuron chỉ nối một vùng nhỏ, phản ánh tính cục bộ của ảnh; (b) CHIA SẺ TRỌNG SỐ (weight sharing) — cùng một kernel nhỏ trượt khắp ảnh, giảm mạnh số tham số và tạo bất biến dịch chuyển (cùng bộ lọc phát hiện đặc trưng ở mọi vị trí); (c) PHÂN CẤP đặc trưng qua các lớp tích chập + pooling — học từ cạnh → hình dạng → đối tượng, và pooling giảm chiều, tăng tính bất biến.\nKết luận: với ảnh, CNN hiệu quả hơn MLP về số tham số và khả năng tổng quát hóa; MLP vẫn hợp với dữ liệu bảng không có cấu trúc lưới. (MLP có thể đóng vai trò các lớp fully-connected ở cuối CNN để phân loại.)",
+      "rubric": [
+        "Nêu nhược điểm MLP trên ảnh: quá nhiều tham số do flatten + fully-connected (1.5đ)",
+        "Nêu MLP không khai thác cấu trúc không gian cục bộ / không bất biến dịch chuyển (1đ)",
+        "Giải thích cơ chế CNN khắc phục: kết nối cục bộ + weight sharing + phân cấp đặc trưng (1.5đ)"
+      ],
+      "tags": [
+        "mlp",
+        "cnn",
+        "comparison",
+        "essay"
+      ]
+    }
+  ]
+}

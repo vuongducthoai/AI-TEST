@@ -1,0 +1,1825 @@
+{
+  "id": "exam-63",
+  "title": "Transformer Hiện đại — Kỹ thuật Nâng cao (RoPE, GQA, FlashAttention, Scaling)",
+  "description": "Đề cương ôn tập về các kỹ thuật Transformer hiện đại dùng trong các mô hình ngôn ngữ lớn (LLM) thực chiến. Nội dung gồm RoPE/ALiBi, GQA/MQA, FlashAttention, RMSNorm/SwiGLU, KV cache & paged attention, long-context, MoE, scaling laws, quantization, LoRA/QLoRA và giải mã. Đề gồm 56 câu trắc nghiệm và 4 câu tự luận, tổng 100 điểm.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E63-C01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RoPE (Rotary Positional Embedding) mã hóa thông tin vị trí bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Áp dụng phép quay (rotation) lên các cặp chiều của vector Q và K theo góc phụ thuộc vị trí"
+        },
+        {
+          "key": "B",
+          "text": "Cộng một vector sin/cos cố định vào embedding đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Học một bảng embedding vị trí tuyệt đối riêng"
+        },
+        {
+          "key": "D",
+          "text": "Thêm một bias tuyến tính vào điểm attention theo khoảng cách"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RoPE quay từng cặp chiều của Q, K một góc tỉ lệ với chỉ số vị trí; tích vô hướng Q·K khi đó chỉ phụ thuộc hiệu vị trí (m-n), nên mã hóa vị trí tương đối.",
+      "tags": [
+        "rope",
+        "positional"
+      ]
+    },
+    {
+      "id": "E63-C02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao RoPE được xem là mã hóa vị trí TƯƠNG ĐỐI dù áp dụng theo vị trí tuyệt đối?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì sau phép quay, tích vô hướng giữa query ở vị trí m và key ở vị trí n chỉ phụ thuộc vào (m-n)"
+        },
+        {
+          "key": "B",
+          "text": "Vì RoPE cộng trực tiếp khoảng cách m-n vào logit"
+        },
+        {
+          "key": "C",
+          "text": "Vì RoPE chuẩn hóa lại vị trí về [0,1]"
+        },
+        {
+          "key": "D",
+          "text": "Vì RoPE chỉ áp dụng cho token liền kề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phép quay có tính chất R(m)^T R(n) = R(n-m), nên dot-product của Q tại m và K tại n chỉ phụ thuộc chênh lệch vị trí, cho ra hành vi tương đối.",
+      "tags": [
+        "rope",
+        "relative"
+      ]
+    },
+    {
+      "id": "E63-C03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "ALiBi (Attention with Linear Biases) tạo thông tin vị trí bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cộng một bias tuyến tính âm tỉ lệ với khoảng cách giữa hai token vào điểm attention"
+        },
+        {
+          "key": "B",
+          "text": "Quay vector Q, K theo vị trí"
+        },
+        {
+          "key": "C",
+          "text": "Học bảng embedding vị trí tuyệt đối"
+        },
+        {
+          "key": "D",
+          "text": "Nội suy NTK trên tần số RoPE"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ALiBi không dùng positional embedding; nó cộng vào logit attention một bias = -m*khoảng_cách (m là độ dốc theo head), phạt các token ở xa, giúp extrapolate độ dài tốt.",
+      "tags": [
+        "alibi",
+        "positional"
+      ]
+    },
+    {
+      "id": "E63-C04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ưu điểm chính của RoPE/ALiBi so với positional embedding tuyệt đối học được là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khả năng extrapolation tốt hơn ra độ dài chuỗi dài hơn lúc huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số tham số của FFN"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn ma trận attention"
+        },
+        {
+          "key": "D",
+          "text": "Cho phép training song song mà absolute không có"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì mã hóa vị trí tương đối/theo khoảng cách thay vì bảng tuyệt đối cố định, các phương pháp này khái quát hóa tốt hơn cho vị trí chưa thấy, hỗ trợ mở rộng ngữ cảnh.",
+      "tags": [
+        "positional",
+        "extrapolation"
+      ]
+    },
+    {
+      "id": "E63-C05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Multi-Query Attention (MQA) khác Multi-Head Attention (MHA) tiêu chuẩn ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tất cả các head chia sẻ CHUNG một cặp K và V duy nhất, chỉ Q là riêng theo head"
+        },
+        {
+          "key": "B",
+          "text": "Tất cả head chia sẻ chung Q nhưng K,V riêng"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ hoàn toàn các phép chiếu K,V"
+        },
+        {
+          "key": "D",
+          "text": "Tăng gấp đôi số head để bù chất lượng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MQA giữ nhiều Q head nhưng dùng chung 1 K và 1 V cho mọi head, giảm mạnh kích thước KV cache và băng thông bộ nhớ khi decode, đổi lại có thể giảm nhẹ chất lượng.",
+      "tags": [
+        "mqa",
+        "kv-cache"
+      ]
+    },
+    {
+      "id": "E63-C06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Grouped-Query Attention (GQA) là sự dung hòa như thế nào giữa MHA và MQA?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia các query head thành G nhóm, mỗi nhóm chia sẻ một cặp K/V; G nằm giữa 1 (MQA) và số head (MHA)"
+        },
+        {
+          "key": "B",
+          "text": "Dùng chung K,V cho toàn bộ head giống MQA hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi head có K,V riêng giống MHA hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ Q và chỉ giữ K,V"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GQA dùng G nhóm KV (1<G<H). G=1 thành MQA, G=H thành MHA. Nó giảm KV cache so với MHA nhưng giữ chất lượng tốt hơn MQA, là lựa chọn của Llama-2 70B.",
+      "tags": [
+        "gqa",
+        "kv-cache"
+      ]
+    },
+    {
+      "id": "E63-C07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lợi ích chính của việc giảm số K/V head trong MQA/GQA khi suy luận (inference) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước KV cache và lượng dữ liệu phải đọc từ bộ nhớ, tăng tốc decode tự hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số phép nhân ma trận trong FFN"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ chính xác của attention"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ nhu cầu positional encoding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Decode tự hồi quy bị giới hạn bởi băng thông bộ nhớ; KV cache nhỏ hơn nghĩa là ít byte phải nạp mỗi bước, nên throughput tăng và bộ nhớ tiết kiệm.",
+      "tags": [
+        "gqa",
+        "inference"
+      ]
+    },
+    {
+      "id": "E63-C08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FlashAttention tăng tốc và tiết kiệm bộ nhớ chủ yếu nhờ kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tiling/chia khối và tính softmax trực tuyến (online), không vật chất hóa ma trận attention n×n trong HBM"
+        },
+        {
+          "key": "B",
+          "text": "Xấp xỉ ma trận attention bằng phân rã hạng thấp"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua một phần token để giảm O(n²)"
+        },
+        {
+          "key": "D",
+          "text": "Lượng tử hóa Q,K,V về INT4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FlashAttention là thuật toán IO-aware: nó nạp các khối Q,K,V vào SRAM, tính softmax trực tuyến và tích lũy kết quả, tránh ghi/đọc ma trận n×n vào HBM, nên giảm bộ nhớ và truy cập.",
+      "tags": [
+        "flashattention",
+        "memory"
+      ]
+    },
+    {
+      "id": "E63-C09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "FlashAttention cho kết quả như thế nào so với attention chuẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chính xác hệt (exact), không phải xấp xỉ, chỉ khác cách tính toán/bộ nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Xấp xỉ với sai số nhỏ có kiểm soát"
+        },
+        {
+          "key": "C",
+          "text": "Chính xác nhưng chỉ cho chuỗi ngắn"
+        },
+        {
+          "key": "D",
+          "text": "Xấp xỉ tuyến tính O(n)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FlashAttention tính cùng một softmax-attention chính xác, chỉ sắp xếp lại phép tính để tận dụng SRAM và tránh vật chất hóa ma trận lớn; kết quả trùng với attention chuẩn (trong sai số số học).",
+      "tags": [
+        "flashattention",
+        "exact"
+      ]
+    },
+    {
+      "id": "E63-C10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RMSNorm khác LayerNorm ở điểm cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RMSNorm bỏ bước trừ trung bình (mean-centering), chỉ chuẩn hóa theo căn bậc hai trung bình bình phương"
+        },
+        {
+          "key": "B",
+          "text": "RMSNorm chuẩn hóa theo batch thay vì theo feature"
+        },
+        {
+          "key": "C",
+          "text": "RMSNorm thêm tham số dịch (shift) mà LayerNorm không có"
+        },
+        {
+          "key": "D",
+          "text": "RMSNorm dùng phương sai có hiệu chỉnh Bessel"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RMSNorm chia activation cho RMS = sqrt(mean(x^2)) và nhân hệ số gain, không trừ mean và thường không có bias; nó rẻ hơn LayerNorm và hoạt động tốt trong LLM (Llama).",
+      "tags": [
+        "rmsnorm",
+        "normalization"
+      ]
+    },
+    {
+      "id": "E63-C11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SwiGLU (dùng trong FFN của nhiều LLM) là loại kích hoạt nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một biến thể GLU có cổng (gated): nhân thành phần kích hoạt Swish với một nhánh tuyến tính"
+        },
+        {
+          "key": "B",
+          "text": "Một hàm kích hoạt đơn ReLU bo tròn"
+        },
+        {
+          "key": "C",
+          "text": "Một lớp chuẩn hóa thay cho LayerNorm"
+        },
+        {
+          "key": "D",
+          "text": "Một cơ chế attention thưa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SwiGLU = (Swish(xW) ⊙ xV)W2, tức cổng hóa: một nhánh qua Swish/SiLU nhân theo phần tử với nhánh tuyến tính rồi chiếu xuống. Gated linear units cho FFN thường vượt ReLU/GELU thuần.",
+      "tags": [
+        "swiglu",
+        "ffn"
+      ]
+    },
+    {
+      "id": "E63-C12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi dùng FFN dạng GLU (như SwiGLU) người ta thường điều chỉnh gì để giữ số tham số tương đương 4×d?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước ẩn (ví dụ ~8/3·d) vì GLU có thêm một ma trận chiếu cổng"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước ẩn lên 8×d"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ ma trận chiếu ra (W2)"
+        },
+        {
+          "key": "D",
+          "text": "Dùng chung trọng số với lớp attention"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GLU cần ba ma trận (gate, up, down) thay vì hai, nên để FLOPs/params tương đương FFN 4d chuẩn, hidden thường đặt khoảng 8/3·d (~2.67d).",
+      "tags": [
+        "swiglu",
+        "ffn"
+      ]
+    },
+    {
+      "id": "E63-C13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao kiến trúc pre-norm (LayerNorm/RMSNorm TRƯỚC sublayer) phổ biến trong LLM sâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo đường residual sạch hơn giúp gradient ổn định, huấn luyện mạng rất sâu dễ hội tụ hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì pre-norm giảm số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Vì pre-norm loại bỏ nhu cầu warmup hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Vì pre-norm làm attention thành tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đặt norm trước sublayer giữ nhánh residual không qua norm, giúp tín hiệu và gradient truyền ổn định qua nhiều lớp, giảm bùng nổ/triệt tiêu, dễ huấn luyện sâu hơn so với post-norm.",
+      "tags": [
+        "pre-norm",
+        "training"
+      ]
+    },
+    {
+      "id": "E63-C14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kích thước KV cache (theo số phần tử) cho một mô hình decoder tỉ lệ với đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "~ 2 · L · n · d (2 cho K và V, L số lớp, n độ dài chuỗi, d chiều mô hình)"
+        },
+        {
+          "key": "B",
+          "text": "~ L · d² độc lập với độ dài chuỗi"
+        },
+        {
+          "key": "C",
+          "text": "~ n² · d theo bình phương độ dài"
+        },
+        {
+          "key": "D",
+          "text": "~ vocab · d"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi lớp lưu K và V cho mỗi token: kích thước ~ 2·n·d phần tử/lớp, nhân L lớp thành 2·L·n·d; tăng tuyến tính theo độ dài ngữ cảnh, nên context dài tốn nhiều bộ nhớ.",
+      "tags": [
+        "kv-cache",
+        "memory"
+      ]
+    },
+    {
+      "id": "E63-C15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "PagedAttention (ý tưởng của vLLM) giải quyết vấn đề gì của KV cache?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân mảnh bộ nhớ: chia KV cache thành các khối (page) như bộ nhớ ảo, cấp phát linh hoạt, giảm lãng phí"
+        },
+        {
+          "key": "B",
+          "text": "Xấp xỉ attention về O(n)"
+        },
+        {
+          "key": "C",
+          "text": "Lượng tử hóa KV cache xuống INT4"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ KV cache hoàn toàn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PagedAttention quản lý KV cache theo các khối cố định không liền kề (giống paging trong OS), giảm phân mảnh và lãng phí bộ nhớ, cho phép chia sẻ prefix và batch hiệu quả hơn.",
+      "tags": [
+        "paged-attention",
+        "vllm"
+      ]
+    },
+    {
+      "id": "E63-C16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sliding Window Attention (như trong Mistral) hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi token chỉ chú ý tới W token gần nhất, giảm chi phí và bộ nhớ attention theo cửa sổ cố định"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi token chú ý tới toàn bộ chuỗi nhưng có trọng số giảm dần"
+        },
+        {
+          "key": "C",
+          "text": "Token chỉ chú ý tới token đầu chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Attention được tính ngẫu nhiên theo cửa sổ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sliding window giới hạn mỗi vị trí chỉ attend tới W token liền trước, nên chi phí ~O(n·W) thay vì O(n²); thông tin xa vẫn lan truyền gián tiếp qua nhiều lớp.",
+      "tags": [
+        "sliding-window",
+        "long-context"
+      ]
+    },
+    {
+      "id": "E63-C17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng 'attention sink' trong streaming/long-context là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình dồn nhiều attention vào vài token đầu chuỗi; giữ chúng giúp ổn định khi cửa sổ trượt"
+        },
+        {
+          "key": "B",
+          "text": "Attention bị mất khi chuỗi quá dài"
+        },
+        {
+          "key": "C",
+          "text": "Các head sụp về cùng một phân phối"
+        },
+        {
+          "key": "D",
+          "text": "KV cache bị tràn và xóa token đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình học cách 'đổ' lượng softmax dư vào vài token đầu (attention sink). StreamingLLM giữ lại các sink token này trong cache để duy trì ổn định khi loại token cũ.",
+      "tags": [
+        "attention-sink",
+        "long-context"
+      ]
+    },
+    {
+      "id": "E63-C18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Positional Interpolation / NTK-aware scaling dùng để làm gì với RoPE?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mở rộng độ dài ngữ cảnh của mô hình đã huấn luyện bằng cách co/giãn lại tần số vị trí"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số head của attention"
+        },
+        {
+          "key": "C",
+          "text": "Lượng tử hóa trọng số xuống INT8"
+        },
+        {
+          "key": "D",
+          "text": "Thêm bias tuyến tính kiểu ALiBi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi muốn dùng context dài hơn lúc train, ta nội suy vị trí (chia chỉ số vị trí) hoặc điều chỉnh cơ số tần số (NTK-aware) để góc quay RoPE nằm trong vùng đã thấy, tránh suy giảm.",
+      "tags": [
+        "rope",
+        "context-extension"
+      ]
+    },
+    {
+      "id": "E63-C19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Linformer/Performer thuộc nhóm 'efficient attention' vì chúng làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xấp xỉ attention để giảm độ phức tạp từ O(n²) xuống gần tuyến tính O(n)"
+        },
+        {
+          "key": "B",
+          "text": "Tính attention chính xác nhưng nhanh hơn nhờ tiling"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số head để bù độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho encoder, không cho decoder"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Linformer chiếu K,V xuống hạng thấp, Performer dùng đặc trưng ngẫu nhiên xấp xỉ softmax kernel; cả hai đưa chi phí về gần O(n), khác FlashAttention vốn vẫn chính xác O(n²).",
+      "tags": [
+        "linear-attention",
+        "efficient"
+      ]
+    },
+    {
+      "id": "E63-C20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong Mixture-of-Experts (MoE) cho transformer, 'router top-k' làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn k expert (FFN con) có điểm cao nhất cho mỗi token để xử lý, phần còn lại không kích hoạt"
+        },
+        {
+          "key": "B",
+          "text": "Chọn k token quan trọng nhất để giữ lại"
+        },
+        {
+          "key": "C",
+          "text": "Chọn k head attention tốt nhất"
+        },
+        {
+          "key": "D",
+          "text": "Chọn k lớp để bỏ qua"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Router (gating) tính điểm cho mỗi expert theo từng token và định tuyến token tới top-k expert; chỉ các expert được chọn mới chạy, nên tính thưa (sparse).",
+      "tags": [
+        "moe",
+        "router"
+      ]
+    },
+    {
+      "id": "E63-C21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao MoE tăng đáng kể số tham số mà giữ FLOPs mỗi token gần như không đổi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi token chỉ kích hoạt một tập nhỏ expert (top-k), nên tính toán không tỉ lệ với tổng số expert"
+        },
+        {
+          "key": "B",
+          "text": "Vì các expert chia sẻ chung toàn bộ trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Vì MoE chạy ở độ chính xác INT4"
+        },
+        {
+          "key": "D",
+          "text": "Vì MoE bỏ lớp attention"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng tham số bằng nhiều expert cộng lại (rất lớn), nhưng mỗi token chỉ đi qua k expert được chọn, nên FLOPs hoạt động chỉ phụ thuộc k chứ không phải toàn bộ số expert.",
+      "tags": [
+        "moe",
+        "sparse"
+      ]
+    },
+    {
+      "id": "E63-C22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định luật Chinchilla (compute-optimal) khuyến nghị điều gì về tỉ lệ tham số/dữ liệu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Với ngân sách compute cố định, nên tăng dữ liệu cùng tỉ lệ với mô hình (~20 token huấn luyện cho mỗi tham số)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn ưu tiên mô hình lớn hơn dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Số token nên bằng bình phương số tham số"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu không ảnh hưởng tới loss"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chinchilla chỉ ra nhiều mô hình trước đó bị thiếu dữ liệu; tối ưu là cân bằng N (params) và D (tokens), xấp xỉ ~20 token/tham số, cho loss thấp hơn với cùng compute.",
+      "tags": [
+        "scaling-laws",
+        "chinchilla"
+      ]
+    },
+    {
+      "id": "E63-C23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Scaling laws kiểu Kaplan mô tả loss giảm theo điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Theo quy luật lũy thừa (power law) đối với số tham số, dữ liệu và lượng compute"
+        },
+        {
+          "key": "B",
+          "text": "Theo hàm tuyến tính với số lớp"
+        },
+        {
+          "key": "C",
+          "text": "Theo hàm bậc hai với độ dài chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Theo logarit của vocab size"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kaplan và cộng sự cho thấy test loss giảm theo power law (đường thẳng trên trục log-log) khi tăng N, D, C, gợi ý cách phân bổ compute để huấn luyện hiệu quả.",
+      "tags": [
+        "scaling-laws",
+        "kaplan"
+      ]
+    },
+    {
+      "id": "E63-C24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lịch học (LR schedule) phổ biến khi pretrain transformer lớn là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Warmup tuyến tính rồi giảm dần theo cosine (cosine decay)"
+        },
+        {
+          "key": "B",
+          "text": "Hằng số suốt quá trình huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Tăng dần đều đến cuối"
+        },
+        {
+          "key": "D",
+          "text": "Giảm theo bậc thang mỗi epoch, không warmup"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Warmup tăng LR từ nhỏ để tránh bất ổn ban đầu (đặc biệt với Adam), sau đó cosine decay đưa LR về gần 0, là công thức chuẩn cho pretrain LLM.",
+      "tags": [
+        "training",
+        "schedule"
+      ]
+    },
+    {
+      "id": "E63-C25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Gradient clipping trong huấn luyện transformer dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn chuẩn (norm) của gradient để tránh bùng nổ gradient gây mất ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ học khi gradient nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Cắt bớt số lớp khi quá sâu"
+        },
+        {
+          "key": "D",
+          "text": "Lượng tử hóa gradient xuống INT8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Clipping theo norm thu nhỏ gradient khi vượt ngưỡng, ngăn các bước cập nhật quá lớn (loss spike), giúp huấn luyện ổn định, đặc biệt với mạng sâu.",
+      "tags": [
+        "training",
+        "gradient-clipping"
+      ]
+    },
+    {
+      "id": "E63-C26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Huấn luyện bf16 (bfloat16) so với fp16 có ưu điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dải mũ (exponent) rộng như fp32 nên ít tràn/underflow, ổn định hơn dù ít bit phần định trị"
+        },
+        {
+          "key": "B",
+          "text": "Có nhiều bit định trị hơn fp16 nên chính xác hơn"
+        },
+        {
+          "key": "C",
+          "text": "Chiếm 4 byte như fp32"
+        },
+        {
+          "key": "D",
+          "text": "Không cần phép nhân ma trận"
+        }
+      ],
+      "answer": "A",
+      "explanation": "bf16 giữ 8 bit mũ (giống fp32) nhưng ít bit mantissa hơn; dải động rộng giúp tránh overflow/underflow, thường không cần loss scaling như fp16, nên ổn định khi train LLM.",
+      "tags": [
+        "mixed-precision",
+        "bf16"
+      ]
+    },
+    {
+      "id": "E63-C27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Label smoothing trong huấn luyện ngôn ngữ có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân bổ một phần xác suất nhỏ cho các nhãn sai, giảm quá tự tin và cải thiện hiệu chỉnh/khái quát"
+        },
+        {
+          "key": "B",
+          "text": "Làm trơn embedding đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Giảm độ dài chuỗi mục tiêu"
+        },
+        {
+          "key": "D",
+          "text": "Tăng nhiệt độ khi giải mã"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thay vì target one-hot, label smoothing đặt 1-ε cho nhãn đúng và rải ε cho phần còn lại, ngăn mô hình quá tự tin, thường cải thiện khái quát hóa.",
+      "tags": [
+        "training",
+        "label-smoothing"
+      ]
+    },
+    {
+      "id": "E63-C28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong giải mã, 'nucleus sampling' (top-p) chọn token như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấy mẫu từ tập token nhỏ nhất có tổng xác suất tích lũy ≥ p"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chọn token có xác suất cao nhất"
+        },
+        {
+          "key": "C",
+          "text": "Chọn cố định k token xác suất cao nhất"
+        },
+        {
+          "key": "D",
+          "text": "Chọn token ngẫu nhiên đều trên toàn vocab"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Top-p sắp xếp token theo xác suất giảm dần, giữ tập nhỏ nhất có tổng xác suất ≥ p rồi lấy mẫu trong đó; kích thước tập thay đổi theo độ chắc chắn của phân phối.",
+      "tags": [
+        "sampling",
+        "top-p"
+      ]
+    },
+    {
+      "id": "E63-C29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tăng 'temperature' khi sampling có hiệu ứng gì lên phân phối xác suất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm phân phối phẳng hơn (đa dạng hơn); temperature thấp làm nó nhọn hơn (xác định hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn làm phân phối nhọn hơn bất kể giá trị"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng tới phân phối, chỉ ảnh hưởng tốc độ"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ các token xác suất thấp hoàn toàn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Temperature chia logits trước softmax: T>1 làm phân phối đều/đa dạng hơn, T<1 làm sắc nét/quyết đoán hơn, T→0 tiệm cận greedy.",
+      "tags": [
+        "sampling",
+        "temperature"
+      ]
+    },
+    {
+      "id": "E63-C30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Beam search khác greedy decoding ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ đồng thời b chuỗi ứng viên tốt nhất ở mỗi bước thay vì chỉ 1, để tìm chuỗi có xác suất tổng cao hơn"
+        },
+        {
+          "key": "B",
+          "text": "Lấy mẫu ngẫu nhiên theo top-p"
+        },
+        {
+          "key": "C",
+          "text": "Luôn chọn token kém xác suất nhất"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho mô hình encoder-only"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Greedy chọn token tốt nhất mỗi bước (tham lam, dễ kẹt cục bộ); beam search mở rộng song song b giả thuyết, giữ b chuỗi điểm cao nhất, tìm xác suất chuỗi tốt hơn.",
+      "tags": [
+        "sampling",
+        "beam"
+      ]
+    },
+    {
+      "id": "E63-C31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Speculative decoding tăng tốc sinh văn bản bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng mô hình nháp nhỏ sinh trước nhiều token rồi mô hình lớn xác minh song song, chấp nhận token khớp"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua KV cache để tiết kiệm bộ nhớ"
+        },
+        {
+          "key": "C",
+          "text": "Lượng tử hóa mô hình xuống INT4"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số lớp khi suy luận"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Một draft model nhỏ đề xuất chuỗi token; mô hình lớn xác minh tất cả trong một lượt forward, chấp nhận tiền tố khớp. Nếu draft tốt, nhiều token được sinh mỗi bước của mô hình lớn.",
+      "tags": [
+        "speculative",
+        "decoding"
+      ]
+    },
+    {
+      "id": "E63-C32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Repetition penalty khi decode nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm xác suất các token đã xuất hiện để hạn chế lặp lại lặp vòng"
+        },
+        {
+          "key": "B",
+          "text": "Tăng xác suất token thường gặp"
+        },
+        {
+          "key": "C",
+          "text": "Phạt các token hiếm trong vocab"
+        },
+        {
+          "key": "D",
+          "text": "Buộc độ dài đầu ra tối thiểu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Repetition penalty hạ logit của token đã sinh (hoặc theo tần suất), giảm hiện tượng mô hình lặp cụm từ/vòng lặp thoái hóa khi sinh dài.",
+      "tags": [
+        "sampling",
+        "repetition-penalty"
+      ]
+    },
+    {
+      "id": "E63-C33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Lượng tử hóa INT8/INT4 cho LLM nhằm mục đích chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm bộ nhớ và băng thông bằng cách biểu diễn trọng số bằng số nguyên ít bit, tăng tốc/giảm chi phí suy luận"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ chính xác huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ dài ngữ cảnh tối đa"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ nhu cầu KV cache"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quantization ánh xạ trọng số (và đôi khi activation) sang INT8/INT4, giảm dung lượng và lượng dữ liệu nạp, cho phép chạy mô hình lớn trên phần cứng nhỏ hơn với suy giảm chất lượng nhỏ.",
+      "tags": [
+        "quantization",
+        "inference"
+      ]
+    },
+    {
+      "id": "E63-C34",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "GPTQ và AWQ là các phương pháp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng tử hóa sau huấn luyện (post-training quantization) cho LLM, tối ưu để giảm sai số khi nén xuống ít bit"
+        },
+        {
+          "key": "B",
+          "text": "Thuật toán attention thưa"
+        },
+        {
+          "key": "C",
+          "text": "Phương pháp fine-tune đầy đủ tham số"
+        },
+        {
+          "key": "D",
+          "text": "Bộ tối ưu thay cho Adam"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GPTQ lượng tử hóa theo lớp dựa trên thông tin Hessian xấp xỉ; AWQ bảo toàn các kênh trọng số quan trọng theo activation. Cả hai là PTQ nhằm nén xuống 4-bit ít mất chất lượng.",
+      "tags": [
+        "quantization",
+        "gptq-awq"
+      ]
+    },
+    {
+      "id": "E63-C35",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "LoRA (Low-Rank Adaptation) fine-tune mô hình lớn bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đóng băng trọng số gốc, học thêm hai ma trận hạng thấp A,B sao cho cập nhật ΔW = B·A"
+        },
+        {
+          "key": "B",
+          "text": "Cập nhật toàn bộ trọng số nhưng với LR rất nhỏ"
+        },
+        {
+          "key": "C",
+          "text": "Lượng tử hóa rồi train INT4"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ huấn luyện lại lớp embedding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LoRA giữ W cố định và thêm ΔW=BA với A,B hạng r nhỏ; chỉ A,B được huấn luyện, giảm mạnh số tham số cần cập nhật và bộ nhớ optimizer, vẫn đạt chất lượng tốt.",
+      "tags": [
+        "lora",
+        "peft"
+      ]
+    },
+    {
+      "id": "E63-C36",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "QLoRA bổ sung gì so với LoRA?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng tử hóa mô hình cơ sở xuống 4-bit (NF4) rồi train adapter LoRA trên đó để giảm bộ nhớ GPU"
+        },
+        {
+          "key": "B",
+          "text": "Tăng hạng r lên rất lớn"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ ma trận A để chỉ học B"
+        },
+        {
+          "key": "D",
+          "text": "Thay Adam bằng SGD"
+        }
+      ],
+      "answer": "A",
+      "explanation": "QLoRA giữ base model ở 4-bit (NormalFloat4), dùng paged optimizer và double quantization, chỉ adapter LoRA ở độ chính xác cao được train, cho phép fine-tune mô hình lớn trên 1 GPU.",
+      "tags": [
+        "qlora",
+        "peft"
+      ]
+    },
+    {
+      "id": "E63-C37",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao LoRA hiệu quả dù chỉ cập nhật hạng thấp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cập nhật cần thiết khi thích nghi nhiệm vụ thường có 'hạng nội tại' thấp, nên ma trận hạng nhỏ đủ biểu diễn"
+        },
+        {
+          "key": "B",
+          "text": "Vì LoRA thực ra cập nhật toàn bộ trọng số ngầm"
+        },
+        {
+          "key": "C",
+          "text": "Vì LoRA tăng kích thước mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Vì LoRA chỉ dùng được cho mô hình nhỏ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả thuyết của LoRA là sự thay đổi trọng số khi fine-tune nằm trong không gian con hạng thấp; do đó ΔW=BA với r nhỏ vẫn nắm bắt phần lớn thông tin thích nghi cần thiết.",
+      "tags": [
+        "lora",
+        "peft"
+      ]
+    },
+    {
+      "id": "E63-C38",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình decoder-only (GPT) so với encoder-decoder (T5) khác biệt cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Decoder-only dùng một ngăn xếp causal tự hồi quy; encoder-decoder tách encoder hai chiều và decoder có cross-attention"
+        },
+        {
+          "key": "B",
+          "text": "Decoder-only không dùng attention"
+        },
+        {
+          "key": "C",
+          "text": "Encoder-decoder không thể sinh văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Decoder-only chỉ dùng cho phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "T5 có encoder mã hóa đầu vào hai chiều và decoder sinh đầu ra với cross-attention vào encoder; GPT là một ngăn xếp decoder causal đơn, sinh tiếp văn bản theo kiểu tự hồi quy.",
+      "tags": [
+        "architecture",
+        "t5"
+      ]
+    },
+    {
+      "id": "E63-C39",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Weight tying (cột buộc trọng số) giữa lớp embedding và lớp đầu ra (output) mang lại lợi ích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ ma trận embedding làm trọng số chiếu output, giảm số tham số và thường cải thiện chất lượng"
+        },
+        {
+          "key": "B",
+          "text": "Tăng gấp đôi số tham số để học tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ lớp softmax"
+        },
+        {
+          "key": "D",
+          "text": "Cho phép bỏ positional encoding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Buộc trọng số input embedding và output projection dùng chung ma trận giảm đáng kể tham số (vocab×d) và thường nâng chất lượng do nhất quán không gian biểu diễn.",
+      "tags": [
+        "weight-tying",
+        "architecture"
+      ]
+    },
+    {
+      "id": "E63-C40",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong các LLM ngữ cảnh dài (ví dụ Mistral), 'sliding window attention' (chú ý cửa sổ trượt) hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi token chỉ chú ý tới một cửa sổ cố định W token gần nhất, giảm chi phí so với attention toàn cục O(n²)"
+        },
+        {
+          "key": "B",
+          "text": "Mọi token đều chú ý tới toàn bộ chuỗi giống hệt attention chuẩn"
+        },
+        {
+          "key": "C",
+          "text": "Một cửa sổ trượt qua ảnh để trích đặc trưng cục bộ như tích chập"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hoàn toàn self-attention và chỉ dùng mạng truyền thẳng (FFN)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sliding window attention giới hạn mỗi vị trí chỉ nhìn W token gần nhất; qua nhiều lớp, trường tiếp nhận vẫn lan xa nên mô hình xử lý được ngữ cảnh dài với chi phí thấp hơn attention toàn cục.",
+      "tags": [
+        "transformer",
+        "long-context",
+        "sliding-window-attention"
+      ]
+    },
+    {
+      "id": "E63-C41",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "SentencePiece/BPE giúp xử lý từ ngoài từ điển (OOV) như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tách từ hiếm thành các đơn vị con (subword) nên hầu như không có token OOV thực sự"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ qua mọi từ không có trong vocab"
+        },
+        {
+          "key": "C",
+          "text": "Thay từ lạ bằng token UNK cố định"
+        },
+        {
+          "key": "D",
+          "text": "Học embedding mới ngay khi suy luận"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tokenizer subword (BPE/SentencePiece) ghép ký tự thành đơn vị thường gặp; từ hiếm được phân rã thành các mảnh đã biết, nên gần như không gặp OOV và vocab giữ cỡ vừa phải.",
+      "tags": [
+        "tokenization",
+        "bpe"
+      ]
+    },
+    {
+      "id": "E63-C42",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đánh đổi khi chọn vocab size lớn cho tokenizer là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuỗi token ngắn hơn (ít token/từ) nhưng ma trận embedding/softmax lớn hơn, tốn tham số và bộ nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn tốt hơn ở mọi mặt, không có đánh đổi"
+        },
+        {
+          "key": "C",
+          "text": "Giảm tham số embedding nhưng tăng độ dài chuỗi"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ nhu cầu subword"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vocab lớn nén văn bản thành ít token hơn (giảm chi phí chuỗi) nhưng làm ma trận embedding và lớp output (vocab×d) phình to, tăng tham số và bộ nhớ; cần cân bằng.",
+      "tags": [
+        "tokenization",
+        "vocab"
+      ]
+    },
+    {
+      "id": "E63-C43",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao decoding tự hồi quy của LLM thường bị giới hạn bởi băng thông bộ nhớ (memory-bound)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi bước chỉ sinh 1 token nhưng phải nạp toàn bộ trọng số và KV cache, tỉ lệ tính/đọc bộ nhớ thấp"
+        },
+        {
+          "key": "B",
+          "text": "Vì phép nhân ma trận quá nặng về FLOPs"
+        },
+        {
+          "key": "C",
+          "text": "Vì softmax tốn nhiều phép tính nhất"
+        },
+        {
+          "key": "D",
+          "text": "Vì positional encoding phải tính lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong decode từng token, lượng tính toán nhỏ so với lượng tham số/KV cache phải đọc từ HBM mỗi bước, nên throughput bị giới hạn bởi băng thông bộ nhớ chứ không phải compute.",
+      "tags": [
+        "inference",
+        "memory-bound"
+      ]
+    },
+    {
+      "id": "E63-C44",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Causal mask trong decoder-only LLM bảo đảm điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi vị trí chỉ attend tới các vị trí ≤ chính nó, ngăn 'nhìn trộm' token tương lai"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi vị trí attend tới toàn bộ chuỗi hai chiều"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ token đầu được attend"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ self-attention ở lớp cuối"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặt nạ tam giác đặt -inf cho các vị trí tương lai trước softmax, nên token t chỉ phụ thuộc token ≤ t, đảm bảo tính tự hồi quy hợp lệ khi huấn luyện song song.",
+      "tags": [
+        "causal",
+        "decoder"
+      ]
+    },
+    {
+      "id": "E63-C45",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Instruction tuning (tinh chỉnh theo chỉ dẫn) trong ngữ cảnh kiến trúc LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tune mô hình đã pretrain trên các cặp (chỉ dẫn, phản hồi) để mô hình bám theo yêu cầu người dùng tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Một loại positional encoding mới"
+        },
+        {
+          "key": "C",
+          "text": "Một cơ chế attention thưa"
+        },
+        {
+          "key": "D",
+          "text": "Phương pháp lượng tử hóa trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sau pretrain, mô hình được tinh chỉnh có giám sát trên dữ liệu chỉ dẫn-đáp ứng đa nhiệm, giúp khái quát hóa khả năng làm theo hướng dẫn (không thay đổi kiến trúc cốt lõi).",
+      "tags": [
+        "instruction-tuning",
+        "alignment"
+      ]
+    },
+    {
+      "id": "E63-C46",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "DPO (Direct Preference Optimization) khác RLHF dựa-PPO ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tối ưu trực tiếp trên dữ liệu ưu tiên bằng một hàm mất mát phân loại, không cần mô hình thưởng riêng và vòng RL"
+        },
+        {
+          "key": "B",
+          "text": "Yêu cầu mô hình thưởng lớn hơn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ áp dụng cho encoder-only"
+        },
+        {
+          "key": "D",
+          "text": "Thay self-attention bằng cross-attention"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DPO biến bài toán căn chỉnh theo ưu tiên thành tối ưu trực tiếp một mục tiêu dạng phân loại trên cặp (được chọn, bị loại), bỏ qua việc huấn luyện reward model và vòng lặp PPO.",
+      "tags": [
+        "dpo",
+        "alignment"
+      ]
+    },
+    {
+      "id": "E63-C47",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao FlashAttention vẫn cần tính softmax 'trực tuyến' (online softmax) theo từng khối?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì không lưu toàn bộ hàng attention, phải cập nhật dần max và tổng chuẩn hóa khi duyệt qua các khối K,V"
+        },
+        {
+          "key": "B",
+          "text": "Vì softmax không thể tính chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Vì cần xấp xỉ softmax bằng hàm tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Vì softmax phải chạy trên CPU"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Online softmax giữ giá trị max chạy và tổng exp chạy, hiệu chỉnh lại tích lũy khi gặp khối mới, cho phép tính softmax chính xác mà không cần toàn bộ hàng trong bộ nhớ cùng lúc.",
+      "tags": [
+        "flashattention",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E63-C48",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với MHA, GQA với G nhóm KV giảm kích thước KV cache theo tỉ lệ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm theo tỉ lệ G/H (số nhóm chia cho số head), vì chỉ lưu G cặp K/V thay vì H"
+        },
+        {
+          "key": "B",
+          "text": "Giảm theo H/G"
+        },
+        {
+          "key": "C",
+          "text": "Giảm theo bình phương số head"
+        },
+        {
+          "key": "D",
+          "text": "Không đổi so với MHA"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MHA lưu H cặp K/V; GQA chỉ lưu G cặp dùng chung, nên KV cache tỉ lệ G/H lần so với MHA (G<H). Ví dụ H=32, G=8 thì KV cache còn 1/4.",
+      "tags": [
+        "gqa",
+        "kv-cache"
+      ]
+    },
+    {
+      "id": "E63-C49",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong MoE, vì sao cần cơ chế cân bằng tải (load balancing) giữa các expert?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tránh router dồn token vào vài expert (collapse), giữ các expert được dùng đều và huấn luyện ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Để tăng số lớp attention"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm vocab size"
+        },
+        {
+          "key": "D",
+          "text": "Để buộc mọi token đi qua mọi expert"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu không có auxiliary loss/cân bằng, router dễ học cách chỉ dùng vài expert, gây lãng phí dung lượng và mất ổn định; load-balancing loss khuyến khích phân bổ token đều giữa các expert.",
+      "tags": [
+        "moe",
+        "load-balancing"
+      ]
+    },
+    {
+      "id": "E63-C50",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Độ phức tạp tính toán của self-attention chuẩn theo độ dài chuỗi n và chiều d là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "O(n²·d) — chi phối bởi nhân Q·Kᵀ và nhân với V"
+        },
+        {
+          "key": "B",
+          "text": "O(n·d²) độc lập với bình phương n"
+        },
+        {
+          "key": "C",
+          "text": "O(n·log n·d)"
+        },
+        {
+          "key": "D",
+          "text": "O(n·d)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính điểm Q·Kᵀ tạo ma trận n×n với chi phí O(n²·d), và nhân attention với V cũng O(n²·d); do đó self-attention có độ phức tạp bậc hai theo độ dài chuỗi.",
+      "tags": [
+        "complexity",
+        "attention"
+      ]
+    },
+    {
+      "id": "E63-C51",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với d=4096 và FFN ẩn 4×d (hai ma trận d→4d và 4d→d), số tham số FFN (bỏ bias) của một block là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "134.217.728 (= 8·d²)"
+        },
+        {
+          "key": "B",
+          "text": "67.108.864 (= 4·d²)"
+        },
+        {
+          "key": "C",
+          "text": "16.777.216 (= d²)"
+        },
+        {
+          "key": "D",
+          "text": "268.435.456 (= 16·d²)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai ma trận: d×4d và 4d×d, mỗi cái 4·d² tham số, tổng 8·d² = 8·4096² = 134.217.728. Đây là phần FFN chiếm phần lớn tham số của block.",
+      "tags": [
+        "params",
+        "ffn"
+      ]
+    },
+    {
+      "id": "E63-C52",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với d=4096, số tham số của bốn phép chiếu Q,K,V,O (mỗi cái d×d, bỏ bias) trong một block là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "67.108.864 (= 4·d²)"
+        },
+        {
+          "key": "B",
+          "text": "134.217.728 (= 8·d²)"
+        },
+        {
+          "key": "C",
+          "text": "33.554.432 (= 2·d²)"
+        },
+        {
+          "key": "D",
+          "text": "16.777.216 (= d²)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn ma trận vuông d×d (Q, K, V và output projection) cho 4·d² = 4·4096² = 67.108.864 tham số; cộng với FFN (8·d²) thành ~12·d² mỗi block.",
+      "tags": [
+        "params",
+        "attention"
+      ]
+    },
+    {
+      "id": "E63-C53",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với L=32, n=2048, d=4096, KV cache (số phần tử, fp16, MHA đầy đủ) ≈ 2·L·n·d là bao nhiêu phần tử?",
+      "options": [
+        {
+          "key": "A",
+          "text": "536.870.912 phần tử (≈ 1 GiB ở fp16)"
+        },
+        {
+          "key": "B",
+          "text": "268.435.456 phần tử"
+        },
+        {
+          "key": "C",
+          "text": "1.073.741.824 phần tử"
+        },
+        {
+          "key": "D",
+          "text": "134.217.728 phần tử"
+        }
+      ],
+      "answer": "A",
+      "explanation": "2·L·n·d = 2·32·2048·4096 = 536.870.912 phần tử; ở fp16 (2 byte) tương đương 1.073.741.824 byte = 1 GiB, minh họa vì sao context dài tốn bộ nhớ.",
+      "tags": [
+        "kv-cache",
+        "memory"
+      ]
+    },
+    {
+      "id": "E63-C54",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với d=4096 và 32 head, head_dim (chiều mỗi head) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "128"
+        },
+        {
+          "key": "B",
+          "text": "256"
+        },
+        {
+          "key": "C",
+          "text": "64"
+        },
+        {
+          "key": "D",
+          "text": "512"
+        }
+      ],
+      "answer": "A",
+      "explanation": "head_dim = d / số_head = 4096 / 32 = 128. Tổng chiều của tất cả head ghép lại bằng d, nên multi-head không tăng chiều tổng nếu chia đều.",
+      "tags": [
+        "heads",
+        "head-dim"
+      ]
+    },
+    {
+      "id": "E63-C55",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tổng số tham số (bỏ bias) của một transformer block với attention (4·d²) và FFN 4×d (8·d²) là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "12·d² = 201.326.592 với d=4096"
+        },
+        {
+          "key": "B",
+          "text": "8·d² = 134.217.728"
+        },
+        {
+          "key": "C",
+          "text": "16·d² = 268.435.456"
+        },
+        {
+          "key": "D",
+          "text": "10·d² = 167.772.160"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Block ≈ attention (4·d²) + FFN (8·d²) = 12·d²; với d=4096 là 12·4096² = 201.326.592 tham số (chưa kể norm và bias rất nhỏ).",
+      "tags": [
+        "params",
+        "block"
+      ]
+    },
+    {
+      "id": "E63-C56",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "RoPE thường được áp dụng ở đâu trong khối attention?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lên các vector Q và K (trước khi tính Q·Kᵀ), không áp lên V"
+        },
+        {
+          "key": "B",
+          "text": "Lên vector V sau softmax"
+        },
+        {
+          "key": "C",
+          "text": "Lên đầu vào embedding một lần duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Lên đầu ra của FFN"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RoPE quay Q và K theo vị trí trước khi tính điểm attention, để dot-product phản ánh vị trí tương đối; V không cần quay vì nó chỉ được tổ hợp theo trọng số attention.",
+      "tags": [
+        "rope",
+        "attention"
+      ]
+    },
+    {
+      "id": "E63-C57",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày RoPE (Rotary Positional Embedding): cơ chế quay hoạt động thế nào, vì sao nó mã hóa vị trí TƯƠNG ĐỐI, và vì sao thường extrapolation tốt hơn positional embedding tuyệt đối học được. Nêu cách áp dụng trong khối attention.",
+      "modelAnswer": "RoPE mã hóa vị trí bằng cách quay các cặp chiều của vector query và key một góc tỉ lệ với chỉ số vị trí. Cụ thể, vector d chiều được chia thành d/2 cặp; mỗi cặp được quay bởi ma trận quay 2D với góc θ_i·m, trong đó m là vị trí token và θ_i là một tần số giảm dần theo chỉ số chiều (giống tần số trong sin/cos positional encoding). Điểm mấu chốt là tính chất của ma trận quay: R(m)ᵀR(n)=R(n−m). Do đó khi tính tích vô hướng giữa query đã quay ở vị trí m và key đã quay ở vị trí n, kết quả chỉ phụ thuộc vào hiệu vị trí (m−n) chứ không phải vị trí tuyệt đối. Nhờ vậy RoPE đưa thông tin vị trí TƯƠNG ĐỐI trực tiếp vào điểm attention dù được áp theo vị trí tuyệt đối của từng token. Về extrapolation: vì hành vi phụ thuộc khoảng cách tương đối và được biểu diễn bằng hàm quay tuần hoàn trơn thay vì một bảng embedding tuyệt đối cố định (chỉ học cho các vị trí đã thấy), RoPE khái quát hóa mượt hơn cho vị trí/độ dài chưa gặp; kết hợp với positional interpolation hoặc NTK-aware scaling còn mở rộng được ngữ cảnh xa hơn lúc train. Cách áp dụng: RoPE được áp lên Q và K trước khi tính Q·Kᵀ (không áp lên V), thường ở mỗi lớp; chi phí rất nhẏ và không thêm tham số học. So với embedding tuyệt đối, RoPE không cần học bảng vị trí, tích hợp tự nhiên vào attention và giữ được tính tương đối hữu ích cho ngôn ngữ.",
+      "rubric": [
+        "Mô tả cơ chế quay theo cặp chiều với góc tỉ lệ vị trí và tần số θ_i (>=1.0đ)",
+        "Giải thích vì sao là vị trí tương đối qua tính chất R(m)ᵀR(n)=R(n−m) khiến dot-product phụ thuộc (m−n) (>=1.5đ)",
+        "Nêu ưu điểm extrapolation/mở rộng ngữ cảnh (interpolation/NTK) so với absolute (>=1.0đ)",
+        "Nêu áp dụng lên Q,K (không V), không thêm tham số (>=0.5đ)"
+      ],
+      "tags": [
+        "rope",
+        "positional",
+        "essay"
+      ]
+    },
+    {
+      "id": "E63-C58",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích Multi-Query Attention (MQA) và Grouped-Query Attention (GQA): chúng giảm KV cache và tăng tốc inference ra sao, đánh đổi về chất lượng là gì, và mối quan hệ giữa MHA–GQA–MQA. Cho ví dụ định lượng mức giảm KV cache.",
+      "modelAnswer": "Trong multi-head attention (MHA) chuẩn, mỗi head có bộ chiếu Q, K, V riêng, nên KV cache lưu H cặp K/V (H là số head). MQA và GQA giảm số cặp K/V để thu nhỏ KV cache. MQA (Multi-Query Attention) giữ nhiều query head nhưng cho TẤT CẢ head dùng CHUNG một cặp K và V duy nhất; như vậy KV cache chỉ còn 1/H so với MHA. GQA (Grouped-Query Attention) là trung gian: chia H query head thành G nhóm, mỗi nhóm chia sẻ một cặp K/V, nên KV cache tỉ lệ G/H so với MHA. Mối quan hệ: G=H thì GQA trùng MHA; G=1 thì GQA trùng MQA; 1<G<H cho điểm cân bằng. Vì sao tăng tốc inference: decode tự hồi quy bị giới hạn bởi băng thông bộ nhớ (memory-bound) — mỗi bước chỉ sinh một token nhưng phải đọc toàn bộ KV cache từ HBM. KV cache nhỏ hơn nghĩa là ít byte phải nạp mỗi bước, nên độ trễ giảm và throughput/khả năng batch lớn hơn; đồng thời tiết kiệm bộ nhớ cho phép ngữ cảnh dài hơn hoặc batch lớn hơn. Đánh đổi: chia sẻ K/V làm giảm dung lượng biểu diễn của attention, nên MQA có thể giảm chất lượng và đôi khi kém ổn định khi huấn luyện; GQA giữ phần lớn chất lượng của MHA trong khi vẫn hưởng phần lớn lợi ích tốc độ/bộ nhớ, nên được nhiều mô hình lớn (vd Llama-2 70B) chọn. Ví dụ định lượng: với H=32 head và KV cache MHA ~ 2·L·n·d, MQA giảm phần K/V xuống 1/32; GQA với G=8 nhóm giảm xuống 8/32 = 1/4 kích thước K/V so với MHA, một mức tiết kiệm đáng kể mà ít mất chất lượng.",
+      "rubric": [
+        "Định nghĩa đúng MQA (chia sẻ 1 K/V) và GQA (G nhóm K/V) (>=1.0đ)",
+        "Giải thích giảm KV cache và vì sao tăng tốc inference (memory-bound) (>=1.5đ)",
+        "Nêu đánh đổi chất lượng và quan hệ MHA(G=H)–GQA–MQA(G=1) (>=1.0đ)",
+        "Cho ví dụ định lượng mức giảm (vd G/H) (>=0.5đ)"
+      ],
+      "tags": [
+        "mqa",
+        "gqa",
+        "kv-cache",
+        "essay"
+      ]
+    },
+    {
+      "id": "E63-C59",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao FlashAttention tiết kiệm bộ nhớ và tăng tốc mà vẫn cho kết quả chính xác (exact). Nêu rõ vai trò của tiling, online softmax, sự khác biệt giữa HBM và SRAM, và vì sao nó KHÔNG vật chất hóa ma trận attention n×n.",
+      "modelAnswer": "Attention chuẩn tính toàn bộ ma trận điểm S=Q·Kᵀ kích thước n×n, áp softmax rồi nhân với V. Điểm nghẽn không nằm ở FLOPs mà ở truy cập bộ nhớ: ma trận n×n phải được ghi ra rồi đọc lại từ HBM (bộ nhớ băng thông cao nhưng chậm và lớn của GPU), tốn O(n²) bộ nhớ và rất nhiều lần đọc/ghi HBM. FlashAttention là thuật toán IO-aware giải quyết chính điểm này. Nó dùng tiling: chia Q, K, V thành các khối nhỏ vừa với SRAM (bộ nhớ on-chip rất nhanh nhưng dung lượng nhỏ). Với mỗi khối Q, nó duyệt lần lượt các khối K, V, tính điểm cục bộ, áp softmax và tích lũy kết quả ngay trên SRAM, chỉ ghi ra HBM phần đầu ra cuối cùng. Để softmax đúng khi chỉ thấy từng khối K một lần, FlashAttention dùng online softmax: duy trì giá trị max chạy và tổng exp chạy, và khi gặp khối mới thì hiệu chỉnh lại (rescale) phần tích lũy trước đó. Nhờ đó nó tính được softmax chuẩn hóa chính xác mà không cần giữ toàn bộ hàng attention trong bộ nhớ cùng lúc. Kết quả là KHÔNG bao giờ vật chất hóa ma trận n×n đầy đủ trong HBM: bộ nhớ giảm từ O(n²) xuống O(n) (chỉ lưu đầu ra và vài thống kê), và số lần truy cập HBM giảm mạnh nên tốc độ tăng. Quan trọng: FlashAttention tính ĐÚNG cùng một softmax-attention (exact), không phải xấp xỉ hạng thấp hay thưa như Linformer/Performer; nó chỉ sắp xếp lại thứ tự tính toán và tận dụng phân cấp bộ nhớ. Khi backward, nó tính lại (recompute) các khối thay vì lưu, đổi một ít FLOPs lấy tiết kiệm bộ nhớ.",
+      "rubric": [
+        "Giải thích attention chuẩn vật chất hóa ma trận n×n và bị giới hạn bởi truy cập HBM (>=1.0đ)",
+        "Mô tả tiling + vai trò SRAM vs HBM (>=1.0đ)",
+        "Giải thích online softmax (max/sum chạy, rescale) cho kết quả chính xác (>=1.0đ)",
+        "Nhấn mạnh exact (không xấp xỉ) và giảm bộ nhớ O(n²)→O(n) (>=0.5đ)"
+      ],
+      "tags": [
+        "flashattention",
+        "memory",
+        "essay"
+      ]
+    },
+    {
+      "id": "E63-C60",
+      "module": "C",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích Mixture-of-Experts (MoE) trong transformer: cấu trúc (router, các expert FFN), định tuyến top-k, vì sao tăng tham số mà giữ FLOPs/token gần như không đổi, và các thách thức (cân bằng tải, bộ nhớ/giao tiếp).",
+      "modelAnswer": "Mixture-of-Experts thay lớp FFN dày đặc (dense) trong một số block transformer bằng nhiều FFN con gọi là 'expert' cùng một mạng định tuyến (router/gating). Cấu trúc: với mỗi token, router (thường là một lớp tuyến tính nhỏ + softmax) tính điểm cho từng expert; cơ chế top-k chọn k expert có điểm cao nhất (thường k=1 hoặc 2) để xử lý token đó, và đầu ra là tổ hợp có trọng số (theo điểm gating) của các expert được chọn. Các expert còn lại KHÔNG được kích hoạt cho token đó, nên tính toán mang tính thưa (sparse). Vì sao tăng tham số mà giữ FLOPs/token gần như không đổi: tổng số tham số bằng tổng của tất cả expert (có thể rất lớn, hàng chục/trăm expert), nhưng FLOPs hoạt động cho mỗi token chỉ phụ thuộc số expert được kích hoạt (k) chứ không phải tổng số expert. Do đó ta tăng được dung lượng/biểu diễn của mô hình (nhiều tham số hơn → chất lượng tốt hơn) mà chi phí tính toán mỗi token gần như không đổi so với một FFN dense, một cách 'scale' hiệu quả về compute. Lợi ích: dung lượng lớn, các expert có thể chuyên môn hóa theo loại đầu vào; chi phí huấn luyện/suy luận theo FLOPs thấp hơn nhiều so với mô hình dense cùng số tham số. Thách thức: (1) Cân bằng tải — router dễ dồn token vào vài expert (collapse), nên cần auxiliary load-balancing loss hoặc noisy gating để token phân bổ đều; (2) Bộ nhớ — tuy FLOPs thấp, toàn bộ tham số expert vẫn phải lưu trong bộ nhớ, tốn dung lượng lớn; (3) Giao tiếp/định tuyến — khi expert được phân tán trên nhiều thiết bị, cần all-to-all communication để gửi token tới đúng expert, gây overhead; thường giới hạn 'capacity' mỗi expert và bỏ (drop) token vượt quá. Ví dụ thực tế: Switch Transformer (top-1), Mixtral 8×7B (8 expert, top-2).",
+      "rubric": [
+        "Mô tả cấu trúc MoE: router/gating + nhiều expert FFN + tổ hợp top-k (>=1.0đ)",
+        "Giải thích định tuyến top-k và tính thưa (chỉ k expert kích hoạt) (>=1.0đ)",
+        "Giải thích vì sao tăng tham số mà FLOPs/token gần như không đổi (>=1.0đ)",
+        "Nêu thách thức: cân bằng tải, bộ nhớ, giao tiếp/capacity (>=0.5đ)"
+      ],
+      "tags": [
+        "moe",
+        "sparse",
+        "essay"
+      ]
+    }
+  ]
+}

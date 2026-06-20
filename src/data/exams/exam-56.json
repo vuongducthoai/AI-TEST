@@ -1,0 +1,1819 @@
+{
+  "id": "exam-56",
+  "title": "NumPy cho Machine Learning — Vector hóa thực chiến (Đọc code)",
+  "description": "Đề ôn tập tập trung vào vector hóa các phép tính học máy thực tế bằng NumPy: hàm kích hoạt, chuẩn hóa dữ liệu, ma trận khoảng cách, độ tương đồng, hàm mất mát và metrics. Phần lớn câu hỏi yêu cầu đọc và dự đoán output của đoạn code NumPy. Phù hợp ôn luyện kỹ năng tính toán vector hóa cho pipeline ML.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E56-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (softmax ổn định số học)\n\n```python\nimport numpy as np\nx = np.array([1.0, 2.0, 3.0])\nz = x - np.max(x)\ne = np.exp(z)\nsm = e / e.sum()\nprint(np.round(sm, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.09   0.2447 0.6652]"
+        },
+        {
+          "key": "B",
+          "text": "[0.09  0.2447 0.6652]"
+        },
+        {
+          "key": "C",
+          "text": "[0.3333 0.3333 0.3333]"
+        },
+        {
+          "key": "D",
+          "text": "[0.1 0.2 0.7]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trừ max trước khi exp để ổn định số học; kết quả softmax của [1,2,3] làm tròn 4 chữ số.",
+      "tags": [
+        "softmax",
+        "vectorization"
+      ]
+    },
+    {
+      "id": "E56-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (sigmoid)\n\n```python\nimport numpy as np\nx = np.array([0.0, 2.0, -2.0])\ns = 1.0 / (1.0 + np.exp(-x))\nprint(np.round(s, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.5    0.7311 0.2689]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5    0.8808 0.1192]"
+        },
+        {
+          "key": "C",
+          "text": "[0.5  0.88 0.12]"
+        },
+        {
+          "key": "D",
+          "text": "[0.    0.7311 0.2689]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sigmoid(0)=0.5, sigmoid(2)≈0.8808, sigmoid(-2)≈0.1192; làm tròn 4 chữ số.",
+      "tags": [
+        "sigmoid",
+        "vectorization"
+      ]
+    },
+    {
+      "id": "E56-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (ReLU)\n\n```python\nimport numpy as np\nx = np.array([-3.0, -0.5, 0.0, 2.0])\nprint(np.maximum(0, x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-3. -0.5  0.   2. ]"
+        },
+        {
+          "key": "B",
+          "text": "[3.  0.5 0.  2. ]"
+        },
+        {
+          "key": "C",
+          "text": "[0. 0. 0. 2.]"
+        },
+        {
+          "key": "D",
+          "text": "[0. 0. 1. 2.]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ReLU = max(0,x) theo phần tử; mọi giá trị âm bị đưa về 0, giữ nguyên giá trị không âm.",
+      "tags": [
+        "relu",
+        "vectorization"
+      ]
+    },
+    {
+      "id": "E56-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (leaky ReLU, slope 0.1)\n\n```python\nimport numpy as np\nx = np.array([-2.0, 1.0, -0.5])\ny = np.where(x > 0, x, 0.1 * x)\nprint(np.round(y, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[ 0.    1.    0.  ]"
+        },
+        {
+          "key": "B",
+          "text": "[-2.   1.  -0.5]"
+        },
+        {
+          "key": "C",
+          "text": "[0.8   1.   -0.05]"
+        },
+        {
+          "key": "D",
+          "text": "[-0.2   1.   -0.05]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Leaky ReLU giữ x nếu x>0, ngược lại nhân hệ số 0.1; np.where chọn theo điều kiện.",
+      "tags": [
+        "leaky_relu",
+        "where"
+      ]
+    },
+    {
+      "id": "E56-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (one-hot bằng np.eye)\n\n```python\nimport numpy as np\nlabels = np.array([0, 2, 1])\noh = np.eye(3, dtype=int)[labels]\nprint(oh)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 0 0]\n [0 0 1]\n [0 1 0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 0 0]\n [0 1 0]\n [0 0 1]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 0 1]\n [0 1 0]\n [1 0 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[2 0 0]\n [0 0 1]\n [0 1 0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.eye(3)[labels] lấy hàng tương ứng mỗi nhãn làm vector one-hot, giữ thứ tự nhãn đầu vào.",
+      "tags": [
+        "one_hot",
+        "fancy_index"
+      ]
+    },
+    {
+      "id": "E56-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (min-max theo cột)\n\n```python\nimport numpy as np\nX = np.array([[1., 2.], [3., 6.], [5., 4.]])\nmn = X.min(axis=0, keepdims=True)\nmx = X.max(axis=0, keepdims=True)\nprint(np.round((X - mn) / (mx - mn), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0.   0.  ]\n [0.5  1.  ]\n [1.   0.5 ]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0.  0. ]\n [0.5 1. ]\n [1.  0.5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0.   0.  ]\n [1.   1.  ]\n [0.5  0.5 ]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0.2  0.5 ]\n [0.6  1.  ]\n [1.   0.8 ]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chuẩn hóa min-max theo cột (axis=0): mỗi cột về [0,1] dựa trên min/max của chính cột đó.",
+      "tags": [
+        "minmax",
+        "normalize",
+        "keepdims"
+      ]
+    },
+    {
+      "id": "E56-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (z-score theo cột)\n\n```python\nimport numpy as np\nX = np.array([[1., 2.], [3., 4.], [5., 6.]])\nmu = X.mean(axis=0, keepdims=True)\nsd = X.std(axis=0, keepdims=True)\nprint(np.round((X - mu) / sd, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[-1.  -1.]\n [ 0.   0.]\n [ 1.   1.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[-1.2247 -1.2247]\n [ 1.2247  1.2247]\n [ 0.      0.    ]]"
+        },
+        {
+          "key": "C",
+          "text": "[[-1.2247 -1.2247]\n [ 0.      0.    ]\n [ 1.2247  1.2247]]"
+        },
+        {
+          "key": "D",
+          "text": "[[-0.2247 -1.2247]\n [ 0.      0.    ]\n [ 1.2247  1.2247]]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Z-score: (x-mean)/std theo cột; std tổng thể của [1,3,5] ≈ 1.633 nên giá trị chuẩn hóa ≈ ±1.2247.",
+      "tags": [
+        "zscore",
+        "standardize",
+        "keepdims"
+      ]
+    },
+    {
+      "id": "E56-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (L2 normalize hàng)\n\n```python\nimport numpy as np\nX = np.array([[3., 4.], [0., 5.]])\nnorm = np.linalg.norm(X, axis=1, keepdims=True)\nprint(np.round(X / norm, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0.428 0.571]\n [0.    1.   ]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1. 1.]\n [0. 1.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1.6 0.8]\n [0.  1. ]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0.6 0.8]\n [0.  1. ]]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "L2 normalize từng hàng: chia mỗi hàng cho chuẩn L2 của nó; [3,4] có norm 5 nên thành [0.6,0.8].",
+      "tags": [
+        "l2_normalize",
+        "norm"
+      ]
+    },
+    {
+      "id": "E56-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (ma trận khoảng cách Euclid)\n\n```python\nimport numpy as np\nA = np.array([[0., 0.], [3., 4.]])\ndiff = A[:, None, :] - A[None, :, :]\nD = np.sqrt((diff ** 2).sum(axis=-1))\nprint(np.round(D, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0. 5.]\n [5. 0.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0. 7.]\n [7. 0.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0. 5.]\n [4. 0.]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 5.]\n [5. 0.]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Broadcasting A[:,None]-A[None,:] cho mọi cặp; khoảng cách giữa (0,0) và (3,4) là 5, đường chéo bằng 0.",
+      "tags": [
+        "pairwise_distance",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E56-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (cosine similarity)\n\n```python\nimport numpy as np\nX = np.array([[1., 0.], [1., 1.]])\nXn = X / np.linalg.norm(X, axis=1, keepdims=True)\nS = Xn @ Xn.T\nprint(np.round(S, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1. 1.]\n [1. 1.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[1.     0.7071]\n [0.7071 1.    ]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1.     0.5   ]\n [0.5    1.    ]]"
+        },
+        {
+          "key": "D",
+          "text": "[[2     0.7071]\n [0.7071 1.    ]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chuẩn hóa L2 từng hàng rồi nhân Xn@Xn.T cho cosine similarity; góc giữa [1,0] và [1,1] có cos=0.7071.",
+      "tags": [
+        "cosine_similarity",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E56-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (batched matmul)\n\n```python\nimport numpy as np\nA = np.arange(8).reshape(2, 2, 2)\nB = np.eye(2, dtype=int)[None, :, :]\nC = np.matmul(A, B)\nprint(C.shape)\nprint(C[1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2, 2)\n[[0 1]\n [2 3]]"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2)\n[[4 5]\n [6 7]]"
+        },
+        {
+          "key": "C",
+          "text": "(2, 2, 2)\n[[4 5]\n [6 7]]"
+        },
+        {
+          "key": "D",
+          "text": "(3, 2, 2)\n[[4 5]\n [6 7]]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "matmul trên mảng 3D nhân theo batch; nhân với ma trận đơn vị giữ nguyên, batch thứ hai là [[4,5],[6,7]].",
+      "tags": [
+        "batched_matmul",
+        "matmul"
+      ]
+    },
+    {
+      "id": "E56-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (accuracy)\n\n```python\nimport numpy as np\ny_true = np.array([0, 1, 2, 1, 0])\ny_pred = np.array([0, 2, 2, 1, 1])\nacc = np.mean(y_true == y_pred)\nprint(round(float(acc), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4"
+        },
+        {
+          "key": "B",
+          "text": "0.8"
+        },
+        {
+          "key": "C",
+          "text": "1.6"
+        },
+        {
+          "key": "D",
+          "text": "0.6"
+        }
+      ],
+      "answer": "D",
+      "explanation": "So sánh phần tử y_true==y_pred cho mảng boolean; mean của nó là tỉ lệ đúng = 3/5 = 0.6.",
+      "tags": [
+        "accuracy",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E56-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (confusion matrix)\n\n```python\nimport numpy as np\ny_true = np.array([0, 1, 1, 0])\ny_pred = np.array([0, 1, 0, 0])\nn = 2\ncm = np.bincount(y_true * n + y_pred, minlength=n*n).reshape(n, n)\nprint(cm)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[2 0]\n [1 1]]"
+        },
+        {
+          "key": "B",
+          "text": "[[2 0]\n [0 2]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 1]\n [1 1]]"
+        },
+        {
+          "key": "D",
+          "text": "[[3 0]\n [1 1]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ghép cặp (true,pred) thành chỉ số true*n+pred rồi đếm bằng bincount, reshape thành ma trận nhầm lẫn.",
+      "tags": [
+        "confusion_matrix",
+        "bincount"
+      ]
+    },
+    {
+      "id": "E56-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (MSE)\n\n```python\nimport numpy as np\ny = np.array([1., 2., 3.])\np = np.array([1.5, 2.0, 4.0])\nmse = np.mean((y - p) ** 2)\nprint(round(float(mse), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.4167"
+        },
+        {
+          "key": "C",
+          "text": "1.25"
+        },
+        {
+          "key": "D",
+          "text": "1.4167"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MSE = trung bình bình phương sai số: ((0.5)^2+0+(1)^2)/3 = 1.25/3 ≈ 0.4167.",
+      "tags": [
+        "mse",
+        "loss"
+      ]
+    },
+    {
+      "id": "E56-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (MAE)\n\n```python\nimport numpy as np\ny = np.array([1., 2., 3.])\np = np.array([1.5, 2.0, 4.0])\nmae = np.mean(np.abs(y - p))\nprint(round(float(mae), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.4167"
+        },
+        {
+          "key": "B",
+          "text": "1.5"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "-0.5"
+        }
+      ],
+      "answer": "C",
+      "explanation": "MAE = trung bình trị tuyệt đối sai số: (0.5+0+1)/3 = 0.5.",
+      "tags": [
+        "mae",
+        "loss"
+      ]
+    },
+    {
+      "id": "E56-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (cross-entropy)\n\n```python\nimport numpy as np\np = np.array([0.7, 0.2, 0.1])\ny = np.array([1, 0, 0])\nce = -np.sum(y * np.log(p))\nprint(round(float(ce), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.204"
+        },
+        {
+          "key": "B",
+          "text": "0.7"
+        },
+        {
+          "key": "C",
+          "text": "1.3567"
+        },
+        {
+          "key": "D",
+          "text": "0.3567"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cross-entropy = -sum(y*log(p)); chỉ lớp đúng (p=0.7) đóng góp: -log(0.7) ≈ 0.3567.",
+      "tags": [
+        "cross_entropy",
+        "loss"
+      ]
+    },
+    {
+      "id": "E56-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (np.clip)\n\n```python\nimport numpy as np\np = np.array([0.0, 0.5, 1.0])\npc = np.clip(p, 1e-7, 1 - 1e-7)\nprint(-np.log(pc[0]) > 10)\nprint(np.round(pc[1], 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True\n0.5"
+        },
+        {
+          "key": "B",
+          "text": "False\n0.5"
+        },
+        {
+          "key": "C",
+          "text": "True\n0.0"
+        },
+        {
+          "key": "D",
+          "text": "True\n1.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "clip ép giá trị về [1e-7, 1-1e-7] tránh log(0); -log(1e-7)≈16.1>10 nên True, giá trị 0.5 không đổi.",
+      "tags": [
+        "clip",
+        "numerical_stability"
+      ]
+    },
+    {
+      "id": "E56-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (log-sum-exp ổn định)\n\n```python\nimport numpy as np\nx = np.array([1000., 1000., 1000.])\nm = np.max(x)\nlse = m + np.log(np.sum(np.exp(x - m)))\nprint(round(float(lse - 1000.0), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0986"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0986"
+        }
+      ],
+      "answer": "B",
+      "explanation": "log-sum-exp ổn định trừ max trước; với 3 phần tử bằng nhau, kết quả = max + log(3) ≈ max+1.0986.",
+      "tags": [
+        "logsumexp",
+        "numerical_stability"
+      ]
+    },
+    {
+      "id": "E56-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (moving average)\n\n```python\nimport numpy as np\nx = np.array([1., 2., 3., 4., 5.])\nk = np.ones(3) / 3\nma = np.convolve(x, k, mode='valid')\nprint(np.round(ma, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 2. 3. 4. 5.]"
+        },
+        {
+          "key": "B",
+          "text": "[2.  3.  4.  5.]"
+        },
+        {
+          "key": "C",
+          "text": "[2. 3. 4.]"
+        },
+        {
+          "key": "D",
+          "text": "[3 3. 4.]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "convolve với kernel trung bình [1/3,1/3,1/3], mode='valid' cho trung bình trượt cửa sổ 3 phần tử.",
+      "tags": [
+        "moving_average",
+        "convolve"
+      ]
+    },
+    {
+      "id": "E56-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (sliding_window_view)\n\n```python\nimport numpy as np\nfrom numpy.lib.stride_tricks import sliding_window_view\nx = np.arange(5)\nw = sliding_window_view(x, 3)\nprint(w.shape)\nprint(w[1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 3)\n[0 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "(5, 3)\n[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "(4, 3)\n[1 2 3]"
+        },
+        {
+          "key": "D",
+          "text": "(3, 3)\n[1 2 3]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "sliding_window_view tạo cửa sổ trượt kích thước 3; với 5 phần tử có 3 cửa sổ, cửa sổ thứ hai là [1,2,3].",
+      "tags": [
+        "sliding_window",
+        "im2col"
+      ]
+    },
+    {
+      "id": "E56-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (gradient số central difference)\n\n```python\nimport numpy as np\nf = lambda x: x ** 2\nx0 = 3.0\nh = 1e-5\ng = (f(x0 + h) - f(x0 - h)) / (2 * h)\nprint(round(float(g), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.0"
+        },
+        {
+          "key": "B",
+          "text": "9.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "7.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm số sai phân trung tâm xấp xỉ f'(x)=2x; tại x=3 cho ≈6.0.",
+      "tags": [
+        "numerical_gradient",
+        "central_difference"
+      ]
+    },
+    {
+      "id": "E56-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (đạo hàm ReLU)\n\n```python\nimport numpy as np\nx = np.array([-1.0, 0.0, 2.0])\ndy = np.where(x > 0, 1.0, 0.0)\nprint(dy)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0. 1. 1.]"
+        },
+        {
+          "key": "B",
+          "text": "[0. 0. 1.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 0. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[1 0. 1.]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đạo hàm ReLU bằng 1 khi x>0 và 0 khi x<=0; tại x=0 quy ước 0 theo điều kiện x>0.",
+      "tags": [
+        "relu_derivative",
+        "where"
+      ]
+    },
+    {
+      "id": "E56-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (dự đoán lớp bằng argmax)\n\n```python\nimport numpy as np\nlogits = np.array([[0.1, 0.9, 0.3], [2.0, 0.5, 1.0]])\npred = np.argmax(logits, axis=1)\nprint(pred)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[1 0]"
+        },
+        {
+          "key": "D",
+          "text": "[2 0]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "argmax theo axis=1 trả chỉ số lớp có điểm cao nhất mỗi hàng: hàng 1 chọn lớp 1, hàng 2 chọn lớp 0.",
+      "tags": [
+        "argmax",
+        "prediction"
+      ]
+    },
+    {
+      "id": "E56-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (đếm số lượng mỗi lớp)\n\n```python\nimport numpy as np\ny = np.array([0, 1, 1, 2, 2, 2])\ncounts = np.bincount(y)\nprint(counts)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2 2 3]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 3]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "bincount đếm số lần xuất hiện mỗi nhãn nguyên không âm: lớp 0 có 1, lớp 1 có 2, lớp 2 có 3.",
+      "tags": [
+        "bincount",
+        "class_counts"
+      ]
+    },
+    {
+      "id": "E56-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (gather bằng take_along_axis)\n\n```python\nimport numpy as np\nprobs = np.array([[0.1, 0.6, 0.3], [0.8, 0.1, 0.1]])\ny = np.array([1, 0])\npicked = np.take_along_axis(probs, y[:, None], axis=1)[:, 0]\nprint(np.round(picked, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.6 0.8]"
+        },
+        {
+          "key": "B",
+          "text": "[0.1 0.8]"
+        },
+        {
+          "key": "C",
+          "text": "[0.6 0.1]"
+        },
+        {
+          "key": "D",
+          "text": "[1.6 0.8]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "take_along_axis lấy xác suất tại chỉ số nhãn mỗi hàng: hàng 1 lấy cột 1 (0.6), hàng 2 lấy cột 0 (0.8).",
+      "tags": [
+        "take_along_axis",
+        "gather"
+      ]
+    },
+    {
+      "id": "E56-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (mask cho chuỗi padding)\n\n```python\nimport numpy as np\nseq = np.array([[1, 2, 0, 0], [3, 4, 5, 0]])\nmask = (seq != 0).astype(int)\nprint(mask)\nprint(mask.sum(axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1 1 1 1]\n [1 1 1 1]]\n[4 4]"
+        },
+        {
+          "key": "B",
+          "text": "[[1 1 0 0]\n [1 1 1 0]]\n[2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[[1 1 0 0]\n [1 1 1 0]]\n[3 2]"
+        },
+        {
+          "key": "D",
+          "text": "[[2 1 0 0]\n [1 1 1 0]]\n[2 3]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mask = (seq != 0) đánh dấu token thật (1) và padding (0); tổng theo hàng cho độ dài thực mỗi chuỗi.",
+      "tags": [
+        "masking",
+        "padding"
+      ]
+    },
+    {
+      "id": "E56-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (train/val split bằng permutation)\n\n```python\nimport numpy as np\nrng = np.random.default_rng(0)\nidx = rng.permutation(10)\nval = idx[:3]\nprint(val)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 8 4]"
+        },
+        {
+          "key": "B",
+          "text": "[0 1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[4 6 2]"
+        },
+        {
+          "key": "D",
+          "text": "[8 6 5]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "permutation với seed cố định cho hoán vị tái lập; lấy 3 chỉ số đầu làm tập validation.",
+      "tags": [
+        "train_val_split",
+        "permutation"
+      ]
+    },
+    {
+      "id": "E56-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (standardize cột, in mean sau chuẩn hóa)\n\n```python\nimport numpy as np\nX = np.array([[2., 4.], [4., 8.], [6., 12.]])\nZ = (X - X.mean(axis=0)) / X.std(axis=0)\nprint(np.round(Z.mean(axis=0), 4))\nprint(np.round(Z.std(axis=0), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 1.]\n[0. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[0. 0.]\n[0. 0.]"
+        },
+        {
+          "key": "C",
+          "text": "[1 0.]\n[1. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[0. 0.]\n[1. 1.]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sau standardize mỗi cột có mean≈0 và std≈1; đây là tính chất cơ bản của z-score theo cột.",
+      "tags": [
+        "standardize",
+        "mean_std"
+      ]
+    },
+    {
+      "id": "E56-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (einsum batched matmul)\n\n```python\nimport numpy as np\nA = np.ones((2, 2, 3))\nB = np.ones((2, 3, 4))\nC = np.einsum('bij,bjk->bik', A, B)\nprint(C.shape)\nprint(C[0, 0, 0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2, 4)\n3.0"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2, 4)\n6.0"
+        },
+        {
+          "key": "C",
+          "text": "(2, 3, 4)\n3.0"
+        },
+        {
+          "key": "D",
+          "text": "(3, 2, 4)\n3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "einsum 'bij,bjk->bik' thực hiện matmul theo batch; tổng theo j (3 phần tử bằng 1) cho mỗi phần tử = 3.0.",
+      "tags": [
+        "einsum",
+        "batched"
+      ]
+    },
+    {
+      "id": "E56-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (center dữ liệu)\n\n```python\nimport numpy as np\nX = np.array([[1., 2.], [3., 4.]])\nXc = X - X.mean(axis=0)\nprint(Xc)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0. 0.]\n [0. 0.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[-1. -1.]\n [ 1.  1.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[-1. -1.]\n [-1. -1.]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0 -1.]\n [ 1.  1.]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Center trừ mean theo cột nhờ broadcasting; cột có mean [2,3] nên mỗi cột thành ±1 quanh trung bình.",
+      "tags": [
+        "center",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E56-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (label smoothing)\n\n```python\nimport numpy as np\noh = np.array([0., 1., 0., 0.])\neps = 0.1\nK = oh.shape[0]\nsm = oh * (1 - eps) + eps / K\nprint(np.round(sm, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.1 0.9 0.1 0.1]"
+        },
+        {
+          "key": "B",
+          "text": "[0.025 0.9   0.025 0.025]"
+        },
+        {
+          "key": "C",
+          "text": "[0.025 0.925 0.025 0.025]"
+        },
+        {
+          "key": "D",
+          "text": "[1.025 0.925 0.025 0.025]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Label smoothing: nhãn đúng còn (1-eps)+eps/K=0.925, các nhãn khác nhận eps/K=0.025 để giảm overconfidence.",
+      "tags": [
+        "label_smoothing"
+      ]
+    },
+    {
+      "id": "E56-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (class weights nghịch đảo tần suất)\n\n```python\nimport numpy as np\ncounts = np.array([10, 30, 60])\nw = counts.sum() / (len(counts) * counts)\nprint(np.round(w, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.1    0.3    0.6   ]"
+        },
+        {
+          "key": "B",
+          "text": "[6.    2.    1.   ]"
+        },
+        {
+          "key": "C",
+          "text": "[4.3333 1.1111 0.5556]"
+        },
+        {
+          "key": "D",
+          "text": "[3.3333 1.1111 0.5556]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Trọng số lớp = N/(K*count) nghịch đảo tần suất; lớp hiếm (10) có trọng số lớn nhất ≈3.3333.",
+      "tags": [
+        "class_weights",
+        "imbalance"
+      ]
+    },
+    {
+      "id": "E56-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (softmax theo hàng cho batch)\n\n```python\nimport numpy as np\nX = np.array([[1., 1.], [2., 0.]])\nZ = X - X.max(axis=1, keepdims=True)\nE = np.exp(Z)\nSM = E / E.sum(axis=1, keepdims=True)\nprint(np.round(SM, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0.5    0.5   ]\n [0.8808 0.1192]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0.5 0.5]\n [0.5 0.5]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0.5    0.5   ]\n [0.7311 0.2689]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1.5    0.5   ]\n [0.8808 0.1192]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax theo hàng với keepdims; hàng [1,1] cho [0.5,0.5], hàng [2,0] cho [0.8808,0.1192].",
+      "tags": [
+        "softmax",
+        "batch"
+      ]
+    },
+    {
+      "id": "E56-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (np.where 3 nhánh)\n\n```python\nimport numpy as np\nx = np.array([-2.0, 0.0, 3.0])\ny = np.where(x < 0, -1, np.where(x == 0, 0, 1))\nprint(y)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 0 1]"
+        },
+        {
+          "key": "B",
+          "text": "[-1  0  1]"
+        },
+        {
+          "key": "C",
+          "text": "[-1 1 1]"
+        },
+        {
+          "key": "D",
+          "text": "[0  0  1]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "np.where lồng nhau tạo hàm dấu 3 nhánh: âm→-1, bằng 0→0, dương→1.",
+      "tags": [
+        "where",
+        "sign"
+      ]
+    },
+    {
+      "id": "E56-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (gradient clipping theo norm)\n\n```python\nimport numpy as np\ng = np.array([3.0, 4.0])\nmax_norm = 1.0\nnorm = np.linalg.norm(g)\ngc = g * min(1.0, max_norm / norm)\nprint(np.round(gc, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3. 4.]"
+        },
+        {
+          "key": "B",
+          "text": "[0.2 0.2]"
+        },
+        {
+          "key": "C",
+          "text": "[0.6 0.8]"
+        },
+        {
+          "key": "D",
+          "text": "[1.6 0.8]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Gradient clipping co gradient về max_norm khi norm vượt ngưỡng; [3,4] norm 5 nhân 1/5 thành [0.6,0.8].",
+      "tags": [
+        "gradient_clipping",
+        "norm"
+      ]
+    },
+    {
+      "id": "E56-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (phân phối lớp từ one-hot)\n\n```python\nimport numpy as np\ny = np.array([0, 1, 1, 2])\noh = np.eye(3, dtype=int)[y]\nprint(oh.sum(axis=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 1 2]"
+        },
+        {
+          "key": "B",
+          "text": "[2 1 1]"
+        },
+        {
+          "key": "C",
+          "text": "[2 2 1]"
+        },
+        {
+          "key": "D",
+          "text": "[1 2 1]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "one-hot rồi cộng theo cột (axis=0) cho số mẫu mỗi lớp: lớp 0 có 1, lớp 1 có 2, lớp 2 có 1.",
+      "tags": [
+        "one_hot",
+        "class_counts"
+      ]
+    },
+    {
+      "id": "E56-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (toán tử @ trên 3D)\n\n```python\nimport numpy as np\nA = np.ones((3, 2, 4))\nB = np.ones((3, 4, 5))\nprint((A @ B).shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2, 5)"
+        },
+        {
+          "key": "B",
+          "text": "(3, 4, 5)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 5)"
+        },
+        {
+          "key": "D",
+          "text": "(4, 2, 5)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Toán tử @ trên mảng 3D nhân theo batch, giữ kích thước batch 3 và nhân (2,4)@(4,5)=(2,5).",
+      "tags": [
+        "matmul",
+        "batched"
+      ]
+    },
+    {
+      "id": "E56-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (chuẩn hóa rồi clip outlier)\n\n```python\nimport numpy as np\nx = np.array([-5.0, 0.0, 5.0])\nz = (x - x.mean()) / x.std()\nzc = np.clip(z, -1.0, 1.0)\nprint(np.round(zc, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1.2247  0.      1.2247]"
+        },
+        {
+          "key": "B",
+          "text": "[-1.  0.  1.]"
+        },
+        {
+          "key": "C",
+          "text": "[-5.  0.  5.]"
+        },
+        {
+          "key": "D",
+          "text": "[0  0.  1.]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "z-score cho [-1.2247,0,1.2247] rồi clip về [-1,1] cắt các giá trị vượt ngưỡng thành ±1.",
+      "tags": [
+        "zscore",
+        "clip"
+      ]
+    },
+    {
+      "id": "E56-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (đếm dự đoán đúng mỗi lớp)\n\n```python\nimport numpy as np\ny_true = np.array([0, 0, 1, 1, 1])\ny_pred = np.array([0, 1, 1, 1, 0])\ncorrect = y_true == y_pred\nprint(np.bincount(y_true[correct], minlength=2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1 2]"
+        },
+        {
+          "key": "D",
+          "text": "[2 2]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lọc các mẫu đúng rồi bincount theo nhãn thật: lớp 0 đúng 1, lớp 1 đúng 2.",
+      "tags": [
+        "bincount",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E56-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (max pooling 1D)\n\n```python\nimport numpy as np\nx = np.array([1., 3., 2., 5., 4., 0.])\npooled = x.reshape(3, 2).max(axis=1)\nprint(pooled)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1. 2. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[3. 5. 0.]"
+        },
+        {
+          "key": "C",
+          "text": "[4 5. 4.]"
+        },
+        {
+          "key": "D",
+          "text": "[3. 5. 4.]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Reshape thành (3,2) rồi lấy max mỗi cặp mô phỏng max pooling cửa sổ 2 không chồng lấn.",
+      "tags": [
+        "max_pooling",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E56-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (softmax với temperature cao)\n\n```python\nimport numpy as np\nx = np.array([1.0, 2.0, 3.0])\nT = 1000.0\nz = x / T\nz = z - z.max()\nsm = np.exp(z) / np.exp(z).sum()\nprint(np.round(sm, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.333  0.3333 0.3337]"
+        },
+        {
+          "key": "B",
+          "text": "[0.3333 0.3333 0.3333]"
+        },
+        {
+          "key": "C",
+          "text": "[0.09  0.2447 0.6652]"
+        },
+        {
+          "key": "D",
+          "text": "[0. 0. 1.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Temperature rất lớn làm logits gần bằng nhau nên softmax tiệm cận phân phối đều ≈[1/3,1/3,1/3].",
+      "tags": [
+        "softmax",
+        "temperature"
+      ]
+    },
+    {
+      "id": "E56-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (trừ trung bình hàng)\n\n```python\nimport numpy as np\nX = np.array([[1., 2., 3.], [4., 5., 6.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(Xc)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[-1. -1. -1.]\n [ 1.  1.  1.]]"
+        },
+        {
+          "key": "B",
+          "text": "[[-1.  0.  1.]\n [-1.  0.  1.]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0. 1. 2.]\n [0. 1. 2.]]"
+        },
+        {
+          "key": "D",
+          "text": "[[0  0.  1.]\n [-1.  0.  1.]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "keepdims=True giữ trục để broadcasting trừ trung bình mỗi hàng; mỗi hàng thành [-1,0,1].",
+      "tags": [
+        "broadcasting",
+        "keepdims"
+      ]
+    },
+    {
+      "id": "E56-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (binary cross-entropy)\n\n```python\nimport numpy as np\ny = np.array([1., 0.])\np = np.array([0.9, 0.2])\nbce = -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))\nprint(round(float(bce), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1638"
+        },
+        {
+          "key": "B",
+          "text": "0.5108"
+        },
+        {
+          "key": "C",
+          "text": "0.1643"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "BCE trung bình: (-log0.9 - log0.8)/2 = (0.1054+0.2231)/2 ≈ 0.1638.",
+      "tags": [
+        "bce",
+        "loss"
+      ]
+    },
+    {
+      "id": "E56-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (chuẩn hóa thành phân phối xác suất)\n\n```python\nimport numpy as np\nscores = np.array([2., 3., 5.])\np = scores / scores.sum()\nprint(np.round(p, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.3333 0.3333 0.3333]"
+        },
+        {
+          "key": "B",
+          "text": "[2. 3. 5.]"
+        },
+        {
+          "key": "C",
+          "text": "[1.2 0.3 0.5]"
+        },
+        {
+          "key": "D",
+          "text": "[0.2 0.3 0.5]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chia mỗi phần tử cho tổng để tạo phân phối xác suất cộng bằng 1: [0.2,0.3,0.5].",
+      "tags": [
+        "normalize",
+        "probability"
+      ]
+    },
+    {
+      "id": "E56-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (top-2 dự đoán)\n\n```python\nimport numpy as np\nprobs = np.array([0.1, 0.5, 0.2, 0.2])\ntopk = np.argsort(probs)[::-1][:2]\nprint(topk)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1 3]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2 3]"
+        },
+        {
+          "key": "D",
+          "text": "[-1 -3]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort tăng dần, đảo ngược lấy chỉ số lớn nhất; top-2 là lớp 1 (0.5) và lớp 2 (0.2, đứng trước 3 do ổn định).",
+      "tags": [
+        "argsort",
+        "topk"
+      ]
+    },
+    {
+      "id": "E56-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (tích vô hướng từng hàng bằng einsum)\n\n```python\nimport numpy as np\nA = np.array([[1., 2.], [3., 4.]])\nB = np.array([[1., 0.], [0., 1.]])\nd = np.einsum('ij,ij->i', A, B)\nprint(d)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3. 7.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 4.]"
+        },
+        {
+          "key": "C",
+          "text": "[1. 0.]"
+        },
+        {
+          "key": "D",
+          "text": "[2 4.]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "einsum 'ij,ij->i' nhân phần tử rồi cộng theo hàng cho tích vô hướng từng hàng: [1*1+2*0, 3*0+4*1]=[1,4].",
+      "tags": [
+        "einsum",
+        "row_dot"
+      ]
+    },
+    {
+      "id": "E56-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (ReLU bằng clip)\n\n```python\nimport numpy as np\nx = np.array([-2.0, 3.0, -1.0, 5.0])\nprint(np.clip(x, 0, None))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-2.  3. -1.  5.]"
+        },
+        {
+          "key": "B",
+          "text": "[0. 3. 1. 5.]"
+        },
+        {
+          "key": "C",
+          "text": "[0. 3. 0. 5.]"
+        },
+        {
+          "key": "D",
+          "text": "[1 3. 0. 5.]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "clip với cận dưới 0 và cận trên None tương đương ReLU: đưa giá trị âm về 0, giữ nguyên phần dương.",
+      "tags": [
+        "relu",
+        "clip"
+      ]
+    },
+    {
+      "id": "E56-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (sai số bình phương theo mẫu)\n\n```python\nimport numpy as np\nY = np.array([[1., 2.], [3., 4.]])\nP = np.array([[1., 3.], [3., 4.]])\nerr = ((Y - P) ** 2).sum(axis=1)\nprint(err)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0. 1.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 1.]"
+        },
+        {
+          "key": "C",
+          "text": "[2 0.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 0.]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bình phương sai số rồi cộng theo hàng (axis=1) cho lỗi mỗi mẫu: mẫu 1 = 0+1 = 1, mẫu 2 = 0.",
+      "tags": [
+        "mse",
+        "reduction"
+      ]
+    },
+    {
+      "id": "E56-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (đạo hàm sigmoid)\n\n```python\nimport numpy as np\ns = np.array([0.5, 0.8])\nds = s * (1 - s)\nprint(np.round(ds, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.25 0.16]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5 0.8]"
+        },
+        {
+          "key": "C",
+          "text": "[0.5 0.2]"
+        },
+        {
+          "key": "D",
+          "text": "[1.25 0.16]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm sigmoid tính theo đầu ra s: s*(1-s); với 0.5 cho 0.25, với 0.8 cho 0.16.",
+      "tags": [
+        "sigmoid_derivative"
+      ]
+    },
+    {
+      "id": "E56-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (batch norm đơn giản)\n\n```python\nimport numpy as np\nx = np.array([1., 2., 3., 4.])\neps = 1e-8\nxn = (x - x.mean()) / np.sqrt(x.var() + eps)\nprint(np.round(xn, 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-1.5 -0.5  0.5  1.5]"
+        },
+        {
+          "key": "B",
+          "text": "[-1.3416 -0.4472  0.4472  1.3416]"
+        },
+        {
+          "key": "C",
+          "text": "[-1. -0.5  0.5  1.]"
+        },
+        {
+          "key": "D",
+          "text": "[-0.3416 -0.4472  0.4472  1.3416]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Batch norm chuẩn hóa về mean 0, std 1 với var = 1.25; kết quả ≈[-1.3416,-0.4472,0.4472,1.3416].",
+      "tags": [
+        "batch_norm",
+        "standardize"
+      ]
+    },
+    {
+      "id": "E56-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (one-hot ma trận nhãn)\n\n```python\nimport numpy as np\ny = np.array([[0, 1], [2, 0]])\noh = np.eye(3, dtype=int)[y]\nprint(oh.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 2, 2)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 2, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 2, 3)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Index np.eye(3) bằng mảng (2,2) cho kết quả shape (2,2,3): mỗi nhãn nở thêm trục one-hot độ dài 3.",
+      "tags": [
+        "one_hot",
+        "shape"
+      ]
+    },
+    {
+      "id": "E56-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (convolve mode same)\n\n```python\nimport numpy as np\nx = np.array([1., 2., 3.])\nk = np.array([1., 1.])\nprint(np.convolve(x, k, mode='same'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3. 5. 3.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 3. 5. 3.]"
+        },
+        {
+          "key": "C",
+          "text": "[2 3. 5.]"
+        },
+        {
+          "key": "D",
+          "text": "[1. 3. 5.]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "convolve mode='same' trả độ dài bằng x; tổng trượt cửa sổ 2 cho [1,3,5] (đầu được pad).",
+      "tags": [
+        "convolve",
+        "moving_average"
+      ]
+    },
+    {
+      "id": "E56-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (lấy giá trị max bằng take_along_axis)\n\n```python\nimport numpy as np\nX = np.array([[1., 5., 2.], [7., 3., 4.]])\nidx = np.argmax(X, axis=1, keepdims=True)\nvals = np.take_along_axis(X, idx, axis=1)[:, 0]\nprint(vals)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5. 7.]"
+        },
+        {
+          "key": "B",
+          "text": "[1. 7.]"
+        },
+        {
+          "key": "C",
+          "text": "[5. 4.]"
+        },
+        {
+          "key": "D",
+          "text": "[6 7.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argmax với keepdims giữ trục để take_along_axis lấy giá trị lớn nhất mỗi hàng: [5,7].",
+      "tags": [
+        "take_along_axis",
+        "argmax"
+      ]
+    },
+    {
+      "id": "E56-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (bình phương khoảng cách bằng khai triển)\n\n```python\nimport numpy as np\nX = np.array([[0., 0.], [1., 0.], [0., 2.]])\nsq = (X ** 2).sum(axis=1)\nD2 = sq[:, None] + sq[None, :] - 2 * X @ X.T\nprint(D2.astype(int))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[0 1 2]\n [1 0 3]\n [2 3 0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0 1 4]\n [1 0 5]\n [4 5 0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[0 1 4]\n [1 0 4]\n [4 4 0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[1 1 4]\n [1 0 5]\n [4 5 0]]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khai triển ||a-b||^2 = ||a||^2+||b||^2-2a·b cho ma trận bình phương khoảng cách, đường chéo bằng 0.",
+      "tags": [
+        "pairwise_distance",
+        "expansion"
+      ]
+    },
+    {
+      "id": "E56-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (trung bình có mask)\n\n```python\nimport numpy as np\nx = np.array([2., 4., 0., 0.])\nmask = np.array([1., 1., 0., 0.])\nmean = (x * mask).sum() / mask.sum()\nprint(round(float(mean), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5"
+        },
+        {
+          "key": "B",
+          "text": "6.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Trung bình có mask chỉ tính token thật: (2+4)/2 = 3.0, bỏ qua phần padding.",
+      "tags": [
+        "masking",
+        "mean"
+      ]
+    },
+    {
+      "id": "E56-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code NumPy sau in ra gì? (cross-entropy từ logits ổn định)\n\n```python\nimport numpy as np\nlogits = np.array([2.0, 1.0, 0.0])\ny = 0\nm = logits.max()\nlse = m + np.log(np.exp(logits - m).sum())\nce = lse - logits[y]\nprint(round(float(ce), 4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.4076"
+        },
+        {
+          "key": "C",
+          "text": "-0.4076"
+        },
+        {
+          "key": "D",
+          "text": "0.4076"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cross-entropy = logsumexp(logits) - logit lớp đúng; ổn định nhờ trừ max trước khi exp.",
+      "tags": [
+        "cross_entropy",
+        "logsumexp"
+      ]
+    },
+    {
+      "id": "E56-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm softmax theo hàng cho ma trận logits 2D bằng NumPy vector hóa, ổn định số học (trừ max trước khi exp). Áp dụng cho X = [[1,2,3],[1,1,1]] và in kết quả làm tròn 4 chữ số.",
+      "modelAnswer": "import numpy as np\ndef softmax(X):\n    Z = X - X.max(axis=1, keepdims=True)   # ổn định số học\n    E = np.exp(Z)\n    return E / E.sum(axis=1, keepdims=True)\nX = np.array([[1., 2., 3.], [1., 1., 1.]])\nprint(np.round(softmax(X), 4))\n# Output:\n# [[0.09   0.2447 0.6652]\n#  [0.3333 0.3333 0.3333]]",
+      "rubric": [
+        "Trừ max theo axis=1 với keepdims để ổn định số học trước khi exp",
+        "Dùng exp và chia cho tổng theo axis=1 với keepdims (vector hóa, không vòng lặp)",
+        "Mỗi hàng softmax cộng bằng 1; output đúng cho cả hai hàng (hàng đều cho phân phối đều)"
+      ],
+      "tags": [
+        "softmax",
+        "vectorization",
+        "code"
+      ]
+    },
+    {
+      "id": "E56-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm tính ma trận khoảng cách Euclid theo từng cặp điểm (pairwise distance) bằng broadcasting NumPy (không dùng vòng lặp). Áp dụng cho A = [[0,0],[3,4],[6,8]] và in kết quả làm tròn 4 chữ số.",
+      "modelAnswer": "import numpy as np\ndef pairwise_dist(A):\n    diff = A[:, None, :] - A[None, :, :]   # broadcasting cho mọi cặp\n    return np.sqrt((diff ** 2).sum(axis=-1))\nA = np.array([[0., 0.], [3., 4.], [6., 8.]])\nprint(np.round(pairwise_dist(A), 4))\n# Output:\n# [[ 0.  5. 10.]\n#  [ 5.  0.  5.]\n#  [10.  5.  0.]]",
+      "rubric": [
+        "Dùng broadcasting A[:,None,:]-A[None,:,:] để tạo hiệu mọi cặp điểm",
+        "Bình phương, cộng theo trục cuối (axis=-1) rồi lấy căn để ra khoảng cách Euclid",
+        "Ma trận đối xứng, đường chéo bằng 0; khoảng cách đúng (vd (0,0)-(3,4)=5)"
+      ],
+      "tags": [
+        "pairwise_distance",
+        "broadcasting",
+        "code"
+      ]
+    },
+    {
+      "id": "E56-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm one-hot encoding bằng np.eye (index theo mảng nhãn). Áp dụng cho labels = [2,0,1,2] với 3 lớp và in ma trận one-hot.",
+      "modelAnswer": "import numpy as np\ndef one_hot(labels, num_classes):\n    return np.eye(num_classes, dtype=int)[labels]\nlabels = np.array([2, 0, 1, 2])\nprint(one_hot(labels, 3))\n# Output:\n# [[0 0 1]\n#  [1 0 0]\n#  [0 1 0]\n#  [0 0 1]]",
+      "rubric": [
+        "Tạo ma trận đơn vị np.eye(num_classes) rồi index bằng mảng nhãn",
+        "Mỗi hàng là vector one-hot có đúng một số 1 tại vị trí nhãn",
+        "Output có shape (len(labels), num_classes) và đúng vị trí 1 cho từng nhãn"
+      ],
+      "tags": [
+        "one_hot",
+        "fancy_index",
+        "code"
+      ]
+    },
+    {
+      "id": "E56-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết hàm chuẩn hóa z-score theo từng cột (mỗi cột về mean 0, std 1) bằng NumPy với keepdims. Áp dụng cho X = [[1,10],[2,20],[3,30]], in ma trận chuẩn hóa cùng mean/std mỗi cột sau chuẩn hóa.",
+      "modelAnswer": "import numpy as np\ndef zscore_cols(X):\n    mu = X.mean(axis=0, keepdims=True)\n    sd = X.std(axis=0, keepdims=True)\n    return (X - mu) / sd\nX = np.array([[1., 10.], [2., 20.], [3., 30.]])\nZ = zscore_cols(X)\nprint(np.round(Z, 4))\nprint(np.round(Z.mean(axis=0), 4), np.round(Z.std(axis=0), 4))\n# Output:\n# [[-1.2247 -1.2247]\n#  [ 0.      0.    ]\n#  [ 1.2247  1.2247]]\n# [0. 0.] [1. 1.]",
+      "rubric": [
+        "Tính mean và std theo axis=0 với keepdims=True để broadcasting đúng",
+        "Trả về (X - mu) / sd, vector hóa hoàn toàn không vòng lặp",
+        "Sau chuẩn hóa mỗi cột có mean≈0 và std≈1 (kiểm chứng qua output)"
+      ],
+      "tags": [
+        "zscore",
+        "standardize",
+        "code"
+      ]
+    }
+  ]
+}

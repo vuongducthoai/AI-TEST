@@ -1,0 +1,1816 @@
+{
+  "id": "exam-58",
+  "title": "Thống kê & Hồi quy Tuyến tính",
+  "description": "Đề cương ôn tập về thống kê suy luận và hồi quy tuyến tính dành cho cộng đồng. Nội dung bao gồm phân phối lấy mẫu và định lý giới hạn trung tâm, khoảng tin cậy, kiểm định giả thuyết, tương quan và hiệp phương sai, cùng phần hồi quy tuyến tính chuyên sâu (OLS, giả định, R², chính quy hóa, đánh đổi bias-variance). Đề gồm 60 câu với nhiều câu tính toán bằng số.",
+  "durationMinutes": 85,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E58-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Định lý giới hạn trung tâm (CLT) phát biểu điều gì về phân phối của trung bình mẫu khi cỡ mẫu n tăng lớn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân phối của trung bình mẫu xấp xỉ phân phối chuẩn bất kể phân phối gốc"
+        },
+        {
+          "key": "B",
+          "text": "Phân phối gốc của dữ liệu trở thành phân phối chuẩn"
+        },
+        {
+          "key": "C",
+          "text": "Phương sai của tổng thể giảm về 0 khi n tăng"
+        },
+        {
+          "key": "D",
+          "text": "Trung bình mẫu luôn bằng đúng trung bình tổng thể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CLT nói rằng phân phối lấy mẫu của trung bình mẫu tiệm cận phân phối chuẩn khi n đủ lớn, ngay cả khi phân phối gốc không chuẩn; phân phối gốc tự nó không thay đổi.",
+      "tags": [
+        "CLT",
+        "sampling distribution"
+      ]
+    },
+    {
+      "id": "E58-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sai số chuẩn (standard error) của trung bình mẫu được tính bằng công thức nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "σ/√n"
+        },
+        {
+          "key": "B",
+          "text": "σ·√n"
+        },
+        {
+          "key": "C",
+          "text": "σ²/n"
+        },
+        {
+          "key": "D",
+          "text": "σ/n"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số chuẩn của trung bình bằng độ lệch chuẩn tổng thể σ chia cho căn bậc hai cỡ mẫu n, phản ánh độ phân tán của trung bình mẫu giảm theo √n.",
+      "tags": [
+        "standard error"
+      ]
+    },
+    {
+      "id": "E58-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một tổng thể có độ lệch chuẩn σ=15. Với cỡ mẫu n=25, sai số chuẩn của trung bình mẫu bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "0.6"
+        },
+        {
+          "key": "C",
+          "text": "6.71"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số chuẩn = σ/√n = 15/√25 = 15/5 = 3. Đây là độ phân tán của phân phối lấy mẫu của trung bình.",
+      "tags": [
+        "standard error",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một học sinh đạt 85 điểm trong kỳ thi có trung bình μ=70 và độ lệch chuẩn σ=10. Điểm z (z-score) của học sinh là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "0.15"
+        },
+        {
+          "key": "D",
+          "text": "-1.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z = (x − μ)/σ = (85 − 70)/10 = 1.5. Điểm z dương cho biết giá trị nằm trên trung bình 1,5 độ lệch chuẩn.",
+      "tags": [
+        "z-score",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khoảng tin cậy (confidence interval) 95% cho trung bình có ý nghĩa diễn giải đúng nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu lặp lại lấy mẫu nhiều lần, khoảng 95% các khoảng được tạo ra sẽ chứa trung bình tổng thể thật"
+        },
+        {
+          "key": "B",
+          "text": "Có 95% xác suất trung bình tổng thể nằm trong khoảng cụ thể đã tính"
+        },
+        {
+          "key": "C",
+          "text": "95% dữ liệu của mẫu nằm trong khoảng đó"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng chứa 95% các giá trị tương lai có thể xảy ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Diễn giải tần suất đúng là về quy trình: 95% các khoảng tạo ra từ các mẫu lặp lại sẽ bao trùm tham số thật; một khoảng cụ thể đã cố định nên không nói xác suất 95% cho riêng nó.",
+      "tags": [
+        "confidence interval",
+        "interpretation"
+      ]
+    },
+    {
+      "id": "E58-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với sai số chuẩn SE=4 và hệ số z=1,96, độ rộng tổng (toàn bộ) của khoảng tin cậy 95% cho trung bình là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "15.68"
+        },
+        {
+          "key": "B",
+          "text": "7.84"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "20.64"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Độ rộng tổng = 2 × z × SE = 2 × 1,96 × 4 = 15.68. Biên sai số mỗi bên là 1,96×4 = 7,84.",
+      "tags": [
+        "confidence interval",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên dùng phân phối t (Student) thay vì phân phối z để xây dựng khoảng tin cậy cho trung bình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi độ lệch chuẩn tổng thể chưa biết và phải ước lượng từ mẫu (đặc biệt với n nhỏ)"
+        },
+        {
+          "key": "B",
+          "text": "Khi cỡ mẫu rất lớn (n > 1000)"
+        },
+        {
+          "key": "C",
+          "text": "Khi dữ liệu chắc chắn không chuẩn"
+        },
+        {
+          "key": "D",
+          "text": "Khi đã biết chính xác phương sai tổng thể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân phối t dùng khi σ tổng thể chưa biết và được thay bằng s của mẫu; đuôi t dày hơn để bù cho bất định, hội tụ về z khi n lớn.",
+      "tags": [
+        "t-distribution",
+        "confidence interval"
+      ]
+    },
+    {
+      "id": "E58-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiểm định t một mẫu: x̄=52, μ₀=50, s=4, n=16. Giá trị thống kê t là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "t = (x̄ − μ₀)/(s/√n) = (52 − 50)/(4/√16) = 2/1 = 2. So sánh với giá trị tới hạn t với 15 bậc tự do để kết luận.",
+      "tags": [
+        "t-test",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị p (p-value) trong kiểm định giả thuyết được hiểu chính xác là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất quan sát được dữ liệu cực đoan như hoặc hơn dữ liệu hiện tại, giả định H₀ đúng"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất giả thuyết không (H₀) là đúng"
+        },
+        {
+          "key": "C",
+          "text": "Xác suất giả thuyết đối (H₁) là đúng"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất mắc sai lầm loại II"
+        }
+      ],
+      "answer": "A",
+      "explanation": "p-value là xác suất thu được kết quả ít nhất cực đoan như quan sát khi H₀ đúng; nó KHÔNG phải xác suất H₀ đúng hay sai.",
+      "tags": [
+        "p-value",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sai lầm loại I (Type I error) trong kiểm định giả thuyết là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bác bỏ giả thuyết không H₀ khi thực ra H₀ đúng (dương tính giả)"
+        },
+        {
+          "key": "B",
+          "text": "Không bác bỏ H₀ khi H₀ thực ra sai (âm tính giả)"
+        },
+        {
+          "key": "C",
+          "text": "Chọn sai mức ý nghĩa α"
+        },
+        {
+          "key": "D",
+          "text": "Tính sai giá trị thống kê kiểm định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai lầm loại I là bác bỏ H₀ đúng, xác suất của nó bằng mức ý nghĩa α; sai lầm loại II (β) là không bác bỏ H₀ sai.",
+      "tags": [
+        "type I error",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mức ý nghĩa α=0,05 trong kiểm định giả thuyết tương ứng với điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất tối đa chấp nhận cho việc mắc sai lầm loại I"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất mắc sai lầm loại II"
+        },
+        {
+          "key": "C",
+          "text": "Công suất (power) của kiểm định"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất H₁ đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "α là ngưỡng xác suất sai lầm loại I mà ta sẵn sàng chấp nhận; nếu p-value < α thì bác bỏ H₀.",
+      "tags": [
+        "significance level",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Sự khác nhau giữa kiểm định một phía (one-tailed) và hai phía (two-tailed) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một phía kiểm tra lệch theo một hướng cụ thể; hai phía kiểm tra lệch theo cả hai hướng"
+        },
+        {
+          "key": "B",
+          "text": "Một phía dùng cho mẫu nhỏ, hai phía cho mẫu lớn"
+        },
+        {
+          "key": "C",
+          "text": "Một phía luôn có p-value lớn hơn hai phía"
+        },
+        {
+          "key": "D",
+          "text": "Hai phía không cần giả thuyết đối H₁"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kiểm định một phía đặt vùng bác bỏ ở một đuôi (giả thuyết có hướng), hai phía chia vùng bác bỏ cho cả hai đuôi (chỉ quan tâm khác biệt).",
+      "tags": [
+        "one vs two-tailed",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên dùng kiểm định t cho mẫu ghép cặp (paired t-test) thay vì t hai mẫu độc lập?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi mỗi quan sát ở hai nhóm được ghép cặp tự nhiên (ví dụ trước–sau trên cùng đối tượng)"
+        },
+        {
+          "key": "B",
+          "text": "Khi hai nhóm có cỡ mẫu khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Khi hai nhóm hoàn toàn độc lập và ngẫu nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Khi phương sai hai nhóm bằng nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Paired t-test dùng cho dữ liệu ghép cặp (đo lặp trên cùng đối tượng); nó kiểm định trung bình của hiệu số, loại bỏ biến thiên giữa các cá thể.",
+      "tags": [
+        "paired t-test",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân tích phương sai (ANOVA một chiều) được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh trung bình của từ ba nhóm trở lên cùng lúc"
+        },
+        {
+          "key": "B",
+          "text": "So sánh phương sai của đúng hai nhóm"
+        },
+        {
+          "key": "C",
+          "text": "Kiểm định tính độc lập của hai biến phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Ước lượng hệ số hồi quy tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ANOVA so sánh trung bình của nhiều nhóm (≥3) bằng cách phân rã phương sai tổng thành giữa nhóm và trong nhóm; tránh phải làm nhiều kiểm định t lặp lại.",
+      "tags": [
+        "ANOVA",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiểm định chi-square (chi bình phương) độc lập kiểm tra điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Liệu hai biến phân loại có liên quan/phụ thuộc nhau hay không"
+        },
+        {
+          "key": "B",
+          "text": "Liệu trung bình hai nhóm có khác nhau hay không"
+        },
+        {
+          "key": "C",
+          "text": "Độ lớn của hệ số tương quan Pearson"
+        },
+        {
+          "key": "D",
+          "text": "Liệu phương sai có đồng nhất giữa các nhóm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chi-square độc lập so sánh tần số quan sát với tần số kỳ vọng (giả định độc lập) trên bảng chéo để xét hai biến phân loại có liên hệ không.",
+      "tags": [
+        "chi-square",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-A16",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Câu nói 'tương quan không suy ra nhân quả' (correlation is not causation) nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai biến cùng biến thiên có thể do biến thứ ba hoặc trùng hợp, không nhất thiết biến này gây ra biến kia"
+        },
+        {
+          "key": "B",
+          "text": "Nếu r cao thì chắc chắn có quan hệ nhân quả"
+        },
+        {
+          "key": "C",
+          "text": "Tương quan âm không thể phản ánh nhân quả"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ thí nghiệm ngẫu nhiên mới tạo ra tương quan"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tương quan chỉ đo mức liên hệ tuyến tính; nhân quả cần loại trừ biến gây nhiễu (confounder) và thường cần thiết kế thực nghiệm có can thiệp.",
+      "tags": [
+        "correlation vs causation"
+      ]
+    },
+    {
+      "id": "E58-A17",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho dữ liệu x=[1,2,3,4,5], y=[2,4,5,4,5]. Hệ số tương quan Pearson r (làm tròn 3 chữ số) gần nhất với giá trị nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.775"
+        },
+        {
+          "key": "B",
+          "text": "-0.775"
+        },
+        {
+          "key": "C",
+          "text": "0.6"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dùng r = cov(x,y)/(σx·σy), tính được r ≈ 0.775, cho thấy tương quan dương khá mạnh giữa x và y.",
+      "tags": [
+        "pearson r",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A18",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số tương quan Pearson r = -0,9 cho biết điều gì về quan hệ giữa hai biến?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ tuyến tính nghịch (âm) rất mạnh"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ tuyến tính thuận (dương) rất mạnh"
+        },
+        {
+          "key": "C",
+          "text": "Không có quan hệ nào"
+        },
+        {
+          "key": "D",
+          "text": "Quan hệ phi tuyến mạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "r = −0,9 gần −1 nên là tương quan tuyến tính âm rất mạnh: khi một biến tăng thì biến kia giảm gần như tuyến tính.",
+      "tags": [
+        "pearson r",
+        "interpretation"
+      ]
+    },
+    {
+      "id": "E58-A19",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho x=[2,4,6,8], y=[1,3,2,5]. Hiệp phương sai mẫu Cov(x,y) (dùng ddof=1, làm tròn 3 chữ số) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.667"
+        },
+        {
+          "key": "B",
+          "text": "2.75"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "-3.667"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cov mẫu = Σ(xi−x̄)(yi−ȳ)/(n−1) ≈ 3.667. Hiệp phương sai dương cho biết x và y có xu hướng cùng tăng.",
+      "tags": [
+        "covariance",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-A20",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Công suất (power) của một kiểm định giả thuyết là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác suất bác bỏ đúng H₀ khi H₀ thực sự sai, bằng 1−β"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất chấp nhận H₀ khi nó đúng"
+        },
+        {
+          "key": "C",
+          "text": "Mức ý nghĩa α của kiểm định"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất mắc sai lầm loại I"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Power = 1 − β là xác suất phát hiện được hiệu ứng thật (bác bỏ H₀ khi H₀ sai); tăng cỡ mẫu hoặc hiệu ứng lớn làm tăng power.",
+      "tags": [
+        "power",
+        "hypothesis testing"
+      ]
+    },
+    {
+      "id": "E58-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình hồi quy tuyến tính dạng ma trận y = Xβ + ε, trong đó ε là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector sai số ngẫu nhiên (residual/nhiễu) không giải thích được bởi các biến trong X"
+        },
+        {
+          "key": "B",
+          "text": "Ma trận thiết kế các biến độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Vector hệ số hồi quy cần ước lượng"
+        },
+        {
+          "key": "D",
+          "text": "Vector giá trị dự đoán của mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ε là thành phần sai số ngẫu nhiên thể hiện phần biến thiên của y không được X giải thích; β là hệ số, X là ma trận thiết kế.",
+      "tags": [
+        "linear regression",
+        "model"
+      ]
+    },
+    {
+      "id": "E58-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nghiệm OLS dạng đóng (closed-form) cho hệ số hồi quy β là công thức nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "β = (XᵀX)⁻¹Xᵀy"
+        },
+        {
+          "key": "B",
+          "text": "β = (XᵀX)Xᵀy"
+        },
+        {
+          "key": "C",
+          "text": "β = (XXᵀ)⁻¹yᵀX"
+        },
+        {
+          "key": "D",
+          "text": "β = Xᵀy/(XᵀX)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cực tiểu tổng bình phương sai số dẫn tới phương trình chuẩn XᵀXβ = Xᵀy, nên β = (XᵀX)⁻¹Xᵀy khi XᵀX khả nghịch.",
+      "tags": [
+        "OLS",
+        "closed-form"
+      ]
+    },
+    {
+      "id": "E58-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho x=[1,2,3,4,5], y=[2,3,5,4,6]. Dùng OLS β=(XᵀX)⁻¹Xᵀy, hệ số góc (slope) (làm tròn 2 chữ số) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.9"
+        },
+        {
+          "key": "B",
+          "text": "1.3"
+        },
+        {
+          "key": "C",
+          "text": "1.4"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giải phương trình chuẩn cho hệ số góc ≈ 0.9: trung bình mỗi đơn vị tăng của x làm y tăng khoảng 0.9 đơn vị.",
+      "tags": [
+        "OLS",
+        "slope",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với cùng dữ liệu x=[1,2,3,4,5], y=[2,3,5,4,6], hệ số chặn (intercept) của đường hồi quy OLS (làm tròn 2 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.3"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "2.3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ số chặn ≈ 1.3 là giá trị dự đoán của y khi x = 0 theo đường hồi quy ước lượng.",
+      "tags": [
+        "OLS",
+        "intercept",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với đường hồi quy khớp dữ liệu x=[1,2,3,4,5], y=[2,3,5,4,6], hệ số xác định R² (làm tròn 2 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.81"
+        },
+        {
+          "key": "B",
+          "text": "0.19"
+        },
+        {
+          "key": "C",
+          "text": "0.9"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² = 1 − SS_res/SS_tot ≈ 0.81, nghĩa là khoảng 81% biến thiên của y được mô hình tuyến tính giải thích.",
+      "tags": [
+        "R2",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số xác định R² trong hồi quy tuyến tính đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỷ lệ phương sai của biến phụ thuộc được giải thích bởi mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Độ dốc của đường hồi quy"
+        },
+        {
+          "key": "C",
+          "text": "Sai số chuẩn của ước lượng"
+        },
+        {
+          "key": "D",
+          "text": "Xác suất mô hình đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² = tỷ lệ biến thiên của y được mô hình giải thích, nằm trong [0,1]; R² càng cao càng khớp, nhưng không phản ánh tính nhân quả hay đúng đắn của mô hình.",
+      "tags": [
+        "R2",
+        "interpretation"
+      ]
+    },
+    {
+      "id": "E58-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một mô hình có R²=0,80 với n=20 quan sát và k=3 biến độc lập. R² hiệu chỉnh (adjusted R²) (làm tròn 4 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7625"
+        },
+        {
+          "key": "B",
+          "text": "0.8"
+        },
+        {
+          "key": "C",
+          "text": "0.7647"
+        },
+        {
+          "key": "D",
+          "text": "0.7125"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Adjusted R² = 1 − (1−R²)(n−1)/(n−k−1) = 1 − 0,2×19/16 ≈ 0.7625. Nó phạt việc thêm biến không hữu ích, nên ≤ R² thường.",
+      "tags": [
+        "adjusted R2",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao R² hiệu chỉnh (adjusted R²) thường được ưu tiên hơn R² khi so sánh các mô hình có số biến khác nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó phạt việc thêm biến không cải thiện mô hình, tránh tăng giả tạo khi thêm biến"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó luôn lớn hơn R² thông thường"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó không phụ thuộc vào cỡ mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó đo trực tiếp sai số dự đoán ngoài mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² luôn không giảm khi thêm biến; adjusted R² điều chỉnh theo số biến k và cỡ mẫu n, chỉ tăng khi biến mới thực sự cải thiện mô hình.",
+      "tags": [
+        "adjusted R2"
+      ]
+    },
+    {
+      "id": "E58-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giả định nào sau đây KHÔNG phải là giả định cổ điển của hồi quy tuyến tính OLS?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến phụ thuộc y phải có phân phối chuẩn (bản thân y)"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ giữa biến độc lập và kỳ vọng của y là tuyến tính"
+        },
+        {
+          "key": "C",
+          "text": "Phương sai của sai số là đồng nhất (homoscedasticity)"
+        },
+        {
+          "key": "D",
+          "text": "Các sai số độc lập với nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả định về chuẩn là dành cho phần dư (sai số ε), không phải cho phân phối biên của y; các giả định gồm tuyến tính, độc lập, phương sai đồng nhất, phần dư chuẩn, không đa cộng tuyến.",
+      "tags": [
+        "OLS assumptions"
+      ]
+    },
+    {
+      "id": "E58-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hiện tượng phương sai sai số thay đổi theo giá trị dự đoán (heteroscedasticity) vi phạm giả định nào và gây hệ quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vi phạm homoscedasticity; ước lượng β vẫn không chệch nhưng sai số chuẩn bị sai, kiểm định không đáng tin"
+        },
+        {
+          "key": "B",
+          "text": "Vi phạm tuyến tính; ước lượng β trở nên chệch nghiêm trọng"
+        },
+        {
+          "key": "C",
+          "text": "Vi phạm độc lập; làm R² luôn bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Không vi phạm giả định nào và không ảnh hưởng gì"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Heteroscedasticity vi phạm giả định phương sai đồng nhất; OLS vẫn không chệch nhưng không còn hiệu quả và sai số chuẩn bị lệch khiến p-value, khoảng tin cậy không đáng tin.",
+      "tags": [
+        "homoscedasticity",
+        "assumptions"
+      ]
+    },
+    {
+      "id": "E58-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đa cộng tuyến (multicollinearity) trong hồi quy bội là gì và VIF dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là khi các biến độc lập tương quan mạnh với nhau; VIF (Variance Inflation Factor) đo mức độ phóng đại phương sai hệ số do hiện tượng này"
+        },
+        {
+          "key": "B",
+          "text": "Là khi biến phụ thuộc tương quan mạnh với sai số; VIF đo R² của mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Là khi phần dư tương quan theo thời gian; VIF đo tự tương quan"
+        },
+        {
+          "key": "D",
+          "text": "Là khi cỡ mẫu quá nhỏ; VIF đo công suất kiểm định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đa cộng tuyến làm hệ số ước lượng không ổn định và sai số chuẩn lớn; VIF cao (thường >5 hoặc >10) báo hiệu một biến được giải thích mạnh bởi các biến còn lại.",
+      "tags": [
+        "multicollinearity",
+        "VIF"
+      ]
+    },
+    {
+      "id": "E58-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với đường hồi quy ŷ = 1,3 + 0,9x, một điểm có x=3 và y thực tế = 5. Phần dư (residual) tại điểm này (làm tròn 2 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "-1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ = 1,3 + 0,9×3 = 4,0; phần dư = y − ŷ = 5 − 4 = 1. Phần dư dương nghĩa là mô hình dự đoán thấp hơn giá trị thực.",
+      "tags": [
+        "residual",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho y_thực=[3,5,2,7] và y_dự_đoán=[2.5,5,3,6]. Sai số bình phương trung bình MSE (làm tròn 4 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5625"
+        },
+        {
+          "key": "B",
+          "text": "0.75"
+        },
+        {
+          "key": "C",
+          "text": "0.625"
+        },
+        {
+          "key": "D",
+          "text": "2.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE = trung bình của (yi−ŷi)² = (0,25+0+1+1)/4 = 0.5625. MSE phạt nặng các sai số lớn do bình phương.",
+      "tags": [
+        "MSE",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với cùng dữ liệu y_thực=[3,5,2,7], y_dự_đoán=[2.5,5,3,6], căn bậc hai sai số bình phương trung bình RMSE (làm tròn 4 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "0.5625"
+        },
+        {
+          "key": "C",
+          "text": "0.625"
+        },
+        {
+          "key": "D",
+          "text": "1.125"
+        }
+      ],
+      "answer": "A",
+      "explanation": "RMSE = √MSE = √0,5625 = 0.75. RMSE cùng đơn vị với biến mục tiêu nên dễ diễn giải hơn MSE.",
+      "tags": [
+        "RMSE",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với y_thực=[3,5,2,7], y_dự_đoán=[2.5,5,3,6], sai số tuyệt đối trung bình MAE (làm tròn 4 chữ số) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.625"
+        },
+        {
+          "key": "B",
+          "text": "0.5625"
+        },
+        {
+          "key": "C",
+          "text": "0.75"
+        },
+        {
+          "key": "D",
+          "text": "2.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MAE = trung bình của |yi−ŷi| = (0,5+0+1+1)/4 = 0.625. MAE ít nhạy với điểm ngoại lai hơn MSE/RMSE.",
+      "tags": [
+        "MAE",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường hồi quy ước lượng là ŷ = 2 + 3x. Giá trị dự đoán của y khi x = 4 là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "14"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "11"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ = 2 + 3×4 = 14. Thay trực tiếp x vào phương trình hồi quy để dự đoán.",
+      "tags": [
+        "prediction",
+        "computation"
+      ]
+    },
+    {
+      "id": "E58-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "So với MSE/RMSE, sai số tuyệt đối trung bình (MAE) có đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ít nhạy cảm với điểm ngoại lai vì không bình phương sai số"
+        },
+        {
+          "key": "B",
+          "text": "Luôn lớn hơn RMSE trên cùng dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Phạt nặng các sai số lớn hơn MSE"
+        },
+        {
+          "key": "D",
+          "text": "Không thể tính được khi có sai số âm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MAE dùng giá trị tuyệt đối nên mỗi sai số đóng góp tuyến tính, giảm ảnh hưởng của ngoại lai; RMSE bình phương nên nhạy với sai số lớn hơn.",
+      "tags": [
+        "MAE",
+        "RMSE"
+      ]
+    },
+    {
+      "id": "E58-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong gradient descent cho hồi quy tuyến tính, tốc độ học (learning rate) quá lớn thường gây ra điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hàm mất mát dao động hoặc phân kỳ, không hội tụ về cực tiểu"
+        },
+        {
+          "key": "B",
+          "text": "Hội tụ nhanh và chính xác hơn mọi trường hợp"
+        },
+        {
+          "key": "C",
+          "text": "Đảm bảo luôn đạt cực tiểu toàn cục ngay lập tức"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì đến quá trình tối ưu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Learning rate quá lớn khiến bước cập nhật vượt qua điểm cực tiểu, gây dao động hoặc phân kỳ; quá nhỏ thì hội tụ rất chậm.",
+      "tags": [
+        "gradient descent",
+        "learning rate"
+      ]
+    },
+    {
+      "id": "E58-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao việc chuẩn hóa/co giãn đặc trưng (feature scaling) lại quan trọng cho gradient descent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp các đặc trưng cùng thang đo, làm bề mặt mất mát đều hơn và gradient descent hội tụ nhanh, ổn định hơn"
+        },
+        {
+          "key": "B",
+          "text": "Làm thay đổi nghiệm OLS dạng đóng để chính xác hơn"
+        },
+        {
+          "key": "C",
+          "text": "Luôn làm tăng R² của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ hoàn toàn hiện tượng đa cộng tuyến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các đặc trưng khác thang đo, bề mặt hàm mất mát bị kéo dài khiến gradient descent zigzag; scaling đưa chúng về thang tương đương giúp hội tụ nhanh và ổn định.",
+      "tags": [
+        "feature scaling",
+        "gradient descent"
+      ]
+    },
+    {
+      "id": "E58-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi nào nên dùng gradient descent thay vì phương trình chuẩn (normal equation) để giải hồi quy tuyến tính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi số đặc trưng rất lớn khiến việc nghịch đảo (XᵀX) tốn kém hoặc XᵀX gần suy biến"
+        },
+        {
+          "key": "B",
+          "text": "Khi dữ liệu rất nhỏ và ít đặc trưng"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần nghiệm chính xác tuyệt đối trong một bước"
+        },
+        {
+          "key": "D",
+          "text": "Khi không có biến phụ thuộc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Normal equation cần nghịch đảo XᵀX với chi phí ~O(p³), không khả thi khi p lớn; gradient descent lặp với chi phí mỗi bước thấp nên phù hợp dữ liệu/đặc trưng lớn.",
+      "tags": [
+        "gradient descent",
+        "normal equation"
+      ]
+    },
+    {
+      "id": "E58-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy Ridge (chính quy hóa L2) tác động thế nào lên các hệ số hồi quy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu nhỏ (shrink) các hệ số về gần 0 nhưng hiếm khi đúng bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Đưa nhiều hệ số về đúng 0, thực hiện chọn biến"
+        },
+        {
+          "key": "C",
+          "text": "Làm các hệ số lớn lên không giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "Không thay đổi hệ số, chỉ thay đổi intercept"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ridge thêm phạt L2 (λΣβ²) làm co các hệ số về phía 0 một cách trơn, giảm phương sai và xử lý đa cộng tuyến, nhưng thường không đưa hệ số về đúng 0.",
+      "tags": [
+        "ridge",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E58-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy Lasso (chính quy hóa L1) khác Ridge ở điểm quan trọng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lasso có thể đưa một số hệ số về đúng 0, thực hiện chọn lọc đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Lasso không bao giờ thu nhỏ hệ số"
+        },
+        {
+          "key": "C",
+          "text": "Lasso luôn cho R² cao hơn Ridge"
+        },
+        {
+          "key": "D",
+          "text": "Lasso chỉ áp dụng cho biến phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phạt L1 (λΣ|β|) có 'góc nhọn' tại 0 nên đẩy một số hệ số về đúng 0, vừa chính quy hóa vừa chọn biến; Ridge (L2) chỉ co nhỏ chứ hiếm khi về 0.",
+      "tags": [
+        "lasso",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E58-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi tăng tham số chính quy hóa λ (lambda) trong Ridge/Lasso, điều gì thường xảy ra với độ phức tạp mô hình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình đơn giản hơn (hệ số nhỏ hơn): giảm phương sai nhưng tăng độ chệch (bias)"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình phức tạp hơn và luôn khớp dữ liệu huấn luyện tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng đến độ chệch hay phương sai"
+        },
+        {
+          "key": "D",
+          "text": "Luôn làm giảm cả độ chệch lẫn phương sai cùng lúc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "λ lớn phạt mạnh hệ số, ép mô hình đơn giản hơn: phương sai giảm nhưng độ chệch tăng; cần chọn λ cân bằng qua kiểm định chéo.",
+      "tags": [
+        "regularization",
+        "bias-variance"
+      ]
+    },
+    {
+      "id": "E58-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong đánh đổi độ chệch–phương sai (bias-variance tradeoff), một mô hình overfitting điển hình có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ chệch thấp nhưng phương sai cao: khớp dữ liệu huấn luyện rất tốt nhưng kém trên dữ liệu mới"
+        },
+        {
+          "key": "B",
+          "text": "Độ chệch cao nhưng phương sai thấp"
+        },
+        {
+          "key": "C",
+          "text": "Cả độ chệch và phương sai đều thấp"
+        },
+        {
+          "key": "D",
+          "text": "Cả độ chệch và phương sai đều cao như nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overfitting: mô hình quá phức tạp, bám cả nhiễu nên sai số huấn luyện thấp (bias thấp) nhưng dao động mạnh giữa các tập (phương sai cao), tổng quát hóa kém.",
+      "tags": [
+        "bias-variance",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E58-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy đa thức (polynomial regression) bậc cao trên ít dữ liệu thường dẫn tới rủi ro gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Overfitting: mô hình quá uốn lượn bám nhiễu, kém tổng quát trên dữ liệu mới"
+        },
+        {
+          "key": "B",
+          "text": "Underfitting: mô hình quá đơn giản"
+        },
+        {
+          "key": "C",
+          "text": "Luôn giảm phương sai của ước lượng"
+        },
+        {
+          "key": "D",
+          "text": "Không thể ước lượng được hệ số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bậc đa thức cao tạo mô hình rất linh hoạt; với ít dữ liệu nó bám cả nhiễu khiến phương sai cao và overfitting, sai số ngoài mẫu lớn.",
+      "tags": [
+        "polynomial regression",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E58-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Biến giả (dummy variable) được dùng để làm gì trong hồi quy tuyến tính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa biến phân loại thành dạng số (0/1) để đưa vào mô hình hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Chuẩn hóa biến liên tục về thang [0,1]"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ điểm ngoại lai khỏi dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế giá trị thiếu bằng trung bình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biến giả biến một mức của biến phân loại thành cột 0/1; với k mức dùng k−1 biến giả (một mức làm tham chiếu) để tránh bẫy biến giả (đa cộng tuyến hoàn hảo).",
+      "tags": [
+        "dummy variables"
+      ]
+    },
+    {
+      "id": "E58-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thuật ngữ tương tác (interaction term) ví dụ x₁·x₂ trong hồi quy biểu thị điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tác động của một biến lên y phụ thuộc vào giá trị của biến kia"
+        },
+        {
+          "key": "B",
+          "text": "Hai biến hoàn toàn độc lập với nhau"
+        },
+        {
+          "key": "C",
+          "text": "Biến x₁ và x₂ phải bằng nhau"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ ảnh hưởng của cả hai biến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số hạng tương tác cho phép độ dốc của một biến thay đổi theo mức của biến khác; hệ số của x₁·x₂ đo mức tác động kết hợp vượt ngoài hai tác động chính.",
+      "tags": [
+        "interaction terms"
+      ]
+    },
+    {
+      "id": "E58-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong hồi quy bội, hệ số β₁ của biến x₁ được diễn giải đúng nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay đổi kỳ vọng của y khi x₁ tăng 1 đơn vị, giữ các biến khác không đổi"
+        },
+        {
+          "key": "B",
+          "text": "Thay đổi của y khi mọi biến cùng tăng 1 đơn vị"
+        },
+        {
+          "key": "C",
+          "text": "Tương quan tuyệt đối giữa x₁ và y"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ phương sai do x₁ giải thích"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong hồi quy bội, β₁ là tác động biên của x₁ lên y khi cố định (kiểm soát) các biến còn lại — diễn giải 'ceteris paribus'.",
+      "tags": [
+        "coefficient interpretation"
+      ]
+    },
+    {
+      "id": "E58-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Rủi ro của ngoại suy (extrapolation) ngoài khoảng dữ liệu huấn luyện trong hồi quy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quan hệ tuyến tính ước lượng có thể không còn đúng ngoài vùng dữ liệu, dự đoán trở nên không đáng tin"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cho dự đoán chính xác hơn nội suy"
+        },
+        {
+          "key": "C",
+          "text": "Làm tăng R² của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Không có rủi ro nào nếu mô hình tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình chỉ được kiểm chứng trong miền dữ liệu quan sát; ngoài miền đó quan hệ có thể đổi dạng, nên ngoại suy mang rủi ro dự đoán sai lớn.",
+      "tags": [
+        "extrapolation"
+      ]
+    },
+    {
+      "id": "E58-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một quan sát có 'đòn bẩy cao' (high leverage) trong hồi quy nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có giá trị biến độc lập (x) cách xa trung tâm dữ liệu, có thể ảnh hưởng mạnh đến đường hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Có giá trị y rất gần với dự đoán của mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Luôn là điểm ngoại lai về phía y"
+        },
+        {
+          "key": "D",
+          "text": "Không có ảnh hưởng gì đến hệ số hồi quy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Leverage cao là điểm có x xa khối dữ liệu; nó có khả năng kéo đường hồi quy về phía mình, đặc biệt nguy hiểm nếu đồng thời là ngoại lai về y (điểm ảnh hưởng).",
+      "tags": [
+        "leverage",
+        "outliers"
+      ]
+    },
+    {
+      "id": "E58-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phân tích phần dư (residual plot) cho thấy phần dư phân tán ngẫu nhiên quanh 0 không theo khuôn mẫu nào. Điều này gợi ý gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giả định tuyến tính và phương sai đồng nhất có vẻ được thỏa mãn"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chắc chắn bị overfitting"
+        },
+        {
+          "key": "C",
+          "text": "Có đa cộng tuyến nghiêm trọng"
+        },
+        {
+          "key": "D",
+          "text": "Quan hệ thực sự là phi tuyến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phần dư rải ngẫu nhiên quanh 0, không có hình phễu hay đường cong, là dấu hiệu tốt cho giả định tuyến tính và homoscedasticity của OLS.",
+      "tags": [
+        "residual analysis",
+        "assumptions"
+      ]
+    },
+    {
+      "id": "E58-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Điểm ngoại lai (outlier) về phía biến phụ thuộc y có thể ảnh hưởng thế nào đến hồi quy OLS?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thể kéo lệch đường hồi quy và làm tăng sai số, vì OLS bình phương phần dư nên nhạy với ngoại lai"
+        },
+        {
+          "key": "B",
+          "text": "Luôn bị OLS tự động loại bỏ"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng vì OLS bền vững với ngoại lai"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ ảnh hưởng đến intercept, không ảnh hưởng slope"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OLS cực tiểu tổng bình phương phần dư nên một ngoại lai có phần dư lớn đóng góp rất mạnh, kéo lệch hệ số; cần chẩn đoán và xem xét trước khi loại bỏ.",
+      "tags": [
+        "outliers",
+        "OLS"
+      ]
+    },
+    {
+      "id": "E58-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Underfitting (mô hình quá đơn giản) trong hồi quy biểu hiện như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sai số cao trên cả tập huấn luyện lẫn tập kiểm tra (độ chệch cao)"
+        },
+        {
+          "key": "B",
+          "text": "Sai số rất thấp trên huấn luyện nhưng cao trên kiểm tra"
+        },
+        {
+          "key": "C",
+          "text": "R² huấn luyện bằng đúng 1"
+        },
+        {
+          "key": "D",
+          "text": "Phương sai mô hình rất cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Underfitting nghĩa là mô hình không nắm được cấu trúc dữ liệu, dẫn tới sai số cao ở cả huấn luyện và kiểm tra — đặc trưng của độ chệch (bias) cao.",
+      "tags": [
+        "bias-variance",
+        "underfitting"
+      ]
+    },
+    {
+      "id": "E58-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Kiểm định chéo (cross-validation) chủ yếu giúp ích gì trong hồi quy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ước lượng hiệu năng tổng quát hóa và chọn siêu tham số mà không lạm dụng tập kiểm tra"
+        },
+        {
+          "key": "B",
+          "text": "Tăng R² trên tập huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn nhiễu trong dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Thay thế cho việc thu thập thêm dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cross-validation chia dữ liệu thành nhiều phần để ước lượng sai số ngoài mẫu ổn định hơn và chọn siêu tham số (như λ), giúp tránh overfitting vào một tập kiểm tra cố định.",
+      "tags": [
+        "cross-validation",
+        "model selection"
+      ]
+    },
+    {
+      "id": "E58-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát mà OLS (bình phương nhỏ nhất) tối thiểu hóa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng (hoặc trung bình) bình phương phần dư Σ(yi − ŷi)²"
+        },
+        {
+          "key": "B",
+          "text": "Tổng giá trị tuyệt đối phần dư Σ|yi − ŷi|"
+        },
+        {
+          "key": "C",
+          "text": "Tổng phần dư Σ(yi − ŷi)"
+        },
+        {
+          "key": "D",
+          "text": "Tích các phần dư"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OLS tìm β cực tiểu tổng bình phương phần dư; bình phương phạt nặng sai số lớn và cho nghiệm dạng đóng nhờ tính khả vi.",
+      "tags": [
+        "OLS",
+        "loss function"
+      ]
+    },
+    {
+      "id": "E58-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình hồi quy có R²=0,95 trên tập huấn luyện nhưng chỉ 0,40 trên tập kiểm tra. Chẩn đoán hợp lý nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình bị overfitting, cần chính quy hóa hoặc giảm độ phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình bị underfitting, cần thêm biến phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu kiểm tra bị lỗi nên bỏ qua"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình hoàn hảo, không cần chỉnh sửa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khoảng cách lớn giữa hiệu năng huấn luyện cao và kiểm tra thấp là dấu hiệu kinh điển của overfitting; nên dùng regularization, giảm biến hoặc thêm dữ liệu.",
+      "tags": [
+        "overfitting",
+        "model selection"
+      ]
+    },
+    {
+      "id": "E58-A57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Trình bày các giả định cổ điển của hồi quy tuyến tính OLS (linearity, independence, homoscedasticity, normality of residuals, no multicollinearity). Với mỗi giả định, nêu hệ quả khi nó bị vi phạm và một cách phát hiện hoặc khắc phục.",
+      "modelAnswer": "Năm giả định cổ điển của OLS: (1) Tuyến tính: kỳ vọng của y là hàm tuyến tính của các biến (theo tham số β). Vi phạm gây ước lượng chệch và dự đoán sai; phát hiện qua biểu đồ phần dư theo giá trị dự đoán (xuất hiện đường cong), khắc phục bằng biến đổi biến hoặc thêm số hạng phi tuyến/đa thức. (2) Độc lập của sai số: các ε không tương quan nhau. Vi phạm (ví dụ tự tương quan trong chuỗi thời gian) làm sai số chuẩn bị sai và kiểm định không đáng tin; phát hiện bằng kiểm định Durbin-Watson, khắc phục bằng mô hình chuỗi thời gian hoặc sai số chuẩn HAC. (3) Phương sai đồng nhất (homoscedasticity): Var(ε) không đổi. Vi phạm (heteroscedasticity) khiến β vẫn không chệch nhưng không hiệu quả và sai số chuẩn lệch; phát hiện qua biểu đồ phần dư hình phễu hoặc kiểm định Breusch-Pagan, khắc phục bằng sai số chuẩn robust hoặc WLS. (4) Phần dư phân phối chuẩn: cần cho suy luận chính xác (CI, kiểm định) với mẫu nhỏ. Vi phạm làm p-value/CI không chính xác khi n nhỏ (với n lớn CLT giúp giảm nhẹ); phát hiện qua Q-Q plot, khắc phục bằng biến đổi hoặc tăng cỡ mẫu. (5) Không đa cộng tuyến hoàn hảo: các biến độc lập không tương quan tuyến tính hoàn toàn. Vi phạm làm XᵀX gần suy biến, hệ số không ổn định, sai số chuẩn lớn; phát hiện qua VIF cao (>5–10), khắc phục bằng loại/gộp biến, PCA hoặc chính quy hóa Ridge. Ngoài ra cần kỳ vọng sai số bằng 0 và X ngoại sinh (không tương quan với ε) để ước lượng không chệch.",
+      "rubric": [
+        "Liệt kê đủ 5 giả định và phát biểu đúng từng giả định",
+        "Nêu đúng hệ quả khi vi phạm mỗi giả định (đặc biệt phân biệt chệch và không hiệu quả/sai số chuẩn lệch)",
+        "Đề xuất cách phát hiện hợp lý cho ít nhất 3 giả định (residual plot, VIF, Q-Q plot, kiểm định)",
+        "Đề xuất biện pháp khắc phục phù hợp (biến đổi biến, robust SE, regularization, v.v.)"
+      ],
+      "tags": [
+        "OLS assumptions",
+        "essay"
+      ]
+    },
+    {
+      "id": "E58-B58",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "So sánh hồi quy Ridge (L2) và Lasso (L1): viết hàm mất mát của mỗi phương pháp, giải thích vì sao Lasso có thể đưa hệ số về đúng 0 còn Ridge thì không, và nêu khi nào nên chọn từng phương pháp.",
+      "modelAnswer": "Cả hai đều thêm số hạng phạt vào hàm mất mát OLS để chính quy hóa. Ridge cực tiểu Σ(yi−ŷi)² + λΣβj² (phạt L2, bình phương chuẩn hệ số). Lasso cực tiểu Σ(yi−ŷi)² + λΣ|βj| (phạt L1, tổng giá trị tuyệt đối). Tham số λ≥0 điều khiển mức phạt: λ lớn co hệ số mạnh hơn (tăng bias, giảm variance). Lý do khác biệt về việc đưa hệ số về 0: vùng ràng buộc của Lasso (|β1|+|β2|≤t) có dạng hình thoi với các 'góc nhọn' nằm trên trục tọa độ, nên nghiệm tối ưu thường rơi đúng vào góc khiến một số hệ số bằng 0 (chọn biến/sparse). Vùng ràng buộc Ridge (β1²+β2²≤t) là hình tròn trơn, không có góc, nên nghiệm co hệ số về gần 0 nhưng hiếm khi đúng 0. Về mặt đạo hàm, phạt L1 có gradient hằng (±λ) tạo lực đẩy về 0 ngay cả với hệ số nhỏ, còn L2 có gradient 2λβ tỷ lệ với β nên lực đẩy yếu dần khi β nhỏ. Khi nào dùng: dùng Lasso khi nghi ngờ nhiều biến không liên quan và muốn mô hình thưa, dễ diễn giải, tự động chọn biến. Dùng Ridge khi nhiều biến đều có đóng góp nhỏ hoặc khi có đa cộng tuyến mạnh (Ridge ổn định hệ số tốt hơn và giữ toàn bộ biến). Khi không chắc, có thể dùng Elastic Net kết hợp cả L1 và L2 để vừa chọn biến vừa xử lý nhóm biến tương quan. Lưu ý chuẩn hóa đặc trưng trước khi chính quy hóa để phạt công bằng giữa các hệ số.",
+      "rubric": [
+        "Viết đúng hàm mất mát Ridge (L2) và Lasso (L1) kèm vai trò của λ",
+        "Giải thích đúng vì sao Lasso tạo nghiệm thưa (hình học góc nhọn hoặc lập luận gradient) còn Ridge chỉ co nhỏ",
+        "Nêu rõ tình huống nên dùng Ridge và tình huống nên dùng Lasso",
+        "Có nhận xét bổ sung hợp lý (Elastic Net, cần chuẩn hóa đặc trưng, đánh đổi bias-variance)"
+      ],
+      "tags": [
+        "ridge vs lasso",
+        "regularization",
+        "essay"
+      ]
+    },
+    {
+      "id": "E58-A59",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích chính xác ý nghĩa của giá trị p (p-value) trong kiểm định giả thuyết, mối liên hệ với mức ý nghĩa α, và nêu ít nhất ba sai lầm thường gặp khi diễn giải p-value.",
+      "modelAnswer": "Định nghĩa: p-value là xác suất quan sát được thống kê kiểm định cực đoan như hoặc hơn so với giá trị thực tế thu được, VỚI ĐIỀU KIỆN giả thuyết không H₀ đúng. Nó đo mức độ dữ liệu 'không tương thích' với H₀. Quy tắc quyết định: so sánh p-value với mức ý nghĩa α (ví dụ 0,05) đã chọn trước; nếu p < α thì bác bỏ H₀ (kết quả có ý nghĩa thống kê), ngược lại không bác bỏ H₀. α chính là xác suất sai lầm loại I mà ta chấp nhận. Các sai lầm thường gặp khi diễn giải: (1) Cho rằng p-value là xác suất H₀ đúng — sai, p-value được tính GIẢ ĐỊNH H₀ đúng, không phải xác suất của H₀. (2) Cho rằng 1 − p là xác suất H₁ đúng hoặc xác suất kết quả lặp lại — sai. (3) Đánh đồng 'có ý nghĩa thống kê' với 'quan trọng/lớn về thực tiễn' — p nhỏ có thể chỉ do cỡ mẫu rất lớn dù hiệu ứng nhỏ; cần xem thêm cỡ hiệu ứng và khoảng tin cậy. (4) Cho rằng p > 0,05 'chứng minh H₀ đúng' — không bác bỏ H₀ không có nghĩa H₀ được chứng minh, có thể do thiếu công suất. (5) p-hacking: thử nhiều kiểm định/biến rồi chỉ báo cáo cái có p nhỏ, làm phồng sai lầm loại I. Thực hành tốt: chọn α và giả thuyết trước, báo cáo cỡ hiệu ứng và khoảng tin cậy kèm p-value, và hiệu chỉnh khi kiểm định bội (ví dụ Bonferroni).",
+      "rubric": [
+        "Định nghĩa đúng p-value (xác suất dữ liệu cực đoan giả định H₀ đúng)",
+        "Nêu đúng mối liên hệ với α và quy tắc quyết định bác bỏ H₀",
+        "Liệt kê ít nhất ba sai lầm diễn giải phổ biến và chỉ ra vì sao sai",
+        "Đề xuất thực hành tốt (báo cáo cỡ hiệu ứng/CI, tránh p-hacking, hiệu chỉnh kiểm định bội)"
+      ],
+      "tags": [
+        "p-value",
+        "hypothesis testing",
+        "essay"
+      ]
+    },
+    {
+      "id": "E58-B60",
+      "module": "B",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích đánh đổi độ chệch–phương sai (bias-variance tradeoff) trong hồi quy. Phân biệt underfitting và overfitting, mô tả ảnh hưởng của độ phức tạp mô hình lên bias và variance, và nêu ít nhất hai kỹ thuật để kiểm soát đánh đổi này.",
+      "modelAnswer": "Sai số kỳ vọng ngoài mẫu của một mô hình có thể phân rã thành ba phần: bias² + variance + sai số không thể giảm (nhiễu). Bias (độ chệch) là sai số do giả định mô hình quá đơn giản, không nắm được quan hệ thật; variance (phương sai) là mức dao động của mô hình khi đổi tập huấn luyện. Có sự đánh đổi: mô hình càng phức tạp (nhiều biến, bậc đa thức cao) thì bias càng giảm nhưng variance càng tăng, và ngược lại. Underfitting xảy ra khi mô hình quá đơn giản: bias cao, variance thấp, sai số cao trên CẢ tập huấn luyện và kiểm tra. Overfitting xảy ra khi mô hình quá phức tạp: bias thấp, variance cao, khớp dữ liệu huấn luyện rất tốt (sai số huấn luyện thấp) nhưng kém trên dữ liệu mới (sai số kiểm tra cao). Mục tiêu là chọn độ phức tạp tối ưu nơi tổng bias² + variance nhỏ nhất, thường nằm giữa hai cực. Các kỹ thuật kiểm soát: (1) Chính quy hóa (Ridge/Lasso) thêm phạt vào hệ số để giảm variance, đổi lấy tăng nhẹ bias; chọn λ qua kiểm định chéo. (2) Kiểm định chéo (cross-validation) để ước lượng sai số ngoài mẫu và chọn độ phức tạp/siêu tham số phù hợp. (3) Giảm độ phức tạp: chọn lọc đặc trưng, hạ bậc đa thức, hoặc dùng mô hình đơn giản hơn. (4) Thu thập thêm dữ liệu giúp giảm variance cho mô hình phức tạp. (5) Phương pháp ensemble (như bagging) giảm variance. Việc theo dõi đường cong học (learning curve) và khoảng cách giữa sai số huấn luyện và kiểm tra giúp chẩn đoán đang ở phía underfit hay overfit để điều chỉnh.",
+      "rubric": [
+        "Trình bày phân rã sai số thành bias², variance và nhiễu không giảm được",
+        "Phân biệt rõ underfitting (bias cao) và overfitting (variance cao) kèm biểu hiện sai số huấn luyện/kiểm tra",
+        "Giải thích đúng ảnh hưởng của độ phức tạp mô hình lên bias và variance (đánh đổi)",
+        "Nêu ít nhất hai kỹ thuật kiểm soát hợp lý (regularization, cross-validation, giảm biến, thêm dữ liệu, ensemble)"
+      ],
+      "tags": [
+        "bias-variance",
+        "regression",
+        "essay"
+      ]
+    }
+  ]
+}

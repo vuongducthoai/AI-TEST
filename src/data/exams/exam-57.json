@@ -1,0 +1,1810 @@
+{
+  "id": "exam-57",
+  "title": "Pandas Wrangling Nâng cao — Reshape, Time-Series & Hiệu năng (Đọc code)",
+  "description": "Đề ôn tập nâng cao về xử lý dữ liệu thực chiến với Pandas: reshape (melt, stack/unstack, wide_to_long), mã hóa biến phân loại, time-series (resample, rolling, shift, timezone) và các thao tác groupby/merge ít gặp. Phần lớn câu hỏi yêu cầu đọc đoạn code và dự đoán kết quả in ra, kèm 4 câu code tự luận. Mục tiêu rèn kỹ năng đọc hiểu và làm chủ API Pandas nâng cao.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E57-B01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series(['x','y','x','z'])\nd = pd.get_dummies(s, dtype=int)\nprint(d.sum().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': 1, 'y': 1, 'z': 1}"
+        },
+        {
+          "key": "B",
+          "text": "{'x': 2, 'y': 2, 'z': 2}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': 4, 'y': 0, 'z': 0}"
+        },
+        {
+          "key": "D",
+          "text": "{'x': 2, 'y': 1, 'z': 1}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "get_dummies tạo một cột chỉ báo (0/1) cho mỗi giá trị duy nhất. Cột 'x' xuất hiện 2 lần nên sum=2, còn 'y' và 'z' mỗi cái 1 lần. Vì vậy .sum() trả về số lần xuất hiện của từng nhãn dưới dạng dict.",
+      "tags": [
+        "get_dummies",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E57-B02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nimport numpy as np\ncodes, uniques = pd.factorize(np.array(['b','a','b','c','a']))\nprint(codes.tolist(), uniques.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 0, 2, 1] ['a', 'b', 'c']"
+        },
+        {
+          "key": "B",
+          "text": "[2, 1, 2, 3, 1] ['a', 'b', 'c']"
+        },
+        {
+          "key": "C",
+          "text": "[0, 1, 0, 2, 1] ['b', 'a', 'c']"
+        },
+        {
+          "key": "D",
+          "text": "[1, 0, 1, 2, 0] ['b', 'a', 'c']"
+        }
+      ],
+      "answer": "C",
+      "explanation": "pd.factorize gán mã số nguyên theo thứ tự XUẤT HIỆN lần đầu (không sắp xếp): 'b'->0, 'a'->1, 'c'->2. Do đó codes=[0,1,0,2,1] và uniques theo thứ tự gặp là ['b','a','c'].",
+      "tags": [
+        "factorize",
+        "encode"
+      ]
+    },
+    {
+      "id": "E57-B03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1,2,3,4,5,6,7,8])\nq = pd.qcut(s, 4, labels=['Q1','Q2','Q3','Q4'])\nprint(q.value_counts().sort_index().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'Q1': 8, 'Q2': 0, 'Q3': 0, 'Q4': 0}"
+        },
+        {
+          "key": "B",
+          "text": "{'Q1': 2, 'Q2': 2, 'Q3': 2, 'Q4': 2}"
+        },
+        {
+          "key": "C",
+          "text": "{'Q1': 4, 'Q2': 4, 'Q3': 0, 'Q4': 0}"
+        },
+        {
+          "key": "D",
+          "text": "{'Q1': 1, 'Q2': 3, 'Q3': 3, 'Q4': 1}"
+        }
+      ],
+      "answer": "B",
+      "explanation": "qcut chia theo PHÂN VỊ nên mỗi nhóm có số phần tử xấp xỉ bằng nhau. Với 8 giá trị chia 4 nhóm, mỗi nhóm 2 phần tử, do đó value_counts mỗi nhãn = 2.",
+      "tags": [
+        "qcut",
+        "binning"
+      ]
+    },
+    {
+      "id": "E57-B04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([5, 15, 25, 35])\nc = pd.cut(s, bins=[0,10,20,30,40], labels=['a','b','c','d'])\nprint(c.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a', 'b', 'c', 'd']"
+        },
+        {
+          "key": "B",
+          "text": "['b', 'c', 'd', 'a']"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'a', 'a', 'a']"
+        },
+        {
+          "key": "D",
+          "text": "['a', 'b', 'c', 'd']  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "pd.cut gán mỗi giá trị vào khoảng bins theo nhãn tương ứng: 5∈(0,10]->'a', 15∈(10,20]->'b', 25∈(20,30]->'c', 35∈(30,40]->'d'. Vì vậy kết quả là ['a','b','c','d'].",
+      "tags": [
+        "cut",
+        "binning"
+      ]
+    },
+    {
+      "id": "E57-B05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 7, 12])\nc = pd.cut(s, bins=2)\nprint(c.cat.categories.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[Interval(1.0, 6.5, closed='left'), Interval(6.5, 12.0, closed='left')]"
+        },
+        {
+          "key": "B",
+          "text": "[Interval(0.989, 6.5, closed='left'), Interval(6.5, 12.0, closed='right')]"
+        },
+        {
+          "key": "C",
+          "text": "[Interval(0.989, 6.5, closed='right'), Interval(6.5, 12.0, closed='right')]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[Interval(0.989, 6.5, closed='right'), Interval(6.5, 12.0, closed='right')]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "cut với bins=2 chia khoảng [min,max] thành 2 đoạn đều, mặc định closed='right'. Để bao gồm giá trị nhỏ nhất, biên dưới được mở rộng 0.1% (1 -> 0.989). Categories là hai Interval đóng phải.",
+      "tags": [
+        "cut",
+        "interval"
+      ]
+    },
+    {
+      "id": "E57-B06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nidx = pd.MultiIndex.from_tuples([('a',1),('a',2),('b',1),('b',2)])\ns = pd.Series([10,20,30,40], index=idx)\nprint(s.loc[pd.IndexSlice[:, 1]].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[20, 40]"
+        },
+        {
+          "key": "B",
+          "text": "[10, 30]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[10, 30]"
+        },
+        {
+          "key": "D",
+          "text": "[10, 20]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "pd.IndexSlice[:, 1] chọn mọi giá trị cấp 0 nhưng cấp 1 phải bằng 1. Các phần tử khớp là ('a',1)=10 và ('b',1)=30, nên kết quả [10, 30].",
+      "tags": [
+        "multiindex",
+        "indexslice"
+      ]
+    },
+    {
+      "id": "E57-B07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'x':[1,2],'y':[3,4]}, index=['p','q'])\nprint(df.stack().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{('p', 'x'): 1, ('p', 'y'): 3, ('q', 'x'): 2, ('q', 'y'): 4}  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "{('p', 'x'): 1, ('p', 'y'): 3, ('q', 'x'): 2, ('q', 'y'): 4}"
+        },
+        {
+          "key": "C",
+          "text": "{('x', 'p'): 1, ('y', 'p'): 3, ('x', 'q'): 2, ('y', 'q'): 4}"
+        },
+        {
+          "key": "D",
+          "text": "{('p', 'x'): 1, ('q', 'x'): 2, ('p', 'y'): 3, ('q', 'y'): 4}"
+        }
+      ],
+      "answer": "B",
+      "explanation": "stack() chuyển các CỘT thành cấp index trong cùng, giữ thứ tự duyệt theo từng hàng. Kết quả là Series MultiIndex (hàng, cột): ('p','x')=1, ('p','y')=3, ('q','x')=2, ('q','y')=4.",
+      "tags": [
+        "stack",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E57-B08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nidx = pd.MultiIndex.from_tuples([('a','x'),('a','y'),('b','x'),('b','y')])\ns = pd.Series([1,2,3,4], index=idx)\nprint(s.unstack().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': {'a': 1, 'b': 3}, 'y': {'a': 2, 'b': 4}}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': {'x': 1, 'y': 2}, 'b': {'x': 3, 'y': 4}}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': {'a': 1, 'b': 2}, 'y': {'a': 3, 'b': 4}}"
+        },
+        {
+          "key": "D",
+          "text": "{'x': {'a': 1, 'b': 3}, 'y': {'a': 2, 'b': 4}}  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "unstack() mặc định đưa cấp index TRONG CÙNG (level -1) lên thành cột. Cấp 'x'/'y' thành cột, cấp 'a'/'b' thành hàng. to_dict() theo cột: {'x':{'a':1,'b':3}, 'y':{'a':2,'b':4}}.",
+      "tags": [
+        "unstack",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E57-B09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'id':[1,2],'val_2020':[10,30],'val_2021':[20,40]})\nout = pd.wide_to_long(df, stubnames='val', i='id', j='year', sep='_')\nprint(out['val'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 20, 30, 40]"
+        },
+        {
+          "key": "B",
+          "text": "[20, 40, 10, 30]"
+        },
+        {
+          "key": "C",
+          "text": "[10, 30, 20, 40]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[10, 30, 20, 40]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "wide_to_long gom các cột 'val_2020','val_2021' thành cột 'val' với index (id, year). Thứ tự kết quả nhóm theo year: year 2020 -> [10,30] rồi year 2021 -> [20,40], cho [10,30,20,40].",
+      "tags": [
+        "wide_to_long",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E57-B10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nleft = pd.DataFrame({'t':[1,5,10],'v':['a','b','c']})\nright = pd.DataFrame({'t':[2,6],'w':['x','y']})\nout = pd.merge_asof(left, right, on='t')\nprint(out['w'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['x', 'y', nan]"
+        },
+        {
+          "key": "B",
+          "text": "[nan, nan, 'x']"
+        },
+        {
+          "key": "C",
+          "text": "[nan, 'x', 'y']  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[nan, 'x', 'y']"
+        }
+      ],
+      "answer": "D",
+      "explanation": "merge_asof khớp mỗi hàng trái với hàng phải có 't' GẦN NHẤT VÀ <= (mặc định backward). t=1 chưa có khóa phải nào <=1 -> NaN; t=5 khớp t=2 -> 'x'; t=10 khớp t=6 -> 'y'. Kết quả [nan,'x','y'].",
+      "tags": [
+        "merge_asof",
+        "timeseries"
+      ]
+    },
+    {
+      "id": "E57-B11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\na = pd.Series([1,2]); b = pd.Series([3,4])\nout = pd.concat([a,b], keys=['g1','g2'])\nprint(out.index.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 0, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[('g1', 0), ('g1', 1), ('g2', 0), ('g2', 1)]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[('g1', 0), ('g1', 1), ('g2', 0), ('g2', 1)]"
+        },
+        {
+          "key": "D",
+          "text": "[('g1', 0), ('g2', 0), ('g1', 1), ('g2', 1)]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "concat với keys tạo MultiIndex cấp ngoài là key. Mỗi Series giữ index gốc 0,1, gắn key tương ứng: ('g1',0),('g1',1),('g2',0),('g2',1).",
+      "tags": [
+        "concat",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E57-B12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([10, 20, 20, 40])\nprint(s.rank(method='dense').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 2.0, 2.0, 3.0]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.0, 2.0, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.5, 2.5, 4.0]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 2.0, 3.0, 4.0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rank(method='dense') gán hạng liền nhau, các giá trị bằng nhau cùng hạng và hạng tiếp theo KHÔNG bị nhảy. 10->1, hai số 20->2, 40->3 (không phải 4). Kết quả [1.0,2.0,2.0,3.0].",
+      "tags": [
+        "rank",
+        "dense"
+      ]
+    },
+    {
+      "id": "E57-B13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([10, 20, 20, 40])\nprint(s.rank(method='min').tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 2.0, 2.0, 4.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.0, 2.0, 3.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.5, 2.5, 4.0]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 2.0, 2.0, 4.0]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "rank(method='min') gán cho nhóm giá trị bằng nhau HẠNG NHỎ NHẤT trong nhóm, và hạng tiếp theo bị nhảy. Hai số 20 cùng nhận hạng 2, sau đó 40 nhận hạng 4 (nhảy qua 3). Kết quả [1.0,2.0,2.0,4.0].",
+      "tags": [
+        "rank",
+        "min"
+      ]
+    },
+    {
+      "id": "E57-B14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([-5, 0, 5, 15])\nprint(s.clip(lower=0, upper=10).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[-5, 0, 5, 10]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 0, 5, 15]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 5, 10]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[0, 0, 5, 10]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "clip giới hạn giá trị trong [lower, upper]: số <0 thành 0, số >10 thành 10, còn lại giữ nguyên. -5->0, 0->0, 5->5, 15->10. Kết quả [0,0,5,10].",
+      "tags": [
+        "clip"
+      ]
+    },
+    {
+      "id": "E57-B15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 5, 10, 15])\nprint(s[s.between(5, 10)].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5, 10, 15]"
+        },
+        {
+          "key": "B",
+          "text": "[5, 10]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[5, 10]"
+        },
+        {
+          "key": "D",
+          "text": "[10]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "between(5,10) mặc định inclusive='both' nên cả hai biên được tính. Các giá trị thoả 5<=x<=10 là 5 và 10. Lọc Series trả về [5, 10].",
+      "tags": [
+        "between",
+        "filter"
+      ]
+    },
+    {
+      "id": "E57-B16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1,2,3,4])\nprint(s.mask(s % 2 == 0, -1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, -1, 3, -1]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[1, -1, 3, -1]"
+        },
+        {
+          "key": "C",
+          "text": "[-1, 2, -1, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3, 4]"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".mask(cond, other) THAY THẾ những vị trí điều kiện ĐÚNG bằng other. Số chẵn (2,4) thoả s%2==0 nên thành -1, số lẻ giữ nguyên. Kết quả [1,-1,3,-1].",
+      "tags": [
+        "mask",
+        "where"
+      ]
+    },
+    {
+      "id": "E57-B17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1,2,3,4])\nprint(s.where(s > 2, 0).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 0, 0]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 0, 0, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 0, 3, 4]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": ".where(cond, other) GIỮ giá trị nơi điều kiện ĐÚNG, thay other nơi điều kiện sai (ngược với mask). s>2 đúng tại 3,4 nên giữ; 1,2 sai nên thành 0. Kết quả [0,0,3,4].",
+      "tags": [
+        "where",
+        "mask"
+      ]
+    },
+    {
+      "id": "E57-B18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series(pd.to_datetime(['2021-01-15','2021-03-20']))\nprint(s.dt.to_period('M').astype(str).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['2021-01-15', '2021-03-20']"
+        },
+        {
+          "key": "B",
+          "text": "['2021-Q1', '2021-Q1']"
+        },
+        {
+          "key": "C",
+          "text": "['2021-01', '2021-03']  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "['2021-01', '2021-03']"
+        }
+      ],
+      "answer": "D",
+      "explanation": ".dt.to_period('M') chuyển datetime thành chu kỳ THÁNG, mất phần ngày. Hai ngày thành Period '2021-01' và '2021-03', astype(str) cho ['2021-01','2021-03'].",
+      "tags": [
+        "datetime",
+        "period"
+      ]
+    },
+    {
+      "id": "E57-B19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndr = pd.date_range('2021-01-01', periods=3, freq='2D')\nprint(dr.day.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 4, 7]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 3, 5]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[1, 3, 5]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "date_range với freq='2D' tạo mốc cách nhau 2 ngày: 2021-01-01, 01-03, 01-05. Thuộc tính .day lấy ngày trong tháng -> [1, 3, 5].",
+      "tags": [
+        "date_range",
+        "freq"
+      ]
+    },
+    {
+      "id": "E57-B20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([10, 13, 18, 18])\nprint(s.diff().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, 3.0, 5.0, 18.0]"
+        },
+        {
+          "key": "B",
+          "text": "[nan, 3.0, 5.0, 0.0]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[nan, 3.0, 5.0, 0.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0.0, 3.0, 5.0, 0.0]"
+        }
+      ],
+      "answer": "C",
+      "explanation": ".diff() tính hiệu giữa phần tử hiện tại và phần tử LIỀN TRƯỚC. Phần tử đầu không có trước nên NaN; sau đó 13-10=3, 18-13=5, 18-18=0. Kết quả [nan,3.0,5.0,0.0].",
+      "tags": [
+        "diff"
+      ]
+    },
+    {
+      "id": "E57-B21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([100, 110, 99])\nprint([round(x,3) if pd.notna(x) else x for x in s.pct_change().tolist()])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, 0.1, -0.1]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[nan, 0.1, -0.1]"
+        },
+        {
+          "key": "C",
+          "text": "[0.0, 0.1, -0.1]"
+        },
+        {
+          "key": "D",
+          "text": "[nan, 0.1, 0.1]"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".pct_change() tính tỷ lệ thay đổi so với phần tử trước: (110-100)/100=0.1; (99-110)/110=-0.1. Phần tử đầu là NaN. Sau khi làm tròn 3 chữ số: [nan, 0.1, -0.1].",
+      "tags": [
+        "pct_change"
+      ]
+    },
+    {
+      "id": "E57-B22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1,2,3,4])\nprint(s.shift(2).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, nan, 1.0, 2.0]"
+        },
+        {
+          "key": "B",
+          "text": "[3.0, 4.0, nan, nan]"
+        },
+        {
+          "key": "C",
+          "text": "[nan, 1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[nan, nan, 1.0, 2.0]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": ".shift(2) dịch dữ liệu XUỐNG 2 vị trí, hai ô đầu thành NaN. Giá trị 1,2 trượt xuống index 2,3. Kết quả [nan, nan, 1.0, 2.0].",
+      "tags": [
+        "shift"
+      ]
+    },
+    {
+      "id": "E57-B23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['b','a','b','a'],'v':[1,2,3,4]})\nprint(df.groupby('g').ngroup().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 0, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 1, 0, 0]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 0, 1, 0]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[1, 0, 1, 0]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "ngroup() đánh số nhóm theo thứ tự nhãn ĐÃ SẮP XẾP (mặc định sort=True): 'a'->0, 'b'->1. Theo thứ tự hàng ('b','a','b','a') cho [1,0,1,0].",
+      "tags": [
+        "ngroup",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B24",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b','a']})\nprint(df.groupby('g').cumcount().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 1, 3]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 0, 2]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[0, 1, 0, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 1, 2, 3]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cumcount() đếm tích lũy trong từng nhóm bắt đầu từ 0. Nhóm 'a' tại các hàng 0,1,3 nhận 0,1,2; nhóm 'b' tại hàng 2 nhận 0. Theo thứ tự hàng: [0,1,0,2].",
+      "tags": [
+        "cumcount",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B25",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b','b'],'v':[10,20,30,40]})\nprint(df.groupby('g').nth(0)['v'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 30]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[10, 30]"
+        },
+        {
+          "key": "C",
+          "text": "[20, 40]"
+        },
+        {
+          "key": "D",
+          "text": "[10, 20]"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".nth(0) lấy hàng ĐẦU TIÊN (vị trí 0) trong mỗi nhóm. Nhóm 'a' đầu là 10, nhóm 'b' đầu là 30. Cột v -> [10, 30].",
+      "tags": [
+        "nth",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B26",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nimport numpy as np\na = pd.Series([1, np.nan, 3])\nb = pd.Series([10, 20, 30])\nprint(a.combine_first(b).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 20.0, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[10.0, 20.0, 30.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 20.0, 3.0]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "combine_first điền các NaN trong a bằng giá trị tương ứng từ b, giữ giá trị không NaN của a. Vị trí 1 là NaN nên lấy 20 từ b, còn lại giữ a. Kết quả [1.0,20.0,3.0].",
+      "tags": [
+        "combine_first",
+        "fillna"
+      ]
+    },
+    {
+      "id": "E57-B27",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series(['a1','b22','c333'])\nprint(s.replace(r'\\d+', 'N', regex=True).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['a1', 'b22', 'c333']"
+        },
+        {
+          "key": "B",
+          "text": "['N', 'N', 'N']"
+        },
+        {
+          "key": "C",
+          "text": "['aN', 'bN', 'cN']  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "['aN', 'bN', 'cN']"
+        }
+      ],
+      "answer": "D",
+      "explanation": "replace với regex=True thay thế phần khớp mẫu \\\\d+ (một hoặc nhiều chữ số) bằng 'N'. Mỗi chuỗi: 'a1'->'aN', 'b22'->'bN', 'c333'->'cN'. Kết quả ['aN','bN','cN'].",
+      "tags": [
+        "replace",
+        "regex"
+      ]
+    },
+    {
+      "id": "E57-B28",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 2, 2, 3, 3, 3])\nprint(s.duplicated(keep=False).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[False, True, True, False, True, True]"
+        },
+        {
+          "key": "B",
+          "text": "[False, True, True, True, True, True]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[False, True, True, True, True, True]"
+        },
+        {
+          "key": "D",
+          "text": "[False, False, True, False, True, True]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "duplicated(keep=False) đánh dấu TẤT CẢ các phần tử thuộc nhóm bị trùng là True. Giá trị 1 duy nhất -> False; 2 và 3 đều trùng -> mọi vị trí của chúng True. Kết quả [False,True,True,True,True,True].",
+      "tags": [
+        "duplicated"
+      ]
+    },
+    {
+      "id": "E57-B29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1,2,3,4,5])\nprint(s[s.isin([2,4,6])].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 4]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[2, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 4, 6]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 3, 5]"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".isin([2,4,6]) trả mask True nơi giá trị nằm trong danh sách. Trong Series chỉ có 2 và 4 khớp (6 không tồn tại). Lọc ra [2, 4].",
+      "tags": [
+        "isin",
+        "filter"
+      ]
+    },
+    {
+      "id": "E57-B30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','a','b','b'],'v':[1,2,3,10,20]})\nout = df.groupby('g')['v'].rolling(2).sum()\nprint(out.dropna().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.0, 5.0, 30.0]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[3.0, 5.0, 30.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 3.0, 5.0, 30.0]"
+        },
+        {
+          "key": "D",
+          "text": "[3.0, 5.0, 10.0, 30.0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "groupby().rolling(2).sum() tính tổng trượt cửa sổ 2 RIÊNG từng nhóm; phần tử đầu mỗi nhóm là NaN. Nhóm a: 1+2=3, 2+3=5; nhóm b: 10+20=30. Sau dropna: [3.0,5.0,30.0].",
+      "tags": [
+        "groupby",
+        "rolling"
+      ]
+    },
+    {
+      "id": "E57-B31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b'],'v':[2,4,6]})\ndf['norm'] = df.groupby('g')['v'].transform(lambda x: x / x.sum())\nprint(df['norm'].round(3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.333, 0.667, 1.0]"
+        },
+        {
+          "key": "B",
+          "text": "[0.167, 0.333, 0.5]"
+        },
+        {
+          "key": "C",
+          "text": "[0.5, 0.5, 1.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0.333, 0.667, 1.0]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "transform giữ nguyên hình dạng và chia mỗi giá trị cho tổng NHÓM của nó. Nhóm a tổng=6: 2/6=0.333, 4/6=0.667; nhóm b tổng=6: 6/6=1.0. Kết quả [0.333,0.667,1.0].",
+      "tags": [
+        "transform",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b'],'x':[1,2,3],'y':[4,5,6]})\nout = df.groupby('g').agg({'x':'sum','y':'max'})\nprint(out.to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': {'a': 3, 'b': 3}, 'y': {'a': 9, 'b': 6}}"
+        },
+        {
+          "key": "B",
+          "text": "{'x': {'a': 1, 'b': 3}, 'y': {'a': 5, 'b': 6}}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': {'a': 3, 'b': 3}, 'y': {'a': 5, 'b': 6}}  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "{'x': {'a': 3, 'b': 3}, 'y': {'a': 5, 'b': 6}}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "agg với dict áp mỗi hàm cho cột tương ứng theo nhóm. x: sum -> a=1+2=3, b=3; y: max -> a=max(4,5)=5, b=6. to_dict theo cột cho {'x':{'a':3,'b':3},'y':{'a':5,'b':6}}.",
+      "tags": [
+        "agg",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b'],'v':[10,20,30]})\nout = df.groupby('g').agg(tong=('v','sum'), so_luong=('v','count'))\nprint(out.to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'tong': {'a': 15, 'b': 30}, 'so_luong': {'a': 2, 'b': 1}}"
+        },
+        {
+          "key": "B",
+          "text": "{'tong': {'a': 30, 'b': 30}, 'so_luong': {'a': 2, 'b': 1}}  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "{'tong': {'a': 30, 'b': 30}, 'so_luong': {'a': 2, 'b': 1}}"
+        },
+        {
+          "key": "D",
+          "text": "{'tong': {'a': 30, 'b': 30}, 'so_luong': {'a': 1, 'b': 2}}"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Named aggregation đặt tên cột kết quả. tong=sum: a=10+20=30, b=30. so_luong=count: a có 2 phần tử, b có 1. Kết quả như đáp án A.",
+      "tags": [
+        "named-agg",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 2, 3, 4])\nprint(s.rolling(2).apply(lambda x: x.max() - x.min()).dropna().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 1.0, 1.0]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 1.0, 1.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0.0, 1.0, 1.0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "rolling(2).apply tính (max-min) trên mỗi cửa sổ 2 phần tử liền nhau: (2-1)=1, (3-2)=1, (4-3)=1; phần tử đầu NaN bị dropna loại bỏ. Kết quả [1.0,1.0,1.0].",
+      "tags": [
+        "rolling",
+        "apply"
+      ]
+    },
+    {
+      "id": "E57-B35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 2, 3])\nprint(s.ewm(alpha=0.5, adjust=False).mean().round(3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 1.5, 2.25]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 1.5, 2.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 1.5, 2.25]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "EWM với adjust=False, alpha=0.5: y0=1; y1=0.5*2+0.5*1=1.5; y2=0.5*3+0.5*1.5=2.25. Kết quả [1.0,1.5,2.25].",
+      "tags": [
+        "ewm"
+      ]
+    },
+    {
+      "id": "E57-B36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nimport numpy as np\ns = pd.Series([1, np.nan, np.nan, 4])\nprint(s.interpolate().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1.0, 1.0, 1.0, 4.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.5, 2.5, 4.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 2.0, 3.0, 4.0]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 2.0, 3.0, 4.0]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "interpolate() mặc định nội suy TUYẾN TÍNH giữa các điểm đã biết. Giữa 1 và 4 cách 3 bước, tăng đều 1 mỗi bước: 1,2,3,4. Kết quả [1.0,2.0,3.0,4.0].",
+      "tags": [
+        "interpolate"
+      ]
+    },
+    {
+      "id": "E57-B37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','a','b','b'],'v':[3,1,2,5,4]})\nout = df.groupby('g')['v'].apply(lambda x: x.nlargest(2)).reset_index(drop=True)\nprint(out.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 3, 4, 5]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 2, 5, 4]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[3, 2, 5, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 1, 5, 4]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mỗi nhóm lấy 2 giá trị lớn nhất, đã sắp giảm dần. Nhóm a: 3,2; nhóm b: 5,4. Ghép lại [3,2,5,4].",
+      "tags": [
+        "nlargest",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nidx = pd.MultiIndex.from_tuples([('a',1),('b',2)], names=['L0','L1'])\ns = pd.Series([10,20], index=idx)\nprint(s.reorder_levels(['L1','L0']).index.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[(1, 'a'), (2, 'b')]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[(1, 'a'), (2, 'b')]"
+        },
+        {
+          "key": "C",
+          "text": "[('a', 1), ('b', 2)]"
+        },
+        {
+          "key": "D",
+          "text": "[(1, 'b'), (2, 'a')]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "reorder_levels đổi thứ tự các cấp index theo danh sách cho trước, dữ liệu giữ nguyên. Đưa L1 lên trước L0: ('a',1)->(1,'a'), ('b',2)->(2,'b'). Kết quả [(1,'a'),(2,'b')].",
+      "tags": [
+        "reorder_levels",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E57-B39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nidx = pd.MultiIndex.from_tuples([('x','p'),('y','q')])\ns = pd.Series([1,2], index=idx)\nprint(s.swaplevel().index.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[('p', 'x'), ('q', 'y')]"
+        },
+        {
+          "key": "B",
+          "text": "[('x', 'p'), ('y', 'q')]"
+        },
+        {
+          "key": "C",
+          "text": "[('p', 'q'), ('x', 'y')]"
+        },
+        {
+          "key": "D",
+          "text": "[('p', 'x'), ('q', 'y')]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "swaplevel() (mặc định hoán đổi 2 cấp trong cùng) đảo vị trí cấp 0 và 1: ('x','p')->('p','x'), ('y','q')->('q','y'). Kết quả [('p','x'),('q','y')].",
+      "tags": [
+        "swaplevel",
+        "multiindex"
+      ]
+    },
+    {
+      "id": "E57-B40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nimport numpy as np\nprint(np.nan == np.nan, pd.Series([np.nan]).eq(np.nan).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False [False]"
+        },
+        {
+          "key": "B",
+          "text": "True [True]"
+        },
+        {
+          "key": "C",
+          "text": "False [True]"
+        },
+        {
+          "key": "D",
+          "text": "False [False]  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo chuẩn IEEE, NaN không bằng chính nó nên np.nan==np.nan là False, và .eq(np.nan) cũng cho False. Phải dùng isna() để phát hiện NaN. Kết quả 'False [False]'.",
+      "tags": [
+        "nan",
+        "comparison"
+      ]
+    },
+    {
+      "id": "E57-B41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[42]})\nprint(df.squeeze(), type(df.squeeze()).__name__)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "42 DataFrame"
+        },
+        {
+          "key": "B",
+          "text": "42 Series"
+        },
+        {
+          "key": "C",
+          "text": "42 int64  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "42 int64"
+        }
+      ],
+      "answer": "D",
+      "explanation": "squeeze() rút gọn DataFrame 1x1 thành SCALAR (numpy int64). Giá trị là 42, kiểu là int64 (không còn DataFrame/Series). Kết quả '42 int64'.",
+      "tags": [
+        "squeeze"
+      ]
+    },
+    {
+      "id": "E57-B42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[[1,2],[3]],'b':['x','y']})\nout = df.explode('a')\nprint(out['a'].tolist(), out['b'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[1, 2], [3]] ['x', 'y']"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3] ['x', 'x', 'y']  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "[1, 2, 3] ['x', 'x', 'y']"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 3] ['x', 'y', 'y']"
+        }
+      ],
+      "answer": "C",
+      "explanation": "explode('a') tách mỗi phần tử list trong cột 'a' thành hàng riêng, các cột khác được NHÂN BẢN. [1,2]->2 hàng b='x', [3]->1 hàng b='y'. Kết quả a=[1,2,3], b=['x','x','y'].",
+      "tags": [
+        "explode"
+      ]
+    },
+    {
+      "id": "E57-B43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series(['a','b','c'])\nm = pd.Series({'a':10,'b':20})\nprint(s.map(m).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10.0, 20.0, nan]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[10.0, 20.0, nan]"
+        },
+        {
+          "key": "C",
+          "text": "[10, 20, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[10.0, 20.0, 30.0]"
+        }
+      ],
+      "answer": "B",
+      "explanation": ".map với một Series ánh xạ theo khóa; khóa không tồn tại cho NaN. 'a'->10, 'b'->20, 'c' không có trong m -> NaN. Vì có NaN nên kiểu float: [10.0,20.0,nan].",
+      "tags": [
+        "map"
+      ]
+    },
+    {
+      "id": "E57-B44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nout = df.apply(lambda r: pd.Series({'tong':r['a']+r['b'],'hieu':r['b']-r['a']}), axis=1)\nprint(out.to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'tong': {0: 4, 1: 6}, 'hieu': {0: 2, 1: 2}}"
+        },
+        {
+          "key": "B",
+          "text": "{'tong': {0: 4, 1: 6}, 'hieu': {0: -2, 1: -2}}"
+        },
+        {
+          "key": "C",
+          "text": "{'tong': {0: 3, 1: 4}, 'hieu': {0: 2, 1: 2}}"
+        },
+        {
+          "key": "D",
+          "text": "{'tong': {0: 4, 1: 6}, 'hieu': {0: 2, 1: 2}}  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "apply(axis=1) duyệt từng hàng; trả Series tạo các cột mới. Hàng 0: tong=1+3=4, hieu=3-1=2; hàng 1: tong=6, hieu=2. Kết quả {'tong':{0:4,1:6},'hieu':{0:2,1:2}}.",
+      "tags": [
+        "apply",
+        "axis"
+      ]
+    },
+    {
+      "id": "E57-B45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([1, 2, 3, 4])\nprint(s.agg(['sum','mean','max']).to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'sum': 10.0, 'mean': 2.5, 'max': 10.0}"
+        },
+        {
+          "key": "B",
+          "text": "{'sum': 4.0, 'mean': 2.5, 'max': 4.0}"
+        },
+        {
+          "key": "C",
+          "text": "{'sum': 10.0, 'mean': 2.5, 'max': 4.0}  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "{'sum': 10.0, 'mean': 2.5, 'max': 4.0}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "agg với danh sách hàm trả Series có index là tên hàm. sum=10, mean=2.5, max=4. Kết quả ép về float: {'sum':10.0,'mean':2.5,'max':4.0}.",
+      "tags": [
+        "agg"
+      ]
+    },
+    {
+      "id": "E57-B46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'g':['a','a','b'],'v':[np.nan,2,3]})\nprint(df.groupby('g')['v'].first().to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'a': 1.0, 'b': 3.0}"
+        },
+        {
+          "key": "B",
+          "text": "{'a': 2.0, 'b': 3.0}  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "{'a': 2.0, 'b': 3.0}"
+        },
+        {
+          "key": "D",
+          "text": "{'a': nan, 'b': 3.0}"
+        }
+      ],
+      "answer": "C",
+      "explanation": "groupby().first() lấy giá trị KHÔNG NaN đầu tiên trong mỗi nhóm. Nhóm a có [NaN,2] nên bỏ qua NaN lấy 2; nhóm b lấy 3. Kết quả {'a':2.0,'b':3.0}.",
+      "tags": [
+        "first",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'x':[1,2,3,4]})\nthresh = 2\nprint(df.query('x > @thresh')['x'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 4]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[3, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "query với @thresh tham chiếu biến Python bên ngoài. Điều kiện x>2 (thresh=2) chọn 3 và 4. Kết quả [3, 4].",
+      "tags": [
+        "query",
+        "eval"
+      ]
+    },
+    {
+      "id": "E57-B48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nts = pd.Timestamp('2021-01-01 10:00')\nout = ts.tz_localize('UTC').tz_convert('Asia/Bangkok')\nprint(out.hour)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "17"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "17  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "tz_localize('UTC') gán múi giờ UTC rồi tz_convert sang Asia/Bangkok (UTC+7). 10:00 UTC +7 = 17:00, nên .hour = 17.",
+      "tags": [
+        "timezone",
+        "datetime"
+      ]
+    },
+    {
+      "id": "E57-B49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\nidx = pd.date_range('2021-01-01', periods=4, freq='D')\ns = pd.Series([1,2,3,4], index=idx)\nprint(s.resample('2D').sum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[1, 2, 3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[10]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 7]  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "[3, 7]"
+        }
+      ],
+      "answer": "D",
+      "explanation": "resample('2D').sum() gộp dữ liệu theo cửa sổ 2 ngày: ngày 1+2 = 1+2=3, ngày 3+4 = 3+4=7. Kết quả [3, 7].",
+      "tags": [
+        "resample",
+        "datetime"
+      ]
+    },
+    {
+      "id": "E57-B50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\na = pd.DataFrame({'x':[1,2]})\nb = pd.DataFrame({'y':['p','q']})\nout = pd.merge(a, b, how='cross')\nprint(out.shape, sorted(out['y'].tolist()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 2) ['p', 'q']"
+        },
+        {
+          "key": "B",
+          "text": "(4, 2) ['p', 'q', 'p', 'q']"
+        },
+        {
+          "key": "C",
+          "text": "(4, 2) ['p', 'p', 'q', 'q']  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "(4, 2) ['p', 'p', 'q', 'q']"
+        }
+      ],
+      "answer": "D",
+      "explanation": "merge how='cross' tạo TÍCH ĐỀ-CÁC: 2x2 = 4 hàng, 2 cột. Mỗi giá trị y kết hợp với mỗi x nên 'p','q' mỗi cái xuất hiện 2 lần. shape=(4,2), sorted y = ['p','p','q','q'].",
+      "tags": [
+        "merge",
+        "cross"
+      ]
+    },
+    {
+      "id": "E57-B51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series([0, 10, 20])\nc = pd.cut(s, bins=[0,10,20], right=False, labels=['lo','hi'])\nprint(c.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['lo', 'hi', 'hi']"
+        },
+        {
+          "key": "B",
+          "text": "['lo', 'hi', nan]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "['lo', 'hi', nan]"
+        },
+        {
+          "key": "D",
+          "text": "['lo', 'lo', 'hi']"
+        }
+      ],
+      "answer": "C",
+      "explanation": "cut với right=False tạo khoảng đóng TRÁI [a,b). 0∈[0,10)->'lo', 10∈[10,20)->'hi', 20 không thuộc khoảng nào (vì 20 không <20) -> NaN. Kết quả ['lo','hi',nan].",
+      "tags": [
+        "cut",
+        "interval"
+      ]
+    },
+    {
+      "id": "E57-B52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ns = pd.Series(['a','b','c'])\nprint(pd.get_dummies(s, drop_first=True, dtype=int).columns.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['b', 'c']  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "['b', 'c']"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'b', 'c']"
+        },
+        {
+          "key": "D",
+          "text": "['a', 'b']"
+        }
+      ],
+      "answer": "B",
+      "explanation": "get_dummies với drop_first=True bỏ cột chỉ báo đầu tiên ('a') để tránh đa cộng tuyến, giữ ['b','c']. Đây là kỹ thuật mã hoá tham chiếu.",
+      "tags": [
+        "get_dummies",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E57-B53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'r':['a','a'],'c':['x','x'],'v':[1,3]})\nout = df.pivot_table(index='r', columns='c', values='v', aggfunc='sum')\nprint(out.to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'x': {'a': 4}}"
+        },
+        {
+          "key": "B",
+          "text": "{'x': {'a': 1}}"
+        },
+        {
+          "key": "C",
+          "text": "{'x': {'a': 3}}"
+        },
+        {
+          "key": "D",
+          "text": "{'x': {'a': 4}}  # variant0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi có khóa (r,c) trùng, pivot thường lỗi nhưng pivot_table TỔNG HỢP bằng aggfunc. Hai giá trị 1 và 3 cùng ô (a,x) được sum=4. Kết quả {'x':{'a':4}}.",
+      "tags": [
+        "pivot_table",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E57-B54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\na = pd.Series(['x','x','y','y'])\nb = pd.Series(['p','q','p','p'])\nprint(pd.crosstab(a, b, normalize='index').round(2).to_dict())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "{'p': {'x': 1.0, 'y': 1.0}, 'q': {'x': 0.0, 'y': 0.0}}"
+        },
+        {
+          "key": "B",
+          "text": "{'p': {'x': 0.5, 'y': 0.5}, 'q': {'x': 0.5, 'y': 0.5}}"
+        },
+        {
+          "key": "C",
+          "text": "{'p': {'x': 0.5, 'y': 1.0}, 'q': {'x': 0.5, 'y': 0.0}}  # variant0"
+        },
+        {
+          "key": "D",
+          "text": "{'p': {'x': 0.5, 'y': 1.0}, 'q': {'x': 0.5, 'y': 0.0}}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "crosstab normalize='index' chia mỗi ô cho tổng HÀNG. Hàng x có (p:1,q:1)->0.5/0.5; hàng y có (p:2,q:0)->1.0/0.0. Kết quả như đáp án A.",
+      "tags": [
+        "crosstab",
+        "normalize"
+      ]
+    },
+    {
+      "id": "E57-B55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'g':['a','a','b'],'v':[1,2,3]})\nout = df.groupby('g')['v'].sum().reset_index()\nprint(out.columns.tolist(), out['v'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "['index', 'v'] [3, 3]"
+        },
+        {
+          "key": "B",
+          "text": "['g', 'v'] [3, 3]  # variant0"
+        },
+        {
+          "key": "C",
+          "text": "['g', 'v'] [3, 3]"
+        },
+        {
+          "key": "D",
+          "text": "['g', 'v'] [1, 2, 3]"
+        }
+      ],
+      "answer": "C",
+      "explanation": "groupby('g')['v'].sum() cho Series chỉ số 'g'; reset_index() biến nó thành DataFrame 2 cột ['g','v']. Tổng nhóm a=3, b=3. Kết quả ['g','v'] [3,3].",
+      "tags": [
+        "reset_index",
+        "groupby"
+      ]
+    },
+    {
+      "id": "E57-B56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đoạn code Pandas sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'id':[1,2],'m1':[10,30],'m2':[20,40]})\nout = df.melt(id_vars='id', var_name='metric', value_name='val')\nprint(out['val'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[10, 30, 20, 40]  # variant0"
+        },
+        {
+          "key": "B",
+          "text": "[10, 30, 20, 40]"
+        },
+        {
+          "key": "C",
+          "text": "[10, 20, 30, 40]"
+        },
+        {
+          "key": "D",
+          "text": "[30, 40, 10, 20]"
+        }
+      ],
+      "answer": "B",
+      "explanation": "melt gom các cột m1,m2 thành cặp (metric, val) theo từng id. Thứ tự duyệt cột trước rồi hàng: m1 -> [10,30], m2 -> [20,40], nối lại [10,30,20,40].",
+      "tags": [
+        "melt",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E57-B57",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame `df` co cot phan loai `mau` (gia tri: do, xanh, vang) va cot so `gia`. Hay viet code dung `pd.get_dummies` de ma hoa one-hot cot `mau` (giu nguyen cot `gia`), dat prefix='mau' va dtype=int. In ra danh sach ten cot ket qua va ma tran gia tri cac cot chi bao. Giai thich ngan gon y nghia one-hot encoding.",
+      "modelAnswer": "```python\nimport pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'mau': ['do','xanh','do','vang'], 'gia': [10,20,30,40]})\n# Ma hoa one-hot cot phan loai 'mau', giu cot so 'gia'\nenc = pd.get_dummies(df, columns=['mau'], prefix='mau', dtype=int)\nprint(enc.columns.tolist())\nprint(enc[['mau_do','mau_vang','mau_xanh']].values.tolist())\n```\n\nOutput thuc te:\n```\n['gia', 'mau_do', 'mau_vang', 'mau_xanh']\n[[1, 0, 0], [0, 0, 1], [1, 0, 0], [0, 1, 0]]\n```\n\nGiai thich: `pd.get_dummies(columns=['mau'])` tao mot cot chi bao nhi phan (0/1) cho moi gia tri duy nhat cua `mau`, cot `gia` duoc giu nguyen. dtype=int dam bao gia tri la 0/1 thay vi True/False. One-hot encoding bien bien phan loai danh nghia thanh dang so de mo hinh hoc may su dung ma khong ap dat thu tu gia tao giua cac nhan.",
+      "rubric": [
+        "Dung dung pd.get_dummies voi columns=['mau'], prefix va dtype=int",
+        "Giu nguyen cot so gia va sinh dung cac cot mau_do/mau_xanh/mau_vang",
+        "In dung output va giai thich y nghia one-hot encoding"
+      ],
+      "tags": [
+        "get_dummies",
+        "one-hot",
+        "code"
+      ]
+    },
+    {
+      "id": "E57-B58",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame `df` voi cot `nhom`, `doanh_thu`, `sl`. Hay dung `groupby('nhom').agg(...)` voi cu phap named aggregation de tinh cung luc: tong doanh thu (`tong_dt`), doanh thu trung binh (`tb_dt`), so luong lon nhat (`max_sl`) va so dong (`so_dong`) cho moi nhom. In ket qua ra dang dict va giai thich.",
+      "modelAnswer": "```python\nimport pandas as pd\nimport numpy as np\ndf = pd.DataFrame({\n    'nhom': ['A','A','B','B','B'],\n    'doanh_thu': [100, 200, 50, 150, 100],\n    'sl': [1, 3, 2, 4, 2],\n})\nout = df.groupby('nhom').agg(\n    tong_dt=('doanh_thu','sum'),\n    tb_dt=('doanh_thu','mean'),\n    max_sl=('sl','max'),\n    so_dong=('doanh_thu','count'),\n)\nprint(out.to_dict())\n```\n\nOutput thuc te:\n```\n{'tong_dt': {'A': 300, 'B': 300}, 'tb_dt': {'A': 150.0, 'B': 100.0}, 'max_sl': {'A': 3, 'B': 4}, 'so_dong': {'A': 2, 'B': 3}}\n```\n\nGiai thich: named aggregation `ten_moi=('cot','ham')` cho phep ap nhieu ham tong hop tren nhieu cot khac nhau trong MOT lan goi, dong thoi dat ten cot ket qua ro rang. Nhom A: tong=300, trung binh=150, max sl=3, 2 dong; nhom B: tong=300, trung binh=100, max sl=4, 3 dong. Cach nay gon va de doc hon so voi truyen dict long nhau.",
+      "rubric": [
+        "Dung named aggregation dung cu phap ten=('cot','ham')",
+        "Ap du 4 phep tong hop sum/mean/max/count tren dung cot",
+        "In dung ket qua tung nhom A va B, co giai thich"
+      ],
+      "tags": [
+        "groupby",
+        "agg",
+        "named-agg",
+        "code"
+      ]
+    },
+    {
+      "id": "E57-B59",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame `wide` dang rong voi cot dinh danh `thanh_pho` va cac cot `q1`,`q2`,`q3` (doanh thu theo quy). Hay dung `melt` de chuyen sang dang dai (long) voi `id_vars='thanh_pho'`, dat ten cot bien la `quy` va cot gia tri la `doanh_thu`. In ra shape va toan bo gia tri. Giai thich reshape wide->long.",
+      "modelAnswer": "```python\nimport pandas as pd\nimport numpy as np\nwide = pd.DataFrame({\n    'thanh_pho': ['HN','HCM'],\n    'q1': [10, 40],\n    'q2': [20, 50],\n    'q3': [30, 60],\n})\nlong = wide.melt(id_vars='thanh_pho', value_vars=['q1','q2','q3'],\n                 var_name='quy', value_name='doanh_thu')\nprint(long.shape)\nprint(long.values.tolist())\n```\n\nOutput thuc te:\n```\n(6, 3)\n[['HN', 'q1', 10], ['HCM', 'q1', 40], ['HN', 'q2', 20], ['HCM', 'q2', 50], ['HN', 'q3', 30], ['HCM', 'q3', 60]]\n```\n\nGiai thich: `melt` chuyen du lieu tu dang RONG (moi quy mot cot) sang dang DAI (moi quan sat mot dong). `id_vars` giu nguyen lam khoa, `value_vars` duoc gom thanh cap (`quy`, `doanh_thu`). Dang long thuan tien cho groupby, ve bieu do va la dang 'tidy data'. Ket qua co 6 dong (2 thanh pho x 3 quy), thu tu duyet theo tung quy.",
+      "rubric": [
+        "Dung melt voi id_vars, value_vars, var_name, value_name dung",
+        "Cho ra dang long 6 dong dung gia tri, in shape (6, 3)",
+        "Giai thich dung ban chat reshape wide->long / tidy data"
+      ],
+      "tags": [
+        "melt",
+        "reshape",
+        "code"
+      ]
+    },
+    {
+      "id": "E57-B60",
+      "module": "B",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Cho DataFrame `df` gom cot `sp` (san pham), `ngay` (ngay), `ban` (luong ban). Hay tinh trung binh truot 7 ngay (`ma7`) RIENG cho tung san pham bang `groupby('sp')` ket hop `rolling(7)` (dung `transform` hoac tuong duong, voi `min_periods=1`). In gia tri `ma7` o ngay cuoi cua moi san pham. Giai thich vi sao phai groupby truoc khi rolling.",
+      "modelAnswer": "```python\nimport pandas as pd\nimport numpy as np\ndf = pd.DataFrame({\n    'sp': ['A']*8 + ['B']*8,\n    'ngay': list(pd.date_range('2021-01-01', periods=8))*2,\n    'ban': list(range(1,9)) + list(range(10,90,10)),\n})\ndf = df.sort_values(['sp','ngay'])\n# Trung binh truot 7 ngay tinh rieng tung san pham\ndf['ma7'] = df.groupby('sp')['ban'].transform(\n    lambda x: x.rolling(7, min_periods=1).mean())\nprint(df.groupby('sp')['ma7'].last().round(3).to_dict())\n```\n\nOutput thuc te:\n```\n{'A': 5.0, 'B': 50.0}\n```\n\nGiai thich: phai `groupby('sp')` TRUOC roi moi `rolling` de cua so truot khong tron lan du lieu giua cac san pham khac nhau - neu rolling truc tiep tren ca cot, gia tri cuoi cua san pham A se lan vao dau cua san pham B. `min_periods=1` cho phep tinh ngay ca khi chua du 7 quan sat. `transform` giu nguyen chi so goc nen gan thang duoc vao cot moi. Gia tri cuoi moi nhom la trung binh 7 gia tri gan nhat cua rieng san pham do.",
+      "rubric": [
+        "Dung groupby('sp') truoc roi rolling(7) (transform/apply), min_periods=1",
+        "Tinh trung binh truot rieng tung san pham, khong tron lan nhom",
+        "In dung gia tri ma7 ngay cuoi moi nhom va giai thich ly do groupby truoc rolling"
+      ],
+      "tags": [
+        "groupby",
+        "rolling",
+        "timeseries",
+        "code"
+      ]
+    }
+  ]
+}
