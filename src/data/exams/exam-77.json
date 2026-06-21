@@ -1,0 +1,1821 @@
+{
+  "id": "exam-77",
+  "title": "Hồi quy Logistic — Cơ bản & Nâng dần",
+  "description": "Đề ôn tập cộng đồng về hồi quy logistic ở mức cơ bản và nâng dần. Bao gồm khái niệm phân loại, hàm sigmoid, xác suất và ngưỡng quyết định, log-odds, log-loss, các chỉ số đánh giá (accuracy, precision, recall, F1), cùng các chủ đề mở rộng như softmax đa lớp, regularization và ROC/AUC ở mức khái niệm. Phù hợp để củng cố nền tảng trước khi học sâu hơn.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E77-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy logistic chủ yếu được dùng cho loại bài toán nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân loại (classification)"
+        },
+        {
+          "key": "B",
+          "text": "Hồi quy giá trị liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Giảm chiều dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Phân cụm không giám sát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặc dù có tên 'hồi quy', logistic regression là mô hình PHÂN LOẠI, đầu ra là xác suất thuộc một lớp.",
+      "tags": [
+        "khái niệm",
+        "phân loại"
+      ]
+    },
+    {
+      "id": "E77-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đầu ra của một mô hình hồi quy logistic nhị phân là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một xác suất nằm trong khoảng (0,1)"
+        },
+        {
+          "key": "B",
+          "text": "Một số nguyên bất kỳ"
+        },
+        {
+          "key": "C",
+          "text": "Một giá trị trong khoảng (-1,1)"
+        },
+        {
+          "key": "D",
+          "text": "Một nhãn lớp số nguyên dương"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid ép đầu ra về khoảng (0,1) nên có thể diễn giải là xác suất P(y=1|x).",
+      "tags": [
+        "sigmoid",
+        "xác suất"
+      ]
+    },
+    {
+      "id": "E77-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường KHÔNG dùng hồi quy tuyến tính (linear regression) cho phân loại nhị phân?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu ra không bị giới hạn trong [0,1] nên khó diễn giải thành xác suất"
+        },
+        {
+          "key": "B",
+          "text": "Vì linear regression không thể huấn luyện được"
+        },
+        {
+          "key": "C",
+          "text": "Vì linear regression luôn cho kết quả 0 hoặc 1"
+        },
+        {
+          "key": "D",
+          "text": "Vì linear regression chỉ chạy trên dữ liệu ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Linear regression cho đầu ra không chặn, có thể âm hoặc lớn hơn 1, không phù hợp biểu diễn xác suất.",
+      "tags": [
+        "linear vs logistic"
+      ]
+    },
+    {
+      "id": "E77-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm sigmoid có công thức nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "σ(z) = 1 / (1 + e^(−z))"
+        },
+        {
+          "key": "B",
+          "text": "σ(z) = max(0, z)"
+        },
+        {
+          "key": "C",
+          "text": "σ(z) = z²"
+        },
+        {
+          "key": "D",
+          "text": "σ(z) = e^z − 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid (logistic) chuẩn là 1/(1+e^-z), tạo đường cong hình chữ S.",
+      "tags": [
+        "sigmoid",
+        "công thức"
+      ]
+    },
+    {
+      "id": "E77-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Miền giá trị của hàm sigmoid là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "(−1, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(−∞, ∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid tiệm cận 0 và 1 nhưng không bao giờ đạt đúng 0 hoặc 1, nên miền giá trị là khoảng mở (0,1).",
+      "tags": [
+        "sigmoid",
+        "miền giá trị"
+      ]
+    },
+    {
+      "id": "E77-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị của sigmoid(0) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thay z=0: 1/(1+e^0)=1/2=0.5. Đây là điểm giữa của đường cong S.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hình dạng đặc trưng của đồ thị hàm sigmoid là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường cong hình chữ S"
+        },
+        {
+          "key": "B",
+          "text": "Đường thẳng"
+        },
+        {
+          "key": "C",
+          "text": "Parabol"
+        },
+        {
+          "key": "D",
+          "text": "Hình bậc thang đứt đoạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid là đường cong trơn hình chữ S, tăng đơn điệu từ 0 lên 1.",
+      "tags": [
+        "sigmoid",
+        "đồ thị"
+      ]
+    },
+    {
+      "id": "E77-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong logistic regression, đại lượng z = w·x + b được gọi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổ hợp tuyến tính (logit) đưa vào hàm sigmoid"
+        },
+        {
+          "key": "B",
+          "text": "Xác suất đầu ra cuối cùng"
+        },
+        {
+          "key": "C",
+          "text": "Hàm mất mát"
+        },
+        {
+          "key": "D",
+          "text": "Giá trị nhãn thực tế"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z là tổ hợp tuyến tính của đặc trưng, còn gọi là logit; sigmoid(z) mới là xác suất.",
+      "tags": [
+        "z",
+        "logit"
+      ]
+    },
+    {
+      "id": "E77-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ngưỡng quyết định (decision threshold) mặc định phổ biến trong phân loại nhị phân là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.7"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặc định, nếu P(y=1|x) ≥ 0.5 thì dự đoán lớp 1, ngược lại lớp 0.",
+      "tags": [
+        "ngưỡng",
+        "threshold"
+      ]
+    },
+    {
+      "id": "E77-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính chất 'bão hòa' (saturation) của sigmoid nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi |z| rất lớn, đầu ra tiến gần 0 hoặc 1 và đạo hàm tiến về 0"
+        },
+        {
+          "key": "B",
+          "text": "Khi z=0 thì đầu ra bằng 1"
+        },
+        {
+          "key": "C",
+          "text": "Đầu ra luôn tăng tuyến tính theo z"
+        },
+        {
+          "key": "D",
+          "text": "Sigmoid không bao giờ thay đổi giá trị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ở hai đuôi, sigmoid gần như phẳng, gradient rất nhỏ nên gọi là vùng bão hòa.",
+      "tags": [
+        "sigmoid",
+        "bão hòa"
+      ]
+    },
+    {
+      "id": "E77-B01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho z = 2. Giá trị sigmoid(2) gần nhất với số nào? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.881"
+        },
+        {
+          "key": "B",
+          "text": "0.119"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.731"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(2)=1/(1+e^-2)=1/(1+0.1353)≈0.881.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho z = −1. Giá trị sigmoid(−1) gần nhất với số nào? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.269"
+        },
+        {
+          "key": "B",
+          "text": "0.731"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.119"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(-1)=1/(1+e^1)=1/(1+2.718)≈0.269.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho w=[0.5, −1.0], x=[2.0, 1.0], b=0.5. Tính z = w·x + b.",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "1.5"
+        },
+        {
+          "key": "C",
+          "text": "-0.5"
+        },
+        {
+          "key": "D",
+          "text": "2.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "z = 0.5*2 + (−1)*1 + 0.5 = 1 − 1 + 0.5 = 0.5.",
+      "tags": [
+        "z",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với z = 0.5 ở câu trước, sigmoid(0.5) ≈ ? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.622"
+        },
+        {
+          "key": "B",
+          "text": "0.500"
+        },
+        {
+          "key": "C",
+          "text": "0.378"
+        },
+        {
+          "key": "D",
+          "text": "0.269"
+        }
+      ],
+      "answer": "A",
+      "explanation": "σ(0.5)=1/(1+e^-0.5)≈0.622, lớn hơn 0.5 nên dự đoán lớp 1.",
+      "tags": [
+        "sigmoid",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu xác suất p = 0.8 thì odds = p/(1−p) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "odds = 0.8/0.2 = 4.0.",
+      "tags": [
+        "odds",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Log-odds (logit) của xác suất p = 0.5 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "logit(0.5)=ln(0.5/0.5)=ln(1)=0.0.",
+      "tags": [
+        "logit",
+        "log-odds",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Log-odds của p = 0.75 gần nhất với? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.099"
+        },
+        {
+          "key": "B",
+          "text": "0.000"
+        },
+        {
+          "key": "C",
+          "text": "-1.099"
+        },
+        {
+          "key": "D",
+          "text": "0.750"
+        }
+      ],
+      "answer": "A",
+      "explanation": "odds=0.75/0.25=3; logit=ln(3)≈1.099.",
+      "tags": [
+        "logit",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu odds = 3 thì xác suất p tương ứng (p = odds/(1+odds)) bằng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "0.30"
+        },
+        {
+          "key": "C",
+          "text": "3.00"
+        },
+        {
+          "key": "D",
+          "text": "0.33"
+        }
+      ],
+      "answer": "A",
+      "explanation": "p = 3/(1+3) = 0.75.",
+      "tags": [
+        "odds",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với ngưỡng 0.5, một mẫu có xác suất dự đoán P(y=1)=0.42 sẽ được gán nhãn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lớp 0"
+        },
+        {
+          "key": "B",
+          "text": "Lớp 1"
+        },
+        {
+          "key": "C",
+          "text": "Không xác định"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "0.42 < 0.5 nên dự đoán lớp 0 (âm tính).",
+      "tags": [
+        "ngưỡng",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu HẠ ngưỡng quyết định từ 0.5 xuống 0.3, điều gì có xu hướng xảy ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều mẫu được gán lớp 1 hơn → recall tăng, precision có thể giảm"
+        },
+        {
+          "key": "B",
+          "text": "Không có gì thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả mẫu thành lớp 0"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình ngừng dự đoán xác suất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngưỡng thấp khiến nhiều mẫu vượt ngưỡng thành dương tính, tăng recall nhưng dễ tăng false positive.",
+      "tags": [
+        "ngưỡng",
+        "precision-recall"
+      ]
+    },
+    {
+      "id": "E77-B11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Log-loss (BCE) cho một mẫu với y=1, p=0.9 bằng bao nhiêu? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.105"
+        },
+        {
+          "key": "B",
+          "text": "2.303"
+        },
+        {
+          "key": "C",
+          "text": "0.900"
+        },
+        {
+          "key": "D",
+          "text": "0.357"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BCE = −[1·ln(0.9)] = −ln(0.9) ≈ 0.105.",
+      "tags": [
+        "log-loss",
+        "BCE",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Log-loss cho một mẫu với y=0, p=0.2 bằng bao nhiêu? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.223"
+        },
+        {
+          "key": "B",
+          "text": "1.609"
+        },
+        {
+          "key": "C",
+          "text": "0.200"
+        },
+        {
+          "key": "D",
+          "text": "0.693"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BCE = −ln(1−0.2) = −ln(0.8) ≈ 0.223.",
+      "tags": [
+        "log-loss",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Log-loss cho một mẫu với y=1, p=0.5 bằng bao nhiêu? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.693"
+        },
+        {
+          "key": "B",
+          "text": "0.000"
+        },
+        {
+          "key": "C",
+          "text": "1.000"
+        },
+        {
+          "key": "D",
+          "text": "0.301"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BCE = −ln(0.5) ≈ 0.693; dự đoán 'lưỡng lự' bị phạt vừa phải.",
+      "tags": [
+        "log-loss",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-B14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khi dự đoán đúng và rất tự tin (y=1, p→1), giá trị log-loss của mẫu đó tiến về đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tiến về 0"
+        },
+        {
+          "key": "B",
+          "text": "Tiến về 1"
+        },
+        {
+          "key": "C",
+          "text": "Tiến về vô cùng"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bằng 0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "−ln(p) → 0 khi p→1, nghĩa là dự đoán đúng & tự tin gần như không bị phạt.",
+      "tags": [
+        "log-loss",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-C01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho TP=40, FP=10, FN=20, TN=30. Accuracy bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.70"
+        },
+        {
+          "key": "B",
+          "text": "0.80"
+        },
+        {
+          "key": "C",
+          "text": "0.40"
+        },
+        {
+          "key": "D",
+          "text": "0.50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy=(TP+TN)/tổng=(40+30)/100=0.70.",
+      "tags": [
+        "accuracy",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-C02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với TP=40, FP=10, FN=20, TN=30. Precision bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.80"
+        },
+        {
+          "key": "B",
+          "text": "0.67"
+        },
+        {
+          "key": "C",
+          "text": "0.50"
+        },
+        {
+          "key": "D",
+          "text": "0.40"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision=TP/(TP+FP)=40/50=0.80.",
+      "tags": [
+        "precision",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-C03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với TP=40, FP=10, FN=20, TN=30. Recall (độ nhạy) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.667"
+        },
+        {
+          "key": "B",
+          "text": "0.800"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.571"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall=TP/(TP+FN)=40/60≈0.667.",
+      "tags": [
+        "recall",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-C04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với precision=0.8 và recall≈0.667, F1-score gần nhất với? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.727"
+        },
+        {
+          "key": "B",
+          "text": "0.733"
+        },
+        {
+          "key": "C",
+          "text": "0.800"
+        },
+        {
+          "key": "D",
+          "text": "0.667"
+        }
+      ],
+      "answer": "A",
+      "explanation": "F1=2·P·R/(P+R)=2·0.8·0.667/(1.467)≈0.727.",
+      "tags": [
+        "f1",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-C05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với TP=40, FP=10, FN=20, TN=30. Specificity (TN/(TN+FP)) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.750"
+        },
+        {
+          "key": "B",
+          "text": "0.600"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.429"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Specificity=TN/(TN+FP)=30/40=0.750.",
+      "tags": [
+        "specificity",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-C06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Precision đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong các mẫu DỰ ĐOÁN dương, bao nhiêu phần thực sự dương"
+        },
+        {
+          "key": "B",
+          "text": "Trong các mẫu THỰC dương, bao nhiêu phần được tìm ra"
+        },
+        {
+          "key": "C",
+          "text": "Tổng số mẫu đúng trên tổng mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Tỉ lệ âm tính giả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision = TP/(TP+FP): độ tin cậy của các dự đoán dương.",
+      "tags": [
+        "precision",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-C07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Recall (độ nhạy) đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trong các mẫu THỰC dương, bao nhiêu phần được mô hình tìm ra"
+        },
+        {
+          "key": "B",
+          "text": "Trong các mẫu dự đoán dương, bao nhiêu phần đúng"
+        },
+        {
+          "key": "C",
+          "text": "Tỉ lệ dự đoán đúng tổng thể"
+        },
+        {
+          "key": "D",
+          "text": "Tỉ lệ dương tính giả trên âm tính thật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall = TP/(TP+FN): khả năng 'bắt' hết các ca dương thực sự.",
+      "tags": [
+        "recall",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-C08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu hạ ngưỡng quyết định của mô hình logistic từ 0.5 xuống 0.3 thì thường điều gì xảy ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Recall tăng (bắt được nhiều ca dương hơn) nhưng precision thường giảm (nhiều dương tính giả hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Cả precision và recall đều luôn tăng cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình ngừng dự đoán lớp dương"
+        },
+        {
+          "key": "D",
+          "text": "Không ảnh hưởng gì tới kết quả phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngưỡng thấp hơn khiến nhiều mẫu bị gán nhãn dương → recall tăng nhưng số dương tính giả (FP) cũng tăng nên precision thường giảm — đây là đánh đổi precision–recall.",
+      "tags": [
+        "logistic",
+        "threshold",
+        "precision-recall"
+      ]
+    },
+    {
+      "id": "E77-C09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một tập dữ liệu có 95% mẫu lớp 0. Mô hình luôn đoán 'lớp 0' đạt accuracy bao nhiêu, và điều đó nói lên gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "95%, nhưng accuracy gây hiểu lầm vì lớp mất cân bằng (recall lớp 1 = 0)"
+        },
+        {
+          "key": "B",
+          "text": "50%, mô hình tốt"
+        },
+        {
+          "key": "C",
+          "text": "0%, mô hình vô dụng theo mọi tiêu chí"
+        },
+        {
+          "key": "D",
+          "text": "95%, và đây là mô hình hoàn hảo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với lớp mất cân bằng, accuracy cao có thể che giấu việc mô hình bỏ sót hoàn toàn lớp thiểu số.",
+      "tags": [
+        "accuracy",
+        "mất cân bằng"
+      ]
+    },
+    {
+      "id": "E77-C10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong chẩn đoán bệnh nguy hiểm, vì sao recall thường được ưu tiên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì bỏ sót ca bệnh (false negative) rất nguy hiểm, cần recall cao"
+        },
+        {
+          "key": "B",
+          "text": "Vì precision không bao giờ quan trọng"
+        },
+        {
+          "key": "C",
+          "text": "Vì accuracy luôn đủ dùng"
+        },
+        {
+          "key": "D",
+          "text": "Vì recall giúp giảm thời gian huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bỏ sót bệnh nhân thực sự mắc bệnh có hậu quả nghiêm trọng, nên ưu tiên giảm false negative (tăng recall).",
+      "tags": [
+        "recall",
+        "ứng dụng"
+      ]
+    },
+    {
+      "id": "E77-D01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho logits z=[1, 2, 3], softmax cho lớp thứ 3 (z=3) gần nhất với? (làm tròn 3 chữ số)",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.665"
+        },
+        {
+          "key": "B",
+          "text": "0.090"
+        },
+        {
+          "key": "C",
+          "text": "0.245"
+        },
+        {
+          "key": "D",
+          "text": "0.333"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax_3 = e^3/(e^1+e^2+e^3) ≈ 0.665.",
+      "tags": [
+        "softmax",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-D02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tổng các xác suất đầu ra của hàm softmax trên tất cả các lớp luôn bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "Số lớp"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax chuẩn hóa nên tổng xác suất các lớp = 1.",
+      "tags": [
+        "softmax",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-D03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Softmax là phần mở rộng của ý tưởng nào sang bài toán nhiều lớp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sigmoid (mở rộng cho phân loại đa lớp)"
+        },
+        {
+          "key": "B",
+          "text": "K-means"
+        },
+        {
+          "key": "C",
+          "text": "Cây quyết định"
+        },
+        {
+          "key": "D",
+          "text": "PCA"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax tổng quát hóa sigmoid cho K lớp, mỗi lớp một xác suất, tổng bằng 1.",
+      "tags": [
+        "softmax",
+        "đa lớp"
+      ]
+    },
+    {
+      "id": "E77-D04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chiến lược 'one-vs-rest' (OvR) trong phân loại đa lớp nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện một bộ phân loại nhị phân cho mỗi lớp: lớp đó vs phần còn lại"
+        },
+        {
+          "key": "B",
+          "text": "Gộp tất cả lớp thành một"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng được cho 2 lớp"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua các lớp thiểu số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OvR xây K bộ phân loại nhị phân, mỗi bộ tách một lớp khỏi tất cả lớp còn lại.",
+      "tags": [
+        "đa lớp",
+        "OvR"
+      ]
+    },
+    {
+      "id": "E77-D05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Regularization L2 (Ridge) trong logistic regression có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phạt trọng số lớn để giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Tăng kích thước mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Xóa toàn bộ đặc trưng"
+        },
+        {
+          "key": "D",
+          "text": "Biến mô hình thành hồi quy tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L2 thêm λ·Σw² vào hàm mất mát, giữ trọng số nhỏ và mượt, giảm quá khớp.",
+      "tags": [
+        "regularization",
+        "L2"
+      ]
+    },
+    {
+      "id": "E77-D06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc điểm nổi bật của regularization L1 (Lasso) so với L2 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có xu hướng đẩy một số trọng số về đúng 0 (chọn lọc đặc trưng)"
+        },
+        {
+          "key": "B",
+          "text": "Luôn làm tăng số đặc trưng"
+        },
+        {
+          "key": "C",
+          "text": "Không ảnh hưởng đến trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho hồi quy tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "L1 phạt |w|, tạo nghiệm thưa, nhiều trọng số = 0, giúp chọn đặc trưng.",
+      "tags": [
+        "regularization",
+        "L1"
+      ]
+    },
+    {
+      "id": "E77-D07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường cong ROC biểu diễn mối quan hệ giữa hai đại lượng nào khi thay đổi ngưỡng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "True Positive Rate (recall) và False Positive Rate"
+        },
+        {
+          "key": "B",
+          "text": "Precision và accuracy"
+        },
+        {
+          "key": "C",
+          "text": "Loss và epoch"
+        },
+        {
+          "key": "D",
+          "text": "Số đặc trưng và số mẫu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ROC vẽ TPR theo FPR khi quét các ngưỡng quyết định khác nhau.",
+      "tags": [
+        "ROC",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-D08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "AUC (diện tích dưới đường ROC) bằng 0.5 thường có ý nghĩa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình phân biệt không tốt hơn đoán ngẫu nhiên"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình hoàn hảo"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình luôn sai"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu bị thiếu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AUC=0.5 tương đương phỏng đoán ngẫu nhiên; AUC=1.0 là phân biệt hoàn hảo.",
+      "tags": [
+        "AUC",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-D09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao thường KHÔNG dùng MSE làm hàm mất mát cho logistic regression?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MSE kết hợp với sigmoid tạo mặt mất mát không lồi, khó tối ưu; log-loss phù hợp xác suất hơn"
+        },
+        {
+          "key": "B",
+          "text": "MSE không tính được"
+        },
+        {
+          "key": "C",
+          "text": "MSE chỉ dùng cho phân loại"
+        },
+        {
+          "key": "D",
+          "text": "MSE luôn cho gradient bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với sigmoid, MSE dễ tạo nhiều cực tiểu địa phương; log-loss lồi hơn và gắn với hợp lý cực đại.",
+      "tags": [
+        "log-loss",
+        "MSE"
+      ]
+    },
+    {
+      "id": "E77-D10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Logistic regression được huấn luyện chủ yếu bằng phương pháp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gradient descent tối thiểu hóa log-loss (hợp lý cực đại)"
+        },
+        {
+          "key": "B",
+          "text": "Giải hệ phương trình tuyến tính đóng kín"
+        },
+        {
+          "key": "C",
+          "text": "K-means"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không có nghiệm đóng; thường dùng gradient descent để cực tiểu hóa log-loss tương đương cực đại hợp lý.",
+      "tags": [
+        "gradient descent",
+        "huấn luyện"
+      ]
+    },
+    {
+      "id": "E77-D11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số (trọng số) DƯƠNG của một đặc trưng trong logistic regression nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng đặc trưng đó làm tăng log-odds → tăng xác suất lớp 1"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng đó bị bỏ qua"
+        },
+        {
+          "key": "C",
+          "text": "Tăng đặc trưng đó làm giảm xác suất lớp 1"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số dương luôn vô nghĩa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "w>0: tăng x làm z tăng, kéo sigmoid lên, tức tăng xác suất dự đoán lớp 1.",
+      "tags": [
+        "hệ số",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E77-D12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Decision boundary của logistic regression cơ bản (không thêm đặc trưng phi tuyến) có dạng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Siêu phẳng tuyến tính (z = w·x + b = 0)"
+        },
+        {
+          "key": "B",
+          "text": "Đường tròn"
+        },
+        {
+          "key": "C",
+          "text": "Hình chữ S"
+        },
+        {
+          "key": "D",
+          "text": "Ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ranh giới quyết định ứng với p=0.5 tức z=0, là một siêu phẳng tuyến tính trong không gian đặc trưng.",
+      "tags": [
+        "decision boundary",
+        "tuyến tính"
+      ]
+    },
+    {
+      "id": "E77-D13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao nên chuẩn hóa (feature scaling) đặc trưng trước khi huấn luyện logistic regression bằng gradient descent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp gradient descent hội tụ nhanh và ổn định hơn khi các đặc trưng cùng thang đo"
+        },
+        {
+          "key": "B",
+          "text": "Để xóa bớt mẫu"
+        },
+        {
+          "key": "C",
+          "text": "Để biến bài toán thành hồi quy tuyến tính"
+        },
+        {
+          "key": "D",
+          "text": "Vì sigmoid yêu cầu dữ liệu âm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các đặc trưng cùng thang, mặt mất mát cân đối hơn, gradient descent hội tụ nhanh và ổn định.",
+      "tags": [
+        "feature scaling",
+        "huấn luyện"
+      ]
+    },
+    {
+      "id": "E77-D14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ứng dụng nào sau đây là ví dụ điển hình của phân loại nhị phân bằng logistic regression?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lọc thư rác (spam vs không spam)"
+        },
+        {
+          "key": "B",
+          "text": "Dự báo nhiệt độ chính xác theo độ C"
+        },
+        {
+          "key": "C",
+          "text": "Nén ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp danh sách theo bảng chữ cái"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Spam/không spam là bài toán phân loại nhị phân kinh điển, đầu ra là xác suất là spam.",
+      "tags": [
+        "ứng dụng",
+        "spam"
+      ]
+    },
+    {
+      "id": "E77-D15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một hạn chế/giả định của logistic regression cơ bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giả định ranh giới giữa các lớp xấp xỉ tách được tuyến tính trong không gian đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Không thể đưa ra xác suất"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chạy trên ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Không cần dữ liệu để huấn luyện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mô hình cơ bản chỉ tạo ranh giới tuyến tính; dữ liệu tách phi tuyến mạnh cần thêm đặc trưng hoặc mô hình khác.",
+      "tags": [
+        "giả định",
+        "hạn chế"
+      ]
+    },
+    {
+      "id": "E77-A11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Khác biệt cốt lõi giữa logistic regression và linear regression là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Logistic dự đoán xác suất/nhãn lớp, linear dự đoán giá trị liên tục"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều dự đoán giá trị liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Logistic không dùng trọng số w"
+        },
+        {
+          "key": "D",
+          "text": "Linear regression dùng hàm sigmoid"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Linear regression cho số thực liên tục; logistic regression qua sigmoid cho xác suất phục vụ phân loại.",
+      "tags": [
+        "linear vs logistic"
+      ]
+    },
+    {
+      "id": "E77-A12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Xác suất đầu ra của logistic regression được ký hiệu và hiểu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(y=1|x): xác suất mẫu thuộc lớp 1 cho trước đặc trưng x"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng cách Euclid"
+        },
+        {
+          "key": "C",
+          "text": "Số cụm"
+        },
+        {
+          "key": "D",
+          "text": "Phương sai của dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đầu ra σ(w·x+b)=P(y=1|x) là xác suất có điều kiện thuộc lớp dương.",
+      "tags": [
+        "xác suất",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-A13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Quan hệ giữa logit và xác suất p là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "logit = ln(p/(1−p)), tức log của odds"
+        },
+        {
+          "key": "B",
+          "text": "logit = p²"
+        },
+        {
+          "key": "C",
+          "text": "logit = 1−p"
+        },
+        {
+          "key": "D",
+          "text": "logit = e^p"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logit là log-odds: ln(p/(1−p)); nghịch đảo của nó chính là hàm sigmoid.",
+      "tags": [
+        "logit",
+        "log-odds"
+      ]
+    },
+    {
+      "id": "E77-B15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hai mẫu có p=0.6 và p=0.95, cùng nhãn thực y=1. Mẫu nào có log-loss NHỎ hơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mẫu p=0.95 (dự đoán đúng & tự tin hơn)"
+        },
+        {
+          "key": "B",
+          "text": "Mẫu p=0.6"
+        },
+        {
+          "key": "C",
+          "text": "Bằng nhau"
+        },
+        {
+          "key": "D",
+          "text": "Không tính được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "−ln(0.95) < −ln(0.6), nên dự đoán đúng tự tin hơn bị phạt ít hơn.",
+      "tags": [
+        "log-loss",
+        "so sánh"
+      ]
+    },
+    {
+      "id": "E77-C11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Confusion matrix cho bài toán nhị phân gồm những ô nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TP, FP, FN, TN"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ TP và TN"
+        },
+        {
+          "key": "C",
+          "text": "Mean, variance, std"
+        },
+        {
+          "key": "D",
+          "text": "Precision, recall, F1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận nhầm lẫn 2x2 gồm True Positive, False Positive, False Negative, True Negative.",
+      "tags": [
+        "confusion matrix",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E77-C12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong bài toán lọc spam, 'false positive' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thư bình thường bị gán nhầm là spam"
+        },
+        {
+          "key": "B",
+          "text": "Thư spam bị bỏ sót vào hộp thư đến"
+        },
+        {
+          "key": "C",
+          "text": "Thư spam được phát hiện đúng"
+        },
+        {
+          "key": "D",
+          "text": "Thư bình thường được giữ đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FP = dự đoán dương (spam) nhưng thực tế âm (không spam) → thư tốt bị lọc nhầm.",
+      "tags": [
+        "confusion matrix",
+        "spam"
+      ]
+    },
+    {
+      "id": "E77-C13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho TP=5, FP=5, FN=15, TN=75. Accuracy và recall lần lượt là?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accuracy=0.80, Recall=0.25"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy=0.50, Recall=0.25"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy=0.80, Recall=0.75"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy=0.20, Recall=0.05"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy=(5+75)/100=0.80; Recall=5/(5+15)=0.25. Accuracy cao nhưng recall thấp do mất cân bằng.",
+      "tags": [
+        "accuracy",
+        "recall",
+        "numeric"
+      ]
+    },
+    {
+      "id": "E77-A57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích vì sao logistic regression dùng hàm sigmoid và ý nghĩa của đầu ra xác suất. Nêu ít nhất hai lý do.",
+      "modelAnswer": "Logistic regression cần biến tổ hợp tuyến tính z = w·x + b (giá trị thực bất kỳ trong (−∞, ∞)) thành một đại lượng có thể diễn giải là xác suất. Hàm sigmoid σ(z)=1/(1+e^−z) làm điều đó vì: (1) nó ép mọi z về khoảng mở (0,1), đúng phạm vi của một xác suất; (2) nó tăng đơn điệu và trơn theo z nên z càng lớn thì xác suất thuộc lớp 1 càng cao, cho phép diễn giải mức độ tin cậy; (3) sigmoid khả vi mọi nơi, thuận tiện cho huấn luyện bằng gradient descent. Đầu ra σ(w·x+b)=P(y=1|x) là xác suất có điều kiện mẫu thuộc lớp dương; ta so với ngưỡng (mặc định 0.5) để ra nhãn, và bản thân xác suất còn dùng để xếp hạng rủi ro hay điều chỉnh ngưỡng theo bài toán.",
+      "rubric": [
+        "Nêu rõ sigmoid ép đầu ra về (0,1) để làm xác suất",
+        "Giải thích đầu ra là P(y=1|x) và liên hệ ngưỡng quyết định",
+        "Nêu thêm tính chất (đơn điệu/khả vi) hỗ trợ huấn luyện hoặc diễn giải"
+      ],
+      "tags": [
+        "sigmoid",
+        "xác suất",
+        "essay"
+      ]
+    },
+    {
+      "id": "E77-B57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Vì sao logistic regression dùng log-loss (binary cross-entropy) thay vì MSE? Trình bày ở mức cơ bản.",
+      "modelAnswer": "Log-loss của một mẫu là −[y·ln(p)+(1−y)·ln(1−p)] với p=σ(w·x+b). Có ba lý do chính nên dùng log-loss thay cho MSE: (1) Về tính tối ưu: khi ghép sigmoid với MSE, mặt mất mát theo trọng số trở nên không lồi, dễ có nhiều cực tiểu địa phương và gradient nhỏ ở vùng bão hòa, khiến gradient descent khó hội tụ; log-loss với sigmoid tạo bài toán lồi, tối ưu ổn định hơn. (2) Về xác suất/thống kê: cực tiểu hóa log-loss tương đương cực đại hóa hợp lý (maximum likelihood) cho mô hình Bernoulli, nên rất phù hợp khi đầu ra là xác suất. (3) Về phạt: log-loss phạt rất nặng những dự đoán sai mà tự tin (p gần 0 trong khi y=1), tạo tín hiệu học mạnh; MSE phạt nhẹ hơn và gradient dễ triệt tiêu. Vì vậy log-loss vừa hợp lý về lý thuyết vừa hiệu quả khi huấn luyện.",
+      "rubric": [
+        "Viết đúng công thức log-loss/BCE cho một mẫu",
+        "Nêu lý do liên quan tính lồi/hội tụ khi huấn luyện",
+        "Liên hệ log-loss với hợp lý cực đại hoặc cách phạt dự đoán sai tự tin"
+      ],
+      "tags": [
+        "log-loss",
+        "MSE",
+        "essay"
+      ]
+    },
+    {
+      "id": "E77-C57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân biệt precision và recall, cho một ví dụ thực tế và nêu khi nào nên ưu tiên đại lượng nào.",
+      "modelAnswer": "Precision = TP/(TP+FP): trong các mẫu được DỰ ĐOÁN dương, bao nhiêu phần thực sự dương — đo độ tin cậy của cảnh báo dương. Recall = TP/(TP+FN): trong các mẫu THỰC dương, bao nhiêu phần được mô hình bắt được — đo khả năng không bỏ sót. Ví dụ chẩn đoán ung thư: recall cao quan trọng vì bỏ sót bệnh nhân thực sự mắc bệnh (false negative) có thể nguy hiểm tính mạng, nên ta chấp nhận một số báo dương nhầm để không bỏ sót ca bệnh. Ngược lại, với bộ lọc spam, precision được ưu tiên hơn: nếu một email công việc quan trọng bị đánh nhầm là spam (false positive) thì hậu quả khó chịu, nên ta muốn mỗi lần gắn nhãn spam phải thật chắc chắn. Nói chung: khi false negative đắt giá thì ưu tiên recall; khi false positive đắt giá thì ưu tiên precision; F1 dùng khi cần cân bằng cả hai. Việc đổi ngưỡng quyết định là cách điều chỉnh đánh đổi này.",
+      "rubric": [
+        "Định nghĩa đúng precision (TP/(TP+FP)) và recall (TP/(TP+FN))",
+        "Đưa ví dụ thực tế minh họa sự khác biệt",
+        "Nêu khi nào ưu tiên precision và khi nào ưu tiên recall (đánh đổi)"
+      ],
+      "tags": [
+        "precision",
+        "recall",
+        "essay"
+      ]
+    },
+    {
+      "id": "E77-D57",
+      "module": "A",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết một đoạn code numpy: định nghĩa hàm sigmoid, tính xác suất cho mảng z = [-2, 0, 1, 3], rồi phân loại theo ngưỡng 0.5. Cho biết đầu ra dự kiến.",
+      "modelAnswer": "import numpy as np\n\ndef sigmoid(z):\n    return 1.0 / (1.0 + np.exp(-z))\n\nz = np.array([-2.0, 0.0, 1.0, 3.0])\nprobs = sigmoid(z)\npreds = (probs >= 0.5).astype(int)\nprint('probs =', np.round(probs, 3))\nprint('preds =', preds)\n\n# Kết quả thực tế:\n# probs = [0.119 0.5   0.731 0.953]\n# preds = [0 1 1 1]\n# Giải thích: z=-2 -> 0.119 < 0.5 -> lớp 0; z=0 -> đúng 0.5 -> >=0.5 nên lớp 1;\n# z=1 -> 0.731 -> lớp 1; z=3 -> 0.953 -> lớp 1. Hàm vectorized chạy trực tiếp trên mảng numpy.",
+      "rubric": [
+        "Định nghĩa hàm sigmoid đúng bằng numpy (vectorized)",
+        "Tính probs cho mảng z và áp ngưỡng 0.5 để ra nhãn 0/1",
+        "Nêu đúng đầu ra dự kiến (probs ≈ [0.119, 0.5, 0.731, 0.953], preds = [0,1,1,1])"
+      ],
+      "tags": [
+        "code",
+        "sigmoid",
+        "numpy"
+      ]
+    }
+  ]
+}

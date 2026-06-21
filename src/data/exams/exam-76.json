@@ -1,0 +1,1820 @@
+{
+  "id": "exam-76",
+  "title": "Hồi quy Tuyến tính — Cơ bản & Nâng dần",
+  "description": "Đề ôn tập cộng đồng về hồi quy tuyến tính ở mức nền tảng, sắp xếp từ rất cơ bản đến nâng dần. Bao gồm khái niệm mô hình y = b0 + b1·x, phần dư, OLS, các thước đo MSE/RMSE/MAE/R², giả định, regularization và gradient descent. Đề có nhiều câu tính toán nhỏ giúp người học luyện tay.",
+  "durationMinutes": 80,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E76-A01",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy tuyến tính thường được dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán một biến số liên tục dựa trên một hay nhiều biến đầu vào"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại dữ liệu vào các nhóm rời rạc"
+        },
+        {
+          "key": "C",
+          "text": "Gom cụm các điểm dữ liệu không có nhãn"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số chiều của tập dữ liệu hình ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy tuyến tính mô hình hóa quan hệ giữa biến mục tiêu liên tục và các biến đầu vào để dự đoán giá trị số.",
+      "tags": [
+        "khái niệm",
+        "mục đích"
+      ]
+    },
+    {
+      "id": "E76-A02",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong mô hình y = b0 + b1·x, biến y được gọi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến phụ thuộc (biến mục tiêu cần dự đoán)"
+        },
+        {
+          "key": "B",
+          "text": "Biến độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Hệ số góc của đường thẳng"
+        },
+        {
+          "key": "D",
+          "text": "Phần dư của mô hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "y là biến phụ thuộc (biến mục tiêu) mà ta muốn dự đoán dựa trên biến độc lập x.",
+      "tags": [
+        "khái niệm",
+        "biến"
+      ]
+    },
+    {
+      "id": "E76-A03",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong mô hình y = b0 + b1·x, hệ số b1 đại diện cho điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dốc (slope): mức thay đổi của y khi x tăng 1 đơn vị"
+        },
+        {
+          "key": "B",
+          "text": "Giá trị của y khi x bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Tổng bình phương phần dư"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số tương quan giữa x và y"
+        }
+      ],
+      "answer": "A",
+      "explanation": "b1 là hệ số góc (slope), cho biết y thay đổi bao nhiêu đơn vị khi x tăng thêm 1 đơn vị.",
+      "tags": [
+        "slope",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E76-A04",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ý nghĩa của hệ số chặn b0 (intercept) trong y = b0 + b1·x là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá trị dự đoán của y khi x = 0"
+        },
+        {
+          "key": "B",
+          "text": "Mức thay đổi của y khi x tăng 1 đơn vị"
+        },
+        {
+          "key": "C",
+          "text": "Sai số trung bình của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Phương sai của biến x"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Intercept b0 là giá trị dự đoán của y tại x = 0, tức điểm đường hồi quy cắt trục y.",
+      "tags": [
+        "intercept",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E76-A05",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu hệ số góc b1 âm thì điều gì đúng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi x tăng thì y có xu hướng giảm"
+        },
+        {
+          "key": "B",
+          "text": "Khi x tăng thì y cũng tăng"
+        },
+        {
+          "key": "C",
+          "text": "x và y không có quan hệ"
+        },
+        {
+          "key": "D",
+          "text": "Đường hồi quy nằm ngang"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slope âm nghĩa là quan hệ nghịch biến: x tăng thì y giảm.",
+      "tags": [
+        "slope",
+        "dấu"
+      ]
+    },
+    {
+      "id": "E76-A06",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phần dư (residual) của một điểm dữ liệu được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá trị thực tế trừ giá trị dự đoán (y − ŷ)"
+        },
+        {
+          "key": "B",
+          "text": "Giá trị dự đoán trừ giá trị thực tế (ŷ − y) luôn dương"
+        },
+        {
+          "key": "C",
+          "text": "Trung bình của tất cả các y"
+        },
+        {
+          "key": "D",
+          "text": "Độ dốc của đường hồi quy"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Residual = y − ŷ, là phần chênh lệch giữa giá trị quan sát thực tế và giá trị mô hình dự đoán.",
+      "tags": [
+        "residual",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E76-A07",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường hồi quy 'best fit line' trong OLS là đường như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường làm nhỏ nhất tổng bình phương các phần dư"
+        },
+        {
+          "key": "B",
+          "text": "Đường đi qua tất cả các điểm dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Đường nối điểm đầu và điểm cuối"
+        },
+        {
+          "key": "D",
+          "text": "Đường nằm ngang tại giá trị trung bình của x"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Best fit line theo OLS là đường tối thiểu hóa tổng bình phương phần dư giữa giá trị thực tế và dự đoán.",
+      "tags": [
+        "OLS",
+        "best fit"
+      ]
+    },
+    {
+      "id": "E76-A08",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "OLS (bình phương tối thiểu) tối thiểu hóa đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương các phần dư (SSE)"
+        },
+        {
+          "key": "B",
+          "text": "Tổng giá trị tuyệt đối của x"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng điểm dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số góc b1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "OLS chọn b0, b1 sao cho tổng bình phương phần dư Σ(y−ŷ)² nhỏ nhất.",
+      "tags": [
+        "OLS",
+        "SSE"
+      ]
+    },
+    {
+      "id": "E76-A09",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao OLS dùng bình phương phần dư thay vì cộng trực tiếp các phần dư?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để các sai số âm và dương không triệt tiêu nhau và phạt nặng sai số lớn"
+        },
+        {
+          "key": "B",
+          "text": "Vì bình phương luôn cho kết quả nhỏ hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì như vậy tính toán nhanh hơn cộng thường"
+        },
+        {
+          "key": "D",
+          "text": "Vì bình phương biến mọi phần dư thành số 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bình phương khiến mọi phần dư thành không âm (tránh triệt tiêu) và phạt mạnh hơn các sai số lớn.",
+      "tags": [
+        "OLS",
+        "bình phương"
+      ]
+    },
+    {
+      "id": "E76-A10",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hàm mất mát phổ biến nhất trong hồi quy tuyến tính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MSE — sai số bình phương trung bình"
+        },
+        {
+          "key": "B",
+          "text": "Entropy chéo (cross-entropy)"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác (accuracy)"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng cách Manhattan giữa các cụm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE (mean squared error) là hàm mất mát chuẩn cho hồi quy, đo trung bình bình phương phần dư.",
+      "tags": [
+        "MSE",
+        "loss"
+      ]
+    },
+    {
+      "id": "E76-A11",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Biến độc lập trong hồi quy còn được gọi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Biến dự báo / đặc trưng đầu vào (predictor/feature)"
+        },
+        {
+          "key": "B",
+          "text": "Biến mục tiêu cần dự đoán"
+        },
+        {
+          "key": "C",
+          "text": "Phần dư"
+        },
+        {
+          "key": "D",
+          "text": "Hệ số xác định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biến độc lập (x) là biến dự báo hay đặc trưng đầu vào dùng để dự đoán biến phụ thuộc.",
+      "tags": [
+        "biến",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E76-A12",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số xác định R² nhận giá trị trong khoảng nào (với mô hình hợp lý)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ 0 đến 1, càng gần 1 mô hình giải thích càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Từ -1 đến 1 như hệ số tương quan"
+        },
+        {
+          "key": "C",
+          "text": "Luôn lớn hơn 1"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ nhận giá trị 0 hoặc 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² thường nằm trong [0,1]; càng gần 1 nghĩa là mô hình giải thích được càng nhiều biến thiên của y.",
+      "tags": [
+        "R2",
+        "đánh giá"
+      ]
+    },
+    {
+      "id": "E76-A13",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy tuyến tính ĐA biến (multiple linear regression) khác hồi quy đơn ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sử dụng nhiều hơn một biến độc lập để dự đoán y"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán nhiều biến mục tiêu cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Không cần ước lượng hệ số nào"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho dữ liệu phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy đa biến dùng nhiều đặc trưng x1, x2,... còn hồi quy đơn chỉ có một biến độc lập.",
+      "tags": [
+        "đa biến",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E76-A14",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hệ số tương quan r đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức độ và chiều của quan hệ tuyến tính giữa hai biến"
+        },
+        {
+          "key": "B",
+          "text": "Tổng bình phương phần dư của mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Số đặc trưng trong mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Giá trị dự đoán tại x = 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Correlation r đo cường độ và hướng (cùng/nghịch chiều) của quan hệ tuyến tính, nằm trong [-1, 1].",
+      "tags": [
+        "correlation",
+        "r"
+      ]
+    },
+    {
+      "id": "E76-A15",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong hồi quy tuyến tính ĐƠN, quan hệ giữa R² và hệ số tương quan r là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "R² = r² (R bình phương bằng bình phương của r)"
+        },
+        {
+          "key": "B",
+          "text": "R² = r (bằng nhau)"
+        },
+        {
+          "key": "C",
+          "text": "R² = 1 − r"
+        },
+        {
+          "key": "D",
+          "text": "R² và r không liên quan gì nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong hồi quy đơn, R² chính bằng bình phương của hệ số tương quan: R² = r².",
+      "tags": [
+        "R2",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E76-B16",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho mô hình ŷ = 2 + 3·x. Dự đoán ŷ khi x = 4.",
+      "options": [
+        {
+          "key": "A",
+          "text": "11"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "14"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ŷ = 2 + 3×4 = 14.",
+      "tags": [
+        "dự đoán",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B17",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị thực tế y = 20 và giá trị dự đoán ŷ = 14. Phần dư (residual) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "-6"
+        },
+        {
+          "key": "C",
+          "text": "34"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Residual = y − ŷ = 20 − 14 = 6.",
+      "tags": [
+        "residual",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B18",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính giá trị trung bình của tập số: 4, 8, 6, 10, 12.",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "40"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trung bình = tổng/số phần tử = 40/5 = 8.",
+      "tags": [
+        "mean",
+        "thống kê"
+      ]
+    },
+    {
+      "id": "E76-B19",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính phương sai (theo tổng thể, chia n) của tập: 2, 4, 6, 8.",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "2.2361"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Trung bình = 5; phương sai = trung bình bình phương độ lệch = 5.",
+      "tags": [
+        "variance",
+        "thống kê"
+      ]
+    },
+    {
+      "id": "E76-B20",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Các phần dư của 3 điểm là 1, -2, 3. Tổng bình phương phần dư (SSE) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "14"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "answer": "C",
+      "explanation": "SSE = Σ(residual)² = 1² + (−2)² + 3² = 1 + 4 + 9 = 14.",
+      "tags": [
+        "SSE",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B21",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với 3 phần dư 1, -2, 3, sai số bình phương trung bình (MSE) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.6667"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "5.6667"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE = SSE/n = 14/3 = 4.6667.",
+      "tags": [
+        "MSE",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B22",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu MSE = 16 thì RMSE bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RMSE = căn bậc hai của MSE = √16 = 4.",
+      "tags": [
+        "RMSE",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B23",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Các sai số (y−ŷ) là 2, -4, 6, -8. Sai số tuyệt đối trung bình (MAE) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-1"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "20"
+        }
+      ],
+      "answer": "C",
+      "explanation": "MAE = trung bình của |sai số| = (2+4+6+8)/4 = 5.",
+      "tags": [
+        "MAE",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B24",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho dữ liệu x = [1, 2, 3, 4], y = [2, 4, 5, 9]. Tính hệ số góc OLS b1 = Σ(x−x̄)(y−ȳ)/Σ(x−x̄)².",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.2"
+        },
+        {
+          "key": "B",
+          "text": "2.7"
+        },
+        {
+          "key": "C",
+          "text": "1.8"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "x̄=2.5, ȳ=5; tử số = Σ(x−x̄)(y−ȳ), mẫu số = Σ(x−x̄)²; b1 = 2.2.",
+      "tags": [
+        "OLS",
+        "slope"
+      ]
+    },
+    {
+      "id": "E76-B25",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Với cùng dữ liệu (x̄=2.5, ȳ=5) và b1 = 2.2, tính intercept b0 = ȳ − b1·x̄.",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "-0.5"
+        },
+        {
+          "key": "C",
+          "text": "-1.3"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "b0 = ȳ − b1·x̄ = 5 − 2.2×2.5 = -0.5.",
+      "tags": [
+        "OLS",
+        "intercept"
+      ]
+    },
+    {
+      "id": "E76-B26",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Giá trị thực y = [np.float64(3.0), np.float64(5.0), np.float64(7.0), np.float64(9.0)], dự đoán ŷ = [np.float64(2.5), np.float64(5.5), np.float64(7.5), np.float64(8.5)]. Tính R² = 1 − SSres/SStot.",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.9"
+        },
+        {
+          "key": "B",
+          "text": "0.05"
+        },
+        {
+          "key": "C",
+          "text": "0.85"
+        },
+        {
+          "key": "D",
+          "text": "0.95"
+        }
+      ],
+      "answer": "D",
+      "explanation": "SSres=Σ(y−ŷ)²=1, SStot=Σ(y−ȳ)²=20; R²=1−1/20=0.95.",
+      "tags": [
+        "R2",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B27",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tính hệ số tương quan r giữa x = [1, 2, 3, 4, 5] và y = [2, 4, 6, 8, 10].",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "-1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "y tăng tuyến tính hoàn hảo theo x (y=2x) nên tương quan r = 1.",
+      "tags": [
+        "correlation",
+        "r"
+      ]
+    },
+    {
+      "id": "E76-B28",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình giá = 50 + 3·(số phòng). Dự đoán giá khi số phòng = 20.",
+      "options": [
+        {
+          "key": "A",
+          "text": "100"
+        },
+        {
+          "key": "B",
+          "text": "110"
+        },
+        {
+          "key": "C",
+          "text": "150"
+        },
+        {
+          "key": "D",
+          "text": "115"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giá = 50 + 3×20 = 110.",
+      "tags": [
+        "ứng dụng",
+        "dự đoán"
+      ]
+    },
+    {
+      "id": "E76-B29",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong gradient descent, tham số hiện tại b = 1, learning rate = 0.1, gradient = 4. Giá trị b sau MỘT bước cập nhật (b − lr·grad) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6"
+        },
+        {
+          "key": "B",
+          "text": "1.4"
+        },
+        {
+          "key": "C",
+          "text": "-3"
+        },
+        {
+          "key": "D",
+          "text": "0.4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cập nhật: b = b − lr×grad = 1 − 0.1×4 = 0.6.",
+      "tags": [
+        "gradient descent",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B30",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Thực tế y = [10, 20], dự đoán ŷ = [12, 16]. Tính MSE.",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "20"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phần dư: −2 và 4; MSE = (4 + 16)/2 = 10.",
+      "tags": [
+        "MSE",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B31",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đường hồi quy đi qua hai điểm (1, 6) và (4, 3). Hệ số góc bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "-1"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "-2"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "slope = (y2−y1)/(x2−x1) = (3−6)/(4−1) = -1.",
+      "tags": [
+        "slope",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B32",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mô hình ŷ = 30 + (-2)·x. Dự đoán ŷ khi x = 5.",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "30"
+        },
+        {
+          "key": "C",
+          "text": "33"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ = 30 + (−2)×5 = 30 − 10 = 20.",
+      "tags": [
+        "dự đoán",
+        "slope âm"
+      ]
+    },
+    {
+      "id": "E76-B33",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Cho y = [4, 6, 8, 10] (ȳ = 7). Tính tổng bình phương toàn phần SStot = Σ(y−ȳ)².",
+      "options": [
+        {
+          "key": "A",
+          "text": "20"
+        },
+        {
+          "key": "B",
+          "text": "10"
+        },
+        {
+          "key": "C",
+          "text": "28"
+        },
+        {
+          "key": "D",
+          "text": "24"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Độ lệch so với ȳ=7: −3,−1,1,3; SStot = 9+1+1+9 = 20.",
+      "tags": [
+        "SStot",
+        "tính toán"
+      ]
+    },
+    {
+      "id": "E76-B34",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Nếu mô hình dự đoán đúng hoàn hảo mọi điểm (ŷ = y với mọi quan sát), thì R² bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "-1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi ŷ = y, SSres = 0, do đó R² = 1 − 0/SStot = 1 (giải thích toàn bộ biến thiên).",
+      "tags": [
+        "R2",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E76-B35",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Hồi quy đa biến ŷ = 1 + 2·x1 + 3·x2. Dự đoán ŷ khi x1 = 4, x2 = 5.",
+      "options": [
+        {
+          "key": "A",
+          "text": "24"
+        },
+        {
+          "key": "B",
+          "text": "19"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "27"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ŷ = 1 + 2×4 + 3×5 = 1 + 8 + 15 = 24.",
+      "tags": [
+        "đa biến",
+        "dự đoán"
+      ]
+    },
+    {
+      "id": "E76-B36",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuẩn hóa min-max một đặc trưng: giá trị 8, min = 2, max = 10. Giá trị sau chuẩn hóa (x−min)/(max−min) là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.75"
+        },
+        {
+          "key": "C",
+          "text": "0.8"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "(x−min)/(max−min) = (8−2)/(10−2) = 6/8 = 0.75.",
+      "tags": [
+        "feature scaling",
+        "chuẩn hóa"
+      ]
+    },
+    {
+      "id": "E76-B37",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Chuẩn hóa z-score: giá trị 14, trung bình 10, độ lệch chuẩn 2. z = (x−μ)/σ bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "1.4"
+        }
+      ],
+      "answer": "C",
+      "explanation": "z = (14−10)/2 = 4/2 = 2.",
+      "tags": [
+        "chuẩn hóa",
+        "z-score"
+      ]
+    },
+    {
+      "id": "E76-C38",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một trong các giả định cơ bản của hồi quy tuyến tính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tồn tại quan hệ tuyến tính giữa biến độc lập và biến phụ thuộc"
+        },
+        {
+          "key": "B",
+          "text": "Biến phụ thuộc phải là biến phân loại"
+        },
+        {
+          "key": "C",
+          "text": "Các biến độc lập phải có cùng đơn vị đo"
+        },
+        {
+          "key": "D",
+          "text": "Số quan sát phải bằng số đặc trưng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả định quan trọng là quan hệ giữa x và y có dạng tuyến tính; nếu không, mô hình tuyến tính sẽ thiếu phù hợp.",
+      "tags": [
+        "giả định",
+        "tuyến tính"
+      ]
+    },
+    {
+      "id": "E76-C39",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Homoscedasticity (phương sai đều của phần dư) nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phương sai của phần dư xấp xỉ không đổi trên mọi mức của x"
+        },
+        {
+          "key": "B",
+          "text": "Phần dư luôn bằng 0"
+        },
+        {
+          "key": "C",
+          "text": "Phần dư tăng dần theo x"
+        },
+        {
+          "key": "D",
+          "text": "Phần dư phân phối đều trên đoạn [0,1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Homoscedasticity là giả định phương sai phần dư không đổi theo giá trị dự đoán; vi phạm gọi là heteroscedasticity.",
+      "tags": [
+        "giả định",
+        "homoscedasticity"
+      ]
+    },
+    {
+      "id": "E76-C40",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một giả định về phân phối phần dư trong hồi quy tuyến tính cổ điển là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phần dư xấp xỉ tuân theo phân phối chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Phần dư phải tăng tuyến tính theo y"
+        },
+        {
+          "key": "C",
+          "text": "Phần dư luôn dương"
+        },
+        {
+          "key": "D",
+          "text": "Phần dư có tổng bằng số quan sát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Để suy diễn thống kê (kiểm định, khoảng tin cậy) chuẩn, phần dư thường được giả định phân phối chuẩn.",
+      "tags": [
+        "giả định",
+        "phân phối"
+      ]
+    },
+    {
+      "id": "E76-C41",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Phần dư nên có đặc điểm nào để mô hình tuyến tính phù hợp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độc lập với nhau (không tự tương quan)"
+        },
+        {
+          "key": "B",
+          "text": "Phụ thuộc mạnh vào nhau theo thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Bằng nhau ở mọi điểm"
+        },
+        {
+          "key": "D",
+          "text": "Luôn lớn hơn giá trị dự đoán"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giả định phần dư độc lập (không tự tương quan); tự tương quan thường gặp ở dữ liệu chuỗi thời gian.",
+      "tags": [
+        "giả định",
+        "độc lập"
+      ]
+    },
+    {
+      "id": "E76-C42",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Overfitting trong hồi quy thể hiện qua dấu hiệu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình rất tốt trên dữ liệu huấn luyện nhưng kém trên dữ liệu mới"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình kém cả trên huấn luyện lẫn dữ liệu mới"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình có quá ít đặc trưng"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình luôn dự đoán giá trị trung bình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overfitting: mô hình học cả nhiễu của tập huấn luyện nên khớp quá tốt khi train nhưng tổng quát hóa kém.",
+      "tags": [
+        "overfitting",
+        "đánh giá"
+      ]
+    },
+    {
+      "id": "E76-C43",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Underfitting (thiếu khớp) thường xảy ra khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quá đơn giản, không nắm được quy luật trong dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình quá phức tạp so với dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu huấn luyện quá nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Learning rate bằng 0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Underfitting xảy ra khi mô hình quá đơn giản, sai số cao cả trên tập huấn luyện lẫn tập kiểm tra.",
+      "tags": [
+        "underfitting",
+        "đánh giá"
+      ]
+    },
+    {
+      "id": "E76-C44",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Mục tiêu chính của regularization (Ridge/Lasso) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phạt các hệ số lớn để giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Tăng số lượng đặc trưng của mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Loại bỏ hoàn toàn phần dư"
+        },
+        {
+          "key": "D",
+          "text": "Biến hồi quy thành bài toán phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Regularization thêm hình phạt lên độ lớn hệ số, giúp mô hình đơn giản hơn và giảm overfitting.",
+      "tags": [
+        "regularization",
+        "overfit"
+      ]
+    },
+    {
+      "id": "E76-C45",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đặc điểm nổi bật của Lasso (L1) so với Ridge (L2) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lasso có thể đưa một số hệ số về đúng 0, thực hiện chọn lọc đặc trưng"
+        },
+        {
+          "key": "B",
+          "text": "Lasso luôn cho hệ số lớn hơn Ridge"
+        },
+        {
+          "key": "C",
+          "text": "Lasso không phạt hệ số nào"
+        },
+        {
+          "key": "D",
+          "text": "Lasso chỉ dùng cho phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phạt L1 của Lasso có thể ép một số hệ số xuống 0, giúp loại bớt đặc trưng (feature selection).",
+      "tags": [
+        "Lasso",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E76-C46",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Ridge regression (L2) tác động đến hệ số như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Co nhỏ các hệ số về gần 0 nhưng hiếm khi đúng bằng 0"
+        },
+        {
+          "key": "B",
+          "text": "Đưa hầu hết hệ số về đúng 0"
+        },
+        {
+          "key": "C",
+          "text": "Làm hệ số tăng vô hạn"
+        },
+        {
+          "key": "D",
+          "text": "Không thay đổi hệ số so với OLS"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ridge dùng phạt L2 làm co (shrink) hệ số về gần 0 nhưng thường không bằng 0 hẳn như Lasso.",
+      "tags": [
+        "Ridge",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E76-C47",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Đa cộng tuyến (multicollinearity) là hiện tượng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các biến độc lập tương quan mạnh với nhau"
+        },
+        {
+          "key": "B",
+          "text": "Biến phụ thuộc có quá nhiều giá trị thiếu"
+        },
+        {
+          "key": "C",
+          "text": "Phần dư không phân phối chuẩn"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình không có hệ số chặn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đa cộng tuyến xảy ra khi các đặc trưng đầu vào tương quan cao, khiến ước lượng hệ số kém ổn định.",
+      "tags": [
+        "multicollinearity",
+        "khái niệm"
+      ]
+    },
+    {
+      "id": "E76-C48",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Vì sao đa cộng tuyến cao gây vấn đề cho hồi quy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm các ước lượng hệ số trở nên không ổn định và khó diễn giải"
+        },
+        {
+          "key": "B",
+          "text": "Luôn làm R² giảm về 0"
+        },
+        {
+          "key": "C",
+          "text": "Khiến mô hình không thể huấn luyện được"
+        },
+        {
+          "key": "D",
+          "text": "Biến biến phụ thuộc thành biến phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các biến đầu vào trùng lặp thông tin, hệ số ước lượng dao động mạnh và khó tách riêng ảnh hưởng từng biến.",
+      "tags": [
+        "multicollinearity",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E76-C49",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Để đưa một biến phân loại (ví dụ màu sắc) vào hồi quy, cách phổ biến là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mã hóa one-hot / biến giả (dummy variables)"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ luôn biến đó vì không dùng được"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển trực tiếp thành phần dư"
+        },
+        {
+          "key": "D",
+          "text": "Lấy căn bậc hai của nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Biến phân loại được chuyển thành các biến giả 0/1 (one-hot) để mô hình tuyến tính có thể sử dụng.",
+      "tags": [
+        "dummy",
+        "one-hot"
+      ]
+    },
+    {
+      "id": "E76-C50",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Extrapolation (ngoại suy) trong hồi quy có rủi ro gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán ngoài khoảng dữ liệu đã quan sát có thể rất kém tin cậy"
+        },
+        {
+          "key": "B",
+          "text": "Luôn cho kết quả chính xác hơn nội suy"
+        },
+        {
+          "key": "C",
+          "text": "Không bao giờ gây sai số"
+        },
+        {
+          "key": "D",
+          "text": "Làm tăng R² một cách tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngoại suy vượt ra ngoài miền dữ liệu huấn luyện rất rủi ro vì quan hệ tuyến tính có thể không còn đúng.",
+      "tags": [
+        "extrapolation",
+        "rủi ro"
+      ]
+    },
+    {
+      "id": "E76-C51",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Một điểm outlier (giá trị ngoại lai) có thể ảnh hưởng thế nào đến đường hồi quy OLS?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thể kéo lệch đường hồi quy mạnh do bình phương phần dư lớn"
+        },
+        {
+          "key": "B",
+          "text": "Không bao giờ ảnh hưởng vì OLS rất bền vững"
+        },
+        {
+          "key": "C",
+          "text": "Luôn làm R² tăng"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ ảnh hưởng đến intercept, không đến slope"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì OLS phạt bình phương sai số, một outlier với phần dư lớn có thể kéo đường hồi quy lệch đáng kể.",
+      "tags": [
+        "outlier",
+        "OLS"
+      ]
+    },
+    {
+      "id": "E76-C52",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Learning rate quá lớn trong gradient descent có thể gây ra điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bước cập nhật quá mạnh khiến quá trình dao động hoặc phân kỳ, không hội tụ"
+        },
+        {
+          "key": "B",
+          "text": "Luôn giúp hội tụ nhanh và ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Làm gradient luôn bằng 0"
+        },
+        {
+          "key": "D",
+          "text": "Biến mô hình thành phân loại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Learning rate quá lớn khiến tham số nhảy quá đà, hàm mất mát có thể dao động hoặc tăng (phân kỳ).",
+      "tags": [
+        "gradient descent",
+        "learning rate"
+      ]
+    },
+    {
+      "id": "E76-C53",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tương quan (correlation) và hồi quy (regression) khác nhau cơ bản ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tương quan đo độ mạnh quan hệ; hồi quy xây mô hình để dự đoán y từ x"
+        },
+        {
+          "key": "B",
+          "text": "Hai khái niệm hoàn toàn giống nhau"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy chỉ dùng cho biến phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Tương quan luôn cho phương trình dự đoán"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tương quan chỉ định lượng độ mạnh/chiều quan hệ, còn hồi quy thiết lập phương trình để dự đoán biến mục tiêu.",
+      "tags": [
+        "correlation",
+        "regression"
+      ]
+    },
+    {
+      "id": "E76-C54",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "R² = 0.85 nên được hiểu như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình giải thích được khoảng 85% biến thiên của biến phụ thuộc"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình dự đoán sai 85% số quan sát"
+        },
+        {
+          "key": "C",
+          "text": "Hệ số góc bằng 0.85"
+        },
+        {
+          "key": "D",
+          "text": "85% dữ liệu là ngoại lai"
+        }
+      ],
+      "answer": "A",
+      "explanation": "R² = 0.85 nghĩa là mô hình giải thích khoảng 85% biến thiên của y, phần còn lại do yếu tố khác/nhiễu.",
+      "tags": [
+        "R2",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E76-C55",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Tại sao thường cần feature scaling (chuẩn hóa đặc trưng) khi dùng gradient descent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp các đặc trưng cùng thang đo để thuật toán hội tụ nhanh và ổn định hơn"
+        },
+        {
+          "key": "B",
+          "text": "Để biến mọi hệ số thành 0"
+        },
+        {
+          "key": "C",
+          "text": "Để loại bỏ biến phụ thuộc"
+        },
+        {
+          "key": "D",
+          "text": "Vì gradient descent không thể chạy nếu có số âm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi các đặc trưng có thang đo rất khác nhau, gradient descent hội tụ chậm; chuẩn hóa giúp các bước cập nhật cân bằng hơn.",
+      "tags": [
+        "feature scaling",
+        "gradient descent"
+      ]
+    },
+    {
+      "id": "E76-C56",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.5,
+      "prompt": "Trong báo cáo kết quả hồi quy giá nhà ŷ = 50 + 0.8·(diện tích), hệ số 0.8 nên được diễn giải ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi đơn vị diện tích tăng thêm làm giá dự đoán tăng 0.8 đơn vị, giữ yếu tố khác cố định"
+        },
+        {
+          "key": "B",
+          "text": "Giá nhà luôn bằng 0.8"
+        },
+        {
+          "key": "C",
+          "text": "80% ngôi nhà có cùng giá"
+        },
+        {
+          "key": "D",
+          "text": "Diện tích giảm thì giá tăng 0.8 đơn vị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ số góc 0.8 nghĩa là khi diện tích tăng 1 đơn vị, giá dự đoán tăng 0.8 đơn vị (các yếu tố khác không đổi).",
+      "tags": [
+        "diễn giải",
+        "ứng dụng"
+      ]
+    },
+    {
+      "id": "E76-A57",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Giải thích phương pháp bình phương tối thiểu (OLS): nó tối thiểu hóa đại lượng gì, và vì sao người ta dùng BÌNH PHƯƠNG phần dư thay vì cộng trực tiếp các phần dư?",
+      "modelAnswer": "Phương pháp bình phương tối thiểu (OLS) chọn các hệ số b0 và b1 sao cho TỔNG BÌNH PHƯƠNG các phần dư là nhỏ nhất, trong đó phần dư của mỗi điểm là chênh lệch giữa giá trị thực tế y và giá trị dự đoán ŷ (residual = y − ŷ). Người ta bình phương phần dư vì hai lý do chính: thứ nhất, bình phương biến mọi phần dư thành số không âm nên các sai số âm và dương không triệt tiêu lẫn nhau (nếu chỉ cộng trực tiếp, tổng có thể bằng 0 dù mô hình sai nhiều); thứ hai, bình phương phạt nặng hơn những sai số lớn, buộc đường hồi quy tránh các sai lệch lớn. Ngoài ra bình phương tạo hàm mất mát trơn, dễ lấy đạo hàm để tìm nghiệm tối ưu. Kết quả là một đường 'best fit line' cân bằng tốt nhất qua đám mây điểm dữ liệu.",
+      "rubric": [
+        "Nêu đúng OLS tối thiểu hóa tổng bình phương phần dư (residual = y − ŷ)",
+        "Giải thích bình phương tránh sai số âm/dương triệt tiêu nhau",
+        "Giải thích bình phương phạt nặng sai số lớn (và/hoặc tạo hàm trơn dễ tối ưu)"
+      ],
+      "tags": [
+        "OLS",
+        "essay",
+        "bình phương"
+      ]
+    },
+    {
+      "id": "E76-A58",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "R² (hệ số xác định) là gì? Nêu khoảng giá trị của R², cách diễn giải khi R² gần 1 và khi gần 0, và mối liên hệ R² = r² trong hồi quy đơn.",
+      "modelAnswer": "R² (hệ số xác định) đo tỷ lệ biến thiên của biến phụ thuộc y được mô hình giải thích, tính bằng R² = 1 − SSres/SStot, trong đó SSres = Σ(y−ŷ)² là phần biến thiên còn lại (sai số) và SStot = Σ(y−ȳ)² là tổng biến thiên của y. Với mô hình hợp lý, R² nằm trong khoảng từ 0 đến 1. Khi R² gần 1, mô hình giải thích được phần lớn biến thiên của y và dự đoán khá tốt; khi R² gần 0, mô hình giải thích rất ít, gần như không tốt hơn việc dự đoán bằng giá trị trung bình ȳ. Trong hồi quy tuyến tính ĐƠN (một biến độc lập), R² đúng bằng bình phương hệ số tương quan Pearson: R² = r². Lưu ý R² cao không tự động chứng minh quan hệ nhân quả và có thể bị ảnh hưởng bởi outlier hoặc overfitting.",
+      "rubric": [
+        "Định nghĩa R² = 1 − SSres/SStot và nêu nó đo tỷ lệ biến thiên được giải thích",
+        "Nêu khoảng [0,1] và diễn giải gần 1 vs gần 0",
+        "Nêu quan hệ R² = r² trong hồi quy đơn"
+      ],
+      "tags": [
+        "R2",
+        "essay",
+        "diễn giải"
+      ]
+    },
+    {
+      "id": "E76-A59",
+      "module": "A",
+      "type": "essay",
+      "points": 4.0,
+      "prompt": "Phân biệt ba thước đo sai số MSE, RMSE và MAE: công thức/ý tưởng của mỗi loại, đơn vị, và sự khác biệt về cách phản ứng với sai số lớn (outlier).",
+      "modelAnswer": "Cả ba đều đo độ lớn sai số giữa giá trị thực tế và dự đoán nhưng theo cách khác nhau. MAE (Mean Absolute Error) là trung bình của giá trị tuyệt đối phần dư: MAE = (1/n)Σ|y−ŷ|; nó có cùng đơn vị với y và phản ánh sai số trung bình theo cách trực giác, ít nhạy với outlier. MSE (Mean Squared Error) là trung bình bình phương phần dư: MSE = (1/n)Σ(y−ŷ)²; do bình phương nên đơn vị là bình phương đơn vị của y và MSE phạt nặng các sai số lớn (nhạy với outlier hơn). RMSE (Root Mean Squared Error) là căn bậc hai của MSE: RMSE = √MSE; nó đưa thước đo trở lại cùng đơn vị với y nên dễ diễn giải hơn MSE, đồng thời vẫn nhạy với sai số lớn. Tóm lại: nếu muốn ít bị outlier chi phối thì xem MAE; nếu muốn phạt mạnh sai số lớn và giữ đơn vị gốc thì dùng RMSE.",
+      "rubric": [
+        "Nêu đúng công thức/ý tưởng của MAE, MSE, RMSE",
+        "Nêu khác biệt về đơn vị (MSE là đơn vị bình phương; RMSE và MAE cùng đơn vị với y)",
+        "Giải thích MSE/RMSE nhạy với sai số lớn/outlier hơn MAE"
+      ],
+      "tags": [
+        "MSE",
+        "RMSE",
+        "MAE",
+        "essay"
+      ]
+    },
+    {
+      "id": "E76-B60",
+      "module": "A",
+      "type": "code",
+      "points": 4.0,
+      "prompt": "Viết đoạn mã numpy tính hệ số góc b1 và hệ số chặn b0 của hồi quy OLS cho dữ liệu x = [1,2,3,4,5], y = [3,4,2,5,6] bằng công thức b1 = Σ(x−x̄)(y−ȳ)/Σ(x−x̄)² và b0 = ȳ − b1·x̄. Nêu giá trị b1, b0 và dự đoán ŷ tại x = 5.",
+      "modelAnswer": "Cách làm bằng numpy:\nimport numpy as np\nx = np.array([1,2,3,4,5], dtype=float)\ny = np.array([3,4,2,5,6], dtype=float)\nxm, ym = x.mean(), y.mean()   # xm=3.0, ym=4.0\nb1 = np.sum((x-xm)*(y-ym)) / np.sum((x-xm)**2)\nb0 = ym - b1*xm\nyhat5 = b0 + b1*5\nKết quả: tử số Σ(x−x̄)(y−ȳ) = 7, mẫu số Σ(x−x̄)² = 10, nên b1 (slope) = 0.7 và b0 (intercept) = 1.9. Phương trình hồi quy: ŷ = 1.9 + 0.7·x. Dự đoán tại x = 5: ŷ = 5.4.",
+      "rubric": [
+        "Tính đúng x̄ và ȳ (x̄ = 3, ȳ = 4)",
+        "Tính đúng b1 ≈ 0.7 và b0 ≈ 1.9 theo công thức OLS",
+        "Đưa ra phương trình hồi quy và dự đoán đúng ŷ tại x = 5 ≈ 5.4"
+      ],
+      "tags": [
+        "code",
+        "numpy",
+        "OLS"
+      ]
+    }
+  ]
+}
