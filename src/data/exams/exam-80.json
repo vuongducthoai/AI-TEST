@@ -1,0 +1,704 @@
+{
+  "id": "exam-80",
+  "title": "Luyện Code — Cấu trúc Dữ liệu & Giải thuật (Code thuần + Thư viện)",
+  "description": "Bộ đề luyện VIẾT CODE giải các bài toán cơ bản về cấu trúc dữ liệu và giải thuật bằng Python. Mỗi câu yêu cầu tự cài đặt lời giải bằng code thuần (không dùng thư viện), và khi phù hợp có thêm cách dùng thư viện chuẩn để so sánh. Phù hợp ôn tập từ mảng, chuỗi, sắp xếp, đệ quy đến cấu trúc dữ liệu và số học.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E80-B01",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm reverse_list(a) trả về một list mới là đảo ngược của list a, KHÔNG dùng hàm/phương thức dựng sẵn để đảo (không reversed, không [::-1] trong cách thuần). Ví dụ [1,2,3] -> [3,2,1].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef reverse_list(a):\n    r = []\n    for i in range(len(a) - 1, -1, -1):\n        r.append(a[i])\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef reverse_list(a):\n    return a[::-1]\n```",
+      "rubric": [
+        "Duyệt từ cuối về đầu đúng chỉ số",
+        "Trả về list mới, không sửa list gốc",
+        "Xử lý đúng list rỗng"
+      ],
+      "tags": [
+        "list",
+        "reverse"
+      ]
+    },
+    {
+      "id": "E80-B02",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm max_min(a) trả về tuple (giá trị lớn nhất, giá trị nhỏ nhất) của list số a mà KHÔNG dùng max() và min() trong cách thuần. Giả sử a không rỗng.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef max_min(a):\n    mx = mn = a[0]\n    for x in a[1:]:\n        if x > mx:\n            mx = x\n        if x < mn:\n            mn = x\n    return (mx, mn)\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef max_min(a):\n    return (max(a), min(a))\n```",
+      "rubric": [
+        "Khởi tạo mx, mn bằng phần tử đầu",
+        "So sánh đúng để cập nhật lớn/nhỏ nhất",
+        "Trả về tuple đúng thứ tự (max, min)"
+      ],
+      "tags": [
+        "array",
+        "max-min"
+      ]
+    },
+    {
+      "id": "E80-B03",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm sum_avg(a) trả về tuple (tổng, trung bình cộng) của list số a. Cách thuần KHÔNG dùng sum(). Ví dụ [2,4,6] -> (12, 4.0).",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef sum_avg(a):\n    s = 0\n    for x in a:\n        s += x\n    return (s, s / len(a))\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef sum_avg(a):\n    return (sum(a), sum(a) / len(a))\n```",
+      "rubric": [
+        "Cộng dồn đúng tất cả phần tử",
+        "Tính trung bình = tổng / số phần tử",
+        "Trả về tuple (tổng, trung bình)"
+      ],
+      "tags": [
+        "array",
+        "sum"
+      ]
+    },
+    {
+      "id": "E80-B04",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm two_sum(a, target) tìm chỉ số (i, j) của hai phần tử trong list a có tổng bằng target (i < j), dùng dict để đạt O(n). Trả về None nếu không có. Ví dụ ([2,7,11,15], 9) -> (0, 1).",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\ndef two_sum(a, target):\n    seen = {}\n    for i, x in enumerate(a):\n        if target - x in seen:\n            return (seen[target - x], i)\n        seen[x] = i\n    return None\n```",
+      "rubric": [
+        "Dùng dict lưu giá trị đã gặp -> chỉ số",
+        "Kiểm tra phần bù target - x trước khi thêm",
+        "Trả về None khi không tìm thấy"
+      ],
+      "tags": [
+        "array",
+        "hash",
+        "two-sum"
+      ]
+    },
+    {
+      "id": "E80-B05",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm dedup(a) loại bỏ các phần tử trùng lặp trong list a nhưng GIỮ NGUYÊN thứ tự xuất hiện đầu tiên. Ví dụ [1,2,2,3,1] -> [1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef dedup(a):\n    seen = set()\n    r = []\n    for x in a:\n        if x not in seen:\n            seen.add(x)\n            r.append(x)\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef dedup(a):\n    return list(dict.fromkeys(a))\n```",
+      "rubric": [
+        "Dùng set để kiểm tra đã gặp",
+        "Giữ đúng thứ tự xuất hiện đầu tiên",
+        "Không thêm phần tử trùng lặp"
+      ],
+      "tags": [
+        "array",
+        "dedup"
+      ]
+    },
+    {
+      "id": "E80-B06",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm rotate(a, k) xoay phải list a đi k bước (k có thể lớn hơn len). Ví dụ ([1,2,3,4,5], 2) -> [4,5,1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef rotate(a, k):\n    n = len(a)\n    if n == 0:\n        return []\n    k %= n\n    if k == 0:\n        return a[:]\n    return a[-k:] + a[:-k]\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nfrom collections import deque\n\ndef rotate(a, k):\n    d = deque(a)\n    d.rotate(k)\n    return list(d)\n```",
+      "rubric": [
+        "Lấy k modulo độ dài để xử lý k lớn",
+        "Ghép đúng hai phần để xoay phải",
+        "Xử lý list rỗng / k = 0"
+      ],
+      "tags": [
+        "array",
+        "rotate"
+      ]
+    },
+    {
+      "id": "E80-B07",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm second_largest(a) trả về phần tử lớn THỨ HAI (khác giá trị lớn nhất) trong list a, hoặc None nếu không tồn tại. Ví dụ [3,1,9,9,2] -> 3.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef second_largest(a):\n    first = second = None\n    for x in a:\n        if first is None or x > first:\n            second = first\n            first = x\n        elif x != first and (second is None or x > second):\n            second = x\n    return second\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef second_largest(a):\n    s = sorted(set(a))\n    return s[-2] if len(s) >= 2 else None\n```",
+      "rubric": [
+        "Theo dõi cả lớn nhất và lớn thứ hai",
+        "Bỏ qua giá trị bằng lớn nhất",
+        "Trả về None khi không có phần tử thứ hai"
+      ],
+      "tags": [
+        "array",
+        "second-largest"
+      ]
+    },
+    {
+      "id": "E80-B08",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm merge(a, b) trộn hai list đã sắp xếp tăng dần thành một list đã sắp xếp (merge của merge sort). Ví dụ ([1,3,5], [2,4,6]) -> [1,2,3,4,5,6].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef merge(a, b):\n    i = j = 0\n    r = []\n    while i < len(a) and j < len(b):\n        if a[i] <= b[j]:\n            r.append(a[i]); i += 1\n        else:\n            r.append(b[j]); j += 1\n    r.extend(a[i:])\n    r.extend(b[j:])\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport heapq\n\ndef merge(a, b):\n    return list(heapq.merge(a, b))\n```",
+      "rubric": [
+        "Dùng hai con trỏ so sánh phần tử",
+        "Nối phần còn lại của list dài hơn",
+        "Kết quả giữ thứ tự tăng dần"
+      ],
+      "tags": [
+        "array",
+        "merge",
+        "sorting"
+      ]
+    },
+    {
+      "id": "E80-B09",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm find_mode(a) trả về phần tử xuất hiện NHIỀU NHẤT (mode) trong list a. Nếu hòa, trả về phần tử gặp sớm nhất. Ví dụ [1,2,2,3,3,3] -> 3.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef find_mode(a):\n    freq = {}\n    for x in a:\n        freq[x] = freq.get(x, 0) + 1\n    best = None\n    bc = -1\n    for x in a:\n        if freq[x] > bc:\n            bc = freq[x]\n            best = x\n    return best\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nfrom collections import Counter\n\ndef find_mode(a):\n    return Counter(a).most_common(1)[0][0]\n```",
+      "rubric": [
+        "Đếm tần suất bằng dict",
+        "Tìm phần tử có tần suất lớn nhất",
+        "Xử lý hòa bằng phần tử sớm nhất"
+      ],
+      "tags": [
+        "array",
+        "hash",
+        "mode"
+      ]
+    },
+    {
+      "id": "E80-B10",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm max_subarray(a) trả về tổng của đoạn con liên tiếp có tổng LỚN NHẤT (thuật toán Kadane). Ví dụ [-2,1,-3,4,-1,2,1,-5,4] -> 6.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\ndef max_subarray(a):\n    best = cur = a[0]\n    for x in a[1:]:\n        cur = max(x, cur + x)\n        if cur > best:\n            best = cur\n    return best\n```",
+      "rubric": [
+        "Khởi tạo best và cur bằng phần tử đầu",
+        "Cập nhật cur = max(x, cur + x)",
+        "Trả về tổng lớn nhất tìm được"
+      ],
+      "tags": [
+        "array",
+        "kadane",
+        "dp"
+      ]
+    },
+    {
+      "id": "E80-B11",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm prefix_sum(a) trả về mảng cộng dồn (prefix sum) với phần tử đầu là 0, để prefix[i] là tổng a[0..i-1]. Ví dụ [1,2,3] -> [0,1,3,6].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef prefix_sum(a):\n    r = [0] * (len(a) + 1)\n    for i, x in enumerate(a):\n        r[i + 1] = r[i] + x\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport itertools\n\ndef prefix_sum(a):\n    return [0] + list(itertools.accumulate(a))\n```",
+      "rubric": [
+        "Mảng kết quả dài len(a)+1, bắt đầu bằng 0",
+        "Cộng dồn tuần tự",
+        "prefix[i] = tổng a[0..i-1]"
+      ],
+      "tags": [
+        "array",
+        "prefix-sum"
+      ]
+    },
+    {
+      "id": "E80-B12",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm move_zeros(a) chuyển tất cả số 0 về CUỐI list, giữ nguyên thứ tự tương đối của các phần tử khác 0. Ví dụ [0,1,0,3,12] -> [1,3,12,0,0].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef move_zeros(a):\n    r = [x for x in a if x != 0]\n    r += [0] * (len(a) - len(r))\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef move_zeros(a):\n    nz = list(filter(lambda x: x != 0, a))\n    return nz + [0] * (len(a) - len(nz))\n```",
+      "rubric": [
+        "Lọc các phần tử khác 0 giữ thứ tự",
+        "Bù đủ số 0 vào cuối",
+        "Giữ nguyên độ dài list"
+      ],
+      "tags": [
+        "array",
+        "move-zeros"
+      ]
+    },
+    {
+      "id": "E80-B13",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm reverse_string(s) trả về chuỗi đảo ngược của s, cách thuần KHÔNG dùng [::-1] hay reversed(). Ví dụ 'abc' -> 'cba'.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef reverse_string(s):\n    r = ''\n    for c in s:\n        r = c + r\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef reverse_string(s):\n    return s[::-1]\n```",
+      "rubric": [
+        "Ghép từng ký tự theo thứ tự ngược",
+        "Trả về chuỗi mới",
+        "Xử lý chuỗi rỗng"
+      ],
+      "tags": [
+        "string",
+        "reverse"
+      ]
+    },
+    {
+      "id": "E80-B14",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm is_palindrome(s) kiểm tra chuỗi s có phải palindrome (đọc xuôi = đọc ngược) hay không, dùng hai con trỏ. Ví dụ 'aba' -> True, 'abc' -> False.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef is_palindrome(s):\n    i, j = 0, len(s) - 1\n    while i < j:\n        if s[i] != s[j]:\n            return False\n        i += 1\n        j -= 1\n    return True\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef is_palindrome(s):\n    return s == s[::-1]\n```",
+      "rubric": [
+        "Dùng hai con trỏ từ hai đầu",
+        "So sánh ký tự đối xứng",
+        "Trả về True cho chuỗi rỗng / một ký tự"
+      ],
+      "tags": [
+        "string",
+        "palindrome"
+      ]
+    },
+    {
+      "id": "E80-B15",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm count_vowels_words(s) trả về tuple (số nguyên âm, số từ) của chuỗi s. Từ được phân tách bằng khoảng trắng. Ví dụ 'hello world' -> (3, 2).",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef count_vowels_words(s):\n    vowels = 'aeiouAEIOU'\n    vc = 0\n    for c in s:\n        if c in vowels:\n            vc += 1\n    words = 0\n    inword = False\n    for c in s:\n        if c == ' ':\n            inword = False\n        else:\n            if not inword:\n                words += 1\n            inword = True\n    return (vc, words)\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef count_vowels_words(s):\n    vc = sum(1 for c in s if c in 'aeiouAEIOU')\n    return (vc, len(s.split()))\n```",
+      "rubric": [
+        "Đếm đúng nguyên âm (cả hoa và thường)",
+        "Đếm từ theo khoảng trắng",
+        "Xử lý chuỗi rỗng"
+      ],
+      "tags": [
+        "string",
+        "count"
+      ]
+    },
+    {
+      "id": "E80-B16",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm is_anagram(a, b) kiểm tra hai chuỗi có phải anagram (cùng tập ký tự với cùng số lần) hay không. Ví dụ ('listen','silent') -> True.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef is_anagram(a, b):\n    if len(a) != len(b):\n        return False\n    f = {}\n    for c in a:\n        f[c] = f.get(c, 0) + 1\n    for c in b:\n        if f.get(c, 0) == 0:\n            return False\n        f[c] -= 1\n    return True\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nfrom collections import Counter\n\ndef is_anagram(a, b):\n    return Counter(a) == Counter(b)\n```",
+      "rubric": [
+        "Kiểm tra độ dài bằng nhau trước",
+        "Đếm tần suất ký tự",
+        "So sánh hai bảng tần suất"
+      ],
+      "tags": [
+        "string",
+        "anagram",
+        "hash"
+      ]
+    },
+    {
+      "id": "E80-B17",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm char_freq(s) trả về dict đếm số lần xuất hiện của mỗi ký tự trong chuỗi s. Ví dụ 'aab' -> {'a':2, 'b':1}.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef char_freq(s):\n    f = {}\n    for c in s:\n        f[c] = f.get(c, 0) + 1\n    return f\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nfrom collections import Counter\n\ndef char_freq(s):\n    return dict(Counter(s))\n```",
+      "rubric": [
+        "Khởi tạo dict đếm",
+        "Tăng đếm cho mỗi ký tự",
+        "Trả về dict tần suất đầy đủ"
+      ],
+      "tags": [
+        "string",
+        "hash",
+        "frequency"
+      ]
+    },
+    {
+      "id": "E80-B18",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm first_unique(s) trả về ký tự ĐẦU TIÊN không lặp lại trong chuỗi s, hoặc None nếu mọi ký tự đều lặp. Ví dụ 'aabbc' -> 'c'.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef first_unique(s):\n    f = {}\n    for c in s:\n        f[c] = f.get(c, 0) + 1\n    for c in s:\n        if f[c] == 1:\n            return c\n    return None\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nfrom collections import Counter\n\ndef first_unique(s):\n    cnt = Counter(s)\n    for c in s:\n        if cnt[c] == 1:\n            return c\n    return None\n```",
+      "rubric": [
+        "Đếm tần suất trước",
+        "Duyệt lại theo thứ tự tìm ký tự đếm 1",
+        "Trả về None khi không có"
+      ],
+      "tags": [
+        "string",
+        "hash"
+      ]
+    },
+    {
+      "id": "E80-B19",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm compress(s) nén chuỗi bằng run-length encoding: mỗi ký tự theo sau là số lần lặp liên tiếp. Ví dụ 'aaabbc' -> 'a3b2c1'.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef compress(s):\n    if not s:\n        return ''\n    r = ''\n    cur = s[0]\n    cnt = 1\n    for c in s[1:]:\n        if c == cur:\n            cnt += 1\n        else:\n            r += cur + str(cnt)\n            cur = c\n            cnt = 1\n    r += cur + str(cnt)\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport itertools\n\ndef compress(s):\n    return ''.join(c + str(len(list(g))) for c, g in itertools.groupby(s))\n```",
+      "rubric": [
+        "Đếm các ký tự giống nhau liên tiếp",
+        "Ghi ký tự kèm số đếm",
+        "Xử lý chuỗi rỗng và nhóm cuối"
+      ],
+      "tags": [
+        "string",
+        "compression"
+      ]
+    },
+    {
+      "id": "E80-B20",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm count_sub(s, sub) đếm số lần chuỗi con sub xuất hiện trong s, KỂ CẢ chồng lấn (overlapping). Ví dụ ('ababa','aba') -> 2.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\ndef count_sub(s, sub):\n    if not sub:\n        return 0\n    cnt = 0\n    for i in range(len(s) - len(sub) + 1):\n        if s[i:i + len(sub)] == sub:\n            cnt += 1\n    return cnt\n```",
+      "rubric": [
+        "Duyệt mọi vị trí bắt đầu hợp lệ",
+        "So khớp lát cắt với sub",
+        "Đếm cả trường hợp chồng lấn"
+      ],
+      "tags": [
+        "string",
+        "substring"
+      ]
+    },
+    {
+      "id": "E80-B21",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm is_balanced(s) kiểm tra chuỗi ngoặc s có CÂN BẰNG hay không (gồm (), [], {}), dùng STACK (list). Ví dụ '()[]{}' -> True, '(]' -> False.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\ndef is_balanced(s):\n    pairs = {')': '(', ']': '[', '}': '{'}\n    st = []\n    for c in s:\n        if c in '([{':\n            st.append(c)\n        elif c in ')]}':\n            if not st or st.pop() != pairs[c]:\n                return False\n    return len(st) == 0\n```",
+      "rubric": [
+        "Dùng list làm stack push ngoặc mở",
+        "Khớp ngoặc đóng với đỉnh stack",
+        "Kết thúc stack phải rỗng"
+      ],
+      "tags": [
+        "string",
+        "stack",
+        "parentheses"
+      ]
+    },
+    {
+      "id": "E80-B22",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm bubble_sort(a) sắp xếp tăng dần list a bằng thuật toán nổi bọt (bubble sort), trả về list mới. Ví dụ [3,1,2] -> [1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef bubble_sort(a):\n    a = a[:]\n    n = len(a)\n    for i in range(n):\n        for j in range(n - 1 - i):\n            if a[j] > a[j + 1]:\n                a[j], a[j + 1] = a[j + 1], a[j]\n    return a\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef bubble_sort(a):\n    return sorted(a)\n```",
+      "rubric": [
+        "Vòng lặp lồng nhau so sánh cặp kề",
+        "Hoán đổi khi sai thứ tự",
+        "Không sửa list gốc"
+      ],
+      "tags": [
+        "sorting",
+        "bubble"
+      ]
+    },
+    {
+      "id": "E80-B23",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm selection_sort(a) sắp xếp tăng dần list a bằng thuật toán chọn (selection sort). Ví dụ [3,1,2] -> [1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef selection_sort(a):\n    a = a[:]\n    n = len(a)\n    for i in range(n):\n        mi = i\n        for j in range(i + 1, n):\n            if a[j] < a[mi]:\n                mi = j\n        a[i], a[mi] = a[mi], a[i]\n    return a\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef selection_sort(a):\n    return sorted(a)\n```",
+      "rubric": [
+        "Tìm phần tử nhỏ nhất trong phần chưa sắp",
+        "Hoán đổi vào vị trí i",
+        "Kết quả tăng dần"
+      ],
+      "tags": [
+        "sorting",
+        "selection"
+      ]
+    },
+    {
+      "id": "E80-B24",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm insertion_sort(a) sắp xếp tăng dần list a bằng thuật toán chèn (insertion sort). Ví dụ [3,1,2] -> [1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef insertion_sort(a):\n    a = a[:]\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j >= 0 and a[j] > key:\n            a[j + 1] = a[j]\n            j -= 1\n        a[j + 1] = key\n    return a\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef insertion_sort(a):\n    return sorted(a)\n```",
+      "rubric": [
+        "Lấy key và dịch các phần tử lớn hơn",
+        "Chèn key vào đúng vị trí",
+        "Kết quả tăng dần"
+      ],
+      "tags": [
+        "sorting",
+        "insertion"
+      ]
+    },
+    {
+      "id": "E80-B25",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm merge_sort(a) sắp xếp tăng dần list a bằng thuật toán merge sort (đệ quy chia đôi + trộn). Ví dụ [5,2,4,1,3] -> [1,2,3,4,5].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef merge_sort(a):\n    if len(a) <= 1:\n        return a[:]\n    mid = len(a) // 2\n    L = merge_sort(a[:mid])\n    R = merge_sort(a[mid:])\n    i = j = 0\n    r = []\n    while i < len(L) and j < len(R):\n        if L[i] <= R[j]:\n            r.append(L[i]); i += 1\n        else:\n            r.append(R[j]); j += 1\n    r.extend(L[i:])\n    r.extend(R[j:])\n    return r\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef merge_sort(a):\n    return sorted(a)\n```",
+      "rubric": [
+        "Chia list thành hai nửa đệ quy",
+        "Trộn hai nửa đã sắp xếp",
+        "Trường hợp cơ sở len <= 1"
+      ],
+      "tags": [
+        "sorting",
+        "merge-sort",
+        "recursion"
+      ]
+    },
+    {
+      "id": "E80-B26",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm quicksort(a) sắp xếp tăng dần list a bằng thuật toán quicksort (chọn pivot, phân hoạch). Ví dụ [5,2,4,1,3] -> [1,2,3,4,5].",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef quicksort(a):\n    if len(a) <= 1:\n        return a[:]\n    pivot = a[len(a) // 2]\n    less = [x for x in a if x < pivot]\n    eq = [x for x in a if x == pivot]\n    gr = [x for x in a if x > pivot]\n    return quicksort(less) + eq + quicksort(gr)\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef quicksort(a):\n    return sorted(a)\n```",
+      "rubric": [
+        "Chọn pivot và phân hoạch ba phần",
+        "Đệ quy phần nhỏ hơn và lớn hơn",
+        "Xử lý phần tử bằng pivot"
+      ],
+      "tags": [
+        "sorting",
+        "quicksort",
+        "recursion"
+      ]
+    },
+    {
+      "id": "E80-B27",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm binary_search(a, target) tìm chỉ số của target trong list a ĐÃ SẮP XẾP tăng dần (tìm kiếm nhị phân), trả về -1 nếu không có. Ví dụ ([1,3,5,7,9], 7) -> 3.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef binary_search(a, target):\n    lo, hi = 0, len(a) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if a[mid] == target:\n            return mid\n        elif a[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport bisect\n\ndef binary_search(a, target):\n    i = bisect.bisect_left(a, target)\n    return i if i < len(a) and a[i] == target else -1\n```",
+      "rubric": [
+        "Dùng hai biên lo, hi và mid",
+        "Thu hẹp khoảng theo so sánh",
+        "Trả về -1 khi không tìm thấy"
+      ],
+      "tags": [
+        "searching",
+        "binary-search"
+      ]
+    },
+    {
+      "id": "E80-B28",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm linear_search(a, target) tìm chỉ số đầu tiên của target trong list a (tìm kiếm tuyến tính), trả về -1 nếu không có. Ví dụ ([4,2,7], 7) -> 2.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef linear_search(a, target):\n    for i, x in enumerate(a):\n        if x == target:\n            return i\n    return -1\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef linear_search(a, target):\n    return a.index(target) if target in a else -1\n```",
+      "rubric": [
+        "Duyệt tuần tự từng phần tử",
+        "Trả về chỉ số khi gặp",
+        "Trả về -1 nếu không tìm thấy"
+      ],
+      "tags": [
+        "searching",
+        "linear-search"
+      ]
+    },
+    {
+      "id": "E80-B29",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm factorial(n) tính n! bằng ĐỆ QUY. Ví dụ factorial(5) -> 120, factorial(0) -> 1.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport math\n\ndef factorial(n):\n    return math.factorial(n)\n```",
+      "rubric": [
+        "Có trường hợp cơ sở n <= 1",
+        "Gọi đệ quy n * factorial(n-1)",
+        "factorial(0) trả về 1"
+      ],
+      "tags": [
+        "recursion",
+        "factorial"
+      ]
+    },
+    {
+      "id": "E80-B30",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm fib(n) trả về số Fibonacci thứ n (fib(0)=0, fib(1)=1). Cài cả bản lặp O(n) và bản đệ quy. Ví dụ fib(10) -> 55.",
+      "modelAnswer": "**Cách 1 — Code thuần:** (bản lặp O(n))\n```python\ndef fib(n):\n    if n < 2:\n        return n\n    a, b = 0, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n```\n\n**Bản đệ quy:**\n```python\ndef fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n```",
+      "rubric": [
+        "fib(0)=0, fib(1)=1 đúng",
+        "Bản lặp cập nhật hai biến a, b",
+        "Bản đệ quy có trường hợp cơ sở"
+      ],
+      "tags": [
+        "recursion",
+        "fibonacci"
+      ]
+    },
+    {
+      "id": "E80-B31",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm digit_sum(n) tính tổng các chữ số của số nguyên n (xét trị tuyệt đối). Ví dụ 1234 -> 10.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef digit_sum(n):\n    n = abs(n)\n    s = 0\n    while n > 0:\n        s += n % 10\n        n //= 10\n    return s\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef digit_sum(n):\n    return sum(int(d) for d in str(abs(n)))\n```",
+      "rubric": [
+        "Lấy chữ số cuối bằng n % 10",
+        "Bỏ chữ số cuối bằng n // 10",
+        "Xử lý n = 0 và số âm"
+      ],
+      "tags": [
+        "math",
+        "digit-sum"
+      ]
+    },
+    {
+      "id": "E80-B32",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm gcd(a, b) tính ước chung lớn nhất bằng thuật toán Euclid. Ví dụ gcd(12, 18) -> 6.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\nimport math\n\ndef gcd(a, b):\n    return math.gcd(a, b)\n```",
+      "rubric": [
+        "Áp dụng a, b = b, a % b lặp lại",
+        "Dừng khi b = 0",
+        "Trả về a là ƯCLN"
+      ],
+      "tags": [
+        "math",
+        "gcd",
+        "recursion"
+      ]
+    },
+    {
+      "id": "E80-B33",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm fast_pow(base, exp) tính base^exp (exp nguyên không âm) bằng LŨY THỪA NHANH (bình phương lặp), độ phức tạp O(log exp). Ví dụ (2,10) -> 1024.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef fast_pow(base, exp):\n    result = 1\n    while exp > 0:\n        if exp & 1:\n            result *= base\n        base *= base\n        exp >>= 1\n    return result\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef fast_pow(base, exp):\n    return pow(base, exp)\n```",
+      "rubric": [
+        "Bình phương cơ số mỗi vòng",
+        "Nhân kết quả khi bit hiện tại là 1",
+        "exp = 0 trả về 1"
+      ],
+      "tags": [
+        "math",
+        "fast-power"
+      ]
+    },
+    {
+      "id": "E80-B34",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm hanoi_steps(n) trả về SỐ BƯỚC tối thiểu để giải bài toán Tháp Hà Nội với n đĩa (đệ quy). Ví dụ n=3 -> 7.",
+      "modelAnswer": "**Cách 1 — Code thuần (không thư viện):**\n```python\ndef hanoi_steps(n):\n    if n <= 0:\n        return 0\n    return 2 * hanoi_steps(n - 1) + 1\n```\n\n**Cách 2 — Dùng thư viện:**\n```python\ndef hanoi_steps(n):\n    return (2 ** n) - 1\n```",
+      "rubric": [
+        "Quan hệ đệ quy T(n) = 2*T(n-1) + 1",
+        "Trường hợp cơ sở n <= 0 trả 0",
+        "Kết quả bằng 2^n - 1"
+      ],
+      "tags": [
+        "recursion",
+        "hanoi"
+      ]
+    },
+    {
+      "id": "E80-B35",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Cài đặt lớp Stack bằng list với các thao tác push(x), pop(), peek(), is_empty(). pop/peek trên stack rỗng trả về None. Viết lớp và minh họa thứ tự LIFO.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass Stack:\n    def __init__(self):\n        self.data = []\n\n    def push(self, x):\n        self.data.append(x)\n\n    def pop(self):\n        return self.data.pop() if self.data else None\n\n    def peek(self):\n        return self.data[-1] if self.data else None\n\n    def is_empty(self):\n        return len(self.data) == 0\n```",
+      "rubric": [
+        "push thêm vào cuối list",
+        "pop/peek lấy phần tử cuối (LIFO)",
+        "Xử lý stack rỗng trả None"
+      ],
+      "tags": [
+        "data-structure",
+        "stack"
+      ]
+    },
+    {
+      "id": "E80-B36",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Cài đặt lớp Queue (hàng đợi FIFO) với enqueue(x), dequeue(), front(), is_empty(). dequeue/front trên queue rỗng trả None. Minh họa thứ tự FIFO.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass Queue:\n    def __init__(self):\n        self.data = []\n\n    def enqueue(self, x):\n        self.data.append(x)\n\n    def dequeue(self):\n        return self.data.pop(0) if self.data else None\n\n    def front(self):\n        return self.data[0] if self.data else None\n\n    def is_empty(self):\n        return len(self.data) == 0\n```\n\n**Ghi chú:** Có thể dùng collections.deque để dequeue O(1) thay vì pop(0) là O(n).\n```python\nfrom collections import deque\n\nclass Queue:\n    def __init__(self):\n        self.data = deque()\n\n    def enqueue(self, x):\n        self.data.append(x)\n\n    def dequeue(self):\n        return self.data.popleft() if self.data else None\n```",
+      "rubric": [
+        "enqueue thêm vào cuối",
+        "dequeue lấy phần tử đầu (FIFO)",
+        "Xử lý queue rỗng trả None"
+      ],
+      "tags": [
+        "data-structure",
+        "queue"
+      ]
+    },
+    {
+      "id": "E80-B37",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Cài đặt Singly Linked List với phương thức append(val) thêm vào cuối và to_list() duyệt trả về list các giá trị. Ví dụ append 1,2,3 rồi to_list() -> [1,2,3].",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nclass LinkedList:\n    def __init__(self):\n        self.head = None\n        self.tail = None\n\n    def append(self, val):\n        node = Node(val)\n        if self.head is None:\n            self.head = self.tail = node\n        else:\n            self.tail.next = node\n            self.tail = node\n\n    def to_list(self):\n        out = []\n        cur = self.head\n        while cur:\n            out.append(cur.val)\n            cur = cur.next\n        return out\n```",
+      "rubric": [
+        "Định nghĩa Node có val và next",
+        "append nối vào cuối qua tail",
+        "to_list duyệt từ head đến None"
+      ],
+      "tags": [
+        "data-structure",
+        "linked-list"
+      ]
+    },
+    {
+      "id": "E80-B38",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm reverse_list(head) đảo ngược một singly linked list và trả về head mới (mỗi node có .val và .next). Ví dụ 1->2->3 trở thành 3->2->1.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\ndef reverse_list(head):\n    prev = None\n    cur = head\n    while cur:\n        nxt = cur.next\n        cur.next = prev\n        prev = cur\n        cur = nxt\n    return prev\n```",
+      "rubric": [
+        "Dùng ba con trỏ prev, cur, nxt",
+        "Đảo hướng next của từng node",
+        "Trả về prev làm head mới"
+      ],
+      "tags": [
+        "data-structure",
+        "linked-list",
+        "reverse"
+      ]
+    },
+    {
+      "id": "E80-B39",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm inorder(root) duyệt cây nhị phân theo thứ tự GIỮA (inorder: trái -> gốc -> phải) và trả về list giá trị. Mỗi node có .val, .left, .right.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef inorder(root):\n    res = []\n    def walk(node):\n        if not node:\n            return\n        walk(node.left)\n        res.append(node.val)\n        walk(node.right)\n    walk(root)\n    return res\n```",
+      "rubric": [
+        "Đệ quy duyệt con trái trước",
+        "Thăm gốc giữa hai con",
+        "Duyệt con phải sau cùng"
+      ],
+      "tags": [
+        "data-structure",
+        "tree",
+        "inorder"
+      ]
+    },
+    {
+      "id": "E80-B40",
+      "module": "B",
+      "type": "code",
+      "points": 2.5,
+      "prompt": "Viết hàm height(root) trả về CHIỀU CAO của cây nhị phân (số node trên đường dài nhất từ gốc xuống lá). Cây rỗng -> 0, cây một node -> 1. Mỗi node có .val, .left, .right.",
+      "modelAnswer": "**Cách 1 — Code thuần:**\n```python\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef height(root):\n    if root is None:\n        return 0\n    return 1 + max(height(root.left), height(root.right))\n```",
+      "rubric": [
+        "Trường hợp cơ sở cây rỗng trả 0",
+        "Đệ quy tính chiều cao hai con",
+        "Chiều cao = 1 + max hai nhánh"
+      ],
+      "tags": [
+        "data-structure",
+        "tree",
+        "height"
+      ]
+    }
+  ]
+}
