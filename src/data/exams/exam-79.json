@@ -1,0 +1,850 @@
+{
+  "id": "exam-79",
+  "title": "Tự luận AI Thực chiến — Thiết kế Hệ thống, Sản phẩm & Đạo đức",
+  "description": "Bộ đề tự luận ngắn mô phỏng các tình huống thực chiến khi xây dựng sản phẩm AI: từ thiết kế hệ thống ML, pipeline RAG, đánh giá mô hình tới các vấn đề đạo đức và quản trị. Mỗi câu yêu cầu trình bày cách tiếp cận, dữ liệu, metric, rủi ro và phương án giảm thiểu. Dùng để ôn tập tư duy hệ thống và sản phẩm AI một cách có cấu trúc.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E79-C01",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Bạn cần xây AI phân loại và ưu tiên ticket hỗ trợ khách hàng cho một SaaS. Trình bày output, dữ liệu đầu vào, metric chính, rủi ro và baseline không-AI.",
+      "modelAnswer": "Output: nhãn category (billing, bug, account...) + mức ưu tiên (P0-P3) + độ tin cậy. Đầu vào: tiêu đề + nội dung ticket, sản phẩm/gói dịch vụ, lịch sử khách hàng, kênh gửi. Metric: F1 macro cho phân loại, precision@P0 cho ưu tiên, thời gian phản hồi trung bình. Rủi ro: gán sai ưu tiên khiến bỏ sót sự cố nghiêm trọng; giảm thiểu bằng ngưỡng tin cậy và route các ca low-confidence cho con người. Baseline không-AI: rule keyword + routing theo team có sẵn để so sánh.",
+      "rubric": [
+        "Mô tả output rõ ràng (nhãn + ưu tiên + confidence)",
+        "Liệt kê dữ liệu đầu vào hợp lý",
+        "Chọn metric phù hợp bài toán phân loại/ưu tiên",
+        "Nêu rủi ro và cách giảm thiểu",
+        "So sánh với baseline không dùng AI"
+      ],
+      "tags": [
+        "classification",
+        "triage",
+        "support",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E79-C02",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống tự động định tuyến (routing) yêu cầu của khách hàng tới đúng phòng ban/nhân viên phụ trách. Nêu đầu ra, dữ liệu đầu vào, metric chính, cách xử lý câu mơ hồ và baseline không-AI.",
+      "modelAnswer": "Đầu ra: nhãn phòng ban/hàng đợi phù hợp kèm độ tin cậy. Đầu vào: nội dung yêu cầu (văn bản), metadata (kênh, loại khách, lịch sử). Tiếp cận: phân loại văn bản (embedding + classifier hoặc LLM zero-shot). Metric: macro-F1 theo lớp, tỉ lệ con người định tuyến lại (re-route), thời gian xử lý. Câu mơ hồ/độ tin cậy thấp: chuyển hàng đợi chung cho con người hoặc hỏi lại người dùng. Baseline không-AI: định tuyến theo từ khóa/luật hoặc menu chọn thủ công. Theo dõi drift và cho phản hồi sửa nhãn.",
+      "rubric": [
+        "Nêu rõ output (nhãn phòng ban + độ tin cậy)",
+        "Xác định dữ liệu đầu vào & cách tiếp cận phân loại",
+        "Chọn metric phù hợp (macro-F1, tỉ lệ re-route)",
+        "Xử lý câu mơ hồ/độ tin cậy thấp (fallback con người)",
+        "Nêu baseline không-AI (luật/từ khóa)"
+      ],
+      "tags": [
+        "ai-product",
+        "text-classification",
+        "routing"
+      ]
+    },
+    {
+      "id": "E79-C03",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây AI trích xuất thông tin từ hồ sơ PDF (hóa đơn, hợp đồng). Nêu pipeline (OCR+NER), kiểm tra chất lượng và human review.",
+      "modelAnswer": "Pipeline: phân loại loại tài liệu, OCR (cho PDF scan) hoặc parse text layer, layout analysis, trích trường bằng NER/template/LLM, chuẩn hóa & validate (ngày, số tiền, mã số thuế). Kiểm tra chất lượng: đo field-level accuracy, kiểm tra ràng buộc logic (tổng = đơn giá x số lượng), confidence per field. Human review: các trường confidence thấp hoặc tài liệu lạ được đẩy vào hàng đợi cho người duyệt, phản hồi của họ dùng để cải thiện model.",
+      "rubric": [
+        "Mô tả pipeline OCR + trích xuất trường",
+        "Có bước phân loại/validate dữ liệu",
+        "Đo chất lượng ở mức trường (field-level)",
+        "Thiết kế human review theo confidence",
+        "Vòng lặp cải thiện từ phản hồi con người"
+      ],
+      "tags": [
+        "pdf",
+        "ocr",
+        "ner",
+        "extraction",
+        "human-review"
+      ]
+    },
+    {
+      "id": "E79-C04",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây tính năng AI tự động đề xuất tiêu đề và thẻ (tags) cho bài viết từ nội dung. Nêu đầu vào, đầu ra, cách đánh giá chất lượng và rủi ro cần kiểm soát.",
+      "modelAnswer": "Đầu vào: toàn văn bài viết. Đầu ra: vài tiêu đề gợi ý + danh sách tag (từ bộ tag có sẵn hoặc tự do). Tiếp cận: sinh tiêu đề/tóm tắt bằng LLM; gắn tag bằng phân loại đa nhãn hoặc trích từ khóa. Đánh giá: tỉ lệ con người chấp nhận/sửa, precision/recall đa nhãn của tag, A/B test mức độ tương tác. Rủi ro: tiêu đề giật gân/sai lệch nội dung, tag không liên quan, lộ thông tin nhạy cảm; kiểm soát bằng cho người dùng duyệt/sửa trước khi đăng, ràng buộc tag trong danh mục, lọc nội dung.",
+      "rubric": [
+        "Xác định đầu vào (nội dung) & đầu ra (tiêu đề + tag)",
+        "Nêu cách tiếp cận (sinh tiêu đề, phân loại/trích tag)",
+        "Đánh giá chất lượng (tỉ lệ chấp nhận, precision/recall đa nhãn, A/B)",
+        "Nêu rủi ro (tiêu đề sai lệch, tag không liên quan)",
+        "Cơ chế kiểm soát (người duyệt, ràng buộc danh mục)"
+      ],
+      "tags": [
+        "ai-product",
+        "generation",
+        "multi-label"
+      ]
+    },
+    {
+      "id": "E79-C05",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Bạn phải quyết định gọi API LLM bên thứ ba hay tự triển khai (self-host) một model mã nguồn mở cho sản phẩm doanh nghiệp nhạy cảm về dữ liệu. Nêu các tiêu chí đánh đổi để quyết định.",
+      "modelAnswer": "Các tiêu chí: (1) Quyền riêng tư & tuân thủ — dữ liệu nhạy cảm gửi ra ngoài có chấp nhận được không (self-host giữ dữ liệu nội bộ); (2) Chi phí — API tính theo token (rẻ khi quy mô nhỏ) vs self-host tốn hạ tầng/GPU cố định (rẻ hơn khi quy mô lớn); (3) Chất lượng — model API thường mạnh hơn; (4) Độ trễ & khả dụng — self-host kiểm soát latency/uptime, không phụ thuộc nhà cung cấp; (5) Khả năng tùy biến/fine-tune & kiểm soát phiên bản; (6) Công sức vận hành/bảo trì & năng lực đội ngũ; (7) Rủi ro khóa nhà cung cấp (vendor lock-in). Quyết định theo mức nhạy cảm dữ liệu, quy mô, ngân sách và năng lực kỹ thuật.",
+      "rubric": [
+        "Nêu tiêu chí quyền riêng tư/tuân thủ dữ liệu",
+        "Phân tích chi phí API vs hạ tầng self-host theo quy mô",
+        "Xét chất lượng/độ trễ/khả dụng",
+        "Xét tùy biến, vận hành/bảo trì, năng lực đội ngũ",
+        "Nhắc vendor lock-in & đưa khung quyết định theo bối cảnh"
+      ],
+      "tags": [
+        "ai-product",
+        "build-vs-buy",
+        "tradeoff",
+        "privacy"
+      ]
+    },
+    {
+      "id": "E79-C06",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống phát hiện spam và kiểm duyệt nội dung cho mạng xã hội. Nêu output, đặc trưng, metric và xử lý false positive.",
+      "modelAnswer": "Output: điểm rủi ro + nhãn (spam/độc hại/an toàn) + hành động đề xuất (ẩn, gắn cờ, chuyển reviewer). Đặc trưng: nội dung text/ảnh, hành vi tài khoản (tuổi acc, tần suất đăng), tín hiệu mạng lưới, embedding ngữ nghĩa. Metric: precision/recall theo lớp, tỷ lệ false positive (chặn nhầm nội dung hợp lệ), độ phủ. Xử lý FP: ngưỡng theo mức độ nghiêm trọng, quy trình kháng nghị (appeal) và human review cho ca biên, theo dõi drift của thủ đoạn spam mới.",
+      "rubric": [
+        "Output gồm điểm + hành động",
+        "Đặc trưng nội dung và hành vi",
+        "Metric cân bằng precision/recall",
+        "Cơ chế xử lý false positive/appeal",
+        "Theo dõi thủ đoạn mới/drift"
+      ],
+      "tags": [
+        "moderation",
+        "spam",
+        "safety",
+        "false-positive"
+      ]
+    },
+    {
+      "id": "E79-C07",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây hệ thống gợi ý sản phẩm (recommendation) cho e-commerce. Trình bày cách tiếp cận, metric, và giải quyết cold-start.",
+      "modelAnswer": "Cách tiếp cận: kết hợp collaborative filtering (hành vi mua/xem) với content-based (thuộc tính sản phẩm), có thể dùng two-tower embedding + ranking. Metric offline: recall@k, NDCG; online: CTR, tỷ lệ chuyển đổi, doanh thu/phiên. Cold-start người dùng mới: dùng popularity, thông tin nhân khẩu/ngữ cảnh, hỏi sở thích ban đầu; sản phẩm mới: content-based theo thuộc tính và khám phá (exploration). Cần A/B test và tránh filter bubble bằng đa dạng hóa.",
+      "rubric": [
+        "Cách tiếp cận lai (CF + content)",
+        "Metric offline và online",
+        "Giải pháp cold-start cho user và item mới",
+        "Đề cập A/B test/đánh giá online",
+        "Cân nhắc đa dạng/khám phá"
+      ],
+      "tags": [
+        "recommendation",
+        "cold-start",
+        "ranking",
+        "ecommerce"
+      ]
+    },
+    {
+      "id": "E79-C08",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống phát hiện gian lận giao dịch (fraud) thời gian thực. Nêu ràng buộc latency, đặc trưng, metric và xử lý mất cân bằng.",
+      "modelAnswer": "Ràng buộc: quyết định trong vài chục ms khi thanh toán, nên cần feature store online và model nhẹ. Đặc trưng: số tiền, vị trí/thiết bị, tốc độ giao dịch (velocity), độ lệch so với hành vi thường, danh sách đen. Metric: ưu tiên recall ở mức gian lận với precision chấp nhận được, dùng PR-AUC vì dữ liệu mất cân bằng, theo dõi chi phí false positive (chặn nhầm khách thật). Xử lý mất cân bằng: class weighting/resampling, ngưỡng theo chi phí, và review thủ công cho ca rủi ro cao.",
+      "rubric": [
+        "Ràng buộc latency/real-time và feature store",
+        "Đặc trưng phát hiện gian lận hợp lý",
+        "Metric cho dữ liệu mất cân bằng (PR-AUC)",
+        "Cân bằng giữa bắt gian lận và chặn nhầm",
+        "Xử lý imbalance + human review"
+      ],
+      "tags": [
+        "fraud",
+        "real-time",
+        "imbalanced",
+        "metrics"
+      ]
+    },
+    {
+      "id": "E79-C09",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây model dự đoán churn (khách hàng rời bỏ) cho dịch vụ thuê bao. Nêu nhãn, đặc trưng, metric và cách biến dự đoán thành hành động.",
+      "modelAnswer": "Nhãn: khách hủy/không gia hạn trong cửa sổ N ngày tới (định nghĩa rõ churn). Đặc trưng: mức độ sử dụng gần đây, xu hướng giảm hoạt động, ticket support, thanh toán trễ, tenure. Metric: AUC/PR-AUC, nhưng quan trọng là lift ở nhóm top rủi ro và uplift khi can thiệp. Hành động: chia nhóm rủi ro, gửi ưu đãi giữ chân/đề xuất chăm sóc; nên dùng uplift modeling để nhắm khách thực sự bị thuyết phục, và A/B test chương trình giữ chân.",
+      "rubric": [
+        "Định nghĩa nhãn churn và cửa sổ thời gian",
+        "Đặc trưng hành vi/giao dịch hợp lý",
+        "Metric (AUC/lift) phù hợp",
+        "Chuyển dự đoán thành hành động giữ chân",
+        "Đề cập uplift/A-B test"
+      ],
+      "tags": [
+        "churn",
+        "prediction",
+        "retention",
+        "uplift"
+      ]
+    },
+    {
+      "id": "E79-C10",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống dự báo nhu cầu/doanh số cho chuỗi bán lẻ. Nêu dữ liệu, mô hình, metric và xử lý mùa vụ/khuyến mãi.",
+      "modelAnswer": "Dữ liệu: lịch sử bán theo SKU-cửa hàng, giá, khuyến mãi, ngày lễ, thời tiết, tồn kho. Mô hình: từ baseline thống kê (ARIMA/ETS) tới gradient boosting hoặc mô hình chuỗi thời gian; cần feature mùa vụ và sự kiện. Metric: MAPE/WMAPE, bias (thiên lệch dự báo), đo riêng cho SKU bán chậm. Xử lý mùa vụ/khuyến mãi: thêm biến lịch, khuyến mãi, hiệu ứng cannibalization; đánh giá backtest theo thời gian (rolling) chứ không random split.",
+      "rubric": [
+        "Dữ liệu đầu vào đa dạng (giá, KM, lễ)",
+        "Đề xuất baseline và mô hình phù hợp",
+        "Metric dự báo (MAPE/bias)",
+        "Xử lý mùa vụ/khuyến mãi",
+        "Backtest theo thời gian, không random split"
+      ],
+      "tags": [
+        "forecasting",
+        "time-series",
+        "retail",
+        "seasonality"
+      ]
+    },
+    {
+      "id": "E79-C11",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây AI phân tích cảm xúc (sentiment) từ đánh giá khách hàng. Nêu output, thách thức ngôn ngữ, metric và cách dùng kết quả.",
+      "modelAnswer": "Output: nhãn cảm xúc (tích cực/trung tính/tiêu cực) hoặc theo khía cạnh (giá, dịch vụ, chất lượng) kèm độ tin cậy. Thách thức: mỉa mai, tiếng Việt teencode/viết tắt, phủ định, đa khía cạnh trong một câu. Metric: F1 macro, confusion ma trận theo lớp, đánh giá riêng câu mỉa mai. Dùng kết quả: dashboard xu hướng theo thời gian, cảnh báo tăng đột biến tiêu cực, trích vấn đề lặp lại để cải thiện sản phẩm; lấy mẫu kiểm tra thủ công định kỳ.",
+      "rubric": [
+        "Output (nhãn cảm xúc, có thể theo khía cạnh)",
+        "Nêu thách thức ngôn ngữ (mỉa mai, phủ định)",
+        "Metric phù hợp (F1 macro)",
+        "Cách dùng kết quả tạo giá trị",
+        "Kiểm tra/giám sát chất lượng"
+      ],
+      "tags": [
+        "sentiment",
+        "nlp",
+        "aspect",
+        "reviews"
+      ]
+    },
+    {
+      "id": "E79-C12",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống phát hiện lỗi sản phẩm bằng ảnh (defect detection) trên dây chuyền sản xuất. Nêu pipeline, dữ liệu, metric và ràng buộc.",
+      "modelAnswer": "Pipeline: camera chụp sản phẩm, tiền xử lý ảnh, model phân loại/segmentation phát hiện vùng lỗi, ra quyết định pass/fail và loại lỗi. Dữ liệu: ảnh sản phẩm tốt và lỗi (thường hiếm lỗi), gán nhãn bởi QC. Metric: recall lỗi cao (không bỏ sót hàng lỗi) với false reject chấp nhận được, đo theo từng loại lỗi. Ràng buộc: thông lượng dây chuyền (latency), điều kiện ánh sáng, lỗi hiếm cần augmentation/anomaly detection; có human review ca biên.",
+      "rubric": [
+        "Pipeline thị giác máy (capture → detect → decide)",
+        "Dữ liệu và gán nhãn QC, xử lý lỗi hiếm",
+        "Metric ưu tiên recall lỗi",
+        "Ràng buộc throughput/ánh sáng",
+        "Human review cho ca không chắc"
+      ],
+      "tags": [
+        "computer-vision",
+        "defect",
+        "manufacturing",
+        "anomaly"
+      ]
+    },
+    {
+      "id": "E79-C13",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây tìm kiếm ngữ nghĩa (semantic search) cho kho tài liệu lớn dùng vector DB. Nêu kiến trúc, đánh giá và cách kết hợp với từ khóa.",
+      "modelAnswer": "Kiến trúc: chunk + embedding tài liệu lưu trong vector DB (HNSW/IVF), truy vấn bằng embedding câu hỏi lấy top-k, rerank bằng cross-encoder. Đánh giá: recall@k, MRR/NDCG trên tập truy vấn-nhãn, đo latency và chi phí. Kết hợp từ khóa: hybrid search (BM25 + vector) hợp nhất điểm để bắt cả khớp chính xác (mã, tên riêng) lẫn ngữ nghĩa; thêm filter metadata. Cần cập nhật index khi tài liệu thay đổi.",
+      "rubric": [
+        "Kiến trúc embedding + vector DB + rerank",
+        "Metric đánh giá truy xuất (recall@k, NDCG)",
+        "Hybrid search (kết hợp BM25/keyword)",
+        "Filter metadata và cập nhật index",
+        "Cân nhắc latency/chi phí"
+      ],
+      "tags": [
+        "semantic-search",
+        "vectordb",
+        "hybrid",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "E79-C14",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế tính năng tóm tắt tài liệu dài (báo cáo, biên bản họp). Nêu cách tiếp cận, kiểm soát chất lượng và rủi ro.",
+      "modelAnswer": "Cách tiếp cận: với tài liệu vượt context, dùng chunk + tóm tắt phân cấp (map-reduce) hoặc retrieval các đoạn quan trọng; cho phép tóm tắt theo độ dài/định dạng (bullet, executive summary). Kiểm soát chất lượng: đo faithfulness (không bịa), coverage các ý chính, và độ ngắn gọn; dùng đánh giá người dùng hoặc LLM-as-judge có tham chiếu. Rủi ro: bỏ sót thông tin quan trọng, bịa số liệu; giảm bằng trích dẫn đoạn nguồn và cảnh báo khi nội dung mơ hồ.",
+      "rubric": [
+        "Cách xử lý tài liệu vượt context (map-reduce)",
+        "Tùy chọn định dạng/độ dài tóm tắt",
+        "Đo faithfulness và coverage",
+        "Rủi ro bịa/bỏ sót và cách giảm",
+        "Đánh giá chất lượng (human/LLM-judge)"
+      ],
+      "tags": [
+        "summarization",
+        "llm",
+        "faithfulness",
+        "long-context"
+      ]
+    },
+    {
+      "id": "E79-C15",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây chatbot đa ngôn ngữ hỗ trợ khách quốc tế. Nêu kiến trúc, thách thức và cách đảm bảo chất lượng từng ngôn ngữ.",
+      "modelAnswer": "Kiến trúc: phát hiện ngôn ngữ, dùng LLM đa ngôn ngữ hoặc dịch sang ngôn ngữ trục rồi xử lý + dịch lại; knowledge base đa ngữ. Thách thức: chất lượng không đều giữa ngôn ngữ ít tài nguyên, ngữ cảnh văn hóa, đơn vị/định dạng địa phương. Đảm bảo chất lượng: tập eval riêng cho mỗi ngôn ngữ, người bản xứ review, đo độ chính xác và độ tự nhiên; fallback sang nhân viên khi độ tin cậy thấp ở ngôn ngữ yếu.",
+      "rubric": [
+        "Kiến trúc xử lý đa ngôn ngữ",
+        "Thách thức ngôn ngữ ít tài nguyên/văn hóa",
+        "Eval riêng từng ngôn ngữ",
+        "Review bởi người bản xứ",
+        "Fallback khi chất lượng thấp"
+      ],
+      "tags": [
+        "multilingual",
+        "chatbot",
+        "i18n",
+        "quality"
+      ]
+    },
+    {
+      "id": "E79-C16",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế hệ thống nhận dạng giọng nói (speech-to-text) cho tổng đài tiếng Việt. Nêu pipeline, metric và xử lý nhiễu/giọng vùng miền.",
+      "modelAnswer": "Pipeline: thu âm, khử nhiễu/VAD tách đoạn nói, model ASR sinh transcript, hậu xử lý (chấm câu, chuẩn hóa số/đơn vị). Metric: WER/CER, đo riêng theo nhiễu và giọng vùng miền, latency cho real-time. Xử lý nhiễu/giọng: huấn luyện trên dữ liệu đa dạng vùng miền, augmentation nhiễu, thích nghi miền (domain adaptation) cho từ vựng ngành; cho phép gắn nhãn sửa lỗi của agent để cải thiện. Cân nhắc bảo mật ghi âm cuộc gọi.",
+      "rubric": [
+        "Pipeline ASR (VAD → transcribe → hậu xử lý)",
+        "Metric WER/CER và latency",
+        "Xử lý nhiễu và giọng vùng miền",
+        "Thích nghi từ vựng ngành",
+        "Cải thiện từ phản hồi/đề cập bảo mật"
+      ],
+      "tags": [
+        "asr",
+        "speech",
+        "vietnamese",
+        "wer"
+      ]
+    },
+    {
+      "id": "E79-C17",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Cải thiện xếp hạng kết quả tìm kiếm (search ranking) cho một marketplace. Nêu tín hiệu, hàm mục tiêu, đánh giá và rủi ro.",
+      "modelAnswer": "Tín hiệu: độ liên quan text, mức độ phổ biến/đánh giá, giá, tồn kho, cá nhân hóa theo lịch sử, độ tươi. Hàm mục tiêu: learning-to-rank tối ưu NDCG hoặc trực tiếp tối ưu chuyển đổi/doanh thu với ràng buộc liên quan. Đánh giá: offline NDCG trên judgment, online A/B đo CTR/conversion/GMV. Rủi ro: ưu tiên doanh thu làm giảm liên quan/niềm tin, vòng phản hồi (popular càng popular); giảm bằng ràng buộc chất lượng và đa dạng, giám sát dài hạn.",
+      "rubric": [
+        "Tín hiệu xếp hạng đa dạng",
+        "Hàm mục tiêu (LTR/NDCG/chuyển đổi)",
+        "Đánh giá offline + online A/B",
+        "Rủi ro feedback loop/lệch doanh thu",
+        "Cơ chế cân bằng/giám sát"
+      ],
+      "tags": [
+        "search-ranking",
+        "ltr",
+        "marketplace",
+        "ab-test"
+      ]
+    },
+    {
+      "id": "E79-C18",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Quyết định giữa RAG, fine-tuning và prompt engineering cho một trợ lý nội bộ. Nêu tiêu chí chọn và khi nào kết hợp.",
+      "modelAnswer": "Tiêu chí: nếu cần tri thức cập nhật/thay đổi thường xuyên và truy nguồn → RAG; nếu cần thay đổi phong cách, định dạng, kỹ năng chuyên biệt ổn định → fine-tuning; nếu yêu cầu đơn giản, cần triển khai nhanh, ít dữ liệu → prompt engineering. Cân nhắc chi phí, dữ liệu sẵn có, tần suất cập nhật, yêu cầu citation. Thường kết hợp: prompt tốt + RAG cho kiến thức, fine-tune để chuẩn hành vi/định dạng; luôn đo trên tập eval để chọn.",
+      "rubric": [
+        "Tiêu chí cho RAG (tri thức động, citation)",
+        "Tiêu chí cho fine-tuning (hành vi/định dạng)",
+        "Tiêu chí cho prompt engineering (nhanh, rẻ)",
+        "Khi nào kết hợp các cách",
+        "Quyết định dựa trên eval/chi phí"
+      ],
+      "tags": [
+        "rag",
+        "fine-tuning",
+        "prompt-engineering",
+        "decision"
+      ]
+    },
+    {
+      "id": "E79-C19",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Triển khai model lên thiết bị edge với ràng buộc latency và bộ nhớ. Nêu kỹ thuật nén model và đánh đổi.",
+      "modelAnswer": "Kỹ thuật: quantization (INT8/4-bit), pruning, knowledge distillation sang model nhỏ, chọn kiến trúc hiệu quả, biên dịch tối ưu (ONNX/TensorRT). Đánh đổi: nén giảm bộ nhớ/latency nhưng có thể giảm độ chính xác; cần đo chênh lệch chất lượng sau nén trên eval thực. Cân nhắc: pin/nhiệt thiết bị, độ trễ mục tiêu, khả năng cập nhật model. Chiến lược: chọn mức nén nhỏ nhất đạt ngưỡng chất lượng, có fallback lên cloud cho ca khó.",
+      "rubric": [
+        "Liệt kê kỹ thuật nén (quantize/prune/distill)",
+        "Đánh đổi chất lượng vs kích thước/latency",
+        "Đo chất lượng sau nén",
+        "Ràng buộc thiết bị (pin/nhiệt/bộ nhớ)",
+        "Chiến lược chọn mức nén/fallback"
+      ],
+      "tags": [
+        "edge",
+        "quantization",
+        "distillation",
+        "latency"
+      ]
+    },
+    {
+      "id": "E79-C20",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế giám sát model drift sau khi triển khai. Nêu loại drift, cách phát hiện và quy trình ứng phó.",
+      "modelAnswer": "Loại drift: data drift (phân phối đầu vào đổi), concept drift (quan hệ X-Y đổi), drift nhãn. Phát hiện: giám sát phân phối đặc trưng (PSI/KL), theo dõi metric chất lượng khi có ground-truth trễ, proxy metric khi chưa có nhãn, cảnh báo khi vượt ngưỡng. Ứng phó: điều tra nguyên nhân, thu thập dữ liệu mới, retrain/định kỳ huấn luyện lại, rollback nếu cần; ghi log dự đoán để phân tích và A/B model mới trước khi thay.",
+      "rubric": [
+        "Phân biệt data drift vs concept drift",
+        "Cách phát hiện (PSI/metric/proxy)",
+        "Ngưỡng cảnh báo và giám sát liên tục",
+        "Quy trình ứng phó (retrain/rollback)",
+        "Ghi log và đánh giá model mới"
+      ],
+      "tags": [
+        "monitoring",
+        "drift",
+        "mlops",
+        "retraining"
+      ]
+    },
+    {
+      "id": "E79-C21",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây model chấm điểm tín dụng (credit scoring) cho khoản vay tiêu dùng. Nêu đặc trưng, metric, và yêu cầu giải thích.",
+      "modelAnswer": "Đặc trưng: lịch sử tín dụng, thu nhập, tỷ lệ nợ/thu nhập, lịch sử trả nợ, hành vi giao dịch; tránh đặc trưng nhạy cảm/đại diện cho thuộc tính bảo vệ. Metric: AUC/KS để phân biệt, cùng hiệu chỉnh xác suất (calibration) và đo theo nhóm để kiểm tra công bằng. Giải thích: ưu tiên model có thể giải thích hoặc dùng SHAP để nêu lý do từ chối (adverse action), đảm bảo tuân thủ quy định cho vay và lưu vết quyết định.",
+      "rubric": [
+        "Đặc trưng hợp lý, tránh proxy nhạy cảm",
+        "Metric phân biệt + calibration",
+        "Kiểm tra công bằng theo nhóm",
+        "Yêu cầu giải thích (SHAP/adverse action)",
+        "Tuân thủ quy định và lưu vết"
+      ],
+      "tags": [
+        "credit-scoring",
+        "explainability",
+        "fairness",
+        "calibration"
+      ]
+    },
+    {
+      "id": "E79-C22",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế trợ lý lập trình (coding assistant) tích hợp IDE. Nêu khả năng, đánh giá chất lượng và rủi ro bảo mật.",
+      "modelAnswer": "Khả năng: gợi ý hoàn thành code, giải thích, sinh test, refactor, trả lời dựa trên codebase qua RAG. Đánh giá: pass@k trên bài kiểm thử, tỷ lệ chấp nhận gợi ý (acceptance rate), thời gian tiết kiệm, chất lượng code (lint/test). Rủi ro: lộ secret/code nội bộ ra ngoài, gợi ý code có lỗ hổng hoặc license không phù hợp; giảm bằng chạy nội bộ/redaction secret, quét bảo mật gợi ý, và luôn để lập trình viên review trước khi commit.",
+      "rubric": [
+        "Khả năng cụ thể (complete, explain, test)",
+        "Metric đánh giá (pass@k, acceptance)",
+        "Rủi ro lộ dữ liệu/secret",
+        "Rủi ro code lỗ hổng/license",
+        "HITL review trước khi dùng"
+      ],
+      "tags": [
+        "coding-assistant",
+        "codegen",
+        "security",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "E79-C23",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Xây hệ thống phát hiện bất thường (anomaly detection) cho giám sát hạ tầng/log. Nêu cách tiếp cận, metric và giảm cảnh báo nhiễu.",
+      "modelAnswer": "Cách tiếp cận: thiết lập baseline hành vi bình thường (thống kê, dự báo chuỗi thời gian, autoencoder/isolation forest) và gắn cờ độ lệch lớn; phân biệt theo mùa vụ/ngày trong tuần. Metric: precision/recall trên sự cố thật, MTTD (thời gian phát hiện), tỷ lệ cảnh báo giả. Giảm nhiễu: ngưỡng động, gộp cảnh báo tương quan, suppression khi bảo trì, học từ phản hồi 'không phải sự cố'; ưu tiên giảm alert fatigue cho đội vận hành.",
+      "rubric": [
+        "Cách lập baseline và phát hiện lệch",
+        "Xử lý mùa vụ/ngữ cảnh",
+        "Metric (precision/recall, MTTD)",
+        "Giảm cảnh báo giả/alert fatigue",
+        "Học từ phản hồi vận hành"
+      ],
+      "tags": [
+        "anomaly-detection",
+        "monitoring",
+        "alerting",
+        "timeseries"
+      ]
+    },
+    {
+      "id": "E79-C24",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế một AI agent dùng tool (gọi API, tra cứu, tính toán) để hoàn thành tác vụ nhiều bước. Nêu kiến trúc và cơ chế an toàn.",
+      "modelAnswer": "Kiến trúc: LLM lập kế hoạch, chọn tool, thực thi, quan sát kết quả và lặp (ReAct/plan-execute); có bộ nhớ ngữ cảnh và danh mục tool định nghĩa rõ schema. An toàn: giới hạn quyền tool (least privilege), xác nhận cho hành động không thể đảo ngược, giới hạn số bước/vòng lặp, sandbox và timeout, log mọi lời gọi. Đánh giá: tỷ lệ hoàn thành tác vụ, độ chính xác lời gọi tool, chi phí; có guardrail chống prompt injection từ nội dung tool trả về.",
+      "rubric": [
+        "Kiến trúc agent (plan → tool → observe → lặp)",
+        "Định nghĩa tool/schema rõ ràng",
+        "Cơ chế an toàn (quyền hạn, xác nhận, giới hạn bước)",
+        "Chống prompt injection/sandbox",
+        "Đánh giá tỷ lệ hoàn thành/chi phí"
+      ],
+      "tags": [
+        "agent",
+        "tool-use",
+        "safety",
+        "react"
+      ]
+    },
+    {
+      "id": "E79-C25",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế tập đánh giá cho một tính năng AI: phân biệt offline eval, online eval và A/B test. Nêu khi nào dùng cái nào.",
+      "modelAnswer": "Offline eval: tập dữ liệu vàng có nhãn, đo nhanh khi phát triển (accuracy/F1/NDCG/faithfulness) để lặp model. Online eval: đo trên lưu lượng thật bằng proxy/feedback ẩn, bắt phân phối thực tế. A/B test: chia ngẫu nhiên người dùng so sánh hai phiên bản trên metric kinh doanh (CTR, conversion) với ý nghĩa thống kê. Dùng: offline để sàng lọc nhanh, online để xác nhận trên thực tế, A/B để ra quyết định triển khai; cảnh giác lệch giữa offline và online.",
+      "rubric": [
+        "Định nghĩa offline eval và khi dùng",
+        "Định nghĩa online eval",
+        "A/B test và metric kinh doanh + ý nghĩa thống kê",
+        "Khi nào dùng từng loại",
+        "Cảnh báo lệch offline/online"
+      ],
+      "tags": [
+        "evaluation",
+        "ab-test",
+        "offline",
+        "online"
+      ]
+    },
+    {
+      "id": "E79-C26",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Đề xuất chiến lược gán nhãn dữ liệu và đảm bảo chất lượng nhãn cho một dự án phân loại mới. Nêu quy trình.",
+      "modelAnswer": "Quy trình: viết guideline rõ ràng kèm ví dụ và ca biên, chọn công cụ gán nhãn, đào tạo người gán. Chất lượng: gán đôi/đa người + đo đồng thuận (Cohen/Fleiss kappa), trọng tài cho bất đồng, vàng (gold set) trộn vào để kiểm tra, vòng phản hồi cập nhật guideline. Hiệu quả: active learning ưu tiên mẫu khó/không chắc, pre-label bằng model để tăng tốc nhưng vẫn để người duyệt; theo dõi throughput và tỷ lệ lỗi theo người.",
+      "rubric": [
+        "Guideline rõ ràng + ví dụ ca biên",
+        "Đo đồng thuận giữa người gán (kappa)",
+        "Gold set và trọng tài bất đồng",
+        "Active learning/pre-label để hiệu quả",
+        "Giám sát chất lượng theo người gán"
+      ],
+      "tags": [
+        "labeling",
+        "data-quality",
+        "active-learning",
+        "annotation"
+      ]
+    },
+    {
+      "id": "E79-C27",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Chọn metric cho bài toán phân loại y khoa với dữ liệu rất mất cân bằng (bệnh hiếm). Nêu metric phù hợp và vì sao tránh accuracy.",
+      "modelAnswer": "Vì sao tránh accuracy: với bệnh hiếm, model đoán 'âm tính' luôn vẫn đạt accuracy cao nhưng vô dụng. Metric phù hợp: recall/sensitivity cao để không bỏ sót ca bệnh, precision/PPV để kiểm soát báo động giả, PR-AUC thay vì ROC-AUC khi dương tính rất hiếm, F-beta (beta>1 nếu bỏ sót nguy hiểm hơn). Cần xét chi phí FN vs FP, calibration xác suất, và chọn ngưỡng theo bối cảnh lâm sàng cùng bác sĩ.",
+      "rubric": [
+        "Giải thích vì sao accuracy gây hiểu lầm",
+        "Ưu tiên recall/sensitivity cho bệnh hiếm",
+        "PR-AUC/F-beta thay vì accuracy/ROC",
+        "Cân nhắc chi phí FN vs FP",
+        "Chọn ngưỡng theo bối cảnh lâm sàng"
+      ],
+      "tags": [
+        "metrics",
+        "imbalanced",
+        "healthcare",
+        "recall"
+      ]
+    },
+    {
+      "id": "E79-C28",
+      "module": "C",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Một bên đề nghị 'dùng AI' cho một bài toán đơn giản. Hãy lập luận khi nào KHÔNG nên dùng ML và nêu giải pháp thay thế.",
+      "modelAnswer": "Khi không nên dùng ML: bài toán giải được bằng quy tắc rõ ràng/công thức; thiếu dữ liệu chất lượng; chi phí lỗi quá cao mà chưa kiểm soát được; yêu cầu giải thích tuyệt đối; tần suất thay đổi khiến model nhanh lỗi thời. Giải pháp thay thế: rule/heuristic, công thức, tra cứu, hoặc quy trình thủ công có cấu trúc. Cách quyết: xây baseline đơn giản trước, chỉ dùng ML nếu nó vượt baseline đủ để bù chi phí vận hành/giám sát. Luôn cân nhắc tổng chi phí sở hữu.",
+      "rubric": [
+        "Tiêu chí khi không nên dùng ML",
+        "Vấn đề dữ liệu/giải thích/độ ổn định",
+        "Đề xuất giải pháp thay thế (rule/heuristic)",
+        "Xây baseline trước khi dùng ML",
+        "Cân nhắc chi phí vận hành/giám sát"
+      ],
+      "tags": [
+        "when-not-ml",
+        "baseline",
+        "heuristics",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "E79-D01",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Một thành phố muốn dùng camera AI nhận diện để phát hiện vi phạm giao thông và phạt nguội tự động. Phân tích theo các khía cạnh: quyền riêng tư & giám sát, độ chính xác & oan sai, minh bạch quy trình, cơ chế khiếu nại, giám sát của con người, và trách nhiệm giải trình.",
+      "modelAnswer": "Quyền riêng tư & giám sát: thu thập hình ảnh hàng loạt nơi công cộng cần cơ sở pháp lý, giảm thiểu dữ liệu, thời hạn lưu trữ rõ ràng; cân nhắc rủi ro giám sát đại trà. Độ chính xác & oan sai: nhận diện biển số/hành vi có thể sai (mờ, che khuất, thiên kiến theo điều kiện ánh sáng) nên cần ngưỡng tin cậy cao, không phạt tự động hoàn toàn. Minh bạch: công bố việc dùng AI, tiêu chí và phạm vi. Khiếu nại: người dân phải xem được bằng chứng và phản đối. Giám sát con người: cán bộ xác nhận trước khi ra quyết định phạt cho ca rủi ro cao. Trách nhiệm: cơ quan triển khai chịu trách nhiệm, có quy trình kiểm toán và sửa sai.",
+      "rubric": [
+        "Phân tích quyền riêng tư/giám sát (cơ sở pháp lý, giảm thiểu, lưu trữ)",
+        "Nêu rủi ro oan sai & yêu cầu độ chính xác/ngưỡng tin cậy",
+        "Minh bạch quy trình & cơ chế khiếu nại cho người dân",
+        "Human-in-the-loop xác nhận trước khi phạt",
+        "Trách nhiệm giải trình & kiểm toán/sửa sai"
+      ],
+      "tags": [
+        "ethics",
+        "surveillance",
+        "governance",
+        "accountability"
+      ]
+    },
+    {
+      "id": "E79-D02",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thực hiện kiểm toán thiên kiến (bias audit) cho một AI sàng lọc hồ sơ tuyển dụng. Nêu quy trình và biện pháp khắc phục.",
+      "modelAnswer": "Quy trình: xác định nhóm bảo vệ (giới, tuổi, vùng), thu thập dữ liệu kết quả, đo các chỉ số công bằng (tỷ lệ chọn theo nhóm/disparate impact, equal opportunity, FPR/FNR theo nhóm). Phân tích nguồn bias: dữ liệu lịch sử lệch, đặc trưng proxy (trường học, khoảng trống CV). Khắc phục: loại/điều chỉnh đặc trưng proxy, reweighting/threshold theo nhóm, mở rộng dữ liệu; thêm human review, công bố tiêu chí, và kiểm toán định kỳ độc lập.",
+      "rubric": [
+        "Xác định nhóm bảo vệ và chỉ số công bằng",
+        "Đo disparate impact/equal opportunity",
+        "Phân tích nguồn bias (dữ liệu/proxy)",
+        "Biện pháp khắc phục cụ thể",
+        "Human review + kiểm toán định kỳ"
+      ],
+      "tags": [
+        "hiring",
+        "bias-audit",
+        "fairness",
+        "ethics"
+      ]
+    },
+    {
+      "id": "E79-D03",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "AI hỗ trợ chẩn đoán y tế sắp được triển khai. Nêu các yêu cầu về an toàn, quy định và giám sát của con người.",
+      "modelAnswer": "An toàn: validate lâm sàng nghiêm ngặt, đo sensitivity/specificity trên dân số đại diện, biết giới hạn (out-of-distribution). Quy định: tuân thủ thiết bị y tế/cơ quan quản lý, chứng nhận, tài liệu rủi ro. Human oversight: AI hỗ trợ chứ không thay bác sĩ, bác sĩ ra quyết định cuối, hiển thị độ tin cậy và lý do; có quy trình khi AI và bác sĩ bất đồng. Giám sát sau triển khai: theo dõi hiệu năng theo nhóm bệnh nhân, báo cáo sự cố, cập nhật và tái chứng nhận khi cần.",
+      "rubric": [
+        "Validate lâm sàng và đo trên dân số đại diện",
+        "Tuân thủ quy định/chứng nhận thiết bị y tế",
+        "Human oversight: bác sĩ quyết định cuối",
+        "Hiển thị độ tin cậy/giới hạn model",
+        "Giám sát sau triển khai và báo cáo sự cố"
+      ],
+      "tags": [
+        "healthcare",
+        "safety",
+        "regulation",
+        "human-oversight"
+      ]
+    },
+    {
+      "id": "E79-D04",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Thiết kế guardrails cho một AI tạo sinh (text/ảnh) để chống lạm dụng và deepfake. Nêu các lớp bảo vệ.",
+      "modelAnswer": "Các lớp: lọc đầu vào (chặn yêu cầu tạo nội dung có hại, mạo danh người thật, NCII), lọc đầu ra (phát hiện nội dung vi phạm trước khi trả), policy/usage rõ ràng. Chống deepfake: từ chối tạo ảnh người thật không đồng ý, gắn watermark/provenance (C2PA) cho nội dung sinh ra, ghi log. Vận hành: red-teaming tìm lỗ hổng, rate limit và xác thực, kênh báo cáo lạm dụng, cập nhật bộ lọc theo thủ đoạn mới; cân bằng với việc tránh từ chối quá mức.",
+      "rubric": [
+        "Lọc đầu vào và đầu ra (input/output filters)",
+        "Chính sách sử dụng rõ ràng",
+        "Chống deepfake (từ chối mạo danh, watermark/provenance)",
+        "Red-teaming, rate limit, kênh báo cáo",
+        "Cập nhật theo thủ đoạn mới, tránh từ chối quá mức"
+      ],
+      "tags": [
+        "guardrails",
+        "deepfake",
+        "safety",
+        "abuse"
+      ]
+    },
+    {
+      "id": "E79-D05",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Bạn thu thập dữ liệu người dùng để huấn luyện model. Nêu cách đảm bảo quyền riêng tư và sự đồng ý theo tinh thần GDPR.",
+      "modelAnswer": "Nguyên tắc: cơ sở pháp lý hợp lệ (đồng ý rõ ràng hoặc lợi ích chính đáng), thông báo minh bạch về mục đích dùng dữ liệu, tối thiểu hóa và giới hạn mục đích. Quyền chủ thể: cho phép truy cập, xóa, rút đồng ý, phản đối; cơ chế opt-out khỏi huấn luyện. Kỹ thuật: ẩn danh/giả danh hóa, mã hóa, kiểm soát truy cập, lưu trữ giới hạn thời gian. Quản trị: DPIA cho xử lý rủi ro cao, hợp đồng với bên xử lý, và xử lý chuyển dữ liệu xuyên biên giới đúng quy định.",
+      "rubric": [
+        "Cơ sở pháp lý và đồng ý rõ ràng",
+        "Minh bạch mục đích, tối thiểu hóa dữ liệu",
+        "Quyền chủ thể (truy cập/xóa/rút đồng ý)",
+        "Biện pháp kỹ thuật (ẩn danh/mã hóa)",
+        "DPIA/quản trị và chuyển dữ liệu xuyên biên"
+      ],
+      "tags": [
+        "privacy",
+        "gdpr",
+        "consent",
+        "data-governance"
+      ]
+    },
+    {
+      "id": "E79-D06",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Một quyết định AI ở lĩnh vực rủi ro cao (vay, bảo hiểm) bị người dùng khiếu nại không hiểu vì sao bị từ chối. Nêu cách đảm bảo minh bạch và giải thích.",
+      "modelAnswer": "Minh bạch: cung cấp lý do chính dẫn tới quyết định (adverse action) bằng ngôn ngữ dễ hiểu, các yếu tố quan trọng nhất và cách cải thiện. Kỹ thuật: dùng model giải thích được hoặc SHAP/LIME cho lý do per-case; đảm bảo lời giải thích trung thực với model thật. Quy trình: kênh khiếu nại và yêu cầu xem lại bởi con người, tài liệu hệ thống (model card), lưu vết dữ liệu đầu vào và quyết định để kiểm tra; tuân thủ quyền được giải thích theo quy định.",
+      "rubric": [
+        "Cung cấp lý do dễ hiểu (adverse action)",
+        "Kỹ thuật giải thích trung thực (SHAP/LIME)",
+        "Quyền yêu cầu xem lại bởi con người",
+        "Tài liệu hệ thống và lưu vết quyết định",
+        "Tuân thủ quyền được giải thích"
+      ],
+      "tags": [
+        "transparency",
+        "explainability",
+        "high-risk",
+        "appeal"
+      ]
+    },
+    {
+      "id": "E79-D07",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Phân loại một hệ thống AI theo EU AI Act và nêu nghĩa vụ tương ứng. Lấy ví dụ một hệ thống rủi ro cao.",
+      "modelAnswer": "EU AI Act phân theo mức rủi ro: cấm (vd chấm điểm xã hội, thao túng), rủi ro cao (tuyển dụng, tín dụng, y tế, hạ tầng trọng yếu), rủi ro hạn chế (chatbot - cần minh bạch), rủi ro tối thiểu. Ví dụ AI sàng lọc tuyển dụng là rủi ro cao: nghĩa vụ gồm hệ thống quản lý rủi ro, quản trị dữ liệu chất lượng, tài liệu kỹ thuật, ghi log, minh bạch cho người dùng, giám sát con người, độ chính xác/robustness/bảo mật, và đánh giá sự phù hợp trước khi đưa ra thị trường.",
+      "rubric": [
+        "Nêu các mức rủi ro theo EU AI Act",
+        "Xác định ví dụ thuộc nhóm rủi ro cao",
+        "Nghĩa vụ: quản lý rủi ro, quản trị dữ liệu",
+        "Tài liệu, log, minh bạch, giám sát con người",
+        "Đánh giá sự phù hợp trước khi triển khai"
+      ],
+      "tags": [
+        "eu-ai-act",
+        "regulation",
+        "high-risk",
+        "compliance"
+      ]
+    },
+    {
+      "id": "E79-D08",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Tổ chức muốn huấn luyện model nhưng không được tập trung dữ liệu nhạy cảm. Nêu cách dùng privacy-preserving ML (federated learning, differential privacy).",
+      "modelAnswer": "Federated learning: dữ liệu ở lại thiết bị/tổ chức, chỉ gửi cập nhật model về máy chủ tổng hợp; giảm rủi ro lộ dữ liệu thô nhưng cần secure aggregation chống suy luận từ gradient. Differential privacy: thêm nhiễu có kiểm soát (ngân sách epsilon) để cá nhân không thể bị suy ra, đánh đổi với độ chính xác. Bổ sung: mã hóa, secure aggregation, đo rủi ro membership inference. Chọn theo yêu cầu pháp lý và mức độ nhạy cảm; cân bằng tiện ích và mức bảo vệ riêng tư.",
+      "rubric": [
+        "Federated learning: dữ liệu ở lại nguồn",
+        "Differential privacy: thêm nhiễu/epsilon",
+        "Đánh đổi riêng tư vs độ chính xác",
+        "Bổ sung (secure aggregation/chống suy luận)",
+        "Chọn theo yêu cầu pháp lý/nhạy cảm"
+      ],
+      "tags": [
+        "privacy",
+        "federated-learning",
+        "differential-privacy",
+        "ppml"
+      ]
+    },
+    {
+      "id": "E79-D09",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Phát hiện model của bạn phân biệt đối xử bất lợi với một nhóm thiểu số. Nêu các bước xử lý và phòng ngừa tái diễn.",
+      "modelAnswer": "Bước xử lý: tạm dừng/hạn chế dùng cho nhóm bị ảnh hưởng nếu rủi ro cao, xác nhận và đo mức độ chênh lệch, điều tra nguyên nhân (dữ liệu lệch, đặc trưng proxy, ngưỡng). Khắc phục: cân bằng/làm sạch dữ liệu, loại proxy, áp ràng buộc công bằng, hiệu chỉnh ngưỡng theo nhóm; thông báo và khắc phục cho người bị ảnh hưởng. Phòng ngừa: thêm kiểm thử công bằng vào pipeline, giám sát theo nhóm sau triển khai, kiểm toán định kỳ và tài liệu hóa quyết định.",
+      "rubric": [
+        "Hành động tức thời để giảm thiệt hại",
+        "Xác nhận và điều tra nguyên nhân bias",
+        "Biện pháp khắc phục kỹ thuật",
+        "Khắc phục cho người bị ảnh hưởng/minh bạch",
+        "Phòng ngừa: kiểm thử/giám sát/kiểm toán"
+      ],
+      "tags": [
+        "fairness",
+        "discrimination",
+        "mitigation",
+        "monitoring"
+      ]
+    },
+    {
+      "id": "E79-D10",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Một hệ thống AI gây thiệt hại cho người dùng. Phân tích trách nhiệm giải trình (accountability): ai chịu trách nhiệm và cần cơ chế gì.",
+      "modelAnswer": "Phân tích: trách nhiệm có thể thuộc nhà phát triển model, đơn vị triển khai, hoặc người vận hành tùy nguyên nhân (lỗi thiết kế, dữ liệu, lạm dụng, thiếu giám sát). Cần làm rõ qua hợp đồng và quy định. Cơ chế: lưu vết quyết định và phiên bản model (audit trail), quy trình điều tra sự cố, kênh khiếu nại và bồi thường, bảo hiểm trách nhiệm, và phân vai rõ ràng (RACI). Phòng ngừa: đánh giá rủi ro trước triển khai, human oversight cho quyết định quan trọng, và giám sát liên tục.",
+      "rubric": [
+        "Phân định các bên có thể chịu trách nhiệm",
+        "Vai trò của hợp đồng/quy định",
+        "Audit trail và quy trình điều tra sự cố",
+        "Kênh khiếu nại/bồi thường",
+        "Phòng ngừa: đánh giá rủi ro và giám sát"
+      ],
+      "tags": [
+        "accountability",
+        "liability",
+        "governance",
+        "ethics"
+      ]
+    },
+    {
+      "id": "E79-D11",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Sản phẩm AI tạo sinh có thể tiếp cận trẻ em. Nêu các biện pháp an toàn đặc thù cho trẻ em.",
+      "modelAnswer": "Biện pháp: lọc nội dung nghiêm ngặt (chặn nội dung người lớn, bạo lực, tự hại, grooming), thiết kế phản hồi phù hợp lứa tuổi, không thu thập dữ liệu trẻ em quá mức và tuân thủ quy định bảo vệ trẻ (như COPPA). Bổ sung: xác minh/kiểm soát độ tuổi, chế độ an toàn mặc định, kiểm soát của phụ huynh, hướng dẫn tìm trợ giúp khi phát hiện dấu hiệu nguy cơ. Vận hành: red-teaming kịch bản trẻ em, kênh báo cáo, và giám sát/cập nhật bộ lọc thường xuyên.",
+      "rubric": [
+        "Lọc nội dung có hại nghiêm ngặt cho trẻ",
+        "Phản hồi phù hợp lứa tuổi",
+        "Tuân thủ quy định bảo vệ trẻ em/dữ liệu",
+        "Kiểm soát độ tuổi/phụ huynh và an toàn mặc định",
+        "Red-teaming, báo cáo, giám sát liên tục"
+      ],
+      "tags": [
+        "child-safety",
+        "generative-ai",
+        "safety",
+        "compliance"
+      ]
+    },
+    {
+      "id": "E79-D12",
+      "module": "D",
+      "type": "essay",
+      "points": 2.5,
+      "prompt": "Ban lãnh đạo muốn tự động hóa nhiều quy trình bằng AI, lo ngại tác động việc làm. Nêu cách cân bằng tự động hóa và trách nhiệm xã hội.",
+      "modelAnswer": "Cân bằng: ưu tiên tăng cường năng lực (augmentation) hơn thay thế hoàn toàn, để AI làm phần lặp lại còn con người làm phán đoán/quan hệ. Trách nhiệm: minh bạch lộ trình với nhân viên, đào tạo lại (reskilling) và chuyển đổi vai trò, hỗ trợ chuyển tiếp cho người bị ảnh hưởng. Quản trị: đánh giá tác động trước khi triển khai, triển khai theo giai đoạn có giám sát, đo cả lợi ích lẫn rủi ro xã hội. Kết hợp lợi ích doanh nghiệp với trách nhiệm dài hạn và giữ niềm tin nhân viên.",
+      "rubric": [
+        "Ưu tiên augmentation hơn thay thế",
+        "Minh bạch và đào tạo lại nhân viên",
+        "Hỗ trợ chuyển tiếp cho người bị ảnh hưởng",
+        "Đánh giá tác động và triển khai theo giai đoạn",
+        "Cân bằng lợi ích doanh nghiệp và trách nhiệm xã hội"
+      ],
+      "tags": [
+        "automation",
+        "jobs",
+        "ethics",
+        "social-impact"
+      ]
+    }
+  ]
+}
