@@ -1,0 +1,3004 @@
+{
+  "id": "exam-87",
+  "title": "Tổng ôn Toàn diện AI #7 (100 câu)",
+  "description": "Đề cương ôn tập tổng hợp toàn khóa AI gồm 100 câu trắc nghiệm và tự luận. Bao phủ toán-thống kê, lập trình Python/NumPy/Pandas, học máy và học sâu, thị giác máy tính, NLP, GNN cùng logic và đạo đức AI. Phù hợp để tự kiểm tra kiến thức trước kỳ thi.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "E87-001",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.arange(1,7).reshape(2,3)\nprint(a.sum(axis=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[5 7 9]"
+        },
+        {
+          "key": "B",
+          "text": "[ 6 15]"
+        },
+        {
+          "key": "C",
+          "text": "[ 9 12]"
+        },
+        {
+          "key": "D",
+          "text": "[6 7 8]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng theo axis=0 gộp các hàng: cột 0=1+4=5, cột 1=2+5=7, cột 2=3+6=9 nên kết quả là [5 7 9].",
+      "tags": [
+        "numpy",
+        "axis"
+      ]
+    },
+    {
+      "id": "E87-002",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.array([2,4,6,8,10])\nprint(a[1::2])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 8]"
+        },
+        {
+          "key": "B",
+          "text": "[2 6 10]"
+        },
+        {
+          "key": "C",
+          "text": "[4 6 8]"
+        },
+        {
+          "key": "D",
+          "text": "[ 2  6 10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slicing a[1::2] bắt đầu từ chỉ số 1, bước nhảy 2 nên lấy phần tử ở chỉ số 1 và 3, tức là 4 và 8.",
+      "tags": [
+        "numpy",
+        "slicing"
+      ]
+    },
+    {
+      "id": "E87-003",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.array([[1,2],[3,4]])\nb = np.array([10,20])\nprint((a*b).sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "160"
+        },
+        {
+          "key": "B",
+          "text": "110"
+        },
+        {
+          "key": "C",
+          "text": "100"
+        },
+        {
+          "key": "D",
+          "text": "130"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Broadcasting nhân từng hàng với [10,20]: [[10,40],[30,80]], tổng = 10+40+30+80 = 160.",
+      "tags": [
+        "numpy",
+        "broadcasting"
+      ]
+    },
+    {
+      "id": "E87-004",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.linspace(0, 10, 5)[3])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7.5"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "2.5"
+        },
+        {
+          "key": "D",
+          "text": "10.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "linspace(0,10,5)=[0,2.5,5,7.5,10]; index 3 = 7.5.",
+      "tags": [
+        "numpy",
+        "linspace"
+      ]
+    },
+    {
+      "id": "E87-005",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.array([10,20,30,40])[::-1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[40 30 20 10]"
+        },
+        {
+          "key": "B",
+          "text": "[10 20 30 40]"
+        },
+        {
+          "key": "C",
+          "text": "[40 10]"
+        },
+        {
+          "key": "D",
+          "text": "[30 40]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "[::-1] đảo ngược mảng.",
+      "tags": [
+        "numpy",
+        "slicing"
+      ]
+    },
+    {
+      "id": "E87-006",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nnp.random.seed(7)\nprint(np.random.randint(0, 10, 3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4 9 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1 2 3]"
+        },
+        {
+          "key": "C",
+          "text": "[5 5 5]"
+        },
+        {
+          "key": "D",
+          "text": "[9 8 7]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Voi seed=7 co dinh, np.random.randint(0,10,3) cho ket qua tat dinh; chay thuc te in ra [4 9 6].",
+      "tags": [
+        "numpy",
+        "random",
+        "seed"
+      ]
+    },
+    {
+      "id": "E87-007",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport numpy as np\nprint(np.diff(np.array([1,4,9,16])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3 5 7]"
+        },
+        {
+          "key": "B",
+          "text": "[1 4 9 16]"
+        },
+        {
+          "key": "C",
+          "text": "[3 5 7 9]"
+        },
+        {
+          "key": "D",
+          "text": "[ 1  5 14]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "diff lấy hiệu phần tử liền kề: 3,5,7.",
+      "tags": [
+        "numpy",
+        "diff"
+      ]
+    },
+    {
+      "id": "E87-008",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.eye(3)\nprint(int(a.sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "9"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "np.eye(3) là ma trận đơn vị 3x3 với 3 phần tử 1 trên đường chéo, các phần tử khác là 0, nên tổng bằng 3.",
+      "tags": [
+        "numpy",
+        "eye"
+      ]
+    },
+    {
+      "id": "E87-009",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.array([1,2,3,4,5,6])\nprint(a.reshape(3,2)[2,1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "reshape(3,2) tạo [[1,2],[3,4],[5,6]]; phần tử [2,1] là hàng 2 cột 1 tức giá trị 6.",
+      "tags": [
+        "numpy",
+        "reshape"
+      ]
+    },
+    {
+      "id": "E87-010",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.array([1.0, 2.0, 3.0, 4.0])\nprint(np.mean(a), np.std(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.5 1.118033988749895"
+        },
+        {
+          "key": "B",
+          "text": "2.5 1.25"
+        },
+        {
+          "key": "C",
+          "text": "2.0 1.118033988749895"
+        },
+        {
+          "key": "D",
+          "text": "3.0 1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean=(1+2+3+4)/4=2.5; std dùng phương sai dân số = mean((x-2.5)^2)=1.25, căn bậc hai =1.1180...",
+      "tags": [
+        "numpy",
+        "mean",
+        "std"
+      ]
+    },
+    {
+      "id": "E87-011",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nA = np.array([[2.,1.],[1.,3.]])\nprint(round(np.linalg.det(A)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định thức ma trận 2x2 [[2,1],[1,3]] = 2*3 - 1*1 = 6-1 = 5.",
+      "tags": [
+        "toan",
+        "det",
+        "linalg"
+      ]
+    },
+    {
+      "id": "E87-012",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nu = np.array([1.,2.,2.])\nprint(np.linalg.norm(u))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "9.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn Euclid = sqrt(1^2+2^2+2^2)=sqrt(1+4+4)=sqrt(9)=3.0.",
+      "tags": [
+        "toan",
+        "norm"
+      ]
+    },
+    {
+      "id": "E87-013",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\na = np.array([1.,2.,3.])\nb = np.array([4.,5.,6.])\nprint(int(a @ b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "28"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "21"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tích vô hướng a·b = 1*4+2*5+3*6 = 4+10+18 = 32.",
+      "tags": [
+        "toan",
+        "dot"
+      ]
+    },
+    {
+      "id": "E87-014",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nv = np.array([3.,4.])\nprint(np.dot(v,v))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "25.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "12.0"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "v·v = 3*3+4*4 = 9+16 = 25.0, cũng chính là bình phương chuẩn của v.",
+      "tags": [
+        "toan",
+        "dot"
+      ]
+    },
+    {
+      "id": "E87-015",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đạo hàm của hàm f(x) = 2x³ + 5 tại x = 1 bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "11"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "f'(x)=6x²; tại x=1 → 6.",
+      "tags": [
+        "calculus",
+        "derivative"
+      ]
+    },
+    {
+      "id": "E87-016",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tích phân xác định của f(x)=2x trên đoạn [0,3] bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nguyên hàm của 2x là x^2; tính x^2 tại 3 trừ tại 0 = 9 - 0 = 9.",
+      "tags": [
+        "toan",
+        "tichphan"
+      ]
+    },
+    {
+      "id": "E87-017",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient của hàm f(x,y)=x^2+3y tại điểm (1,2) là vector nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(1, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(2, 6)"
+        },
+        {
+          "key": "D",
+          "text": "(3, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm riêng theo x là 2x=2 tại x=1; theo y là 3 hằng số; nên gradient=(2,3).",
+      "tags": [
+        "toan",
+        "gradient"
+      ]
+    },
+    {
+      "id": "E87-018",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận đường chéo [[2,0],[0,5]] có các trị riêng (eigenvalues) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 và 5"
+        },
+        {
+          "key": "B",
+          "text": "0 và 7"
+        },
+        {
+          "key": "C",
+          "text": "2 và 0"
+        },
+        {
+          "key": "D",
+          "text": "5 và 10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với ma trận đường chéo, các trị riêng chính là các phần tử trên đường chéo, tức là 2 và 5.",
+      "tags": [
+        "toan",
+        "eigenvalue"
+      ]
+    },
+    {
+      "id": "E87-019",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nA = np.array([[1.,2.],[3.,4.]])\nprint(A.T[0,1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị A.T = [[1,3],[2,4]]; phần tử [0,1] là hàng 0 cột 1 = 3.0.",
+      "tags": [
+        "toan",
+        "transpose"
+      ]
+    },
+    {
+      "id": "E87-020",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tung một con xúc xắc 6 mặt cân đối, xác suất ra số chẵn là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1/2"
+        },
+        {
+          "key": "B",
+          "text": "1/3"
+        },
+        {
+          "key": "C",
+          "text": "1/6"
+        },
+        {
+          "key": "D",
+          "text": "2/3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Có 3 số chẵn (2,4,6) trên 6 mặt nên xác suất = 3/6 = 1/2.",
+      "tags": [
+        "xacsuat",
+        "cơbản"
+      ]
+    },
+    {
+      "id": "E87-021",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hai biến cố A, B độc lập với P(A)=0.4, P(B)=0.5. P(A và B) bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.2"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "0.1"
+        },
+        {
+          "key": "D",
+          "text": "0.45"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với biến cố độc lập P(A∩B)=P(A)*P(B)=0.4*0.5=0.2.",
+      "tags": [
+        "xacsuat",
+        "doclap"
+      ]
+    },
+    {
+      "id": "E87-022",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Theo định lý Bayes, P(A|B) bằng biểu thức nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "P(B|A)P(A)/P(B)"
+        },
+        {
+          "key": "B",
+          "text": "P(B|A)P(B)/P(A)"
+        },
+        {
+          "key": "C",
+          "text": "P(A)P(B)/P(B|A)"
+        },
+        {
+          "key": "D",
+          "text": "P(A|B)P(B)/P(A)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định lý Bayes: P(A|B) = P(B|A)*P(A)/P(B), đảo ngược xác suất có điều kiện qua tiên nghiệm.",
+      "tags": [
+        "xacsuat",
+        "bayes"
+      ]
+    },
+    {
+      "id": "E87-023",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nx = np.array([2,4,4,4,5,5,7,9])\nprint(np.median(x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.5"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "4.0"
+        },
+        {
+          "key": "D",
+          "text": "5.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "8 phần tử đã sắp xếp; trung vị là trung bình hai giá trị giữa (chỉ số 3 và 4) = (4+5)/2 = 4.5.",
+      "tags": [
+        "xacsuat",
+        "median"
+      ]
+    },
+    {
+      "id": "E87-024",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nx = np.array([1.,2.,3.,4.,5.])\nprint(np.var(x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "1.41"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mean=3; phương sai dân số = mean((x-3)^2)=(4+1+0+1+4)/5=10/5=2.0.",
+      "tags": [
+        "xacsuat",
+        "variance"
+      ]
+    },
+    {
+      "id": "E87-025",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một biến ngẫu nhiên phân phối chuẩn N(μ=10, σ=2). Khoảng nào chứa khoảng 68% giá trị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "[8, 12]"
+        },
+        {
+          "key": "B",
+          "text": "[6, 14]"
+        },
+        {
+          "key": "C",
+          "text": "[9, 11]"
+        },
+        {
+          "key": "D",
+          "text": "[4, 16]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Theo quy tắc 68-95-99.7, khoảng ±1σ quanh trung bình chứa ~68%, tức [10-2, 10+2]=[8,12].",
+      "tags": [
+        "xacsuat",
+        "normal"
+      ]
+    },
+    {
+      "id": "E87-026",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kỳ vọng E[X] của con xúc xắc 6 mặt cân đối bằng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.5"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "4.0"
+        },
+        {
+          "key": "D",
+          "text": "6.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "E[X]=(1+2+3+4+5+6)/6=21/6=3.5.",
+      "tags": [
+        "xacsuat",
+        "kyvong"
+      ]
+    },
+    {
+      "id": "E87-027",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\np = np.array([0.1,0.2,0.3,0.4])\nx = np.array([0,1,2,3])\nprint(round(float((p*x).sum()),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "1.5"
+        },
+        {
+          "key": "C",
+          "text": "2.5"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kỳ vọng = sum(p*x) = 0*0.1+1*0.2+2*0.3+3*0.4 = 0+0.2+0.6+1.2 = 2.0.",
+      "tags": [
+        "xacsuat",
+        "kyvong"
+      ]
+    },
+    {
+      "id": "E87-028",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong kiểm định giả thuyết, p-value = 0.03 với mức ý nghĩa α=0.05 dẫn đến kết luận nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bác bỏ giả thuyết H0"
+        },
+        {
+          "key": "B",
+          "text": "Chấp nhận H0 là đúng tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Không thể kết luận gì"
+        },
+        {
+          "key": "D",
+          "text": "Tăng α lên 0.10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vì p-value=0.03 < α=0.05 nên ta bác bỏ giả thuyết không H0; kết quả được coi là có ý nghĩa thống kê.",
+      "tags": [
+        "xacsuat",
+        "kiemdinh"
+      ]
+    },
+    {
+      "id": "E87-029",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số tương quan Pearson bằng -1 nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai biến tương quan tuyến tính âm hoàn hảo"
+        },
+        {
+          "key": "B",
+          "text": "Hai biến hoàn toàn độc lập"
+        },
+        {
+          "key": "C",
+          "text": "Hai biến tương quan dương hoàn hảo"
+        },
+        {
+          "key": "D",
+          "text": "Không có quan hệ tuyến tính"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ số Pearson = -1 thể hiện quan hệ tuyến tính âm hoàn hảo: một biến tăng thì biến kia giảm theo đường thẳng.",
+      "tags": [
+        "xacsuat",
+        "correlation"
+      ]
+    },
+    {
+      "id": "E87-030",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport pandas as pd\nprint(pd.Series([1,2,2,3,3,3]).value_counts().iloc[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "value_counts đếm giảm dần; giá trị 3 xuất hiện 3 lần → đứng đầu.",
+      "tags": [
+        "pandas",
+        "value_counts"
+      ]
+    },
+    {
+      "id": "E87-031",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport pandas as pd\ndf = pd.DataFrame({'x':[10,20,30,40]})\nprint(df['x'].mean())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "25.0"
+        },
+        {
+          "key": "B",
+          "text": "20.0"
+        },
+        {
+          "key": "C",
+          "text": "30.0"
+        },
+        {
+          "key": "D",
+          "text": "100.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình cột x = (10+20+30+40)/4 = 100/4 = 25.0.",
+      "tags": [
+        "pandas",
+        "mean"
+      ]
+    },
+    {
+      "id": "E87-032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport pandas as pd\nprint(pd.Series([1,2,3,4]).rolling(2).sum().tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[nan, 3.0, 5.0, 7.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 3.0, 5.0, 7.0]"
+        },
+        {
+          "key": "C",
+          "text": "[3.0, 5.0, 7.0]"
+        },
+        {
+          "key": "D",
+          "text": "[10]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "rolling(2).sum: phần tử đầu NaN, sau đó tổng 2 phần tử liền kề.",
+      "tags": [
+        "pandas",
+        "rolling"
+      ]
+    },
+    {
+      "id": "E87-033",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df[df['a']>2]['a'].tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3, 4]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 3, 4]"
+        },
+        {
+          "key": "D",
+          "text": "[4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lọc các hàng có a>2 giữ lại 3 và 4, nên danh sách kết quả là [3, 4].",
+      "tags": [
+        "pandas",
+        "boolean-index"
+      ]
+    },
+    {
+      "id": "E87-034",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint((df['a'] + df['b']).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3, 4]"
+        },
+        {
+          "key": "C",
+          "text": "[3, 8]"
+        },
+        {
+          "key": "D",
+          "text": "[4, 4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cộng hai cột theo hàng: 1+3=4, 2+4=6.",
+      "tags": [
+        "pandas",
+        "column"
+      ]
+    },
+    {
+      "id": "E87-035",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport pandas as pd\ns = pd.Series([5,3,8,1])\nprint(s.max() - s.min())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "max=8, min=1; hiệu = 8-1 = 7.",
+      "tags": [
+        "pandas",
+        "series"
+      ]
+    },
+    {
+      "id": "E87-036",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,None,3]})\nprint(int(df['a'].isna().sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cột a có đúng một giá trị None (NaN), nên isna().sum() đếm được 1.",
+      "tags": [
+        "pandas",
+        "isna"
+      ]
+    },
+    {
+      "id": "E87-037",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nimport pandas as pd\nprint(pd.Series([5, 3, 8]).max())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "16"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "max của Series = 8.",
+      "tags": [
+        "pandas",
+        "max"
+      ]
+    },
+    {
+      "id": "E87-038",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\nprint(df['a'].corr(df['b']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "-1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cột b = cột a + 3, quan hệ tuyến tính dương hoàn hảo nên hệ số tương quan bằng 1.0.",
+      "tags": [
+        "pandas",
+        "corr"
+      ]
+    },
+    {
+      "id": "E87-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nprint('-'.join(['a', 'b', 'c']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "a-b-c"
+        },
+        {
+          "key": "B",
+          "text": "abc"
+        },
+        {
+          "key": "C",
+          "text": "['a', 'b', 'c']"
+        },
+        {
+          "key": "D",
+          "text": "a b c"
+        }
+      ],
+      "answer": "A",
+      "explanation": "join nối các phần tử bằng '-'.",
+      "tags": [
+        "python",
+        "string",
+        "join"
+      ]
+    },
+    {
+      "id": "E87-040",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nprint(7 % 3, 7 // 3)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 2"
+        },
+        {
+          "key": "B",
+          "text": "2 1"
+        },
+        {
+          "key": "C",
+          "text": "2.33 2"
+        },
+        {
+          "key": "D",
+          "text": "1 3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "7%3=1 (dư), 7//3=2 (nguyên).",
+      "tags": [
+        "python",
+        "operator"
+      ]
+    },
+    {
+      "id": "E87-041",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nx = [i*i for i in range(4)]\nprint(x)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 1, 4, 9]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 4, 9, 16]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 1, 2, 3]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 2, 4, 6]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "List comprehension lấy i từ 0..3 và bình phương: 0,1,4,9 nên kết quả [0, 1, 4, 9].",
+      "tags": [
+        "python",
+        "comprehension"
+      ]
+    },
+    {
+      "id": "E87-042",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\ns = 'hello'\nprint(s[::-1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "olleh"
+        },
+        {
+          "key": "B",
+          "text": "hello"
+        },
+        {
+          "key": "C",
+          "text": "hlle"
+        },
+        {
+          "key": "D",
+          "text": "olle"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slicing s[::-1] đảo ngược chuỗi 'hello' thành 'olleh'.",
+      "tags": [
+        "python",
+        "string-slice"
+      ]
+    },
+    {
+      "id": "E87-043",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nprint('abcabc'.count('a'))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Có 2 ký tự 'a' trong 'abcabc'.",
+      "tags": [
+        "python",
+        "string",
+        "count"
+      ]
+    },
+    {
+      "id": "E87-044",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nprint(list(map(lambda x: x*2, [1, 2, 3])))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 4, 6]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 4, 9]"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "map nhân đôi mỗi phần tử.",
+      "tags": [
+        "python",
+        "map"
+      ]
+    },
+    {
+      "id": "E87-045",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n\n```python\nprint(len('hello world today'.split()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "17"
+        }
+      ],
+      "answer": "A",
+      "explanation": "split() tách theo khoảng trắng → 3 từ.",
+      "tags": [
+        "python",
+        "string",
+        "split"
+      ]
+    },
+    {
+      "id": "E87-046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nprint(list(range(2, 10, 3)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 5, 8]"
+        },
+        {
+          "key": "B",
+          "text": "[2, 5, 8, 11]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 4, 6, 8]"
+        },
+        {
+          "key": "D",
+          "text": "[3, 6, 9]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "range(2,10,3) bắt đầu từ 2, bước 3, dừng trước 10: 2,5,8 nên danh sách là [2, 5, 8].",
+      "tags": [
+        "python",
+        "range"
+      ]
+    },
+    {
+      "id": "E87-047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm mất mát thường dùng cho hồi quy tuyến tính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mean Squared Error (MSE)"
+        },
+        {
+          "key": "B",
+          "text": "Cross-Entropy"
+        },
+        {
+          "key": "C",
+          "text": "Hinge loss"
+        },
+        {
+          "key": "D",
+          "text": "KL divergence"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hồi quy tuyến tính thường tối thiểu hóa sai số bình phương trung bình (MSE) giữa giá trị dự đoán và thực tế.",
+      "tags": [
+        "ml",
+        "linear-regression"
+      ]
+    },
+    {
+      "id": "E87-048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nyt = np.array([2.,4.,6.])\nyp = np.array([3.,4.,5.])\nprint(np.mean((yt-yp)**2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.6666666666666666"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MSE = mean((yt-yp)^2) = mean([1,0,1]) = 2/3 ≈ 0.6667.",
+      "tags": [
+        "ml",
+        "mse"
+      ]
+    },
+    {
+      "id": "E87-049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm sigmoid trong hồi quy logistic ánh xạ đầu vào về khoảng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(0, 1)"
+        },
+        {
+          "key": "B",
+          "text": "(-1, 1)"
+        },
+        {
+          "key": "C",
+          "text": "(0, ∞)"
+        },
+        {
+          "key": "D",
+          "text": "(-∞, ∞)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid σ(z)=1/(1+e^-z) luôn cho giá trị trong khoảng (0,1), thích hợp diễn giải như xác suất.",
+      "tags": [
+        "ml",
+        "logistic",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E87-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\ndef sigmoid(z): return 1/(1+np.exp(-z))\nprint(round(float(sigmoid(0)),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.0"
+        },
+        {
+          "key": "D",
+          "text": "0.731"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sigmoid(0)=1/(1+e^0)=1/(1+1)=1/2=0.5; tại z=0 hàm sigmoid luôn bằng 0.5.",
+      "tags": [
+        "ml",
+        "sigmoid"
+      ]
+    },
+    {
+      "id": "E87-051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thuật toán K-Means nhằm tối thiểu hóa đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương khoảng cách trong cụm (inertia)"
+        },
+        {
+          "key": "B",
+          "text": "Cross-entropy"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác phân loại"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng cụm K"
+        }
+      ],
+      "answer": "A",
+      "explanation": "K-Means tối thiểu hóa tổng bình phương khoảng cách từ mỗi điểm tới tâm cụm của nó (inertia/WCSS).",
+      "tags": [
+        "ml",
+        "kmeans"
+      ]
+    },
+    {
+      "id": "E87-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong K-Means, bước cập nhật tâm cụm (centroid) được thực hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấy trung bình các điểm thuộc cụm"
+        },
+        {
+          "key": "B",
+          "text": "Lấy điểm xa nhất trong cụm"
+        },
+        {
+          "key": "C",
+          "text": "Chọn ngẫu nhiên một điểm mới"
+        },
+        {
+          "key": "D",
+          "text": "Lấy trung vị của toàn bộ dữ liệu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sau khi gán nhãn, mỗi tâm cụm được cập nhật thành trung bình (centroid) của các điểm được gán vào cụm đó.",
+      "tags": [
+        "ml",
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E87-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\npts = np.array([[0.,0.],[2.,0.],[4.,0.]])\nprint(pts.mean(axis=0))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[0. 2.]"
+        },
+        {
+          "key": "C",
+          "text": "[3. 0.]"
+        },
+        {
+          "key": "D",
+          "text": "[2. 2.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tâm cụm = trung bình theo từng tọa độ: x=(0+2+4)/3=2, y=(0+0+0)/3=0, nên centroid là [2. 0.].",
+      "tags": [
+        "ml",
+        "kmeans",
+        "centroid"
+      ]
+    },
+    {
+      "id": "E87-054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hiện tượng overfitting (quá khớp) được nhận biết qua dấu hiệu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi huấn luyện thấp nhưng lỗi kiểm tra cao"
+        },
+        {
+          "key": "B",
+          "text": "Cả lỗi huấn luyện và kiểm tra đều cao"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi huấn luyện cao, lỗi kiểm tra thấp"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình quá đơn giản"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Overfitting xảy ra khi mô hình học thuộc dữ liệu huấn luyện (lỗi train thấp) nhưng kém tổng quát hóa (lỗi test cao).",
+      "tags": [
+        "ml",
+        "overfitting"
+      ]
+    },
+    {
+      "id": "E87-055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Regularization L2 (ridge) thêm vào hàm mất mát thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng bình phương các trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Tổng giá trị tuyệt đối các trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng đặc trưng"
+        },
+        {
+          "key": "D",
+          "text": "Entropy của nhãn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Regularization L2 cộng λ*Σw^2 vào hàm mất mát, phạt các trọng số lớn để giảm overfitting.",
+      "tags": [
+        "ml",
+        "regularization"
+      ]
+    },
+    {
+      "id": "E87-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nyt = np.array([1,0,1,1])\nyp = np.array([1,0,0,1])\nprint(np.mean(yt==yp))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.75"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Accuracy = số dự đoán đúng / tổng = 3/4 = 0.75 (chỉ sai một vị trí thứ ba).",
+      "tags": [
+        "ml",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "E87-057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm kích hoạt ReLU được định nghĩa thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "max(0, x)"
+        },
+        {
+          "key": "B",
+          "text": "1/(1+e^-x)"
+        },
+        {
+          "key": "C",
+          "text": "tanh(x)"
+        },
+        {
+          "key": "D",
+          "text": "x^2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(x)=max(0,x): trả về x nếu dương, ngược lại trả về 0; giúp giảm vanishing gradient.",
+      "tags": [
+        "dl",
+        "mlp",
+        "relu"
+      ]
+    },
+    {
+      "id": "E87-058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nx = np.array([-2., 0., 3., -1.])\nprint(np.maximum(0, x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0. 0. 3. 0.]"
+        },
+        {
+          "key": "B",
+          "text": "[-2.  0.  3. -1.]"
+        },
+        {
+          "key": "C",
+          "text": "[2. 0. 3. 1.]"
+        },
+        {
+          "key": "D",
+          "text": "[0. 1. 3. 0.]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU(x)=max(0,x) áp dụng từng phần tử: âm thành 0, dương giữ nguyên, nên [0. 0. 3. 0.].",
+      "tags": [
+        "dl",
+        "relu"
+      ]
+    },
+    {
+      "id": "E87-059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thuật toán lan truyền ngược (backpropagation) dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính gradient của hàm mất mát theo các trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Khởi tạo trọng số ngẫu nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa dữ liệu đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Chọn số lớp ẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backpropagation áp dụng quy tắc chuỗi để tính gradient của hàm mất mát theo từng trọng số, phục vụ cập nhật bằng gradient descent.",
+      "tags": [
+        "dl",
+        "backprop"
+      ]
+    },
+    {
+      "id": "E87-060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Vai trò chính của hàm kích hoạt phi tuyến trong MLP là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép mạng học các quan hệ phi tuyến phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số tham số"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc độ đọc dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Loại bỏ hoàn toàn overfitting"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu chỉ chồng các phép biến đổi tuyến tính thì mạng vẫn tuyến tính; hàm kích hoạt phi tuyến giúp mô hình biểu diễn quan hệ phi tuyến phức tạp.",
+      "tags": [
+        "dl",
+        "mlp",
+        "activation"
+      ]
+    },
+    {
+      "id": "E87-061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nW = np.array([[1.,2.],[3.,4.]])\nx = np.array([1.,1.])\nb = np.array([0.5,0.5])\nprint(W @ x + b)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[3.5 7.5]"
+        },
+        {
+          "key": "B",
+          "text": "[3. 7.]"
+        },
+        {
+          "key": "C",
+          "text": "[4. 8.]"
+        },
+        {
+          "key": "D",
+          "text": "[1.5 3.5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp tuyến tính tính W@x+b: hàng 1 = 1+2+0.5=3.5, hàng 2 = 3+4+0.5=7.5, nên [3.5 7.5].",
+      "tags": [
+        "dl",
+        "mlp",
+        "forward"
+      ]
+    },
+    {
+      "id": "E87-062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hàm softmax thường được dùng ở đâu trong mạng phân loại đa lớp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lớp đầu ra để tạo phân phối xác suất trên các lớp"
+        },
+        {
+          "key": "B",
+          "text": "Lớp đầu vào để chuẩn hóa"
+        },
+        {
+          "key": "C",
+          "text": "Giữa các lớp ẩn thay cho ReLU"
+        },
+        {
+          "key": "D",
+          "text": "Trong bước khởi tạo trọng số"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax ở lớp đầu ra biến các logit thành phân phối xác suất (cộng lại bằng 1) trên các lớp phân loại.",
+      "tags": [
+        "dl",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E87-063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nz = np.array([1.,2.,3.])\ne = np.exp(z - z.max())\nprint(np.round(e/e.sum(),4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.09   0.2447 0.6652]"
+        },
+        {
+          "key": "B",
+          "text": "[0.1 0.3 0.6]"
+        },
+        {
+          "key": "C",
+          "text": "[0.333 0.333 0.333]"
+        },
+        {
+          "key": "D",
+          "text": "[0.2 0.3 0.5]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Softmax ổn định trừ max rồi chuẩn hóa: e^(-2),e^(-1),e^0 chia tổng cho [0.09, 0.2447, 0.6652].",
+      "tags": [
+        "dl",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E87-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dropout trong mạng nơ-ron hoạt động bằng cách nào khi huấn luyện?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngẫu nhiên tắt một phần nơ-ron để giảm overfitting"
+        },
+        {
+          "key": "B",
+          "text": "Xóa vĩnh viễn các lớp ẩn"
+        },
+        {
+          "key": "C",
+          "text": "Tăng learning rate mỗi epoch"
+        },
+        {
+          "key": "D",
+          "text": "Sao chép trọng số giữa các lớp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dropout ngẫu nhiên 'tắt' một tỉ lệ nơ-ron trong mỗi bước huấn luyện, buộc mạng học đặc trưng dư thừa và giảm overfitting.",
+      "tags": [
+        "dl",
+        "dropout"
+      ]
+    },
+    {
+      "id": "E87-065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đặc điểm chính của lớp tích chập (convolution) trong CNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia sẻ trọng số qua các vị trí không gian"
+        },
+        {
+          "key": "B",
+          "text": "Kết nối đầy đủ mọi nơ-ron"
+        },
+        {
+          "key": "C",
+          "text": "Không có tham số học được"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho dữ liệu 1 chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lớp tích chập dùng chung bộ lọc (chia sẻ trọng số) trượt trên ảnh, giúp giảm tham số và bắt đặc trưng cục bộ bất biến vị trí.",
+      "tags": [
+        "cv",
+        "cnn",
+        "conv"
+      ]
+    },
+    {
+      "id": "E87-066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Với ảnh đầu vào 32x32, kernel 3x3, stride 1, không padding, kích thước đầu ra là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "30x30"
+        },
+        {
+          "key": "B",
+          "text": "32x32"
+        },
+        {
+          "key": "C",
+          "text": "34x34"
+        },
+        {
+          "key": "D",
+          "text": "16x16"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Công thức: (W-K)/S+1 = (32-3)/1+1 = 30, nên đầu ra là 30x30.",
+      "tags": [
+        "cv",
+        "cnn",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E87-067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nW, K, P, S = 28, 5, 0, 1\nout = (W - K + 2*P)//S + 1\nprint(out)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "24"
+        },
+        {
+          "key": "B",
+          "text": "28"
+        },
+        {
+          "key": "C",
+          "text": "23"
+        },
+        {
+          "key": "D",
+          "text": "26"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Công thức kích thước = (W-K+2P)/S+1 = (28-5+0)/1+1 = 23+1 = 24.",
+      "tags": [
+        "cv",
+        "cnn",
+        "output-size"
+      ]
+    },
+    {
+      "id": "E87-068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Lớp max pooling 2x2 (stride 2) trên ảnh có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm kích thước không gian đi một nửa và giữ giá trị lớn nhất"
+        },
+        {
+          "key": "B",
+          "text": "Tăng độ phân giải ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Thêm tham số học được"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển ảnh sang ảnh xám"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max pooling 2x2 stride 2 lấy giá trị lớn nhất mỗi vùng 2x2, giảm chiều rộng và cao đi một nửa, không có tham số học.",
+      "tags": [
+        "cv",
+        "cnn",
+        "pooling"
+      ]
+    },
+    {
+      "id": "E87-069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kiến trúc U-Net đặc trưng bởi thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đường nối tắt (skip connections) giữa encoder và decoder"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ có các lớp fully-connected"
+        },
+        {
+          "key": "C",
+          "text": "Không dùng tích chập"
+        },
+        {
+          "key": "D",
+          "text": "Một lớp ẩn duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net dùng các skip connection nối đặc trưng từ encoder sang decoder cùng cấp, giúp phục hồi chi tiết không gian khi phân đoạn ảnh.",
+      "tags": [
+        "cv",
+        "unet"
+      ]
+    },
+    {
+      "id": "E87-070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "U-Net thường được dùng cho bài toán nào trong thị giác máy tính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân đoạn ảnh (image segmentation)"
+        },
+        {
+          "key": "B",
+          "text": "Sinh văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Dự báo chuỗi thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu bảng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "U-Net ra đời cho phân đoạn ảnh y sinh và nay phổ biến cho phân đoạn ảnh nói chung nhờ kiến trúc encoder-decoder có skip connection.",
+      "tags": [
+        "cv",
+        "unet",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E87-071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hệ số IoU (Intersection over Union) trong phân đoạn ảnh đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỉ lệ phần giao trên phần hợp của vùng dự đoán và thực tế"
+        },
+        {
+          "key": "B",
+          "text": "Số tham số của mô hình"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ suy luận"
+        },
+        {
+          "key": "D",
+          "text": "Số lớp tích chập"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU = diện tích giao / diện tích hợp giữa mặt nạ dự đoán và mặt nạ thực, càng gần 1 thì phân đoạn càng khớp.",
+      "tags": [
+        "cv",
+        "iou",
+        "segmentation"
+      ]
+    },
+    {
+      "id": "E87-072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Cơ chế cốt lõi của kiến trúc Transformer là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-attention (tự chú ý)"
+        },
+        {
+          "key": "B",
+          "text": "Tích chập 3x3"
+        },
+        {
+          "key": "C",
+          "text": "Recurrence (hồi quy theo thời gian)"
+        },
+        {
+          "key": "D",
+          "text": "Max pooling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transformer dựa trên self-attention cho phép mỗi token chú ý tới mọi token khác, loại bỏ nhu cầu hồi quy tuần tự.",
+      "tags": [
+        "nlp",
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "E87-073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Công thức scaled dot-product attention chia điểm số cho đại lượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Căn bậc hai của số chiều khóa (sqrt(d_k))"
+        },
+        {
+          "key": "B",
+          "text": "Số lượng token"
+        },
+        {
+          "key": "C",
+          "text": "Learning rate"
+        },
+        {
+          "key": "D",
+          "text": "Số head"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Attention = softmax(QK^T/sqrt(d_k))V; chia cho sqrt(d_k) để ổn định gradient khi số chiều lớn.",
+      "tags": [
+        "nlp",
+        "attention",
+        "scaling"
+      ]
+    },
+    {
+      "id": "E87-074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kỹ thuật 'beam search' khi sinh văn bản nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ nhiều chuỗi ứng viên tốt nhất để tìm chuỗi xác suất cao hơn greedy"
+        },
+        {
+          "key": "B",
+          "text": "Tăng nhiệt độ (temperature)"
+        },
+        {
+          "key": "C",
+          "text": "Nén mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa embedding"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Beam search duy trì k chuỗi tốt nhất ở mỗi bước, thường cho kết quả tốt hơn giải mã tham lam.",
+      "tags": [
+        "nlp",
+        "decoding",
+        "beam-search"
+      ]
+    },
+    {
+      "id": "E87-075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tokenization kiểu subword (BPE/WordPiece) giúp xử lý vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ hiếm / từ mới (OOV) bằng cách chia thành các mảnh nhỏ"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc GPU"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa màu ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số lớp mạng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Subword chia từ hiếm thành mảnh con đã biết nên xử lý được từ chưa thấy trong từ vựng.",
+      "tags": [
+        "nlp",
+        "tokenization",
+        "bpe"
+      ]
+    },
+    {
+      "id": "E87-076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nz = np.array([2.,1.,3.])\ne = np.exp(z - z.max())\nw = e/e.sum()\nprint(int(np.argmax(w)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trọng số attention sau softmax lớn nhất ở vị trí có logit lớn nhất; logit max là 3 tại chỉ số 2 nên argmax=2.",
+      "tags": [
+        "nlp",
+        "attention",
+        "softmax"
+      ]
+    },
+    {
+      "id": "E87-077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "BERT được huấn luyện trước (pre-training) chủ yếu bằng nhiệm vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Masked Language Modeling (dự đoán từ bị che)"
+        },
+        {
+          "key": "B",
+          "text": "Dịch máy có giám sát"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Hồi quy giá nhà"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BERT dùng Masked Language Modeling: che ngẫu nhiên một số token và huấn luyện mô hình dự đoán chúng từ ngữ cảnh hai chiều.",
+      "tags": [
+        "nlp",
+        "bert",
+        "pretraining"
+      ]
+    },
+    {
+      "id": "E87-078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mô hình GPT thuộc loại kiến trúc Transformer nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ decoder, sinh văn bản tự hồi quy"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ encoder"
+        },
+        {
+          "key": "C",
+          "text": "Mạng tích chập"
+        },
+        {
+          "key": "D",
+          "text": "Mạng hồi quy LSTM"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GPT là Transformer chỉ-decoder, sinh token tiếp theo một cách tự hồi quy dựa trên các token đã có (causal attention).",
+      "tags": [
+        "nlp",
+        "gpt",
+        "decoder"
+      ]
+    },
+    {
+      "id": "E87-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Kỹ thuật tokenization như BPE (Byte Pair Encoding) nhằm mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia văn bản thành các đơn vị từ con để xử lý từ hiếm"
+        },
+        {
+          "key": "B",
+          "text": "Loại bỏ toàn bộ dấu câu"
+        },
+        {
+          "key": "C",
+          "text": "Dịch văn bản sang tiếng Anh"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số chiều embedding lên vô hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BPE gộp dần các cặp ký tự/byte phổ biến để tạo từ vựng đơn vị từ con (subword), xử lý tốt từ hiếm và từ chưa gặp.",
+      "tags": [
+        "nlp",
+        "tokenization",
+        "bpe"
+      ]
+    },
+    {
+      "id": "E87-080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Word embedding (như word2vec) biểu diễn từ theo cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector số thực dày trong không gian nhiều chiều"
+        },
+        {
+          "key": "B",
+          "text": "Một số nguyên duy nhất ngẫu nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Ảnh nhị phân"
+        },
+        {
+          "key": "D",
+          "text": "Cây phân cấp các ký tự"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Word embedding ánh xạ mỗi từ thành một vector số thực dày, sao cho các từ ngữ nghĩa gần nhau ở gần nhau trong không gian.",
+      "tags": [
+        "nlp",
+        "embedding"
+      ]
+    },
+    {
+      "id": "E87-081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Graph Neural Network (GNN) cập nhật biểu diễn nút bằng cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tổng hợp thông tin từ các nút lân cận (message passing)"
+        },
+        {
+          "key": "B",
+          "text": "Tích chập 2D trên lưới điểm ảnh"
+        },
+        {
+          "key": "C",
+          "text": "Hồi quy tuyến tính đơn giản"
+        },
+        {
+          "key": "D",
+          "text": "Sắp xếp các nút theo bậc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GNN dùng message passing: mỗi nút tổng hợp (aggregate) đặc trưng từ các nút lân cận rồi cập nhật biểu diễn của chính nó qua từng lớp.",
+      "tags": [
+        "gnn",
+        "message-passing"
+      ]
+    },
+    {
+      "id": "E87-082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Ma trận kề (adjacency matrix) A của đồ thị mô tả điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự kết nối giữa các cặp nút"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng của từng nút"
+        },
+        {
+          "key": "C",
+          "text": "Nhãn dự đoán"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số mạng nơ-ron"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ma trận kề A có A[i,j] biểu thị có cạnh nối nút i và j hay không (và trọng số nếu có), mô tả cấu trúc kết nối đồ thị.",
+      "tags": [
+        "gnn",
+        "adjacency"
+      ]
+    },
+    {
+      "id": "E87-083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Đoạn code sau in ra gì?\n```python\nimport numpy as np\nA = np.array([[0,1,1],[1,0,1],[1,1,0]])\nprint(A.sum(axis=1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 2 2]"
+        },
+        {
+          "key": "B",
+          "text": "[1 1 1]"
+        },
+        {
+          "key": "C",
+          "text": "[3 3 3]"
+        },
+        {
+          "key": "D",
+          "text": "[0 0 0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng mỗi hàng ma trận kề là bậc của nút; mỗi nút nối với 2 nút còn lại nên bậc đều bằng 2, cho [2 2 2].",
+      "tags": [
+        "gnn",
+        "degree"
+      ]
+    },
+    {
+      "id": "E87-084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tác vụ 'dự đoán liên kết' (link prediction) trong GNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán có hay không một cạnh giữa hai đỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại cả đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Đếm số đỉnh của đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Tô màu pixel của ảnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Link prediction dự đoán khả năng tồn tại cạnh giữa hai đỉnh — vd gợi ý kết bạn/sản phẩm.",
+      "tags": [
+        "gnn",
+        "link-prediction"
+      ]
+    },
+    {
+      "id": "E87-085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bài toán node classification trên đồ thị nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán nhãn cho từng nút dựa trên đặc trưng và cấu trúc"
+        },
+        {
+          "key": "B",
+          "text": "Đếm số cạnh của đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Sắp xếp các nút theo tên"
+        },
+        {
+          "key": "D",
+          "text": "Vẽ đồ thị ra màn hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Node classification gán nhãn cho mỗi nút (ví dụ chủ đề bài báo) dựa trên đặc trưng nút và thông tin từ các lân cận trong đồ thị.",
+      "tags": [
+        "gnn",
+        "node-classification"
+      ]
+    },
+    {
+      "id": "E87-086",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Mệnh đề 'Nếu trời mưa thì đường ướt'. Biết đường KHÔNG ướt, suy ra điều gì (modus tollens)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trời không mưa"
+        },
+        {
+          "key": "B",
+          "text": "Trời mưa"
+        },
+        {
+          "key": "C",
+          "text": "Không kết luận được"
+        },
+        {
+          "key": "D",
+          "text": "Đường ướt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Modus tollens: từ (P→Q) và ¬Q suy ra ¬P. Đường không ướt (¬Q) nên trời không mưa (¬P).",
+      "tags": [
+        "logic",
+        "modus-tollens"
+      ]
+    },
+    {
+      "id": "E87-087",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phủ định của mệnh đề 'Mọi sinh viên đều đậu' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tồn tại ít nhất một sinh viên không đậu"
+        },
+        {
+          "key": "B",
+          "text": "Mọi sinh viên đều rớt"
+        },
+        {
+          "key": "C",
+          "text": "Không sinh viên nào đậu"
+        },
+        {
+          "key": "D",
+          "text": "Mọi sinh viên đều đậu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phủ định của lượng từ 'mọi' (∀) là 'tồn tại' (∃) với mệnh đề phủ định: tồn tại ít nhất một sinh viên không đậu.",
+      "tags": [
+        "logic",
+        "quantifier"
+      ]
+    },
+    {
+      "id": "E87-088",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Một mô hình AI tuyển dụng học từ dữ liệu lịch sử thiên lệch giới tính. Rủi ro đạo đức chính là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình tái tạo và khuếch đại định kiến giới trong quyết định"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chạy chậm hơn"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình tốn nhiều RAM"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình dễ bị nén"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nếu dữ liệu huấn luyện chứa thiên lệch giới, mô hình sẽ học và tái tạo, thậm chí khuếch đại định kiến đó, gây phân biệt đối xử bất công.",
+      "tags": [
+        "daoduc",
+        "bias",
+        "fairness"
+      ]
+    },
+    {
+      "id": "E87-089",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Nguyên tắc 'quyền được giải thích' (right to explanation) trong AI có nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Người bị ảnh hưởng có quyền hiểu lý do của quyết định tự động"
+        },
+        {
+          "key": "B",
+          "text": "AI được phép giải thích bất cứ điều gì"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình phải mã nguồn mở hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng phải giải thích cho AI"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quyền được giải thích đảm bảo cá nhân chịu tác động của quyết định tự động có thể được biết và hiểu lý do dẫn tới quyết định đó.",
+      "tags": [
+        "daoduc",
+        "explainability"
+      ]
+    },
+    {
+      "id": "E87-090",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Trong tư duy giải quyết vấn đề, chia một bài toán lớn thành các bài toán con gọi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phân rã (decomposition)"
+        },
+        {
+          "key": "B",
+          "text": "Trừu tượng hóa quá mức"
+        },
+        {
+          "key": "C",
+          "text": "Nội suy"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân rã (decomposition) là chia bài toán phức tạp thành các bài toán con nhỏ hơn, dễ xử lý hơn rồi kết hợp lời giải.",
+      "tags": [
+        "tu-duy",
+        "decomposition"
+      ]
+    },
+    {
+      "id": "E87-091",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích sự khác nhau giữa phương sai (variance) và độ lệch chuẩn (standard deviation), và vì sao độ lệch chuẩn thường dễ diễn giải hơn.",
+      "modelAnswer": "Phương sai là trung bình của bình phương độ lệch so với giá trị trung bình, đo mức độ phân tán của dữ liệu nhưng có đơn vị là bình phương đơn vị gốc. Độ lệch chuẩn là căn bậc hai của phương sai, đưa đại lượng phân tán về cùng đơn vị với dữ liệu gốc nên dễ diễn giải và so sánh trực tiếp với giá trị trung bình hơn.",
+      "rubric": [
+        "Nêu định nghĩa phương sai là trung bình bình phương độ lệch",
+        "Nêu độ lệch chuẩn là căn bậc hai của phương sai",
+        "Giải thích độ lệch chuẩn cùng đơn vị với dữ liệu nên dễ diễn giải"
+      ],
+      "tags": [
+        "xacsuat",
+        "variance",
+        "std"
+      ]
+    },
+    {
+      "id": "E87-092",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Trình bày ý tưởng của thuật toán gradient descent và vai trò của learning rate.",
+      "modelAnswer": "Gradient descent là phương pháp tối ưu lặp: tại mỗi bước tính gradient của hàm mất mát theo tham số rồi cập nhật tham số theo hướng ngược gradient để giảm dần mất mát. Learning rate điều khiển độ lớn mỗi bước cập nhật; nếu quá lớn thuật toán có thể dao động hoặc phân kỳ, nếu quá nhỏ thì hội tụ rất chậm. Việc chọn learning rate phù hợp là yếu tố then chốt để mô hình hội tụ ổn định.",
+      "rubric": [
+        "Mô tả cập nhật tham số theo hướng ngược gradient",
+        "Nêu vai trò learning rate điều khiển độ lớn bước",
+        "Nêu hậu quả khi learning rate quá lớn hoặc quá nhỏ"
+      ],
+      "tags": [
+        "dl",
+        "gradient-descent"
+      ]
+    },
+    {
+      "id": "E87-093",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "So sánh hồi quy tuyến tính và hồi quy logistic về loại bài toán và đầu ra.",
+      "modelAnswer": "Hồi quy tuyến tính dùng cho bài toán dự đoán giá trị liên tục, đầu ra là một số thực tính bằng tổ hợp tuyến tính của các đặc trưng và tối thiểu hóa sai số bình phương. Hồi quy logistic dùng cho bài toán phân loại, áp dụng hàm sigmoid lên tổ hợp tuyến tính để cho ra xác suất trong khoảng (0,1) và tối thiểu hóa cross-entropy. Như vậy chúng khác nhau cả về loại bài toán, hàm đầu ra và hàm mất mát.",
+      "rubric": [
+        "Nêu hồi quy tuyến tính dự đoán giá trị liên tục",
+        "Nêu hồi quy logistic cho phân loại với đầu ra xác suất qua sigmoid",
+        "Nêu khác biệt về hàm mất mát (MSE so với cross-entropy)"
+      ],
+      "tags": [
+        "ml",
+        "linear",
+        "logistic"
+      ]
+    },
+    {
+      "id": "E87-094",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích vì sao cơ chế self-attention giúp Transformer xử lý phụ thuộc tầm xa tốt hơn RNN.",
+      "modelAnswer": "Trong RNN, thông tin truyền tuần tự qua từng bước nên phụ thuộc giữa hai token cách xa phải đi qua nhiều bước trung gian, dễ làm mờ hoặc mất tín hiệu (vanishing gradient). Self-attention cho phép mỗi token trực tiếp tính trọng số chú ý tới mọi token khác trong một bước, nên đường truyền thông tin giữa hai vị trí bất kỳ có độ dài không đổi. Điều này giúp Transformer nắm bắt phụ thuộc tầm xa hiệu quả hơn và còn cho phép tính toán song song.",
+      "rubric": [
+        "Nêu RNN truyền tuần tự gây khó khăn với phụ thuộc xa",
+        "Nêu self-attention kết nối trực tiếp mọi cặp token",
+        "Nêu lợi ích về đường truyền ngắn hoặc tính song song"
+      ],
+      "tags": [
+        "nlp",
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "E87-095",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Mô tả vai trò của skip connection trong kiến trúc U-Net khi phân đoạn ảnh.",
+      "modelAnswer": "Skip connection trong U-Net nối trực tiếp các bản đồ đặc trưng từ tầng encoder sang tầng decoder cùng cấp độ phân giải. Trong quá trình mã hóa, thông tin không gian chi tiết bị mất do các phép giảm mẫu (pooling); skip connection mang lại các đặc trưng chi tiết đó cho decoder để phục hồi ranh giới và vị trí chính xác của đối tượng. Nhờ vậy U-Net tạo ra mặt nạ phân đoạn sắc nét, định vị tốt ngay cả với ít dữ liệu huấn luyện.",
+      "rubric": [
+        "Nêu skip connection nối encoder với decoder cùng cấp",
+        "Giải thích phục hồi thông tin không gian chi tiết bị mất khi giảm mẫu",
+        "Nêu lợi ích về độ chính xác ranh giới phân đoạn"
+      ],
+      "tags": [
+        "cv",
+        "unet"
+      ]
+    },
+    {
+      "id": "E87-096",
+      "module": "B",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích lỗi 'đối số mặc định khả biến' (mutable default argument) trong Python và cách khắc phục.",
+      "modelAnswer": "Trong Python, giá trị mặc định của tham số được tính một lần khi hàm được định nghĩa, không phải mỗi lần gọi. Nếu dùng một đối tượng khả biến như list hay dict làm mặc định, mọi lần gọi không truyền đối số sẽ dùng chung cùng một đối tượng, dẫn tới trạng thái bị tích lũy giữa các lần gọi gây lỗi khó lường. Cách khắc phục là dùng None làm mặc định rồi khởi tạo đối tượng mới bên trong hàm, ví dụ def f(x, lst=None): if lst is None: lst = [].",
+      "rubric": [
+        "Nêu giá trị mặc định được tạo một lần khi định nghĩa hàm",
+        "Nêu hậu quả chia sẻ chung đối tượng khả biến giữa các lần gọi",
+        "Nêu cách khắc phục dùng None rồi khởi tạo bên trong hàm"
+      ],
+      "tags": [
+        "python",
+        "mutable-default"
+      ]
+    },
+    {
+      "id": "E87-097",
+      "module": "B",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Trình bày sự khác nhau giữa phép gán tham chiếu (b = a) và sao chép (copy) đối với list trong Python.",
+      "modelAnswer": "Khi viết b = a với a là một list, b chỉ là một tên khác trỏ tới cùng đối tượng list trong bộ nhớ, nên thay đổi qua b cũng làm thay đổi a. Để có một danh sách độc lập cần sao chép, ví dụ b = a.copy() hoặc b = list(a) tạo bản sao nông (shallow copy) với các phần tử cùng tham chiếu, hoặc copy.deepcopy(a) tạo bản sao sâu khi list chứa đối tượng lồng nhau. Hiểu rõ điều này giúp tránh các lỗi sửa đổi dữ liệu ngoài ý muốn.",
+      "rubric": [
+        "Nêu b = a chỉ tạo tham chiếu cùng đối tượng",
+        "Nêu thay đổi qua một tên ảnh hưởng tên kia",
+        "Nêu cách sao chép như copy()/list() và phân biệt shallow/deep copy"
+      ],
+      "tags": [
+        "python",
+        "reference",
+        "copy"
+      ]
+    },
+    {
+      "id": "E87-098",
+      "module": "D",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Nêu ít nhất hai rủi ro đạo đức khi triển khai hệ thống AI nhận diện khuôn mặt trong không gian công cộng.",
+      "modelAnswer": "Thứ nhất là rủi ro xâm phạm quyền riêng tư: hệ thống có thể giám sát và theo dõi cá nhân hàng loạt mà không có sự đồng ý. Thứ hai là thiên lệch và bất công: nhiều hệ nhận diện có độ chính xác thấp hơn với một số nhóm sắc tộc hoặc giới tính, dẫn tới nhận diện sai và hậu quả nghiêm trọng như bắt nhầm. Ngoài ra còn rủi ro thiếu minh bạch, thiếu cơ chế đồng ý và khả năng bị lạm dụng cho mục đích kiểm soát. Vì vậy cần khung pháp lý, kiểm toán độ công bằng và giới hạn phạm vi sử dụng.",
+      "rubric": [
+        "Nêu rủi ro xâm phạm quyền riêng tư hoặc giám sát hàng loạt",
+        "Nêu rủi ro thiên lệch theo nhóm dẫn tới nhận diện sai bất công",
+        "Đề xuất biện pháp giảm thiểu như minh bạch, kiểm toán, đồng ý"
+      ],
+      "tags": [
+        "daoduc",
+        "facial-recognition",
+        "privacy"
+      ]
+    },
+    {
+      "id": "E87-099",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích định lý Bayes và cho một ví dụ ứng dụng trong phân loại.",
+      "modelAnswer": "Định lý Bayes cho phép đảo ngược xác suất có điều kiện: P(A|B) = P(B|A)*P(A)/P(B), trong đó P(A) là xác suất tiên nghiệm, P(B|A) là khả năng (likelihood) và P(A|B) là xác suất hậu nghiệm. Trong phân loại, ví dụ bộ lọc thư rác Naive Bayes tính xác suất một email là spam dựa trên xác suất xuất hiện các từ trong email khi biết nhãn spam, kết hợp với xác suất tiên nghiệm của spam, từ đó chọn nhãn có xác suất hậu nghiệm cao nhất.",
+      "rubric": [
+        "Viết đúng công thức Bayes P(A|B)=P(B|A)P(A)/P(B)",
+        "Giải thích các thành phần tiên nghiệm, likelihood, hậu nghiệm",
+        "Cho ví dụ ứng dụng trong phân loại như Naive Bayes"
+      ],
+      "tags": [
+        "xacsuat",
+        "bayes",
+        "classification"
+      ]
+    },
+    {
+      "id": "E87-100",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Mô tả hiện tượng over-smoothing trong Graph Neural Network sâu và một cách giảm thiểu.",
+      "modelAnswer": "Over-smoothing xảy ra khi ta xếp quá nhiều lớp message passing trong GNN: qua mỗi lớp, mỗi nút tổng hợp đặc trưng từ lân cận, và sau nhiều lớp biểu diễn của tất cả các nút dần hội tụ về giống nhau, làm mất thông tin phân biệt giữa các nút và giảm hiệu năng phân loại. Một số cách giảm thiểu gồm: giới hạn số lớp ở mức vừa phải, dùng residual/skip connection để giữ thông tin gốc của nút, hoặc các kỹ thuật như PairNorm, DropEdge nhằm duy trì sự khác biệt giữa các biểu diễn nút.",
+      "rubric": [
+        "Định nghĩa over-smoothing là biểu diễn các nút hội tụ giống nhau",
+        "Liên hệ với việc xếp quá nhiều lớp message passing",
+        "Nêu ít nhất một cách giảm thiểu như giới hạn lớp, residual hoặc DropEdge"
+      ],
+      "tags": [
+        "gnn",
+        "over-smoothing"
+      ]
+    }
+  ]
+}

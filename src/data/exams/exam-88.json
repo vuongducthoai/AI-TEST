@@ -1,0 +1,2616 @@
+{
+  "id": "exam-88",
+  "title": "Tổng ôn Toàn diện AI #8 (100 câu)",
+  "description": "Đề cương ôn tập tổng hợp gồm 100 câu trải đều các chủ đề: NumPy, Pandas, Python, toán giải tích và đại số tuyến tính, xác suất-thống kê, hồi quy và học máy, mạng nơ-ron, CNN, Transformer, NLP, GNN cùng logic và đạo đức AI. Đề nghiêng nhẹ về khái niệm và lý thuyết để củng cố nền tảng. Hãy làm trong 120 phút và tự đánh giá theo điểm đạt.",
+  "durationMinutes": 120,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đây chỉ là đề cương ôn tập cộng đồng, không phải đề thi chính thức của VinUni, không cố gắng mô phỏng đề thi thật và không cam kết giống đề thật.",
+  "questions": [
+    {
+      "id": "q001",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: kết quả của đoạn mã sau là gì?\n```python\nimport numpy as np\na=np.arange(1,13).reshape(3,4)\nprint(a[:,1].sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "18"
+        },
+        {
+          "key": "B",
+          "text": "15"
+        },
+        {
+          "key": "C",
+          "text": "21"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "arange(1,13) tạo 1..12, reshape (3,4); cột chỉ số 1 là [2,6,10], tổng = 18.",
+      "verifyCode": "import numpy as np\na=np.arange(1,13).reshape(3,4)\nprint(a[:,1].sum())"
+    },
+    {
+      "id": "q002",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: in ra giá trị nào?\n```python\nimport numpy as np\na=np.array([3,1,2,5,4])\nprint(np.argsort(a)[::-1][0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "argsort sắp tăng; phần tử lớn nhất 5 tại chỉ số 3, sau đảo ngược phần tử đầu là chỉ số 3.",
+      "verifyCode": "import numpy as np\na=np.array([3,1,2,5,4])\nprint(np.argsort(a)[::-1][0])"
+    },
+    {
+      "id": "q003",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy broadcasting: tổng tất cả phần tử của a+b?\n```python\nimport numpy as np\na=np.array([[1,2],[3,4]])\nb=np.array([10,20])\nprint((a+b).sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "70"
+        },
+        {
+          "key": "B",
+          "text": "40"
+        },
+        {
+          "key": "C",
+          "text": "60"
+        },
+        {
+          "key": "D",
+          "text": "50"
+        }
+      ],
+      "answer": "A",
+      "explanation": "b broadcast theo hàng: [[11,22],[13,24]], tổng = 70.",
+      "verifyCode": "import numpy as np\na=np.array([[1,2],[3,4]])\nb=np.array([10,20])\nprint((a+b).sum())"
+    },
+    {
+      "id": "q004",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy (seeded): in ra range (max-min)?\n```python\nimport numpy as np\nnp.random.seed(7)\nx=np.random.randint(0,10,size=6)\nprint(x.max()-x.min())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Với seed 7 mảng xác định; range=max-min được numpy tính trực tiếp.",
+      "verifyCode": "import numpy as np\nnp.random.seed(7)\nx=np.random.randint(0,10,size=6)\nprint(x.max()-x.min())"
+    },
+    {
+      "id": "q005",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: in ra phần tử giữa của linspace?\n```python\nimport numpy as np\na=np.linspace(0,1,5)\nprint(np.round(a[2],2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "0.4"
+        },
+        {
+          "key": "D",
+          "text": "0.75"
+        }
+      ],
+      "answer": "A",
+      "explanation": "linspace(0,1,5)=[0,0.25,0.5,0.75,1]; phần tử chỉ số 2 là 0.5.",
+      "verifyCode": "import numpy as np\na=np.linspace(0,1,5)\nprint(np.round(a[2],2))"
+    },
+    {
+      "id": "q006",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy boolean indexing: tổng các phần tử chẵn?\n```python\nimport numpy as np\na=np.array([1,2,3,4,5,6])\nprint(a[a%2==0].sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "12"
+        },
+        {
+          "key": "B",
+          "text": "9"
+        },
+        {
+          "key": "C",
+          "text": "21"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặt nạ a%2==0 chọn [2,4,6], tổng = 12.",
+      "verifyCode": "import numpy as np\na=np.array([1,2,3,4,5,6])\nprint(a[a%2==0].sum())"
+    },
+    {
+      "id": "q007",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: tích ma trận đơn vị với vector?\n```python\nimport numpy as np\na=np.eye(3)\nb=np.array([1,2,3])\nprint((a@b).sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.0"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "I@b=b=[1,2,3], tổng=6.0 (eye trả float).",
+      "verifyCode": "import numpy as np\na=np.eye(3)\nb=np.array([1,2,3])\nprint((a@b).sum())"
+    },
+    {
+      "id": "q008",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: shape sau khi chuyển vị ma trận 2x3?\n```python\nimport numpy as np\nA=np.array([[1,2,3],[4,5,6]])\nprint(A.T.shape)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "(3, 2)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 3)"
+        },
+        {
+          "key": "C",
+          "text": "(3, 3)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 2)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuyển vị ma trận 2x3 cho shape (3, 2).",
+      "verifyCode": "import numpy as np\nA=np.array([[1,2,3],[4,5,6]])\nprint(A.T.shape)"
+    },
+    {
+      "id": "q009",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích sự khác biệt giữa view và copy trong NumPy. Khi nào slicing tạo view và fancy indexing tạo copy? Nêu rủi ro thực tế.",
+      "modelAnswer": "Slicing cơ bản (a[1:3]) tạo VIEW chia sẻ bộ nhớ với mảng gốc nên sửa view làm thay đổi gốc. Fancy indexing (a[[0,2]]) và boolean indexing tạo COPY độc lập. Rủi ro là vô tình sửa dữ liệu gốc khi tưởng đang làm trên bản sao; dùng .copy() để tách bạch khi cần.",
+      "rubric": [
+        "Phân biệt view (slicing) vs copy (fancy/boolean)",
+        "Nêu chia sẻ bộ nhớ và hệ quả",
+        "Nêu cách phòng tránh bằng .copy()"
+      ]
+    },
+    {
+      "id": "q010",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas: tổng cột b với a>2?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4],'b':[10,20,30,40]})\nprint(df[df.a>2].b.sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "70"
+        },
+        {
+          "key": "B",
+          "text": "100"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "60"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lọc a>2 lấy b=30,40; tổng=70.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4],'b':[10,20,30,40]})\nprint(df[df.a>2].b.sum())"
+    },
+    {
+      "id": "q011",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas groupby: tổng v của nhóm 'x'?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'g':['x','y','x','y'],'v':[1,2,3,4]})\nprint(df.groupby('g').v.sum()['x'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhóm 'x' gồm v=1 và v=3, tổng=4.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'g':['x','y','x','y'],'v':[1,2,3,4]})\nprint(df.groupby('g').v.sum()['x'])"
+    },
+    {
+      "id": "q012",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas: số đếm cao nhất trong value_counts?\n```python\nimport pandas as pd\ns=pd.Series([1,2,2,3,3,3])\nprint(s.value_counts().iloc[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Giá trị 3 xuất hiện 3 lần (nhiều nhất); value_counts sắp giảm dần.",
+      "verifyCode": "import pandas as pd\ns=pd.Series([1,2,2,3,3,3])\nprint(s.value_counts().iloc[0])"
+    },
+    {
+      "id": "q013",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas: tổng số ô NaN trong DataFrame?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,None,3],'b':[4,5,None]})\nprint(int(df.isna().sum().sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Có 1 NaN ở a và 1 NaN ở b; tổng=2.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[1,None,3],'b':[4,5,None]})\nprint(int(df.isna().sum().sum()))"
+    },
+    {
+      "id": "q014",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas apply: tổng cột bình phương?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,2,3]})\ndf['b']=df.a.apply(lambda x:x*x)\nprint(df.b.sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "14"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "9"
+        },
+        {
+          "key": "D",
+          "text": "36"
+        }
+      ],
+      "answer": "A",
+      "explanation": "b=[1,4,9], tổng=14.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3]})\ndf['b']=df.a.apply(lambda x:x*x)\nprint(df.b.sum())"
+    },
+    {
+      "id": "q015",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas sort_index: phần tử đầu sau khi sắp theo index?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[3,1,2]},index=['c','a','b'])\nprint(df.sort_index().a.iloc[0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sort_index sắp a,b,c; index 'a' ứng giá trị 1.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[3,1,2]},index=['c','a','b'])\nprint(df.sort_index().a.iloc[0])"
+    },
+    {
+      "id": "q016",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas rolling: trung bình trượt cuối cùng (window=2)?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4]})\nprint(round(df.a.rolling(2).mean().iloc[-1],1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.5"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "4.0"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cửa sổ cuối gồm 3 và 4, trung bình=3.5.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4]})\nprint(round(df.a.rolling(2).mean().iloc[-1],1))"
+    },
+    {
+      "id": "q017",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "So sánh merge và concat trong Pandas. Khi nào dùng cái nào? Giải thích inner/left/outer join trong merge.",
+      "modelAnswer": "concat nối các DataFrame theo trục (hàng axis=0 hoặc cột axis=1), dùng khi gộp dữ liệu cùng cấu trúc. merge kết hợp theo khóa chung giống SQL JOIN: inner giữ khóa có ở cả hai, left giữ tất cả khóa bảng trái, outer giữ tất cả khóa của cả hai và điền NaN chỗ thiếu. Dùng merge khi quan hệ theo cột khóa, concat khi xếp chồng dữ liệu.",
+      "rubric": [
+        "Phân biệt concat (theo trục) vs merge (theo khóa)",
+        "Giải thích inner/left/outer",
+        "Nêu tình huống dùng phù hợp"
+      ]
+    },
+    {
+      "id": "q018",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python: kết quả generator expression?\n```python\nprint(sum(x*x for x in range(1,5)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "30"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "55"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng 1+4+9+16=30 (x từ 1 đến 4).",
+      "verifyCode": "print(sum(x*x for x in range(1,5)))"
+    },
+    {
+      "id": "q019",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python dict.get với mặc định?\n```python\nd={'a':1,'b':2}\nprint(d.get('c',0)+d['a'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "d.get('c',0) trả 0; cộng d['a']=1 cho 1.",
+      "verifyCode": "d={'a':1,'b':2}\nprint(d.get('c',0)+d['a'])"
+    },
+    {
+      "id": "q020",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python str.count và set?\n```python\ns='abcabc'\nprint(s.count('a')+len(set(s)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "'a' xuất hiện 2 lần; set có 3 phần tử; 2+3=5.",
+      "verifyCode": "s='abcabc'\nprint(s.count('a')+len(set(s)))"
+    },
+    {
+      "id": "q021",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python list comprehension lọc bội số 3?\n```python\nprint([i for i in range(10) if i%3==0])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 3, 6, 9]"
+        },
+        {
+          "key": "B",
+          "text": "[3, 6, 9]"
+        },
+        {
+          "key": "C",
+          "text": "[0, 3, 6]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 4, 7]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Các số 0..9 chia hết cho 3 là 0,3,6,9.",
+      "verifyCode": "print([i for i in range(10) if i%3==0])"
+    },
+    {
+      "id": "q022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python đệ quy giai thừa?\n```python\ndef f(n):\n    return 1 if n<=1 else n*f(n-1)\nprint(f(5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "120"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "60"
+        },
+        {
+          "key": "D",
+          "text": "25"
+        }
+      ],
+      "answer": "A",
+      "explanation": "f(5)=5*4*3*2*1=120.",
+      "verifyCode": "def f(n):\n    return 1 if n<=1 else n*f(n-1)\nprint(f(5))"
+    },
+    {
+      "id": "q023",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python tham chiếu list (mutable)?\n```python\na=[1,2,3]\nb=a\nb.append(4)\nprint(len(a))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "b và a cùng list; append(4) làm len(a)=4.",
+      "verifyCode": "a=[1,2,3]\nb=a\nb.append(4)\nprint(len(a))"
+    },
+    {
+      "id": "q024",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python: đảo ngược chuỗi bằng slicing?\n```python\ns='Hello'\nprint(s[::-1])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "olleH"
+        },
+        {
+          "key": "B",
+          "text": "Hello"
+        },
+        {
+          "key": "C",
+          "text": "HELLO"
+        },
+        {
+          "key": "D",
+          "text": "hello"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slicing [::-1] đảo 'Hello' thành 'olleH'.",
+      "verifyCode": "s='Hello'\nprint(s[::-1])"
+    },
+    {
+      "id": "q025",
+      "module": "B",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích khác biệt giữa *args và **kwargs trong Python. Cho ví dụ hàm dùng cả hai và nêu thứ tự khai báo bắt buộc.",
+      "modelAnswer": "*args thu gom các đối số vị trí dư thành tuple, **kwargs thu gom các đối số từ khóa thành dict. Thứ tự khai báo bắt buộc: tham số thường, rồi *args, rồi tham số chỉ-từ-khóa, cuối cùng **kwargs. Ví dụ def f(a,*args,**kwargs): print(a,args,kwargs). Chúng cho phép viết hàm linh hoạt nhận số lượng đối số tùy ý.",
+      "rubric": [
+        "Định nghĩa *args (tuple) và **kwargs (dict)",
+        "Cho ví dụ hàm hợp lệ",
+        "Nêu thứ tự khai báo đúng"
+      ]
+    },
+    {
+      "id": "q026",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ĐSTT: định thức ma trận đường chéo?\n```python\nimport numpy as np\nA=np.array([[2,0],[0,3]])\nprint(int(round(np.linalg.det(A))))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định thức ma trận chéo = tích phần tử chéo = 2*3 = 6.",
+      "verifyCode": "import numpy as np\nA=np.array([[2,0],[0,3]])\nprint(int(round(np.linalg.det(A))))"
+    },
+    {
+      "id": "q027",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ĐSTT: tổng trị riêng (= vết)?\n```python\nimport numpy as np\nA=np.array([[4,1],[2,3]])\nprint(int(round(np.linalg.eigvals(A).sum())))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng trị riêng = vết = 4+3 = 7.",
+      "verifyCode": "import numpy as np\nA=np.array([[4,1],[2,3]])\nprint(int(round(np.linalg.eigvals(A).sum())))"
+    },
+    {
+      "id": "q028",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ĐSTT: chuẩn L2 của [3,4]?\n```python\nimport numpy as np\nv=np.array([3,4])\nprint(np.linalg.norm(v))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "7.0"
+        },
+        {
+          "key": "C",
+          "text": "25.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "||v||=sqrt(9+16)=sqrt(25)=5.0.",
+      "verifyCode": "import numpy as np\nv=np.array([3,4])\nprint(np.linalg.norm(v))"
+    },
+    {
+      "id": "q029",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giải tích: đạo hàm f(x)=x^2 tại x=2?\n```python\nx=2.0\nprint(2*x)  # f'(x)=2x\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "8.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "f'(x)=2x; tại x=2 cho 4.0.",
+      "verifyCode": "x=2.0\nprint(2*x)"
+    },
+    {
+      "id": "q030",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ĐSTT: tích vô hướng hai vector?\n```python\nimport numpy as np\na=np.array([1,2,3])\nb=np.array([4,5,6])\nprint(int(a@b))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "21"
+        },
+        {
+          "key": "C",
+          "text": "28"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "a·b=4+10+18=32.",
+      "verifyCode": "import numpy as np\na=np.array([1,2,3])\nb=np.array([4,5,6])\nprint(int(a@b))"
+    },
+    {
+      "id": "q031",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Giải tích: đạo hàm số tại x=5 của (x-3)^2?\n```python\nf=lambda x:(x-3)**2\nh=1e-5\nx=5.0\nprint(round((f(x+h)-f(x-h))/(2*h),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "6.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "f'(x)=2(x-3); tại x=5 là 4; sai phân trung tâm xấp xỉ 4.0.",
+      "verifyCode": "f=lambda x:(x-3)**2\nh=1e-5\nx=5.0\nprint(round((f(x+h)-f(x-h))/(2*h),3))"
+    },
+    {
+      "id": "q032",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "ĐSTT: vết của A@A?\n```python\nimport numpy as np\nA=np.array([[1,2],[3,4]])\nprint(int(np.trace(A@A)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "29"
+        },
+        {
+          "key": "B",
+          "text": "30"
+        },
+        {
+          "key": "C",
+          "text": "45"
+        },
+        {
+          "key": "D",
+          "text": "22"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A@A=[[7,10],[15,22]]; vết=7+22=29.",
+      "verifyCode": "import numpy as np\nA=np.array([[1,2],[3,4]])\nprint(int(np.trace(A@A)))"
+    },
+    {
+      "id": "q033",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích ý nghĩa hình học của trị riêng và vector riêng. Tại sao chúng quan trọng trong PCA?",
+      "modelAnswer": "Vector riêng của ma trận A là hướng mà khi nhân với A chỉ bị co giãn không đổi hướng, trị riêng là hệ số co giãn theo hướng đó: Av=λv. Trong PCA, ta phân tích ma trận hiệp phương sai; các vector riêng chỉ các trục thành phần chính (hướng phương sai lớn nhất) và trị riêng cho biết lượng phương sai theo mỗi trục, giúp giảm chiều bằng cách giữ các trục có trị riêng lớn.",
+      "rubric": [
+        "Định nghĩa Av=λv và ý nghĩa co giãn",
+        "Liên hệ vector riêng với trục chính",
+        "Liên hệ trị riêng với phương sai"
+      ]
+    },
+    {
+      "id": "q034",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thống kê: trung bình của [2,4,6,8,10]?\n```python\nimport numpy as np\nx=np.array([2,4,6,8,10])\nprint(x.mean())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6.0"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "7.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tổng 30 chia 5 = 6.0.",
+      "verifyCode": "import numpy as np\nx=np.array([2,4,6,8,10])\nprint(x.mean())"
+    },
+    {
+      "id": "q035",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thống kê: phương sai tổng thể của mảng?\n```python\nimport numpy as np\nx=np.array([2,4,4,4,5,5,7,9])\nprint(x.var())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "3.5"
+        },
+        {
+          "key": "D",
+          "text": "4.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "numpy.var mặc định ddof=0 (phương sai tổng thể) = 4.0.",
+      "verifyCode": "import numpy as np\nx=np.array([2,4,4,4,5,5,7,9])\nprint(x.var())"
+    },
+    {
+      "id": "q036",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Xác suất: hai biến cố độc lập P(A)=0.5,P(B)=0.4, P(A∩B)?\n```python\nprint(0.5*0.4)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.2"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "0.1"
+        },
+        {
+          "key": "D",
+          "text": "0.45"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Độc lập: P(A∩B)=P(A)P(B)=0.2.",
+      "verifyCode": "print(0.5*0.4)"
+    },
+    {
+      "id": "q037",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Bayes: P(D)=1%, độ nhạy 90%, dương tính giả 5%. P(D|+)?\n```python\npD=0.01; pPos_D=0.9; pPos_nD=0.05\npPos=pPos_D*pD+pPos_nD*(1-pD)\nprint(round(pPos_D*pD/pPos,4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.1538"
+        },
+        {
+          "key": "B",
+          "text": "0.9000"
+        },
+        {
+          "key": "C",
+          "text": "0.5000"
+        },
+        {
+          "key": "D",
+          "text": "0.0100"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bayes: P(D|+)=P(+|D)P(D)/P(+); do bệnh hiếm nên hậu nghiệm vẫn thấp.",
+      "verifyCode": "pD=0.01; pPos_D=0.9; pPos_nD=0.05\npPos=pPos_D*pD+pPos_nD*(1-pD)\nprint(round(pPos_D*pD/pPos,4))"
+    },
+    {
+      "id": "q038",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thống kê: trung vị của [1,2,3,4,5]?\n```python\nimport numpy as np\nx=np.array([1,2,3,4,5])\nprint(np.median(x))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "3.5"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phần tử giữa là 3, trung vị=3.0.",
+      "verifyCode": "import numpy as np\nx=np.array([1,2,3,4,5])\nprint(np.median(x))"
+    },
+    {
+      "id": "q039",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Xác suất (seeded): kỳ vọng mô phỏng Binomial(10,0.5)?\n```python\nimport numpy as np\nnp.random.seed(42)\nprint(round(np.random.binomial(10,0.5,size=10000).mean(),1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0"
+        },
+        {
+          "key": "B",
+          "text": "10.0"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "2.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Kỳ vọng lý thuyết np=5; mô phỏng seeded xấp xỉ.",
+      "verifyCode": "import numpy as np\nnp.random.seed(42)\nprint(round(np.random.binomial(10,0.5,size=10000).mean(),1))"
+    },
+    {
+      "id": "q040",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thống kê: phân vị 50 của 1..10?\n```python\nimport numpy as np\na=np.arange(1,11)\nprint(np.percentile(a,50))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.5"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "6.0"
+        },
+        {
+          "key": "D",
+          "text": "4.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân vị 50 (nội suy tuyến tính) của 1..10 = 5.5.",
+      "verifyCode": "import numpy as np\na=np.arange(1,11)\nprint(np.percentile(a,50))"
+    },
+    {
+      "id": "q041",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Thống kê: hệ số tương quan của y=2x?\n```python\nimport numpy as np\nx=np.array([1,2,3,4]); y=np.array([2,4,6,8])\nprint(round(np.corrcoef(x,y)[0,1],1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "-1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tuyến tính hoàn hảo dương cho tương quan=1.0.",
+      "verifyCode": "import numpy as np\nx=np.array([1,2,3,4]); y=np.array([2,4,6,8])\nprint(round(np.corrcoef(x,y)[0,1],1))"
+    },
+    {
+      "id": "q042",
+      "module": "A",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Phân biệt sai lầm loại I và loại II trong kiểm định giả thuyết. Giải thích p-value và mức ý nghĩa alpha.",
+      "modelAnswer": "Sai lầm loại I (dương tính giả) là bác bỏ H0 khi nó đúng, xác suất bằng alpha. Sai lầm loại II (âm tính giả) là không bác bỏ H0 khi nó sai, xác suất là beta. p-value là xác suất quan sát dữ liệu cực đoan như đã thấy nếu H0 đúng; nếu p-value < alpha ta bác bỏ H0. Alpha là ngưỡng rủi ro loại I do nhà nghiên cứu chọn (thường 0.05).",
+      "rubric": [
+        "Định nghĩa loại I và loại II",
+        "Giải thích p-value",
+        "Liên hệ alpha với rủi ro loại I"
+      ]
+    },
+    {
+      "id": "q043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hồi quy tuyến tính: hệ số góc khi y=2x?\n```python\nimport numpy as np\nX=np.array([1,2,3,4,5]); y=np.array([2,4,6,8,10])\nA=np.vstack([X,np.ones_like(X)]).T\nm,b=np.linalg.lstsq(A,y,rcond=None)[0]\nprint(round(m,1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu thỏa y=2x nên bình phương tối thiểu cho hệ số góc=2.0.",
+      "verifyCode": "import numpy as np\nX=np.array([1,2,3,4,5]); y=np.array([2,4,6,8,10])\nA=np.vstack([X,np.ones_like(X)]).T\nm,b=np.linalg.lstsq(A,y,rcond=None)[0]\nprint(round(m,1))"
+    },
+    {
+      "id": "q044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logistic: sigmoid(0)?\n```python\nimport numpy as np\nprint(round(1/(1+np.exp(-0)),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.5"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.27"
+        }
+      ],
+      "answer": "A",
+      "explanation": "sigmoid(0)=1/(1+e^0)=0.5.",
+      "verifyCode": "import numpy as np\nprint(round(1/(1+np.exp(-0)),2))"
+    },
+    {
+      "id": "q045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logistic: cross-entropy nhị phân (BCE)?\n```python\nimport numpy as np\ny=np.array([1,0,1,1]); p=np.array([0.9,0.1,0.8,0.7])\nprint(round(-np.mean(y*np.log(p)+(1-y)*np.log(1-p)),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.198"
+        },
+        {
+          "key": "B",
+          "text": "0.500"
+        },
+        {
+          "key": "C",
+          "text": "1.000"
+        },
+        {
+          "key": "D",
+          "text": "0.000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "BCE=-mean(y log p+(1-y)log(1-p)); dự đoán tốt nên loss nhỏ.",
+      "verifyCode": "import numpy as np\ny=np.array([1,0,1,1]); p=np.array([0.9,0.1,0.8,0.7])\nprint(round(-np.mean(y*np.log(p)+(1-y)*np.log(1-p)),3))"
+    },
+    {
+      "id": "q046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Hồi quy: MSE giữa y và y_hat?\n```python\nimport numpy as np\ny=np.array([3,5,7]); yh=np.array([2,5,9])\nprint(round(np.mean((y-yh)**2),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.667"
+        },
+        {
+          "key": "B",
+          "text": "2.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "5.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sai số [1,0,-2]; bình phương [1,0,4]; trung bình 5/3≈1.667.",
+      "verifyCode": "import numpy as np\ny=np.array([3,5,7]); yh=np.array([2,5,9])\nprint(round(np.mean((y-yh)**2),3))"
+    },
+    {
+      "id": "q047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "KMeans: nhãn gán cụm theo khoảng cách gần nhất?\n```python\nimport numpy as np\npts=np.array([[1,1],[1,2],[8,8],[9,9]])\nc0=np.array([[1,1.5],[8.5,8.5]])\nlabels=np.argmin(((pts[:,None]-c0[None])**2).sum(2),axis=1)\nprint(labels.tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0, 0, 1, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[0, 1, 0, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[1, 1, 0, 0]"
+        },
+        {
+          "key": "D",
+          "text": "[0, 0, 0, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai điểm đầu gần tâm 0, hai điểm sau gần tâm 1: [0,0,1,1].",
+      "verifyCode": "import numpy as np\npts=np.array([[1,1],[1,2],[8,8],[9,9]])\nc0=np.array([[1,1.5],[8.5,8.5]])\nlabels=np.argmin(((pts[:,None]-c0[None])**2).sum(2),axis=1)\nprint(labels.tolist())"
+    },
+    {
+      "id": "q048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient descent hội tụ về hệ số nào (y=x)?\n```python\nimport numpy as np\nX=np.array([1.,2.,3.]); y=np.array([1.,2.,3.])\nw=0.0; lr=0.1\nfor _ in range(1000):\n    grad=np.mean(2*(X*w-y)*X)\n    w-=lr*grad\nprint(round(w,1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "3.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dữ liệu thỏa y=x nên GD hội tụ về w≈1.0.",
+      "verifyCode": "import numpy as np\nX=np.array([1.,2.,3.]); y=np.array([1.,2.,3.])\nw=0.0; lr=0.1\nfor _ in range(1000):\n    grad=np.mean(2*(X*w-y)*X)\n    w-=lr*grad\nprint(round(w,1))"
+    },
+    {
+      "id": "q049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại: F1 với TP=8,FP=2,FN=2?\n```python\ntp,fp,fn=8,2,2\nprec=tp/(tp+fp); rec=tp/(tp+fn)\nprint(round(2*prec*rec/(prec+rec),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "0.9"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Precision=0.8, Recall=0.8, F1=0.8.",
+      "verifyCode": "tp,fp,fn=8,2,2\nprec=tp/(tp+fp); rec=tp/(tp+fn)\nprint(round(2*prec*rec/(prec+rec),2))"
+    },
+    {
+      "id": "q050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Tiền xử lý: trung tâm hóa theo cột?\n```python\nimport numpy as np\nX=np.array([[1,2],[3,4]])\nprint(np.round(X-X.mean(0),1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[[-1.0, -1.0], [1.0, 1.0]]"
+        },
+        {
+          "key": "B",
+          "text": "[[0.0, 0.0], [0.0, 0.0]]"
+        },
+        {
+          "key": "C",
+          "text": "[[1.0, 1.0], [-1.0, -1.0]]"
+        },
+        {
+          "key": "D",
+          "text": "[[-2.0, -2.0], [2.0, 2.0]]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình cột=[2,3]; trừ ra cho [[-1,-1],[1,1]].",
+      "verifyCode": "import numpy as np\nX=np.array([[1,2],[3,4]])\nprint(np.round(X-X.mean(0),1).tolist())"
+    },
+    {
+      "id": "q051",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích overfitting trong hồi quy và nêu hai kỹ thuật regularization (L1,L2). Khác biệt L1 và L2 là gì?",
+      "modelAnswer": "Overfitting xảy ra khi mô hình học cả nhiễu của dữ liệu huấn luyện, đạt sai số huấn luyện thấp nhưng tổng quát hóa kém. Regularization thêm phạt vào hàm mất mát: L2 (Ridge) phạt tổng bình phương trọng số làm trọng số nhỏ đều, L1 (Lasso) phạt tổng giá trị tuyệt đối tạo nghiệm thưa (đưa trọng số về 0) nên chọn đặc trưng. Có thể kết hợp dropout, early stopping, tăng dữ liệu.",
+      "rubric": [
+        "Định nghĩa overfitting",
+        "Nêu L1 và L2",
+        "Phân biệt L1 (thưa) vs L2 (co nhỏ đều)"
+      ]
+    },
+    {
+      "id": "q052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP: tổng đầu ra ReLU của [-2,-1,0,1,2]?\n```python\nimport numpy as np\nx=np.array([-2,-1,0,1,2])\nprint(np.maximum(0,x).sum())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ReLU đặt âm thành 0: [0,0,0,1,2], tổng=3.",
+      "verifyCode": "import numpy as np\nx=np.array([-2,-1,0,1,2])\nprint(np.maximum(0,x).sum())"
+    },
+    {
+      "id": "q053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP: xác suất lớn nhất từ softmax([1,2,3])?\n```python\nimport numpy as np\nz=np.array([1.0,2.0,3.0])\ne=np.exp(z-z.max()); s=e/e.sum()\nprint(round(s[2],3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.665"
+        },
+        {
+          "key": "B",
+          "text": "0.333"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.900"
+        }
+      ],
+      "answer": "A",
+      "explanation": "softmax chuẩn hóa exp; logit lớn nhất (3) có xác suất cao nhất.",
+      "verifyCode": "import numpy as np\nz=np.array([1.0,2.0,3.0])\ne=np.exp(z-z.max()); s=e/e.sum()\nprint(round(s[2],3))"
+    },
+    {
+      "id": "q054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Backprop: đạo hàm sigmoid tại output 0.5?\n```python\nprint(round(0.5*(1-0.5),3))  # s*(1-s)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.25"
+        },
+        {
+          "key": "B",
+          "text": "0.5"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "0.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đạo hàm sigmoid=s(1-s); tại s=0.5 cho 0.25 (cực đại).",
+      "verifyCode": "print(round(0.5*(1-0.5),3))"
+    },
+    {
+      "id": "q055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "MLP: tích trọng số lớp (forward)?\n```python\nimport numpy as np\nW=np.array([[0.5,-0.5],[1.0,1.0]]); x=np.array([2.0,1.0])\nprint(np.round(W@x,1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.5, 3.0]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 2.0]"
+        },
+        {
+          "key": "C",
+          "text": "[1.5, 3.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0.5, 2.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hàng1: 0.5*2-0.5*1=0.5; hàng2: 1*2+1*1=3.0.",
+      "verifyCode": "import numpy as np\nW=np.array([[0.5,-0.5],[1.0,1.0]]); x=np.array([2.0,1.0])\nprint(np.round(W@x,1).tolist())"
+    },
+    {
+      "id": "q056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Training: trọng số sau 3 bước GD (lr=0.1,grad=0.5)?\n```python\nlr=0.1; w=1.0; grad=0.5\nfor _ in range(3): w-=lr*grad\nprint(round(w,2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.85"
+        },
+        {
+          "key": "B",
+          "text": "0.95"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi bước trừ 0.05; sau 3 bước w=1-0.15=0.85.",
+      "verifyCode": "lr=0.1; w=1.0; grad=0.5\nfor _ in range(3): w-=lr*grad\nprint(round(w,2))"
+    },
+    {
+      "id": "q057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Dropout (seeded): số neuron còn active với ngưỡng 0.5?\n```python\nimport numpy as np\nnp.random.seed(1)\nprint(int((np.random.rand(8)>0.5).sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "0"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặt nạ dropout xác định bởi seed; numpy đếm phần tử >0.5.",
+      "verifyCode": "import numpy as np\nnp.random.seed(1)\nprint(int((np.random.rand(8)>0.5).sum()))"
+    },
+    {
+      "id": "q058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Normalization: trung bình sau chuẩn hóa z-score?\n```python\nimport numpy as np\nx=np.array([10.0,20.0,30.0])\nprint(round(((x-x.mean())/x.std()).mean(),1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "20.0"
+        },
+        {
+          "key": "D",
+          "text": "-1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn hóa z-score luôn cho trung bình≈0.",
+      "verifyCode": "import numpy as np\nx=np.array([10.0,20.0,30.0])\nprint(round(((x-x.mean())/x.std()).mean(),1))"
+    },
+    {
+      "id": "q059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Gradient clipping: chuẩn sau khi clip về 2.0?\n```python\nimport numpy as np\ngrad=np.array([3.0,4.0]); clip=2.0\nn=np.linalg.norm(grad)\ng=grad*min(1,clip/n)\nprint(round(np.linalg.norm(g),1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0"
+        },
+        {
+          "key": "B",
+          "text": "5.0"
+        },
+        {
+          "key": "C",
+          "text": "3.0"
+        },
+        {
+          "key": "D",
+          "text": "4.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chuẩn ban đầu=5>2 nên gradient bị co còn chuẩn=2.0.",
+      "verifyCode": "import numpy as np\ngrad=np.array([3.0,4.0]); clip=2.0\nn=np.linalg.norm(grad)\ng=grad*min(1,clip/n)\nprint(round(np.linalg.norm(g),1))"
+    },
+    {
+      "id": "q060",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích vấn đề vanishing gradient trong mạng sâu. Nêu nguyên nhân và hai giải pháp.",
+      "modelAnswer": "Vanishing gradient là hiện tượng gradient cực nhỏ khi lan truyền ngược qua nhiều lớp, khiến các lớp đầu gần như không cập nhật và mạng học chậm. Nguyên nhân chính là dùng hàm kích hoạt bão hòa như sigmoid/tanh (đạo hàm nhỏ) nhân liên tiếp qua nhiều lớp làm tích gradient suy giảm theo cấp số nhân. Giải pháp: dùng ReLU và biến thể, kết nối residual (ResNet), batch normalization, khởi tạo trọng số hợp lý (He/Xavier).",
+      "rubric": [
+        "Mô tả gradient suy giảm qua nhiều lớp",
+        "Nêu nguyên nhân hàm bão hòa",
+        "Nêu hai giải pháp"
+      ]
+    },
+    {
+      "id": "q061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN: kích thước đầu ra conv (W=32,K=5,P=0,S=1)?\n```python\nW,K,P,S=32,5,0,1\nprint((W-K+2*P)//S+1)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "28"
+        },
+        {
+          "key": "B",
+          "text": "32"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "27"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(W-K+2P)/S+1=(32-5)/1+1=28.",
+      "verifyCode": "W,K,P,S=32,5,0,1\nprint((W-K+2*P)//S+1)"
+    },
+    {
+      "id": "q062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN: kích thước đầu ra với padding=1, stride=2?\n```python\nW,K,P,S=28,3,1,2\nprint((W-K+2*P)//S+1)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "14"
+        },
+        {
+          "key": "B",
+          "text": "28"
+        },
+        {
+          "key": "C",
+          "text": "13"
+        },
+        {
+          "key": "D",
+          "text": "15"
+        }
+      ],
+      "answer": "A",
+      "explanation": "(28-3+2)/2+1=14.",
+      "verifyCode": "W,K,P,S=28,3,1,2\nprint((W-K+2*P)//S+1)"
+    },
+    {
+      "id": "q063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN: max pooling 2x2 của [[1,2],[3,4]]?\n```python\nimport numpy as np\nx=np.array([[1,2],[3,4]])\nprint(x.max())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Max pooling lấy giá trị lớn nhất=4.",
+      "verifyCode": "import numpy as np\nx=np.array([[1,2],[3,4]])\nprint(x.max())"
+    },
+    {
+      "id": "q064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN: số tham số conv 3x3, Cin=3, Cout=16 (có bias)?\n```python\nprint(3*3*3*16+16)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "448"
+        },
+        {
+          "key": "B",
+          "text": "432"
+        },
+        {
+          "key": "C",
+          "text": "144"
+        },
+        {
+          "key": "D",
+          "text": "464"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trọng số=3*3*3*16=432; cộng 16 bias=448.",
+      "verifyCode": "print(3*3*3*16+16)"
+    },
+    {
+      "id": "q065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "CNN: trường tiếp nhận của 2 lớp conv 3x3 xếp chồng?\n```python\nprint(1+2*(3-1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "5"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "6"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi conv 3x3 thêm 2; hai lớp cho 1+2*2=5.",
+      "verifyCode": "print(1+2*(3-1))"
+    },
+    {
+      "id": "q066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Segmentation: IoU giữa dự đoán và nhãn?\n```python\nimport numpy as np\npred=np.array([1,1,0,1]); gt=np.array([1,0,0,1])\nprint(round((pred&gt).sum()/(pred|gt).sum(),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.667"
+        },
+        {
+          "key": "B",
+          "text": "1.000"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.250"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IoU=giao/hợp tính bằng AND/OR trên mặt nạ nhị phân.",
+      "verifyCode": "import numpy as np\npred=np.array([1,1,0,1]); gt=np.array([1,0,0,1])\nprint(round((pred&gt).sum()/(pred|gt).sum(),3))"
+    },
+    {
+      "id": "q067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Segmentation: hệ số Dice?\n```python\nimport numpy as np\npred=np.array([1,1,0,1]); gt=np.array([1,0,0,1])\nprint(round(2*(pred&gt).sum()/(pred.sum()+gt.sum()),3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "1.000"
+        },
+        {
+          "key": "C",
+          "text": "0.500"
+        },
+        {
+          "key": "D",
+          "text": "0.667"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dice=2*giao/(|pred|+|gt|) tính từ mặt nạ.",
+      "verifyCode": "import numpy as np\npred=np.array([1,1,0,1]); gt=np.array([1,0,0,1])\nprint(round(2*(pred&gt).sum()/(pred.sum()+gt.sum()),3))"
+    },
+    {
+      "id": "q068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "U-Net: kích thước sau transpose conv (upsample)?\n```python\nW,K,P,S=16,2,0,2\nprint((W-1)*S-2*P+K)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "32"
+        },
+        {
+          "key": "B",
+          "text": "16"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Transpose conv (W-1)*S-2P+K=15*2+2=32 (gấp đôi độ phân giải).",
+      "verifyCode": "W,K,P,S=16,2,0,2\nprint((W-1)*S-2*P+K)"
+    },
+    {
+      "id": "q069",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích kiến trúc U-Net cho segmentation. Vai trò của skip connections giữa encoder và decoder?",
+      "modelAnswer": "U-Net gồm nhánh encoder co lại trích đặc trưng ngữ cảnh qua conv và pooling giảm độ phân giải, và nhánh decoder giãn ra khôi phục độ phân giải bằng upsampling/transpose conv để tạo bản đồ phân vùng theo pixel. Skip connections nối trực tiếp đặc trưng độ phân giải cao từ encoder sang decoder cùng cấp, giúp khôi phục chi tiết biên và vị trí không gian bị mất khi pooling, đồng thời giảm vanishing gradient. Nhờ đó U-Net phân vùng chính xác cả ranh giới với ít dữ liệu.",
+      "rubric": [
+        "Mô tả encoder co lại và decoder giãn ra",
+        "Vai trò skip connections (giữ chi tiết)",
+        "Liên hệ đầu ra phân vùng theo pixel"
+      ]
+    },
+    {
+      "id": "q070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Attention: trọng số softmax của điểm số scaled?\n```python\nimport numpy as np\nq=np.array([1.0,0.0]); K=np.array([[1.0,0.0],[0.0,1.0]])\nscores=K@q/np.sqrt(2)\ne=np.exp(scores-scores.max()); s=e/e.sum()\nprint(np.round(s,3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.67, 0.33]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5, 0.5]"
+        },
+        {
+          "key": "C",
+          "text": "[1.0, 0.0]"
+        },
+        {
+          "key": "D",
+          "text": "[0.6, 0.4]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm số=(K·q)/sqrt(d) rồi softmax; key đầu khớp query nên trọng số cao hơn.",
+      "verifyCode": "import numpy as np\nq=np.array([1.0,0.0]); K=np.array([[1.0,0.0],[0.0,1.0]])\nscores=K@q/np.sqrt(2)\ne=np.exp(scores-scores.max()); s=e/e.sum()\nprint(np.round(s,3).tolist())"
+    },
+    {
+      "id": "q071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Multi-head attention: chiều mỗi head (d=512,h=8)?\n```python\nprint(512//8)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "64"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "512"
+        },
+        {
+          "key": "D",
+          "text": "256"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chiều mỗi head=d_model/h=512/8=64.",
+      "verifyCode": "print(512//8)"
+    },
+    {
+      "id": "q072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Positional encoding: PE(pos=1,i=0)?\n```python\nimport numpy as np\npos=1; i=0; d=512\nprint(round(np.sin(pos/10000**(2*i/d)),4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8415"
+        },
+        {
+          "key": "B",
+          "text": "0.0000"
+        },
+        {
+          "key": "C",
+          "text": "1.0000"
+        },
+        {
+          "key": "D",
+          "text": "0.5000"
+        }
+      ],
+      "answer": "A",
+      "explanation": "PE(pos,2i)=sin(pos/10000^(2i/d)); với i=0 là sin(1).",
+      "verifyCode": "import numpy as np\npos=1; i=0; d=512\nprint(round(np.sin(pos/10000**(2*i/d)),4))"
+    },
+    {
+      "id": "q073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Attention: hệ số chia (scaling) với d_k=64?\n```python\nimport numpy as np\nprint(round(1/np.sqrt(64),4))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.125"
+        },
+        {
+          "key": "B",
+          "text": "0.0156"
+        },
+        {
+          "key": "C",
+          "text": "0.25"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ số=1/sqrt(d_k)=1/8=0.125, ổn định gradient softmax.",
+      "verifyCode": "import numpy as np\nprint(round(1/np.sqrt(64),4))"
+    },
+    {
+      "id": "q074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GPT: số vị trí được phép attend với causal mask (seq=3)?\n```python\nimport numpy as np\nprint(int(np.tril(np.ones((3,3))).sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "9"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mặt nạ tam giác dưới cho 1+2+3=6 vị trí hợp lệ.",
+      "verifyCode": "import numpy as np\nprint(int(np.tril(np.ones((3,3))).sum()))"
+    },
+    {
+      "id": "q075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Embedding: số tham số ma trận embedding (vocab=30000,d=768)?\n```python\nprint(30000*768)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "23040000"
+        },
+        {
+          "key": "B",
+          "text": "30768"
+        },
+        {
+          "key": "C",
+          "text": "768000"
+        },
+        {
+          "key": "D",
+          "text": "23040768"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Số tham số=vocab*d=30000*768=23,040,000.",
+      "verifyCode": "print(30000*768)"
+    },
+    {
+      "id": "q076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NLP: token được chọn (argmax) từ logits?\n```python\nimport numpy as np\nlogits=np.array([2.0,1.0,0.1])\nprint(int(np.argmax(logits)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logit lớn nhất (2.0) ở chỉ số 0 nên argmax=0.",
+      "verifyCode": "import numpy as np\nlogits=np.array([2.0,1.0,0.1])\nprint(int(np.argmax(logits)))"
+    },
+    {
+      "id": "q077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NLP: số bigram trong 'the cat sat'?\n```python\ns='the cat sat'.split()\nprint(len(s)-1)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "1"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "3 token cho len-1=2 bigram.",
+      "verifyCode": "s='the cat sat'.split()\nprint(len(s)-1)"
+    },
+    {
+      "id": "q078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NLP: perplexity khi cross-entropy=ln(4)?\n```python\nimport numpy as np\nprint(round(np.exp(np.log(4)),1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0"
+        },
+        {
+          "key": "B",
+          "text": "1.4"
+        },
+        {
+          "key": "C",
+          "text": "16.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Perplexity=exp(cross-entropy)=exp(ln4)=4.0.",
+      "verifyCode": "import numpy as np\nprint(round(np.exp(np.log(4)),1))"
+    },
+    {
+      "id": "q079",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "So sánh BERT và GPT về kiến trúc và mục tiêu huấn luyện. Vì sao BERT hợp phân loại còn GPT hợp sinh văn bản?",
+      "modelAnswer": "BERT dùng encoder Transformer hai chiều, huấn luyện bằng masked language modeling (đoán từ bị che dựa trên ngữ cảnh trái và phải) cộng next sentence prediction; nhờ thấy toàn bộ ngữ cảnh hai phía nên phù hợp tác vụ hiểu như phân loại, NER, hỏi đáp. GPT dùng decoder một chiều với causal mask, huấn luyện dự đoán token kế tiếp (autoregressive), chỉ thấy ngữ cảnh trái nên tự nhiên sinh văn bản tuần tự. Vì vậy BERT mạnh ở hiểu/phân loại, GPT mạnh ở sinh.",
+      "rubric": [
+        "Phân biệt encoder hai chiều vs decoder một chiều",
+        "Nêu MLM vs autoregressive",
+        "Liên hệ phân loại vs sinh"
+      ]
+    },
+    {
+      "id": "q080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GNN: bậc của các đỉnh từ ma trận kề?\n```python\nimport numpy as np\nA=np.array([[0,1,1],[1,0,0],[1,0,0]])\nprint(A.sum(1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2, 1, 1]"
+        },
+        {
+          "key": "B",
+          "text": "[1, 1, 1]"
+        },
+        {
+          "key": "C",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "key": "D",
+          "text": "[1, 2, 1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bậc=tổng hàng: đỉnh 0 nối 2, đỉnh 1 và 2 mỗi đỉnh nối 1.",
+      "verifyCode": "import numpy as np\nA=np.array([[0,1,1],[1,0,0],[1,0,0]])\nprint(A.sum(1).tolist())"
+    },
+    {
+      "id": "q081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GCN: tổng phần tử ma trận kề có self-loop (A+I)?\n```python\nimport numpy as np\nA=np.array([[0,1,0],[1,0,1],[0,1,0]])\nprint(int((A+np.eye(3)).sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "10"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A có tổng=4 (cạnh hai chiều); thêm 3 self-loop cho 7.",
+      "verifyCode": "import numpy as np\nA=np.array([[0,1,0],[1,0,1],[0,1,0]])\nprint(int((A+np.eye(3)).sum()))"
+    },
+    {
+      "id": "q082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GraphSAGE: tổng hợp trung bình đặc trưng hàng xóm?\n```python\nimport numpy as np\nh=np.array([[1.,2.],[3.,4.],[5.,6.]])\nprint(np.round(h[[1,2]].mean(0),1).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[4.0, 5.0]"
+        },
+        {
+          "key": "B",
+          "text": "[3.0, 4.0]"
+        },
+        {
+          "key": "C",
+          "text": "[5.0, 6.0]"
+        },
+        {
+          "key": "D",
+          "text": "[2.0, 3.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung bình hàng xóm 1,2: ([3,4]+[5,6])/2=[4,5].",
+      "verifyCode": "import numpy as np\nh=np.array([[1.,2.],[3.,4.],[5.,6.]])\nprint(np.round(h[[1,2]].mean(0),1).tolist())"
+    },
+    {
+      "id": "q083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GAT: hệ số attention chuẩn hóa trên 2 hàng xóm?\n```python\nimport numpy as np\ne=np.array([0.5,1.5])\nex=np.exp(e-e.max()); s=ex/ex.sum()\nprint(np.round(s,3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.269, 0.731]"
+        },
+        {
+          "key": "B",
+          "text": "[0.5, 0.5]"
+        },
+        {
+          "key": "C",
+          "text": "[0.4, 0.6]"
+        },
+        {
+          "key": "D",
+          "text": "[1.0, 0.0]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "GAT chuẩn hóa điểm số attention bằng softmax; hàng xóm điểm cao hơn nhận trọng số lớn hơn.",
+      "verifyCode": "import numpy as np\ne=np.array([0.5,1.5])\nex=np.exp(e-e.max()); s=ex/ex.sum()\nprint(np.round(s,3).tolist())"
+    },
+    {
+      "id": "q084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "GNN: số đường đi độ dài 2 (đếm phần tử khác 0 của A^2)?\n```python\nimport numpy as np\nA=np.array([[0,1,0],[0,0,1],[0,0,0]])\nprint(int((A@A>0).sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A^2 chỉ có 1 phần tử khác 0 (đường 0->1->2).",
+      "verifyCode": "import numpy as np\nA=np.array([[0,1,0],[0,0,1],[0,0,0]])\nprint(int((A@A>0).sum()))"
+    },
+    {
+      "id": "q085",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích hiện tượng over-smoothing trong GNN sâu. Vì sao xếp chồng nhiều lớp GCN gây vấn đề và nêu một giải pháp.",
+      "modelAnswer": "Over-smoothing là hiện tượng khi xếp chồng quá nhiều lớp GCN, mỗi lớp tổng hợp đặc trưng từ hàng xóm khiến biểu diễn các nút ngày càng giống nhau, hội tụ về một vector chung và mất khả năng phân biệt. Nguyên nhân là phép truyền/làm mượt lặp lại tương đương lan tỏa, sau nhiều bước các nút trong cùng thành phần liên thông trở nên đồng nhất. Giải pháp: dùng residual/skip connection, jumping knowledge, PairNorm, DropEdge, hoặc giới hạn số lớp (2-3 lớp).",
+      "rubric": [
+        "Mô tả biểu diễn các nút trở nên giống nhau",
+        "Liên hệ tổng hợp/làm mượt lặp lại",
+        "Nêu một giải pháp"
+      ]
+    },
+    {
+      "id": "q086",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logic: kết quả XOR của p=True, q=False?\n```python\np=True; q=False\nprint((p and not q) or (not p and q))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "XOR đúng khi đúng một trong hai; p True, q False nên True.",
+      "verifyCode": "p=True; q=False\nprint((p and not q) or (not p and q))"
+    },
+    {
+      "id": "q087",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logic: luật De Morgan có đúng không?\n```python\nA=True; B=False\nprint((not (A and B)) == ((not A) or (not B)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "Error"
+        }
+      ],
+      "answer": "A",
+      "explanation": "De Morgan: not(A and B) tương đương (not A) or (not B), luôn đúng.",
+      "verifyCode": "A=True; B=False\nprint((not (A and B)) == ((not A) or (not B)))"
+    },
+    {
+      "id": "q088",
+      "module": "D",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Logic: phép kéo theo p→q với p=True,q=False?\n```python\np=True; q=False\nprint((not p) or q)\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "False"
+        },
+        {
+          "key": "B",
+          "text": "True"
+        },
+        {
+          "key": "C",
+          "text": "None"
+        },
+        {
+          "key": "D",
+          "text": "0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "p→q chỉ sai khi p đúng và q sai; đúng trường hợp đó nên False.",
+      "verifyCode": "p=True; q=False\nprint((not p) or q)"
+    },
+    {
+      "id": "q089",
+      "module": "D",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Nêu và giải thích ít nhất ba khía cạnh đạo đức quan trọng khi triển khai hệ thống AI ra thị trường.",
+      "modelAnswer": "Thứ nhất, công bằng và thiên kiến: mô hình có thể học định kiến từ dữ liệu lịch sử gây phân biệt đối xử, cần kiểm tra và giảm bias. Thứ hai, minh bạch và khả năng giải thích: người dùng và cơ quan quản lý cần hiểu vì sao hệ thống ra quyết định, đặc biệt trong y tế, tài chính, tuyển dụng. Thứ ba, quyền riêng tư và bảo mật dữ liệu: thu thập và xử lý dữ liệu cá nhân phải có đồng thuận và tuân thủ quy định. Ngoài ra còn trách nhiệm giải trình khi xảy ra lỗi.",
+      "rubric": [
+        "Nêu công bằng/thiên kiến",
+        "Nêu minh bạch/giải thích được",
+        "Nêu quyền riêng tư hoặc trách nhiệm"
+      ]
+    },
+    {
+      "id": "q090",
+      "module": "D",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Tư duy sản phẩm AI: vì sao cần tách biệt metric kinh doanh và metric mô hình? Cho ví dụ lệch pha.",
+      "modelAnswer": "Metric mô hình (accuracy, F1, AUC) đo chất lượng kỹ thuật, còn metric kinh doanh (doanh thu, tỷ lệ giữ chân, sự hài lòng) đo giá trị thực tế. Cần tách biệt vì mô hình accuracy cao chưa chắc tạo giá trị kinh doanh, và cải thiện metric mô hình có thể không chuyển thành kết quả kinh doanh. Ví dụ lệch pha: hệ thống gợi ý tối ưu tỷ lệ click có thể đẩy nội dung giật gân làm tăng click ngắn hạn nhưng giảm sự hài lòng và giữ chân dài hạn. Vì vậy cần ánh xạ rõ metric mô hình tới mục tiêu kinh doanh.",
+      "rubric": [
+        "Phân biệt metric mô hình vs kinh doanh",
+        "Giải thích vì sao cần tách biệt",
+        "Cho ví dụ lệch pha cụ thể"
+      ]
+    },
+    {
+      "id": "q091",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: chỉ số phần tử lớn nhất?\n```python\nimport numpy as np\na=np.array([5,3,8,1])\nprint(int(np.argmax(a)))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "3"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phần tử lớn nhất 8 tại chỉ số 2.",
+      "verifyCode": "import numpy as np\na=np.array([5,3,8,1])\nprint(int(np.argmax(a)))"
+    },
+    {
+      "id": "q092",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas: quantile 0.5 của 1..5?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.a.quantile(0.5))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0"
+        },
+        {
+          "key": "B",
+          "text": "2.5"
+        },
+        {
+          "key": "C",
+          "text": "3.5"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trung vị của 1..5=3.0.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.a.quantile(0.5))"
+    },
+    {
+      "id": "q093",
+      "module": "B",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Python: join danh sách thành chuỗi?\n```python\nprint(' '.join(['ai','rất','hay']))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "ai rất hay"
+        },
+        {
+          "key": "B",
+          "text": "ai,rất,hay"
+        },
+        {
+          "key": "C",
+          "text": "airấthay"
+        },
+        {
+          "key": "D",
+          "text": "['ai', 'rất', 'hay']"
+        }
+      ],
+      "answer": "A",
+      "explanation": "str.join nối các phần tử bằng dấu cách: 'ai rất hay'.",
+      "verifyCode": "print(' '.join(['ai','rất','hay']))"
+    },
+    {
+      "id": "q094",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NLP: softmax với temperature T=2 làm phân phối thế nào?\n```python\nimport numpy as np\nz=np.array([2.0,1.0,0.0]); T=2.0\ne=np.exp(z/T-(z/T).max()); s=e/e.sum()\nprint(np.round(s,3).tolist())\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0.506, 0.307, 0.186]"
+        },
+        {
+          "key": "B",
+          "text": "[1.0, 0.0, 0.0]"
+        },
+        {
+          "key": "C",
+          "text": "[0.333, 0.333, 0.333]"
+        },
+        {
+          "key": "D",
+          "text": "[0.7, 0.2, 0.1]"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chia logit cho T>1 làm phân phối mượt hơn (gần đều hơn).",
+      "verifyCode": "import numpy as np\nz=np.array([2.0,1.0,0.0]); T=2.0\ne=np.exp(z/T-(z/T).max()); s=e/e.sum()\nprint(np.round(s,3).tolist())"
+    },
+    {
+      "id": "q095",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Phân loại: accuracy?\n```python\nimport numpy as np\ny=np.array([1,0,1,1,0]); yh=np.array([1,0,0,1,0])\nprint(round((y==yh).mean(),2))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8"
+        },
+        {
+          "key": "B",
+          "text": "1.0"
+        },
+        {
+          "key": "C",
+          "text": "0.6"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "4/5 dự đoán đúng nên accuracy=0.8.",
+      "verifyCode": "import numpy as np\ny=np.array([1,0,1,1,0]); yh=np.array([1,0,0,1,0])\nprint(round((y==yh).mean(),2))"
+    },
+    {
+      "id": "q096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "BatchNorm: độ lệch chuẩn sau chuẩn hóa?\n```python\nimport numpy as np\nx=np.array([1.,2.,3.,4.])\nxn=(x-x.mean())/np.sqrt(x.var()+1e-5)\nprint(round(xn.std(),1))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0"
+        },
+        {
+          "key": "B",
+          "text": "0.0"
+        },
+        {
+          "key": "C",
+          "text": "2.0"
+        },
+        {
+          "key": "D",
+          "text": "0.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Batch norm chuẩn hóa về phương sai đơn vị nên std≈1.0.",
+      "verifyCode": "import numpy as np\nx=np.array([1.,2.,3.,4.])\nxn=(x-x.mean())/np.sqrt(x.var()+1e-5)\nprint(round(xn.std(),1))"
+    },
+    {
+      "id": "q097",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "NumPy: tổng tất cả phần tử ma trận?\n```python\nimport numpy as np\nA=np.array([[1,2],[3,4]])\nprint(int(A.sum()))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "7"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "answer": "A",
+      "explanation": "1+2+3+4=10.",
+      "verifyCode": "import numpy as np\nA=np.array([[1,2],[3,4]])\nprint(int(A.sum()))"
+    },
+    {
+      "id": "q098",
+      "module": "A",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Pandas: trung bình v của nhóm 'a'?\n```python\nimport pandas as pd\ndf=pd.DataFrame({'k':['a','a','b'],'v':[1,2,3]})\nprint(df.groupby('k').v.mean()['a'])\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.5"
+        },
+        {
+          "key": "B",
+          "text": "3.0"
+        },
+        {
+          "key": "C",
+          "text": "1.0"
+        },
+        {
+          "key": "D",
+          "text": "2.0"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhóm 'a' có v=1,2; trung bình=1.5.",
+      "verifyCode": "import pandas as pd\ndf=pd.DataFrame({'k':['a','a','b'],'v':[1,2,3]})\nprint(df.groupby('k').v.mean()['a'])"
+    },
+    {
+      "id": "q099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1.0,
+      "prompt": "Training: lr sau step decay (giảm nửa ở epoch chẵn, 3 epoch)?\n```python\nlr=0.1\nfor epoch in range(1,4):\n    if epoch%2==0: lr*=0.5\nprint(round(lr,3))\n```",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.05"
+        },
+        {
+          "key": "B",
+          "text": "0.1"
+        },
+        {
+          "key": "C",
+          "text": "0.025"
+        },
+        {
+          "key": "D",
+          "text": "0.2"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chỉ epoch 2 chẵn nên lr nhân 0.5 một lần: 0.05.",
+      "verifyCode": "lr=0.1\nfor epoch in range(1,4):\n    if epoch%2==0: lr*=0.5\nprint(round(lr,3))"
+    },
+    {
+      "id": "q100",
+      "module": "C",
+      "type": "open",
+      "points": 1.0,
+      "prompt": "Giải thích khác biệt giữa batch GD, mini-batch GD và SGD. Ưu nhược điểm chính của mini-batch?",
+      "modelAnswer": "Batch GD tính gradient trên toàn bộ tập dữ liệu mỗi bước: ổn định nhưng chậm và tốn bộ nhớ với dữ liệu lớn. SGD cập nhật trên từng mẫu: rất nhanh, nhiễu cao giúp thoát cực tiểu cục bộ nhưng dao động mạnh khó hội tụ mượt. Mini-batch GD là dung hòa, cập nhật trên nhóm nhỏ (vd 32,64): tận dụng song song hóa GPU hiệu quả, gradient ít nhiễu hơn SGD nhưng nhanh hơn batch GD. Nhược điểm là cần chọn kích thước batch phù hợp ảnh hưởng tốc độ và độ ổn định.",
+      "rubric": [
+        "Phân biệt batch (toàn bộ) vs SGD (từng mẫu)",
+        "Mô tả mini-batch là dung hòa",
+        "Nêu ưu/nhược mini-batch"
+      ]
+    }
+  ]
+}
