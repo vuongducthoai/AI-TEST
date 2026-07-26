@@ -1,0 +1,3133 @@
+{
+  "id": "exam-92",
+  "title": "AI in Action Day 02 — Xác định bài toán cho AI",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AI in Action Day 02: Xác định bài toán cho AI — Từ yêu cầu mơ hồ đến Problem Statement rõ ràng' (Mai Anh Nguyen / Blue). Nội dung: Problem Discovery (Double Diamond), Problem Statement & định lượng hóa, Google PAIR 3 bước, Rule/Workflow/Agent, Reward function & Evaluation, Lỗi AI & Human-in-the-loop, khung quyết định Go/Not Yet/No-Go.",
+  "durationMinutes": 75,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "92-D1-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chủ đề chính của bài giảng AI in Action Day 02 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện mô hình LLM từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Xác định bài toán cho AI — từ yêu cầu mơ hồ đến Problem Statement rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Triển khai hạ tầng GPU cho AI"
+        },
+        {
+          "key": "D",
+          "text": "Viết prompt hiệu quả cho ChatGPT"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 02 tập trung vào Problem Discovery và Problem Statement: biến yêu cầu mơ hồ thành bài toán rõ ràng đủ để ra quyết định Go/Not Yet/No-Go.",
+      "tags": [
+        "day2",
+        "overview"
+      ]
+    },
+    {
+      "id": "92-D1-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn câu hỏi trọng tâm của Day 02 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model nào? Giá bao nhiêu? Deploy ở đâu? Ai bảo trì?"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán có thực sự cần AI? Giải pháp ở cấp độ nào? Problem Statement đã đủ rõ? Khi nào Go/Not Yet/No-Go?"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu ở đâu? Ai gán nhãn? Train bao lâu? Accuracy bao nhiêu?"
+        },
+        {
+          "key": "D",
+          "text": "Khách hàng là ai? Doanh thu bao nhiêu? Cạnh tranh thế nào? Marketing ra sao?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 câu hỏi xuyên suốt Day 02: (1) Có thực sự cần AI? (2) Rule, Workflow hay Agent? (3) PS đã đủ rõ để triển khai? (4) Quyết định Go, Not Yet hay No-Go?",
+      "tags": [
+        "day2",
+        "framework"
+      ]
+    },
+    {
+      "id": "92-D1-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba trụ cột nền tảng của AI Product theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data Engineering, MLOps, DevOps"
+        },
+        {
+          "key": "B",
+          "text": "AI Engineering, Product Thinking (Inspired), Design Thinking (Everyday Things)"
+        },
+        {
+          "key": "C",
+          "text": "Frontend, Backend, Database"
+        },
+        {
+          "key": "D",
+          "text": "Research, Development, Testing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 trụ cột: AI Engineering (RAG, Agent, Guardrails, Evaluation), Product Thinking theo Marty Cagan (Inspired), Design Thinking theo Don Norman (The Design of Everyday Things).",
+      "tags": [
+        "day2",
+        "foundation"
+      ]
+    },
+    {
+      "id": "92-D1-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu được coi là 'sách giáo khoa' chính của Day 02 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Anthropic — Building effective agents"
+        },
+        {
+          "key": "B",
+          "text": "Google — Rules of Machine Learning"
+        },
+        {
+          "key": "C",
+          "text": "Google PAIR — People + AI Guidebook"
+        },
+        {
+          "key": "D",
+          "text": "Chip Huyen — AI Engineering"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Google PAIR (People + AI Research) Guidebook là tài liệu xuyên suốt buổi học, đặc biệt Chương 1: User Needs + Defining Success.",
+      "tags": [
+        "day2",
+        "pair",
+        "resources"
+      ]
+    },
+    {
+      "id": "92-D1-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Google PAIR Guidebook gồm bao nhiêu chương?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4 chương"
+        },
+        {
+          "key": "B",
+          "text": "5 chương"
+        },
+        {
+          "key": "C",
+          "text": "6 chương"
+        },
+        {
+          "key": "D",
+          "text": "8 chương"
+        }
+      ],
+      "answer": "C",
+      "explanation": "PAIR Guidebook có 6 chương: (1) User Needs + Defining Success, (2) Data Collection + Evaluation, (3) Mental Models, (4) Explainability + Trust, (5) Feedback + Control, (6) Errors + Graceful Failure.",
+      "tags": [
+        "day2",
+        "pair"
+      ]
+    },
+    {
+      "id": "92-D1-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chương nào của PAIR Guidebook là xương sống của buổi sáng Day 02?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chương 1 — User Needs + Defining Success"
+        },
+        {
+          "key": "B",
+          "text": "Chương 3 — Mental Models"
+        },
+        {
+          "key": "C",
+          "text": "Chương 5 — Feedback + Control"
+        },
+        {
+          "key": "D",
+          "text": "Chương 6 — Errors + Graceful Failure"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chương 1 (User Needs + Defining Success) chứa PAIR 3 bước — nền tảng để trả lời 'có nên dùng AI không' và 'thành công đo bằng gì'.",
+      "tags": [
+        "day2",
+        "pair"
+      ]
+    },
+    {
+      "id": "92-D1-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu đọc thêm của Anthropic được nhắc trong Day 02 là gì và thông điệp chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Constitutional AI — cách huấn luyện AI an toàn"
+        },
+        {
+          "key": "B",
+          "text": "Building effective agents — chọn giải pháp đơn giản nhất: rule/workflow trước, agent chỉ khi thật sự cần"
+        },
+        {
+          "key": "C",
+          "text": "Claude Code Best Practices — cách viết code với AI"
+        },
+        {
+          "key": "D",
+          "text": "Model Card — cách công bố thông số mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anthropic 'Building effective agents' nhấn mạnh nguyên tắc: luôn ưu tiên giải pháp đơn giản nhất, chỉ tăng độ phức tạp khi thực sự cần thiết.",
+      "tags": [
+        "day2",
+        "anthropic",
+        "resources"
+      ]
+    },
+    {
+      "id": "92-D1-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu 'Rules of Machine Learning' của Google truyền tải nguyên tắc thực chiến nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn dùng deep learning cho mọi bài toán"
+        },
+        {
+          "key": "B",
+          "text": "Giải pháp đơn giản (rule, heuristic) trước, ML sau"
+        },
+        {
+          "key": "C",
+          "text": "Thu thập càng nhiều dữ liệu càng tốt trước khi bắt đầu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng ML khi có ít nhất 1 triệu mẫu dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Rules of ML của Google: bắt đầu bằng heuristic/rule đơn giản, chỉ chuyển sang ML khi rule không còn đủ — cùng tinh thần với Anthropic.",
+      "tags": [
+        "day2",
+        "google",
+        "resources"
+      ]
+    },
+    {
+      "id": "92-D2-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu nói phản trực giác của Don Norman được trích dẫn trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Always ship fast and iterate"
+        },
+        {
+          "key": "B",
+          "text": "Do not solve the problem I am asked to solve"
+        },
+        {
+          "key": "C",
+          "text": "The user is always right"
+        },
+        {
+          "key": "D",
+          "text": "Design is how it works, not how it looks"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Don Norman: 'Do not solve the problem I am asked to solve' — yêu cầu ban đầu thường không phải bài toán thật; phải đào sâu để tìm vấn đề gốc.",
+      "tags": [
+        "discovery",
+        "don-norman"
+      ]
+    },
+    {
+      "id": "92-D2-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình Double Diamond do ai giới thiệu và vào năm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Marty Cagan / 2008"
+        },
+        {
+          "key": "B",
+          "text": "Don Norman & British Design Council / 2005"
+        },
+        {
+          "key": "C",
+          "text": "Google PAIR / 2019"
+        },
+        {
+          "key": "D",
+          "text": "IDEO / 1991"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Double Diamond được Don Norman và British Design Council giới thiệu năm 2005 — khung tư duy phân kỳ/hội tụ hai lần.",
+      "tags": [
+        "discovery",
+        "double-diamond"
+      ]
+    },
+    {
+      "id": "92-D2-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Diamond 1 trong Double Diamond gồm hai pha nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Develop và Deliver"
+        },
+        {
+          "key": "B",
+          "text": "Discover (phân kỳ) và Define (hội tụ)"
+        },
+        {
+          "key": "C",
+          "text": "Design và Deploy"
+        },
+        {
+          "key": "D",
+          "text": "Research và Result"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Diamond 1 = Tìm đúng vấn đề: Discover (mở rộng — khảo sát vấn đề căn bản) rồi Define (thu hẹp — xác định đúng bài toán gốc).",
+      "tags": [
+        "discovery",
+        "double-diamond"
+      ]
+    },
+    {
+      "id": "92-D2-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Diamond 2 trong Double Diamond gồm hai pha nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Discover và Define"
+        },
+        {
+          "key": "B",
+          "text": "Develop (mở rộng — nhiều giải pháp tiềm năng) và Deliver (thu hẹp — chọn và triển khai)"
+        },
+        {
+          "key": "C",
+          "text": "Prototype và Test"
+        },
+        {
+          "key": "D",
+          "text": "Build và Measure"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Diamond 2 = Tìm đúng giải pháp: Develop mở rộng ra nhiều phương án, Deliver thu hẹp lại để chọn và triển khai.",
+      "tags": [
+        "discovery",
+        "double-diamond"
+      ]
+    },
+    {
+      "id": "92-D2-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật nào thuộc pha DISCOVER (phân kỳ) của Diamond 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Affinity Mapping, 5 Whys, Dot Voting"
+        },
+        {
+          "key": "B",
+          "text": "Quan sát thực tế, Phỏng vấn người dùng, Khảo sát, Nhật ký hành vi, Stakeholder Mapping"
+        },
+        {
+          "key": "C",
+          "text": "How Might We, Problem Statement"
+        },
+        {
+          "key": "D",
+          "text": "Impact-Effort Matrix"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DISCOVER là pha mở rộng góc nhìn: Observation, User Interview, Survey, Diary Study, phân tích dữ liệu/log, Stakeholder Mapping.",
+      "tags": [
+        "discovery",
+        "techniques"
+      ]
+    },
+    {
+      "id": "92-D2-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật nào thuộc pha DEFINE (hội tụ) của Diamond 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phỏng vấn người dùng, Khảo sát, Diary Study"
+        },
+        {
+          "key": "B",
+          "text": "Affinity Mapping, 5 Whys, Impact-Effort Matrix, Dot Voting, How Might We, Problem Statement"
+        },
+        {
+          "key": "C",
+          "text": "Prototype, A/B Test, Usability Test"
+        },
+        {
+          "key": "D",
+          "text": "Deploy, Monitor, Iterate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DEFINE là pha chọn lọc dựa vào dữ liệu: gom nhóm (Affinity Mapping), đào nguyên nhân (5 Whys), ưu tiên (Impact-Effort, Dot Voting), phát biểu bài toán.",
+      "tags": [
+        "discovery",
+        "techniques"
+      ]
+    },
+    {
+      "id": "92-D2-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, 'giải pháp xuất sắc cho sai vấn đề' dẫn đến hệ quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẫn tốt hơn không có giải pháp nào"
+        },
+        {
+          "key": "B",
+          "text": "Có thể còn tệ hơn không có giải pháp"
+        },
+        {
+          "key": "C",
+          "text": "Luôn có thể sửa được ở giai đoạn sau"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ tốn thêm 10-20% chi phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cảnh báo: giải pháp xuất sắc cho sai vấn đề có thể còn tệ hơn không có giải pháp — vì tiêu tốn nguồn lực và tạo ảo giác đã giải quyết.",
+      "tags": [
+        "discovery",
+        "principle"
+      ]
+    },
+    {
+      "id": "92-D2-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case study Cursor minh họa bài học gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sản phẩm tốt ≠ thị trường lớn"
+        },
+        {
+          "key": "B",
+          "text": "Lệch năng lực cốt lõi — từ bỏ AI thiết kế cơ khí (CAD) để tập trung vào AI code editor, nơi đội ngũ am hiểu sâu quy trình nghiệp vụ"
+        },
+        {
+          "key": "C",
+          "text": "Định vị đúng điểm đau"
+        },
+        {
+          "key": "D",
+          "text": "Cần huy động vốn sớm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cursor ban đầu làm AI cho CAD nhưng đội ngũ không am hiểu ngành đó; họ chuyển sang AI code editor — lĩnh vực họ hiểu sâu — và thành công.",
+      "tags": [
+        "discovery",
+        "case-study",
+        "cursor"
+      ]
+    },
+    {
+      "id": "92-D2-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case study Artifact minh họa bài học gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lệch năng lực cốt lõi"
+        },
+        {
+          "key": "B",
+          "text": "Sản phẩm tốt ≠ thị trường lớn — ứng dụng đọc tin tích hợp AI xuất sắc nhưng quy mô thị trường quá hẹp để thương mại hóa"
+        },
+        {
+          "key": "C",
+          "text": "Định vị sai điểm đau người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Ra mắt quá sớm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Artifact (của nhà sáng lập Instagram) là ứng dụng đọc tin AI rất tốt nhưng thị trường quá hẹp, phải đóng cửa tháng 1/2024.",
+      "tags": [
+        "discovery",
+        "case-study",
+        "artifact"
+      ]
+    },
+    {
+      "id": "92-D2-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case study NotebookLM minh họa bài học gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần marketing mạnh mới thành công"
+        },
+        {
+          "key": "B",
+          "text": "Định vị đúng điểm đau — tập trung giải quyết nhu cầu hỏi đáp, tóm tắt trên tài liệu cá nhân và đối chiếu nguồn gốc bằng trích dẫn"
+        },
+        {
+          "key": "C",
+          "text": "Phải là người đi đầu thị trường"
+        },
+        {
+          "key": "D",
+          "text": "Cần mô hình mạnh nhất mới thắng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "NotebookLM thành công nhờ định vị chính xác một điểm đau cụ thể: hỏi đáp/tóm tắt trên tài liệu của chính người dùng, có trích dẫn nguồn.",
+      "tags": [
+        "discovery",
+        "case-study",
+        "notebooklm"
+      ]
+    },
+    {
+      "id": "92-D2-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn 'lăng kính' (lenses) để tìm bài toán AI theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cost, Speed, Quality, Scale"
+        },
+        {
+          "key": "B",
+          "text": "Repetitive (lặp lại), Time-consuming (tốn thời gian), AI Advantage (lợi thế AI), User Pain Points (điểm đau người dùng)"
+        },
+        {
+          "key": "C",
+          "text": "Data, Model, Deploy, Monitor"
+        },
+        {
+          "key": "D",
+          "text": "Who, What, When, Where"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 lenses: tác vụ lặp lại; tiêu tốn thời gian; đòi hỏi lợi thế AI (phân tích ngữ cảnh, NLP, tổng hợp đa nguồn); và điểm đau người dùng.",
+      "tags": [
+        "discovery",
+        "4-lenses"
+      ]
+    },
+    {
+      "id": "92-D2-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Solution-first' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn giải pháp rẻ nhất trước"
+        },
+        {
+          "key": "B",
+          "text": "Xây dựng chatbot/agent trước khi làm rõ quy trình vận hành và điểm nghẽn thực tế"
+        },
+        {
+          "key": "C",
+          "text": "Ưu tiên giải pháp có sẵn trên thị trường"
+        },
+        {
+          "key": "D",
+          "text": "Giải quyết vấn đề của người dùng trước vấn đề kỹ thuật"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Solution-first là sai lầm phổ biến nhất: nhảy vào công nghệ (chatbot, agent) trước khi hiểu quy trình và bottleneck thật sự.",
+      "tags": [
+        "discovery",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "92-D2-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'No baseline' gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống chạy chậm"
+        },
+        {
+          "key": "B",
+          "text": "Không lượng hóa tổn thất hiện tại, dẫn đến mất căn cứ đánh giá hiệu quả cải tiến"
+        },
+        {
+          "key": "C",
+          "text": "Người dùng không hiểu cách dùng"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí API tăng cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Không có baseline (con số hiện trạng) thì sau khi triển khai AI không thể chứng minh được cải thiện bao nhiêu — không có căn cứ đánh giá.",
+      "tags": [
+        "discovery",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "92-D2-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'No boundary' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không giới hạn ngân sách dự án"
+        },
+        {
+          "key": "B",
+          "text": "Không rõ phạm vi tự chủ của AI và thời điểm cần con người phê duyệt (Human-in-the-loop)"
+        },
+        {
+          "key": "C",
+          "text": "Không giới hạn số lượng người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Không đặt giới hạn context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "No boundary = mập mờ ranh giới: không xác định AI được tự quyết đến đâu và khâu nào bắt buộc con người phê duyệt — rủi ro vận hành lớn.",
+      "tags": [
+        "discovery",
+        "anti-patterns",
+        "hitl"
+      ]
+    },
+    {
+      "id": "92-D2-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong 5 câu hỏi Discovery Interview, câu nào liên quan đến người có quyền phê duyệt dự án?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pain point là gì, tần suất ra sao?"
+        },
+        {
+          "key": "B",
+          "text": "Workflow hiện tại như thế nào?"
+        },
+        {
+          "key": "C",
+          "text": "Thiệt hại do vấn đề này gây ra là gì?"
+        },
+        {
+          "key": "D",
+          "text": "Ai là người có quyền phê duyệt dự án (nói YES)?"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Câu 5 của Discovery Interview: xác định ai có quyền nói YES, vì metric và mức rủi ro họ quan tâm sẽ trực tiếp quyết định việc đầu tư.",
+      "tags": [
+        "discovery",
+        "interview",
+        "stakeholder"
+      ]
+    },
+    {
+      "id": "92-D2-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo PAIR Chương 1, câu hỏi 'Can AI solve this problem?' nên được thay bằng hai câu hỏi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Bao nhiêu tiền?' và 'Bao lâu?'"
+        },
+        {
+          "key": "B",
+          "text": "'How might we solve ___?' và 'Can AI solve this problem in a unique way?'"
+        },
+        {
+          "key": "C",
+          "text": "'Ai làm?' và 'Khi nào xong?'"
+        },
+        {
+          "key": "D",
+          "text": "'Model nào?' và 'Data ở đâu?'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PAIR reframe: hỏi về bài toán trước ('How might we solve...?'), rồi mới hỏi AI có giải được theo cách độc đáo không — AI chỉ là một phương án khả dĩ.",
+      "tags": [
+        "discovery",
+        "pair",
+        "reframe"
+      ]
+    },
+    {
+      "id": "92-D3-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'Tôi muốn xây dựng chatbot AI cho khách hàng' chưa phải là một bài toán?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chatbot đã lỗi thời"
+        },
+        {
+          "key": "B",
+          "text": "Vì mỗi đối tượng khác nhau dẫn đến workflow, metrics và rủi ro khác nhau — cần làm rõ phục vụ ai và giải quyết việc gì"
+        },
+        {
+          "key": "C",
+          "text": "Vì chatbot quá đắt để triển khai"
+        },
+        {
+          "key": "D",
+          "text": "Vì cần dùng agent thay vì chatbot"
+        }
+      ],
+      "answer": "B",
+      "explanation": "'Chatbot AI' là giải pháp, không phải bài toán. Phục vụ khách hàng (FAQ, tư vấn, upsell) khác hoàn toàn hỗ trợ nội bộ (phân loại ticket, tra cứu nghiệp vụ) về quy trình, chỉ số và rủi ro.",
+      "tags": [
+        "problem-statement",
+        "framing"
+      ]
+    },
+    {
+      "id": "92-D3-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quick Problem Card gồm bao nhiêu trường thông tin?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4 trường"
+        },
+        {
+          "key": "B",
+          "text": "5 trường"
+        },
+        {
+          "key": "C",
+          "text": "6 trường"
+        },
+        {
+          "key": "D",
+          "text": "8 trường"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Quick Problem Card có 6 trường: Bài toán, Đối tượng ảnh hưởng, Quy trình hiện tại, Nút thắt & Tác động, Chỉ số đo thành công, Định hướng giải pháp.",
+      "tags": [
+        "problem-statement",
+        "quick-card"
+      ]
+    },
+    {
+      "id": "92-D3-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường 'Bài toán' trong Quick Problem Card phải tuân thủ nguyên tắc gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải nêu rõ công nghệ AI sẽ dùng"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ 1 câu, mô tả vấn đề cụ thể cần giải quyết và KHÔNG bao gồm giải pháp"
+        },
+        {
+          "key": "C",
+          "text": "Phải dài ít nhất 3 đoạn"
+        },
+        {
+          "key": "D",
+          "text": "Phải có số liệu tài chính"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trường Bài toán viết trong 1 câu, tập trung mô tả vấn đề — cố ý loại bỏ giải pháp để tránh anti-pattern 'Solution-first'.",
+      "tags": [
+        "problem-statement",
+        "quick-card"
+      ]
+    },
+    {
+      "id": "92-D3-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường 'Quy trình hiện tại' (workflow) trong Quick Problem Card nên gồm bao nhiêu bước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1-2 bước"
+        },
+        {
+          "key": "B",
+          "text": "3-7 bước"
+        },
+        {
+          "key": "C",
+          "text": "10-15 bước"
+        },
+        {
+          "key": "D",
+          "text": "Càng nhiều càng tốt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng khuyến nghị mô tả quy trình hiện tại bằng 3-7 bước vận hành (thủ công hoặc tự động) — đủ chi tiết để thấy nút thắt nhưng không quá vụn.",
+      "tags": [
+        "problem-statement",
+        "workflow"
+      ]
+    },
+    {
+      "id": "92-D3-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường 'Định hướng giải pháp' trong Quick Problem Card có các lựa chọn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rẻ / Trung bình / Đắt"
+        },
+        {
+          "key": "B",
+          "text": "No AI / Rule / Workflow / Agent / Chưa xác định"
+        },
+        {
+          "key": "C",
+          "text": "GPT / Claude / Gemini / Llama"
+        },
+        {
+          "key": "D",
+          "text": "Ngắn hạn / Trung hạn / Dài hạn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Định hướng giải pháp chọn một trong: No AI, Rule, Workflow, Agent, hoặc Chưa xác định — thể hiện việc cân nhắc cấp độ đơn giản nhất trước.",
+      "tags": [
+        "problem-statement",
+        "quick-card"
+      ]
+    },
+    {
+      "id": "92-D3-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case Weekly Report, bước nào tốn thời gian nhất và mất bao lâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Export Jira — 40 phút"
+        },
+        {
+          "key": "B",
+          "text": "Bước viết narrative từ raw data — khoảng 25 phút"
+        },
+        {
+          "key": "C",
+          "text": "Review/format — 30 phút"
+        },
+        {
+          "key": "D",
+          "text": "Gửi email — 15 phút"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nút thắt của case Weekly Report là bước viết narrative từ dữ liệu thô, mất khoảng 25 phút trong tổng flow 90 phút.",
+      "tags": [
+        "problem-statement",
+        "case-weekly-report"
+      ]
+    },
+    {
+      "id": "92-D3-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case Weekly Report, tổng thời gian hao phí của team 3 PM là bao nhiêu mỗi tuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "90 phút/tuần"
+        },
+        {
+          "key": "B",
+          "text": "180 phút/tuần"
+        },
+        {
+          "key": "C",
+          "text": "khoảng 270 phút/tuần"
+        },
+        {
+          "key": "D",
+          "text": "540 phút/tuần"
+        }
+      ],
+      "answer": "C",
+      "explanation": "90 phút/tuần/PM × 3 PM = khoảng 270 phút/tuần — đây là con số baseline định lượng hóa tổn thất.",
+      "tags": [
+        "problem-statement",
+        "case-weekly-report",
+        "baseline"
+      ]
+    },
+    {
+      "id": "92-D3-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chỉ số thành công của case Weekly Report được đặt ra như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm thời gian làm report xuống 0 phút"
+        },
+        {
+          "key": "B",
+          "text": "Giảm thời gian làm report từ 90 phút xuống dưới 30 phút, nhưng không làm tăng số câu CEO/EM phải hỏi lại"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ dài báo cáo lên gấp đôi"
+        },
+        {
+          "key": "D",
+          "text": "Giảm 50% chi phí nhân sự"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chỉ số tốt có hai vế: cải thiện hiệu quả (90 → dưới 30 phút) VÀ ràng buộc chất lượng (không tăng số câu hỏi lại) — tránh tối ưu một chiều.",
+      "tags": [
+        "problem-statement",
+        "metrics"
+      ]
+    },
+    {
+      "id": "92-D3-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Định hướng giải pháp cho case Weekly Report là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rule — tự động gửi template cố định"
+        },
+        {
+          "key": "B",
+          "text": "Workflow — tự động kéo và cấu trúc dữ liệu, AI hỗ trợ draft narrative, PM vẫn review/edit trước khi gửi"
+        },
+        {
+          "key": "C",
+          "text": "Agent — AI tự động gửi báo cáo không cần người duyệt"
+        },
+        {
+          "key": "D",
+          "text": "No AI — chỉ cần đào tạo PM viết nhanh hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Case Weekly Report chọn cấp Workflow: quy trình đã rõ, AI hỗ trợ từng công đoạn (kéo dữ liệu, draft narrative), con người vẫn giữ quyền review cuối.",
+      "tags": [
+        "problem-statement",
+        "workflow"
+      ]
+    },
+    {
+      "id": "92-D3-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong 6 câu hỏi khai thác bài toán, câu hỏi cuối cùng (số 06) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngân sách bao nhiêu?"
+        },
+        {
+          "key": "B",
+          "text": "Có giải pháp phi AI đơn giản hơn không? (quy tắc, checklist, quy trình hay tài liệu hướng dẫn)"
+        },
+        {
+          "key": "C",
+          "text": "Cần bao nhiêu người tham gia?"
+        },
+        {
+          "key": "D",
+          "text": "Deadline khi nào?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Câu 06 là bộ lọc quan trọng: luôn kiểm tra xem một giải pháp phi AI (rule, checklist, tài liệu hướng dẫn) có đủ giải quyết vấn đề không.",
+      "tags": [
+        "problem-statement",
+        "6-questions"
+      ]
+    },
+    {
+      "id": "92-D3-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần của việc định lượng hóa bài toán là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cost, Time, Quality"
+        },
+        {
+          "key": "B",
+          "text": "Baseline (hiện trạng), Target (mục tiêu), Measurement (đo lường)"
+        },
+        {
+          "key": "C",
+          "text": "Input, Process, Output"
+        },
+        {
+          "key": "D",
+          "text": "Plan, Do, Check"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Định lượng hóa gồm: Baseline — where we are; Target — where to go; Measurement — how we know (chỉ số nào chứng minh và cách thu thập).",
+      "tags": [
+        "problem-statement",
+        "quantify"
+      ]
+    },
+    {
+      "id": "92-D3-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, vì sao phải định lượng hóa điểm đau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để báo cáo với ban lãnh đạo cho đẹp"
+        },
+        {
+          "key": "B",
+          "text": "Vì điểm đau chưa được định lượng thì không thể xác định giá trị thực tế của AI"
+        },
+        {
+          "key": "C",
+          "text": "Vì AI chỉ hoạt động với dữ liệu số"
+        },
+        {
+          "key": "D",
+          "text": "Để so sánh với đối thủ cạnh tranh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Không có con số hiện trạng thì không có cơ sở chứng minh AI mang lại cải thiện gì — cũng chính là anti-pattern 'No baseline'.",
+      "tags": [
+        "problem-statement",
+        "quantify"
+      ]
+    },
+    {
+      "id": "92-D3-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ nào sau đây là một Target (mục tiêu) được định lượng đúng chuẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm cho báo cáo tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Giảm tỷ lệ lỗi phân loại từ 20% xuống dưới 5%"
+        },
+        {
+          "key": "C",
+          "text": "Tăng sự hài lòng của người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Ứng dụng AI vào quy trình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Target tốt phải có ngưỡng cụ thể và đo được: 'từ 20% xuống dưới 5%' — có điểm xuất phát, có ngưỡng đích, đo được bằng số.",
+      "tags": [
+        "problem-statement",
+        "target"
+      ]
+    },
+    {
+      "id": "92-D3-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case 1000 học viên K3 & K4, bài toán cốt lõi được xác định là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Học viên không đủ trình độ theo kịp chương trình"
+        },
+        {
+          "key": "B",
+          "text": "Trợ giảng (TA) quá tải vì rà soát thủ công các câu hỏi trùng lặp và các yêu cầu hỗ trợ thiếu thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Nền tảng học trực tuyến bị lỗi kỹ thuật"
+        },
+        {
+          "key": "D",
+          "text": "Nội dung bài giảng quá khó"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Case xuyên suốt: lớp 1000 học viên nhưng nguồn lực TA có hạn; nút thắt là TA mất thời gian rà soát thủ công câu hỏi trùng lặp và yêu cầu thiếu ngữ cảnh.",
+      "tags": [
+        "problem-statement",
+        "case-1000hv"
+      ]
+    },
+    {
+      "id": "92-D4-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba bước quyết định AI theo Google PAIR là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thu thập dữ liệu → Huấn luyện → Triển khai"
+        },
+        {
+          "key": "B",
+          "text": "Giao điểm nhu cầu × thế mạnh AI → Automate hay Augment → Reward function & tiêu chí thành công"
+        },
+        {
+          "key": "C",
+          "text": "Nghiên cứu → Thiết kế → Kiểm thử"
+        },
+        {
+          "key": "D",
+          "text": "Rule → Workflow → Agent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PAIR 3 bước: (1) bài toán có nằm trong nhóm AI làm tốt hơn hẳn rule/heuristic? (2) AI thay thế hay hỗ trợ con người? (3) định nghĩa đúng/sai và ngưỡng thành công đo được.",
+      "tags": [
+        "pair",
+        "3-steps"
+      ]
+    },
+    {
+      "id": "92-D4-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 1 của PAIR trả lời câu hỏi trọng tâm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải pháp ở cấp độ nào?"
+        },
+        {
+          "key": "B",
+          "text": "Có thực sự cần AI không?"
+        },
+        {
+          "key": "C",
+          "text": "Problem Statement đã đủ rõ chưa?"
+        },
+        {
+          "key": "D",
+          "text": "Go hay No-Go?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bước 1 (Giao điểm nhu cầu × thế mạnh AI) trả lời câu hỏi trọng tâm số 1: bài toán có thực sự cần AI giải quyết không.",
+      "tags": [
+        "pair",
+        "3-steps"
+      ]
+    },
+    {
+      "id": "92-D4-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 2 của PAIR (Automate hay Augment) trả lời câu hỏi trọng tâm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thực sự cần AI không?"
+        },
+        {
+          "key": "B",
+          "text": "Giải pháp ở cấp độ nào (Rule/Workflow/Agent)?"
+        },
+        {
+          "key": "C",
+          "text": "Đo bằng chỉ số gì?"
+        },
+        {
+          "key": "D",
+          "text": "Ai chịu trách nhiệm vận hành?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bước 2 xác định vai trò con người trong hệ thống, từ đó dẫn tới cấp độ giải pháp — trả lời câu hỏi trọng tâm số 2.",
+      "tags": [
+        "pair",
+        "3-steps"
+      ]
+    },
+    {
+      "id": "92-D4-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 3 của PAIR (Reward function & tiêu chí thành công) trả lời câu hỏi trọng tâm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có cần AI không?"
+        },
+        {
+          "key": "B",
+          "text": "Cấp độ nào?"
+        },
+        {
+          "key": "C",
+          "text": "Problem Statement đã đủ rõ để đo lường chưa?"
+        },
+        {
+          "key": "D",
+          "text": "Ngân sách bao nhiêu?"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bước 3 định nghĩa đúng/sai của hệ thống (precision ↔ recall) và ngưỡng thành công đo được — trả lời câu hỏi PS đã đủ rõ để đo chưa.",
+      "tags": [
+        "pair",
+        "3-steps",
+        "reward"
+      ]
+    },
+    {
+      "id": "92-D4-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo PAIR, trường hợp nào sau đây thuộc nhóm 'AI probably better'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nút Home/Cancel phải luôn nằm ở vị trí quen thuộc"
+        },
+        {
+          "key": "B",
+          "text": "Gợi ý theo từng người (recommendation) — mỗi người dùng nhận nội dung gợi ý khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Hiển thị nội dung cố định, ít thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Quy trình đòi hỏi giải thích được từng bước"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Recommendation/cá nhân hóa là một trong 8 trường hợp PAIR gọi là 'AI probably better' — vì nội dung phải khác nhau cho từng người, không thể viết rule.",
+      "tags": [
+        "pair",
+        "ai-better"
+      ]
+    },
+    {
+      "id": "92-D4-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp nào sau đây KHÔNG thuộc nhóm 'AI probably better' theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiểu ngôn ngữ tự nhiên"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện cái hiếm & biến đổi (VD: gian lận)"
+        },
+        {
+          "key": "C",
+          "text": "Yêu cầu minh bạch tuyệt đối — mọi quyết định phải giải thích được từng bước, truy vết được"
+        },
+        {
+          "key": "D",
+          "text": "Dự đoán tương lai để chuẩn bị phản ứng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "'Yêu cầu minh bạch tuyệt đối' thuộc nhóm 'AI probably NOT better' — vì mô hình AI khó truy vết đầy đủ từng bước ra quyết định.",
+      "tags": [
+        "pair",
+        "ai-not-better"
+      ]
+    },
+    {
+      "id": "92-D4-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp 'Nhận diện cả một lớp thực thể' được PAIR xếp vào nhóm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI probably NOT better"
+        },
+        {
+          "key": "B",
+          "text": "AI probably better — nhận ra mọi đối tượng cùng loại, ví dụ mọi khuôn mặt"
+        },
+        {
+          "key": "C",
+          "text": "Không liên quan đến AI"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng rule là đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhận diện cả một lớp thực thể (mọi khuôn mặt, mọi loại xe...) là thế mạnh của AI — không thể liệt kê hết bằng rule.",
+      "tags": [
+        "pair",
+        "ai-better"
+      ]
+    },
+    {
+      "id": "92-D4-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'Lỗi quá tốn kém' thuộc nhóm 'AI probably NOT better'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì AI chạy chậm hơn rule"
+        },
+        {
+          "key": "B",
+          "text": "Vì chi phí của một lần sai lớn hơn lợi ích của nhiều lần đúng"
+        },
+        {
+          "key": "C",
+          "text": "Vì AI không hiểu được ngôn ngữ chuyên ngành"
+        },
+        {
+          "key": "D",
+          "text": "Vì AI cần quá nhiều dữ liệu huấn luyện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi một lần sai gây thiệt hại vượt lợi ích tích lũy của nhiều lần đúng, xác suất sai vốn có của AI khiến nó không phải lựa chọn phù hợp.",
+      "tags": [
+        "pair",
+        "ai-not-better"
+      ]
+    },
+    {
+      "id": "92-D4-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp 'Cần duy trì tính dự đoán được' thuộc nhóm nào và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI probably better — vì AI dự đoán rất tốt"
+        },
+        {
+          "key": "B",
+          "text": "AI probably NOT better — nút Home/Cancel phải luôn nằm ở chỗ quen thuộc, người dùng không phải đoán mỗi lần"
+        },
+        {
+          "key": "C",
+          "text": "Tùy vào loại mô hình sử dụng"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho ứng dụng di động"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giao diện cần nhất quán để người dùng hình thành thói quen. Nội dung động do AI sinh sẽ phá vỡ tính dự đoán được — nên dùng layout tĩnh.",
+      "tags": [
+        "pair",
+        "ai-not-better",
+        "ux"
+      ]
+    },
+    {
+      "id": "92-D4-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp 'Việc giá trị cao người dùng muốn tự làm' thuộc nhóm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI probably better"
+        },
+        {
+          "key": "B",
+          "text": "AI probably NOT better — tác vụ mang ý nghĩa cá nhân mà người dùng KHÔNG muốn bị tự động hóa"
+        },
+        {
+          "key": "C",
+          "text": "Bắt buộc dùng Agent"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng Rule"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Có những việc mang ý nghĩa cá nhân (viết lời chúc, sáng tác...) mà người dùng muốn tự làm — tự động hóa sẽ làm mất giá trị chứ không tăng.",
+      "tags": [
+        "pair",
+        "ai-not-better",
+        "ux"
+      ]
+    },
+    {
+      "id": "92-D4-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, AI hợp lý khi bài toán có đặc điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quy trình hoàn toàn xác định (deterministic)"
+        },
+        {
+          "key": "B",
+          "text": "Tác vụ lặp lại nhưng có độ biến thiên vừa phải; cần tổng hợp/tìm kiếm tri thức từ nhiều nguồn; quy trình nhiều bước phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Dữ liệu đầu vào luôn giống hệt nhau"
+        },
+        {
+          "key": "D",
+          "text": "Kết quả bắt buộc phải đúng 100%"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI hợp khi có tính lặp lại nhưng đủ biến thiên để rule không phủ hết, cần tổng hợp đa nguồn, hoặc quy trình nhiều bước phức tạp.",
+      "tags": [
+        "pair",
+        "when-ai-fits"
+      ]
+    },
+    {
+      "id": "92-D4-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu quy trình hoàn toàn có tính xác định (deterministic) thì nên chọn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent tự chủ"
+        },
+        {
+          "key": "B",
+          "text": "Các quy tắc luật tĩnh (rule) sẽ tối ưu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Workflow có AI hỗ trợ"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình frontier mạnh nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu rõ: quy trình deterministic thì rule tối ưu hơn — rẻ hơn, nhanh hơn, đúng 100% và dễ kiểm soát.",
+      "tags": [
+        "pair",
+        "rule"
+      ]
+    },
+    {
+      "id": "92-D4-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba động lực khiến doanh nghiệp đầu tư vào AI theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lợi nhuận, Danh tiếng, Quy mô"
+        },
+        {
+          "key": "B",
+          "text": "Sống còn, Hiệu quả, Khám phá"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ, Chất lượng, Chi phí"
+        },
+        {
+          "key": "D",
+          "text": "Nghiên cứu, Sản xuất, Bán hàng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 động lực: (1) Sống còn — bắt buộc tích hợp AI để duy trì lợi thế cạnh tranh; (2) Hiệu quả — giảm chi phí, tăng năng suất; (3) Khám phá — tích lũy năng lực, tìm cơ hội mới.",
+      "tags": [
+        "pair",
+        "business-drivers"
+      ]
+    },
+    {
+      "id": "92-D4-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi kiểm tra cuối cùng trong 5 câu đánh giá mức độ sẵn sàng của AI là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có đủ ngân sách không?"
+        },
+        {
+          "key": "B",
+          "text": "Có giải pháp thay thế đơn giản và tối ưu chi phí hơn AI không?"
+        },
+        {
+          "key": "C",
+          "text": "Đội ngũ có đủ kỹ năng không?"
+        },
+        {
+          "key": "D",
+          "text": "Đã có mô hình phù hợp chưa?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Câu 05: luôn kiểm tra xem có giải pháp đơn giản, rẻ hơn AI không — nguyên tắc xuyên suốt của cả Google Rules of ML lẫn Anthropic.",
+      "tags": [
+        "pair",
+        "readiness"
+      ]
+    },
+    {
+      "id": "92-D4-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu có hơn 1 câu trả lời chưa rõ ràng trong 5 câu hỏi đánh giá mức sẵn sàng, quyết định nên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Go — cứ triển khai rồi hoàn thiện dần"
+        },
+        {
+          "key": "B",
+          "text": "Not Yet — tạm hoãn để bổ sung dữ liệu, chuẩn hóa quy trình"
+        },
+        {
+          "key": "C",
+          "text": "No-Go — hủy dự án hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển sang dùng Agent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng quy định: hơn 1 câu chưa rõ ràng → quyết định Not Yet. Đây là trạng thái 'có triển vọng nhưng cần bổ sung', không phải từ chối.",
+      "tags": [
+        "pair",
+        "readiness",
+        "decision"
+      ]
+    },
+    {
+      "id": "92-D4-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vòng đời sản phẩm AI (AI Product Lifecycle) theo Chip Huyền hàm ý điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần train model một lần là xong"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi giai đoạn từ ý tưởng đến vận hành thực tế yêu cầu phương thức xác thực chuyên biệt"
+        },
+        {
+          "key": "C",
+          "text": "AI product không cần bảo trì sau khi deploy"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có 2 giai đoạn: build và ship"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vòng đời AI Product gồm nhiều milestone, mỗi giai đoạn cần cách kiểm chứng riêng — từ crawl-walk-run, kỳ vọng, đến observability và AI-as-Judge.",
+      "tags": [
+        "pair",
+        "lifecycle"
+      ]
+    },
+    {
+      "id": "92-D5-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một hệ thống AI thực tế gồm những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần Model (LLM) là đủ"
+        },
+        {
+          "key": "B",
+          "text": "Model + Context + Planning + Tools"
+        },
+        {
+          "key": "C",
+          "text": "Frontend + Backend + Database"
+        },
+        {
+          "key": "D",
+          "text": "Data + Training + Inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hệ thống AI = Model (tư duy & sáng tạo) + Context (tri thức chuyên biệt) + Planning (điều phối quy trình) + Tools (liên kết hệ thống).",
+      "tags": [
+        "system",
+        "architecture"
+      ]
+    },
+    {
+      "id": "92-D5-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành phần CONTEXT trong hệ thống AI đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xử lý đọc hiểu và soạn thảo"
+        },
+        {
+          "key": "B",
+          "text": "Cung cấp tri thức chuyên biệt: cơ sở dữ liệu, tài liệu nghiệp vụ, hồ sơ lịch sử giúp AI phản hồi chính xác theo bối cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Tự động phân rã tác vụ phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Tích hợp CRM, API bên thứ ba"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context cung cấp tri thức riêng của tổ chức mà model không có sẵn — database, tài liệu nghiệp vụ, lịch sử — để phản hồi đúng bối cảnh.",
+      "tags": [
+        "system",
+        "context"
+      ]
+    },
+    {
+      "id": "92-D5-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành phần PLANNING trong hệ thống AI làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ tài liệu nghiệp vụ"
+        },
+        {
+          "key": "B",
+          "text": "Tự động phân rã tác vụ phức tạp và linh hoạt điều chỉnh quy trình"
+        },
+        {
+          "key": "C",
+          "text": "Kết nối với API bên thứ ba"
+        },
+        {
+          "key": "D",
+          "text": "Sinh nội dung văn bản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Planning điều phối quy trình: chia nhỏ tác vụ phức tạp thành các bước, quyết định thứ tự và điều chỉnh khi tình huống thay đổi.",
+      "tags": [
+        "system",
+        "planning"
+      ]
+    },
+    {
+      "id": "92-D5-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chọn AUTOMATE (AI làm thay) theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi người dùng thích tự làm việc đó"
+        },
+        {
+          "key": "B",
+          "text": "Khi việc khó/nhàm chán/nguy hiểm hoặc cần scale; người dùng thiếu kiến thức để tự làm; có 'đáp án đúng' mà mọi người cùng đồng thuận"
+        },
+        {
+          "key": "C",
+          "text": "Khi stakes cao: tiền bạc, pháp lý, sức khỏe"
+        },
+        {
+          "key": "D",
+          "text": "Khi kết quả cần trách nhiệm cá nhân"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Automate phù hợp khi công việc nhàm chán/nguy hiểm/cần quy mô, người dùng thiếu năng lực tự làm, và tồn tại đáp án đúng được đồng thuận.",
+      "tags": [
+        "automate-augment",
+        "pair"
+      ]
+    },
+    {
+      "id": "92-D5-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chọn AUGMENT (AI hỗ trợ con người) theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi việc quá nhàm chán"
+        },
+        {
+          "key": "B",
+          "text": "Khi người dùng thích tự làm; stakes cao (tiền bạc, pháp lý, sức khỏe); kết quả cần trách nhiệm cá nhân; sở thích khó diễn đạt thành lời"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần xử lý khối lượng cực lớn"
+        },
+        {
+          "key": "D",
+          "text": "Khi có đáp án đúng rõ ràng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Augment phù hợp khi con người muốn giữ quyền chủ động, rủi ro cao, kết quả gắn với trách nhiệm/uy tín cá nhân, hoặc sở thích khó mô tả.",
+      "tags": [
+        "automate-augment",
+        "pair"
+      ]
+    },
+    {
+      "id": "92-D5-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành công của AUTOMATE và AUGMENT được đo bằng những chỉ số khác nhau như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều đo bằng accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Automate: hiệu quả tăng, an toàn hơn, giảm việc tẻ nhạt. Augment: mức độ thích thú, cảm giác kiểm soát, sáng tạo tăng"
+        },
+        {
+          "key": "C",
+          "text": "Automate đo bằng tốc độ, Augment đo bằng chi phí"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều đo bằng số người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Automate đo hiệu quả vận hành; Augment đo trải nghiệm con người (thích thú, cảm giác kiểm soát, sáng tạo) — mục tiêu khác nhau nên chỉ số khác nhau.",
+      "tags": [
+        "automate-augment",
+        "metrics"
+      ]
+    },
+    {
+      "id": "92-D5-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case 1000 học viên, Pha 1 của việc tăng mức tự động hóa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI tự động trả lời thẳng cho học viên"
+        },
+        {
+          "key": "B",
+          "text": "AI chỉ gợi ý — AI đọc câu hỏi và gợi ý câu trả lời, Trợ giảng viết lại toàn bộ"
+        },
+        {
+          "key": "C",
+          "text": "AI soạn nháp, TA duyệt"
+        },
+        {
+          "key": "D",
+          "text": "AI tự động có giám sát"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pha 1 rủi ro thấp nhất: AI chỉ gợi ý cho TA tham khảo, TA vẫn viết lại toàn bộ câu trả lời gửi học viên.",
+      "tags": [
+        "automate-phases",
+        "case-1000hv"
+      ]
+    },
+    {
+      "id": "92-D5-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pha 2 trong lộ trình tăng tự động hóa của case 1000 học viên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI chỉ gợi ý cho TA"
+        },
+        {
+          "key": "B",
+          "text": "AI soạn nháp, TA duyệt — rủi ro thấp hơn sau khi đo được chất lượng gợi ý ở Pha 1, TA hiệu chỉnh bản nháp trước khi gửi"
+        },
+        {
+          "key": "C",
+          "text": "AI tự động hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hoàn toàn vai trò TA"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pha 2 nâng mức tự động: AI soạn nháp đầy đủ, TA chỉ hiệu chỉnh và duyệt — chỉ chuyển sang khi dữ liệu Pha 1 chứng minh chất lượng đủ tốt.",
+      "tags": [
+        "automate-phases",
+        "case-1000hv"
+      ]
+    },
+    {
+      "id": "92-D5-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai design pattern của PAIR về mức độ tự động hóa được nhắc trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Fail fast' và 'Ship early'"
+        },
+        {
+          "key": "B",
+          "text": "'Automate more when risk is low' (#14) và 'Automate in phases' (#17)"
+        },
+        {
+          "key": "C",
+          "text": "'Human first' và 'AI second'"
+        },
+        {
+          "key": "D",
+          "text": "'Test in production' và 'Roll back fast'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PAIR Pattern #14: tự động hóa nhiều hơn khi rủi ro thấp. Pattern #17: tự động hóa theo từng pha, nâng dần khi có dữ liệu đánh giá.",
+      "tags": [
+        "automate-phases",
+        "pair-patterns"
+      ]
+    },
+    {
+      "id": "92-D5-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấp độ 1 (Rule/Script) phù hợp khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu vào đa dạng, không viết hết rule được"
+        },
+        {
+          "key": "B",
+          "text": "Đầu vào ổn định ít thay đổi; logic viết được thành if/else; cần kết quả luôn đúng 100%; quy định pháp lý/tuân thủ chặt"
+        },
+        {
+          "key": "C",
+          "text": "Nhiều bước, dùng nhiều công cụ"
+        },
+        {
+          "key": "D",
+          "text": "Tình huống thay đổi liên tục"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Rule phù hợp khi logic phân nhánh rành mạch, yêu cầu lặp lại hoàn toàn, không đòi hỏi suy luận, và cần kết quả dự đoán được tuyệt đối.",
+      "tags": [
+        "rwa",
+        "rule"
+      ]
+    },
+    {
+      "id": "92-D5-11",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấp độ 2 (LLM Feature / Workflow) phù hợp khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Logic hoàn toàn viết được thành if/else"
+        },
+        {
+          "key": "B",
+          "text": "Đầu vào đa dạng không viết hết rule được; đầu ra cần linh hoạt (tóm tắt, dịch, phân loại); có cách đo chất lượng; người có thể kiểm tra trước khi gửi"
+        },
+        {
+          "key": "C",
+          "text": "Cần AI tự ra quyết định giữa các bước"
+        },
+        {
+          "key": "D",
+          "text": "Quy trình thay đổi liên tục không đoán trước được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Workflow phù hợp khi rule không phủ hết đầu vào nhưng quy trình vẫn xác định được, và con người có thể kiểm tra đầu ra trước khi phát hành.",
+      "tags": [
+        "rwa",
+        "workflow"
+      ]
+    },
+    {
+      "id": "92-D5-12",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấp độ 3 (Agent) chỉ nên cân nhắc khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi muốn dùng công nghệ mới nhất"
+        },
+        {
+          "key": "B",
+          "text": "Khi không thể xác định trước toàn bộ các bước thực thi; môi trường nhiều biến số đòi hỏi thay đổi kế hoạch linh hoạt; cần tương tác nhiều công cụ và có vòng phản hồi/giám sát từ con người"
+        },
+        {
+          "key": "C",
+          "text": "Khi ngân sách dồi dào"
+        },
+        {
+          "key": "D",
+          "text": "Khi bài toán đơn giản nhưng khối lượng lớn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent chỉ dùng khi thực sự không liệt kê trước được các bước, môi trường động, cần nhiều tool — và bắt buộc phải có guardrails cùng chốt chặn con người.",
+      "tags": [
+        "rwa",
+        "agent"
+      ]
+    },
+    {
+      "id": "92-D5-13",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác biệt giữa 'Rule/Workflow/Agent' và 'Automate/Augment' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chúng là hai tên gọi của cùng một khái niệm"
+        },
+        {
+          "key": "B",
+          "text": "Rule/Workflow/Agent là cấp độ KỸ THUẬT; Automate/Augment là cấp độ VAI TRÒ của con người trong hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Rule/Workflow/Agent dành cho developer, Automate/Augment dành cho designer"
+        },
+        {
+          "key": "D",
+          "text": "Automate/Augment chỉ áp dụng cho Agent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai trục độc lập: trục kỹ thuật (Rule → Workflow → Agent) và trục vai trò con người (Automate ↔ Augment). Một Workflow vẫn có thể là Augment.",
+      "tags": [
+        "rwa",
+        "automate-augment"
+      ]
+    },
+    {
+      "id": "92-D5-14",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự ưu tiên thực dụng khi chọn cấp độ giải pháp là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt đầu từ Agent, hạ xuống nếu quá phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Bắt đầu từ bên trái (Rule), chỉ đi sang bên phải khi giá trị tăng hơn độ phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Luôn chọn Workflow vì cân bằng nhất"
+        },
+        {
+          "key": "D",
+          "text": "Chọn ngẫu nhiên rồi thử nghiệm A/B"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc: bắt đầu từ giải pháp đơn giản nhất (Rule) và chỉ nâng cấp khi giá trị thu được thực sự vượt độ phức tạp tăng thêm.",
+      "tags": [
+        "rwa",
+        "principle"
+      ]
+    },
+    {
+      "id": "92-D5-15",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba workflow pattern cơ bản theo Anthropic là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Orchestrator-Workers, Evaluator-Optimizer, Agent"
+        },
+        {
+          "key": "B",
+          "text": "Prompt Chaining, Routing, Parallelization"
+        },
+        {
+          "key": "C",
+          "text": "RAG, Fine-tuning, Prompt Engineering"
+        },
+        {
+          "key": "D",
+          "text": "Map, Reduce, Filter"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 pattern cơ bản: Prompt Chaining (chuỗi tuần tự có gate), Routing (phân loại rồi đưa vào nhánh chuyên biệt), Parallelization (chạy song song rồi tổng hợp/vote).",
+      "tags": [
+        "workflow-patterns",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "92-D5-16",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pattern 'Routing' hoạt động như thế nào và ý nghĩa quyết định của nó?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia task thành chuỗi bước tuần tự có gate kiểm tra"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại input rồi đưa vào nhánh chuyên biệt, tối ưu từng loại riêng — câu dễ đi model rẻ, câu khó đi model mạnh"
+        },
+        {
+          "key": "C",
+          "text": "Chạy song song rồi tổng hợp kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Một LLM tạo, một LLM đánh giá lặp lại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Routing phân loại đầu vào (VD: FAQ / refund / kỹ thuật) rồi định tuyến. Ý nghĩa kinh tế: câu dễ dùng model rẻ, câu khó dùng model mạnh.",
+      "tags": [
+        "workflow-patterns",
+        "routing"
+      ]
+    },
+    {
+      "id": "92-D5-17",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pattern 'Prompt Chaining' có ý nghĩa quyết định gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm rủi ro một đầu ra sai bằng cách vote"
+        },
+        {
+          "key": "B",
+          "text": "Đổi độ trễ để lấy độ chính xác — chia task thành chuỗi bước tuần tự có gate kiểm tra giữa các bước"
+        },
+        {
+          "key": "C",
+          "text": "Tiết kiệm chi phí bằng cách dùng model rẻ"
+        },
+        {
+          "key": "D",
+          "text": "Tăng khả năng tự chủ của hệ thống"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt Chaining chia nhỏ (VD: viết outline → check → viết bài). Đánh đổi: chậm hơn nhưng chính xác hơn nhờ có gate kiểm tra giữa các bước.",
+      "tags": [
+        "workflow-patterns",
+        "prompt-chaining"
+      ]
+    },
+    {
+      "id": "92-D5-18",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pattern 'Evaluator-Optimizer' hoạt động thế nào và liên quan gì đến PAIR bước 3?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một LLM phân việc động cho các worker"
+        },
+        {
+          "key": "B",
+          "text": "Một LLM tạo, một LLM đánh giá, lặp cho đến khi đạt — cần tiêu chí chấm rõ, chính là reward function ở PAIR bước 3"
+        },
+        {
+          "key": "C",
+          "text": "Chạy nhiều lần rồi lấy vote đa số"
+        },
+        {
+          "key": "D",
+          "text": "LLM tự lập kế hoạch và gọi tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Evaluator-Optimizer (VD: dịch văn học → review → sửa) chỉ hoạt động khi có tiêu chí chấm rõ ràng — đó chính là reward function từ PAIR bước 3.",
+      "tags": [
+        "workflow-patterns",
+        "evaluator-optimizer",
+        "reward"
+      ]
+    },
+    {
+      "id": "92-D5-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pattern 'Orchestrator-Workers' nên dùng khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi các bước đã biết trước hoàn toàn"
+        },
+        {
+          "key": "B",
+          "text": "Khi không liệt kê trước được các bước — 1 LLM phân việc động cho các worker, subtask không biết trước"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần chạy song song để tiết kiệm thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Khi cần vote để giảm rủi ro"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Orchestrator-Workers dùng khi subtask chỉ xác định được lúc chạy (VD: coding agent sửa nhiều file) — orchestrator phân việc động.",
+      "tags": [
+        "workflow-patterns",
+        "orchestrator"
+      ]
+    },
+    {
+      "id": "92-D5-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi của Anthropic về workflow patterns là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn dùng agent để tối đa hóa tự động hóa"
+        },
+        {
+          "key": "B",
+          "text": "Luôn ưu tiên giải pháp đơn giản nhất; chỉ tăng độ phức tạp khi thực sự cần — 3 mô hình cơ bản đã đủ đáp ứng hầu hết bài toán thực tế"
+        },
+        {
+          "key": "C",
+          "text": "Kết hợp càng nhiều pattern càng tốt"
+        },
+        {
+          "key": "D",
+          "text": "Ưu tiên pattern có chi phí thấp nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anthropic nhấn mạnh: 3 pattern cơ bản (Chaining, Routing, Parallelization) đủ cho hầu hết bài toán; agent tự chủ có chi phí vận hành cao và dễ tích tụ lỗi cộng dồn.",
+      "tags": [
+        "workflow-patterns",
+        "anthropic",
+        "principle"
+      ]
+    },
+    {
+      "id": "92-D6-01",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reward function trong hệ thống AI là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cơ chế thưởng tiền cho người dùng tích cực"
+        },
+        {
+          "key": "B",
+          "text": "Công thức quyết định đâu là dự đoán 'đúng', đâu là 'sai' — và chính nó định hình trải nghiệm người dùng cuối"
+        },
+        {
+          "key": "C",
+          "text": "Hàm tối ưu trong quá trình pre-training"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ số đo hiệu suất phần cứng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reward function định nghĩa đúng/sai của hệ thống. Vì nó quyết định hành vi thực tế nên phải thiết kế liên chức năng: Product và Engineering cùng ngồi lại.",
+      "tags": [
+        "reward",
+        "definition"
+      ]
+    },
+    {
+      "id": "92-D6-02",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case AI gợi ý câu trả lời cho học viên, True Positive (TP) là tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi đã có tài liệu sẵn, AI không can thiệp"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi nghẽn thật, AI gợi ý đúng câu trả lời — học viên được giải tỏa, TA đỡ tải"
+        },
+        {
+          "key": "C",
+          "text": "AI gợi ý câu trả lời sai và gửi thẳng cho học viên"
+        },
+        {
+          "key": "D",
+          "text": "Học viên đang kẹt nhưng AI bỏ sót"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TP = đúng-tích cực: có vấn đề thật và AI can thiệp đúng. Đây là giá trị chính mà hệ thống mang lại.",
+      "tags": [
+        "reward",
+        "confusion-matrix"
+      ]
+    },
+    {
+      "id": "92-D6-03",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "False Positive (FP) trong case AI gợi ý câu trả lời là tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI không gợi ý khi không cần thiết"
+        },
+        {
+          "key": "B",
+          "text": "AI gợi ý câu trả lời SAI (hallucination) và gửi thẳng cho học viên → học viên đi sai hướng thực hành"
+        },
+        {
+          "key": "C",
+          "text": "Học viên kẹt nhưng AI im lặng"
+        },
+        {
+          "key": "D",
+          "text": "AI gợi ý đúng nhưng chậm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FP = báo động giả: AI can thiệp khi không nên hoặc đưa thông tin sai. Đây là loại lỗi nguy hiểm nhất vì học viên tin và làm theo hướng sai.",
+      "tags": [
+        "reward",
+        "confusion-matrix",
+        "hallucination"
+      ]
+    },
+    {
+      "id": "92-D6-04",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "False Negative (FN) trong case AI gợi ý câu trả lời là tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI gợi ý sai và học viên tin theo"
+        },
+        {
+          "key": "B",
+          "text": "Học viên đang kẹt thật nhưng AI bỏ sót, không gợi ý → học viên vẫn chờ lâu như cũ"
+        },
+        {
+          "key": "C",
+          "text": "AI gợi ý đúng câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "AI phát hiện câu hỏi đã có tài liệu sẵn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "FN = bỏ sót: có vấn đề thật nhưng hệ thống không phát hiện. Hậu quả là giữ nguyên hiện trạng — không tệ hơn nhưng cũng không tạo giá trị.",
+      "tags": [
+        "reward",
+        "confusion-matrix"
+      ]
+    },
+    {
+      "id": "92-D6-05",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao reward function phải được thiết kế liên chức năng (cross-functional)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cần nhiều người để chia sẻ trách nhiệm"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó quyết định trải nghiệm người dùng cuối — tối thiểu cần Product × Engineering cùng ngồi lại"
+        },
+        {
+          "key": "C",
+          "text": "Vì quy định pháp lý yêu cầu"
+        },
+        {
+          "key": "D",
+          "text": "Vì để tăng tốc độ phát triển"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reward function không chỉ là quyết định kỹ thuật: cân bằng precision/recall trực tiếp định hình UX. Nên tối thiểu Product và Engineering phải cùng quyết.",
+      "tags": [
+        "reward",
+        "cross-functional"
+      ]
+    },
+    {
+      "id": "92-D6-06",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn bước thu hẹp khoảng cách giữa Demo và Production là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Design, Build, Test, Ship"
+        },
+        {
+          "key": "B",
+          "text": "Baseline (đối chứng), Evaluation (kiểm thử), Controls (cơ chế kiểm soát), Operations (vận hành liên tục)"
+        },
+        {
+          "key": "C",
+          "text": "Plan, Code, Deploy, Monitor"
+        },
+        {
+          "key": "D",
+          "text": "Research, Prototype, Pilot, Scale"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 bước: (1) Baseline — đối chiếu với rule/nhân sự hiện tại; (2) Evaluation — bộ dữ liệu kiểm thử, edge cases, tiêu chí nghiệm thu; (3) Controls — logging, fallback, rollback, người chịu trách nhiệm; (4) Operations — ai giám sát lỗi, cập nhật tri thức nền.",
+      "tags": [
+        "evaluation",
+        "demo-to-production"
+      ]
+    },
+    {
+      "id": "92-D6-07",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, 'phản hồi chính xác trong vài lần thử' có ý nghĩa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đã đủ cơ sở để triển khai production"
+        },
+        {
+          "key": "B",
+          "text": "Chưa đủ cơ sở để triển khai hệ thống thực tế — đó mới chỉ là tín hiệu nghiên cứu, chưa phải quyết định triển khai"
+        },
+        {
+          "key": "C",
+          "text": "Chứng minh mô hình đã đạt chuẩn"
+        },
+        {
+          "key": "D",
+          "text": "Có thể bỏ qua bước evaluation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cảnh báo khoảng cách Demo → Production: vài lần thử đúng chỉ là tín hiệu nghiên cứu; cần baseline, eval set, controls và operations mới đủ.",
+      "tags": [
+        "evaluation",
+        "demo-to-production"
+      ]
+    },
+    {
+      "id": "92-D6-08",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần khi chuyển từ Problem Statement sang Eval Plan là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Budget, Timeline, Resource"
+        },
+        {
+          "key": "B",
+          "text": "Input (Problem Statement 9 trường), Test Cases (dữ liệu thực + edge cases), Success (chỉ số Pass/Fail/HITL)"
+        },
+        {
+          "key": "C",
+          "text": "Model, Data, Compute"
+        },
+        {
+          "key": "D",
+          "text": "Design, Develop, Deploy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Eval Plan gồm: Input là PS hoàn chỉnh; Test Cases là dữ liệu thực tế và trường hợp biên; Success là ngưỡng đạt/không đạt/chuyển kiểm duyệt thủ công.",
+      "tags": [
+        "evaluation",
+        "eval-plan"
+      ]
+    },
+    {
+      "id": "92-D6-09",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, dấu hiệu nào cho thấy Problem Statement chưa đủ chặt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "PS dài quá 2 trang"
+        },
+        {
+          "key": "B",
+          "text": "Nếu không suy ra được 3 thứ bên phải (phương pháp đánh giá, bộ dữ liệu mẫu, ngưỡng chấp nhận) từ PS"
+        },
+        {
+          "key": "C",
+          "text": "PS không đề cập đến model cụ thể"
+        },
+        {
+          "key": "D",
+          "text": "PS chưa có sơ đồ kiến trúc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu tiêu chí kiểm tra: từ PS phải suy ra được phương pháp đánh giá, bộ dữ liệu mẫu và ngưỡng chấp nhận. Nếu không → PS chưa đủ chặt.",
+      "tags": [
+        "evaluation",
+        "eval-plan",
+        "problem-statement"
+      ]
+    },
+    {
+      "id": "92-D6-10",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Eval Plan cần bao phủ những nhóm tiêu chí nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần đo accuracy tổng thể"
+        },
+        {
+          "key": "B",
+          "text": "Tác vụ đơn lẻ (phân loại chính xác không?), Hiệu năng quy trình (hoàn thành nhanh hơn, ít kẹt hơn không?), Rủi ro & sai sót (có chuyển tiếp cho người phê duyệt không?)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ đo tốc độ phản hồi"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đo chi phí token"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Eval Plan cần 3 nhóm: chất lượng tác vụ đơn lẻ, hiệu năng của cả quy trình, và xử lý rủi ro/sai sót (có escalate đúng cho con người không).",
+      "tags": [
+        "evaluation",
+        "eval-plan"
+      ]
+    },
+    {
+      "id": "92-D7-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo PAIR Chương 6, 'lỗi' của AI được định nghĩa bởi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỷ lệ accuracy dưới 90%"
+        },
+        {
+          "key": "B",
+          "text": "Kỳ vọng và mô hình tâm trí của người dùng — cùng một hệ thống có thể là thành công hoặc thất bại tùy kỳ vọng"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng báo lỗi từ hệ thống giám sát"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian phản hồi vượt ngưỡng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PAIR: hệ gợi ý đúng 60% là thành công hay thất bại tùy vào điều bạn đã hứa với người dùng. Lỗi là khoảng cách giữa kỳ vọng và thực tế.",
+      "tags": [
+        "errors",
+        "pair-ch6"
+      ]
+    },
+    {
+      "id": "92-D7-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Loại lỗi 'Context Errors' (sai bối cảnh) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống không trả lời được"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống chạy 'đúng' nhưng giả định sai về người dùng, thời điểm hoặc bối cảnh — VD gợi ý ôn bài giữa kỳ nghỉ"
+        },
+        {
+          "key": "C",
+          "text": "Cả người dùng lẫn hệ thống đều không nhận ra lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Nhiều hệ thống AI xung đột tín hiệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Context Error: kỹ thuật không sai nhưng bối cảnh sai. Ví dụ điển hình: gợi ý ôn bài vào giữa kỳ nghỉ — đúng nội dung, sai thời điểm.",
+      "tags": [
+        "errors",
+        "context-errors"
+      ]
+    },
+    {
+      "id": "92-D7-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Loại lỗi 'Background Errors' (lỗi ngầm) nguy hiểm ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gây crash toàn hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Cả người dùng lẫn hệ thống đều không nhận ra — 'unknown unknowns', cần QA chủ động thay vì chờ người dùng báo lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Làm chậm thời gian phản hồi"
+        },
+        {
+          "key": "D",
+          "text": "Tốn nhiều chi phí token"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Background Errors là loại nguy hiểm nhất vì không ai phát hiện. Giải pháp: QA chủ động, không thể chờ người dùng báo lỗi.",
+      "tags": [
+        "errors",
+        "background-errors"
+      ]
+    },
+    {
+      "id": "92-D7-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn nguồn gốc lỗi AI theo PAIR Chương 6 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi mạng, lỗi phần cứng, lỗi phần mềm, lỗi người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Lỗi dữ liệu & dự đoán, Lỗi đầu vào, Lỗi liên quan, Lỗi phân cấp hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi cú pháp, lỗi logic, lỗi runtime, lỗi biên dịch"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi training, lỗi inference, lỗi deploy, lỗi monitor"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 nguồn: (1) dữ liệu gán nhãn sai/thiếu; (2) input bất ngờ ngoài thiết kế; (3) kết quả không liên quan (VD gợi ý 'hoạt động vui chơi' cho chuyến đi đám tang); (4) nhiều hệ thống AI xung đột tín hiệu.",
+      "tags": [
+        "errors",
+        "error-sources"
+      ]
+    },
+    {
+      "id": "92-D7-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn pattern Human-in-the-loop (HITL) theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Log, Alert, Retry, Rollback"
+        },
+        {
+          "key": "B",
+          "text": "Làm rõ, Minh bạch thông tin, Phê duyệt thủ công, Thiết lập ranh giới"
+        },
+        {
+          "key": "C",
+          "text": "Test, Deploy, Monitor, Iterate"
+        },
+        {
+          "key": "D",
+          "text": "Predict, Validate, Correct, Learn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 pattern HITL: (1) Làm rõ — yêu cầu bổ sung ngữ cảnh; (2) Minh bạch — trích dẫn nguồn; (3) Phê duyệt thủ công — người duyệt trước tác vụ rủi ro cao; (4) Ranh giới — giới hạn phạm vi tự chủ của AI.",
+      "tags": [
+        "hitl",
+        "ux",
+        "patterns"
+      ]
+    },
+    {
+      "id": "92-D7-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi input mơ hồ (thiếu context), pattern HITL nào nên áp dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phê duyệt thủ công"
+        },
+        {
+          "key": "B",
+          "text": "Làm rõ — yêu cầu bổ sung ngữ cảnh khi thông tin chưa đủ"
+        },
+        {
+          "key": "C",
+          "text": "Thiết lập ranh giới"
+        },
+        {
+          "key": "D",
+          "text": "Trích dẫn nguồn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thiếu context → pattern 'Làm rõ': hỏi lại người dùng để bổ sung thông tin thay vì đoán bừa và tạo ra câu trả lời sai.",
+      "tags": [
+        "hitl",
+        "ux"
+      ]
+    },
+    {
+      "id": "92-D7-07",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi rủi ro cao (sai = hậu quả nghiêm trọng), pattern HITL nào nên áp dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm rõ ngữ cảnh"
+        },
+        {
+          "key": "B",
+          "text": "Phê duyệt thủ công — con người kiểm duyệt trước tác vụ rủi ro cao"
+        },
+        {
+          "key": "C",
+          "text": "Chia option cho user chọn"
+        },
+        {
+          "key": "D",
+          "text": "Trích dẫn nguồn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Risk cao → bắt buộc có chốt chặn con người phê duyệt trước khi hành động được thực thi, hoặc xin xác nhận của user.",
+      "tags": [
+        "hitl",
+        "risk"
+      ]
+    },
+    {
+      "id": "92-D7-08",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thông điệp 'AI Product = AI + UX' hàm ý điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "UX quan trọng hơn chất lượng model"
+        },
+        {
+          "key": "B",
+          "text": "AI không cần hoàn hảo, nếu UX đỡ được chỗ nó yếu — dùng UX để hỗ trợ chỗ AI chưa đủ tốt"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần UX đẹp là đủ"
+        },
+        {
+          "key": "D",
+          "text": "AI và UX là hai dự án tách biệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nhấn mạnh: model không bao giờ hoàn hảo. Thiết kế UX tốt (làm rõ, trích dẫn, phê duyệt, ranh giới) giúp hệ thống vẫn dùng được dù AI sai.",
+      "tags": [
+        "ux",
+        "hitl",
+        "principle"
+      ]
+    },
+    {
+      "id": "92-D7-09",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba 'Paths forward from failure' theo PAIR Chương 6 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retry, Rollback, Restart"
+        },
+        {
+          "key": "B",
+          "text": "Mở kênh feedback (kể cả trên output 'đúng'), Trả quyền kiểm soát cho người dùng, Giả định người dùng sẽ dùng sai"
+        },
+        {
+          "key": "C",
+          "text": "Log lỗi, Báo cáo, Sửa chữa"
+        },
+        {
+          "key": "D",
+          "text": "Test, Fix, Deploy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 hướng: (1) luôn mở kênh feedback kể cả khi output có vẻ đúng; (2) khi automation hỏng thì trả quyền kiểm soát kèm thông tin để người dùng tiếp quản; (3) thiết kế để thất bại trở nên 'an toàn, nhàm chán' thay vì thảm họa.",
+      "tags": [
+        "errors",
+        "paths-forward",
+        "pair-ch6"
+      ]
+    },
+    {
+      "id": "92-D7-10",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc thiết kế khi automation thất bại là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ẩn lỗi đi để không làm người dùng hoang mang"
+        },
+        {
+          "key": "B",
+          "text": "Thiết kế để thất bại trở nên 'an toàn, nhàm chán' — thay vì trở thành thảm họa"
+        },
+        {
+          "key": "C",
+          "text": "Tự động retry vô hạn cho đến khi thành công"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển sang model mạnh hơn ngay lập tức"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PAIR: giả định người dùng sẽ dùng sai và hệ thống sẽ hỏng. Mục tiêu thiết kế là làm cho thất bại trở nên vô hại, không phải loại bỏ hoàn toàn thất bại.",
+      "tags": [
+        "errors",
+        "graceful-failure"
+      ]
+    },
+    {
+      "id": "92-D8-01",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba trạng thái quyết định cuối cùng của Day 02 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Approve / Reject / Pending"
+        },
+        {
+          "key": "B",
+          "text": "Go (thực hiện) / Not Yet (tạm hoãn) / No-Go (không triển khai)"
+        },
+        {
+          "key": "C",
+          "text": "Build / Buy / Partner"
+        },
+        {
+          "key": "D",
+          "text": "Now / Next / Later"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khung quyết định 3 trạng thái: Go — đủ điều kiện; Not Yet — có triển vọng nhưng cần bổ sung; No-Go — không phù hợp để dùng AI.",
+      "tags": [
+        "decision",
+        "go-notyet-nogo"
+      ]
+    },
+    {
+      "id": "92-D8-02",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều kiện để ra quyết định GO là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có ngân sách và đội ngũ sẵn sàng"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán rõ ràng, chỉ số đo lường khả thi, điểm can thiệp AI phù hợp, kiểm soát được rủi ro"
+        },
+        {
+          "key": "C",
+          "text": "Đối thủ đã triển khai AI"
+        },
+        {
+          "key": "D",
+          "text": "Ban lãnh đạo yêu cầu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GO cần đủ 4 điều kiện: bài toán rõ, chỉ số đo được, điểm can thiệp AI phù hợp, và rủi ro nằm trong tầm kiểm soát.",
+      "tags": [
+        "decision",
+        "go"
+      ]
+    },
+    {
+      "id": "92-D8-03",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quyết định NOT YET nghĩa là gì và cần làm gì tiếp theo?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hủy dự án vĩnh viễn"
+        },
+        {
+          "key": "B",
+          "text": "Có triển vọng nhưng tạm hoãn — cần bổ sung dữ liệu thực tế, chuẩn hóa quy trình, thiết lập chỉ số, xác định ranh giới"
+        },
+        {
+          "key": "C",
+          "text": "Triển khai ngay với quy mô nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển sang dùng model mạnh hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Not Yet không phải từ chối: bài toán có tiềm năng nhưng thiếu điều kiện. Cần bổ sung dữ liệu, chuẩn hóa quy trình, thiết lập metric và ranh giới rồi đánh giá lại.",
+      "tags": [
+        "decision",
+        "not-yet"
+      ]
+    },
+    {
+      "id": "92-D8-04",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên ra quyết định NO-GO?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi chưa có đủ dữ liệu để đánh giá"
+        },
+        {
+          "key": "B",
+          "text": "Khi AI không mang giá trị vượt trội, rủi ro vận hành quá cao, hoặc giải pháp không dùng AI tối ưu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Khi dự án cần hơn 3 tháng để hoàn thành"
+        },
+        {
+          "key": "D",
+          "text": "Khi đội ngũ chưa quen với AI"
+        }
+      ],
+      "answer": "B",
+      "explanation": "No-Go khi: AI không tạo giá trị vượt trội so với phương án hiện tại, rủi ro vận hành quá cao, hoặc phương án phi AI (rule, quy trình) đơn giản và tối ưu hơn.",
+      "tags": [
+        "decision",
+        "no-go"
+      ]
+    },
+    {
+      "id": "92-D8-05",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi số 04 của Day 02 nói gì về độ phức tạp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Càng phức tạp càng hiệu quả"
+        },
+        {
+          "key": "B",
+          "text": "Rule, Workflow và Agent là ba cấp độ khác nhau; độ phức tạp kỹ thuật KHÔNG đồng nghĩa với hiệu quả tối ưu"
+        },
+        {
+          "key": "C",
+          "text": "Luôn chọn Agent để đảm bảo tương lai"
+        },
+        {
+          "key": "D",
+          "text": "Độ phức tạp tỷ lệ thuận với giá trị mang lại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc 04: chọn cấp độ tối giản nhất đủ giải quyết bài toán. Agent phức tạp hơn không có nghĩa là giải pháp tốt hơn.",
+      "tags": [
+        "recap",
+        "principle"
+      ]
+    },
+    {
+      "id": "92-D8-06",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi số 06 của Day 02 nói gì về reward function?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reward function chỉ cần tối ưu accuracy"
+        },
+        {
+          "key": "B",
+          "text": "Đo reward function bằng trải nghiệm người dùng, không chỉ accuracy — thiết kế đánh đổi precision ↔ recall theo lợi ích người dùng và kiểm chứng với người dùng thật"
+        },
+        {
+          "key": "C",
+          "text": "Reward function do engineer quyết định độc lập"
+        },
+        {
+          "key": "D",
+          "text": "Reward function không thay đổi sau khi thiết lập"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc 06: accuracy cao chưa chắc UX tốt. Cân bằng precision/recall phải dựa trên lợi ích người dùng và được kiểm chứng với người dùng thật.",
+      "tags": [
+        "recap",
+        "reward",
+        "principle"
+      ]
+    }
+  ]
+}
