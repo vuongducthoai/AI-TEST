@@ -1,0 +1,3193 @@
+{
+  "id": "exam-91",
+  "title": "AI & LLM Foundation — Ôn tập Day 1",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AI in Action Day 1: AI & LLM Foundation' của giảng viên Mai Anh Nguyen (Blue). Bao gồm: phân cấp AI, lịch sử 70 năm AI, cơ chế LLM, AI Agent, landscape mô hình, chi phí token, gọi API.",
+  "timeLimit": 75,
+  "totalQuestions": 100,
+  "passingScore": 70,
+  "modules": [
+    {
+      "id": "P1",
+      "name": "Phần 1: Bức tranh AI",
+      "questions": 10
+    },
+    {
+      "id": "P2",
+      "name": "Phần 2: Lịch sử AI 70 năm",
+      "questions": 15
+    },
+    {
+      "id": "P3",
+      "name": "Phần 3: Bên trong LLM",
+      "questions": 30
+    },
+    {
+      "id": "P4",
+      "name": "Phần 4: LLM → AI Agent",
+      "questions": 15
+    },
+    {
+      "id": "P5",
+      "name": "Phần 5: AI Landscape hôm nay",
+      "questions": 8
+    },
+    {
+      "id": "P6",
+      "name": "Phần 6: Chọn model & chi phí token",
+      "questions": 10
+    },
+    {
+      "id": "P7",
+      "name": "Phần 7: Gọi API lần đầu",
+      "questions": 10
+    },
+    {
+      "id": "P8",
+      "name": "Phần 8: Tổng kết",
+      "questions": 2
+    }
+  ],
+  "questions": [
+    {
+      "id": "91-P1-01",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự phân cấp đúng từ rộng nhất đến hẹp nhất trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI ⊃ ML ⊃ Deep Learning ⊃ Generative AI ⊃ LLM"
+        },
+        {
+          "key": "B",
+          "text": "ML ⊃ AI ⊃ Deep Learning ⊃ LLM ⊃ Generative AI"
+        },
+        {
+          "key": "C",
+          "text": "AI ⊃ Deep Learning ⊃ ML ⊃ Generative AI ⊃ LLM"
+        },
+        {
+          "key": "D",
+          "text": "LLM ⊃ Generative AI ⊃ Deep Learning ⊃ ML ⊃ AI"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phân cấp lồng nhau: AI là tập lớn nhất, trong đó có ML, trong ML có Deep Learning, trong DL có Generative AI, và LLM là tập con của Generative AI.",
+      "tags": [
+        "ai-landscape",
+        "hierarchy"
+      ]
+    },
+    {
+      "id": "91-P1-02",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Discriminative (phân biệt) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo ra nội dung mới như hình ảnh, văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại hoặc dự đoán nhãn từ dữ liệu đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Lập kế hoạch và hành động theo mục tiêu"
+        },
+        {
+          "key": "D",
+          "text": "Học không giám sát từ dữ liệu thô"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI Discriminative học ranh giới giữa các lớp — nhận đầu vào và phân loại/dự đoán nhãn. Ví dụ: phân loại email spam/không spam.",
+      "tags": [
+        "ai-types",
+        "discriminative"
+      ]
+    },
+    {
+      "id": "91-P1-03",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Generative (tạo sinh) khác AI Discriminative ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI Generative chỉ phân loại, Discriminative tạo nội dung"
+        },
+        {
+          "key": "B",
+          "text": "AI Generative tạo ra nội dung mới, Discriminative phân loại/dự đoán"
+        },
+        {
+          "key": "C",
+          "text": "AI Generative chỉ dùng cho ảnh, Discriminative dùng cho văn bản"
+        },
+        {
+          "key": "D",
+          "text": "AI Generative không cần dữ liệu huấn luyện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI Generative học phân phối dữ liệu để tạo ra nội dung mới (văn bản, ảnh, âm thanh). AI Discriminative phân loại đầu vào thành nhãn.",
+      "tags": [
+        "ai-types",
+        "generative"
+      ]
+    },
+    {
+      "id": "91-P1-04",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Agentic (tác tử) hoạt động theo chu trình nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input → Output"
+        },
+        {
+          "key": "B",
+          "text": "Classify → Predict → Report"
+        },
+        {
+          "key": "C",
+          "text": "Goal → Plan → Action (lặp)"
+        },
+        {
+          "key": "D",
+          "text": "Data → Feature → Label"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Agent nhận mục tiêu, lập kế hoạch, thực thi, quan sát kết quả rồi lặp lại — khác với mô hình phản hồi một lần.",
+      "tags": [
+        "ai-types",
+        "agentic"
+      ]
+    },
+    {
+      "id": "91-P1-05",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM là viết tắt của cụm từ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Linear Learning Machine"
+        },
+        {
+          "key": "B",
+          "text": "Large Language Model"
+        },
+        {
+          "key": "C",
+          "text": "Layered Logic Module"
+        },
+        {
+          "key": "D",
+          "text": "Latent Learning Method"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM = Large Language Model — mô hình ngôn ngữ lớn, huấn luyện trên lượng văn bản khổng lồ, dựa trên kiến trúc Transformer.",
+      "tags": [
+        "llm",
+        "definition"
+      ]
+    },
+    {
+      "id": "91-P1-06",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM thuộc nhóm AI nào trong phân cấp bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Discriminative AI"
+        },
+        {
+          "key": "B",
+          "text": "Agentic AI"
+        },
+        {
+          "key": "C",
+          "text": "Generative AI"
+        },
+        {
+          "key": "D",
+          "text": "Symbolic AI"
+        }
+      ],
+      "answer": "C",
+      "explanation": "LLM là tập con của Generative AI — nó tạo ra văn bản mới dựa trên ngữ cảnh, không chỉ phân loại.",
+      "tags": [
+        "llm",
+        "hierarchy"
+      ]
+    },
+    {
+      "id": "91-P1-07",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kiến trúc nền tảng của các LLM hiện đại là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CNN (Convolutional Neural Network)"
+        },
+        {
+          "key": "B",
+          "text": "RNN (Recurrent Neural Network)"
+        },
+        {
+          "key": "C",
+          "text": "Transformer"
+        },
+        {
+          "key": "D",
+          "text": "GAN (Generative Adversarial Network)"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Kể từ bài báo 'Attention Is All You Need' (2017), Transformer là kiến trúc cốt lõi của mọi LLM lớn.",
+      "tags": [
+        "llm",
+        "transformer"
+      ]
+    },
+    {
+      "id": "91-P1-08",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhiệm vụ cốt lõi mà LLM thực hiện khi tạo văn bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tra cứu câu trả lời từ cơ sở dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán token tiếp theo dựa trên ngữ cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Sao chép đoạn văn có sẵn từ internet"
+        },
+        {
+          "key": "D",
+          "text": "Dịch thuật từ ngôn ngữ này sang ngôn ngữ khác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM hoạt động bằng cách lặp đi lặp lại dự đoán token tiếp theo có xác suất cao dựa trên toàn bộ ngữ cảnh hiện có.",
+      "tags": [
+        "llm",
+        "token-prediction"
+      ]
+    },
+    {
+      "id": "91-P1-09",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Deep Learning là tập con của loại AI nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Symbolic AI"
+        },
+        {
+          "key": "B",
+          "text": "Machine Learning"
+        },
+        {
+          "key": "C",
+          "text": "Generative AI"
+        },
+        {
+          "key": "D",
+          "text": "Expert Systems"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phân cấp: AI ⊃ ML ⊃ Deep Learning. Deep Learning là nhánh của Machine Learning sử dụng mạng nơ-ron nhiều lớp.",
+      "tags": [
+        "hierarchy",
+        "deep-learning"
+      ]
+    },
+    {
+      "id": "91-P1-10",
+      "module": "P1",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đâu là điểm khác biệt giữa Generative AI và Agentic AI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generative AI hành động trong thế giới thực, Agentic AI chỉ tạo nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Generative AI tạo nội dung, Agentic AI lập kế hoạch và thực thi chuỗi hành động để đạt mục tiêu"
+        },
+        {
+          "key": "C",
+          "text": "Chúng giống nhau, chỉ khác tên gọi"
+        },
+        {
+          "key": "D",
+          "text": "Agentic AI không sử dụng LLM"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Generative AI sinh nội dung. Agentic AI dùng LLM như 'bộ não' kết hợp công cụ, bộ nhớ để hành động đa bước trong thế giới thực.",
+      "tags": [
+        "ai-types"
+      ]
+    },
+    {
+      "id": "91-P2-01",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thuật ngữ 'Artificial Intelligence' được đặt ra lần đầu tại sự kiện nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MIT AI Lab 1950"
+        },
+        {
+          "key": "B",
+          "text": "Dartmouth Conference 1956"
+        },
+        {
+          "key": "C",
+          "text": "DARPA Workshop 1963"
+        },
+        {
+          "key": "D",
+          "text": "Turing Conference 1970"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hội nghị Dartmouth năm 1956 do John McCarthy tổ chức là nơi thuật ngữ 'Artificial Intelligence' ra đời và ngành AI chính thức bắt đầu.",
+      "tags": [
+        "ai-history",
+        "1956"
+      ]
+    },
+    {
+      "id": "91-P2-02",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sách 'Perceptrons' (1969) của Minsky & Papert gây ra hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thúc đẩy đầu tư mạnh vào AI"
+        },
+        {
+          "key": "B",
+          "text": "Chứng minh perceptron đơn lớp không giải được XOR, làm cạn ngân quỹ nghiên cứu mạng nơ-ron"
+        },
+        {
+          "key": "C",
+          "text": "Ra đời kiến trúc CNN"
+        },
+        {
+          "key": "D",
+          "text": "Khai sinh Expert Systems"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Minsky & Papert chứng minh giới hạn nghiêm trọng của perceptron, dẫn đến cắt giảm tài trợ cho nghiên cứu mạng nơ-ron hơn một thập kỷ.",
+      "tags": [
+        "ai-history",
+        "1969"
+      ]
+    },
+    {
+      "id": "91-P2-03",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Báo cáo Lighthill năm 1973 ảnh hưởng thế nào đến AI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng đầu tư cho nghiên cứu AI ở Anh"
+        },
+        {
+          "key": "B",
+          "text": "Phê phán AI thiếu thực dụng, dẫn đến cắt giảm ngân sách — khởi đầu AI Winter 1"
+        },
+        {
+          "key": "C",
+          "text": "Công bố kiến trúc Transformer"
+        },
+        {
+          "key": "D",
+          "text": "Giới thiệu Expert Systems"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Báo cáo Lighthill kết luận AI thất bại khi mở rộng sang bài toán thực tế, dẫn đến cắt ngân sách chính phủ Anh — AI Winter đầu tiên.",
+      "tags": [
+        "ai-history",
+        "1973",
+        "ai-winter"
+      ]
+    },
+    {
+      "id": "91-P2-04",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thập niên 1980, loại hệ thống AI nào được doanh nghiệp áp dụng rộng rãi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deep Learning"
+        },
+        {
+          "key": "B",
+          "text": "Reinforcement Learning"
+        },
+        {
+          "key": "C",
+          "text": "Expert Systems (Hệ chuyên gia)"
+        },
+        {
+          "key": "D",
+          "text": "Generative Adversarial Networks"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Expert Systems mã hóa tri thức chuyên gia thành luật if-then, được doanh nghiệp ứng dụng rộng trong thập niên 80 trước khi thị trường máy Lisp sụp đổ năm 1987.",
+      "tags": [
+        "ai-history",
+        "expert-systems"
+      ]
+    },
+    {
+      "id": "91-P2-05",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Winter lần 2 xảy ra vào khoảng năm nào và do nguyên nhân gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1973, do báo cáo Lighthill"
+        },
+        {
+          "key": "B",
+          "text": "1987, do sự sụp đổ của thị trường máy Lisp"
+        },
+        {
+          "key": "C",
+          "text": "1995, do internet bùng nổ"
+        },
+        {
+          "key": "D",
+          "text": "2001, do bong bóng dot-com"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI Winter 2 bắt đầu khoảng 1987 khi thị trường máy Lisp chuyên dụng cho AI sụp đổ, cắt giảm tài trợ cho Expert Systems.",
+      "tags": [
+        "ai-history",
+        "1987",
+        "ai-winter"
+      ]
+    },
+    {
+      "id": "91-P2-06",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm 2006, ai đã có đột phá quan trọng về Deep Learning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Yann LeCun"
+        },
+        {
+          "key": "B",
+          "text": "Geoffrey Hinton"
+        },
+        {
+          "key": "C",
+          "text": "Andrew Ng"
+        },
+        {
+          "key": "D",
+          "text": "Fei-Fei Li"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Geoffrey Hinton và nhóm của ông công bố kết quả huấn luyện thành công mạng nơ-ron sâu năm 2006, mở đường cho làn sóng Deep Learning.",
+      "tags": [
+        "ai-history",
+        "2006",
+        "deep-learning"
+      ]
+    },
+    {
+      "id": "91-P2-07",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tập dữ liệu ImageNet được tạo ra bởi ai và có quy mô như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Andrew Ng, 1 triệu ảnh, 1.000 danh mục"
+        },
+        {
+          "key": "B",
+          "text": "Yann LeCun, 5 triệu ảnh, 10.000 danh mục"
+        },
+        {
+          "key": "C",
+          "text": "Fei-Fei Li, 14 triệu ảnh, 20.000 danh mục"
+        },
+        {
+          "key": "D",
+          "text": "Geoffrey Hinton, 10 triệu ảnh, 5.000 danh mục"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Fei-Fei Li (Stanford) tập hợp ImageNet với 14 triệu ảnh thuộc 20.000 danh mục — bộ dataset tạo ra cuộc cách mạng AI từ 2009.",
+      "tags": [
+        "ai-history",
+        "2009",
+        "imagenet"
+      ]
+    },
+    {
+      "id": "91-P2-08",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AlexNet (2012) thành công nhờ kết hợp ba yếu tố nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Symbolic AI + Expert Systems + Big Data"
+        },
+        {
+          "key": "B",
+          "text": "GPU + Dữ liệu lớn (ImageNet) + Kiến trúc mạng sâu"
+        },
+        {
+          "key": "C",
+          "text": "RNN + LSTM + Attention"
+        },
+        {
+          "key": "D",
+          "text": "Transformer + Fine-tuning + RLHF"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AlexNet thắng ImageNet 2012 nhờ GPU (tính toán song song), dữ liệu lớn (ImageNet), và kiến trúc deep convolution.",
+      "tags": [
+        "ai-history",
+        "2012",
+        "alexnet"
+      ]
+    },
+    {
+      "id": "91-P2-09",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AlphaGo của DeepMind học chơi cờ vây như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lập trình cứng mọi nước đi có thể"
+        },
+        {
+          "key": "B",
+          "text": "Học từ 150.000 ván của người chơi, sau đó tự chơi với chính mình"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ đọc sách lý thuyết cờ vây"
+        },
+        {
+          "key": "D",
+          "text": "Dùng cây tìm kiếm minimax thuần túy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AlphaGo học từ 150.000 ván đấu của con người, rồi dùng self-play để vượt trình độ người — đỉnh cao là đánh bại Lee Sedol năm 2016.",
+      "tags": [
+        "ai-history",
+        "2016",
+        "alphago"
+      ]
+    },
+    {
+      "id": "91-P2-10",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài báo 'Attention Is All You Need' — kiến trúc Transformer — được công bố năm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2012"
+        },
+        {
+          "key": "B",
+          "text": "2015"
+        },
+        {
+          "key": "C",
+          "text": "2017"
+        },
+        {
+          "key": "D",
+          "text": "2020"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vaswani et al. (Google Brain) công bố 'Attention Is All You Need' năm 2017, giới thiệu Transformer và thay đổi toàn bộ NLP.",
+      "tags": [
+        "ai-history",
+        "2017",
+        "transformer"
+      ]
+    },
+    {
+      "id": "91-P2-11",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ChatGPT được ra mắt công khai vào năm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2020"
+        },
+        {
+          "key": "B",
+          "text": "2021"
+        },
+        {
+          "key": "C",
+          "text": "2022"
+        },
+        {
+          "key": "D",
+          "text": "2023"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ChatGPT ra mắt tháng 11/2022 và đạt 100 triệu người dùng chỉ trong 2 tháng, đánh dấu AI bước vào đại chúng.",
+      "tags": [
+        "ai-history",
+        "2022",
+        "chatgpt"
+      ]
+    },
+    {
+      "id": "91-P2-12",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm khác biệt cốt lõi giữa Deep Learning và Machine Learning truyền thống là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "DL yêu cầu ít dữ liệu hơn ML"
+        },
+        {
+          "key": "B",
+          "text": "DL tự động trích xuất đặc trưng; ML cần kỹ sư thiết kế đặc trưng thủ công"
+        },
+        {
+          "key": "C",
+          "text": "DL chỉ dùng cho thị giác máy tính, ML dùng cho NLP"
+        },
+        {
+          "key": "D",
+          "text": "DL không cần GPU, ML cần GPU"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ML truyền thống yêu cầu domain expert thiết kế features thủ công. DL tự học features từ dữ liệu thô qua nhiều lớp biến đổi.",
+      "tags": [
+        "deep-learning",
+        "vs-ml"
+      ]
+    },
+    {
+      "id": "91-P2-13",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RNN có điểm yếu nào dẫn đến sự ra đời của Transformer?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RNN không xử lý được văn bản tiếng Việt"
+        },
+        {
+          "key": "B",
+          "text": "RNN nén toàn bộ ngữ cảnh vào một context vector duy nhất gây mất thông tin; xử lý tuần tự không thể song song hóa"
+        },
+        {
+          "key": "C",
+          "text": "RNN tiêu thụ quá ít bộ nhớ"
+        },
+        {
+          "key": "D",
+          "text": "RNN chỉ hoạt động với dữ liệu số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RNN có 2 yếu điểm: (1) bottleneck — nén cả chuỗi dài vào một vector duy nhất làm mất thông tin; (2) sequential — phải xử lý từng bước, không song song được.",
+      "tags": [
+        "rnn",
+        "bottleneck"
+      ]
+    },
+    {
+      "id": "91-P2-14",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đột phá chính của kiến trúc Transformer so với RNN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transformer chỉ dùng convolution, không dùng attention"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi token chú ý đến tất cả các token khác cùng lúc, cho phép xử lý song song"
+        },
+        {
+          "key": "C",
+          "text": "Transformer dùng vòng lặp tuần tự hiệu quả hơn"
+        },
+        {
+          "key": "D",
+          "text": "Transformer loại bỏ hoàn toàn khái niệm ngữ cảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Transformer dùng self-attention: mỗi token tính điểm liên quan với tất cả token khác trong một lần (parallel) — giải quyết cả bottleneck lẫn vấn đề song song.",
+      "tags": [
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "91-P2-15",
+      "module": "P2",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm 2009 đánh dấu sự kiện gì quan trọng trong lịch sử AI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ra đời AlexNet"
+        },
+        {
+          "key": "B",
+          "text": "Công bố tập dữ liệu ImageNet"
+        },
+        {
+          "key": "C",
+          "text": "DeepMind thành lập"
+        },
+        {
+          "key": "D",
+          "text": "OpenAI thành lập"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Năm 2009, Fei-Fei Li công bố ImageNet — bộ dữ liệu 14M ảnh, 20K danh mục — nền tảng cho cuộc cách mạng Deep Learning.",
+      "tags": [
+        "ai-history",
+        "2009",
+        "imagenet"
+      ]
+    },
+    {
+      "id": "91-P3-01",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Token' trong LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn là một từ hoàn chỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Luôn là một ký tự đơn lẻ"
+        },
+        {
+          "key": "C",
+          "text": "Đơn vị xử lý văn bản — có thể là từ, phần từ, hoặc ký tự đặc biệt"
+        },
+        {
+          "key": "D",
+          "text": "Luôn là một câu hoàn chỉnh"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Token là đơn vị xử lý của LLM — không phải lúc nào cũng là từ. 'unhappiness' có thể thành 3 token: 'un', 'happi', 'ness'. Khoảng cách và dấu câu cũng là token.",
+      "tags": [
+        "llm",
+        "tokenization"
+      ]
+    },
+    {
+      "id": "91-P3-02",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM tạo văn bản bằng cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm kiếm câu trả lời trong cơ sở dữ liệu nội bộ"
+        },
+        {
+          "key": "B",
+          "text": "Dự đoán lặp đi lặp lại token tiếp theo, thêm vào ngữ cảnh, rồi lặp lại"
+        },
+        {
+          "key": "C",
+          "text": "Dịch ngôn ngữ nguồn sang ngôn ngữ đích"
+        },
+        {
+          "key": "D",
+          "text": "Tổng hợp thông tin từ nhiều nguồn internet"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vòng lặp cốt lõi: tính xác suất trên toàn bộ vocabulary → lấy mẫu token → thêm vào context → dự đoán token kế tiếp → lặp lại đến khi kết thúc.",
+      "tags": [
+        "llm",
+        "generation"
+      ]
+    },
+    {
+      "id": "91-P3-03",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Context window' (cửa sổ ngữ cảnh) của LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giao diện chat người dùng nhìn thấy"
+        },
+        {
+          "key": "B",
+          "text": "Lượng token tối đa mô hình có thể xử lý trong một lần — tất cả văn bản trên 'bàn làm việc'"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng tham số của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian tối đa mô hình có thể chạy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng dùng ẩn dụ 'bàn làm việc': context window là tất cả văn bản mà mô hình có thể 'nhìn thấy' cùng lúc — system prompt, lịch sử chat, tài liệu đính kèm.",
+      "tags": [
+        "llm",
+        "context-window"
+      ]
+    },
+    {
+      "id": "91-P3-04",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context window 128K token tương đương khoảng bao nhiêu trang sách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "30 trang"
+        },
+        {
+          "key": "B",
+          "text": "100 trang"
+        },
+        {
+          "key": "C",
+          "text": "300 trang"
+        },
+        {
+          "key": "D",
+          "text": "1.000 trang"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Theo bài giảng: 128K token ≈ 300 trang sách. Context 1M token ≈ 4-5 cuốn sách.",
+      "tags": [
+        "llm",
+        "context-window"
+      ]
+    },
+    {
+      "id": "91-P3-05",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hiện tượng 'Lost in the Middle' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình quên mất nhiệm vụ khi prompt quá ngắn"
+        },
+        {
+          "key": "B",
+          "text": "Thông tin nằm ở giữa context window dài có xu hướng bị mô hình bỏ qua"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình không thể xử lý văn bản ở giữa câu"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi xảy ra khi context window bị vượt quá"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nghiên cứu chỉ ra LLM chú ý tốt nhất đến đầu và cuối context; thông tin nằm giữa đoạn context dài thường ít được 'nhớ' hơn.",
+      "tags": [
+        "llm",
+        "context-window",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "91-P3-06",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi dự đoán token tiếp theo, mô hình tính điểm xác suất trên bao nhiêu phần tử?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ token cuối cùng"
+        },
+        {
+          "key": "B",
+          "text": "5 token gần nhất"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ vocabulary (tất cả các token có thể có)"
+        },
+        {
+          "key": "D",
+          "text": "Các token được lập trình sẵn trong mô hình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mô hình tính logit cho mọi token trong vocabulary (hàng chục nghìn token), áp dụng softmax ra phân phối xác suất, rồi lấy mẫu.",
+      "tags": [
+        "llm",
+        "token-prediction",
+        "vocabulary"
+      ]
+    },
+    {
+      "id": "91-P3-07",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Attention mechanism' trong Transformer làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp mô hình bỏ qua hoàn toàn các từ không quan trọng"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi token chủ động nhìn lại các token trước, tính điểm mức độ liên quan, và khóa ý nghĩa theo ngữ cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ chú ý đến từ đầu và cuối câu"
+        },
+        {
+          "key": "D",
+          "text": "Dịch chuyển thông tin một chiều từ trái sang phải như RNN"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Attention: mỗi token query tất cả token khác, tính attention score, chuẩn hóa bằng softmax, dùng để lấy tổng có trọng số — giúp token 'bank' hiểu nghĩa từ ngữ cảnh.",
+      "tags": [
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "91-P3-08",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Multi-head attention' có ý nghĩa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình chạy trên nhiều GPU cùng lúc"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều 'đầu chú ý' chuyên biệt chạy song song — mỗi đầu học mối quan hệ khác nhau (đại từ, không gian, cú pháp...)"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình có nhiều lớp attention xếp chồng theo chiều dọc"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng có thể điều chỉnh số đầu attention trong API"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-head attention chạy nhiều attention 'chuyên gia' song song. Một đầu học giải tham chiếu đại từ, đầu khác học quan hệ cú pháp, đầu khác học quan hệ ngữ nghĩa...",
+      "tags": [
+        "transformer",
+        "multi-head-attention"
+      ]
+    },
+    {
+      "id": "91-P3-09",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Parameters' (tham số) của LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cài đặt mà người dùng điều chỉnh khi gọi API (temperature, top_p)"
+        },
+        {
+          "key": "B",
+          "text": "Số lượng câu hỏi mô hình có thể trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Các số cố định mà mô hình đã học được trong huấn luyện, tương tự trọng số synapse thần kinh"
+        },
+        {
+          "key": "D",
+          "text": "Bộ nhớ tạm thời được cập nhật trong mỗi hội thoại"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tham số là các con số cố định được học qua gradient descent. Chúng mã hóa 'kiến thức' của mô hình — tương tự sức mạnh kết nối synapse trong não.",
+      "tags": [
+        "llm",
+        "parameters"
+      ]
+    },
+    {
+      "id": "91-P3-10",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tham số của mô hình có thay đổi trong quá trình suy luận (inference) không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có, mô hình liên tục học từ hội thoại người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Không — tham số cố định sau huấn luyện; chỉ thay đổi khi fine-tuning"
+        },
+        {
+          "key": "C",
+          "text": "Có, nhưng chỉ với người dùng Enterprise"
+        },
+        {
+          "key": "D",
+          "text": "Có, mô hình tự cập nhật mỗi 24 giờ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi bạn chat với LLM, mô hình không học thêm — tham số đông cứng. Đây là lý do mô hình không 'nhớ' hội thoại cũ sau khi session kết thúc.",
+      "tags": [
+        "llm",
+        "parameters",
+        "inference"
+      ]
+    },
+    {
+      "id": "91-P3-11",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giai đoạn đầu tiên trong pipeline huấn luyện LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RLHF (Reinforcement Learning from Human Feedback)"
+        },
+        {
+          "key": "B",
+          "text": "SFT (Supervised Fine-Tuning)"
+        },
+        {
+          "key": "C",
+          "text": "Pre-training — học dự đoán token tiếp theo trên lượng văn bản khổng lồ"
+        },
+        {
+          "key": "D",
+          "text": "Reasoning training"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Pipeline: (1) Pre-training 'đọc tất cả' → (2) SFT 'học phản hồi' → (3) RLHF/DPO 'định hình hành vi' → (4) Reasoning training. Pre-training tốn tài nguyên nhất.",
+      "tags": [
+        "llm",
+        "training",
+        "pre-training"
+      ]
+    },
+    {
+      "id": "91-P3-12",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "SFT (Supervised Fine-Tuning) trong huấn luyện LLM có mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dạy mô hình đọc văn bản thô từ internet"
+        },
+        {
+          "key": "B",
+          "text": "Dạy mô hình cách phản hồi — biết 'nói chuyện', trả lời theo dạng Q&A hữu ích"
+        },
+        {
+          "key": "C",
+          "text": "Tối ưu hóa mô hình bằng phản hồi của con người qua RL"
+        },
+        {
+          "key": "D",
+          "text": "Dạy mô hình tự chấm điểm câu trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sau pre-training, mô hình chỉ biết 'tiếp tục văn bản'. SFT dùng dữ liệu Q&A chất lượng cao để dạy mô hình format phản hồi như trợ lý hữu ích.",
+      "tags": [
+        "llm",
+        "training",
+        "sft"
+      ]
+    },
+    {
+      "id": "91-P3-13",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RLHF hoạt động theo quy trình nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình đọc sách giáo khoa và ghi nhớ"
+        },
+        {
+          "key": "B",
+          "text": "Tạo nhiều câu trả lời → con người xếp hạng → reward model → cập nhật RL → lặp lại"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình tự sinh bài tập và tự chấm điểm"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ sư viết tay từng cặp Q&A tốt nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RLHF: mô hình sinh nhiều phản hồi → người dùng xếp hạng → reward model học từ xếp hạng → dùng RL (PPO) cập nhật mô hình → lặp nhiều vòng.",
+      "tags": [
+        "llm",
+        "training",
+        "rlhf"
+      ]
+    },
+    {
+      "id": "91-P3-14",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giai đoạn huấn luyện nào mới xuất hiện ~2025 giúp mô hình 'tự chấm điểm'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RLHF nâng cao"
+        },
+        {
+          "key": "B",
+          "text": "SFT lần 2"
+        },
+        {
+          "key": "C",
+          "text": "Reasoning training"
+        },
+        {
+          "key": "D",
+          "text": "Pre-training nâng cao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Reasoning training (giai đoạn 4) dạy mô hình tự sinh chuỗi suy luận và tự đánh giá đúng/sai — nền tảng của các mô hình như o1, o3, R1.",
+      "tags": [
+        "llm",
+        "training",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "91-P3-15",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thí nghiệm Othello-GPT chứng minh điều gì về LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM chỉ ghi nhớ mẫu ngôn ngữ, không có hiểu biết thực sự"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chỉ được huấn luyện trên chuỗi nước đi nhưng phát triển biểu diễn nội tại của trạng thái bàn cờ"
+        },
+        {
+          "key": "C",
+          "text": "LLM không thể học các trò chơi chiến lược"
+        },
+        {
+          "key": "D",
+          "text": "Cần cung cấp luật chơi rõ ràng cho mô hình mới chơi được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Othello-GPT chỉ thấy chuỗi nước đi (không có bàn cờ, không có luật) nhưng phân tích cho thấy mô hình hình thành biểu diễn nội tại của trạng thái bàn cờ — bằng chứng LLM xây dựng world model.",
+      "tags": [
+        "llm",
+        "world-model",
+        "othello-gpt"
+      ]
+    },
+    {
+      "id": "91-P3-16",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Time bubble' (bong bóng thời gian) của LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình xử lý chậm khi context dài"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chỉ biết thông tin đến thời điểm cắt dữ liệu huấn luyện, không biết sự kiện sau đó"
+        },
+        {
+          "key": "C",
+          "text": "Giới hạn thời gian người dùng được dùng mô hình mỗi ngày"
+        },
+        {
+          "key": "D",
+          "text": "Trễ xử lý khi context window đầy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM được huấn luyện đến một mốc thời gian cụ thể (knowledge cutoff). Sau đó mô hình không có thông tin về thế giới — cần tìm kiếm web hoặc RAG để bổ sung.",
+      "tags": [
+        "llm",
+        "limitations",
+        "knowledge-cutoff"
+      ]
+    },
+    {
+      "id": "91-P3-17",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Hallucination' (ảo giác) của LLM xảy ra vì lý do gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình từ chối trả lời câu hỏi nhạy cảm"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình tối ưu hóa để tạo văn bản nghe có vẻ hợp lý, không phải để trung thực — nên có thể bịa thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình hiểu sai ngôn ngữ người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi kỹ thuật khi server quá tải"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM được tối ưu để tạo token tiếp theo 'hợp lý' — không có cơ chế kiểm tra sự thật. Khi thiếu thông tin, mô hình tạo ra văn bản nghe có lý nhưng sai thực tế.",
+      "tags": [
+        "llm",
+        "limitations",
+        "hallucination"
+      ]
+    },
+    {
+      "id": "91-P3-18",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Spurious cues' (tín hiệu giả) là gì trong học máy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi người dùng cố tình gây hiểu lầm"
+        },
+        {
+          "key": "B",
+          "text": "Đặc trưng ngẫu nhiên tương quan với nhãn trong dữ liệu huấn luyện nhưng không phải nguyên nhân thực sự"
+        },
+        {
+          "key": "C",
+          "text": "Kết quả nhiễu do temperature cao"
+        },
+        {
+          "key": "D",
+          "text": "Token đặc biệt mà mô hình không xử lý được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mô hình học bất kỳ đặc trưng nào tương quan với nhãn, kể cả đặc trưng vô nghĩa. Dễ thấy trong train nhưng fragile khi deploy thực tế.",
+      "tags": [
+        "llm",
+        "spurious-cues"
+      ]
+    },
+    {
+      "id": "91-P3-19",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ nào trong bài giảng minh họa 'spurious cues'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình nhớ tên người nổi tiếng nhờ tần suất xuất hiện"
+        },
+        {
+          "key": "B",
+          "text": "Đếm số hyperlink để phân loại spam; dự đoán cảm xúc dựa trên nguồn gốc bình luận phim"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình đoán đúng thời tiết nhờ dữ liệu lịch sử"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình học nghĩa từ bằng cách đếm tần suất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu 2 ví dụ: (1) spam filter đếm hyperlink; (2) sentiment analysis học từ nguồn gốc bình luận thay vì nội dung — cả hai là shortcuts không bền vững.",
+      "tags": [
+        "llm",
+        "spurious-cues",
+        "examples"
+      ]
+    },
+    {
+      "id": "91-P3-20",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chain-of-Thought prompting là kỹ thuật gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kỹ thuật cung cấp nhiều ví dụ (few-shot) trong prompt"
+        },
+        {
+          "key": "B",
+          "text": "Yêu cầu mô hình 'suy nghĩ từng bước' — tạo không gian nháp trung gian, cải thiện độ chính xác suy luận"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi các câu hỏi nối tiếp nhau trong một hội thoại"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật kết hợp output của nhiều mô hình song song"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thêm 'hãy suy nghĩ từng bước' vào prompt tạo 'scratch pad' để mô hình thực hiện suy luận trung gian trước khi kết luận — cải thiện rõ rệt bài toán toán, logic.",
+      "tags": [
+        "llm",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "91-P3-21",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sau khi lấy mẫu một token, bước tiếp theo trong vòng lặp sinh văn bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa toàn bộ ngữ cảnh và bắt đầu lại"
+        },
+        {
+          "key": "B",
+          "text": "Thêm token đó vào ngữ cảnh rồi dự đoán token tiếp theo"
+        },
+        {
+          "key": "C",
+          "text": "Gửi token đó đến server để xác nhận"
+        },
+        {
+          "key": "D",
+          "text": "Tạm dừng và chờ phản hồi từ người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vòng lặp autoregressive: dự đoán → lấy mẫu token → append vào context → dự đoán tiếp theo → ... → token kết thúc (EOS).",
+      "tags": [
+        "llm",
+        "autoregressive"
+      ]
+    },
+    {
+      "id": "91-P3-22",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context window 1 triệu token tương đương khoảng bao nhiêu cuốn sách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 cuốn"
+        },
+        {
+          "key": "B",
+          "text": "4-5 cuốn"
+        },
+        {
+          "key": "C",
+          "text": "10 cuốn"
+        },
+        {
+          "key": "D",
+          "text": "50 cuốn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng: 128K token ≈ 300 trang (1 cuốn sách), do đó 1M token ≈ 4-5 cuốn sách.",
+      "tags": [
+        "llm",
+        "context-window"
+      ]
+    },
+    {
+      "id": "91-P3-23",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba hạn chế chính của LLM được đề cập trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chậm, đắt, không hỗ trợ tiếng Việt"
+        },
+        {
+          "key": "B",
+          "text": "Time bubble (knowledge cutoff), hallucination, limited context window"
+        },
+        {
+          "key": "C",
+          "text": "Cần GPU mạnh, cần internet, cần đăng nhập"
+        },
+        {
+          "key": "D",
+          "text": "Không hiểu toán học, không hiểu code, không hiểu hình ảnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng liệt kê 3 giới hạn cốt lõi: (1) time bubble — kiến thức đến cutoff date; (2) hallucination — bịa thông tin; (3) limited context — bàn làm việc có giới hạn.",
+      "tags": [
+        "llm",
+        "limitations"
+      ]
+    },
+    {
+      "id": "91-P3-24",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reward model trong RLHF có vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thưởng tiền cho người dùng tích cực"
+        },
+        {
+          "key": "B",
+          "text": "Học cách đánh giá chất lượng phản hồi từ xếp hạng của con người, thay thế human feedback trong vòng lặp RL"
+        },
+        {
+          "key": "C",
+          "text": "Đo hiệu suất GPU trong quá trình huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Lọc dữ liệu độc hại trước pre-training"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reward model là mô hình riêng học từ preference data của con người. Nó tạo scalar reward cho mỗi phản hồi, thay thế human feedback trong vòng lặp RL để scale.",
+      "tags": [
+        "llm",
+        "rlhf",
+        "reward-model"
+      ]
+    },
+    {
+      "id": "91-P3-25",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao LLM stateless là hạn chế quan trọng khi xây dựng chatbot?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình không xử lý được văn bản dài"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình không nhớ hội thoại trước — mỗi API call độc lập, client phải gửi lại toàn bộ lịch sử"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình không thể xử lý nhiều yêu cầu đồng thời"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình không thể học thêm sau khi deploy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi lần gọi API là độc lập. Để chatbot 'nhớ' hội thoại, client phải gửi lại toàn bộ [system, user1, assistant1, user2, assistant2...] mỗi lần — chi phí tăng theo độ dài.",
+      "tags": [
+        "llm",
+        "stateless",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "91-P3-26",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì đúng về cơ chế attention trong Transformer?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Attention chỉ hoạt động trong một chiều từ trái sang phải"
+        },
+        {
+          "key": "B",
+          "text": "Attention giúp mỗi token xác định mức độ liên quan của tất cả token khác và tổng hợp thông tin theo trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Attention thay thế hoàn toàn tất cả các lớp khác trong Transformer"
+        },
+        {
+          "key": "D",
+          "text": "Attention chỉ dùng trong pre-training, không dùng khi inference"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Self-attention: query token tính dot product với key của mọi token, chuẩn hóa (softmax), dùng kết quả làm trọng số tổng hợp value vectors — mọi token attend tới mọi token khác.",
+      "tags": [
+        "transformer",
+        "attention"
+      ]
+    },
+    {
+      "id": "91-P3-27",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng so sánh tham số của LLM với điều gì trong hệ thần kinh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tế bào thần kinh (neurons)"
+        },
+        {
+          "key": "B",
+          "text": "Trọng số synapse (synaptic weights)"
+        },
+        {
+          "key": "C",
+          "text": "Điện thế hành động (action potential)"
+        },
+        {
+          "key": "D",
+          "text": "Vỏ não (cortex)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng dùng phép loại suy: tham số của LLM ≈ trọng số kết nối synapse. Học = điều chỉnh các số này qua gradient descent, giống não điều chỉnh sức mạnh kết nối qua kinh nghiệm.",
+      "tags": [
+        "llm",
+        "parameters",
+        "analogy"
+      ]
+    },
+    {
+      "id": "91-P3-28",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao pre-training cần lượng dữ liệu và tính toán khổng lồ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cần ghi nhớ toàn bộ internet theo nghĩa đen"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình phải học phân phối ngôn ngữ và kiến thức thế giới từ hàng nghìn tỷ token văn bản"
+        },
+        {
+          "key": "C",
+          "text": "Vì cần nhiều GPU để render hình ảnh"
+        },
+        {
+          "key": "D",
+          "text": "Quy định pháp lý yêu cầu dữ liệu tối thiểu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-training học trọng số từ scratch trên hàng nghìn tỷ token. Gradient được tính cho tất cả tham số trên mỗi batch — chi phí tăng với số tham số nhân số token.",
+      "tags": [
+        "llm",
+        "training",
+        "pre-training"
+      ]
+    },
+    {
+      "id": "91-P3-29",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao cần SFT sau khi đã có pre-trained model?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình chưa học đủ dữ liệu văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Pre-trained model chỉ biết tiếp tục văn bản; SFT dạy nó format phản hồi như trợ lý hữu ích"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm kích thước (compress) mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Để thêm ngôn ngữ mới vào mô hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-trained model là 'document completer'. SFT chuyển nó thành 'helpful assistant' bằng cách huấn luyện trên cặp (instruction, response) chất lượng cao.",
+      "tags": [
+        "llm",
+        "training",
+        "sft"
+      ]
+    },
+    {
+      "id": "91-P3-30",
+      "module": "P3",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng dùng phép ẩn dụ nào để mô tả context window?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hộp thư"
+        },
+        {
+          "key": "B",
+          "text": "Bộ nhớ RAM"
+        },
+        {
+          "key": "C",
+          "text": "Bàn làm việc"
+        },
+        {
+          "key": "D",
+          "text": "Tủ sách"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bài giảng dùng ẩn dụ 'bàn làm việc' (desk): mọi thứ mô hình có thể 'nhìn thấy và làm việc với' phải nằm trên bàn. Nếu bàn đầy, thứ cũ phải rời đi.",
+      "tags": [
+        "llm",
+        "context-window",
+        "analogy"
+      ]
+    },
+    {
+      "id": "91-P4-01",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thêm cụm từ 'hãy suy nghĩ từng bước' (think step by step) có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm mô hình chậm hơn nhưng tiết kiệm token"
+        },
+        {
+          "key": "B",
+          "text": "Cải thiện đáng kể độ chính xác trên các bài toán suy luận phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Kích hoạt chế độ 'expert mode' ẩn của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Không có tác dụng đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chain-of-Thought (CoT) tạo scratch pad suy luận, cho phép mô hình 'làm nháp' trước khi trả lời — cải thiện rõ rệt trên toán, logic, lập trình.",
+      "tags": [
+        "agent",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "91-P4-02",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một AI Agent bao gồm những thành phần cốt lõi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần LLM và kết nối internet"
+        },
+        {
+          "key": "B",
+          "text": "Goal (mục tiêu) + Reasoning/LLM + Tools (công cụ) + Memory (bộ nhớ) + Action (hành động)"
+        },
+        {
+          "key": "C",
+          "text": "Database + API + UI"
+        },
+        {
+          "key": "D",
+          "text": "Prompt + Response + Feedback loop"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent anatomy: mục tiêu → LLM lập kế hoạch → gọi tools (search, code, API, DB) → ghi vào memory → thực thi action → quan sát kết quả → lặp lại.",
+      "tags": [
+        "agent",
+        "anatomy"
+      ]
+    },
+    {
+      "id": "91-P4-03",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent Level 0 (L0) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent với nhiều công cụ kết nối phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "LLM thuần túy — không có công cụ, không có bộ nhớ ngoài, không có hành động"
+        },
+        {
+          "key": "C",
+          "text": "Agent có khả năng lập kế hoạch nhiều bước"
+        },
+        {
+          "key": "D",
+          "text": "Nhóm nhiều agent phối hợp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L0 = bare LLM: chỉ nhận prompt và trả về text. Không có tool use, không có memory ngoài context window, không thực hiện hành động thực.",
+      "tags": [
+        "agent",
+        "levels",
+        "L0"
+      ]
+    },
+    {
+      "id": "91-P4-04",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent Level 1 (L1) khác Level 0 ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L1 có thêm khả năng lập kế hoạch đa bước tự động"
+        },
+        {
+          "key": "B",
+          "text": "L1 kết nối với các công cụ bên ngoài (tìm kiếm web, API, database, chạy code)"
+        },
+        {
+          "key": "C",
+          "text": "L1 dùng nhiều mô hình song song"
+        },
+        {
+          "key": "D",
+          "text": "L1 có bộ nhớ dài hạn vô hạn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L1 = LLM + connected tools. Mô hình có thể gọi function/tool nhưng vẫn theo flow đơn giản, chưa lập kế hoạch phức tạp.",
+      "tags": [
+        "agent",
+        "levels",
+        "L1"
+      ]
+    },
+    {
+      "id": "91-P4-05",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent Level 2 (L2) có khả năng gì vượt trội so với L1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết nối với nhiều công cụ hơn L1"
+        },
+        {
+          "key": "B",
+          "text": "Lập kế hoạch và thực hiện chuỗi hành động đa bước, điều chỉnh kế hoạch dựa trên kết quả trung gian"
+        },
+        {
+          "key": "C",
+          "text": "Chạy nhanh hơn L1"
+        },
+        {
+          "key": "D",
+          "text": "Tiêu tốn ít token hơn L1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L2 = planning + multi-step execution. Agent tự chia nhỏ mục tiêu phức tạp thành subtask, theo dõi tiến độ, điều chỉnh khi gặp trở ngại.",
+      "tags": [
+        "agent",
+        "levels",
+        "L2"
+      ]
+    },
+    {
+      "id": "91-P4-06",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent Level 3 (L3) mô tả kiến trúc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một mô hình đơn lẻ cực kỳ mạnh"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều agent hợp tác, mỗi agent có vai trò chuyên biệt, giải quyết bài toán phức tạp"
+        },
+        {
+          "key": "C",
+          "text": "Agent tự học không cần dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Agent chạy trực tiếp trên thiết bị người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L3 = multi-agent team. Orchestrator agent điều phối nhiều sub-agent chuyên biệt (researcher, coder, reviewer...).",
+      "tags": [
+        "agent",
+        "levels",
+        "L3"
+      ]
+    },
+    {
+      "id": "91-P4-07",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Voyager là ví dụ minh họa điều gì trong bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM đơn giản không có công cụ trong game"
+        },
+        {
+          "key": "B",
+          "text": "Agent trong Minecraft tự xây dựng thư viện kỹ năng và tái sử dụng cho nhiệm vụ mới"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống multi-agent cho game thời gian thực"
+        },
+        {
+          "key": "D",
+          "text": "Fine-tuning mô hình bằng dữ liệu game"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Voyager (NVIDIA): agent chơi Minecraft dùng GPT-4, tự viết code skill, kiểm tra, lưu vào skill library, tái sử dụng khi gặp nhiệm vụ tương tự — ví dụ điển hình L2 agent với memory.",
+      "tags": [
+        "agent",
+        "voyager"
+      ]
+    },
+    {
+      "id": "91-P4-08",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Memory' (bộ nhớ) trong kiến trúc agent dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu tham số của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Lưu kết quả trung gian, lịch sử hành động, thông tin cần ghi lại trong quá trình thực hiện"
+        },
+        {
+          "key": "C",
+          "text": "Tăng tốc độ xử lý GPU"
+        },
+        {
+          "key": "D",
+          "text": "Cache phản hồi để tránh gọi API lại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Memory trong agent đóng vai 'notebook': ghi lại những gì đã làm, kết quả trung gian, học từ kinh nghiệm — cho phép agent duy trì trạng thái qua nhiều bước.",
+      "tags": [
+        "agent",
+        "memory"
+      ]
+    },
+    {
+      "id": "91-P4-09",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Tools' (công cụ) trong AI Agent bao gồm ví dụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bàn phím và chuột"
+        },
+        {
+          "key": "B",
+          "text": "Tìm kiếm web, gọi API, truy vấn database, chạy code"
+        },
+        {
+          "key": "C",
+          "text": "GPU và CPU"
+        },
+        {
+          "key": "D",
+          "text": "Màn hình và loa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tools là các function mà LLM có thể 'gọi': web search, code interpreter, database query, REST API calls, file I/O... — biến LLM từ 'người suy nghĩ' thành 'người hành động'.",
+      "tags": [
+        "agent",
+        "tools"
+      ]
+    },
+    {
+      "id": "91-P4-10",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong vòng lặp Agent, sau khi thực hiện Action, bước tiếp theo là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết thúc nhiệm vụ ngay lập tức"
+        },
+        {
+          "key": "B",
+          "text": "Quan sát kết quả hành động và tiếp tục chu trình Goal→Plan→Action"
+        },
+        {
+          "key": "C",
+          "text": "Hỏi người dùng để xác nhận từng bước nhỏ"
+        },
+        {
+          "key": "D",
+          "text": "Gửi báo cáo về server"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vòng lặp agent: Observe → Think (LLM) → Act → Observe → ... Agent quan sát output của action và dùng đó để lập kế hoạch bước tiếp theo.",
+      "tags": [
+        "agent",
+        "loop"
+      ]
+    },
+    {
+      "id": "91-P4-11",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì giúp Agent vượt qua giới hạn của LLM đơn thuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng mô hình có số tham số lớn hơn"
+        },
+        {
+          "key": "B",
+          "text": "Kết nối với công cụ bên ngoài và bộ nhớ để hành động trong thế giới thực"
+        },
+        {
+          "key": "C",
+          "text": "Tăng nhiệt độ (temperature) lên cao"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhiều prompt khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM đơn thuần chỉ tạo văn bản. Agent bổ sung: tools, memory, planning — biến LLM thành tác nhân tự chủ có thể hành động trong thế giới thực.",
+      "tags": [
+        "agent",
+        "vs-llm"
+      ]
+    },
+    {
+      "id": "91-P4-12",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng phân loại Agent theo mấy cấp độ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 cấp (L0, L1, L2)"
+        },
+        {
+          "key": "B",
+          "text": "4 cấp (L0, L1, L2, L3)"
+        },
+        {
+          "key": "C",
+          "text": "5 cấp (L0-L4)"
+        },
+        {
+          "key": "D",
+          "text": "2 cấp (cơ bản và nâng cao)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Framework 4 cấp: L0 (bare LLM), L1 (LLM + tools), L2 (planning + multi-step), L3 (multi-agent team) — tăng dần về autonomy.",
+      "tags": [
+        "agent",
+        "levels"
+      ]
+    },
+    {
+      "id": "91-P4-13",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ứng dụng nào phù hợp nhất với kiến trúc Agent Level 3?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chatbot trả lời câu hỏi đơn giản về sản phẩm"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống phát triển phần mềm phức tạp với nhiều AI chuyên biệt phối hợp"
+        },
+        {
+          "key": "C",
+          "text": "Công cụ tóm tắt văn bản một đoạn"
+        },
+        {
+          "key": "D",
+          "text": "Dịch thuật tự động một câu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "L3 phù hợp cho bài toán cần phân chia chuyên biệt: dev team AI gồm planner, coder, test, review agent phối hợp xây dựng feature mới.",
+      "tags": [
+        "agent",
+        "L3",
+        "use-case"
+      ]
+    },
+    {
+      "id": "91-P4-14",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao Chain-of-Thought prompting hiệu quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nó tăng số lượng tham số hoạt động"
+        },
+        {
+          "key": "B",
+          "text": "Nó tạo 'không gian nháp' cho mô hình thực hiện suy luận từng bước trước khi đưa ra kết luận"
+        },
+        {
+          "key": "C",
+          "text": "Nó kết nối mô hình với internet để kiểm tra"
+        },
+        {
+          "key": "D",
+          "text": "Nó buộc mô hình dùng ít token hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Token suy luận trung gian trong CoT cho phép mô hình 'tính toán' nhiều bước. Mỗi bước suy luận trở thành context, giúp bước tiếp theo chính xác hơn.",
+      "tags": [
+        "agent",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "91-P4-15",
+      "module": "P4",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm mạnh của Agentic AI so với Generative AI thuần túy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agentic AI tạo ra văn bản chất lượng cao hơn"
+        },
+        {
+          "key": "B",
+          "text": "Agentic AI thực hiện chuỗi hành động, dùng công cụ và đạt mục tiêu dài hạn trong thế giới thực"
+        },
+        {
+          "key": "C",
+          "text": "Agentic AI không cần dữ liệu huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Agentic AI rẻ hơn và nhanh hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Generative AI dừng ở việc tạo nội dung. Agentic AI dùng LLM như 'não', thêm công cụ, bộ nhớ và vòng lặp hành động — đạt được mục tiêu nhiều bước.",
+      "tags": [
+        "agent",
+        "vs-generative"
+      ]
+    },
+    {
+      "id": "91-P5-01",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Xu hướng giá LLM theo thời gian là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá tăng theo nhu cầu thị trường"
+        },
+        {
+          "key": "B",
+          "text": "Cùng năng lực AI tốn chi phí ~10x ít hơn mỗi năm"
+        },
+        {
+          "key": "C",
+          "text": "Giá ổn định, chỉ thay đổi theo gói dịch vụ"
+        },
+        {
+          "key": "D",
+          "text": "Giá giảm chậm khoảng 20% mỗi năm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nhấn mạnh: cùng năng lực AI, giá giảm ~10x mỗi năm — xu hướng quan trọng ảnh hưởng đến quyết định kiến trúc và chiến lược kinh doanh.",
+      "tags": [
+        "landscape",
+        "pricing",
+        "trend"
+      ]
+    },
+    {
+      "id": "91-P5-02",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "MoE (Mixture of Experts) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống lấy trung bình output của nhiều mô hình riêng biệt"
+        },
+        {
+          "key": "B",
+          "text": "Kiến trúc trong đó mỗi token chỉ đi qua 2-3 'chuyên gia' trong số 8+ chuyên gia — tổng tham số lớn nhưng chi phí mỗi token thấp"
+        },
+        {
+          "key": "C",
+          "text": "Phương pháp ensemble kết hợp output của nhiều LLM"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật training song song trên nhiều máy chủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "MoE (ví dụ Kimi K3: 2800B total params): mỗi token được router định tuyến qua 2-3 expert networks thay vì toàn bộ mô hình — tiết kiệm FLOPs mỗi forward pass.",
+      "tags": [
+        "landscape",
+        "moe",
+        "architecture"
+      ]
+    },
+    {
+      "id": "91-P5-03",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kimi K3 được nhắc đến với đặc điểm gì trong bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình nhỏ gọn 7B tham số của Anthropic"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình 2800B tham số MoE, open-weight, giá ~$3/$15 per million token"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình đóng của Google, không có API công khai"
+        },
+        {
+          "key": "D",
+          "text": "Phiên bản mã nguồn mở của GPT-5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kimi K3 (Moonshot AI): 2800B tham số MoE, open-weight có thể tự host, giá rất cạnh tranh — ví dụ về open-weight bắt kịp closed model.",
+      "tags": [
+        "landscape",
+        "kimi-k3"
+      ]
+    },
+    {
+      "id": "91-P5-04",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Open-weight' model khác 'closed' model ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Open-weight model luôn chạy nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Open-weight model có trọng số được công khai, có thể tải về và tự host"
+        },
+        {
+          "key": "C",
+          "text": "Open-weight model luôn miễn phí hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Open-weight model luôn chính xác hơn closed model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Open-weight: trọng số được release công khai (Llama, Kimi K3, DeepSeek, Qwen) → có thể tự deploy, kiểm soát dữ liệu, không phụ thuộc vendor.",
+      "tags": [
+        "landscape",
+        "open-weight"
+      ]
+    },
+    {
+      "id": "91-P5-05",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn cách truy cập LLM được đề cập trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Web, Mobile, Desktop, Wearable"
+        },
+        {
+          "key": "B",
+          "text": "Chat app, Coding assistant, API, Self-host"
+        },
+        {
+          "key": "C",
+          "text": "Subscription, API, Enterprise, Academic"
+        },
+        {
+          "key": "D",
+          "text": "Browser, Plugin, SDK, Local"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 access modes: (1) Chat app (ChatGPT, Claude.ai), (2) Coding assistant (Copilot), (3) API (★ focus of course), (4) Self-host (open-weight models).",
+      "tags": [
+        "landscape",
+        "access-modes"
+      ]
+    },
+    {
+      "id": "91-P5-06",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khóa học 'AI in Action' tập trung vào cách truy cập LLM nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chat app (như ChatGPT, Claude.ai)"
+        },
+        {
+          "key": "B",
+          "text": "Coding assistant (như GitHub Copilot)"
+        },
+        {
+          "key": "C",
+          "text": "API"
+        },
+        {
+          "key": "D",
+          "text": "Self-host"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bài giảng nhấn mạnh: khóa học tập trung vào API — cách lập trình viên tích hợp LLM vào ứng dụng, không phải dùng qua giao diện chat.",
+      "tags": [
+        "landscape",
+        "api"
+      ]
+    },
+    {
+      "id": "91-P5-07",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Xu hướng hội tụ (convergence) của AI landscape có hàm ý gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ còn một mô hình thống trị thị trường"
+        },
+        {
+          "key": "B",
+          "text": "Nhiều mô hình đang đạt hiệu suất tương đương, tạo cạnh tranh về giá và dễ switch vendor"
+        },
+        {
+          "key": "C",
+          "text": "Các công ty AI đang sáp nhập thành một tập đoàn"
+        },
+        {
+          "key": "D",
+          "text": "Chất lượng mô hình ngừng cải thiện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Convergence: khoảng cách chất lượng giữa top models đang thu hẹp. Hàm ý: không nên lock-in vào một vendor; thiết kế hệ thống dễ swap model.",
+      "tags": [
+        "landscape",
+        "convergence"
+      ]
+    },
+    {
+      "id": "91-P5-08",
+      "module": "P5",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình đa phương thức (multimodal) xử lý ảnh và âm thanh bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng mô hình riêng biệt cho từng loại dữ liệu rồi tổng hợp"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển ảnh thành 'patch token', âm thanh thành 'segment token' — dùng cùng engine token prediction"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ xử lý được ảnh JPEG và âm thanh MP3"
+        },
+        {
+          "key": "D",
+          "text": "Cần fine-tuning riêng cho từng định dạng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multimodal dùng cùng cơ chế: ảnh tokenize thành patches, âm thanh thành segments. Cùng Transformer engine xử lý text+image+audio như chuỗi token hợp nhất.",
+      "tags": [
+        "landscape",
+        "multimodal"
+      ]
+    },
+    {
+      "id": "91-P6-01",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba cấp độ (tier) chọn mô hình trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhỏ, Vừa, Lớn"
+        },
+        {
+          "key": "B",
+          "text": "Tier 1 Frontier closed (mạnh nhất), Tier 2 cheap-but-powerful, Tier 3 self-host"
+        },
+        {
+          "key": "C",
+          "text": "Student, Professional, Enterprise"
+        },
+        {
+          "key": "D",
+          "text": "Fast, Balanced, Accurate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Framework 3 tier: T1 Frontier (mạnh nhất, đắt nhất), T2 cheap-but-powerful (sweet spot), T3 self-host (kiểm soát data, giá thấp ở scale lớn).",
+      "tags": [
+        "model-selection",
+        "tiers"
+      ]
+    },
+    {
+      "id": "91-P6-02",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình nào được liệt kê trong Tier 1 (Frontier closed)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sonnet 4.6, Terra, Gemini 3.1 Pro"
+        },
+        {
+          "key": "B",
+          "text": "Claude Fable 5, GPT-5.6 Sol, Claude Opus 4.8"
+        },
+        {
+          "key": "C",
+          "text": "Kimi K3, DeepSeek, Qwen"
+        },
+        {
+          "key": "D",
+          "text": "Llama, Mistral, Falcon"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tier 1 Frontier (7/2026): Claude Fable 5 (strongest), GPT-5.6 Sol (top of GPT-5.6 line), Claude Opus 4.8 — mạnh nhất nhưng đắt và có thể bị export-controlled.",
+      "tags": [
+        "model-selection",
+        "tier1"
+      ]
+    },
+    {
+      "id": "91-P6-03",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tier 2 'cheap-but-powerful' bao gồm những mô hình nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Claude Fable 5, GPT-5.6 Sol"
+        },
+        {
+          "key": "B",
+          "text": "Kimi K3, DeepSeek, Qwen (open-weight)"
+        },
+        {
+          "key": "C",
+          "text": "Sonnet 4.6, Terra (GPT-5.6), Gemini 3.1 Pro, Kimi K3"
+        },
+        {
+          "key": "D",
+          "text": "GPT-4o mini, Claude Haiku, Gemini Flash"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tier 2 (best value): Claude Sonnet 4.6, GPT-5.6 Terra, Gemini 3.1 Pro, Kimi K3 — gần bằng Tier 1 về chất lượng nhưng giá thấp hơn đáng kể.",
+      "tags": [
+        "model-selection",
+        "tier2"
+      ]
+    },
+    {
+      "id": "91-P6-04",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tier 3 (self-host) phù hợp nhất khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần hiệu suất tốt nhất cho ứng dụng mission-critical"
+        },
+        {
+          "key": "B",
+          "text": "Muốn kiểm soát dữ liệu hoàn toàn, không gửi dữ liệu lên cloud, hoặc cần giá thấp ở quy mô lớn"
+        },
+        {
+          "key": "C",
+          "text": "Cần phản hồi nhanh nhất có thể"
+        },
+        {
+          "key": "D",
+          "text": "Đang thử nghiệm lần đầu với LLM"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tier 3: kiểm soát data (GDPR, bảo mật nội bộ), không có per-token cost ở quy mô lớn, tùy biến sâu. Trade-off: phải tự quản lý infrastructure.",
+      "tags": [
+        "model-selection",
+        "tier3"
+      ]
+    },
+    {
+      "id": "91-P6-05",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao input token rẻ hơn output token?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input token ngắn hơn output token"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chỉ đọc input một lần (parallel); phải tự sinh từng output token một lần (sequential, tốn hơn)"
+        },
+        {
+          "key": "C",
+          "text": "Nhà cung cấp muốn khuyến khích người dùng gửi nhiều context"
+        },
+        {
+          "key": "D",
+          "text": "Input token được cache sẵn ở server"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Input: prefill toàn bộ prompt song song (fast). Output: decode từng token một, mỗi bước cần forward pass full model (slow). Do đó output đắt hơn 3-5x.",
+      "tags": [
+        "token-cost",
+        "input",
+        "output"
+      ]
+    },
+    {
+      "id": "91-P6-06",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Output token đắt hơn input token khoảng bao nhiêu lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 lần"
+        },
+        {
+          "key": "B",
+          "text": "3-5 lần"
+        },
+        {
+          "key": "C",
+          "text": "10 lần"
+        },
+        {
+          "key": "D",
+          "text": "Tương đương nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng: output tokens thường đắt hơn input khoảng 3-5x. Ví dụ: $3/M input, $15/M output. Hàm ý: tối ưu prompt để giảm output không cần thiết.",
+      "tags": [
+        "token-cost",
+        "pricing"
+      ]
+    },
+    {
+      "id": "91-P6-07",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Claude Fable 5 có hạn chế gì được đề cập trong bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không hỗ trợ tiếng Việt"
+        },
+        {
+          "key": "B",
+          "text": "Bị kiểm soát xuất khẩu (export-controlled)"
+        },
+        {
+          "key": "C",
+          "text": "Không có API công khai"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ xử lý văn bản, không hỗ trợ đa phương thức"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng (7/2026): Claude Fable 5 là mô hình mạnh nhất nhưng bị export-controlled — không khả dụng ở một số quốc gia/khu vực.",
+      "tags": [
+        "model-selection",
+        "fable5"
+      ]
+    },
+    {
+      "id": "91-P6-08",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "GPT-5.6 trong bài giảng có mấy phiên bản (sub-model)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 phiên bản (Sol, Luna)"
+        },
+        {
+          "key": "B",
+          "text": "3 phiên bản (Sol, Terra, Luna)"
+        },
+        {
+          "key": "C",
+          "text": "4 phiên bản"
+        },
+        {
+          "key": "D",
+          "text": "1 phiên bản duy nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GPT-5.6 có 3 tier: Sol (Tier 1, mạnh nhất), Terra (Tier 2 cheap-but-powerful), Luna (nhỏ/nhanh nhất).",
+      "tags": [
+        "model-selection",
+        "gpt56"
+      ]
+    },
+    {
+      "id": "91-P6-09",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chọn Tier 1 Frontier model thay vì Tier 2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi muốn tiết kiệm chi phí tối đa"
+        },
+        {
+          "key": "B",
+          "text": "Khi bài toán đòi hỏi hiệu suất tối đa và chất lượng là ưu tiên số 1"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần self-host để bảo mật"
+        },
+        {
+          "key": "D",
+          "text": "Khi mới bắt đầu thử nghiệm LLM"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tier 1 cho: bài toán phức tạp nhất, yêu cầu chất lượng cao nhất, hoặc khi Tier 2 không đủ tốt. Tier 2 thường đủ cho phần lớn use case.",
+      "tags": [
+        "model-selection",
+        "tier1"
+      ]
+    },
+    {
+      "id": "91-P6-10",
+      "module": "P6",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Để tối ưu chi phí khi dùng LLM API, người dùng nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn gửi context tối đa để mô hình hiểu đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ gửi thông tin thực sự cần thiết; tránh context thừa; dùng tier thấp nhất đáp ứng yêu cầu"
+        },
+        {
+          "key": "C",
+          "text": "Dùng output token thay input token"
+        },
+        {
+          "key": "D",
+          "text": "Chọn temperature cao để giảm số lần gọi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cost optimization: (1) trim context về chỉ những gì cần; (2) dùng tier thấp nhất đáp ứng; (3) cache kết quả khi có thể; (4) tối ưu prompt giảm output dài.",
+      "tags": [
+        "token-cost",
+        "optimization"
+      ]
+    },
+    {
+      "id": "91-P7-01",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn lớp (layers) của một prompt theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Question, Context, Example, Answer"
+        },
+        {
+          "key": "B",
+          "text": "System instruction, User input, Context supplement, Desired output format"
+        },
+        {
+          "key": "C",
+          "text": "Role, Task, Format, Tone"
+        },
+        {
+          "key": "D",
+          "text": "Pre-prompt, Prompt, Post-prompt, System"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 lớp anatomy: (1) System instruction (vai trò, ràng buộc), (2) User input (yêu cầu), (3) Context supplement (tài liệu, data), (4) Desired output format (định dạng mong muốn).",
+      "tags": [
+        "api",
+        "prompt",
+        "anatomy"
+      ]
+    },
+    {
+      "id": "91-P7-02",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấu trúc messages trong API call có những role nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "admin, user, bot"
+        },
+        {
+          "key": "B",
+          "text": "system, user, assistant"
+        },
+        {
+          "key": "C",
+          "text": "input, output, system"
+        },
+        {
+          "key": "D",
+          "text": "human, ai, context"
+        }
+      ],
+      "answer": "B",
+      "explanation": "API call gửi array messages với 3 roles: system (hướng dẫn ngầm định), user (lượt người dùng), assistant (lượt mô hình).",
+      "tags": [
+        "api",
+        "messages",
+        "roles"
+      ]
+    },
+    {
+      "id": "91-P7-03",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tham số 'temperature' trong API ảnh hưởng đến điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài phản hồi của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ xử lý của server"
+        },
+        {
+          "key": "C",
+          "text": "Mức độ ngẫu nhiên trong chọn token — 0 là quyết định/ổn định, 2 là ngẫu nhiên/sáng tạo"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng token tối đa được sinh ra"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Temperature điều chỉnh sampling: T=0 → lấy token xác suất cao nhất (deterministic); T cao → phân phối phẳng hơn → đầu ra đa dạng hơn.",
+      "tags": [
+        "api",
+        "temperature"
+      ]
+    },
+    {
+      "id": "91-P7-04",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature = 0 phù hợp nhất với tác vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Viết thơ sáng tạo, đặt tên sản phẩm độc đáo"
+        },
+        {
+          "key": "B",
+          "text": "Brainstorming ý tưởng đa dạng"
+        },
+        {
+          "key": "C",
+          "text": "Trích xuất dữ liệu có cấu trúc, phân tích code, cần kết quả nhất quán"
+        },
+        {
+          "key": "D",
+          "text": "Viết truyện ngắn với nhiều hướng phát triển"
+        }
+      ],
+      "answer": "C",
+      "explanation": "T=0: deterministic, luôn chọn token xác suất cao nhất. Dùng cho: extraction (JSON output), classification, code generation, QA cần tính nhất quán.",
+      "tags": [
+        "api",
+        "temperature",
+        "use-case"
+      ]
+    },
+    {
+      "id": "91-P7-05",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature thay đổi điều gì trong quá trình sinh token?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiến thức nền (knowledge) của mô hình"
+        },
+        {
+          "key": "B",
+          "text": "Số lượng tham số được kích hoạt"
+        },
+        {
+          "key": "C",
+          "text": "Cách mô hình lấy mẫu từ phân phối xác suất — không thay đổi kiến thức hay tham số"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ kết nối API"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Temperature chỉ thay đổi sampling strategy, không thay đổi logit weights hay kiến thức. Mô hình 'biết' như nhau ở mọi temperature.",
+      "tags": [
+        "api",
+        "temperature",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "91-P7-06",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'top_p' (nucleus sampling) hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn số token tối đa trong phản hồi"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ giữ các token có xác suất cộng dồn đến p (ví dụ 0.9), loại bỏ phần đuôi phân phối"
+        },
+        {
+          "key": "C",
+          "text": "Chọn đúng p token có xác suất cao nhất"
+        },
+        {
+          "key": "D",
+          "text": "Lặp lại token p lần để nhấn mạnh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "top_p=0.9: sắp xếp token giảm dần, cộng dồn đến 90% → chỉ sample từ nhóm token đó. Loại bỏ token hiếm gặp (đuôi phân phối) → giảm hallucination kỳ lạ.",
+      "tags": [
+        "api",
+        "top-p",
+        "sampling"
+      ]
+    },
+    {
+      "id": "91-P7-07",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao chatbot xây dựng trên LLM phải gửi lại toàn bộ lịch sử mỗi lần gọi API?",
+      "options": [
+        {
+          "key": "A",
+          "text": "API yêu cầu context đầy đủ để phân tích cảm xúc"
+        },
+        {
+          "key": "B",
+          "text": "LLM là stateless — không có bộ nhớ giữa các API call; client tự quản lý lịch sử"
+        },
+        {
+          "key": "C",
+          "text": "Đây là cách tính token để billing chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Server xóa context sau 30 giây"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi API call độc lập. Để duy trì hội thoại, client append [system, user1, assistant1, user2, assistant2...] và gửi lại toàn bộ mỗi lần.",
+      "tags": [
+        "api",
+        "stateless",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "91-P7-08",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Streaming' trong API LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gửi toàn bộ phản hồi sau khi mô hình sinh xong"
+        },
+        {
+          "key": "B",
+          "text": "Truyền token từng cái ngay khi sinh ra — người dùng thấy chữ xuất hiện dần thay vì chờ đợi"
+        },
+        {
+          "key": "C",
+          "text": "Phát video hướng dẫn sử dụng API"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật cache để tăng tốc phản hồi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Streaming (Server-Sent Events): mỗi token gửi ngay khi sinh ra thay vì buffer toàn bộ. Cải thiện perceived latency và cho thấy trực tiếp cơ chế next-token prediction.",
+      "tags": [
+        "api",
+        "streaming"
+      ]
+    },
+    {
+      "id": "91-P7-09",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả text của API call thường nằm ở trường nào trong response?",
+      "options": [
+        {
+          "key": "A",
+          "text": "response.text"
+        },
+        {
+          "key": "B",
+          "text": "choices[0].message.content"
+        },
+        {
+          "key": "C",
+          "text": "output.message"
+        },
+        {
+          "key": "D",
+          "text": "result.answer"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chuẩn OpenAI-compatible API: response JSON có `choices` array. Đọc `choices[0].message.content` để lấy text phản hồi.",
+      "tags": [
+        "api",
+        "response",
+        "structure"
+      ]
+    },
+    {
+      "id": "91-P7-10",
+      "module": "P7",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường 'usage' trong API response cho biết điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tên người dùng đang gọi API"
+        },
+        {
+          "key": "B",
+          "text": "Số token input và output đã dùng — dùng để tính phí và theo dõi chi phí"
+        },
+        {
+          "key": "C",
+          "text": "Phiên bản model đang được sử dụng"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian xử lý của server (latency)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "response.usage: {prompt_tokens, completion_tokens, total_tokens}. Dùng để tính cost = input_tokens * price_in + output_tokens * price_out.",
+      "tags": [
+        "api",
+        "usage",
+        "billing"
+      ]
+    },
+    {
+      "id": "91-P8-01",
+      "module": "P8",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Benchmark AI (như SWE-bench) có thể bị hiểu sai vì lý do gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Benchmark chỉ đo tốc độ, không đo chất lượng"
+        },
+        {
+          "key": "B",
+          "text": "Spurious cues trong test set thổi phồng điểm; benchmark bão hòa nhanh; 'benchmaxxing' làm méo kết quả"
+        },
+        {
+          "key": "C",
+          "text": "Các công ty AI giấu điểm thực của mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Benchmark chỉ đo tiếng Anh, không đo đa ngôn ngữ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SWE-bench 33%→81% trong 20 tháng, giờ đang bão hòa. 3 caveat: (1) spurious cues trong test set; (2) benchmarks bão hòa; (3) benchmaxxing = optimize specifically for benchmark.",
+      "tags": [
+        "summary",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "91-P8-02",
+      "module": "P8",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thông điệp cốt lõi của bài giảng 'AI & LLM Foundation' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI sẽ thay thế hoàn toàn lập trình viên trong 2 năm tới"
+        },
+        {
+          "key": "B",
+          "text": "Hiểu sâu cơ chế hoạt động của LLM — từ kiến trúc, huấn luyện, đến giới hạn — là nền tảng để dùng AI hiệu quả"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần biết cách dùng ChatGPT là đủ cho công việc"
+        },
+        {
+          "key": "D",
+          "text": "AI quá phức tạp nên chỉ chuyên gia mới cần hiểu cơ chế nội tại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng Day 1 đặt nền móng: biết LLM hoạt động thế nào (token prediction, attention, context, training, limitations) giúp dùng đúng chỗ, tránh pitfalls, thiết kế ứng dụng tốt hơn.",
+      "tags": [
+        "summary",
+        "foundation"
+      ]
+    }
+  ]
+}
