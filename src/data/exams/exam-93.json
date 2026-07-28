@@ -1,0 +1,3175 @@
+{
+  "id": "exam-93",
+  "title": "AICB Ngày 3 — Từ Chatbot Đến Agentic Agent (ReAct)",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P1 Ngày 3: Từ Chatbot Đến Agentic Agent — Design Pattern ReAct' (VinUniversity). Nội dung: 3 kiểu hệ thống AI, Agentic Fit Framework, kiến trúc agent (Perception/Reasoning/Action/Memory), ReAct pattern, tiến hóa từ text-based ReAct đến Function Calling & Structured Outputs, MCP & Agent SDK, agent loop code anatomy, guardrails & debug, Chatbot vs Agent và Hybrid Pattern.",
+  "durationMinutes": 75,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "93-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chủ đề chính của bài giảng AICB-P1 Ngày 3 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Huấn luyện mô hình LLM từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Từ Chatbot đến Agentic Agent — Design Pattern ReAct"
+        },
+        {
+          "key": "C",
+          "text": "Tối ưu chi phí token cho API"
+        },
+        {
+          "key": "D",
+          "text": "Xây dựng RAG với vector database"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ngày 3 tập trung vào việc phân biệt chatbot và agent, và học Design Pattern ReAct để biến LLM thành hệ thống biết hành động.",
+      "tags": [
+        "day3",
+        "overview"
+      ]
+    },
+    {
+      "id": "93-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Spectrum 3 kiểu hệ thống AI theo bài giảng, từ đơn giản đến phức tạp, là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bot → Chatbot → Agent"
+        },
+        {
+          "key": "B",
+          "text": "Rule-based Bot → LLM Chatbot → Reactive Agent → Autonomous Agent"
+        },
+        {
+          "key": "C",
+          "text": "Script → Function → Model → System"
+        },
+        {
+          "key": "D",
+          "text": "Prompt → Chain → Graph"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Spectrum đầy đủ: Rule-based Bot (if/else) → LLM Chatbot (trả lời thông minh 1 lượt) → Reactive Agent (dùng tools + loop) → Autonomous Agent (long-horizon goal).",
+      "tags": [
+        "day3",
+        "spectrum"
+      ]
+    },
+    {
+      "id": "93-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rule-based Bot có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng LLM để sinh câu trả lời linh hoạt"
+        },
+        {
+          "key": "B",
+          "text": "If/else cứng, predictable, logic dễ kiểm soát, chi phí thấp nhất"
+        },
+        {
+          "key": "C",
+          "text": "Chủ động chọn tool theo bước tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Có long-term memory"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Rule-based Bot dùng if/else cố định — flexibility thấp, gần như không có memory, tool hard-coded, cost thấp nhất, rủi ro thấp. Ví dụ: menu IVR, form validation.",
+      "tags": [
+        "day3",
+        "rule-bot"
+      ]
+    },
+    {
+      "id": "93-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM Chatbot khác Rule-based Bot ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thể lập kế hoạch nhiều bước"
+        },
+        {
+          "key": "B",
+          "text": "Sinh câu trả lời tốt theo context, flexibility trung bình, có memory ngắn hạn trong context"
+        },
+        {
+          "key": "C",
+          "text": "Chủ động quyết định gọi tool nào tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Có thể chạy vòng lặp quan sát kết quả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM Chatbot sinh câu trả lời theo ngữ cảnh, có memory ngắn hạn trong context window, có thể gọi tool nhưng theo chỉ định — không tự chủ động chọn.",
+      "tags": [
+        "day3",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "93-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, Agent chỉ thực sự xuất hiện khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi hệ thống dùng LLM thay vì rule"
+        },
+        {
+          "key": "B",
+          "text": "Khi hệ thống phải quyết định, hành động, quan sát kết quả, rồi lặp lại"
+        },
+        {
+          "key": "C",
+          "text": "Khi hệ thống có giao diện chat"
+        },
+        {
+          "key": "D",
+          "text": "Khi hệ thống được deploy lên cloud"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nhấn mạnh: không phải mọi thứ dùng LLM đều là agent. Agent = phải có vòng lặp quyết định → hành động → quan sát → lặp lại.",
+      "tags": [
+        "day3",
+        "agent",
+        "definition"
+      ]
+    },
+    {
+      "id": "93-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm khác biệt về tool use giữa LLM Chatbot và Agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chatbot không dùng được tool nào"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot có thể gọi tool theo chỉ định; Agent chủ động chọn tool theo bước tiếp theo"
+        },
+        {
+          "key": "C",
+          "text": "Agent chỉ dùng được 1 tool duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều hard-coded tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng so sánh trong bài: Chatbot 'có thể gọi tool theo chỉ định'; Agent 'chủ động chọn tool theo bước tiếp theo' — đây là khác biệt về quyền tự quyết.",
+      "tags": [
+        "day3",
+        "tool-use"
+      ]
+    },
+    {
+      "id": "93-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro đặc trưng của Agent so với Chatbot là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ có hallucination"
+        },
+        {
+          "key": "B",
+          "text": "Hallucination + tool misuse + loop (lặp vô hạn)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ có format drift"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có latency cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot có rủi ro hallucination/format drift. Agent thêm hai rủi ro mới: dùng sai tool (tool misuse) và bị kẹt trong vòng lặp không tiến triển.",
+      "tags": [
+        "day3",
+        "risk"
+      ]
+    },
+    {
+      "id": "93-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ phù hợp cho Rule-based Bot theo bảng so sánh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Booking, research, coding assistant"
+        },
+        {
+          "key": "B",
+          "text": "FAQ, support cơ bản"
+        },
+        {
+          "key": "C",
+          "text": "Menu IVR, form validation"
+        },
+        {
+          "key": "D",
+          "text": "Data analysis nhiều bước"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Rule-based Bot phù hợp với logic dễ kiểm soát: menu IVR, form validation — nơi mọi nhánh đều liệt kê được trước.",
+      "tags": [
+        "day3",
+        "rule-bot",
+        "use-case"
+      ]
+    },
+    {
+      "id": "93-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ phù hợp cho Agent theo bảng so sánh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Menu IVR, form validation"
+        },
+        {
+          "key": "B",
+          "text": "FAQ, support cơ bản"
+        },
+        {
+          "key": "C",
+          "text": "Booking, research, coding assistant"
+        },
+        {
+          "key": "D",
+          "text": "Hiển thị nội dung tĩnh"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Agent phù hợp cho bài toán nhiều bước, cần tool và quyết định động: booking, research, coding assistant.",
+      "tags": [
+        "day3",
+        "agent",
+        "use-case"
+      ]
+    },
+    {
+      "id": "93-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ 'Tìm vé HAN → HCM dưới 2 triệu, gợi ý mang gì nếu trời mưa', Rule-based Bot thất bại vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không viết được câu trả lời mượt"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ trả menu lựa chọn cố định, không search được dữ liệu mới, không tổng hợp nhiều điều kiện"
+        },
+        {
+          "key": "C",
+          "text": "Không kết nối được internet"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí quá cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bot chỉ có menu cố định — không truy vấn được dữ liệu thời gian thực và không tổng hợp được nhiều điều kiện (giá vé + thời tiết) cùng lúc.",
+      "tags": [
+        "day3",
+        "example"
+      ]
+    },
+    {
+      "id": "93-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong cùng ví dụ đó, LLM Chatbot có hạn chế gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không viết được câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Viết câu trả lời mượt nhưng không tự truy vấn giá vé thật"
+        },
+        {
+          "key": "C",
+          "text": "Không hiểu được câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Trả lời quá chậm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM Chatbot viết văn tốt nhưng không tự gọi API để lấy giá vé thật — nó chỉ 'nghe có vẻ đúng' chứ không dựa trên dữ liệu thực.",
+      "tags": [
+        "day3",
+        "example",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "93-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reactive Agent xử lý ví dụ 'tìm vé + thời tiết' như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trả lời ngay bằng kiến thức có sẵn"
+        },
+        {
+          "key": "B",
+          "text": "Tách goal thành 2 việc (tìm vé + check thời tiết), gọi từng tool theo bước, so sánh kết quả rồi trả lời gộp"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển câu hỏi cho con người"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ tìm vé, bỏ qua thời tiết"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reactive Agent phân rã mục tiêu thành các subtask, gọi tool tuần tự, quan sát kết quả từng bước rồi tổng hợp thành câu trả lời cuối.",
+      "tags": [
+        "day3",
+        "example",
+        "agent"
+      ]
+    },
+    {
+      "id": "93-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào agent thường là 'overkill' theo bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi bài toán có nhiều bước phụ thuộc nhau"
+        },
+        {
+          "key": "B",
+          "text": "Nếu bài toán không cần dữ liệu mới, không nhiều bước, hay không cần quyết định động"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần gọi nhiều API bên ngoài"
+        },
+        {
+          "key": "D",
+          "text": "Khi mục tiêu kéo dài qua nhiều vòng lặp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng lưu ý rõ: nếu bài toán không cần dữ liệu mới, nhiều bước, hay quyết định động thì agent là overkill — chi phí và độ phức tạp không xứng đáng.",
+      "tags": [
+        "day3",
+        "overkill"
+      ]
+    },
+    {
+      "id": "93-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn tiêu chí của Agentic Fit Framework là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cost, Speed, Quality, Scale"
+        },
+        {
+          "key": "B",
+          "text": "Multi-step Reasoning, Tool Interaction, Dynamic Decision, Long Horizon"
+        },
+        {
+          "key": "C",
+          "text": "Data, Model, Deploy, Monitor"
+        },
+        {
+          "key": "D",
+          "text": "Input, Process, Output, Feedback"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 tiêu chí Agentic Fit: (1) Multi-step Reasoning, (2) Tool Interaction, (3) Dynamic Decision (bước sau phụ thuộc quan sát), (4) Long Horizon (giữ mục tiêu xuyên suốt nhiều vòng lặp/state).",
+      "tags": [
+        "day3",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "93-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Multi-step Reasoning' hỏi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống có cần gọi API không?"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán có cần chia thành nhiều bước phụ thuộc nhau không?"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí mỗi request là bao nhiêu?"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng có hài lòng không?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-step Reasoning kiểm tra xem bài toán có phân rã thành chuỗi bước mà bước sau phụ thuộc kết quả bước trước hay không.",
+      "tags": [
+        "day3",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "93-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Tool Interaction' hỏi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống có giao diện đẹp không?"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống có cần gọi search, API, database, calculator, browser, file system không?"
+        },
+        {
+          "key": "C",
+          "text": "Model nào đang được sử dụng?"
+        },
+        {
+          "key": "D",
+          "text": "Có bao nhiêu người dùng?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool Interaction đánh giá nhu cầu tương tác với thế giới bên ngoài: search, API, DB, calculator, browser, file system.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "tools"
+      ]
+    },
+    {
+      "id": "93-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Long Horizon' trong Agentic Fit nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự án kéo dài nhiều tháng"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống có phải giữ mục tiêu xuyên suốt qua nhiều vòng lặp hoặc nhiều state không"
+        },
+        {
+          "key": "C",
+          "text": "Câu trả lời phải dài"
+        },
+        {
+          "key": "D",
+          "text": "Model có context window lớn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Long Horizon = khả năng duy trì mục tiêu và trạng thái qua nhiều vòng lặp, không bị 'mất mạch' giữa chừng.",
+      "tags": [
+        "day3",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "93-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu đa số tiêu chí Agentic Fit chỉ ở mức 1-2/5, nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẫn xây agent để đón đầu tương lai"
+        },
+        {
+          "key": "B",
+          "text": "Bắt đầu bằng chatbot hoặc workflow đơn giản"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển sang dùng model mạnh nhất"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hẳn dự án"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng khuyến nghị: điểm thấp ở đa số tiêu chí → bắt đầu bằng chatbot hoặc workflow đơn giản thay vì nhảy thẳng lên agent.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "decision"
+      ]
+    },
+    {
+      "id": "93-19",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thang điểm gợi ý để đọc kết quả Agentic Fit là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0-3 chatbot, 4-7 workflow, 8+ agent"
+        },
+        {
+          "key": "B",
+          "text": "0-5 = chatbot/rule đủ; 6-10 = augmented chatbot; 11+ = agent đáng thử"
+        },
+        {
+          "key": "C",
+          "text": "0-10 chatbot, 11-15 agent, 16+ multi-agent"
+        },
+        {
+          "key": "D",
+          "text": "Không có thang điểm cụ thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chấm 1-5 cho từng tiêu chí rồi cộng: 0-5 = chatbot/rule đủ; 6-10 = augmented chatbot; 11+ = agent đáng thử.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "scoring"
+      ]
+    },
+    {
+      "id": "93-20",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng chấm điểm ví dụ, 'FAQ nội bộ HR' được bao nhiêu điểm và kết luận gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 điểm — chatbot/rule là đủ"
+        },
+        {
+          "key": "B",
+          "text": "7 điểm — augmented chatbot"
+        },
+        {
+          "key": "C",
+          "text": "13 điểm — agent đáng thử"
+        },
+        {
+          "key": "D",
+          "text": "14 điểm — bắt buộc dùng agent"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FAQ nội bộ HR được 1+1+1 = 3 điểm, nằm trong khoảng 0-5 → chatbot/rule đã đủ, không cần agent.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "example"
+      ]
+    },
+    {
+      "id": "93-21",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Booking assistant du lịch' được chấm bao nhiêu điểm trong ví dụ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 điểm"
+        },
+        {
+          "key": "B",
+          "text": "7 điểm"
+        },
+        {
+          "key": "C",
+          "text": "13 điểm — thuộc nhóm agent đáng thử"
+        },
+        {
+          "key": "D",
+          "text": "5 điểm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Booking assistant du lịch: Reasoning 4 + Tool use 5 + Dynamic decision 4 = 13 điểm, vượt ngưỡng 11 → agent đáng thử.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "example"
+      ]
+    },
+    {
+      "id": "93-22",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Code assistant có test & fix loop' được chấm điểm cao nhất là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10 điểm"
+        },
+        {
+          "key": "B",
+          "text": "12 điểm"
+        },
+        {
+          "key": "C",
+          "text": "13 điểm"
+        },
+        {
+          "key": "D",
+          "text": "14 điểm"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Code assistant có test & fix loop: 5 + 5 + 4 = 14 điểm — cao nhất trong bảng, rất phù hợp với agent.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "example"
+      ]
+    },
+    {
+      "id": "93-23",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern nào sau đây cho thấy dùng agent là sai bài?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bài toán nhiều bước phụ thuộc nhau"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán 1 bước: hỏi đáp, tra FAQ, phân loại cơ bản"
+        },
+        {
+          "key": "C",
+          "text": "Cần gọi nhiều tool khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Mục tiêu kéo dài qua nhiều vòng lặp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài toán 1 bước (hỏi đáp, FAQ, phân loại) không cần vòng lặp — dùng agent chỉ tăng chi phí và độ trễ mà không thêm giá trị.",
+      "tags": [
+        "day3",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "93-24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'không có tool nào để gọi' là anti-pattern của agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì agent sẽ báo lỗi ngay"
+        },
+        {
+          "key": "B",
+          "text": "Vì agent chỉ 'suy nghĩ' nhưng không hành động được — mất hoàn toàn giá trị của vòng lặp"
+        },
+        {
+          "key": "C",
+          "text": "Vì tốn quá nhiều token"
+        },
+        {
+          "key": "D",
+          "text": "Vì không deploy được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent mạnh nhờ khả năng hành động qua tool. Không có tool thì vòng lặp Thought→Action→Observation vô nghĩa — chỉ còn là chatbot đắt tiền.",
+      "tags": [
+        "day3",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "93-25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'mọi thứ phải 100% deterministic' là anti-pattern của agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì agent chạy chậm"
+        },
+        {
+          "key": "B",
+          "text": "Vì mỗi sai sót đều rất đắt, trong khi agent vốn có tính không tất định"
+        },
+        {
+          "key": "C",
+          "text": "Vì agent không hỗ trợ tiếng Việt"
+        },
+        {
+          "key": "D",
+          "text": "Vì cần quá nhiều dữ liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent có tính stochastic (chọn tool, sinh args). Khi yêu cầu chính xác tuyệt đối và mỗi lỗi đều rất đắt, rule/workflow deterministic là lựa chọn đúng.",
+      "tags": [
+        "day3",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "93-26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc được nhấn mạnh trước khi mở agent loop là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn chọn model mạnh nhất trước"
+        },
+        {
+          "key": "B",
+          "text": "Luôn benchmark rule / workflow / chatbot trước khi mở agent loop"
+        },
+        {
+          "key": "C",
+          "text": "Luôn thử nghiệm với dữ liệu giả trước"
+        },
+        {
+          "key": "D",
+          "text": "Luôn xin phê duyệt từ ban lãnh đạo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc: benchmark các giải pháp đơn giản hơn (rule, workflow, chatbot) trước — chỉ nâng lên agent khi chúng chứng minh là không đủ.",
+      "tags": [
+        "day3",
+        "principle"
+      ]
+    },
+    {
+      "id": "93-27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case study, 'Customer FAQ' được kết luận best fit là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reactive agent có tool use"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot có retrieval — câu hỏi lặp lại, intent khá ổn định, chủ yếu retrieve policy rồi trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Rule-based bot thuần túy"
+        },
+        {
+          "key": "D",
+          "text": "Multi-agent system"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Customer FAQ: intent ổn định, chủ yếu tra cứu policy. Có thể thêm RAG nhưng chưa cần autonomy → best fit là chatbot có retrieval.",
+      "tags": [
+        "day3",
+        "case-study"
+      ]
+    },
+    {
+      "id": "93-28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case study, 'Booking Assistant' được kết luận best fit là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chatbot có retrieval"
+        },
+        {
+          "key": "B",
+          "text": "Reactive agent có tool use — nhiều ràng buộc, phải search/so sánh/hỏi lại, bước sau phụ thuộc kết quả bước trước"
+        },
+        {
+          "key": "C",
+          "text": "Rule-based bot"
+        },
+        {
+          "key": "D",
+          "text": "Không cần AI"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Booking Assistant có nhiều ràng buộc (thời gian, ngân sách, preference), phải search-so sánh-hỏi lại, và bước sau phụ thuộc bước trước → reactive agent.",
+      "tags": [
+        "day3",
+        "case-study"
+      ]
+    },
+    {
+      "id": "93-29",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn khối trong kiến trúc Agent theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input, Process, Output, Feedback"
+        },
+        {
+          "key": "B",
+          "text": "Perception, Reasoning, Action, Memory"
+        },
+        {
+          "key": "C",
+          "text": "Model, Context, Planning, Tools"
+        },
+        {
+          "key": "D",
+          "text": "Frontend, Backend, Database, API"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kiến trúc Agent gồm 4 khối: Perception (nhận input/tool output/feedback), Reasoning (LLM Core phân tích và chọn bước), Action (gọi tool hoặc trả lời), Memory (giữ goal, facts, kết quả trung gian).",
+      "tags": [
+        "day3",
+        "architecture"
+      ]
+    },
+    {
+      "id": "93-30",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khối Perception trong kiến trúc Agent nhận những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ nhận user input"
+        },
+        {
+          "key": "B",
+          "text": "Text từ user, tool output, và feedback"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ nhận kết quả từ database"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ nhận system prompt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Perception là cổng vào của agent: nhận user input, kết quả trả về từ tool, và feedback từ môi trường.",
+      "tags": [
+        "day3",
+        "architecture",
+        "perception"
+      ]
+    },
+    {
+      "id": "93-31",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khối Reasoning (LLM Core) làm nhiệm vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ lịch sử hội thoại"
+        },
+        {
+          "key": "B",
+          "text": "Phân tích trạng thái và chọn bước tiếp theo"
+        },
+        {
+          "key": "C",
+          "text": "Gọi API bên ngoài"
+        },
+        {
+          "key": "D",
+          "text": "Hiển thị kết quả cho người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reasoning là 'bộ não': đọc trạng thái hiện tại (goal + observation) rồi quyết định bước kế tiếp là gọi tool nào hay đã đủ để kết luận.",
+      "tags": [
+        "day3",
+        "architecture",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "93-32",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn khối kiến trúc agent kéo theo bốn nhóm chi phí chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhân sự, phần cứng, phần mềm, vận hành"
+        },
+        {
+          "key": "B",
+          "text": "Token, storage, API, latency"
+        },
+        {
+          "key": "C",
+          "text": "CPU, RAM, disk, network"
+        },
+        {
+          "key": "D",
+          "text": "Development, testing, deployment, maintenance"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu rõ: 4 khối kiến trúc kéo theo 4 nhóm cost — token (reasoning), storage (memory), API (tool calls), và latency (vòng lặp).",
+      "tags": [
+        "day3",
+        "architecture",
+        "cost"
+      ]
+    },
+    {
+      "id": "93-33",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Short-term memory của agent có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trong database bên ngoài"
+        },
+        {
+          "key": "B",
+          "text": "Nằm trong context window, dùng cho task hiện tại, rẻ dễ implement nhưng dễ đầy"
+        },
+        {
+          "key": "C",
+          "text": "Cần retrieval strategy phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Tồn tại vĩnh viễn qua các session"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Short-term memory nằm trong context window — rẻ và dễ triển khai, phù hợp hội thoại ngắn và goal chỉ kéo dài vài bước, nhưng dễ bị đầy.",
+      "tags": [
+        "day3",
+        "memory"
+      ]
+    },
+    {
+      "id": "93-34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Long-term memory của agent khác short-term ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Lưu facts, preferences, state ngoài context — có thể là DB, vector store, key-value store; cần retrieval strategy và permission model"
+        },
+        {
+          "key": "C",
+          "text": "Không tốn chi phí lưu trữ"
+        },
+        {
+          "key": "D",
+          "text": "Luôn chính xác hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Long-term memory nằm ngoài context window (DB/vector store/KV store), nên đòi hỏi chiến lược truy xuất và mô hình phân quyền rõ ràng.",
+      "tags": [
+        "day3",
+        "memory"
+      ]
+    },
+    {
+      "id": "93-35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lưu ý quan trọng về memory trong agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Càng nhiều memory agent càng giỏi"
+        },
+        {
+          "key": "B",
+          "text": "Không phải thêm memory là agent giỏi hơn — memory chỉ có ích khi chiến lược đọc/ghi và quyền truy cập được thiết kế rõ"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ nên dùng short-term memory"
+        },
+        {
+          "key": "D",
+          "text": "Long-term memory luôn tốt hơn short-term"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cảnh báo: memory chỉ tạo giá trị khi có chiến lược đọc/ghi rõ ràng và permission model được thiết kế — thêm bừa chỉ gây nhiễu và tốn chi phí.",
+      "tags": [
+        "day3",
+        "memory",
+        "principle"
+      ]
+    },
+    {
+      "id": "93-36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Tool Calling được gọi là 'tay chân của agent'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó giúp agent chạy nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó là cầu nối giữa reasoning trong model và hành động ngoài thế giới thực"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó thay thế hoàn toàn phần reasoning"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó giảm chi phí token"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool calling biến suy luận thành hành động thật. Agent mạnh lên nhờ tool nhưng cũng dễ fail hơn vì phụ thuộc dependency bên ngoài.",
+      "tags": [
+        "day3",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "93-37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ReAct là viết tắt của cụm từ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reactive Action"
+        },
+        {
+          "key": "B",
+          "text": "Reasoning + Acting"
+        },
+        {
+          "key": "C",
+          "text": "Retrieval + Action"
+        },
+        {
+          "key": "D",
+          "text": "Real-time Action"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct = Reasoning + Acting — pattern kết hợp suy luận theo từng bước với gọi công cụ và quan sát kết quả.",
+      "tags": [
+        "day3",
+        "react"
+      ]
+    },
+    {
+      "id": "93-38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần của một vòng lặp ReAct là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input, Process, Output"
+        },
+        {
+          "key": "B",
+          "text": "Thought → Action → Observation"
+        },
+        {
+          "key": "C",
+          "text": "Plan, Execute, Review"
+        },
+        {
+          "key": "D",
+          "text": "Query, Retrieve, Generate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vòng lặp ReAct: Thought (đang thiếu gì, nên làm gì tiếp?) → Action (gọi tool nào, tham số nào?) → Observation (kết quả trả về là gì?) → lặp lại.",
+      "tags": [
+        "day3",
+        "react",
+        "loop"
+      ]
+    },
+    {
+      "id": "93-39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 'Thought' trong ReAct trả lời câu hỏi gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả trả về là gì?"
+        },
+        {
+          "key": "B",
+          "text": "Mình đang thiếu gì, nên làm gì tiếp?"
+        },
+        {
+          "key": "C",
+          "text": "Người dùng có hài lòng không?"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí bao nhiêu?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thought là bước tự vấn: agent đánh giá mình đang thiếu thông tin gì và bước hành động tiếp theo nên là gì.",
+      "tags": [
+        "day3",
+        "react",
+        "thought"
+      ]
+    },
+    {
+      "id": "93-40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 'Action' trong ReAct xác định điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả cuối cùng cho người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Gọi tool nào, với tham số nào"
+        },
+        {
+          "key": "C",
+          "text": "Số vòng lặp còn lại"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí token đã dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Action là quyết định cụ thể: chọn tool nào trong registry và truyền tham số gì vào.",
+      "tags": [
+        "day3",
+        "react",
+        "action"
+      ]
+    },
+    {
+      "id": "93-41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vòng lặp ReAct kết thúc khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sau đúng 3 vòng lặp"
+        },
+        {
+          "key": "B",
+          "text": "Khi đủ thông tin để trả lời hoặc gặp điều kiện dừng"
+        },
+        {
+          "key": "C",
+          "text": "Khi người dùng bấm nút dừng"
+        },
+        {
+          "key": "D",
+          "text": "Khi hết token trong context"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct lặp lại đến khi agent có đủ thông tin để đưa ra câu trả lời cuối, hoặc chạm điều kiện dừng (max iterations, timeout, budget).",
+      "tags": [
+        "day3",
+        "react",
+        "loop"
+      ]
+    },
+    {
+      "id": "93-42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao ReAct mạnh về khả năng debug?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó chạy nhanh hơn các pattern khác"
+        },
+        {
+          "key": "B",
+          "text": "Vì trace lý do hành động được bộc lộ ra ngoài, giúp con người debug và can thiệp dễ hơn so với chỉ nhìn final answer"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó không bao giờ sai"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó dùng ít token hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm mạnh của ReAct không chỉ là answer tốt hơn, mà là con người nhìn được agent đã hành động dựa trên quan sát nào — trace minh bạch hóa quá trình.",
+      "tags": [
+        "day3",
+        "react",
+        "debug"
+      ]
+    },
+    {
+      "id": "93-43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong trace ví dụ tìm chuyến bay HAN → HCM, Action 1 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "get_weather(city='Ho Chi Minh City')"
+        },
+        {
+          "key": "B",
+          "text": "search_flights(origin='HAN', destination='SGN', date='2026-03-18', max_price=2000000)"
+        },
+        {
+          "key": "C",
+          "text": "recommend_outfit(temp=30)"
+        },
+        {
+          "key": "D",
+          "text": "final_answer()"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thought 1 xác định cần tìm chuyến bay dưới 2 triệu → Action 1 gọi search_flights với đầy đủ tham số tuyến, ngày và giá trần.",
+      "tags": [
+        "day3",
+        "react",
+        "trace"
+      ]
+    },
+    {
+      "id": "93-44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Observation 1 trong trace ví dụ trả về kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiệt độ 27-32C, xác suất mưa 70%"
+        },
+        {
+          "key": "B",
+          "text": "2 lựa chọn phù hợp: VietJet 06:10 giá 1.75M, Vietnam Airlines 08:20 giá 1.95M"
+        },
+        {
+          "key": "C",
+          "text": "Không tìm thấy chuyến bay nào"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi timeout khi gọi API"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Observation 1 là kết quả thật từ tool search_flights: hai chuyến phù hợp với giá cụ thể.",
+      "tags": [
+        "day3",
+        "react",
+        "trace"
+      ]
+    },
+    {
+      "id": "93-45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao trong trace ví dụ agent thực hiện Action 2 (get_weather)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì Action 1 thất bại"
+        },
+        {
+          "key": "B",
+          "text": "Vì Thought 2 nhận ra user cũng hỏi về trang phục nếu trời mưa, nên cần check thời tiết tại HCM"
+        },
+        {
+          "key": "C",
+          "text": "Vì hệ thống tự động gọi mọi tool có sẵn"
+        },
+        {
+          "key": "D",
+          "text": "Vì cần xác minh lại giá vé"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thought 2 phân tích rằng mục tiêu chưa hoàn thành: user còn hỏi mang gì nếu mưa → cần dữ liệu thời tiết, do đó gọi get_weather.",
+      "tags": [
+        "day3",
+        "react",
+        "trace"
+      ]
+    },
+    {
+      "id": "93-46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thought 3 trong trace ví dụ dẫn tới hành động gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gọi thêm tool thứ ba"
+        },
+        {
+          "key": "B",
+          "text": "Kết luận — agent đã có cả lựa chọn chuyến bay và dữ liệu thời tiết nên đưa ra Final Answer"
+        },
+        {
+          "key": "C",
+          "text": "Quay lại gọi lại search_flights"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển câu hỏi cho con người"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thought 3 xác nhận đã đủ thông tin (chuyến bay + thời tiết) → thoát vòng lặp và sinh Final Answer gộp cả hai.",
+      "tags": [
+        "day3",
+        "react",
+        "trace"
+      ]
+    },
+    {
+      "id": "93-47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ưu điểm nào KHÔNG thuộc về ReAct pattern?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dễ đọc trace và debug"
+        },
+        {
+          "key": "B",
+          "text": "Tự quyết được bước tiếp theo từ observation"
+        },
+        {
+          "key": "C",
+          "text": "Tốn ít token và latency hơn chatbot"
+        },
+        {
+          "key": "D",
+          "text": "Có thể cài safeguard ở từng vòng lặp"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ngược lại — ReAct TỐN nhiều token và latency hơn chatbot vì phải chạy nhiều vòng lặp và nhiều lần gọi model/tool.",
+      "tags": [
+        "day3",
+        "react",
+        "limits"
+      ]
+    },
+    {
+      "id": "93-48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giới hạn nào của ReAct được nêu trong bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thể dùng tool"
+        },
+        {
+          "key": "B",
+          "text": "Dễ loop hoặc gọi sai tool; cần eval theo trace chứ không chỉ final answer"
+        },
+        {
+          "key": "C",
+          "text": "Không debug được"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy với một model duy nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giới hạn ReAct: tốn token/latency, dễ rơi vào loop hoặc chọn sai tool, cần đánh giá theo trace, và không phù hợp bài toán đơn giản hoặc cần deterministic tuyệt đối.",
+      "tags": [
+        "day3",
+        "react",
+        "limits"
+      ]
+    },
+    {
+      "id": "93-49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi hệ thống có nhiều nhánh hơn, bài giảng khuyên chuyển từ ReAct sang gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rule-based bot"
+        },
+        {
+          "key": "B",
+          "text": "Graph/state machine rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Prompt engineering thuần"
+        },
+        {
+          "key": "D",
+          "text": "Multi-agent ngẫu nhiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct dễ bắt đầu nhất, nhưng khi workflow nhiều nhánh thì nên chuyển sang graph/state machine (như LangGraph) để dễ biểu diễn và bảo trì.",
+      "tags": [
+        "day3",
+        "react",
+        "langgraph"
+      ]
+    },
+    {
+      "id": "93-50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo tổng kết bài giảng, công thức của agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent = chatbot thông minh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Agent = LLM + reasoning + tools + memory/state"
+        },
+        {
+          "key": "C",
+          "text": "Agent = LLM + context window lớn"
+        },
+        {
+          "key": "D",
+          "text": "Agent = nhiều LLM chạy song song"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Key takeaway: agent KHÔNG phải 'chatbot thông minh hơn'; agent = LLM + reasoning + tools + memory/state.",
+      "tags": [
+        "day3",
+        "summary"
+      ]
+    },
+    {
+      "id": "93-51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm bước tiến hóa từ LLM thuần đến agent hiện đại theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM → RAG → Fine-tuning → Agent → Multi-agent"
+        },
+        {
+          "key": "B",
+          "text": "LLM thuần → Prompt Engineering → Text-based ReAct (2022) → Function Calling (2023+) → Agent hiện nay"
+        },
+        {
+          "key": "C",
+          "text": "Rule → Chatbot → Agent → AGI → ASI"
+        },
+        {
+          "key": "D",
+          "text": "GPT-3 → GPT-4 → GPT-5 → Agent SDK → MCP"
+        }
+      ],
+      "answer": "B",
+      "explanation": "5 bước: (1) LLM thuần chỉ next-token prediction; (2) Prompt engineering few-shot/CoT; (3) Text-based ReAct 2022; (4) Function Calling 2023+; (5) Agent hiện nay gộp reasoning + tool call + memory.",
+      "tags": [
+        "day3",
+        "evolution"
+      ]
+    },
+    {
+      "id": "93-52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 1 'LLM thuần' trong tiến hóa có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Có thể gọi tool theo schema"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ next-token prediction, không hành động được"
+        },
+        {
+          "key": "C",
+          "text": "Suy luận nhiều bước có scratch pad"
+        },
+        {
+          "key": "D",
+          "text": "Trả về JSON có cấu trúc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM thuần chỉ dự đoán token tiếp theo — sinh được văn bản nhưng không có cơ chế hành động ra thế giới ngoài.",
+      "tags": [
+        "day3",
+        "evolution"
+      ]
+    },
+    {
+      "id": "93-53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 2 'Prompt Engineering' giải quyết được gì và còn hạn chế gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải quyết được tool calling nhưng chậm"
+        },
+        {
+          "key": "B",
+          "text": "Few-shot/CoT giúp reasoning tốt hơn, nhưng vẫn 1 lượt và không gọi tool được"
+        },
+        {
+          "key": "C",
+          "text": "Cho phép gọi nhiều tool song song"
+        },
+        {
+          "key": "D",
+          "text": "Đảm bảo output đúng schema"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Prompt engineering (few-shot, Chain-of-Thought) cải thiện chất lượng suy luận nhưng vẫn chỉ một lượt phản hồi, chưa có khả năng hành động.",
+      "tags": [
+        "day3",
+        "evolution",
+        "prompting"
+      ]
+    },
+    {
+      "id": "93-54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong paper ReAct gốc, Action được biểu diễn dưới dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "JSON object có schema"
+        },
+        {
+          "key": "B",
+          "text": "Chuỗi text theo format cố định, ví dụ search[entity] hay lookup[string]"
+        },
+        {
+          "key": "C",
+          "text": "Lời gọi hàm Python trực tiếp"
+        },
+        {
+          "key": "D",
+          "text": "Câu lệnh SQL"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Paper ReAct gốc dùng Action là chuỗi text theo format quy ước (search[entity], lookup[string]) — model phải tự 'nhớ' đúng cú pháp.",
+      "tags": [
+        "day3",
+        "react",
+        "limitation"
+      ]
+    },
+    {
+      "id": "93-55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hạn chế cốt lõi của text-based ReAct là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model không đủ thông minh để suy luận"
+        },
+        {
+          "key": "B",
+          "text": "Không có schema để model hay hệ thống kiểm tra tính hợp lệ trước khi gọi tool — hệ thống phải parse bằng regex/string matching"
+        },
+        {
+          "key": "C",
+          "text": "Không chạy được trên GPU"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ hoạt động với tiếng Anh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Gốc rễ vấn đề: hệ thống chỉ prompt model trả lời đúng định dạng text, chứ chưa từng gửi cho model một 'hợp đồng máy đọc được' (schema) để bám.",
+      "tags": [
+        "day3",
+        "react",
+        "limitation"
+      ]
+    },
+    {
+      "id": "93-56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lỗi điển hình nhất của text-based ReAct trong production là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Out of memory"
+        },
+        {
+          "key": "B",
+          "text": "'Could not parse LLM output' — chỉ cần thiếu dấu hai chấm, sai hoa/thường, hoặc quên 'Action Input:' là parser vỡ"
+        },
+        {
+          "key": "C",
+          "text": "Rate limit exceeded"
+        },
+        {
+          "key": "D",
+          "text": "Model timeout"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Parser dựa trên regex rất mong manh: chỉ một ký tự sai định dạng là toàn bộ vòng lặp dừng lại với lỗi 'Could not parse LLM output'.",
+      "tags": [
+        "day3",
+        "react",
+        "error"
+      ]
+    },
+    {
+      "id": "93-57",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ parser vỡ của bài giảng, nguyên nhân cụ thể là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model trả về tiếng Việt thay vì tiếng Anh"
+        },
+        {
+          "key": "B",
+          "text": "Model viết thường 'action:' thay vì 'Action:' — với con người là lỗi không đáng kể, nhưng parser regex coi là sai hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Tham số truyền sai kiểu dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Tool không tồn tại trong registry"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ minh họa: model viết 'action:' viết thường, regex chỉ khớp 'Action:' viết hoa → ValueError, cả vòng lặp dừng vì 1 ký tự.",
+      "tags": [
+        "day3",
+        "react",
+        "error"
+      ]
+    },
+    {
+      "id": "93-58",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vấn đề nào về format của text-based ReAct gây khó bảo trì ở production?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Format quá dài dòng"
+        },
+        {
+          "key": "B",
+          "text": "Format dễ trôi (drift) khi đổi model, đổi phiên bản, hoặc đổi prompt"
+        },
+        {
+          "key": "C",
+          "text": "Format không hỗ trợ Unicode"
+        },
+        {
+          "key": "D",
+          "text": "Format tốn quá nhiều dung lượng lưu trữ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Format drift: prompt hoạt động tốt với model này có thể vỡ khi đổi model/phiên bản — không có hợp đồng chính thức nên rất khó bảo trì.",
+      "tags": [
+        "day3",
+        "react",
+        "drift"
+      ]
+    },
+    {
+      "id": "93-59",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Function calling được OpenAI ra mắt vào thời điểm nào và cho model nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tháng 11/2022 cho GPT-3.5"
+        },
+        {
+          "key": "B",
+          "text": "Tháng 6/2023 cho gpt-4-0613 và gpt-3.5-turbo-0613"
+        },
+        {
+          "key": "C",
+          "text": "Tháng 3/2024 cho GPT-4o"
+        },
+        {
+          "key": "D",
+          "text": "Tháng 9/2025 cho GPT-5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "OpenAI ra mắt function calling tháng 6/2023 cho gpt-4-0613 và gpt-3.5-turbo-0613; Anthropic tích hợp tool use tương tự cho Claude.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "timeline"
+      ]
+    },
+    {
+      "id": "93-60",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Function calling thay đổi bản chất bài toán như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ 'model chậm' sang 'model nhanh'"
+        },
+        {
+          "key": "B",
+          "text": "Từ 'prompt model trả lời đúng format' sang 'model được thiết kế để trả structured output'"
+        },
+        {
+          "key": "C",
+          "text": "Từ 'dùng ít token' sang 'dùng nhiều token'"
+        },
+        {
+          "key": "D",
+          "text": "Từ 'một tool' sang 'không tool nào'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là bước chuyển tư duy: thay vì cầu mong model tuân thủ format text, ngành chuyển sang thiết kế model để sinh ra output có cấu trúc theo schema.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "paradigm"
+      ]
+    },
+    {
+      "id": "93-61",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong function calling, developer khai báo tool bằng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Regex pattern"
+        },
+        {
+          "key": "B",
+          "text": "JSON Schema: tên, mô tả, tham số, kiểu dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Câu lệnh SQL"
+        },
+        {
+          "key": "D",
+          "text": "File YAML cấu hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Dev khai báo tool bằng JSON Schema gồm name, description, parameters (kiểu dữ liệu, required) — schema này được gửi kèm mỗi request tới model.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "schema"
+      ]
+    },
+    {
+      "id": "93-62",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Luồng hoạt động của function calling gồm những bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự tìm tool trên internet rồi gọi"
+        },
+        {
+          "key": "B",
+          "text": "Dev khai báo JSON Schema → Model nhận schema → Model trả tool call → Host code validate & execute → trả tool result"
+        },
+        {
+          "key": "C",
+          "text": "Host code đoán ý model rồi gọi tool"
+        },
+        {
+          "key": "D",
+          "text": "Tool tự động đăng ký với model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Luồng: dev khai báo schema → gửi kèm request → model trả về object có cấu trúc (name + arguments) → host code validate và thực thi → trả kết quả về cho model.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "flow"
+      ]
+    },
+    {
+      "id": "93-63",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model trả về gì cho phần action trong function calling?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuỗi text tự do cần parse"
+        },
+        {
+          "key": "B",
+          "text": "Một object có cấu trúc gồm name (tên tool) và arguments (tham số dạng JSON)"
+        },
+        {
+          "key": "C",
+          "text": "Một file JSON tải về"
+        },
+        {
+          "key": "D",
+          "text": "Mã lệnh Python thực thi trực tiếp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khác với ReAct text, function calling trả về object có cấu trúc — host code chỉ cần đọc field .name và .arguments, không cần đoán hay parse chuỗi.",
+      "tags": [
+        "day3",
+        "function-calling"
+      ]
+    },
+    {
+      "id": "93-64",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model có cần được train riêng để function calling hoạt động tốt không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không, chỉ cần prompt khéo là đủ"
+        },
+        {
+          "key": "B",
+          "text": "Có — gpt-4-0613/gpt-3.5-turbo-0613 đã được fine-tune để tự nhận biết khi nào cần gọi function và trả JSON đúng signature"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần tăng temperature"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần context window lớn hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "OpenAI xác nhận rõ: các model này đã được fine-tune để (a) tự nhận biết khi nào cần gọi function, (b) trả JSON đúng theo signature — không chỉ là prompting khéo léo.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "training"
+      ]
+    },
+    {
+      "id": "93-65",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Claude được huấn luyện như thế nào để dùng built-in tools đáng tin cậy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ dựa vào system prompt chi tiết"
+        },
+        {
+          "key": "B",
+          "text": "Được huấn luyện trên hàng ngàn trajectory dùng đúng schema đó, nên gọi tool đáng tin cậy và tự phục hồi lỗi tốt hơn tool tự định nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Dùng regex parser mạnh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Chạy nhiều lần rồi lấy vote"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anthropic huấn luyện Claude trên hàng ngàn trajectory với các built-in tool — nên với những tool này Claude gọi chính xác và tự phục hồi lỗi tốt hơn tool do dev tự định nghĩa.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "claude"
+      ]
+    },
+    {
+      "id": "93-66",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Structured Outputs (OpenAI, từ 2024) hoạt động theo cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt model nhiều lần rồi chọn kết quả tốt nhất"
+        },
+        {
+          "key": "B",
+          "text": "Schema được biên dịch thành grammar, ép decoding chỉ sinh token hợp lệ với schema"
+        },
+        {
+          "key": "C",
+          "text": "Kiểm tra output sau khi sinh xong rồi retry nếu sai"
+        },
+        {
+          "key": "D",
+          "text": "Dùng model thứ hai để sửa output"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Structured Outputs biên dịch JSON Schema thành grammar (finite-state machine); ở mỗi bước sinh token, chỉ token hợp lệ theo schema mới được phép chọn.",
+      "tags": [
+        "day3",
+        "structured-outputs"
+      ]
+    },
+    {
+      "id": "93-67",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Số liệu OpenAI báo cáo về mức tuân thủ schema là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "80% so với 50%"
+        },
+        {
+          "key": "B",
+          "text": "gpt-4o-2024-08-06 kèm Structured Outputs đạt 100% tuân thủ schema, so với dưới 40% của gpt-4-0613 không có cơ chế này"
+        },
+        {
+          "key": "C",
+          "text": "95% so với 70%"
+        },
+        {
+          "key": "D",
+          "text": "Không có số liệu công bố"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Con số minh chứng sức mạnh của grammar-constrained decoding: 100% tuân thủ schema so với dưới 40% khi chỉ dựa vào fine-tuning.",
+      "tags": [
+        "day3",
+        "structured-outputs",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "93-68",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai lớp cơ chế đảm bảo function calling hoạt động là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt engineering và RAG"
+        },
+        {
+          "key": "B",
+          "text": "Lớp 1: Fine-tuning/RLHF (semantic — chọn đúng tool đúng lý do). Lớp 2: Grammar constraint (syntactic — output luôn parse được)"
+        },
+        {
+          "key": "C",
+          "text": "Cache và retry"
+        },
+        {
+          "key": "D",
+          "text": "Validation và logging"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lớp 1 fine-tuning giúp model chọn đúng tool và đúng lý do (ngữ nghĩa); Lớp 2 grammar constraint đảm bảo output luôn parse được (cú pháp).",
+      "tags": [
+        "day3",
+        "function-calling",
+        "two-layers"
+      ]
+    },
+    {
+      "id": "93-69",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao chỉ có lớp 1 (fine-tuning) là chưa đủ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì fine-tuning quá đắt"
+        },
+        {
+          "key": "B",
+          "text": "Vì model vẫn có thể lệch schema ở edge case hiếm gặp — lớp 2 mới đưa tỷ lệ tuân thủ lên gần như tuyệt đối"
+        },
+        {
+          "key": "C",
+          "text": "Vì fine-tuning làm model chậm"
+        },
+        {
+          "key": "D",
+          "text": "Vì fine-tuning chỉ áp dụng cho tiếng Anh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fine-tuning tạo xu hướng học được, không phải đảm bảo tuyệt đối. Grammar constraint mới là đảm bảo bằng kỹ thuật, không phụ thuộc model có 'muốn' tuân thủ hay không.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "two-layers"
+      ]
+    },
+    {
+      "id": "93-70",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ưu điểm 'Parallel tool calls' của function calling nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy nhiều agent cùng lúc"
+        },
+        {
+          "key": "B",
+          "text": "Model có thể trả nhiều tool call trong cùng một lượt, thay vì chỉ 1 action mỗi vòng như ReAct text"
+        },
+        {
+          "key": "C",
+          "text": "Nhiều người dùng gọi API đồng thời"
+        },
+        {
+          "key": "D",
+          "text": "Tool chạy trên nhiều máy chủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct text chỉ cho 1 action mỗi vòng lặp. Function calling cho phép model trả nhiều tool call trong một lượt — giảm số vòng và độ trễ đáng kể.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "parallel"
+      ]
+    },
+    {
+      "id": "93-71",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đánh đổi (trade-off) còn lại của function calling là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẫn không parse được output"
+        },
+        {
+          "key": "B",
+          "text": "Vẫn phụ thuộc chất lượng mô tả tool — tool mô tả mơ hồ vẫn khiến model chọn sai"
+        },
+        {
+          "key": "C",
+          "text": "Không hỗ trợ nhiều tool"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí cao gấp 10 lần"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Function calling giải quyết vấn đề cú pháp nhưng không giải quyết vấn đề ngữ nghĩa: nếu description của tool mơ hồ, model vẫn chọn sai tool.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "93-72",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng so sánh, 'error mode điển hình' của Function Calling là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Could not parse LLM output"
+        },
+        {
+          "key": "B",
+          "text": "Hiếm khi sai schema; lỗi còn lại là chọn sai tool"
+        },
+        {
+          "key": "C",
+          "text": "Timeout khi gọi model"
+        },
+        {
+          "key": "D",
+          "text": "Vượt quá context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Function calling gần như loại bỏ lỗi parse. Lỗi còn lại chuyển sang tầng ngữ nghĩa: model chọn sai tool dù cú pháp vẫn đúng.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "comparison"
+      ]
+    },
+    {
+      "id": "93-73",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "MCP (Model Context Protocol) do ai công bố, khi nào và giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "OpenAI, 6/2023, chuẩn hóa function calling"
+        },
+        {
+          "key": "B",
+          "text": "Anthropic, 11/2024, chuẩn hóa cách tool/data được expose cho bất kỳ model/client — tránh tích hợp riêng cho từng cặp model-tool"
+        },
+        {
+          "key": "C",
+          "text": "Google, 2025, chuẩn hóa prompt"
+        },
+        {
+          "key": "D",
+          "text": "LangChain, 2023, chuẩn hóa agent loop"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Function calling chuẩn hóa cách gọi 1 tool; MCP (Anthropic, 11/2024) chuẩn hóa cách tool/data được expose cho mọi model/client, tránh tích hợp N×M.",
+      "tags": [
+        "day3",
+        "mcp"
+      ]
+    },
+    {
+      "id": "93-74",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Claude Agent SDK và OpenAI Responses API ra mắt khi nào và đóng gói những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai ra mắt 2023, đóng gói prompt template"
+        },
+        {
+          "key": "B",
+          "text": "Claude Agent SDK (9/2025) và OpenAI Responses API (3/2025) — đóng gói sẵn reasoning loop + function calling + memory"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai ra mắt 2024, chỉ đóng gói tool registry"
+        },
+        {
+          "key": "D",
+          "text": "Chưa ra mắt, còn trong giai đoạn thử nghiệm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Claude Agent SDK (9/2025) và OpenAI Responses API (3/2025) gộp reasoning loop + function calling + memory thành một primitive — vẫn là vòng lặp ReAct nhưng Action đã được nâng cấp.",
+      "tags": [
+        "day3",
+        "agent-sdk",
+        "timeline"
+      ]
+    },
+    {
+      "id": "93-75",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thông điệp quan trọng nhất về mối quan hệ giữa ReAct và Function Calling là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Function calling đã thay thế hoàn toàn ReAct"
+        },
+        {
+          "key": "B",
+          "text": "ReAct không biến mất — vòng lặp Thought/Action/Observation vẫn còn đó, chỉ có Action giờ đáng tin cậy hơn nhiều nhờ schema"
+        },
+        {
+          "key": "C",
+          "text": "ReAct tốt hơn function calling"
+        },
+        {
+          "key": "D",
+          "text": "Hai cái không liên quan đến nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nhấn mạnh: function calling KHÔNG 'thay thế' ReAct. Vòng lặp Thought→Action→Observation vẫn nguyên vẹn, chỉ có hạ tầng cho Action được nâng cấp.",
+      "tags": [
+        "day3",
+        "react",
+        "function-calling",
+        "key-insight"
+      ]
+    },
+    {
+      "id": "93-76",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao bài giảng khuyên nên hiểu ReAct dạng text trước khi học function calling?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì text-based ReAct vẫn phổ biến hơn trong production"
+        },
+        {
+          "key": "B",
+          "text": "Vì hiểu rõ vấn đề ReAct gặp phải giúp thấy tại sao ngành chuyển sang function calling — thay vì học thuộc tên công nghệ"
+        },
+        {
+          "key": "C",
+          "text": "Vì function calling quá khó để bắt đầu"
+        },
+        {
+          "key": "D",
+          "text": "Vì ReAct rẻ hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mỗi bước tiến hóa giải quyết đúng một giới hạn của bước trước. Hiểu giới hạn thì hiểu được vì sao ngành thiết kế ra bước tiếp theo.",
+      "tags": [
+        "day3",
+        "evolution",
+        "pedagogy"
+      ]
+    },
+    {
+      "id": "93-77",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong pseudocode agent loop tối thiểu, vòng lặp được giới hạn bởi biến nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MAX_TOKENS"
+        },
+        {
+          "key": "B",
+          "text": "MAX_ITERATIONS"
+        },
+        {
+          "key": "C",
+          "text": "TIMEOUT"
+        },
+        {
+          "key": "D",
+          "text": "MAX_TOOLS"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pseudocode dùng `for step in range(MAX_ITERATIONS)` — đây là safeguard cơ bản nhất, ngăn agent chạy vô hạn khi không tiến triển.",
+      "tags": [
+        "day3",
+        "code",
+        "loop"
+      ]
+    },
+    {
+      "id": "93-78",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sau khi chạy tool, agent loop làm gì với kết quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trả thẳng cho người dùng rồi kết thúc"
+        },
+        {
+          "key": "B",
+          "text": "Append tool_message(name, result) vào messages rồi tiếp tục vòng lặp"
+        },
+        {
+          "key": "C",
+          "text": "Ghi vào database rồi dừng"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua nếu kết quả không như mong đợi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kết quả tool được đưa trở lại messages dưới dạng tool message — đó chính là bước Observation, để model dùng cho Thought vòng tiếp theo.",
+      "tags": [
+        "day3",
+        "code",
+        "loop"
+      ]
+    },
+    {
+      "id": "93-79",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vai trò của System Prompt trong ReAct agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ để chào hỏi người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Đặt rule về vai trò, khi nào được kết luận, và ràng buộc hành vi của agent"
+        },
+        {
+          "key": "C",
+          "text": "Lưu trữ kết quả tool"
+        },
+        {
+          "key": "D",
+          "text": "Định nghĩa schema của tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "System prompt quy định agent là ai, được phép làm gì, và điều kiện để kết luận — ví dụ trong demo: 'chỉ được kết luận khi đã có dữ liệu thời tiết'.",
+      "tags": [
+        "day3",
+        "system-prompt"
+      ]
+    },
+    {
+      "id": "93-80",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Registry có chức năng gì trong agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu lịch sử hội thoại"
+        },
+        {
+          "key": "B",
+          "text": "Khai báo 'tay chân' cho agent — danh sách tool khả dụng kèm định nghĩa input/output"
+        },
+        {
+          "key": "C",
+          "text": "Đo lường chi phí token"
+        },
+        {
+          "key": "D",
+          "text": "Quản lý người dùng đăng nhập"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool Registry là nơi khai báo tập tool agent được phép gọi, kèm mô tả và signature — model dựa vào đây để chọn tool.",
+      "tags": [
+        "day3",
+        "tool-registry"
+      ]
+    },
+    {
+      "id": "93-81",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, tool definitions phải nêu rõ những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần tên tool"
+        },
+        {
+          "key": "B",
+          "text": "Rõ input / output / error mode"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần mô tả bằng một câu"
+        },
+        {
+          "key": "D",
+          "text": "Ngôn ngữ lập trình được dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool definition tốt phải rõ ba thứ: input nhận gì, output trả gì, và error mode khi thất bại — thiếu error mode thì agent không biết xử lý khi tool fail.",
+      "tags": [
+        "day3",
+        "tool-definition"
+      ]
+    },
+    {
+      "id": "93-82",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Những guardrails nào cần có cho agent loop?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần giới hạn số vòng lặp"
+        },
+        {
+          "key": "B",
+          "text": "Giới hạn số vòng lặp, timeout cho từng tool, budget token/cost trần, retry có kiểm soát, fallback sang human hoặc chatbot"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần timeout"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần logging đầy đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "5 guardrails: max iterations, timeout mỗi tool, budget token/cost trần, retry có kiểm soát, và fallback sang con người hoặc chatbot khi bế tắc.",
+      "tags": [
+        "day3",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "93-83",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dấu hiệu nào cho thấy agent đang bị kẹt trong loop?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent trả lời quá nhanh"
+        },
+        {
+          "key": "B",
+          "text": "Lặp lại cùng một tool call, hỏi lại thông tin đã có, reasoning không tiến thêm, observation không thay đổi nhưng vẫn tiếp tục"
+        },
+        {
+          "key": "C",
+          "text": "Agent dùng nhiều tool khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Agent trả lời bằng nhiều ngôn ngữ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 dấu hiệu loop: gọi lại cùng tool, hỏi lại thông tin đã có, reasoning giậm chân tại chỗ, và observation không đổi mà agent vẫn tiếp tục.",
+      "tags": [
+        "day3",
+        "guardrails",
+        "loop-detection"
+      ]
+    },
+    {
+      "id": "93-84",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi phát hiện agent không tiến triển, nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng MAX_ITERATIONS lên gấp đôi"
+        },
+        {
+          "key": "B",
+          "text": "Dừng loop và fallback (sang human hoặc chatbot)"
+        },
+        {
+          "key": "C",
+          "text": "Đổi sang model mạnh hơn ngay lập tức"
+        },
+        {
+          "key": "D",
+          "text": "Xóa toàn bộ context và chạy lại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi output không tiến triển, cùng tool bị gọi lặp lại, hoặc observation không đổi mà agent vẫn tiếp tục — cần dừng loop và fallback.",
+      "tags": [
+        "day3",
+        "guardrails",
+        "fallback"
+      ]
+    },
+    {
+      "id": "93-85",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LangGraph giúp gì so với việc viết ReAct loop bằng tay?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy nhanh hơn 10 lần"
+        },
+        {
+          "key": "B",
+          "text": "Biểu diễn state, nodes, edges, conditional routing rõ ràng hơn — dễ maintain khi workflow nhiều nhánh hoặc cần persist state"
+        },
+        {
+          "key": "C",
+          "text": "Không cần khai báo tool"
+        },
+        {
+          "key": "D",
+          "text": "Tự động sinh system prompt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct loop tay phù hợp để học bản chất; LangGraph biểu diễn rõ state/nodes/edges/conditional routing, dễ bảo trì hơn khi workflow phức tạp.",
+      "tags": [
+        "day3",
+        "langgraph"
+      ]
+    },
+    {
+      "id": "93-86",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sơ đồ LangGraph của bài giảng, luồng đi như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "User → LLM → Response (một chiều)"
+        },
+        {
+          "key": "B",
+          "text": "Entry Point → LLM Node → (tool call) → Tool Node → (observation) → quay lại LLM Node; khi done thì → Final Answer"
+        },
+        {
+          "key": "C",
+          "text": "Tool Node → LLM Node → Entry Point"
+        },
+        {
+          "key": "D",
+          "text": "Các node chạy song song hoàn toàn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sơ đồ: Entry Point → LLM Node; nếu có tool call thì sang Tool Node, observation quay ngược về LLM Node (continue); khi điều kiện done thì ra Final Answer.",
+      "tags": [
+        "day3",
+        "langgraph",
+        "flow"
+      ]
+    },
+    {
+      "id": "93-87",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong kịch bản Live Demo, hai tool được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "search_flights và book_ticket"
+        },
+        {
+          "key": "B",
+          "text": "get_weather và recommend_outfit"
+        },
+        {
+          "key": "C",
+          "text": "search_web và summarize"
+        },
+        {
+          "key": "D",
+          "text": "query_db và send_email"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Live demo dùng 2 tool tối thiểu: get_weather (tra cứu thời tiết) và recommend_outfit (gợi ý trang phục).",
+      "tags": [
+        "day3",
+        "demo"
+      ]
+    },
+    {
+      "id": "93-88",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "System prompt trong live demo đặt ràng buộc gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent phải trả lời trong 10 giây"
+        },
+        {
+          "key": "B",
+          "text": "Agent chỉ được kết luận khi đã có dữ liệu thời tiết"
+        },
+        {
+          "key": "C",
+          "text": "Agent chỉ được gọi 1 tool duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Agent phải trả lời bằng tiếng Anh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ràng buộc trong demo: agent chỉ được kết luận khi đã có dữ liệu thời tiết — buộc agent phải gọi tool thay vì đoán bừa.",
+      "tags": [
+        "day3",
+        "demo",
+        "system-prompt"
+      ]
+    },
+    {
+      "id": "93-89",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao giảng viên cố tình tạo lỗi trong live demo?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tiết kiệm thời gian giảng"
+        },
+        {
+          "key": "B",
+          "text": "Để học viên thấy agent fail ở đâu và vì sao trace lại quan trọng hơn một final answer 'trông có vẻ đúng'"
+        },
+        {
+          "key": "C",
+          "text": "Để kiểm tra tốc độ mạng"
+        },
+        {
+          "key": "D",
+          "text": "Để so sánh các model khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mục đích sư phạm: cho học viên thấy agent fail ở đâu, và hiểu rằng trace quan trọng hơn final answer nhìn có vẻ hợp lý.",
+      "tags": [
+        "day3",
+        "demo",
+        "pedagogy"
+      ]
+    },
+    {
+      "id": "93-90",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Debug checklist khi agent lỗi gồm những câu hỏi nào về trace?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model nào đang dùng? Chi phí bao nhiêu?"
+        },
+        {
+          "key": "B",
+          "text": "Thought có đúng mục tiêu không? Agent chọn đúng tool chưa? Args truyền vào có hợp lệ không? Observation có bị thiếu field quan trọng không?"
+        },
+        {
+          "key": "C",
+          "text": "Server có đang chạy không? Database có kết nối không?"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng nhập gì? Kết quả cuối là gì?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Debug checklist soi 4 điểm trong trace: Thought đúng mục tiêu, chọn đúng tool, args hợp lệ, và observation có đủ field quan trọng.",
+      "tags": [
+        "day3",
+        "debug",
+        "checklist"
+      ]
+    },
+    {
+      "id": "93-91",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn nơi thường phải sửa khi agent lỗi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model, database, server, network"
+        },
+        {
+          "key": "B",
+          "text": "Tool description quá mơ hồ; System prompt thiếu rule dừng; Không có safeguard cho retry/loop; Evaluation chỉ chấm final answer không chấm trace"
+        },
+        {
+          "key": "C",
+          "text": "Frontend, backend, API, UI"
+        },
+        {
+          "key": "D",
+          "text": "Prompt, temperature, top_p, max_tokens"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 nguyên nhân gốc: tool description mơ hồ, system prompt thiếu rule dừng, thiếu safeguard retry/loop, và evaluation chỉ chấm final answer.",
+      "tags": [
+        "day3",
+        "debug",
+        "root-cause"
+      ]
+    },
+    {
+      "id": "93-92",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng so sánh việc debug agent với việc gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Debug một hàm Python đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Debug distributed system — phải nhìn cả model, tool, state, và orchestration, chứ không chỉ prompt tuning"
+        },
+        {
+          "key": "C",
+          "text": "Sửa lỗi chính tả trong văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Tối ưu truy vấn SQL"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Agent debugging gần với debugging distributed system hơn là prompt tuning: phải nhìn đồng thời model, tool, state và orchestration.",
+      "tags": [
+        "day3",
+        "debug",
+        "mindset"
+      ]
+    },
+    {
+      "id": "93-93",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về mặt tốc độ, chatbot và agent khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent luôn nhanh hơn vì chạy song song"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot nhanh, ít round-trip; Agent chậm hơn do loop và tool calls"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai tốc độ như nhau"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ chỉ phụ thuộc vào model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot phản hồi trong một round-trip. Agent phải chạy nhiều vòng lặp và gọi tool nên chậm hơn đáng kể.",
+      "tags": [
+        "day3",
+        "comparison",
+        "speed"
+      ]
+    },
+    {
+      "id": "93-94",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về mặt kiểm soát, agent khó hơn chatbot vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì agent dùng model đắt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì cần orchestration và eval theo trace, trong khi chatbot ít state hơn"
+        },
+        {
+          "key": "C",
+          "text": "Vì agent không log được"
+        },
+        {
+          "key": "D",
+          "text": "Vì agent chỉ chạy trên cloud"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot ít state nên dễ kiểm soát. Agent cần orchestration phức tạp và phải đánh giá theo trace chứ không chỉ output cuối.",
+      "tags": [
+        "day3",
+        "comparison",
+        "control"
+      ]
+    },
+    {
+      "id": "93-95",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về UX, agent tạo ra cảm giác gì nếu làm tốt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cảm giác nhanh và đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Cảm giác 'làm việc giúp bạn'"
+        },
+        {
+          "key": "C",
+          "text": "Cảm giác an toàn tuyệt đối"
+        },
+        {
+          "key": "D",
+          "text": "Cảm giác tiết kiệm chi phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot cho UX phản hồi nhanh, đơn giản. Agent nếu làm tốt tạo cảm giác 'đang làm việc giúp bạn' — giá trị cảm nhận khác hẳn.",
+      "tags": [
+        "day3",
+        "comparison",
+        "ux"
+      ]
+    },
+    {
+      "id": "93-96",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lựa chọn mặc định tốt khi bắt đầu một hệ thống AI là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt đầu bằng agent để đón đầu"
+        },
+        {
+          "key": "B",
+          "text": "Bắt đầu bằng chatbot"
+        },
+        {
+          "key": "C",
+          "text": "Bắt đầu bằng multi-agent"
+        },
+        {
+          "key": "D",
+          "text": "Bắt đầu bằng rule-based bot luôn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng kết luận rõ: 'Bắt đầu bằng chatbot là lựa chọn mặc định tốt' — chỉ nâng cấp khi có bằng chứng cần thiết.",
+      "tags": [
+        "day3",
+        "comparison",
+        "default"
+      ]
+    },
+    {
+      "id": "93-97",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hybrid Pattern hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy chatbot và agent song song rồi chọn kết quả tốt hơn"
+        },
+        {
+          "key": "B",
+          "text": "Triage nhanh: câu đơn giản đi chatbot path, câu phức tạp mới mở agent loop, có fallback"
+        },
+        {
+          "key": "C",
+          "text": "Luân phiên dùng chatbot và agent theo giờ"
+        },
+        {
+          "key": "D",
+          "text": "Dùng agent cho user trả phí, chatbot cho user miễn phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hybrid: User Query → Intent/Triage → nhánh simple đi Simple Chatbot, nhánh multi-step đi Agent Loop, có đường fallback. Thực dụng hơn chọn một phe.",
+      "tags": [
+        "day3",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "93-98",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lab 3 yêu cầu nộp những deliverable nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần code agent hoàn chỉnh"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot + agent + 5 test cases + 1 trace + 1 flowchart"
+        },
+        {
+          "key": "C",
+          "text": "Một bài thuyết trình 20 slide"
+        },
+        {
+          "key": "D",
+          "text": "Báo cáo nghiên cứu 10 trang"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Deliverable Lab 3: chatbot baseline + ReAct agent cho cùng use case, 5 test cases chạy trên cả hai, 1 trace Thought/Action/Observation, và 1 flowchart. Bonus: fallback path hoặc human escalation.",
+      "tags": [
+        "day3",
+        "lab"
+      ]
+    },
+    {
+      "id": "93-99",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Lab 3, phần nào nhóm BẮT BUỘC phải tự làm dù được dùng AI generate code?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Toàn bộ code từ đầu đến cuối"
+        },
+        {
+          "key": "B",
+          "text": "System prompt, tool description, và điều kiện dừng"
+        },
+        {
+          "key": "C",
+          "text": "Giao diện người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Tài liệu hướng dẫn sử dụng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cho phép dùng AI generate scaffolding code, nhưng nhóm phải tự sửa system prompt, tool description và điều kiện dừng — đó là phần tư duy cốt lõi.",
+      "tags": [
+        "day3",
+        "lab"
+      ]
+    },
+    {
+      "id": "93-100",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo key takeaway, trong production điều gì quan trọng không kém model quality?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giao diện đẹp và tốc độ tải trang"
+        },
+        {
+          "key": "B",
+          "text": "Guardrails, trace, và evaluation"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng tool được tích hợp"
+        },
+        {
+          "key": "D",
+          "text": "Kích thước context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Key takeaway cuối: trong production, guardrails (chặn agent đi hoang), trace (nhìn được quá trình), và evaluation quan trọng không kém chất lượng model.",
+      "tags": [
+        "day3",
+        "summary",
+        "production"
+      ]
+    }
+  ]
+}
