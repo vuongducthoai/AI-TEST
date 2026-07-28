@@ -1,0 +1,3184 @@
+{
+  "id": "exam-94",
+  "title": "AICB Ngày 4 — Prompt Engineering & Tool Calling",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P1 Ngày 4: Prompt Engineering & Tool Calling — Làm sao nói để AI hiểu đúng ý?' (VinUniversity, 78 slide). Nội dung: RTCF prompt fundamentals, temperature & sampling, zero/few-shot & CoT, system prompt production-grade, context engineering & Lost in the Middle, prompt safety & guardrails, tool calling flow, tool schema & description engineering, design principles cho tools, tool patterns và Lab 4.",
+  "durationMinutes": 75,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "94-01",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chủ đề chính của bài giảng AICB-P1 Ngày 4 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác định bài toán cho AI"
+        },
+        {
+          "key": "B",
+          "text": "Prompt Engineering & Tool Calling — làm sao nói để AI hiểu đúng ý"
+        },
+        {
+          "key": "C",
+          "text": "Kiến trúc Transformer"
+        },
+        {
+          "key": "D",
+          "text": "Deploy agent lên production"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ngày 4 tập trung vào hai interface: prompt (giữa human intent và model behavior) và tool calling (giữa model và thế giới bên ngoài).",
+      "tags": [
+        "day4",
+        "overview"
+      ]
+    },
+    {
+      "id": "94-02",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, prompt đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là cách tăng tốc độ suy luận của model"
+        },
+        {
+          "key": "B",
+          "text": "Là interface giữa human intent (ý định người dùng) và model behavior (hành vi model)"
+        },
+        {
+          "key": "C",
+          "text": "Là cách giảm chi phí token"
+        },
+        {
+          "key": "D",
+          "text": "Là tài liệu kỹ thuật cho developer"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mục tiêu buổi học: hiểu prompt là interface giữa ý định con người và hành vi model; tool calling là interface giữa model và thế giới bên ngoài.",
+      "tags": [
+        "day4",
+        "prompt",
+        "concept"
+      ]
+    },
+    {
+      "id": "94-03",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc vàng của prompt engineering theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Longer is better — prompt càng dài càng chi tiết"
+        },
+        {
+          "key": "B",
+          "text": "Specificity beats cleverness — prompt ngắn nhưng rõ nghĩa thường tốt hơn prompt dài lan man"
+        },
+        {
+          "key": "C",
+          "text": "Always use role-playing"
+        },
+        {
+          "key": "D",
+          "text": "Luôn dùng few-shot examples"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc vàng: Specificity beats cleverness. Prompt ngắn mà rõ task/context/constraint/format tốt hơn prompt dài mà mơ hồ.",
+      "tags": [
+        "day4",
+        "prompt",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-04",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn thành phần của một prompt tốt (RTCF) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Request, Type, Content, Feedback"
+        },
+        {
+          "key": "B",
+          "text": "Role, Task, Context, Format"
+        },
+        {
+          "key": "C",
+          "text": "Reason, Think, Check, Finalize"
+        },
+        {
+          "key": "D",
+          "text": "Read, Transform, Compute, Format"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RTCF = Role (vai trò), Task (nhiệm vụ), Context (bối cảnh), Format (định dạng đầu ra).",
+      "tags": [
+        "day4",
+        "rtcf"
+      ]
+    },
+    {
+      "id": "94-05",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, nên bắt đầu viết prompt với hai thành phần nào trước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Role + Context"
+        },
+        {
+          "key": "B",
+          "text": "Task + Format"
+        },
+        {
+          "key": "C",
+          "text": "Role + Task"
+        },
+        {
+          "key": "D",
+          "text": "Context + Format"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng khuyên: bắt đầu với Task + Format. Chỉ thêm Role hoặc Context khi chúng thực sự cải thiện chất lượng hoặc tính nhất quán.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "practice"
+      ]
+    },
+    {
+      "id": "94-06",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng RTCF Deep Dive, vì sao thành phần Role quan trọng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm câu trả lời dài hơn"
+        },
+        {
+          "key": "B",
+          "text": "Ảnh hưởng code style và library choices — ví dụ 'Senior Python dev, FastAPI expert' khác hẳn 'Developer'"
+        },
+        {
+          "key": "C",
+          "text": "Giảm chi phí token"
+        },
+        {
+          "key": "D",
+          "text": "Tăng tốc độ phản hồi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Role cụ thể ('Senior Python dev, FastAPI expert') định hình style code và lựa chọn thư viện, khác hẳn Role chung chung 'Developer'.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "role"
+      ]
+    },
+    {
+      "id": "94-07",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thiếu thành phần Context trong prompt gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Output quá ngắn"
+        },
+        {
+          "key": "B",
+          "text": "Model đoán sai stack/bối cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Model từ chối trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí tăng gấp đôi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ trong bảng: không nêu 'Codebase: FastAPI, Python 3.12, PostgreSQL' thì model sẽ đoán sai công nghệ đang dùng.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "context"
+      ]
+    },
+    {
+      "id": "94-08",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thiếu thành phần Format trong prompt gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model trả lời sai nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Model thêm giải thích không cần thiết"
+        },
+        {
+          "key": "C",
+          "text": "Model không hiểu câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Model gọi sai tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Không nêu 'Return only the function, no explanation' thì model tự thêm phần giải thích dư thừa — khó dùng trong pipeline tự động.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "format"
+      ]
+    },
+    {
+      "id": "94-09",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ iteration prompt v1→v2→v3, phiên bản v2 cải thiện được gì nhưng vẫn thiếu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rõ audience nhưng thiếu format"
+        },
+        {
+          "key": "B",
+          "text": "Rõ format (3 bullets, mỗi bullet dưới 20 từ) nhưng thiếu audience và focus"
+        },
+        {
+          "key": "C",
+          "text": "Rõ focus nhưng thiếu độ dài"
+        },
+        {
+          "key": "D",
+          "text": "Đã hoàn chỉnh, không thiếu gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "v2 'Tóm tắt trong 3 bullets, mỗi bullet dưới 20 từ' đã rõ format nhưng chưa nêu người đọc là ai và cần tập trung vào khía cạnh nào.",
+      "tags": [
+        "day4",
+        "iteration"
+      ]
+    },
+    {
+      "id": "94-10",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản v3 hoàn chỉnh trong ví dụ iteration bổ sung thêm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ thêm độ dài"
+        },
+        {
+          "key": "B",
+          "text": "Audience (Bạn là analyst... cho CTO), focus (Q2 revenue impact) và tone (data-driven)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ thêm số lượng bullet"
+        },
+        {
+          "key": "D",
+          "text": "Thêm ví dụ mẫu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "v3 = RTCF đầy đủ: role (analyst), audience (CTO), format (3 bullets <20 từ), focus (Q2 revenue impact), tone (data-driven).",
+      "tags": [
+        "day4",
+        "iteration",
+        "rtcf"
+      ]
+    },
+    {
+      "id": "94-11",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Prompt engineering được mô tả là quá trình như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Viết một lần là xong nếu đủ giỏi"
+        },
+        {
+          "key": "B",
+          "text": "Iterative process: viết → test → observe → improve; không ai viết prompt hoàn hảo lần đầu"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần copy template có sẵn"
+        },
+        {
+          "key": "D",
+          "text": "Tự động hóa hoàn toàn bằng công cụ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nhấn mạnh: prompt engineering là quá trình lặp — viết, test, quan sát, cải thiện. Không ai viết hoàn hảo ngay lần đầu.",
+      "tags": [
+        "day4",
+        "iteration"
+      ]
+    },
+    {
+      "id": "94-12",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Instruction prompt phù hợp với loại tác vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chatbot nhiều lượt"
+        },
+        {
+          "key": "B",
+          "text": "Hỏi đáp 1 lượt, transform, summarize, classify"
+        },
+        {
+          "key": "C",
+          "text": "Đặt policy cho agent production"
+        },
+        {
+          "key": "D",
+          "text": "Debug giảng nhiều bước"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Instruction prompt ra lệnh trực tiếp cho một tác vụ — phù hợp hỏi đáp 1 lượt, biến đổi, tóm tắt, phân loại.",
+      "tags": [
+        "day4",
+        "prompt-types"
+      ]
+    },
+    {
+      "id": "94-13",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "System prompt được dùng khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hỏi đáp 1 lượt đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Agent, assistant production, use case cần hành vi ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi cần tóm tắt văn bản"
+        },
+        {
+          "key": "D",
+          "text": "Khi muốn tiết kiệm token"
+        }
+      ],
+      "answer": "B",
+      "explanation": "System prompt đặt policy, boundary, output contract — dùng cho agent và assistant production nơi cần hành vi nhất quán, dự đoán được.",
+      "tags": [
+        "day4",
+        "prompt-types",
+        "system-prompt"
+      ]
+    },
+    {
+      "id": "94-14",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao negative prompting ('đừng làm X') kém hiệu quả nếu đứng một mình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model không hiểu từ phủ định"
+        },
+        {
+          "key": "B",
+          "text": "Vì model cần biết nên làm gì, không chỉ biết đừng làm gì — hiệu quả nhất khi kèm positive alternative"
+        },
+        {
+          "key": "C",
+          "text": "Vì tốn nhiều token hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì làm tăng temperature"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Negative prompt hiệu quả nhất khi kèm phương án thay thế: thay vì 'Đừng dùng jargon' → 'Giải thích bằng ngôn ngữ lớp 10 hiểu được'.",
+      "tags": [
+        "day4",
+        "negative-prompting"
+      ]
+    },
+    {
+      "id": "94-15",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cách viết tốt thay cho 'Đừng đoán' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Phải luôn chắc chắn 100%'"
+        },
+        {
+          "key": "B",
+          "text": "'Nếu không chắc, trả lời: Tôi cần thêm thông tin'"
+        },
+        {
+          "key": "C",
+          "text": "'Đừng bao giờ sai'"
+        },
+        {
+          "key": "D",
+          "text": "'Hãy suy nghĩ kỹ hơn'"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Negative prompt kèm positive alternative: chỉ rõ hành vi thay thế cụ thể mà model nên thực hiện khi rơi vào tình huống đó.",
+      "tags": [
+        "day4",
+        "negative-prompting"
+      ]
+    },
+    {
+      "id": "94-16",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quan điểm của bài giảng về độ dài prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt càng dài càng tốt vì nhiều thông tin"
+        },
+        {
+          "key": "B",
+          "text": "Prompt dài hơn không đồng nghĩa prompt tốt hơn — nếu prompt dài thêm nhưng không làm thay đổi hành vi mong muốn thì hãy cắt bớt"
+        },
+        {
+          "key": "C",
+          "text": "Prompt phải dưới 100 token"
+        },
+        {
+          "key": "D",
+          "text": "Độ dài không ảnh hưởng gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Rule thực dụng: mỗi token thừa làm tăng chi phí, latency, và đôi khi cả nhiễu. Nếu thêm mà không đổi hành vi → cắt.",
+      "tags": [
+        "day4",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "94-17",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Prompt engineering tốt là tối ưu điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài prompt"
+        },
+        {
+          "key": "B",
+          "text": "Độ rõ và khả năng kiểm soát, không phải thi xem ai viết prompt dài hơn"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng ví dụ mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng vai trò được gán"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng lưu ý: prompt engineering tốt là tối ưu độ rõ (clarity) và khả năng kiểm soát (controllability).",
+      "tags": [
+        "day4",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-18",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Quick Exercise viết prompt cho chatbot đăng ký môn học VinUni, cần xác định những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần Task"
+        },
+        {
+          "key": "B",
+          "text": "Role (chatbot là ai, expertise level), Task (nhiệm vụ cụ thể), Context (hệ thống nào, giới hạn gì), Format (output trông thế nào)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần chọn model phù hợp"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần đặt temperature"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài tập yêu cầu áp dụng đủ 4 thành phần RTCF cho tình huống cụ thể: chatbot hỗ trợ sinh viên đăng ký môn học.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "exercise"
+      ]
+    },
+    {
+      "id": "94-19",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature nào phù hợp cho classification và extraction?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7-1.0"
+        },
+        {
+          "key": "B",
+          "text": "0 — deterministic, reproducible"
+        },
+        {
+          "key": "C",
+          "text": "1.0-1.5"
+        },
+        {
+          "key": "D",
+          "text": "0.3-0.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Classification/extraction cần kết quả nhất quán và tái lập → temperature = 0 (deterministic).",
+      "tags": [
+        "day4",
+        "temperature"
+      ]
+    },
+    {
+      "id": "94-20",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature khuyến nghị cho chatbot/support là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "0.3-0.5 — nhất quán nhưng tự nhiên"
+        },
+        {
+          "key": "C",
+          "text": "0.7-1.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0-1.5"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot/support cần cân bằng: đủ nhất quán để tin cậy nhưng vẫn tự nhiên → 0.3-0.5.",
+      "tags": [
+        "day4",
+        "temperature"
+      ]
+    },
+    {
+      "id": "94-21",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature 1.0-1.5 phù hợp với tác vụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trích xuất dữ liệu có cấu trúc"
+        },
+        {
+          "key": "B",
+          "text": "Brainstorming — khám phá, chấp nhận noise"
+        },
+        {
+          "key": "C",
+          "text": "Phân loại ticket"
+        },
+        {
+          "key": "D",
+          "text": "Sinh JSON theo schema"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Brainstorming cần đa dạng tối đa nên chấp nhận temperature cao (1.0-1.5) và chấp nhận nhiễu.",
+      "tags": [
+        "day4",
+        "temperature"
+      ]
+    },
+    {
+      "id": "94-22",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lưu ý quan trọng về temperature theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temperature cao luôn cho kết quả sáng tạo hơn"
+        },
+        {
+          "key": "B",
+          "text": "Temperature không thay thế prompt tốt — nếu prompt mơ hồ, giảm temperature chỉ khiến model lặp lại cùng một output kém"
+        },
+        {
+          "key": "C",
+          "text": "Temperature chỉ ảnh hưởng tốc độ"
+        },
+        {
+          "key": "D",
+          "text": "Nên luôn để temperature = 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Temperature không sửa được prompt tồi: prompt mơ hồ + temp thấp = lặp lại cùng một output kém một cách ổn định.",
+      "tags": [
+        "day4",
+        "temperature",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-23",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "top_p (nucleus sampling) hoạt động thế nào và lưu ý gì khi dùng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn số token tối đa; nên dùng chung với temperature"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ xét các token có tổng xác suất ≤ p (thường 0.9-0.95); ĐỪNG tune cả temp và top_p cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Lặp lại p lần rồi lấy vote"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho model open-weight"
+        }
+      ],
+      "answer": "B",
+      "explanation": "top_p thường dùng 0.9-0.95. Bài giảng cảnh báo: đừng tune cả temperature và top_p cùng lúc vì khó xác định biến nào gây thay đổi.",
+      "tags": [
+        "day4",
+        "top-p"
+      ]
+    },
+    {
+      "id": "94-24",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự thử thực dụng khi chọn kỹ thuật prompting là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CoT → few-shot → zero-shot"
+        },
+        {
+          "key": "B",
+          "text": "zero-shot → few-shot → decomposition/CoT"
+        },
+        {
+          "key": "C",
+          "text": "few-shot → zero-shot → CoT"
+        },
+        {
+          "key": "D",
+          "text": "Luôn bắt đầu với Tree-of-Thought"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thứ tự thực dụng: zero-shot (nhanh, rẻ, nên thử trước) → few-shot → decomposition/CoT. Đừng nhảy vào prompt phức tạp ngay từ đầu.",
+      "tags": [
+        "day4",
+        "techniques",
+        "order"
+      ]
+    },
+    {
+      "id": "94-25",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Zero-shot prompting có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần 2-5 ví dụ mẫu"
+        },
+        {
+          "key": "B",
+          "text": "Không có ví dụ mẫu — nhanh, rẻ, nên thử trước"
+        },
+        {
+          "key": "C",
+          "text": "Cho model reasoning từng bước"
+        },
+        {
+          "key": "D",
+          "text": "Khám phá nhiều hướng song song"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Zero-shot không kèm ví dụ nào — nhanh và rẻ nhất, nên là lựa chọn thử đầu tiên trước khi tăng độ phức tạp.",
+      "tags": [
+        "day4",
+        "zero-shot"
+      ]
+    },
+    {
+      "id": "94-26",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Few-shot prompting nên dùng bao nhiêu ví dụ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 ví dụ"
+        },
+        {
+          "key": "B",
+          "text": "2-5 ví dụ"
+        },
+        {
+          "key": "C",
+          "text": "10-20 ví dụ"
+        },
+        {
+          "key": "D",
+          "text": "Càng nhiều càng tốt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Best practice: 2-5 examples là đủ. Trên 5 ví dụ cho diminishing returns, tốn token và chậm hơn.",
+      "tags": [
+        "day4",
+        "few-shot"
+      ]
+    },
+    {
+      "id": "94-27",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên dùng few-shot prompting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi model không hiểu task"
+        },
+        {
+          "key": "B",
+          "text": "Khi model hiểu task nhưng ra sai format hoặc không ổn định giữa các input tương tự"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần giảm chi phí token"
+        },
+        {
+          "key": "D",
+          "text": "Khi task quá đơn giản"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Few-shot dùng khi cần giữ format ổn định, hoặc giữ tiêu chuẩn đánh giá/tone/cách lập luận nhất quán giữa các input tương tự.",
+      "tags": [
+        "day4",
+        "few-shot"
+      ]
+    },
+    {
+      "id": "94-28",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản chất của few-shot prompting là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dạy lại model mọi thứ từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ ra pattern mà bạn muốn model bám theo"
+        },
+        {
+          "key": "C",
+          "text": "Fine-tune model trên dữ liệu mới"
+        },
+        {
+          "key": "D",
+          "text": "Tăng kích thước context window"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu rõ: few-shot không phải để 'dạy lại' model mọi thứ; nó là cách chỉ ra pattern mà bạn muốn model tuân theo.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "concept"
+      ]
+    },
+    {
+      "id": "94-29",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'ví dụ quá giống nhau' trong few-shot gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốn nhiều token"
+        },
+        {
+          "key": "B",
+          "text": "Model overfit pattern, không generalize sang input mới"
+        },
+        {
+          "key": "C",
+          "text": "Model từ chối trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Format bị lệch"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ quá đồng nhất khiến model học một pattern hẹp và không xử lý được input khác dạng. Cần ví dụ đa dạng, cover edge cases.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "94-30",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'ví dụ có lỗi' trong few-shot dẫn đến gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự phát hiện và sửa lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Model sẽ reproduce lỗi một cách trung thành"
+        },
+        {
+          "key": "C",
+          "text": "Model bỏ qua toàn bộ ví dụ"
+        },
+        {
+          "key": "D",
+          "text": "API trả về lỗi validation"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model học pattern từ ví dụ — nếu ví dụ sai, model sẽ tái tạo cái sai đó một cách nhất quán. Kiểm tra kỹ ví dụ mẫu là bắt buộc.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "94-31",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào Chain-of-Thought (CoT) phù hợp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi tác vụ, luôn nên dùng"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán cần reasoning nhiều bước; muốn model giải thích logic trung gian; cần debug xem model sai ở bước nào"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ khi cần tiết kiệm token"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cho tác vụ formatting"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CoT phù hợp cho bài toán suy luận nhiều bước, khi cần thấy logic trung gian, và khi cần debug xác định model sai ở bước nào.",
+      "tags": [
+        "day4",
+        "cot"
+      ]
+    },
+    {
+      "id": "94-32",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào CoT là overkill?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi bài toán cần suy luận phức tạp"
+        },
+        {
+          "key": "B",
+          "text": "Khi task vốn dĩ chỉ là formatting hoặc extraction đơn giản"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần giải thích logic"
+        },
+        {
+          "key": "D",
+          "text": "Khi cần debug model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "CoT là công cụ cải thiện reasoning, không phải phép màu. Với formatting/extraction đơn giản, CoT chỉ tốn token và latency.",
+      "tags": [
+        "day4",
+        "cot",
+        "overkill"
+      ]
+    },
+    {
+      "id": "94-33",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tree-of-Thought (ToT) nên được giới thiệu ở vị trí nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là mặc định cho mọi task"
+        },
+        {
+          "key": "B",
+          "text": "Như extension — hữu ích cho bài toán cần explore nhiều hướng, nhưng phức tạp hơn và tốn token/latency hơn"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hoàn toàn CoT"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ dùng cho classification"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ToT hữu ích khi cần khám phá nhiều hướng, nhưng phức tạp và tốn kém hơn CoT — chỉ nên coi là extension, không phải mặc định.",
+      "tags": [
+        "day4",
+        "tot"
+      ]
+    },
+    {
+      "id": "94-34",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cần Structured Output Prompting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để câu trả lời dài hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì LLM output mặc định là free-form text, khó parse programmatically; trong agent pipeline cần JSON/structured data"
+        },
+        {
+          "key": "C",
+          "text": "Để giảm chi phí API"
+        },
+        {
+          "key": "D",
+          "text": "Để tăng temperature"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong pipeline agent, output phải máy đọc được. Free-form text không parse được ổn định nên cần ép cấu trúc.",
+      "tags": [
+        "day4",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "94-35",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Các cách tiếp cận để có structured output theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ có JSON mode"
+        },
+        {
+          "key": "B",
+          "text": "JSON mode (API parameter), prompt-based ('Respond ONLY with valid JSON'), XML tags, và Prefill (bắt đầu assistant msg bằng '{')"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng regex parse sau"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có fine-tuning"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 cách: JSON mode của OpenAI, prompt-based, XML tags (<thinking>...</thinking>), và prefill của Anthropic (mở đầu assistant message bằng dấu {).",
+      "tags": [
+        "day4",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "94-36",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lưu ý quan trọng khi dùng structured output là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không cần kiểm tra gì thêm"
+        },
+        {
+          "key": "B",
+          "text": "Luôn validate JSON output — model có thể trả sai format, đặc biệt với schema phức tạp hoặc temperature cao"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ dùng được với GPT-4"
+        },
+        {
+          "key": "D",
+          "text": "Phải luôn để temperature = 2"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cảnh báo: luôn validate. Rủi ro sai format tăng khi schema phức tạp hoặc temperature cao.",
+      "tags": [
+        "day4",
+        "structured-output",
+        "validation"
+      ]
+    },
+    {
+      "id": "94-37",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mẹo giúp model bám format JSON tốt hơn là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng temperature lên 1.5"
+        },
+        {
+          "key": "B",
+          "text": "Đưa JSON schema ví dụ vào trong prompt"
+        },
+        {
+          "key": "C",
+          "text": "Yêu cầu model giải thích trước khi trả JSON"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhiều ví dụ few-shot nhất có thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đưa mẫu schema cụ thể vào prompt (VD: {\"intent\": \"...\", \"action\": \"...\"}) giúp model bám đúng cấu trúc mong muốn.",
+      "tags": [
+        "day4",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "94-38",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm thành phần của System Prompt production-grade là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Role, Task, Context, Format, Example"
+        },
+        {
+          "key": "B",
+          "text": "Persona, Rules, Capabilities, Constraints, Output format"
+        },
+        {
+          "key": "C",
+          "text": "Input, Process, Output, Error, Log"
+        },
+        {
+          "key": "D",
+          "text": "Identity, Memory, Tools, Safety, Version"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anatomy: Persona (role, expertise, style), Rules (việc nên/phải làm), Capabilities (tool và dữ liệu được phép dùng), Constraints (không làm gì, khi nào từ chối/escalate), Output format.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anatomy"
+      ]
+    },
+    {
+      "id": "94-39",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành phần 'Constraints' trong system prompt quy định gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tool nào được phép dùng"
+        },
+        {
+          "key": "B",
+          "text": "Không làm gì, khi nào từ chối, khi nào escalate"
+        },
+        {
+          "key": "C",
+          "text": "Định dạng JSON đầu ra"
+        },
+        {
+          "key": "D",
+          "text": "Phong cách giao tiếp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Constraints là ranh giới: hành vi bị cấm, điều kiện từ chối trả lời, và thời điểm phải chuyển cho con người.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "constraints"
+      ]
+    },
+    {
+      "id": "94-40",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành phần 'Capabilities' trong system prompt nêu điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trình độ chuyên môn của persona"
+        },
+        {
+          "key": "B",
+          "text": "Model được phép dùng tools nào, dữ liệu nào priority"
+        },
+        {
+          "key": "C",
+          "text": "Độ dài tối đa của câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Ngôn ngữ phản hồi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Capabilities khai báo phạm vi năng lực: tool nào được gọi và nguồn dữ liệu nào ưu tiên khi có xung đột.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "capabilities"
+      ]
+    },
+    {
+      "id": "94-41",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ iteration v1→v2, system prompt v1 gặp những vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá dài và mâu thuẫn"
+        },
+        {
+          "key": "B",
+          "text": "Model hallucinate order status, trả lời câu ngoài scope, output format không nhất quán"
+        },
+        {
+          "key": "C",
+          "text": "Không gọi được tool"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí token quá cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "v1 ('You are a support agent. Help customers with orders. Be polite.') quá mơ hồ → hallucinate trạng thái đơn, trả lời ngoài phạm vi, format không ổn định.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "94-42",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "System prompt v2 cải thiện bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ đơn giản làm dài hơn"
+        },
+        {
+          "key": "B",
+          "text": "Thêm clear boundaries (NEVER invent order status), refusal pattern rõ ràng, và output contract (JSON {intent, action, reply})"
+        },
+        {
+          "key": "C",
+          "text": "Thêm nhiều ví dụ few-shot"
+        },
+        {
+          "key": "D",
+          "text": "Giảm temperature xuống 0"
+        }
+      ],
+      "answer": "B",
+      "explanation": "v2 bổ sung: rules cụ thể, constraint cấm bịa trạng thái đơn, câu từ chối chuẩn khi ngoài scope, và hợp đồng output JSON rõ ràng.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "94-43",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy trình iterate system prompt theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Viết một lần rồi deploy"
+        },
+        {
+          "key": "B",
+          "text": "Viết → test 10 câu → fix → test lại"
+        },
+        {
+          "key": "C",
+          "text": "Sao chép template rồi dùng luôn"
+        },
+        {
+          "key": "D",
+          "text": "Nhờ AI viết rồi không cần kiểm tra"
+        }
+      ],
+      "answer": "B",
+      "explanation": "System prompt cần iterate dựa trên kết quả test: viết, chạy 10 câu test, sửa dựa trên lỗi phát hiện, rồi test lại.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "94-44",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khác biệt về syntax giữa Anthropic Claude và OpenAI GPT khi đặt system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Concept hoàn toàn khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Concept giống nhau, chỉ khác syntax: Claude dùng tham số system= riêng; GPT đặt system trong messages array"
+        },
+        {
+          "key": "C",
+          "text": "Claude không hỗ trợ system prompt"
+        },
+        {
+          "key": "D",
+          "text": "GPT không hỗ trợ tools"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Claude: client.messages.create(system=\"...\", messages=[...]). GPT: system nằm trong messages array với role='system'. Concept giống nhau.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "api"
+      ]
+    },
+    {
+      "id": "94-45",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anthropic Claude hỗ trợ đặc điểm nào giúp cấu trúc system prompt rõ hơn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ hỗ trợ plain text"
+        },
+        {
+          "key": "B",
+          "text": "Hỗ trợ XML tags như <rules>, <constraints> trong system prompt"
+        },
+        {
+          "key": "C",
+          "text": "Tự động sinh system prompt"
+        },
+        {
+          "key": "D",
+          "text": "Nén system prompt tự động"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Claude hỗ trợ XML tags (<rules>, <constraints>) giúp cấu trúc system prompt dài rõ ràng hơn; GPT thường dùng markdown/XML sections.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "claude"
+      ]
+    },
+    {
+      "id": "94-46",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Mâu thuẫn' trong system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt quá ngắn"
+        },
+        {
+          "key": "B",
+          "text": "Vừa bảo 'ngắn gọn', vừa bắt 'giải thích chi tiết từng bước'"
+        },
+        {
+          "key": "C",
+          "text": "Không có ví dụ mẫu"
+        },
+        {
+          "key": "D",
+          "text": "Dùng quá nhiều tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mâu thuẫn nội tại khiến model không biết ưu tiên gì — kết quả trở nên không dự đoán được.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "94-47",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Mơ hồ' trong system prompt biểu hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt viết bằng nhiều ngôn ngữ"
+        },
+        {
+          "key": "B",
+          "text": "Dùng từ như 'hãy thông minh', 'hãy chuyên nghiệp' nhưng không định nghĩa chuẩn output"
+        },
+        {
+          "key": "C",
+          "text": "Prompt vượt quá 2000 token"
+        },
+        {
+          "key": "D",
+          "text": "Không khai báo tool"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tính từ trừu tượng không tạo ra hành vi cụ thể. Phải định nghĩa chuẩn đầu ra đo được thay vì mô tả cảm tính.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "94-48",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Quá dài' của system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trên 200 token"
+        },
+        {
+          "key": "B",
+          "text": "Nhồi mọi thứ vào 1 prompt 2000+ tokens rồi hy vọng model luôn làm đúng"
+        },
+        {
+          "key": "C",
+          "text": "Có nhiều hơn 3 rules"
+        },
+        {
+          "key": "D",
+          "text": "Dùng cả markdown và XML"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhồi nhét mọi tình huống vào một prompt khổng lồ làm model khó ưu tiên, chậm hơn và khó bảo trì.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "94-49",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi về vai trò của system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System prompt là nơi chứa dữ liệu người dùng"
+        },
+        {
+          "key": "B",
+          "text": "System prompt là policy layer — càng rõ boundary, càng dễ predict hành vi"
+        },
+        {
+          "key": "C",
+          "text": "System prompt chỉ để đặt persona"
+        },
+        {
+          "key": "D",
+          "text": "System prompt nên thay đổi mỗi request"
+        }
+      ],
+      "answer": "B",
+      "explanation": "System prompt đóng vai trò policy layer của hệ thống. Boundary càng rõ thì hành vi càng dự đoán được.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-50",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu mục trong System Prompt Testing Checklist là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Speed, Cost, Accuracy, Safety, Scale, UX"
+        },
+        {
+          "key": "B",
+          "text": "Happy path, Edge case, Out of scope, Adversarial, Tool decision, Format consistency"
+        },
+        {
+          "key": "C",
+          "text": "Unit, Integration, E2E, Load, Stress, Security"
+        },
+        {
+          "key": "D",
+          "text": "Input, Output, Error, Log, Metric, Alert"
+        }
+      ],
+      "answer": "B",
+      "explanation": "6 mục: happy path (đúng format?), edge case (hỏi lại hay đoán bừa?), out of scope (từ chối đúng cách?), adversarial (prompt injection?), tool decision (khi nào gọi tool?), format consistency (10 câu có nhất quán?).",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "testing"
+      ]
+    },
+    {
+      "id": "94-51",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Real-world System Prompt Template gồm những section nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "## Input, ## Output, ## Error"
+        },
+        {
+          "key": "B",
+          "text": "## Identity, ## Rules, ## Tools, ## Output Format, ## Escalation"
+        },
+        {
+          "key": "C",
+          "text": "## Prompt, ## Model, ## Temperature"
+        },
+        {
+          "key": "D",
+          "text": "## Role, ## Task"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Template gồm: Identity (bạn là ai cho công ty nào), Rules, Tools (tool nào dùng khi nào và KHÔNG dùng khi nào), Output Format, và Escalation (khi nào chuyển cho nhân viên).",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "template"
+      ]
+    },
+    {
+      "id": "94-52",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context window được phân bổ cho những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ user input và output"
+        },
+        {
+          "key": "B",
+          "text": "System prompt (policy), History (recent/relevant), Current input (task), Tools (schemas), Output buffer"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ system prompt và tool"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ history hội thoại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "5 phần: system prompt, history, current input, tool schemas, và output buffer. Cần phân bổ chủ động để không hết chỗ cho output.",
+      "tags": [
+        "day4",
+        "context",
+        "allocation"
+      ]
+    },
+    {
+      "id": "94-53",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi không quản lý token budget chủ động là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model trả lời sai ngôn ngữ"
+        },
+        {
+          "key": "B",
+          "text": "Đừng để history, tools, và examples ăn hết chỗ dành cho output"
+        },
+        {
+          "key": "C",
+          "text": "Tool không gọi được"
+        },
+        {
+          "key": "D",
+          "text": "Temperature bị reset"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nếu history/tools/examples chiếm hết context, output buffer không đủ → câu trả lời bị cắt cụt giữa chừng.",
+      "tags": [
+        "day4",
+        "context",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "94-54",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vấn đề 'Lost in the Middle' (Liu et al. 2023) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model quên system prompt"
+        },
+        {
+          "key": "B",
+          "text": "Thông tin nằm ở giữa context dài dễ bị 'quên' — model chú ý tốt nhất ở đầu và cuối"
+        },
+        {
+          "key": "C",
+          "text": "Model không đọc được tool schema"
+        },
+        {
+          "key": "D",
+          "text": "Context bị nén tự động"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nghiên cứu Liu et al. 2023: hiệu suất truy xuất thông tin giảm mạnh khi thông tin nằm ở giữa context dài.",
+      "tags": [
+        "day4",
+        "context",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "94-55",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hệ quả thực tiễn của 'Lost in the Middle' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nên dùng context window nhỏ nhất có thể"
+        },
+        {
+          "key": "B",
+          "text": "Đặt instructions quan trọng ở đầu hoặc cuối; break long lists bằng headers/separators; recent context đặt ngay trước user query"
+        },
+        {
+          "key": "C",
+          "text": "Nên lặp lại mọi thông tin 3 lần"
+        },
+        {
+          "key": "D",
+          "text": "Nên tắt hoàn toàn history"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 hệ quả: đặt instruction quan trọng ở đầu/cuối, tránh chôn thông tin ở giữa, chia list dài bằng header/separator, và đặt context gần nhất ngay trước câu hỏi.",
+      "tags": [
+        "day4",
+        "context",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "94-56",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Memory injection nên tuân theo nguyên tắc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dump toàn bộ transcript vào context"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ đưa vào facts thật sự cần cho task hiện tại; ưu tiên recent hoặc relevant history"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ giữ tin nhắn đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Luôn nén toàn bộ về 1 câu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Memory injection chọn lọc: chỉ đưa facts cần cho task hiện tại, ưu tiên history gần nhất hoặc liên quan nhất, không dump toàn bộ transcript.",
+      "tags": [
+        "day4",
+        "context",
+        "memory"
+      ]
+    },
+    {
+      "id": "94-57",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba chiến lược Context Compression là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cache, Index, Query"
+        },
+        {
+          "key": "B",
+          "text": "Summarize (tóm tắt phần cũ), Drop (bỏ hẳn phần không còn liên quan), Archive (đẩy ra ngoài context, chỉ fetch lại khi cần)"
+        },
+        {
+          "key": "C",
+          "text": "Encrypt, Compress, Store"
+        },
+        {
+          "key": "D",
+          "text": "Split, Merge, Rank"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 chiến lược nén context: Summarize, Drop, và Archive (lưu ngoài rồi truy xuất lại khi cần).",
+      "tags": [
+        "day4",
+        "context",
+        "compression"
+      ]
+    },
+    {
+      "id": "94-58",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản chất của context engineering là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhét càng nhiều thông tin càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán chọn lọc và ưu tiên — nếu mọi thứ đều quan trọng thì hóa ra không có gì thực sự nổi bật với model"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước context window"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu để tiết kiệm chi phí"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điều quan trọng không phải nhét bao nhiêu context, mà là chọn đúng context cần thiết. Nếu mọi thứ đều quan trọng thì không gì nổi bật.",
+      "tags": [
+        "day4",
+        "context",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-59",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi tool schemas chiếm quá nhiều token là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tool không thực thi được"
+        },
+        {
+          "key": "B",
+          "text": "Model chọn tool tệ nếu schema dài hoặc mơ hồ"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí giảm xuống"
+        },
+        {
+          "key": "D",
+          "text": "Output nhanh hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng token budget: tool schemas quá dài/mơ hồ làm model khó phân biệt và chọn sai tool.",
+      "tags": [
+        "day4",
+        "context",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "94-60",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi history chiếm quá nhiều context là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model quên system prompt hoàn toàn"
+        },
+        {
+          "key": "B",
+          "text": "Dễ nhiễu, dễ rơi vào lost in the middle"
+        },
+        {
+          "key": "C",
+          "text": "Tool schema bị xóa"
+        },
+        {
+          "key": "D",
+          "text": "Temperature tự tăng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "History quá dài tạo nhiễu và đẩy thông tin quan trọng vào vùng giữa context — nơi model dễ bỏ sót.",
+      "tags": [
+        "day4",
+        "context",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "94-61",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RAG Context Pattern hoạt động theo luồng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự truy cập database"
+        },
+        {
+          "key": "B",
+          "text": "User Query → Retrieve (search DB) → Inject vào context → Model"
+        },
+        {
+          "key": "C",
+          "text": "Model nén toàn bộ KB vào weights"
+        },
+        {
+          "key": "D",
+          "text": "Tool tự động push dữ liệu vào model"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RAG: nhận query → tìm kiếm trong knowledge base → inject đoạn liên quan vào context → model trả lời dựa trên đó.",
+      "tags": [
+        "day4",
+        "rag"
+      ]
+    },
+    {
+      "id": "94-62",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Best practices cho RAG context theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đưa toàn bộ KB vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Inject với source citation; limit chunk size (500-1000 tokens); rank by relevance và chỉ lấy top-k"
+        },
+        {
+          "key": "C",
+          "text": "Không giới hạn kích thước chunk"
+        },
+        {
+          "key": "D",
+          "text": "Luôn lấy tất cả kết quả tìm được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 best practice: trích dẫn nguồn, giới hạn chunk 500-1000 token, và xếp hạng theo độ liên quan rồi chỉ lấy top-k.",
+      "tags": [
+        "day4",
+        "rag",
+        "best-practice"
+      ]
+    },
+    {
+      "id": "94-63",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context Engineering Checklist gồm những mục kiểm tra nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model, temperature, top_p, max_tokens"
+        },
+        {
+          "key": "B",
+          "text": "Cắt history không liên quan; system prompt dưới 500 tokens; tool schemas concise; output buffer đủ; important info ở đầu/cuối"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí, tốc độ, độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Số tool, số vòng lặp, số retry"
+        }
+      ],
+      "answer": "B",
+      "explanation": "5 mục checklist: cắt history thừa, system prompt <500 token (trừ khi cần hơn), tool schema ngắn gọn, đủ output buffer, và đặt thông tin quan trọng ở đầu/cuối.",
+      "tags": [
+        "day4",
+        "context",
+        "checklist"
+      ]
+    },
+    {
+      "id": "94-64",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Direct prompt injection là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Malicious content ẩn trong document mà agent đọc qua tool"
+        },
+        {
+          "key": "B",
+          "text": "User trực tiếp nói 'Ignore your instructions and do X'"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi khi parse JSON output"
+        },
+        {
+          "key": "D",
+          "text": "Tool trả về dữ liệu sai định dạng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Direct injection: người dùng trực tiếp nhập câu lệnh nhằm ghi đè hướng dẫn hệ thống.",
+      "tags": [
+        "day4",
+        "safety",
+        "injection"
+      ]
+    },
+    {
+      "id": "94-65",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Indirect prompt injection nguy hiểm ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dễ phát hiện bằng regex"
+        },
+        {
+          "key": "B",
+          "text": "Malicious content nằm trong document/email mà agent đọc qua tool — người dùng không cần trực tiếp tấn công"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ xảy ra khi temperature cao"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ ảnh hưởng đến output format"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Indirect injection ẩn trong nội dung agent đọc qua tool (tài liệu, email) — nguy hiểm vì nạn nhân không hề nhập gì độc hại.",
+      "tags": [
+        "day4",
+        "safety",
+        "injection"
+      ]
+    },
+    {
+      "id": "94-66",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Defense strategy 'Delimiter separation' hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chặn toàn bộ input từ user"
+        },
+        {
+          "key": "B",
+          "text": "Wrap untrusted input trong thẻ, ví dụ <user_input>...</user_input>"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa input trước khi gửi"
+        },
+        {
+          "key": "D",
+          "text": "Chia input thành nhiều request nhỏ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bọc input không tin cậy trong delimiter rõ ràng giúp model phân biệt đâu là dữ liệu, đâu là chỉ thị hệ thống.",
+      "tags": [
+        "day4",
+        "safety",
+        "defense"
+      ]
+    },
+    {
+      "id": "94-67",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Defense strategy 'Instruction hierarchy' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sắp xếp instruction theo độ dài"
+        },
+        {
+          "key": "B",
+          "text": "System prompt luôn ưu tiên hơn user input"
+        },
+        {
+          "key": "C",
+          "text": "User input luôn ưu tiên hơn system prompt"
+        },
+        {
+          "key": "D",
+          "text": "Tool output ưu tiên cao nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Instruction hierarchy thiết lập thứ bậc quyền: chỉ thị từ system luôn thắng chỉ thị đến từ nội dung người dùng.",
+      "tags": [
+        "day4",
+        "safety",
+        "defense"
+      ]
+    },
+    {
+      "id": "94-68",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Defense strategy 'Least privilege' áp dụng cho tool nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho agent quyền truy cập mọi tool để linh hoạt"
+        },
+        {
+          "key": "B",
+          "text": "Tool permissions tối thiểu cần thiết"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cho agent dùng 1 tool duy nhất"
+        },
+        {
+          "key": "D",
+          "text": "Không cho agent dùng tool nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Least privilege: chỉ cấp cho agent đúng quyền tối thiểu cần cho nhiệm vụ — giới hạn thiệt hại khi bị chiếm quyền.",
+      "tags": [
+        "day4",
+        "safety",
+        "least-privilege"
+      ]
+    },
+    {
+      "id": "94-69",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu defense strategy chống prompt injection theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encrypt, Hash, Sign, Verify, Log, Alert"
+        },
+        {
+          "key": "B",
+          "text": "Delimiter separation, Instruction hierarchy, Input validation, Output validation, Least privilege, Human-in-the-loop"
+        },
+        {
+          "key": "C",
+          "text": "Cache, Retry, Timeout, Fallback, Rollback, Restart"
+        },
+        {
+          "key": "D",
+          "text": "Test, Deploy, Monitor, Patch, Update, Audit"
+        }
+      ],
+      "answer": "B",
+      "explanation": "6 defense: tách delimiter, thứ bậc chỉ thị, validate input, validate output trước khi execute, quyền tối thiểu, và yêu cầu con người xác nhận với hành động nhạy cảm.",
+      "tags": [
+        "day4",
+        "safety",
+        "defense"
+      ]
+    },
+    {
+      "id": "94-70",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quan điểm của bài giảng về hiệu quả của các defense strategy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần một defense mạnh là đủ"
+        },
+        {
+          "key": "B",
+          "text": "Không có defense nào hoàn hảo 100% — cần defense-in-depth, kết hợp nhiều layers"
+        },
+        {
+          "key": "C",
+          "text": "Không thể phòng thủ được prompt injection"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần dùng model mới nhất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng cảnh báo rõ: không có lớp phòng thủ nào tuyệt đối; phải kết hợp nhiều lớp (defense-in-depth).",
+      "tags": [
+        "day4",
+        "safety",
+        "principle"
+      ]
+    },
+    {
+      "id": "94-71",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba dimension trong Prompt Evaluation Framework là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Speed, Cost, Scale"
+        },
+        {
+          "key": "B",
+          "text": "Correctness, Consistency, Safety"
+        },
+        {
+          "key": "C",
+          "text": "Input, Output, Error"
+        },
+        {
+          "key": "D",
+          "text": "Precision, Recall, F1"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 dimension: Correctness (output có đúng không — test cases + human review), Consistency (10 lần chạy có cùng kết quả — đo % match), Safety (có bị bypass không — adversarial test cases).",
+      "tags": [
+        "day4",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "94-72",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ngưỡng pass được khuyến nghị khi chạy test cases cho prompt là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "50%"
+        },
+        {
+          "key": "B",
+          "text": "70%"
+        },
+        {
+          "key": "C",
+          "text": "Chạy 10-20 test cases; nếu dưới 90% pass thì cần iterate prompt"
+        },
+        {
+          "key": "D",
+          "text": "100% mới chấp nhận"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bài giảng đưa heuristic: chạy 10-20 test case, dưới 90% pass là dấu hiệu prompt cần cải thiện.",
+      "tags": [
+        "day4",
+        "evaluation",
+        "threshold"
+      ]
+    },
+    {
+      "id": "94-73",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A/B testing prompt được thực hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho 2 nhóm người dùng khác nhau dùng thử"
+        },
+        {
+          "key": "B",
+          "text": "So sánh prompt v1 vs v2 trên cùng test set"
+        },
+        {
+          "key": "C",
+          "text": "Chạy 2 model khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Đổi temperature giữa 2 lần chạy"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A/B test prompt: giữ nguyên test set, chỉ đổi phiên bản prompt để so sánh công bằng.",
+      "tags": [
+        "day4",
+        "evaluation",
+        "ab-test"
+      ]
+    },
+    {
+      "id": "94-74",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Guardrails Pattern gồm hai lớp nào và mỗi lớp làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input layer và Database layer"
+        },
+        {
+          "key": "B",
+          "text": "Pre-guard (validate input: detect injection, validate format, rate limiting) và Post-guard (validate output: mask PII, validate JSON schema, block dangerous tool calls)"
+        },
+        {
+          "key": "C",
+          "text": "Frontend guard và Backend guard"
+        },
+        {
+          "key": "D",
+          "text": "Model guard và Human guard"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Pre-guard chặn ở đầu vào: phát hiện injection, kiểm tra format, giới hạn tần suất. Post-guard chặn ở đầu ra: che PII, kiểm tra schema, chặn tool call nguy hiểm.",
+      "tags": [
+        "day4",
+        "safety",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "94-75",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Calling Flow gồm những bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự chạy code rồi trả kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Model decides → App executes tool → Model uses response"
+        },
+        {
+          "key": "C",
+          "text": "User gọi tool trực tiếp, model chỉ xem kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Tool tự quyết định khi nào được gọi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model quyết định gọi tool nào → ứng dụng của bạn thực thi tool → kết quả gửi lại model để tổng hợp câu trả lời.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "flow"
+      ]
+    },
+    {
+      "id": "94-76",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hiểu lầm phổ biến nào về tool calling được bài giảng đính chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự chạy code hay tự gọi API ngoài"
+        },
+        {
+          "key": "B",
+          "text": "Model KHÔNG tự chạy code hay tự gọi API — ứng dụng của bạn nhận tool request, chạy tool, rồi gửi kết quả trở lại model"
+        },
+        {
+          "key": "C",
+          "text": "Tool calling chỉ hoạt động với GPT"
+        },
+        {
+          "key": "D",
+          "text": "Tool phải viết bằng Python"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là hiểu lầm quan trọng nhất: model chỉ SINH RA yêu cầu gọi tool; việc thực thi hoàn toàn nằm ở phía ứng dụng.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "misconception"
+      ]
+    },
+    {
+      "id": "94-77",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong phân vai tool calling, Developer chịu trách nhiệm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyết định gọi tool nào"
+        },
+        {
+          "key": "B",
+          "text": "Định nghĩa tool schema, viết implementation, handle errors"
+        },
+        {
+          "key": "C",
+          "text": "Tổng hợp kết quả thành câu trả lời tự nhiên"
+        },
+        {
+          "key": "D",
+          "text": "Chọn arguments cho mỗi lần gọi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Developer khai báo schema, viết code thực thi tool, và xử lý lỗi. LLM quyết định gọi gì; Application thực thi.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "roles"
+      ]
+    },
+    {
+      "id": "94-78",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM đóng vai trò gì trong vòng lặp tool calling?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thực thi tool và trả kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Quyết định tool nào, arguments gì dựa trên user intent; và ở lượt 2 synthesize tool result thành câu trả lời tự nhiên"
+        },
+        {
+          "key": "C",
+          "text": "Viết implementation cho tool"
+        },
+        {
+          "key": "D",
+          "text": "Quản lý timeout và retry"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM xuất hiện 2 lần: lần 1 quyết định gọi tool nào với tham số gì; lần 2 biến kết quả thô của tool thành câu trả lời tự nhiên.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "roles"
+      ]
+    },
+    {
+      "id": "94-79",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Schema gồm những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần name và code"
+        },
+        {
+          "key": "B",
+          "text": "Name (ngắn, rõ, động từ đúng việc), Description (nói khi nào nên dùng), Parameters (JSON Schema), Required fields"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần description"
+        },
+        {
+          "key": "D",
+          "text": "Name, version, author, license"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 thành phần: name dạng động từ, description nêu khi nào dùng, parameters mô tả bằng JSON Schema, và required fields để model biết thiếu gì thì chưa gọi được.",
+      "tags": [
+        "day4",
+        "tool-schema"
+      ]
+    },
+    {
+      "id": "94-80",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao tool description cực kỳ quan trọng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó hiển thị cho người dùng cuối"
+        },
+        {
+          "key": "B",
+          "text": "Vì LLM đọc description như tài liệu hướng dẫn — description mơ hồ sẽ khiến model chọn sai tool hoặc truyền sai arguments"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó ảnh hưởng tốc độ thực thi tool"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó quyết định giá API"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Description chính là documentation dành cho model. Mơ hồ ở đây kéo theo sai lầm ở tầng quyết định — không sửa được bằng code.",
+      "tags": [
+        "day4",
+        "tool-schema",
+        "description"
+      ]
+    },
+    {
+      "id": "94-81",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một tool description TỐT nên chứa những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần một câu ngắn nhất có thể"
+        },
+        {
+          "key": "B",
+          "text": "(1) chức năng, (2) khi nào dùng, (3) khi nào KHÔNG dùng"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ mã nguồn của tool"
+        },
+        {
+          "key": "D",
+          "text": "Danh sách mọi trường hợp lỗi có thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ tốt: 'Get current weather for a city. Use when user asks about weather, temperature, or conditions.' — rõ chức năng + điều kiện kích hoạt.",
+      "tags": [
+        "day4",
+        "tool-schema",
+        "description"
+      ]
+    },
+    {
+      "id": "94-82",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao description 'Gets weather' bị coi là kém?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sai ngữ pháp tiếng Anh"
+        },
+        {
+          "key": "B",
+          "text": "Quá ngắn — model không biết khi nào nên dùng"
+        },
+        {
+          "key": "C",
+          "text": "Quá dài gây nhiễu"
+        },
+        {
+          "key": "D",
+          "text": "Không nêu tên tác giả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Description quá ngắn thiếu trigger condition → model không xác định được ranh giới, dễ gọi tool sai lúc hoặc bỏ sót.",
+      "tags": [
+        "day4",
+        "tool-schema",
+        "description"
+      ]
+    },
+    {
+      "id": "94-83",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ Tool Description Engineering, description 'Search orders' gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model không bao giờ gọi tool"
+        },
+        {
+          "key": "B",
+          "text": "Model gọi cho MỌI câu hỏi liên quan đến order, kể cả 'đơn hàng là gì?'"
+        },
+        {
+          "key": "C",
+          "text": "Model báo lỗi schema"
+        },
+        {
+          "key": "D",
+          "text": "Model gọi tool 2 lần liên tiếp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Description quá rộng khiến model gọi tool ngay cả với câu hỏi khái niệm. Bản tốt hơn nêu rõ: 'Use ONLY when user provides an order number or asks about specific order status.'",
+      "tags": [
+        "day4",
+        "tool-schema",
+        "description"
+      ]
+    },
+    {
+      "id": "94-84",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tham số tool_choice với giá trị 'auto' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt buộc gọi ít nhất 1 tool"
+        },
+        {
+          "key": "B",
+          "text": "Model tự quyết gọi hay không — mặc định, phù hợp hầu hết use cases"
+        },
+        {
+          "key": "C",
+          "text": "Cấm gọi tool"
+        },
+        {
+          "key": "D",
+          "text": "Buộc gọi một tool cụ thể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "auto là giá trị mặc định: model tự đánh giá có cần tool hay trả lời trực tiếp.",
+      "tags": [
+        "day4",
+        "tool-choice"
+      ]
+    },
+    {
+      "id": "94-85",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào dùng tool_choice = 'required' (hoặc 'any')?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi test hoặc fallback mode"
+        },
+        {
+          "key": "B",
+          "text": "Pipeline steps, routing — khi buộc phải gọi ít nhất 1 tool"
+        },
+        {
+          "key": "C",
+          "text": "Khi muốn model chỉ trả text"
+        },
+        {
+          "key": "D",
+          "text": "Khi biết chắc cần tool cụ thể nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "required/any dùng cho pipeline hoặc routing. Nhưng cần cẩn thận: model có thể gọi tool với arguments bịa nếu user không cung cấp đủ thông tin.",
+      "tags": [
+        "day4",
+        "tool-choice"
+      ]
+    },
+    {
+      "id": "94-86",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi dùng tool_choice = 'required' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model sẽ bỏ qua system prompt"
+        },
+        {
+          "key": "B",
+          "text": "Model có thể gọi tool với arguments bịa nếu user không cung cấp đủ thông tin"
+        },
+        {
+          "key": "C",
+          "text": "API sẽ trả lỗi 400"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí tăng gấp 10 lần"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ép buộc gọi tool khi thiếu dữ liệu đầu vào dẫn đến model tự bịa tham số — nguồn lỗi khó phát hiện.",
+      "tags": [
+        "day4",
+        "tool-choice",
+        "risk"
+      ]
+    },
+    {
+      "id": "94-87",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khác biệt syntax tool calling giữa OpenAI và Anthropic là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hoàn toàn khác về concept"
+        },
+        {
+          "key": "B",
+          "text": "Concept giống nhau; khác ở: OpenAI dùng 'parameters' và message.tool_calls[0].function, Anthropic dùng 'input_schema' và content[i].type=='tool_use' với .name/.input"
+        },
+        {
+          "key": "C",
+          "text": "Anthropic không hỗ trợ tool calling"
+        },
+        {
+          "key": "D",
+          "text": "OpenAI không hỗ trợ JSON Schema"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Concept giống nhau, khác tên field: parameters vs input_schema, và cấu trúc response khác nhau.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "api"
+      ]
+    },
+    {
+      "id": "94-88",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cách xử lý lỗi 'Error response' từ tool theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ qua và tiếp tục vòng lặp"
+        },
+        {
+          "key": "B",
+          "text": "Truyền error message cho model để nó thông báo user"
+        },
+        {
+          "key": "C",
+          "text": "Crash chương trình để dev biết"
+        },
+        {
+          "key": "D",
+          "text": "Retry vô hạn cho đến khi thành công"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi tool trả lỗi, đưa thông báo lỗi vào cho model để model giải thích cho người dùng thay vì im lặng hoặc crash.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "error"
+      ]
+    },
+    {
+      "id": "94-89",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'Single Responsibility' cho tool nghĩa là gì và vi phạm thì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi tool phải có 1 tham số; vi phạm thì tốn token"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi tool làm 1 việc rõ ràng; vi phạm thì model khó quyết định nên gọi tool nào"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi agent chỉ có 1 tool; vi phạm thì loop"
+        },
+        {
+          "key": "D",
+          "text": "Mỗi tool chỉ gọi 1 API; vi phạm thì chậm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool ôm đồm nhiều việc làm ranh giới giữa các tool mờ đi → model bối rối khi chọn.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "srp"
+      ]
+    },
+    {
+      "id": "94-90",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'Idempotency' cho tool nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tool phải chạy nhanh dưới 1 giây"
+        },
+        {
+          "key": "B",
+          "text": "Cùng input cho cùng kết quả; side effect được kiểm soát — vi phạm thì retry dễ sinh lỗi phụ"
+        },
+        {
+          "key": "C",
+          "text": "Tool phải trả JSON"
+        },
+        {
+          "key": "D",
+          "text": "Tool không được gọi API bên ngoài"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Idempotency quan trọng vì agent thường retry. Nếu tool không idempotent, retry có thể tạo bản ghi trùng hoặc gửi email 2 lần.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "idempotency"
+      ]
+    },
+    {
+      "id": "94-91",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hậu quả khi tool có granularity QUÁ NHỎ (VD: get_customer_name, get_customer_email, get_customer_phone) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model không hiểu boundary"
+        },
+        {
+          "key": "B",
+          "text": "Quá nhiều calls, overhead lớn, flow rối"
+        },
+        {
+          "key": "C",
+          "text": "Khó reuse tool"
+        },
+        {
+          "key": "D",
+          "text": "Không test độc lập được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool quá vụn khiến agent phải gọi rất nhiều lần cho một nghiệp vụ đơn giản — tốn latency và làm control flow rối.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "granularity"
+      ]
+    },
+    {
+      "id": "94-92",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hậu quả khi tool có granularity QUÁ TO (VD: handle_all_customer_operations) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá nhiều calls và overhead lớn"
+        },
+        {
+          "key": "B",
+          "text": "Model không hiểu boundary, khó debug, khó reuse"
+        },
+        {
+          "key": "C",
+          "text": "Retry sinh lỗi phụ"
+        },
+        {
+          "key": "D",
+          "text": "Tool description quá ngắn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool ôm quá nhiều việc làm model không biết khi nào nên gọi, và khi lỗi thì rất khó xác định phần nào hỏng.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "granularity"
+      ]
+    },
+    {
+      "id": "94-93",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool nên được thiết kế quanh cái gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quanh mỗi endpoint API có sẵn"
+        },
+        {
+          "key": "B",
+          "text": "Quanh một hành động nghiệp vụ rõ ràng — ví dụ lookup_order, get_weather, query_sales_data, send_email_draft"
+        },
+        {
+          "key": "C",
+          "text": "Quanh mỗi bảng trong database"
+        },
+        {
+          "key": "D",
+          "text": "Quanh mỗi màn hình giao diện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đơn vị thiết kế đúng là hành động nghiệp vụ có nghĩa với người dùng, không phải chi tiết kỹ thuật bên dưới.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "granularity"
+      ]
+    },
+    {
+      "id": "94-94",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật 'Enum constraints' trong parameter design giúp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ thực thi tool"
+        },
+        {
+          "key": "B",
+          "text": "Giảm lỗi arguments — ví dụ status chỉ nhận ['pending','shipped','delivered']"
+        },
+        {
+          "key": "C",
+          "text": "Giảm chi phí token"
+        },
+        {
+          "key": "D",
+          "text": "Tự động retry khi lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Enum giới hạn tập giá trị hợp lệ ngay ở tầng schema, ngăn model bịa ra giá trị không tồn tại.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "parameters"
+      ]
+    },
+    {
+      "id": "94-95",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Best practice khi mô tả tham số dạng ngày tháng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ ghi kiểu string là đủ"
+        },
+        {
+          "key": "B",
+          "text": "Thêm ví dụ vào description: 'Date in YYYY-MM-DD format, e.g. 2026-04-05'"
+        },
+        {
+          "key": "C",
+          "text": "Bắt buộc dùng timestamp Unix"
+        },
+        {
+          "key": "D",
+          "text": "Để model tự đoán format"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đưa format và ví dụ cụ thể vào description giúp model truyền đúng định dạng ngay lần đầu.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "parameters"
+      ]
+    },
+    {
+      "id": "94-96",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Best practice cho Tool Return Format là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trả raw HTML để giữ nguyên định dạng gốc"
+        },
+        {
+          "key": "B",
+          "text": "Trả JSON có cấu trúc (status/data/source), error format nhất quán, include metadata, truncate nếu response quá dài"
+        },
+        {
+          "key": "C",
+          "text": "Trả plain text càng ngắn càng tốt"
+        },
+        {
+          "key": "D",
+          "text": "Trả XML kèm toàn bộ response gốc"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Model xử lý JSON có cấu trúc tốt hơn nhiều so với raw text hay HTML. Nên có status, data, source, và format lỗi nhất quán.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "return-format"
+      ]
+    },
+    {
+      "id": "94-97",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên dùng Sequential tool calls thay vì Parallel?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi muốn chạy nhanh hơn"
+        },
+        {
+          "key": "B",
+          "text": "Khi Tool B cần output của Tool A — ví dụ tìm order ID rồi mới tra shipping status"
+        },
+        {
+          "key": "C",
+          "text": "Khi có nhiều hơn 3 tool"
+        },
+        {
+          "key": "D",
+          "text": "Khi tool chạy trên cùng server"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chỉ song song hóa khi KHÔNG có phụ thuộc dữ liệu. Có phụ thuộc thì bắt buộc tuần tự.",
+      "tags": [
+        "day4",
+        "patterns",
+        "sequential"
+      ]
+    },
+    {
+      "id": "94-98",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tool use pattern thường gặp theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retry, Fallback, Circuit-breaker"
+        },
+        {
+          "key": "B",
+          "text": "Conditional tool use (agent tự quyết có cần tool hay trả lời trực tiếp), Tool chaining (output A là input B), Parallel fetch + merge"
+        },
+        {
+          "key": "C",
+          "text": "Map, Filter, Reduce"
+        },
+        {
+          "key": "D",
+          "text": "Create, Read, Update, Delete"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 pattern: conditional (quyết định có gọi tool không), chaining (nối tiếp), và parallel fetch rồi tổng hợp.",
+      "tags": [
+        "day4",
+        "patterns"
+      ]
+    },
+    {
+      "id": "94-99",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, tool calling về bản chất là bài toán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bài toán tối ưu chi phí API"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán control flow: khi nào gọi, gọi cái gì, gọi theo thứ tự nào, và làm gì khi tool fail"
+        },
+        {
+          "key": "C",
+          "text": "Bài toán chọn model phù hợp"
+        },
+        {
+          "key": "D",
+          "text": "Bài toán thiết kế giao diện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool calling không chỉ là 'gọi API'. Nó là bài toán điều phối luồng: thời điểm, đối tượng, thứ tự, và xử lý thất bại.",
+      "tags": [
+        "day4",
+        "patterns",
+        "concept"
+      ]
+    },
+    {
+      "id": "94-100",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Self-review Checklist của Lab 4 gồm những mục nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần agent chạy không crash"
+        },
+        {
+          "key": "B",
+          "text": "Agent chạy end-to-end không crash; system prompt đủ 5 thành phần; tool schemas có clear descriptions + required fields; agent biết khi nào gọi tool vs trả lời trực tiếp; xử lý gracefully khi tool fail; ghi chú ít nhất 2 lỗi đã phân loại (prompt/tool/control flow)"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần đủ 5 test cases"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần deploy thành công lên cloud"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Checklist 6 mục kiểm tra cả kỹ thuật (chạy được, xử lý lỗi) lẫn chất lượng thiết kế (system prompt đủ thành phần, tool description rõ, phân loại được lỗi).",
+      "tags": [
+        "day4",
+        "lab",
+        "checklist"
+      ]
+    }
+  ]
+}
