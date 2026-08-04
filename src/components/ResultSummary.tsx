@@ -2,6 +2,7 @@ import type { AnswerState, Exam } from '../types/exam';
 import { summarizeExam } from '../utils/scoring';
 import { ModuleStats } from './ModuleStats';
 import { Disclaimer } from './Disclaimer';
+import { AppHeader } from './AppHeader';
 
 interface Props {
   exam: Exam;
@@ -14,7 +15,9 @@ interface Props {
 export function ResultSummary({ exam, answers, onReview, onRestart, onHome }: Props) {
   const summary = summarizeExam(exam, answers);
   return (
-    <main className="result page-shell">
+    <div className="app-frame">
+      <AppHeader title="Kết quả bài thi" />
+      <main className="result page-shell">
       <section className="result-hero card">
         <div>
           <span className="eyebrow">Kết quả</span>
@@ -39,10 +42,11 @@ export function ResultSummary({ exam, answers, onReview, onRestart, onHome }: Pr
         )}
       </section>
 
-      <div className="actions">
+      <div className="actions result-actions">
         <button className="secondary" onClick={onHome}>Về trang chọn đề</button>
         <button className="primary" onClick={onRestart}>Làm lại bài này</button>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }

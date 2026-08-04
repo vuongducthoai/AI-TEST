@@ -37,6 +37,7 @@ export function QuestionCard({ question, index, total, answer, mode, submitted, 
             return (
               <button
                 key={option.key}
+                aria-pressed={selected}
                 className={['option', selected ? 'selected' : '', correct ? 'correct' : '', wrong ? 'wrong' : ''].join(' ')}
                 onClick={() => onAnswer({ ...answer, selected: option.key })}
               >
@@ -49,6 +50,7 @@ export function QuestionCard({ question, index, total, answer, mode, submitted, 
       ) : (
         <div className="open-answer">
           <textarea
+            aria-label="Câu trả lời của bạn"
             placeholder="Gõ câu trả lời/code/pseudo-code của bạn..."
             value={answer?.text ?? ''}
             onChange={(event) => onAnswer({ ...answer, text: event.target.value })}

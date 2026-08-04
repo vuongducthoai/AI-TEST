@@ -4,6 +4,7 @@ import { saveProgress, loadProgress, clearProgress } from '../utils/storage';
 import { QuestionCard } from './QuestionCard';
 import { ResultSummary } from './ResultSummary';
 import { Disclaimer } from './Disclaimer';
+import { AppHeader } from './AppHeader';
 
 interface Props {
   exam: Exam;
@@ -17,6 +18,7 @@ export function QuizRunner({ exam, mode, timerEnabled, onHome }: Props) {
   const [current, setCurrent] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(exam.durationMinutes * 60);
+  const [navOpen, setNavOpen] = useState(false);
 
   const answeredCount = useMemo(() => exam.questions.filter((q) => {
     const a = answers[q.id];
@@ -50,14 +52,18 @@ export function QuizRunner({ exam, mode, timerEnabled, onHome }: Props) {
   }
 
   return (
-    <main className="quiz-layout">
-      <aside className="quiz-sidebar card">
+    <div className="app-frame quiz-frame">
+      <AppHeader title={exam.title} onMenu={() => setNavOpen(true)} />
+      {navOpen && <button className="drawer-backdrop" aria-label="Đóng điều hướng" onClick={() => setNavOpen(false)} />}
+      <main className="quiz-layout">
+      <aside className={`quiz-sidebar card ${navOpen ? 'open' : ''}`}>
+        <div className="sidebar-mobile-head"><strong>Điều hướng câu hỏi</strong><button className="icon-button" onClick={() => setNavOpen(false)} aria-label="Đóng">×</button></div>
         <button className="link" onClick={onHome}>← Đổi đề</button>
         <h1>{exam.title}</h1>
         <p>{mode === 'practice' ? 'Practice mode' : 'Exam mode'} · {answeredCount}/{exam.questions.length} câu đã làm</p>
         {timerEnabled && <div className="timer">{minutes}:{seconds}</div>}
         <div className="question-nav">
-          {exam.questions.map((question, idx) => <button key={question.id} className={`${idx === current ? 'active' : ''} ${answers[question.id] ? 'answered' : ''}`} onClick={() => setCurrent(idx)}>{idx + 1}</button>)}
+          {exam.questions.map((question, idx) => <button key={question.id} aria-label={`Câu ${idx + 1}${answers[question.id] ? ', đã trả lời' : ''}`} className={`${idx === current ? 'active' : ''} ${answers[question.id] ? 'answered' : ''}`} onClick={() => { setCurrent(idx); setNavOpen(false); }}>{idx + 1}</button>)}
         </div>
         <Disclaimer />
       </aside>
@@ -70,6 +76,7 @@ export function QuizRunner({ exam, mode, timerEnabled, onHome }: Props) {
           <button className="primary" onClick={() => setSubmitted(true)}>Nộp bài</button>
         </div>
       </section>
-    </main>
+      </main>
+    </div>
   );
 }
