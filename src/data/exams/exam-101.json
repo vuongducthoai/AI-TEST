@@ -1,0 +1,3137 @@
+{
+  "id": "exam-101",
+  "title": "AICB Ngày 10 — Data Pipeline & Data Observability",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P1 Ngày 10: Data Pipeline & Data Observability' (VinUniversity, 56 slide). Nội dung: data cascade và bảng ánh xạ triệu chứng agent sang tầng data, RACI, ETL/ELT và batch/streaming, ingestion (CDC vs snapshot, 429 backoff jitter, cursor pagination, queue backpressure DLQ), transform Clean-Reject-Flag, 6 dimensions data quality và data contract, 5 pillars observability, freshness SLA, drift detection, triage có timebox, ba mức chính sách HALT/QUARANTINE/WARN, orchestration và idempotency. Câu hỏi dạng phân tích tình huống, đáp án phân bố đều và giải thích chi tiết.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "D10-001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Content hash và logical version của file trả lời hai câu hỏi khác nhau nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "sha256 trả lời 'file có bị hỏng không'; policy_v4 trả lời 'file được tạo khi nào'"
+        },
+        {
+          "key": "B",
+          "text": "sha256 trả lời 'file lớn bao nhiêu'; policy_v4 trả lời 'file thuộc loại tài liệu nào'"
+        },
+        {
+          "key": "C",
+          "text": "sha256 của bytes trả lời 'file có đổi không'; policy_v4 trả lời 'đây là bản nào'"
+        },
+        {
+          "key": "D",
+          "text": "sha256 trả lời 'ai đã sửa file'; policy_v4 trả lời 'file đã qua bao nhiêu lần duyệt'"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hệ quả khi thiếu từng cái được nêu rõ: thiếu content hash thì không biết file nào đã đổi nên lần chạy nào cũng embed lại tất cả (lãng phí); thiếu logical version thì agent không lọc được theo version (sai nghiệp vụ). Hai vấn đề hoàn toàn khác nhau nên cần hai cơ chế riêng.",
+      "tags": [
+        "day10",
+        "file",
+        "versioning"
+      ]
+    },
+    {
+      "id": "D10-002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cắt chunk theo số ký tự thay vì theo heading lại nguy hiểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chunk có độ dài không đều làm chi phí embedding tăng lên khó dự đoán trước"
+        },
+        {
+          "key": "B",
+          "text": "Vì agent trả lời 'nửa điều khoản' — vẫn có trích dẫn, vẫn sai nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Vì số ký tự khác nhau giữa các ngôn ngữ nên chunk tiếng Việt sẽ ngắn hơn tiếng Anh"
+        },
+        {
+          "key": "D",
+          "text": "Vì vector store yêu cầu mọi chunk phải có cùng số chiều embedding mới so sánh được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là kiểu lỗi nguy hiểm nhất vì nó vượt qua được mọi kiểm tra hình thức: câu trả lời có nguồn, có trích dẫn, trông đáng tin — nhưng nội dung bị cắt mất vế quan trọng. Slide cũng nối về Day 8: 'metadata bạn gắn ở bước này chính là thứ filter của vector store sẽ dùng. Không gắn ở đây thì sau này không lọc được.'",
+      "tags": [
+        "day10",
+        "chunking"
+      ]
+    },
+    {
+      "id": "D10-003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ETL và ELT khác nhau ở điểm nào và mỗi cái dùng khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ETL nhanh hơn nên dùng cho realtime, ELT chậm hơn nên chỉ dùng cho báo cáo định kỳ hằng đêm, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ khác thứ tự Transform: ETL transform trước khi vào warehouse dùng khi KHÔNG được giữ raw; ELT ghi raw trước rồi transform bằng SQL dùng khi chưa chắc sau này xử lý kiểu gì"
+        },
+        {
+          "key": "C",
+          "text": "ETL xử lý theo lô còn ELT xử lý theo sự kiện nên độ trễ của ELT thấp hơn nhiều lần, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "D",
+          "text": "ETL dùng cho dữ liệu có cấu trúc còn ELT dùng cho dữ liệu phi cấu trúc như PDF và HTML, nên bước sau không phát hiện được vấn đề"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cả hai đều gồm đúng ba việc Extract, Transform, Load — chỉ khác thứ tự. Ví dụ ETL: log có số CMND, luật buộc mask trước khi lưu. Ví dụ ELT: PDF policy, ba tháng sau muốn cắt chunk kiểu khác thì chạy lại SQL là xong.",
+      "tags": [
+        "day10",
+        "etl-elt"
+      ]
+    },
+    {
+      "id": "D10-004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ data contract của NYC Yellow Taxi, payment_type có bao nhiêu giá trị hợp lệ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Năm giá trị được đánh số từ 1 đến 5, trong đó giá trị 5 dùng cho các trường hợp ngoại lệ"
+        },
+        {
+          "key": "B",
+          "text": "Sáu giá trị: 1 thẻ, 2 tiền mặt, 3 miễn phí, 4 tranh chấp, 5 không rõ, 6 chuyến bị hủy"
+        },
+        {
+          "key": "C",
+          "text": "Ba giá trị gồm thẻ, tiền mặt và các hình thức thanh toán khác được gộp chung lại"
+        },
+        {
+          "key": "D",
+          "text": "Bốn giá trị gồm thẻ, tiền mặt, miễn phí và tranh chấp theo phân loại của hệ thống thanh toán"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mục 2 'Danh mục giá trị hợp lệ' cho phép viết check tự động ngay: giá trị ngoài danh mục là sai, không cần bàn. Đây là loại quy tắc rẻ nhất để kiểm tra và cũng là ví dụ điển hình của dimension Validity — chỉ cần nhìn vào một ô là kết luận được.",
+      "tags": [
+        "day10",
+        "contract",
+        "example"
+      ]
+    },
+    {
+      "id": "D10-005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "OCR confidence thấp nên được xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẫn đưa vào index bình thường nhưng gắn cờ để agent tự cân nhắc khi trích dẫn"
+        },
+        {
+          "key": "B",
+          "text": "Flag lại cho người review trước khi publish — không phải sau khi user phàn nàn"
+        },
+        {
+          "key": "C",
+          "text": "Chạy lại OCR với thuật toán khác cho tới khi đạt được điểm tin cậy đủ cao"
+        },
+        {
+          "key": "D",
+          "text": "Tự động loại bỏ các dòng đó khỏi pipeline để tránh đưa nội dung sai vào knowledge base"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là ứng dụng của hướng xử lý FLAG trong bộ ba Clean–Reject–Flag. Điểm nhấn về thời điểm rất quan trọng: can thiệp TRƯỚC khi publish thì chi phí thấp; để user phát hiện thì đã thành sự cố và mất niềm tin — đúng như đồ thị chi phí sửa trong slide data cascade.",
+      "tags": [
+        "day10",
+        "ocr"
+      ]
+    },
+    {
+      "id": "D10-006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi của bước Transform theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ lại càng nhiều dữ liệu gốc càng tốt để có thể quay lại xử lý theo cách khác"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ transform những trường thực sự cần thiết cho agent để giảm chi phí tính toán"
+        },
+        {
+          "key": "C",
+          "text": "Ưu tiên tốc độ xử lý vì đây là bước tốn thời gian nhất trong toàn bộ pipeline"
+        },
+        {
+          "key": "D",
+          "text": "Transform là code + contract, không phải sửa tay trong Excel năm phút trước khi demo"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide giải thích lý do: 'Sửa tay thì lần chạy sau lỗi lại y nguyên.' Sửa thủ công không tạo ra tài sản tái sử dụng được — mỗi lần chạy lại là một lần phải sửa lại. Code thì chạy lại được, contract thì phán quyết được, và cả hai đều đưa vào version control được.",
+      "tags": [
+        "day10",
+        "transform"
+      ]
+    },
+    {
+      "id": "D10-007",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 3 phân biệt hai khẳng định nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data mới và data đúng là hai chuyện khác nhau, dữ liệu mới nhất chưa chắc là chính xác nhất, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "B",
+          "text": "'Job chạy xong' là chuyện của chương trình — 'data đúng' là chuyện của data; và bạn chỉ đang đo cái thứ nhất"
+        },
+        {
+          "key": "C",
+          "text": "Pipeline thành công và agent trả lời đúng là hai chỉ số độc lập cần đo riêng biệt, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Quality check pass và drift không tăng là hai điều kiện cần nhưng chưa đủ cho chất lượng, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vế cuối 'và bạn chỉ đang đo cái thứ nhất' là lời cảnh báo trực tiếp. Nó nối với sự cố 09:12 nơi job kết thúc không lỗi, log không báo gì, nhưng dữ liệu đã cũ 17 tiếng — mọi tín hiệu về chương trình đều xanh trong khi tín hiệu về dữ liệu chưa từng được đo.",
+      "tags": [
+        "day10",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D10-008",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu có observability, sự cố 09:12 sẽ diễn biến khác thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pipeline tự động chạy lại ngay khi phát hiện sync thất bại nên không cần con người can thiệp, nên không có metric nào bắn cảnh báo"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống chuyển sang đọc bản sao dự phòng của knowledge base cho tới khi bản chính được khôi phục, kể cả khi on-call đã kiểm tra thủ công"
+        },
+        {
+          "key": "C",
+          "text": "Agent tự nhận ra dữ liệu đã cũ và từ chối trả lời cho tới khi knowledge base được cập nhật, dù dashboard vẫn hiển thị màu xanh bình thường"
+        },
+        {
+          "key": "D",
+          "text": "Freshness vượt threshold lúc 02:30, on-call nhận alert, chạy lại ingest và xong trước giờ làm việc — không user nào thấy câu trả lời sai"
+        }
+      ],
+      "answer": "D",
+      "explanation": "So sánh hai kịch bản: không có observability thì lần publish thành công cuối lúc 16:00 hôm trước, sync 02:00 fail im lặng, tới 09:12 user đầu tiên phàn nàn khi data đã cũ 17 tiếng. Có observability thì phát hiện lúc 02:30 — chênh lệch gần 7 tiếng và khác biệt giữa 'có sự cố' và 'không ai thấy'.",
+      "tags": [
+        "day10",
+        "incident"
+      ]
+    },
+    {
+      "id": "D10-009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba phán quyết được phép chọn trong hoạt động A là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SAI (vi phạm điều viết rõ trong contract), ĐÚNG (trông lạ nhưng contract giải thích được), KHÔNG THỂ BIẾT (contract không nói gì)"
+        },
+        {
+          "key": "B",
+          "text": "Halt, Quarantine và Warn theo ba mức chính sách xử lý lỗi trong pipeline, trong khi contract không quy định gì về điểm này"
+        },
+        {
+          "key": "C",
+          "text": "Chấp nhận, Từ chối và Chờ xử lý tùy theo mức độ nghiêm trọng của phát hiện, kể cả khi suite expectation đã pass toàn bộ"
+        },
+        {
+          "key": "D",
+          "text": "Clean, Reject và Flag tương ứng ba hướng xử lý ở bước transform dữ liệu, nên rule validate không bắt được trường hợp này"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi phát hiện trong hoạt động A phải ghi đủ năm dòng: thấy gì, tìm bằng cách nào, dimension nào, phán quyết, và cần gì để chắc chắn. Ba phán quyết này ánh xạ trực tiếp với ba mục của data contract — mục 2 và 3 cho SAI/ĐÚNG, mục 4 cho KHÔNG THỂ BIẾT.",
+      "tags": [
+        "day10",
+        "activity-a"
+      ]
+    },
+    {
+      "id": "D10-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Triệu chứng 'Đúng fact, nhưng là fact cũ' của agent chỉ tới tầng data nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Schema hoặc parser vừa thay đổi nên phải so sánh distribution trước và sau"
+        },
+        {
+          "key": "B",
+          "text": "Thiếu grounding và có khoảng trống trong retrieval nên agent phải tự suy diễn"
+        },
+        {
+          "key": "C",
+          "text": "Dedupe chưa chạy, version metadata thiếu, hoặc chunk boundary bị cắt sai chỗ"
+        },
+        {
+          "key": "D",
+          "text": "Freshness, publish step, hoặc cache vector chưa được hoán đổi sang bản mới"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng ánh xạ triệu chứng trong slide: 'Đúng fact nhưng là fact cũ' → freshness · publish step · cache vector chưa swap. Phương án C ứng với 'Lẫn lộn giữa hai phiên bản tài liệu', phương án A ứng với 'Tự bịa nhưng nghe rất hợp lý', phương án D ứng với 'Đang tốt, sau deploy thì hỏng'.",
+      "tags": [
+        "day10",
+        "symptom"
+      ]
+    },
+    {
+      "id": "D10-011",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai cách đảm bảo idempotency khi chạy lại pipeline là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khóa bảng đích trong lúc chạy và mở khóa sau khi hoàn tất để tránh ghi đồng thời, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Ghi log mọi lần chạy và so sánh checksum để phát hiện bản ghi đã tồn tại trước đó, trong khi run_id vẫn được ghi vào lineage"
+        },
+        {
+          "key": "C",
+          "text": "Upsert theo natural key (doc_id, version) không sinh UUID mới mỗi lần chạy; hoặc staging rồi đổi alias"
+        },
+        {
+          "key": "D",
+          "text": "Xóa toàn bộ dữ liệu cũ trước mỗi lần chạy rồi nạp lại từ đầu để đảm bảo sạch sẽ, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cách thứ hai có ưu điểm bổ sung: 'Agent không bao giờ đọc phải collection đang nạp dở' — nạp vào collection mới rồi mới trỏ alias sang. Đây là cơ chế publish nguyên tử, tránh trạng thái trung gian mà agent có thể đọc phải.",
+      "tags": [
+        "day10",
+        "idempotency"
+      ]
+    },
+    {
+      "id": "D10-012",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao nhóm vấn đề 'Đủ số dòng không có nghĩa là ổn' đặc biệt khó phát hiện?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chúng nằm ở tầng vector store nên các công cụ giám sát pipeline không nhìn thấy được, nên không có metric nào bắn cảnh báo"
+        },
+        {
+          "key": "B",
+          "text": "Vì không cái nào làm pipeline fail — chúng chỉ làm câu trả lời của agent tệ dần, không có thời điểm hỏng rõ ràng để lần theo"
+        },
+        {
+          "key": "C",
+          "text": "Vì chúng chỉ xuất hiện khi khối lượng dữ liệu vượt quá một ngưỡng nhất định của hệ thống, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Vì chúng đòi hỏi phải so sánh với dữ liệu của kỳ trước mà nhiều hệ thống không lưu lại, dù dashboard vẫn hiển thị màu xanh bình thường"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Năm vấn đề trong nhóm này: null rate tăng vọt, độ dài nội dung bất thường, ngôn ngữ/nhiễu tăng đột biến, ràng buộc chéo cột vô lý, và thời gian tương lai. Điểm chung là mọi kiểm tra ở tầng dòng đều pass — chỉ khi nhìn tổng thể theo thời gian mới phát hiện được.",
+      "tags": [
+        "day10",
+        "silent-degradation"
+      ]
+    },
+    {
+      "id": "D10-013",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Báo cáo sau sự cố gồm năm mục nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Alert, Triage, Escalation, Resolution và Review theo vòng đời xử lý một sự cố"
+        },
+        {
+          "key": "B",
+          "text": "What, When, Where, Why và How theo năm câu hỏi cơ bản khi điều tra một sự việc"
+        },
+        {
+          "key": "C",
+          "text": "Timeline, Impact, Root cause, Action items và Owner theo mẫu postmortem tiêu chuẩn"
+        },
+        {
+          "key": "D",
+          "text": "Symptom, Detection, Diagnosis, Mitigation và Prevention, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chi tiết: Symptom là user thấy gì và agent trả lời sai kiểu nào; Detection là metric nào đã báo hoặc chưa có metric nào báo; Diagnosis là nguyên nhân gốc, bước pipeline nào, bảng hoặc file nào; Mitigation là đã làm gì để dừng gây hại; Prevention là expectation mới, alert mới, owner có tên.",
+      "tags": [
+        "day10",
+        "postmortem"
+      ]
+    },
+    {
+      "id": "D10-014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hoạt động C, cấu trúc của một rule validate được viết như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một dòng dạng (tên_cột, phép so sánh, giá_trị) với các phép in, not_null, min, max, equals"
+        },
+        {
+          "key": "B",
+          "text": "Một expectation của Great Expectations được thêm vào suite bằng phương thức add_expectation"
+        },
+        {
+          "key": "C",
+          "text": "Một biểu thức SQL dạng WHERE để lọc ra các bản ghi không thỏa mãn điều kiện đặt ra"
+        },
+        {
+          "key": "D",
+          "text": "Một hàm Python nhận DataFrame và trả về danh sách chỉ số các dòng vi phạm quy tắc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ví dụ trong slide: RULES = [ ('rate_code_id', 'in', ['1','2','3','4','5','6']) ]. Slide nhấn mạnh phần đáng đọc nhất trong output không phải số dòng bị chặn mà là dòng cuối — 'những dòng bị chặn có điểm gì chung'.",
+      "tags": [
+        "day10",
+        "activity-c"
+      ]
+    },
+    {
+      "id": "D10-015",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Yêu cầu cụ thể khi chọn thẻ trong thảo luận P1 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn 3 thẻ và ước lượng thời gian cần thiết để phân tích thông tin trong mỗi thẻ"
+        },
+        {
+          "key": "B",
+          "text": "Chọn tất cả 6 thẻ và xếp theo mức độ ưu tiên từ cao xuống thấp kèm lý do cho từng thẻ"
+        },
+        {
+          "key": "C",
+          "text": "Chọn 2 thẻ quan trọng nhất và giải thích vì sao chúng đủ để xác định nguyên nhân"
+        },
+        {
+          "key": "D",
+          "text": "Chọn 4 thẻ, xếp theo thứ tự sẽ mở, và ghi con số đi tìm ở mỗi thẻ kèm ngưỡng để so"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ ngưỡng được nêu trong slide: 'freshness_hours so với ngưỡng 4h'. Yêu cầu ghi kèm con số và ngưỡng buộc người triage phải biết trước mình đang tìm gì — tránh tình trạng mở dashboard ra nhìn rồi không biết thế nào là bất thường.",
+      "tags": [
+        "day10",
+        "p1-discussion"
+      ]
+    },
+    {
+      "id": "D10-016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Precision trong hoạt động C được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỷ lệ bản ghi hợp lệ được giữ lại trên tổng số bản ghi đi qua bước kiểm tra"
+        },
+        {
+          "key": "B",
+          "text": "Mức độ chi tiết của rule khi mô tả điều kiện cần kiểm tra trên từng cột dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác của phép so sánh khi rule được áp dụng lên toàn bộ tập dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ lỗi thật trong số các dòng bị rule chặn lại, nên rule validate không bắt được trường hợp này"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Precision thấp nghĩa là rule chặn nhầm nhiều data đúng — chính là vấn đề đã cảnh báo ở checkpoint về fare_amount âm: 'Chặn kiểu đó làm cả nhóm mất niềm tin vào alert.' Câu hỏi số 4 của hoạt động đi kèm rất sắc: 'Rule nào là data sai, rule nào là bạn hiểu sai nghiệp vụ?'",
+      "tags": [
+        "day10",
+        "activity-c",
+        "precision"
+      ]
+    },
+    {
+      "id": "D10-017",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu tham khảo nào là nguồn gốc của khái niệm data cascade?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Everyone wants to do the model work, not the data work': Data Cascades in High-Stakes AI — Sambasivan et al., Google Research, CHI 2021"
+        },
+        {
+          "key": "B",
+          "text": "Evidently Documentation về drift và distribution report cho hệ thống production, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Great Expectations 1.x Documentation với lưu ý về khác biệt API giữa bản 1.x và 0.x, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "D",
+          "text": "Hidden Technical Debt in Machine Learning Systems của Sculley et al., Google, NeurIPS 2015, trong khi run_id vẫn được ghi vào lineage"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide mô tả kèm cách đọc: 'Nghiên cứu định tính, phỏng vấn 53 practitioner — đọc như một checklist chẩn đoán đáng tin, đừng đọc như số liệu thống kê dân số.' Đây là lời nhắc quan trọng về cách diễn giải kết quả nghiên cứu định tính.",
+      "tags": [
+        "day10",
+        "references"
+      ]
+    },
+    {
+      "id": "D10-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi cuối của hoạt động C yêu cầu học viên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính toán chi phí vận hành của việc chạy toàn bộ tập rule trên dữ liệu production hằng ngày"
+        },
+        {
+          "key": "B",
+          "text": "Xếp mỗi rule vào halt/quarantine/warn và nói rõ rule nào không dám để halt cùng lý do"
+        },
+        {
+          "key": "C",
+          "text": "So sánh kết quả của rule tự viết với kết quả của Great Expectations trên cùng tập dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Đề xuất bổ sung các mục còn thiếu vào data contract dựa trên những rule đã viết được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Yêu cầu này buộc học viên chịu trách nhiệm với rule của mình: đặt mức halt nghĩa là chấp nhận dừng cả pipeline nếu rule bắn. Việc phải nói ra rule nào 'không dám để halt' làm lộ ra chỗ bạn chưa đủ tự tin về precision của nó.",
+      "tags": [
+        "day10",
+        "activity-c"
+      ]
+    },
+    {
+      "id": "D10-019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều kiện bắt buộc khi reject hoặc flag một bản ghi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải có chữ ký phê duyệt của SME trước khi bản ghi được phép loại khỏi luồng xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Phải thông báo cho người dùng cuối biết rằng một phần dữ liệu đã bị loại bỏ khỏi hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Phải ghi lại kèm run_id vào quarantine.csv — xóa mà không log nghĩa là mất data mà không ai biết"
+        },
+        {
+          "key": "D",
+          "text": "Phải thử lại ít nhất ba lần với các tham số khác nhau trước khi quyết định loại bỏ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "run_id là chìa khóa để truy ngược: nó nối bản ghi bị loại với lần chạy cụ thể đã loại nó, nhờ đó khi phát hiện rule sai bạn tìm lại được toàn bộ dữ liệu đã bị chặn oan. Không có log thì việc loại bỏ trở nên không thể đảo ngược và không thể kiểm chứng.",
+      "tags": [
+        "day10",
+        "quarantine"
+      ]
+    },
+    {
+      "id": "D10-020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao chuẩn hóa Unicode NFC là bắt buộc với tiếng Việt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì NFC giúp giảm dung lượng lưu trữ khoảng ba mươi phần trăm với văn bản có dấu"
+        },
+        {
+          "key": "B",
+          "text": "Vì nếu không thì hai chuỗi trông giống hệt nhau vẫn không khớp nhau khi so sánh"
+        },
+        {
+          "key": "C",
+          "text": "Vì embedding model được huấn luyện chủ yếu trên văn bản đã được chuẩn hóa NFC"
+        },
+        {
+          "key": "D",
+          "text": "Vì tiếng Việt có nhiều ký tự đặc biệt không nằm trong bảng mã ASCII tiêu chuẩn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên nhân là Unicode cho phép biểu diễn ký tự có dấu theo nhiều cách khác nhau — 'ế' có thể là một code point hoặc là 'e' cộng dấu mũ cộng dấu sắc. Hai cách viết này hiển thị giống hệt nhau nhưng khác nhau ở tầng byte, nên dedupe và tìm kiếm đều thất bại. NFC gộp chúng về một cách viết duy nhất.",
+      "tags": [
+        "day10",
+        "unicode"
+      ]
+    },
+    {
+      "id": "D10-021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Poison message là gì và DLQ đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Message quá lớn vượt giới hạn kích thước; DLQ lưu tạm để xử lý bằng cách chia nhỏ, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "B",
+          "text": "Message đến sai thứ tự thời gian; DLQ sắp xếp lại rồi đưa trở vào hàng đợi chính, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Bản ghi retry mấy lần cũng lỗi; DLQ là queue riêng chứa chúng và là điểm quan sát, không phải chỗ vứt rác"
+        },
+        {
+          "key": "D",
+          "text": "Message chứa mã độc; DLQ là nơi cách ly để đội bảo mật phân tích sau khi phát hiện, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nêu hai vai trò của DLQ. Thứ nhất về mặt kỹ thuật: không tách poison message ra thì nó chặn cả queue phía sau. Thứ hai về mặt quan sát: 'event hỏng còn nằm đó cho bạn xem, thay vì biến mất im lặng' — đây là lý do phải ĐO số bản ghi vào DLQ chứ không chỉ có DLQ.",
+      "tags": [
+        "day10",
+        "dlq"
+      ]
+    },
+    {
+      "id": "D10-022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao pagination bằng cursor an toàn hơn offset?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì data vẫn đang đổi trong lúc đọc — chèn một bản ghi làm offset lệch mọi trang sau, gây đọc trùng hoặc bỏ sót mà không có lỗi nào bắn ra"
+        },
+        {
+          "key": "B",
+          "text": "Vì cursor lưu trạng thái ở phía server nên client không cần theo dõi vị trí đã đọc, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Vì cursor nén được nhiều bản ghi hơn vào mỗi trang nên giảm số lần gọi API cần thiết, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "D",
+          "text": "Vì cursor cho phép nhảy tới bất kỳ trang nào trong khi offset phải đọc tuần tự từ đầu, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ví dụ trong slide: đọc trang 1 được 101-102-103, sau đó bản ghi 100 được chèn vào đầu làm mọi thứ dịch xuống, khiến trang 2 trả về 103-104-105 — 103 bị đọc hai lần còn 100 thì không bao giờ được đọc. Cursor nhớ mốc 'id > 103' nên chèn bao nhiêu cũng không lệch.",
+      "tags": [
+        "day10",
+        "pagination"
+      ]
+    },
+    {
+      "id": "D10-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm bước sử dụng Great Expectations theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Định nghĩa schema, sinh dữ liệu thử, chạy kiểm thử, so sánh kết quả, và cập nhật tài liệu, kể cả khi suite expectation đã pass toàn bộ"
+        },
+        {
+          "key": "B",
+          "text": "Profile, viết suite, validate trước khi data đi tiếp, report HTML tự sinh, và chặn pipeline khi suite fail"
+        },
+        {
+          "key": "C",
+          "text": "Thu thập mẫu, phân tích thống kê, đặt ngưỡng, giám sát liên tục, và cảnh báo khi vượt ngưỡng"
+        },
+        {
+          "key": "D",
+          "text": "Cài đặt, cấu hình nguồn, kết nối warehouse, chạy kiểm tra, và xuất kết quả ra dashboard, nên rule validate không bắt được trường hợp này"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chi tiết bước 2: viết các expectation dạng not-null, range giá trị, danh mục, regex. Slide cũng cảnh báo về phiên bản: 'API đã đổi. Bản 1.x khác hẳn 0.x. Pin đúng version: great-expectations==1.19.1' — một lưu ý thực dụng khi làm lab.",
+      "tags": [
+        "day10",
+        "great-expectations"
+      ]
+    },
+    {
+      "id": "D10-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Queue depth phình lên nói lên điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đây là triệu chứng chứ không phải nguyên nhân — phải hỏi consumer chậm vì cái gì"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống sắp hết bộ nhớ nên cần tăng dung lượng lưu trữ cho hàng đợi ngay"
+        },
+        {
+          "key": "C",
+          "text": "Nguyên nhân là consumer bị lỗi nên cần khởi động lại tiến trình xử lý ngay lập tức"
+        },
+        {
+          "key": "D",
+          "text": "Producer đang gửi sai định dạng nên consumer không xử lý được các message đến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Checkpoint cũng nhấn mạnh điểm này: tăng số consumer 'là giảm đau, không phải fix'. Ba nguyên nhân cần phân biệt: xử lý nặng, phụ thuộc bên ngoài chậm, hay đang retry một poison message mãi không xong. Mỗi nguyên nhân cần cách chữa khác nhau.",
+      "tags": [
+        "day10",
+        "queue"
+      ]
+    },
+    {
+      "id": "D10-025",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Freshness SLA nên được đo tại điểm nào và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tại thời điểm agent trả lời câu hỏi đầu tiên có sử dụng nội dung của tài liệu mới đó"
+        },
+        {
+          "key": "B",
+          "text": "Tại thời điểm job ingest báo thành công, vì đó là lúc dữ liệu chính thức vào hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Tại thời điểm file được ký và phát hành bởi bộ phận nghiệp vụ có thẩm quyền phê duyệt"
+        },
+        {
+          "key": "D",
+          "text": "Tại thời điểm document active trên vector index — không phải lúc file rơi vào thư mục staging"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide cảnh báo hậu quả: 'Đo sai điểm thì SLA xanh mà user vẫn thấy data cũ.' File nằm trong staging nghĩa là pipeline đã nhận được nó, nhưng nếu bước embed hoặc publish chưa xong thì agent vẫn không truy cập được — SLA phải đo đúng thứ người dùng trải nghiệm.",
+      "tags": [
+        "day10",
+        "sla",
+        "measurement"
+      ]
+    },
+    {
+      "id": "D10-026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo slide, tỷ lệ thời gian dành cho data work trong một dự án AI thực tế là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng 40–50%, chia đều giữa công việc về data và công việc về model"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng 20–30%, phần lớn công sức vẫn nằm ở việc xây dựng và tinh chỉnh model"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng 90%, gần như toàn bộ dự án là thu thập và làm sạch dữ liệu đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng 60–80% là data work, còn xây model hoặc agent chỉ chiếm khoảng 20%"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide ghi rõ '60–80% thời gian của một AI project thực tế là data work — không phải model', kèm biểu đồ 20% xây model/agent và 80% thu thập, clean data, dựng pipeline, monitor. Hệ quả được nêu: một RAG agent xuất sắc vẫn hallucinate nếu vector store được nạp data không clean.",
+      "tags": [
+        "day10",
+        "overview"
+      ]
+    },
+    {
+      "id": "D10-027",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong thảo luận sự cố P1 lúc 09:12, hai thẻ nào là bẫy và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thẻ Eval của model (không tự đổi sau một đêm) và Log ingest thô (chưa khoanh vùng thì không đọc nổi)"
+        },
+        {
+          "key": "B",
+          "text": "Thẻ Freshness và Volume vì chúng chỉ cho biết triệu chứng chứ không chỉ ra nguyên nhân gốc"
+        },
+        {
+          "key": "C",
+          "text": "Thẻ Volume và Log ingest thô vì cả hai đều tạo ra quá nhiều dữ liệu để đọc trong thời gian ngắn"
+        },
+        {
+          "key": "D",
+          "text": "Thẻ Schema contract và Lineage vì cần nhiều thời gian phân tích mà không chắc có kết quả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Gợi ý loại thẻ trong slide: 'cái không tự đổi sau một đêm' ứng với eval của model — model không tự dưng kém đi; 'cái chưa khoanh vùng thì không đọc nổi' ứng với 2.000 dòng log ingest thô — phải biết tìm gì trước khi mở nó. Slide nhấn mạnh phần điểm nằm ở việc nói được VÌ SAO bỏ hai thẻ này.",
+      "tags": [
+        "day10",
+        "p1-discussion"
+      ]
+    },
+    {
+      "id": "D10-028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Batch và Streaming khác nhau thế nào về đặc tính và trường hợp sử dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Batch chỉ chạy được trên dữ liệu có cấu trúc; Streaming xử lý được mọi loại dữ liệu đầu vào, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "B",
+          "text": "Batch rẻ và dễ chạy lại dùng cho training data và report định kỳ; Streaming đắt và khó debug dùng cho fraud detection và context realtime"
+        },
+        {
+          "key": "C",
+          "text": "Batch đắt và khó debug dùng cho fraud detection; Streaming rẻ và dễ chạy lại dùng cho báo cáo, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Batch có độ trễ mili-giây dùng cho realtime; Streaming có độ trễ hàng giờ dùng cho training data, nên bước sau không phát hiện được vấn đề"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide minh họa bằng trục thời gian: batch chạy theo lịch mỗi giờ hoặc mỗi đêm nên có thể trễ 7 giờ mà agent chưa thấy gì; streaming xử lý ngay khi sự kiện tới với độ trễ tính bằng mili-giây. Đánh đổi được nêu rõ ở cả hai chiều.",
+      "tags": [
+        "day10",
+        "batch-streaming"
+      ]
+    },
+    {
+      "id": "D10-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba mức chính sách xử lý lỗi data là gì và tương ứng loại lỗi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Critical, Warning và Info theo ba mức độ nghiêm trọng chuẩn của hệ thống ghi log, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "HALT (trùng primary key, encoding hỏng, schema contract sai), QUARANTINE (primary key đúng nhưng nội dung đáng ngờ, OCR confidence thấp), WARN (thiếu field không bắt buộc, sai chính tả metadata)"
+        },
+        {
+          "key": "C",
+          "text": "Block, Retry và Skip tùy theo khả năng khắc phục tự động của từng loại lỗi phát hiện, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Reject, Flag và Clean tương ứng ba hướng xử lý ở bước transform dữ liệu đầu vào, trong khi run_id vẫn được ghi vào lineage"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tiêu chí phân mức được nêu rõ: 'Xếp mức nào là hỏi cần làm gì và có chờ được không — không phải hỏi lỗi nghe đáng sợ tới đâu.' HALT dừng hẳn vì mọi thứ sau đều sai theo; QUARANTINE tách ra không cho vào vector store; WARN ghi lại rồi đi tiếp.",
+      "tags": [
+        "day10",
+        "policy"
+      ]
+    },
+    {
+      "id": "D10-030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data trong hoạt động A là gì và có đặc điểm gì đáng chú ý?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu mô phỏng được sinh ngẫu nhiên với các lỗi được cài sẵn theo từng dimension"
+        },
+        {
+          "key": "B",
+          "text": "5.000 chuyến taxi vàng New York tháng 01/2019 — data thật, lỗi thật, không ai cài lỗi vào"
+        },
+        {
+          "key": "C",
+          "text": "Log hệ thống của một agent RAG đang chạy production trong ba mươi ngày gần nhất"
+        },
+        {
+          "key": "D",
+          "text": "Bộ dữ liệu chuẩn của Great Expectations dùng để minh họa các loại expectation phổ biến"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nhấn mạnh chi tiết này ở cả phần mở đầu: 'Cả ba hoạt động chạy trên data taxi NYC thật — không phải data giả. Lỗi trong đó là lỗi có sẵn, bạn tự tìm ra.' Điều này khiến bài tập gần với thực tế hơn: bạn không biết trước có bao nhiêu lỗi và thuộc loại gì.",
+      "tags": [
+        "day10",
+        "activity-a"
+      ]
+    },
+    {
+      "id": "D10-031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ về queue, ticket đổ về nhanh gấp 2,5 lần tốc độ xử lý dẫn tới hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Consumer tự động nhân bản để tăng năng lực xử lý cho tới khi hàng đợi giảm xuống"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống tự động từ chối các ticket mới và trả về mã lỗi cho phía gửi yêu cầu"
+        },
+        {
+          "key": "C",
+          "text": "Sau một giờ có hơn 100.000 message nằm chờ, agent đọc knowledge base cũ dần mà không ai báo"
+        },
+        {
+          "key": "D",
+          "text": "Producer bị chặn lại nhờ backpressure nên không có ticket nào bị mất trong quá trình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Con số cụ thể: producer 50 event/giây, consumer 20 event/giây, queue dâng 30 mỗi giây. Đây là ví dụ điển hình của kiểu hỏng im lặng — không có lỗi nào bắn ra, agent vẫn chạy, chỉ là dữ liệu ngày càng cũ. Slide kết luận: 'Đo queue depth và số vào DLQ là thấy trước khi user thấy.'",
+      "tags": [
+        "day10",
+        "queue",
+        "example"
+      ]
+    },
+    {
+      "id": "D10-032",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao latency ingest → publish phải tách riêng khỏi latency của LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì hai loại độ trễ này được đo bằng đơn vị khác nhau nên không thể cộng gộp lại"
+        },
+        {
+          "key": "B",
+          "text": "Vì latency của LLM do nhà cung cấp kiểm soát nên đội không thể tác động vào được"
+        },
+        {
+          "key": "C",
+          "text": "Vì nếu không tách thì mọi thứ chậm đều bị đổ cho model, nên không có metric nào bắn cảnh báo"
+        },
+        {
+          "key": "D",
+          "text": "Vì latency ingest thường lớn hơn nhiều lần nên sẽ che lấp hoàn toàn phần latency của model"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là một dạng của vấn đề quy kết sai nguyên nhân — cùng chủ đề với thứ tự triage của cả ngày. Khi không phân tách được nguồn gốc độ trễ, đội sẽ dành thời gian tối ưu model trong khi nút thắt thật nằm ở pipeline dữ liệu.",
+      "tags": [
+        "day10",
+        "ux-metrics",
+        "latency"
+      ]
+    },
+    {
+      "id": "D10-033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo checkpoint Ingestion, pipeline báo 'thành công' mỗi đêm nhưng data không mới — nghi cái gì đầu tiên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nghi vector store chưa hoán đổi sang collection mới nên agent vẫn đọc bản cũ, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "B",
+          "text": "Nghi kết nối tới database nguồn bị timeout nhưng cơ chế retry đã che mất lỗi đó, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Nghi job chạy xong không lỗi nhưng kéo về 0 dòng — với hệ thống, 'không có dòng mới' trông y hệt 'thành công'"
+        },
+        {
+          "key": "D",
+          "text": "Nghi đồng hồ hệ thống bị lệch múi giờ nên timestamp của bản ghi bị ghi sai ngày, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là ý tưởng trung tâm của cả Day 10, lặp lại ở slide sự cố 09:12: 'Thứ duy nhất sai là không có gì mới — và không có gì mới trông y hệt không có gì cần làm.' Kết luận thực hành: phải đo SỐ DÒNG kéo về, không chỉ đo job có chạy hay không.",
+      "tags": [
+        "day10",
+        "checkpoint"
+      ]
+    },
+    {
+      "id": "D10-034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Yêu cầu bắt buộc đối với bảng quarantine là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải chứa bản sao đầy đủ của bản ghi gốc kèm toàn bộ metadata ở thời điểm bị chặn"
+        },
+        {
+          "key": "B",
+          "text": "Phải được xóa định kỳ mỗi tháng để tránh tích tụ dữ liệu rác trong hệ thống lưu trữ"
+        },
+        {
+          "key": "C",
+          "text": "Không được để agent đọc — nếu không, thứ bạn vừa tách ra vẫn đi thẳng vào câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Phải được đồng bộ về nguồn để đội sở hữu dữ liệu biết bản ghi nào đã bị từ chối"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là lỗi rất dễ mắc khi triển khai: bạn xây cơ chế quarantine cẩn thận nhưng lại để bảng quarantine nằm trong cùng nguồn mà agent truy vấn — kết quả là công sức tách lọc trở nên vô nghĩa. Slide cũng yêu cầu ghi rõ trong data_contract.md mức nào ứng với lỗi nào.",
+      "tags": [
+        "day10",
+        "quarantine"
+      ]
+    },
+    {
+      "id": "D10-035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng so sánh RAW và CLEANED, bản ghi id 44 (Access approve, date NULL) được xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển sang trạng thái review với ghi chú 'chưa embed, đợi SME' vì thiếu ngày nhưng có nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Bị loại bỏ hoàn toàn và ghi vào quarantine vì thiếu trường bắt buộc là ngày hiệu lực"
+        },
+        {
+          "key": "C",
+          "text": "Được điền ngày mặc định là ngày chạy pipeline rồi chuyển sang trạng thái active bình thường"
+        },
+        {
+          "key": "D",
+          "text": "Được giữ nguyên trạng thái NULL và vẫn embed vào vector store để không mất thông tin"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là ví dụ điển hình của hướng FLAG: bản ghi có giá trị (nội dung quy trình duyệt) nhưng thiếu thông tin để quyết định (ngày hiệu lực), nên cần người có thẩm quyền phán quyết. Bảng CLEANED ghi status là review và ghi chú 'chưa embed, đợi SME'.",
+      "tags": [
+        "day10",
+        "clean-example"
+      ]
+    },
+    {
+      "id": "D10-036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "CDC và Snapshot khác nhau ở điểm căn bản nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Snapshot có độ trễ mili-giây; CDC có độ trễ hàng giờ nhưng chi phí thấp hơn nhiều, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Snapshot chụp trạng thái theo lịch như ảnh chụp mỗi 6 giờ; CDC đọc log thay đổi và ghi lại từng sự kiện như video"
+        },
+        {
+          "key": "C",
+          "text": "Snapshot đọc trực tiếp từ log giao dịch; CDC quét lại toàn bộ bảng theo lịch định kỳ, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "D",
+          "text": "Snapshot chỉ dùng được với database quan hệ; CDC dùng được với mọi loại nguồn dữ liệu, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sơ đồ trong slide cho thấy hệ quả cụ thể: với một dòng doc7 trải qua tạo v1 → sửa v2 → sửa v3 → XOÁ, snapshot mỗi 6 giờ chỉ thấy v1 rồi v3 rồi không thấy gì — nó bỏ lỡ hoàn toàn v2 và không biết bản ghi đã bị xóa hay chỉ không còn khớp điều kiện lọc.",
+      "tags": [
+        "day10",
+        "cdc-snapshot"
+      ]
+    },
+    {
+      "id": "D10-037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data cascade được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiện tượng dữ liệu bị nhân bản qua nhiều tầng lưu trữ khiến dung lượng tăng theo cấp số nhân"
+        },
+        {
+          "key": "B",
+          "text": "Một quyết định nhỏ ở đầu nguồn trôi xuôi qua từng bước, mỗi bước làm hậu quả lớn thêm, và chỉ lộ ra ở cuối"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi các bước xử lý dữ liệu được thiết kế để chạy nối tiếp nhau theo thứ tự cố định, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "D",
+          "text": "Cơ chế lan truyền cập nhật từ nguồn xuống mọi hệ thống hạ nguồn khi có thay đổi schema, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide minh họa bằng bốn bước: Nguồn đổi cách ghi ngày → Ingest parse sai để rỗng → Chunk+embed thiếu metadata → Agent trích nhầm bản cũ. Điểm mấu chốt: 'Data không có compiler. Không bước nào ở giữa báo đỏ — nên nó trôi hết cả bốn bước', và chỗ duy nhất có người thấy là ở cuối.",
+      "tags": [
+        "day10",
+        "cascade"
+      ]
+    },
+    {
+      "id": "D10-038",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hoạt động B, drift detection được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So phân bố giá trị của hai file — data kỳ trước làm mốc và data mới về — xem đã đổi chưa"
+        },
+        {
+          "key": "B",
+          "text": "Đo độ lệch giữa kết quả dự đoán của model và kết quả thực tế quan sát được sau đó"
+        },
+        {
+          "key": "C",
+          "text": "Theo dõi sự thay đổi của schema qua các phiên bản để phát hiện thay đổi không tương thích"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện các bản ghi có giá trị nằm ngoài phạm vi cho phép của data contract"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai file trong hoạt động B: taxi_reference.csv là data kỳ trước lấy làm mốc so sánh ('xưa nay data trông như thế này') và taxi_current.csv là data mới về cần kiểm tra. Câu hỏi kết của hoạt động rất đáng chú ý: 'cột duy nhất bị đánh dấu — nó có thật sự hỏng không?'",
+      "tags": [
+        "day10",
+        "drift"
+      ]
+    },
+    {
+      "id": "D10-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi kết bài Day 10 đặt ra lựa chọn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu chỉ được giữ đúng một dashboard — bạn giữ 'chất lượng câu trả lời của agent' hay 'data observability'?"
+        },
+        {
+          "key": "B",
+          "text": "Nếu chỉ được chọn một orchestrator — bạn chọn cái nào cho hệ thống hiện tại của mình?, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Nếu chỉ được viết một rule validate — bạn chọn dimension nào và vì sao lại chọn nó?, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "D",
+          "text": "Nếu chỉ có một giờ để triage — bạn mở dashboard nào trước và tìm con số gì ở đó?, trong khi run_id vẫn được ghi vào lineage"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu hỏi này buộc phải cân giữa chỉ số đầu ra (agent trả lời tốt không) và chỉ số đầu vào (data có đúng không). Nó liên hệ với slide nối observability với UX: các chỉ số như citation freshness và grounding rate nằm ở giữa hai thái cực đó.",
+      "tags": [
+        "day10",
+        "closing"
+      ]
+    },
+    {
+      "id": "D10-040",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí để quyết định một lỗi thuộc mức HALT, QUARANTINE hay WARN là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hỏi tỷ lệ bản ghi bị ảnh hưởng có vượt quá năm phần trăm tổng số dòng hay không"
+        },
+        {
+          "key": "B",
+          "text": "Hỏi cần làm gì và có chờ được không — không phải hỏi lỗi nghe đáng sợ tới đâu"
+        },
+        {
+          "key": "C",
+          "text": "Hỏi lỗi thuộc dimension nào trong sáu dimension của data quality đã được định nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Hỏi lỗi có được nêu rõ trong data contract hay thuộc vùng contract không quy định"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là cách đóng khung quyết định theo HÀNH ĐỘNG chứ không theo cảm nhận về mức độ nghiêm trọng. Một lỗi nghe rất nghiêm trọng nhưng chỉ ảnh hưởng một trường phụ thì vẫn có thể để WARN; ngược lại một lỗi nghe nhẹ như trùng primary key lại buộc phải HALT vì mọi thứ sau đó đều sai theo.",
+      "tags": [
+        "day10",
+        "policy",
+        "criteria"
+      ]
+    },
+    {
+      "id": "D10-041",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Lineage khác hẳn bốn pillar còn lại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì lineage đo được liên tục theo thời gian thực còn bốn pillar kia chỉ đo theo lịch định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Vì lineage yêu cầu công cụ chuyên dụng còn bốn pillar kia viết được bằng vài dòng code"
+        },
+        {
+          "key": "C",
+          "text": "Vì freshness 17h chỉ cho biết đang có sự cố, còn chỉ lineage nói được sự cố nằm ở bước nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì lineage phản ánh trải nghiệm của người dùng cuối còn bốn pillar kia chỉ là chỉ số kỹ thuật"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ trong slide: freshness 17h là triệu chứng, còn lineage chỉ ra nguyên nhân là 'ingest lúc 02:00, không phải ở model'. Bốn pillar đầu là cảm biến tại các điểm rời rạc; lineage là bản đồ nối chúng lại — PDF nguồn → ingest → clean → chunk → vector index.",
+      "tags": [
+        "day10",
+        "lineage"
+      ]
+    },
+    {
+      "id": "D10-042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhóm 'Máy tự check được' gồm những dimension nào và dựa trên cơ sở gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gồm cả sáu dimension, nhưng Accuracy cần thêm thời gian xử lý lâu hơn các dimension khác"
+        },
+        {
+          "key": "B",
+          "text": "Gồm ba dimension đầu, dựa trên các quy tắc được định nghĩa trong data contract, dù mọi giá trị đều nằm trong danh mục hợp lệ"
+        },
+        {
+          "key": "C",
+          "text": "Gồm bốn dimension đầu, dựa trên việc so sánh với dữ liệu tham chiếu của kỳ trước, trong khi contract không quy định gì về điểm này"
+        },
+        {
+          "key": "D",
+          "text": "Gồm Validity, Completeness, Uniqueness, Consistency và Timeliness — chỉ cần nhìn vào chính bảng đó"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ranh giới này quyết định chiến lược đầu tư: năm dimension đầu tự động hóa được nên nên viết code càng sớm càng tốt; Accuracy đòi hỏi quy trình con người nên cần thiết kế vai trò (SME) và kênh liên lạc, không thể giải quyết bằng công cụ.",
+      "tags": [
+        "day10",
+        "6-dimensions"
+      ]
+    },
+    {
+      "id": "D10-043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data contract khác gì với tài liệu mô tả dữ liệu thông thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Contract không mô tả data — nó dùng để PHÁN QUYẾT: thấy con số lạ thì tra xem rơi vào mục nào"
+        },
+        {
+          "key": "B",
+          "text": "Contract được sinh tự động từ schema còn tài liệu mô tả phải viết thủ công bằng tay"
+        },
+        {
+          "key": "C",
+          "text": "Contract chỉ dành cho đội kỹ thuật còn tài liệu mô tả dành cho người dùng nghiệp vụ đọc"
+        },
+        {
+          "key": "D",
+          "text": "Contract có version còn tài liệu mô tả chỉ có một bản duy nhất được cập nhật liên tục"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide phân biệt rất rõ chức năng: contract là công cụ ra quyết định chứ không phải tài liệu tham khảo. Khi gặp một giá trị bất thường, bạn tra xem nó rơi vào mục 2 (danh mục giá trị hợp lệ), mục 3 (quy tắc nghiệp vụ) hay mục 4 (những gì contract không quy định) — mỗi mục dẫn tới một phán quyết khác nhau.",
+      "tags": [
+        "day10",
+        "contract"
+      ]
+    },
+    {
+      "id": "D10-044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi duy nhất để chọn giữa ETL và ELT là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đội của bạn quen thuộc với SQL hơn hay quen thuộc với ngôn ngữ lập trình hơn?, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Khối lượng dữ liệu cần xử lý mỗi ngày là bao nhiêu và có vượt quá năng lực warehouse không?"
+        },
+        {
+          "key": "C",
+          "text": "Bạn có được phép giữ raw không? Không thì ETL, hết lựa chọn; được thì ELT vì giữ raw là giữ quyền đổi ý"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu của bạn có cấu trúc rõ ràng hay là dữ liệu phi cấu trúc dạng văn bản tự do?, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide đóng khung lựa chọn này thành một câu hỏi về ràng buộc pháp lý/tuân thủ chứ không phải về kỹ thuật. Lập luận cho ELT rất đáng nhớ: 'hôm nay bạn chưa biết ba tháng nữa sẽ muốn transform kiểu gì. Giữ raw là giữ quyền đổi ý.'",
+      "tags": [
+        "day10",
+        "etl-elt"
+      ]
+    },
+    {
+      "id": "D10-045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba ngày 8, 9, 10 tạo thành một mạch sản phẩm như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngày 8 thu thập dữ liệu, ngày 9 huấn luyện model, ngày 10 đánh giá chất lượng đầu ra, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Ngày 8 xây nguồn tri thức đáng tin, ngày 9 điều phối multi-agent, ngày 10 cập nhật và monitor chính nguồn tri thức đó"
+        },
+        {
+          "key": "C",
+          "text": "Ngày 8 xây agent, ngày 9 thêm giao diện người dùng, ngày 10 triển khai lên production, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "D",
+          "text": "Ngày 8 chọn model, ngày 9 tối ưu prompt, ngày 10 giảm chi phí vận hành hệ thống, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide mô tả cùng một artifact xuyên suốt: Ngày 8 trả lời 'Refund 7 ngày lấy từ đâu ra?'; Ngày 9 trả lời 'Worker nào đã trả lời câu này?'; Ngày 10 trả lời 'Data vào có còn đúng không — và ai biết trước user?'. Kết luận: 'Hai ngày trước bạn xây agent đọc knowledge base. Hôm nay bạn chịu trách nhiệm cho cái đổ vào knowledge base đó.'",
+      "tags": [
+        "day10",
+        "context"
+      ]
+    },
+    {
+      "id": "D10-046",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm pillars của data observability là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Validity, Completeness, Uniqueness, Consistency và Timeliness theo sáu dimension rút gọn"
+        },
+        {
+          "key": "B",
+          "text": "Symptom, Detection, Diagnosis, Mitigation và Prevention theo mẫu báo cáo sau sự cố"
+        },
+        {
+          "key": "C",
+          "text": "Trigger, Retry, Data awareness, SLA và Backfill theo sáu câu hỏi của orchestrator"
+        },
+        {
+          "key": "D",
+          "text": "Freshness, Volume, Distribution, Schema và Lineage, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide chia rõ: bốn pillar đầu đo tại MỘT ĐIỂM nên chỉ nói 'đang có sự cố'; riêng Lineage nối các điểm đo lại với nhau nên lần ngược được từ triệu chứng về nguyên nhân. Công cụ đo: Great Expectations cho quality check và Evidently cho drift.",
+      "tags": [
+        "day10",
+        "5-pillars"
+      ]
+    },
+    {
+      "id": "D10-047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quality gate nên đặt ở đâu trong flow và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trước bước embed — vì embed tốn tiền và khó rút lại, chặn ở đây rẻ hơn nhiều so với dọn vector store sau đó"
+        },
+        {
+          "key": "B",
+          "text": "Song song với bước clean, để có thể vừa làm sạch vừa kiểm tra trong cùng một lần chạy, kể cả khi suite expectation đã pass toàn bộ"
+        },
+        {
+          "key": "C",
+          "text": "Ngay sau bước load, để chặn dữ liệu xấu sớm nhất có thể trước khi tốn công xử lý, nên rule validate không bắt được trường hợp này"
+        },
+        {
+          "key": "D",
+          "text": "Sau bước publish, để có thể kiểm tra kết quả cuối cùng mà agent thực sự đọc được, trong khi contract không quy định gì về điểm này"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Flow đầy đủ trong slide: load → clean → quality gate → (pass) embed → publish, còn (fail) thì HALT hoặc quarantine. Lý do đặt gate ở đây là kinh tế: chi phí sửa tăng vọt sau khi dữ liệu đã vào vector store, đúng như đồ thị chi phí trong slide data cascade.",
+      "tags": [
+        "day10",
+        "quality-gate"
+      ]
+    },
+    {
+      "id": "D10-048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao chỉ có backoff mà không có jitter vẫn chưa đủ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì API có thể thay đổi giới hạn tần suất bất cứ lúc nào mà không báo trước cho client"
+        },
+        {
+          "key": "B",
+          "text": "Vì thời gian chờ tăng gấp đôi sẽ nhanh chóng vượt quá giới hạn timeout của hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Vì backoff không xử lý được trường hợp lỗi xác thực hết hạn giữa các lần thử lại"
+        },
+        {
+          "key": "D",
+          "text": "Vì 3 worker cùng chờ đúng 2s sẽ cùng đập vào API tại một khoảnh khắc và lại nhận 429"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sơ đồ minh họa rõ: không jitter thì w1, w2, w3 đồng loạt thức dậy cùng lúc; có jitter (cộng thêm một chút ngẫu nhiên) thì ba worker rải ra nên 'API thở được, cả 3 cùng qua'. Đây là vấn đề đồng bộ hóa ngẫu nhiên (thundering herd), không phải vấn đề độ dài thời gian chờ.",
+      "tags": [
+        "day10",
+        "jitter"
+      ]
+    },
+    {
+      "id": "D10-049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu dimensions của data quality là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Correctness, Consistency, Coverage, Currency, Clarity và Compliance theo sáu chữ C"
+        },
+        {
+          "key": "B",
+          "text": "Precision, Recall, Latency, Throughput, Availability và Durability của hệ thống dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Freshness, Volume, Distribution, Schema, Lineage và Accuracy theo năm pillar mở rộng"
+        },
+        {
+          "key": "D",
+          "text": "Validity, Completeness, Uniqueness, Consistency, Timeliness và Accuracy"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide chia sáu dimension thành hai nhóm rõ rệt: năm cái đầu MÁY TỰ CHECK ĐƯỢC chỉ cần nhìn vào chính bảng đó, còn Accuracy CẦN SOURCE OF TRUTH BÊN NGOÀI. Phương án A là 5 pillars của observability — một khái niệm khác trong cùng bài học.",
+      "tags": [
+        "day10",
+        "6-dimensions"
+      ]
+    },
+    {
+      "id": "D10-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo checkpoint Data Quality, suite expectation pass hết có nghĩa là data đã đúng chưa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chưa, cần chạy thêm drift detection để xác nhận phân bố dữ liệu không có thay đổi bất thường, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "B",
+          "text": "Rồi, nếu suite được sinh tự động bởi công cụ profiling dựa trên chính dữ liệu tham chiếu, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Chưa — pass nghĩa là data không vi phạm những gì bạn NGHĨ RA; Accuracy cần đối chiếu source of truth bên ngoài"
+        },
+        {
+          "key": "D",
+          "text": "Rồi, vì suite đã bao phủ toàn bộ sáu dimension nên không còn lỗ hổng nào chưa kiểm tra, nên bước sau không phát hiện được vấn đề"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là giới hạn cấu trúc của mọi hệ thống kiểm thử tự động: bạn chỉ bắt được lỗi mà bạn đã hình dung ra. Slide nhấn mạnh 'không check nào tự làm được' đối với Accuracy — đó là lý do vai trò SME trong bảng RACI không thể thay bằng công cụ.",
+      "tags": [
+        "day10",
+        "checkpoint",
+        "accuracy"
+      ]
+    },
+    {
+      "id": "D10-051",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Slide khuyên hiển thị gì cho người dùng liên quan tới freshness?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiển thị mức độ tin cậy của câu trả lời dựa trên điểm số của bước retrieval, dù dashboard vẫn hiển thị màu xanh bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Hiển thị danh sách tất cả nguồn tài liệu mà agent đã tham khảo khi tạo câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Hiển thị dòng 'Dữ liệu cập nhật tới: …' — giảm rất nhiều kỳ vọng sai, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Hiển thị thời gian phản hồi của hệ thống để người dùng biết khi nào sẽ nhận được câu trả lời"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là biện pháp thiết kế trải nghiệm chứ không phải kỹ thuật: thay vì cố đảm bảo dữ liệu luôn mới tuyệt đối, hãy làm cho độ mới trở nên minh bạch. Người dùng biết dữ liệu cập nhật tới đâu thì tự điều chỉnh được kỳ vọng và biết khi nào cần kiểm tra thêm.",
+      "tags": [
+        "day10",
+        "sla",
+        "ux"
+      ]
+    },
+    {
+      "id": "D10-052",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao idempotency là bắt buộc chứ không phải tùy chọn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì các công cụ orchestration hiện đại từ chối chạy pipeline chưa khai báo tính idempotent, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Vì quy định về kiểm toán yêu cầu mọi lần chạy phải cho ra kết quả giống hệt nhau, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "C",
+          "text": "Vì retry là cơ chế mặc định của mọi orchestrator — pipeline của bạn sẽ chạy lại, dù bạn có thiết kế cho việc đó hay không"
+        },
+        {
+          "key": "D",
+          "text": "Vì chi phí lưu trữ sẽ tăng gấp đôi mỗi lần pipeline chạy lại nếu không có cơ chế chống trùng, trong khi run_id vẫn được ghi vào lineage"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hậu quả cụ thể khi thiếu idempotency: 'Chạy lại để sửa data cũ mà không idempotent thì bạn tự tạo ra bản trùng: agent lấy được cả v3 lẫn v4, và trả lời hai kiểu khác nhau cho cùng một câu hỏi.' Đây chính là triệu chứng 'Lẫn lộn giữa hai phiên bản tài liệu' ở bảng đầu bài.",
+      "tags": [
+        "day10",
+        "idempotency"
+      ]
+    },
+    {
+      "id": "D10-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Expectation trong Great Expectations được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một khẳng định về data mà máy check được — chạy được, log được, đưa vào CI được"
+        },
+        {
+          "key": "B",
+          "text": "Một quy tắc nghiệp vụ do SME định nghĩa và được lưu trong tài liệu data contract"
+        },
+        {
+          "key": "C",
+          "text": "Một giá trị kỳ vọng được tính từ dữ liệu lịch sử để so sánh với dữ liệu mới về"
+        },
+        {
+          "key": "D",
+          "text": "Một mẫu dữ liệu chuẩn dùng làm tham chiếu khi phát hiện thay đổi phân bố giá trị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba tính chất trong định nghĩa đều có ý nghĩa vận hành: chạy được nghĩa là tự động hóa; log được nghĩa là truy vết được; đưa vào CI được nghĩa là chặn được ở cổng trước khi data đi tiếp. Đây là cách biến contract từ văn bản thành cơ chế thực thi.",
+      "tags": [
+        "day10",
+        "great-expectations"
+      ]
+    },
+    {
+      "id": "D10-054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao mục 4 'Những gì contract KHÔNG quy định' được gọi là mục quan trọng nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó ghi lại lịch sử các quyết định đã bị loại bỏ trong quá trình xây dựng contract"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó liệt kê các trường hợp ngoại lệ mà hệ thống được phép bỏ qua khi kiểm tra dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó giúp đội kỹ thuật biết được phạm vi công việc còn lại cần hoàn thiện trong tương lai"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó cho bạn quyền trả lời 'KHÔNG THỂ BIẾT' — thay vì đoán bừa rồi tự tin sai"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ trong slide: 'Không có trần cho fare_amount' và 'Không có quy tắc total_amount phải bằng tổng các khoản lẻ'. Đây là ba phán quyết được phép trong hoạt động A: SAI (vi phạm điều viết rõ), ĐÚNG (trông lạ nhưng contract giải thích được), và KHÔNG THỂ BIẾT (contract không nói gì — phải ghi rõ cần nguồn nào).",
+      "tags": [
+        "day10",
+        "contract",
+        "unknown"
+      ]
+    },
+    {
+      "id": "D10-055",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi khó được đặt ra ở slide quality gate là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ai là người có thẩm quyền quyết định bỏ qua quality gate khi có sự cố khẩn cấp?"
+        },
+        {
+          "key": "B",
+          "text": "Nên đặt bao nhiêu quality gate trong một pipeline để cân bằng giữa an toàn và tốc độ?"
+        },
+        {
+          "key": "C",
+          "text": "Drift tăng nhưng quality gate vẫn pass — hệ thống nên chặn hay chỉ báo?"
+        },
+        {
+          "key": "D",
+          "text": "Quality gate fail nhưng dữ liệu vẫn cần gấp cho nghiệp vụ — có nên bỏ qua gate không?"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide trả lời: 'Ba hoạt động sáng nay là để bạn tự trả lời được câu này.' Đây là điểm giao của hai công cụ khác nhau — rule validate từng dòng (gate) và drift detection trên phân bố — mà takeaway số 2 khẳng định không thay thế được nhau.",
+      "tags": [
+        "day10",
+        "quality-gate",
+        "drift"
+      ]
+    },
+    {
+      "id": "D10-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói không thể thoát khỏi data cascade bằng cách 'kêu gọi cẩn thận hơn'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi cascade đều bắt đầu bằng một quyết định hợp lý tại chỗ, không phải do ai cẩu thả — nên phải gắn cảm biến sớm hơn"
+        },
+        {
+          "key": "B",
+          "text": "Vì con người luôn mắc lỗi nên phải thay thế hoàn toàn quy trình thủ công bằng tự động hóa, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Vì số lượng bước trong pipeline quá nhiều nên không ai có thể kiểm soát hết được, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Vì các đội khác nhau không chia sẻ thông tin nên không biết thay đổi của nhau, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là luận điểm quan trọng nhất của slide: nguyên nhân không nằm ở thái độ làm việc mà ở việc thiếu điểm quan sát. Mỗi quyết định (ví dụ đổi cách ghi ngày) đều hợp lý trong phạm vi của người ra quyết định; chỉ khi ghép cả chuỗi lại mới thành vấn đề. Giải pháp vì thế là kỹ thuật chứ không phải kỷ luật.",
+      "tags": [
+        "day10",
+        "cascade"
+      ]
+    },
+    {
+      "id": "D10-057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Backoff theo cấp số nhân hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi lần thất bại thì chờ gấp đôi — 1s, 2s, 4s, 8s — để không dồn dập vào API đang quá tải"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi lần thất bại thì giảm một nửa thời gian chờ để nhanh chóng thử lại khi API phục hồi"
+        },
+        {
+          "key": "C",
+          "text": "Chờ một khoảng cố định giữa các lần thử để đảm bảo tần suất gọi luôn đều đặn ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Chờ theo thời gian tỷ lệ với số lượng bản ghi cần kéo về trong lần chạy đó"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sơ đồ trong slide vẽ chuỗi 1s → 2s → 4s → 8s. Ý tưởng là nếu API đang quá tải thì việc gọi lại ngay chỉ làm tình hình tệ hơn; khoảng chờ tăng dần cho hệ thống bên kia thời gian phục hồi.",
+      "tags": [
+        "day10",
+        "backoff"
+      ]
+    },
+    {
+      "id": "D10-058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'Một trang lỗi khác cả job lỗi' được thực hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia nhỏ trang lỗi thành nhiều phần và xử lý từng phần cho tới khi tìm ra bản ghi gây lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Thử lại trang lỗi ngay lập tức tối đa mười lần trước khi quyết định dừng toàn bộ job"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua trang lỗi và ghi cảnh báo vào log để đội vận hành xem lại vào ngày hôm sau"
+        },
+        {
+          "key": "D",
+          "text": "Ghi trang hỏng vào DLQ rồi chạy lại đúng nó, thay vì đánh sập cả job vì một trang"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguyên tắc này giữ cho một sự cố cục bộ không leo thang thành sự cố toàn hệ thống. Nó kết hợp hai khái niệm đã học: DLQ làm nơi giữ lại phần hỏng để quan sát, và checkpoint idempotent cho phép chạy lại đúng phần đó mà không kéo lại từ đầu.",
+      "tags": [
+        "day10",
+        "dlq",
+        "resilience"
+      ]
+    },
+    {
+      "id": "D10-059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mã lỗi 429 nghĩa là gì và nên xử lý thế nào trước tiên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nghĩa là 'bạn gọi nhiều quá'; bên kia thường kèm header Retry-After nên đọc nó trước khi tự đoán"
+        },
+        {
+          "key": "B",
+          "text": "Nghĩa là máy chủ đang gặp sự cố nội bộ; nên chờ và thử lại sau vài phút, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Nghĩa là xác thực đã hết hạn; nên làm mới token rồi thử lại ngay lập tức, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Nghĩa là tài nguyên không tồn tại; nên kiểm tra lại đường dẫn endpoint đang gọi, nên bước sau không phát hiện được vấn đề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhấn mạnh việc đọc header Retry-After trước khi tự nghĩ ra chiến lược chờ — bên cung cấp API biết rõ khi nào họ sẵn sàng nhận lại. Sai kinh điển được nêu: 'Retry vô hạn, không backoff — pipeline tự DDoS chính API nguồn. Bên kia chặn bạn, và họ đúng.'",
+      "tags": [
+        "day10",
+        "429"
+      ]
+    },
+    {
+      "id": "D10-060",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Triệu chứng 'Chỉ sai với một loại ticket' nên được xử lý bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm tra lại freshness và thời điểm publish gần nhất của toàn bộ knowledge base"
+        },
+        {
+          "key": "B",
+          "text": "Bổ sung grounding constraints vào prompt và yêu cầu agent trích dẫn nguồn cho mọi câu"
+        },
+        {
+          "key": "C",
+          "text": "So sánh distribution của dữ liệu trước và sau lần deploy gần nhất để tìm điểm lệch"
+        },
+        {
+          "key": "D",
+          "text": "Khoanh vùng theo lineage để xác định nguồn OCR hoặc API nào đang gây ra vấn đề"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đặc điểm 'chỉ sai với MỘT LOẠI' cho biết vấn đề khu trú ở một nhánh dữ liệu cụ thể chứ không phải toàn hệ thống. Lineage là công cụ duy nhất trong 5 pillars trả lời được câu hỏi 'sự cố nằm ở bước nào' — bốn pillar còn lại chỉ nói 'đang có sự cố'.",
+      "tags": [
+        "day10",
+        "symptom",
+        "lineage"
+      ]
+    },
+    {
+      "id": "D10-061",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao dòng Detection được coi là đáng giá nhất trong báo cáo sau sự cố?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó là mục duy nhất có thể đo lường được bằng số liệu khách quan trong toàn báo cáo, trong khi run_id vẫn được ghi vào lineage"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó xác định được người chịu trách nhiệm cho việc không phát hiện ra sự cố kịp thời, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Vì nếu không có metric nào báo trước user thì việc cần làm không phải sửa bug mà là thêm metric — bug lần sau sẽ khác, chỗ không ai đo thì vẫn nguyên đó"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó cho biết thời gian phản ứng của đội trực và là căn cứ để cải thiện quy trình on-call, dù pipeline đã được cấu hình retry đầy đủ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lập luận này rất sắc: sửa bug là giải quyết một trường hợp cụ thể, còn thêm metric là giải quyết cả một lớp trường hợp chưa xảy ra. Nó cũng nhất quán với thông điệp của slide data cascade — bạn thoát khỏi vấn đề bằng cách gắn cảm biến sớm hơn, không phải bằng cách cẩn thận hơn.",
+      "tags": [
+        "day10",
+        "postmortem",
+        "detection"
+      ]
+    },
+    {
+      "id": "D10-062",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 1 của Day 10 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data quality phải được đo bằng cả sáu dimension mới đảm bảo không bỏ sót loại lỗi nào, trong khi run_id vẫn được ghi vào lineage"
+        },
+        {
+          "key": "B",
+          "text": "Không có data contract thì mọi bất thường trông giống nhau — bạn sẽ chặn nhầm data đúng và bỏ lọt data sai cùng một lúc"
+        },
+        {
+          "key": "C",
+          "text": "Mọi nguồn dữ liệu phải có owner có tên và có SLA được cam kết rõ ràng với người dùng, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Observability quan trọng hơn quality check vì nó phát hiện được lỗi mà check không nghĩ tới, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vế 'cùng một lúc' rất quan trọng: thiếu contract gây ra hai loại sai lầm ngược chiều nhau đồng thời. Bạn không thể sửa bằng cách siết chặt rule (sẽ chặn nhầm nhiều hơn) hay nới lỏng rule (sẽ bỏ lọt nhiều hơn) — chỉ có contract mới cho bạn tiêu chuẩn phân biệt.",
+      "tags": [
+        "day10",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D10-063",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Evidently được mô tả là gì trong quan hệ với drift.py của hoạt động B?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một phiên bản thương mại có trả phí với nhiều tính năng nâng cao hơn bản mã nguồn mở, dù dashboard vẫn hiển thị màu xanh bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Một công cụ hoàn toàn khác dùng để kiểm tra chất lượng dữ liệu theo từng dòng riêng lẻ, nên không có metric nào bắn cảnh báo"
+        },
+        {
+          "key": "C",
+          "text": "Bản có người bảo trì của drift.py — tự chọn phép thống kê theo type cột, report HTML, threshold cấu hình được, chạy được trong pipeline"
+        },
+        {
+          "key": "D",
+          "text": "Một thư viện chỉ dùng để trực quan hóa kết quả drift chứ không tự tính toán được điểm lệch, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nhấn mạnh sinh viên 'vừa viết được thứ này trong 40 dòng' rồi mới giới thiệu library. Cách trình bày này có chủ ý: hiểu bản chất trước, dùng công cụ sau — nhờ đó mới hiểu được giới hạn của công cụ như đã nêu ở bài học về reference bị chọn sai.",
+      "tags": [
+        "day10",
+        "evidently"
+      ]
+    },
+    {
+      "id": "D10-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phạm vi kiểm tra của từng dimension khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả năm dimension đều xét trên phạm vi toàn bộ bảng dữ liệu nhưng khác nhau về tiêu chí, nên rule validate không bắt được trường hợp này"
+        },
+        {
+          "key": "B",
+          "text": "Validity và Completeness xét từng dòng, ba dimension còn lại xét trên toàn bộ tập dữ liệu, dù mọi giá trị đều nằm trong danh mục hợp lệ"
+        },
+        {
+          "key": "C",
+          "text": "Validity xét một ô, Completeness xét một cột, Uniqueness xét cả bảng, Consistency xét nhiều hệ thống, Timeliness xét so với đồng hồ"
+        },
+        {
+          "key": "D",
+          "text": "Validity xét cả bảng, Completeness xét một ô, Uniqueness xét một cột, Consistency xét so với đồng hồ, trong khi contract không quy định gì về điểm này"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Sơ đồ trong slide ghi phạm vi ngay dưới mỗi dimension. Phạm vi quyết định chi phí và độ khó: kiểm tra một ô rất rẻ nên Validity là dimension nên viết check trước tiên; đối chiếu chéo nhiều hệ thống (Consistency) tốn kém hơn nhiều.",
+      "tags": [
+        "day10",
+        "6-dimensions",
+        "scope"
+      ]
+    },
+    {
+      "id": "D10-065",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ về 'Ràng buộc chéo cột' trong nhóm vấn đề âm thầm là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trường ngày tháng vượt quá thời điểm hiện tại do lệch múi giờ hoặc lỗi khi parse"
+        },
+        {
+          "key": "B",
+          "text": "Chunk có độ dài ngắn bất thường so với mức trung bình của các lần chạy trước đó"
+        },
+        {
+          "key": "C",
+          "text": "Cột effective_date có tỷ lệ NULL tăng vọt sau khi API nguồn thay đổi cấu trúc trả về"
+        },
+        {
+          "key": "D",
+          "text": "end < start hoặc version mới nhỏ hơn version cũ — từng cột đều hợp lệ, ghép lại thì vô lý"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Loại lỗi này đặc biệt vì nó vượt qua được mọi check ở phạm vi một ô (Validity): end là ngày hợp lệ, start là ngày hợp lệ, version là số hợp lệ. Chỉ khi kiểm tra quan hệ GIỮA các cột mới phát hiện được — đây là lý do check theo dimension đơn lẻ chưa đủ.",
+      "tags": [
+        "day10",
+        "cross-column"
+      ]
+    },
+    {
+      "id": "D10-066",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "SME trong bảng RACI là ai?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Subject matter expert — người nắm nghiệp vụ, biết chắc thế nào là đúng"
+        },
+        {
+          "key": "B",
+          "text": "Người đại diện cho nhóm người dùng cuối trong quá trình phát triển sản phẩm"
+        },
+        {
+          "key": "C",
+          "text": "Kỹ sư phụ trách toàn bộ luồng dữ liệu từ nguồn tới nơi agent đọc được"
+        },
+        {
+          "key": "D",
+          "text": "Người quản lý hạ tầng và chịu trách nhiệm về thời gian hoạt động của hệ thống"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide định nghĩa trực tiếp trong chú thích. Vai trò của SME rất quan trọng vì Accuracy là dimension duy nhất trong 6 dimensions cần source of truth bên ngoài — máy không tự check được, phải đi hỏi SME, hệ thống gốc, chứng từ hoặc thực địa.",
+      "tags": [
+        "day10",
+        "raci",
+        "sme"
+      ]
+    },
+    {
+      "id": "D10-067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide yêu cầu ghi lại cả những bước dẫn tới ngõ cụt khi triage?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì lần sau đỡ mất 20 phút đó — người triage tiếp theo không phải đi lại con đường đã biết là sai"
+        },
+        {
+          "key": "B",
+          "text": "Để có dữ liệu huấn luyện cho một agent tự động triage sự cố trong tương lai gần, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Vì quy định về kiểm toán yêu cầu ghi lại toàn bộ quá trình xử lý sự cố trong hệ thống"
+        },
+        {
+          "key": "D",
+          "text": "Để chứng minh với quản lý rằng đội đã kiểm tra đầy đủ mọi khả năng có thể xảy ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi: 'Ghi lại mọi metric đã xem và kết luận từng bước — kể cả bước dẫn tới ngõ cụt.' Đây là cách biến thời gian đã tiêu tốn thành tài sản của đội thay vì kiến thức nằm trong đầu một người. Cùng tinh thần với slide 'Sau sự cố: biến nó thành tài sản'.",
+      "tags": [
+        "day10",
+        "timebox"
+      ]
+    },
+    {
+      "id": "D10-068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Timebox triage được chia thành mấy giai đoạn và mỗi giai đoạn làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai giai đoạn: 0–10 phút khoanh vùng triệu chứng, 10–30 phút tìm nguyên nhân gốc rễ, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Bốn giai đoạn tương ứng bốn pillar đầu, mỗi giai đoạn dành đúng năm phút để kiểm tra, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Ba giai đoạn: 0–15 phút thu thập thông tin, 15–30 phút phân tích, 30–60 phút khắc phục, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Ba giai đoạn: 0–5 phút freshness và last_success_run, 5–12 phút volume và error rate từng bước, 12–20 phút schema/contract rồi lần lineage ngược về nguồn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sau 20 phút mà chưa ra nguyên nhân thì slide yêu cầu chuyển sang giảm thiệt hại: rollback bản publish trước, hoặc bật banner 'dữ liệu đang cập nhật'. Lý do: 'User đang chờ. Tìm nguyên nhân là việc quan trọng — nhưng không quan trọng bằng việc chặn thiệt hại lại.'",
+      "tags": [
+        "day10",
+        "timebox"
+      ]
+    },
+    {
+      "id": "D10-069",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc triage được nêu ở slide triệu chứng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm tra log của model để xem có thay đổi nào về phiên bản hay cấu hình không"
+        },
+        {
+          "key": "B",
+          "text": "Chạy lại toàn bộ pipeline từ đầu trước khi bắt đầu điều tra nguyên nhân gốc rễ"
+        },
+        {
+          "key": "C",
+          "text": "Thu thập phản hồi từ nhiều người dùng để xác định phạm vi ảnh hưởng của sự cố"
+        },
+        {
+          "key": "D",
+          "text": "Đo freshness và volume trước khi mở notebook fine-tune, dù dashboard vẫn hiển thị màu xanh bình thường"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguyên tắc này lặp lại ở nhiều slide, đặc biệt là câu trích dẫn của ngày: 'Khi agent trả lời cũ, đừng debug model trước. Freshness → Volume → Schema → Lineage → nguyên nhân.' Lý do được nêu ở slide nối observability với UX: 'Model hiếm khi tự dưng kém đi sau một đêm — data thì có.'",
+      "tags": [
+        "day10",
+        "triage"
+      ]
+    },
+    {
+      "id": "D10-070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi để chọn giữa Batch và Streaming theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data trễ 6 tiếng thì agent trả lời sai tới mức nào? Trả lời được câu đó mới chọn được"
+        },
+        {
+          "key": "B",
+          "text": "Ngân sách cho hạ tầng dữ liệu mỗi tháng là bao nhiêu và có thể tăng thêm không?"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống của bạn có đủ hạ tầng để chạy streaming liên tục hai mươi tư giờ không?"
+        },
+        {
+          "key": "D",
+          "text": "Nguồn dữ liệu của bạn có hỗ trợ webhook hay chỉ cho phép truy vấn theo lô?"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhấn mạnh kèm theo: 'không phải cứ realtime là tốt hơn'. Cách đặt câu hỏi này chuyển quyết định kỹ thuật thành câu hỏi về tác động nghiệp vụ — cùng tinh thần với freshness SLA được nói bằng ngôn ngữ nghiệp vụ ở phần sau.",
+      "tags": [
+        "day10",
+        "batch-streaming"
+      ]
+    },
+    {
+      "id": "D10-071",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai mức alert của freshness SLA khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức một cảnh báo qua email cho toàn đội, mức hai gửi tin nhắn cho quản lý trực tiếp, dù dashboard vẫn hiển thị màu xanh bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Mức một áp dụng cho dữ liệu nội bộ, mức hai áp dụng cho dữ liệu phục vụ khách hàng bên ngoài, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "C",
+          "text": "Đi hết nửa thời gian (2 giờ) → warning vào ticket queue, còn kịp xử lý trong giờ hành chính; hết 4 giờ → page thẳng cho người on-call kể cả 3 giờ sáng"
+        },
+        {
+          "key": "D",
+          "text": "Mức một ghi log để xem lại vào cuối ngày, mức hai tự động dừng pipeline và rollback, kể cả khi on-call đã kiểm tra thủ công"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc phân biệt được nêu rất rõ: 'Gọi người vì user đang chịu ảnh hưởng — không phải vì job màu đỏ.' Mức warning là tín hiệu sớm còn kịp xử lý bình thường; mức page chỉ dùng khi đã vi phạm cam kết với người dùng, đủ nghiêm trọng để đánh thức người trực.",
+      "tags": [
+        "day10",
+        "sla",
+        "alert"
+      ]
+    },
+    {
+      "id": "D10-072",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sự cố thật lúc 09:12, điều gì khiến pipeline không hề báo lỗi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi xảy ra ở tầng vector store chứ không phải tầng pipeline nên không nằm trong phạm vi giám sát, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống giám sát bị lỗi cùng thời điểm nên không gửi được cảnh báo tới đội trực, dù dashboard vẫn hiển thị màu xanh bình thường"
+        },
+        {
+          "key": "C",
+          "text": "Cơ chế retry đã che mất lỗi gốc nên log chỉ ghi lại lần thử cuối cùng đã thành công, nên không có metric nào bắn cảnh báo"
+        },
+        {
+          "key": "D",
+          "text": "Job kết thúc, log không báo gì — thứ duy nhất sai là không có gì mới, mà 'không có gì mới' trông y hệt 'không có gì cần làm'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Diễn biến: sync 02:00 failed, retry exhausted, vector store vẫn giữ bản cập nhật từ hôm qua nên freshness = 17h, agent trả lời 'Refund 14 ngày' trong khi policy thật là 7 ngày. Đây là kiểu hỏng nguy hiểm nhất vì mọi tín hiệu kỹ thuật đều bình thường.",
+      "tags": [
+        "day10",
+        "incident"
+      ]
+    },
+    {
+      "id": "D10-073",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chỉ số 'Citation freshness' đo cái gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng thời gian từ lúc tài liệu được ingest tới lúc nó xuất hiện trong câu trả lời đầu tiên"
+        },
+        {
+          "key": "B",
+          "text": "Số lượng nguồn tài liệu khác nhau được agent tham chiếu trong một câu trả lời điển hình"
+        },
+        {
+          "key": "C",
+          "text": "Tuổi trung bình và p95 của chunk được agent trích dẫn — đây là freshness user thật sự nhìn thấy"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ phần trăm câu trả lời của agent có kèm theo trích dẫn nguồn hợp lệ, kể cả khi on-call đã kiểm tra thủ công"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm tinh tế: freshness của toàn bộ knowledge base có thể tốt nhưng nếu agent liên tục trích dẫn những chunk cũ thì trải nghiệm người dùng vẫn tệ. Chỉ số này đo đúng thứ đến tay người dùng. Phương án A là định nghĩa của Grounding rate — một chỉ số khác trong cùng bảng.",
+      "tags": [
+        "day10",
+        "ux-metrics"
+      ]
+    },
+    {
+      "id": "D10-074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Snapshot không phát hiện được việc một bản ghi bị xóa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì snapshot chạy theo lịch nên nếu bản ghi bị xóa giữa hai lần quét thì hệ thống báo lỗi, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Vì mỗi lần quét nó chỉ thấy trạng thái hiện tại, không thấy lịch sử — bản ghi biến mất trông giống như chưa từng khớp điều kiện"
+        },
+        {
+          "key": "C",
+          "text": "Vì snapshot lưu lại toàn bộ lịch sử nên bản ghi cũ vẫn còn trong kho dữ liệu, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Vì snapshot chỉ đọc được các bản ghi mới tạo chứ không đọc được bản ghi đã tồn tại, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi chú rõ: 'Với mỗi dòng, nó thấy trạng thái hiện tại, không thấy lịch sử.' Đây là hạn chế cấu trúc chứ không phải lỗi cấu hình. CDC đọc thẳng log thay đổi nên bắt được cả sự kiện DELETE. Slide cũng lưu ý chọn cái nào là việc của team quản lý database nguồn.",
+      "tags": [
+        "day10",
+        "cdc-snapshot"
+      ]
+    },
+    {
+      "id": "D10-075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba hướng xử lý một dòng data trong bước Transform là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accept, Modify và Delete tùy theo mức độ nghiêm trọng của vấn đề phát hiện được"
+        },
+        {
+          "key": "B",
+          "text": "Clean (sửa được), Flag (cần người quyết), và Reject (không cứu được)"
+        },
+        {
+          "key": "C",
+          "text": "Validate, Transform và Load theo ba giai đoạn xử lý tuần tự của pipeline"
+        },
+        {
+          "key": "D",
+          "text": "Halt, Quarantine và Warn theo ba mức độ ảnh hưởng tới hệ thống hạ nguồn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ từng hướng: CLEAN là trim whitespace, parse ngày về YYYY-MM-DD UTC, unicode NFC — rồi đi thẳng vào vector store. FLAG là thiếu ngày nhưng có nội dung, hoặc OCR confidence thấp — chờ SME duyệt xong thì quay lại. REJECT là nội dung rỗng sau khi trim, hoặc trùng khóa — vào quarantine.csv. Lưu ý phương án C là ba mức chính sách ở Section 6, khác khái niệm.",
+      "tags": [
+        "day10",
+        "clean-reject-flag"
+      ]
+    },
+    {
+      "id": "D10-076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao fare_amount âm không nên để pipeline dừng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì pipeline nên tiếp tục chạy trong mọi trường hợp và chỉ ghi cảnh báo vào log để xem sau, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Vì giá trị âm chỉ chiếm tỷ lệ rất nhỏ nên ảnh hưởng không đáng kể tới chất lượng tổng thể, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "C",
+          "text": "Vì hệ thống có thể tự động chuyển giá trị âm thành giá trị tuyệt đối trước khi xử lý tiếp, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó hợp lệ — đó là bản ghi hoàn tiền; rule chặn nó là rule chưa khớp nghiệp vụ, và chặn kiểu đó làm cả nhóm mất niềm tin vào alert"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hậu quả xã hội được nêu rất quan trọng: alert sai làm mất niềm tin, và một khi đội đã quen bỏ qua alert thì alert đúng cũng bị bỏ qua. Đây là lý do mục 3 của data contract (quy tắc nghiệp vụ) phải được viết trước khi viết rule kiểm tra.",
+      "tags": [
+        "day10",
+        "checkpoint",
+        "false-alarm"
+      ]
+    },
+    {
+      "id": "D10-077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong hoạt động khởi động, tình huống 'Mask PII trong log trước khi log vào data lake' nên chọn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ELT kết hợp streaming, vì log sinh ra liên tục nên cần xử lý ngay khi sự kiện xuất hiện"
+        },
+        {
+          "key": "B",
+          "text": "Tùy vào khối lượng log mỗi ngày, dưới một triệu dòng thì ETL còn trên thì nên dùng ELT"
+        },
+        {
+          "key": "C",
+          "text": "ELT, vì cần giữ lại raw để sau này có thể phân tích lại theo nhiều cách khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "ETL, vì đây đúng trường hợp KHÔNG được phép giữ raw do ràng buộc về dữ liệu cá nhân"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là ứng dụng trực tiếp của câu hỏi 'bạn có được phép giữ raw không'. PII trong log là ví dụ điển hình trong slide ETL: 'log có số CMND — luật buộc mask trước khi lưu'. Khi có ràng buộc governance thì không còn lựa chọn nào khác.",
+      "tags": [
+        "day10",
+        "exercise"
+      ]
+    },
+    {
+      "id": "D10-078",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài tập về nhà sau Day 10 yêu cầu suy nghĩ về điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu ai đó cố tình bơm data độc vào nguồn của bạn — check nào hiện tại bắt được?"
+        },
+        {
+          "key": "B",
+          "text": "Thiết kế lại data contract cho hệ thống của bạn dựa trên bốn mục đã học trong bài"
+        },
+        {
+          "key": "C",
+          "text": "Ước lượng chi phí vận hành của việc thêm observability vào pipeline hiện tại của bạn"
+        },
+        {
+          "key": "D",
+          "text": "So sánh ba orchestrator và chọn một cái phù hợp nhất với quy mô đội của bạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu hỏi này bắc cầu sang bài tiếp theo là Guardrails & AI Safety, với thông điệp: 'Data đúng không có nghĩa là an toàn — ngày mai là lớp bảo vệ ở mọi tầng.' Bài đọc kèm theo là OWASP Top 10 for LLMs.",
+      "tags": [
+        "day10",
+        "homework"
+      ]
+    },
+    {
+      "id": "D10-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm kiểu data không clean thường gặp là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thiếu metadata, sai schema, quá hạn, trùng khóa, và vượt giới hạn kích thước, dù mọi giá trị đều nằm trong danh mục hợp lệ"
+        },
+        {
+          "key": "B",
+          "text": "Thiếu giá trị, outlier, trùng lặp, sai định dạng, và lỗi encoding, kể cả khi suite expectation đã pass toàn bộ"
+        },
+        {
+          "key": "C",
+          "text": "Null rate cao, độ dài bất thường, ngôn ngữ lạ, ràng buộc chéo cột sai, và thời gian tương lai"
+        },
+        {
+          "key": "D",
+          "text": "Timeout, rate limit, pagination lệch, backpressure, và poison message trong hàng đợi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chi tiết từng kiểu: thiếu giá trị (NULL, chuỗi rỗng, 'N/A', hoặc số 0 giả làm 'chưa có'); outlier (một dòng bất thường đủ để kéo lệch cả embedding); trùng lặp (dedupe theo hash nội dung hoặc khóa tự nhiên); sai định dạng (31/12/2024 và 2024-12-31 trong cùng một cột); lỗi encoding (UTF-8 lẫn Latin-1). Phương án C là danh sách của slide 'Đủ số dòng không có nghĩa là ổn'.",
+      "tags": [
+        "day10",
+        "dirty-data"
+      ]
+    },
+    {
+      "id": "D10-080",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ranh giới quan trọng về quyền sở hữu nguồn data theo slide RACI là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyền sở hữu nguồn nên luân phiên theo tháng để mọi thành viên đều hiểu toàn bộ hệ thống, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi người chỉ được đứng tên đúng một nguồn để tránh quá tải trách nhiệm khi có sự cố, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi nguồn phải có đúng một owner có tên; một người đóng nhiều vai thì được, nhưng nguồn không ai đứng tên thì không"
+        },
+        {
+          "key": "D",
+          "text": "Mỗi nguồn phải có ít nhất hai owner để đảm bảo luôn có người xử lý khi một người vắng mặt, dù pipeline đã được cấu hình retry đầy đủ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide phân biệt rõ hai chiều: một NGƯỜI có thể đảm nhiệm nhiều nguồn (chấp nhận được), nhưng một NGUỒN không có ai đứng tên là không chấp nhận được. Slide ingestion cũng lặp lại: 'Nguồn nào không điền nổi cột owner là nguồn sẽ gây sự cố.'",
+      "tags": [
+        "day10",
+        "raci",
+        "ownership"
+      ]
+    },
+    {
+      "id": "D10-081",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự triage khi agent trả lời sai theo câu trích dẫn của ngày là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lineage → Schema → Volume → Freshness theo hướng ngược từ nguồn tới đích"
+        },
+        {
+          "key": "B",
+          "text": "Model → Prompt → Retrieval → Data → nguyên nhân gốc rễ của toàn hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Freshness → Volume → Schema → Lineage → nguyên nhân, rồi mới đến model"
+        },
+        {
+          "key": "D",
+          "text": "Log → Metric → Trace → Alert theo bốn tầng quan sát của hệ thống phân tán"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Thứ tự này được thiết kế theo nguyên tắc rẻ-trước-đắt-sau: freshness và volume là hai chỉ số đọc được ngay trong vài giây, còn lineage đòi hỏi lần ngược qua nhiều bước. Slide nối observability với UX cũng nhắc lại: 'Model hiếm khi tự dưng kém đi sau một đêm — data thì có.'",
+      "tags": [
+        "day10",
+        "triage"
+      ]
+    },
+    {
+      "id": "D10-082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn trục cần cân nhắc khi chọn phương án cho các tình huống trong hoạt động khởi động là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Latency, governance, cost và khả năng debug, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "B",
+          "text": "Nguồn dữ liệu, định dạng, tần suất cập nhật và số lượng người dùng cuối truy cập"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí hạ tầng, chi phí nhân sự, thời gian phát triển và rủi ro khi vận hành"
+        },
+        {
+          "key": "D",
+          "text": "Tốc độ, độ chính xác, khả năng mở rộng và mức độ phức tạp khi triển khai lần đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn trục này bao phủ cả yêu cầu kỹ thuật (latency), ràng buộc pháp lý (governance), kinh tế (cost) và vận hành (khả năng debug). Slide nhấn mạnh phần được chấm điểm là câu hỏi cuối: 'Với lựa chọn của bạn, bạn đang đánh đổi cái gì?'",
+      "tags": [
+        "day10",
+        "exercise"
+      ]
+    },
+    {
+      "id": "D10-083",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway 'Drift khác data sai' có nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Drift chỉ nói distribution đã đổi, không nói ai đúng; nó không thay được rule validate từng dòng — và ngược lại"
+        },
+        {
+          "key": "B",
+          "text": "Drift là dấu hiệu sớm của data sai nên phát hiện drift là đủ để ngăn chặn lỗi dữ liệu, kể cả khi on-call đã kiểm tra thủ công"
+        },
+        {
+          "key": "C",
+          "text": "Drift chỉ xảy ra khi nguồn dữ liệu thay đổi còn data sai xảy ra do lỗi trong pipeline, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Data sai luôn kéo theo drift nên chỉ cần theo dõi drift là bao phủ được cả hai vấn đề, nên không có metric nào bắn cảnh báo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vế 'và ngược lại' rất quan trọng: rule validate từng dòng cũng không thay được drift detection. Một tập dữ liệu có thể pass toàn bộ rule mà phân bố đã lệch hoàn toàn (ví dụ tất cả giá trị đều hợp lệ nhưng dồn về một khoảng bất thường), và ngược lại drift bình thường vẫn có thể chứa những dòng vi phạm quy tắc.",
+      "tags": [
+        "day10",
+        "takeaway",
+        "drift"
+      ]
+    },
+    {
+      "id": "D10-084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sơ đồ Data Pipeline trong AI Stack gồm những tầng nào theo thứ tự?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Storage → Sources → Pipeline → Agent → Serving"
+        },
+        {
+          "key": "B",
+          "text": "Pipeline → Sources → Serving → Storage → Agent"
+        },
+        {
+          "key": "C",
+          "text": "Sources → Storage → Pipeline → Agent → Serving"
+        },
+        {
+          "key": "D",
+          "text": "Sources → Pipeline → Storage → Serving → Agent"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chi tiết từng tầng: Sources là DB/API/file/stream; Pipeline là ingest + transform; Storage là warehouse và vector store; Serving là API và cache; cuối cùng là Agent gồm LLM + tools + RAG. Chú ý quan trọng: 'Bốn mũi tên này là bốn chỗ data có thể hỏng mà agent vẫn chạy bình thường. Không có chỗ nào tự báo lỗi.'",
+      "tags": [
+        "day10",
+        "stack"
+      ]
+    },
+    {
+      "id": "D10-085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Checkpoint idempotent trong pagination nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu bản sao của toàn bộ dữ liệu đã kéo về để có thể so sánh khi chạy lại lần sau, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "B",
+          "text": "Đánh dấu mọi bản ghi đã xử lý bằng một cờ riêng để tránh xử lý lại lần thứ hai, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "C",
+          "text": "Ghi lại số trang đã đọc để lần chạy sau bắt đầu từ trang kế tiếp trong danh sách, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Lưu lại chính cái mốc đó, ví dụ last_synced_id — chạy lại thì đi tiếp, không kéo lại toàn bộ lịch sử"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là ứng dụng của nguyên tắc idempotency vào bước ingest. Lợi ích kép: vừa tránh kéo lại toàn bộ lịch sử (tiết kiệm) vừa đảm bảo chạy lại không sinh bản trùng. Slide còn bổ sung nguyên tắc 'Một trang lỗi khác cả job lỗi': ghi trang hỏng vào DLQ rồi chạy lại đúng nó thay vì đánh sập cả job.",
+      "tags": [
+        "day10",
+        "checkpoint"
+      ]
+    },
+    {
+      "id": "D10-086",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Freshness SLA nên được viết như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pipeline chạy mỗi 4 tiếng, đảm bảo dữ liệu luôn được làm mới theo đúng lịch đã định"
+        },
+        {
+          "key": "B",
+          "text": "Policy refund phải xuất hiện trong câu trả lời của agent trong vòng 4 giờ kể từ khi PDF được ký"
+        },
+        {
+          "key": "C",
+          "text": "Job ingest phải hoàn thành trong vòng 30 phút kể từ lúc bắt đầu chạy mỗi đêm, trong khi freshness vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Độ trễ trung bình từ nguồn tới vector store không vượt quá 4 giờ trong 95% trường hợp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide đối lập trực tiếp hai cách viết: 'Không viết: pipeline chạy mỗi 4 tiếng. Viết: policy refund phải xuất hiện trong câu trả lời của agent...'. Khác biệt là góc nhìn — cách đầu đo hoạt động nội bộ, cách sau đo điều người dùng thật sự nhận được. SLA được định nghĩa là 'lời hứa với người dùng, có con số và có thời hạn'.",
+      "tags": [
+        "day10",
+        "sla"
+      ]
+    },
+    {
+      "id": "D10-087",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba orchestrator được so sánh trong slide có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prefect mô hình hóa data asset, Dagster ít boilerplate nhất, Airflow có lineage sẵn, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Prefect flow là hàm Python bình thường ít boilerplate nhất nên bắt đầu ở đây; Dagster mô hình hóa data asset nên có lineage sẵn; Airflow phổ biến nhất, hệ sinh thái lớn nhất nhưng nặng nhất khi setup"
+        },
+        {
+          "key": "C",
+          "text": "Cả ba đều tương đương về tính năng, chỉ khác nhau về ngôn ngữ lập trình được hỗ trợ, kể cả khi backfill chạy lại toàn bộ khoảng ngày"
+        },
+        {
+          "key": "D",
+          "text": "Prefect dành cho dự án nhỏ, Dagster cho dự án vừa, Airflow bắt buộc với dự án quy mô lớn, trong khi run_id vẫn được ghi vào lineage"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm khác biệt then chốt của Dagster: nó mô hình hóa DATA ASSET chứ không phải TASK, nên lineage có sẵn không cần dựng thêm — điều này rất giá trị vì lineage là pillar duy nhất trả lời được câu hỏi 'sự cố nằm ở bước nào'.",
+      "tags": [
+        "day10",
+        "orchestrator",
+        "tools"
+      ]
+    },
+    {
+      "id": "D10-088",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài học rút ra từ việc Evidently vẫn alert passenger_count nhưng im lặng trước total_amount là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần hạ ngưỡng cảnh báo xuống thấp hơn để bắt được cả những thay đổi nhỏ trong phân bố"
+        },
+        {
+          "key": "B",
+          "text": "Evidently có lỗi trong thuật toán phát hiện nên cần kết hợp thêm công cụ khác để bù đắp"
+        },
+        {
+          "key": "C",
+          "text": "Công cụ tốt hơn không sửa được việc reference bị chọn sai và câu hỏi bị đặt sai"
+        },
+        {
+          "key": "D",
+          "text": "Nên dùng nhiều công cụ drift detection song song rồi lấy hợp của các cảnh báo thu được"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là bài học quan trọng nhất của hoạt động B: vấn đề nằm ở tầng đặt câu hỏi chứ không ở tầng công cụ. Drift chỉ trả lời 'phân bố có đổi không' — nếu bản tham chiếu vốn đã chứa lỗi thì dữ liệu mới giống nó sẽ được coi là bình thường, và ngược lại một thay đổi hợp lệ vẫn bị báo động.",
+      "tags": [
+        "day10",
+        "drift",
+        "limitation"
+      ]
+    },
+    {
+      "id": "D10-089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mục 3 'Quy tắc nghiệp vụ' trong data contract cứu bạn khỏi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xung đột giữa các đội khi mỗi đội có cách hiểu khác nhau về cùng một trường dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Chặn nhầm data đúng — không có nó bạn sẽ viết rule chặn tip = 0 và chặn tiền âm, cả hai đều hợp lệ"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ lọt data sai vì không có quy tắc nào kiểm tra tính hợp lệ của các giá trị đầu vào"
+        },
+        {
+          "key": "D",
+          "text": "Mất thời gian viết lại rule mỗi khi nghiệp vụ thay đổi cách vận hành hệ thống nguồn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai quy tắc nghiệp vụ trong ví dụ: 'Tip chỉ được ghi khi khách trả bằng thẻ. Tip tiền mặt không bao giờ vào hệ thống' giải thích vì sao tip = 0 là bình thường; 'Số tiền âm là hợp lệ khi chuyến là hoàn tiền' giải thích vì sao không được chặn giá trị âm. Không có mục này thì rule của bạn sẽ tạo ra báo động giả hàng loạt.",
+      "tags": [
+        "day10",
+        "contract",
+        "business-rules"
+      ]
+    },
+    {
+      "id": "D10-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Template quản lý nguồn data được đề xuất gồm những cột nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "source → method → check → owner, mỗi nguồn viết đúng một dòng, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "name, type, frequency và retention period cho mỗi nguồn dữ liệu trong hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "source, format, schema và version để theo dõi thay đổi cấu trúc theo thời gian"
+        },
+        {
+          "key": "D",
+          "text": "endpoint, credential, rate_limit và timeout để cấu hình kết nối tới từng nguồn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhấn mạnh: 'Nguồn nào không điền nổi cột owner là nguồn sẽ gây sự cố.' Cột owner được đặt cuối cùng nhưng lại là cột quan trọng nhất — nó nối template này với ranh giới trong bảng RACI về việc mỗi nguồn phải có đúng một người đứng tên.",
+      "tags": [
+        "day10",
+        "ingestion",
+        "template"
+      ]
+    },
+    {
+      "id": "D10-091",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng nguồn data, PostgreSQL hỏng theo kiểu gì và đo bằng cái gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "OCR sai và thiếu metadata; đo bằng tỷ lệ phần trăm dòng bị flag để review lại"
+        },
+        {
+          "key": "B",
+          "text": "Timeout, schema drift và job kéo về 0 dòng; đo bằng freshness và số dòng kéo về mỗi lần chạy"
+        },
+        {
+          "key": "C",
+          "text": "429 rate limit và auth hết hạn; đo bằng volume và checkpoint có nhích không, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Backpressure và trùng event; đo bằng queue depth và số bản ghi rơi vào DLQ, dù job vẫn kết thúc mà không báo lỗi nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng bốn nguồn: PostgreSQL (timeout, schema drift, 0 dòng → đo freshness và số dòng); External API (429, auth hết hạn, pagination lệch → đo volume và checkpoint); PDF/HTML (OCR sai, encoding, thiếu metadata → đo % dòng bị flag); Webhook/stream (backpressure, trùng event → đo queue depth và DLQ).",
+      "tags": [
+        "day10",
+        "ingestion",
+        "sources"
+      ]
+    },
+    {
+      "id": "D10-092",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nội dung của bài học tiếp theo sau Day 10 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deployment & Monitoring — đưa hệ thống AI vào vận hành ở quy mô production"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tuning & Model Optimization — tùy biến model cho miền nghiệp vụ cụ thể"
+        },
+        {
+          "key": "C",
+          "text": "Guardrails & AI Safety — lớp bảo vệ ở mọi tầng, vì data đúng không có nghĩa là an toàn"
+        },
+        {
+          "key": "D",
+          "text": "Multi-modal AI — mở rộng agent để xử lý cả hình ảnh, âm thanh và video"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Câu chuyển tiếp trong slide: 'Data đúng không có nghĩa là an toàn — ngày mai là lớp bảo vệ ở mọi tầng.' Bài tập chuẩn bị gồm đọc OWASP Top 10 for LLMs và suy nghĩ về việc nếu ai đó cố tình bơm data độc vào nguồn thì check hiện tại có bắt được không.",
+      "tags": [
+        "day10",
+        "next"
+      ]
+    },
+    {
+      "id": "D10-093",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Công cụ nào được nêu để đo quality check và công cụ nào để đo drift?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Great Expectations cho cả hai, còn Evidently chỉ dùng để tạo báo cáo trực quan"
+        },
+        {
+          "key": "B",
+          "text": "dbt cho quality check và Airflow cho drift detection trong toàn bộ pipeline dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Prefect cho quality check và Dagster cho drift detection theo từng data asset"
+        },
+        {
+          "key": "D",
+          "text": "Great Expectations cho quality check và Evidently cho drift, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hai công cụ này giải quyết hai loại câu hỏi khác nhau: Great Expectations kiểm tra từng dòng có vi phạm quy tắc không (validate), còn Evidently so sánh phân bố tổng thể giữa hai tập dữ liệu (drift). Takeaway số 2 của ngày nhấn mạnh chúng không thay thế được nhau.",
+      "tags": [
+        "day10",
+        "tools"
+      ]
+    },
+    {
+      "id": "D10-094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu câu hỏi mà orchestrator nào cũng phải trả lời là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trigger, Retry policy, Data awareness, SLA/alert, Observability và Backfill, dù pipeline đã được cấu hình retry đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Nguồn, đích, tần suất, định dạng, kích thước và thời gian lưu trữ của mỗi luồng dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Ai chạy, chạy ở đâu, chạy bằng quyền gì, chi phí bao nhiêu, ai giám sát và ai chịu trách nhiệm"
+        },
+        {
+          "key": "D",
+          "text": "Extract, Transform, Load, Validate, Publish và Monitor theo sáu bước của một pipeline chuẩn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chi tiết từng câu hỏi: Trigger là cron, event hay đợi task trước; Retry policy là mấy lần, backoff ra sao, retry lại từ task lỗi hay từ đầu; Data awareness là có sensor đợi file hoặc partition không; SLA/alert là thời gian chạy task, queue depth, lịch chạy bị lỡ; Observability là log từng task + gắn run_id vào lineage; Backfill là chạy lại một khoảng ngày mà không phá production.",
+      "tags": [
+        "day10",
+        "orchestrator"
+      ]
+    },
+    {
+      "id": "D10-095",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Backpressure là cơ chế gì và nếu không có thì hậu quả là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ghì ngược lên producer khi queue gần đầy để báo 'chậm lại'; không có nó thì queue phình tới khi hết bộ nhớ rồi mất data"
+        },
+        {
+          "key": "B",
+          "text": "Tạm dừng toàn bộ pipeline và gửi cảnh báo cho đội vận hành khi phát hiện bất thường, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "C",
+          "text": "Tự động tăng số lượng consumer khi phát hiện hàng đợi vượt ngưỡng đã cấu hình sẵn, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển bớt message sang một hàng đợi phụ để giảm tải cho hàng đợi chính đang quá tải, nên bước sau không phát hiện được vấn đề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Backpressure là cơ chế phản hồi ngược từ hạ nguồn lên thượng nguồn. Điểm quan trọng là hậu quả khi thiếu nó không phải chỉ là chậm mà là MẤT DATA — hệ thống sập vì hết bộ nhớ và mọi message đang chờ trong bộ nhớ đều biến mất.",
+      "tags": [
+        "day10",
+        "backpressure"
+      ]
+    },
+    {
+      "id": "D10-096",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng RACI tối giản, vai trò AI/Applied chịu trách nhiệm gì và bàn giao artifact nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data contract cho corpus của agent và eval before/after; bàn giao data_contract.md và golden questions"
+        },
+        {
+          "key": "B",
+          "text": "Alert, on-call runbook, quota và secret; bàn giao runbook.md cùng các dashboard giám sát"
+        },
+        {
+          "key": "C",
+          "text": "Ingest ổn định, modeling và pipeline SLA; bàn giao pipeline_architecture.md và lineage"
+        },
+        {
+          "key": "D",
+          "text": "Định nghĩa thế nào là đúng và duyệt version; bàn giao link tới source of truth, nên lần chạy sau vẫn lặp lại đúng vấn đề"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảng RACI phân bốn vai: AI/Applied lo data contract và eval; Data Eng lo ingest, modeling, pipeline SLA; SRE/Platform lo alert, runbook, quota và secret; Product/SME định nghĩa thế nào là đúng và duyệt version. Ranh giới quan trọng: 'Mỗi nguồn data phải có đúng một owner có tên.'",
+      "tags": [
+        "day10",
+        "raci"
+      ]
+    },
+    {
+      "id": "D10-097",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Slide khuyến nghị gì về cách xử lý giá trị thiếu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn flag lại để người có chuyên môn nghiệp vụ quyết định từng trường hợp cụ thể"
+        },
+        {
+          "key": "B",
+          "text": "Luôn loại bỏ bản ghi thiếu giá trị vì dữ liệu không đầy đủ sẽ làm sai lệch kết quả"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ, điền, hay flag — chọn cách nào cũng được nhưng phải ghi vào contract"
+        },
+        {
+          "key": "D",
+          "text": "Luôn điền giá trị mặc định để đảm bảo mọi bản ghi đều đầy đủ trường khi vào hệ thống"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm mấu chốt không phải là cách xử lý nào đúng mà là việc quyết định phải được ghi lại và thống nhất. Nếu không ghi vào contract thì mỗi lần chạy hoặc mỗi người xử lý có thể chọn khác nhau, dẫn tới dữ liệu không nhất quán mà không ai biết vì sao.",
+      "tags": [
+        "day10",
+        "missing-values"
+      ]
+    },
+    {
+      "id": "D10-098",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu chỉ có thời gian cho một dimension, nên viết check cho dimension nào trước và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Completeness, vì tỷ lệ NULL cao là dấu hiệu rõ ràng nhất cho thấy pipeline đang có vấn đề, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy, vì đây là dimension quan trọng nhất và ảnh hưởng trực tiếp tới câu trả lời của agent, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "C",
+          "text": "Validity — rẻ nhất, tự động hoàn toàn, chặn được đúng loại lỗi thiết bị sinh ra nhiều nhất; nhưng phải biết nó không bảo vệ khỏi accuracy"
+        },
+        {
+          "key": "D",
+          "text": "Timeliness, vì dữ liệu cũ là nguyên nhân phổ biến nhất khiến agent trả lời sai trong thực tế, kể cả khi lịch chạy vẫn đúng như cấu hình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đáp án checkpoint có đủ hai vế: lý do chọn (rẻ, tự động, bắt được loại lỗi phổ biến) và giới hạn phải ý thức (không thay được accuracy). Vế thứ hai quan trọng không kém — nó ngăn cảm giác an toàn giả khi thấy suite toàn màu xanh.",
+      "tags": [
+        "day10",
+        "checkpoint",
+        "priority"
+      ]
+    },
+    {
+      "id": "D10-099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi mở đầu Day 10 đặt ra vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent cần xử lý dữ liệu nhạy cảm — làm sao đảm bảo tuân thủ quy định về bảo vệ dữ liệu?, dù job vẫn kết thúc mà không báo lỗi nào"
+        },
+        {
+          "key": "B",
+          "text": "Agent trả lời chậm dần theo thời gian — nguyên nhân nằm ở model hay ở hạ tầng phục vụ?, nên bước sau không phát hiện được vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Agent cần truy cập nhiều nguồn dữ liệu khác nhau — làm sao đồng bộ chúng một cách hiệu quả?, trong khi số dòng kéo về vẫn đủ như mọi khi"
+        },
+        {
+          "key": "D",
+          "text": "Agent đọc data từ database công ty, data đột nhiên sai khiến agent trả lời bậy — bạn có biết không, hay đợi user báo?"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Câu hỏi này đóng khung toàn bộ Day 10 quanh vấn đề PHÁT HIỆN chứ không phải phòng ngừa. Nó dẫn thẳng tới định nghĩa observability trong slide đầu: 'Observability là cơ chế phát hiện data sai trước khi user phàn nàn.'",
+      "tags": [
+        "day10",
+        "framing"
+      ]
+    },
+    {
+      "id": "D10-100",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác biệt giữa Validity và Accuracy được minh họa bằng ví dụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "payment_type = 7 không nằm trong danh mục nên vi phạm cả tính hợp lệ lẫn tính chính xác"
+        },
+        {
+          "key": "B",
+          "text": "fare_amount = 3000 hợp lệ vì là số dương, nhưng có thể không đúng thực tế, kể cả khi suite expectation đã pass toàn bộ"
+        },
+        {
+          "key": "C",
+          "text": "effective_date trong tương lai hợp lệ về kiểu dữ liệu nhưng sai về mặt logic thời gian"
+        },
+        {
+          "key": "D",
+          "text": "passenger_count = 0 vừa không hợp lệ vừa không đúng thực tế nên cả hai dimension đều bắt được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide đặt ví dụ này ở mục 'Chỗ hay nhầm'. Điểm cốt lõi: check tự động chỉ xác nhận được giá trị NẰM TRONG phạm vi cho phép, không xác nhận được giá trị PHẢN ÁNH ĐÚNG thực tế. Muốn biết chuyến taxi đó có thật sự thu 3000 đô hay không thì phải đi hỏi SME, hệ thống gốc, chứng từ hoặc thực địa.",
+      "tags": [
+        "day10",
+        "validity-accuracy"
+      ]
+    }
+  ]
+}
