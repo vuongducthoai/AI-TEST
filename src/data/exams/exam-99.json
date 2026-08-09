@@ -1,0 +1,3151 @@
+{
+  "id": "exam-99",
+  "title": "Tổng ôn cuối kỳ — Toàn khóa Day 1 → Day 8",
+  "description": "100 câu tổng ôn toàn khóa, gồm 30 câu LIÊN KẾT CHÉO buộc ghép kiến thức từ nhiều ngày học (Lost in the Middle qua Day 1-4-8, fine-tuning và RAG qua Day 1-7-8, chẩn đoán lỗi RAGAS bằng kỹ thuật Day 4 và Day 8, nguyên tắc leo thang độ phức tạp qua Day 2-3-7-8) cùng 70 câu phân bổ đều cho sáu ngày. Đây là đề khó nhất trong ba đề tổng ôn.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề tổng ôn tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "T3-001",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi nào nên đặt ra ĐẦU TIÊN khi chọn vector store theo slide?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector store đó có hỗ trợ ngôn ngữ lập trình mà team đang sử dụng hay không?"
+        },
+        {
+          "key": "B",
+          "text": "Nhà cung cấp có cam kết SLA về thời gian phản hồi dưới một trăm mili giây không?"
+        },
+        {
+          "key": "C",
+          "text": "Bao nhiêu vector? Vì 10^4 và 10^9 là hai bài toán hoàn toàn khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí mỗi tháng có nằm trong ngân sách đã được phê duyệt cho dự án không?"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide liệt kê 'tiêu chí nên hỏi trước', mở đầu bằng: 'Bao nhiêu vector? (10^4 vs 10^9 là hai bài toán khác nhau)'. Tiếp theo: có cần metadata filter phức tạp không, có cần hybrid search không, dữ liệu có ràng buộc compliance/on-prem không, và team có ai vận hành hạ tầng không. Quy mô quyết định loại kiến trúc, nên phải hỏi trước tiên.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "selection"
+      ]
+    },
+    {
+      "id": "T3-002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật nào thuộc pha DEFINE (hội tụ) của Diamond 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Affinity Mapping, 5 Whys, Impact-Effort Matrix, Dot Voting, How Might We, Problem Statement"
+        },
+        {
+          "key": "B",
+          "text": "Phỏng vấn người dùng, Khảo sát, Diary Study, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Deploy, Monitor, Iterate, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Prototype, A/B Test, Usability Test, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DEFINE là pha chọn lọc dựa vào dữ liệu: gom nhóm (Affinity Mapping), đào nguyên nhân (5 Whys), ưu tiên (Impact-Effort, Dot Voting), phát biểu bài toán.",
+      "tags": [
+        "discovery",
+        "techniques"
+      ]
+    },
+    {
+      "id": "T3-003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba động lực khiến doanh nghiệp đầu tư vào AI theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ, Chất lượng, Chi phí"
+        },
+        {
+          "key": "B",
+          "text": "Sống còn, Hiệu quả, Khám phá"
+        },
+        {
+          "key": "C",
+          "text": "Nghiên cứu, Sản xuất, Bán hàng"
+        },
+        {
+          "key": "D",
+          "text": "Lợi nhuận, Danh tiếng, Quy mô"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 động lực: (1) Sống còn — bắt buộc tích hợp AI để duy trì lợi thế cạnh tranh; (2) Hiệu quả — giảm chi phí, tăng năng suất; (3) Khám phá — tích lũy năng lực, tìm cơ hội mới.",
+      "tags": [
+        "pair",
+        "business-drivers"
+      ]
+    },
+    {
+      "id": "T3-004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Multi-step Reasoning' hỏi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí mỗi request là bao nhiêu?, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán có cần chia thành nhiều bước phụ thuộc nhau không?"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống có cần gọi API không?, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng có hài lòng không?, kể cả khi số vòng lặp tối đa được nới rộng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Multi-step Reasoning kiểm tra xem bài toán có phân rã thành chuỗi bước mà bước sau phụ thuộc kết quả bước trước hay không.",
+      "tags": [
+        "day3",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "T3-005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường 'Định hướng giải pháp' trong Quick Problem Card có các lựa chọn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngắn hạn / Trung hạn / Dài hạn"
+        },
+        {
+          "key": "B",
+          "text": "No AI / Rule / Workflow / Agent / Chưa xác định"
+        },
+        {
+          "key": "C",
+          "text": "GPT / Claude / Gemini / Llama"
+        },
+        {
+          "key": "D",
+          "text": "Rẻ / Trung bình / Đắt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Định hướng giải pháp chọn một trong: No AI, Rule, Workflow, Agent, hoặc Chưa xác định — thể hiện việc cân nhắc cấp độ đơn giản nhất trước.",
+      "tags": [
+        "problem-statement",
+        "quick-card"
+      ]
+    },
+    {
+      "id": "T3-006",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấp độ 3 (Agent) chỉ nên cân nhắc khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi ngân sách dồi dào, kể cả khi số vòng lặp tối đa được nới rộng, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        },
+        {
+          "key": "B",
+          "text": "Khi bài toán đơn giản nhưng khối lượng lớn, kể cả khi số vòng lặp tối đa được nới rộng, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, kể cả khi số vòng lặp tối đa được nới rộng"
+        },
+        {
+          "key": "C",
+          "text": "Khi muốn dùng công nghệ mới nhất, trong khi mục tiêu ban đầu vẫn được giữ nguyên, dù agent vẫn gọi được đầy đủ các tool đã khai báo, kể cả khi số vòng lặp tối đa được nới rộng"
+        },
+        {
+          "key": "D",
+          "text": "Khi không thể xác định trước toàn bộ các bước thực thi; môi trường nhiều biến số đòi hỏi thay đổi kế hoạch linh hoạt; cần tương tác nhiều công cụ và có vòng phản hồi/giám sát từ con người"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Agent chỉ dùng khi thực sự không liệt kê trước được các bước, môi trường động, cần nhiều tool — và bắt buộc phải có guardrails cùng chốt chặn con người.",
+      "tags": [
+        "rwa",
+        "agent"
+      ]
+    },
+    {
+      "id": "T3-007",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tier 3 (self-host) phù hợp nhất khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đang thử nghiệm lần đầu với LLM, kể cả khi hệ thống đã chạy ổn định nhiều tháng"
+        },
+        {
+          "key": "B",
+          "text": "Muốn kiểm soát dữ liệu hoàn toàn, không gửi dữ liệu lên cloud, hoặc cần giá thấp ở quy mô lớn"
+        },
+        {
+          "key": "C",
+          "text": "Cần hiệu suất tốt nhất cho ứng dụng mission-critical, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Cần phản hồi nhanh nhất có thể, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tier 3: kiểm soát data (GDPR, bảo mật nội bộ), không có per-token cost ở quy mô lớn, tùy biến sâu. Trade-off: phải tự quản lý infrastructure.",
+      "tags": [
+        "model-selection",
+        "tier3"
+      ]
+    },
+    {
+      "id": "T3-008",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu phải tóm tắt mạch xuyên suốt từ Day 1 đến Day 8 thành một câu, phát biểu nào sát nhất với tinh thần cả khóa?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiểu cơ chế để chọn đúng mức độ phức tạp, đưa đúng dữ liệu vào, và đo được kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Tự động hóa tối đa mọi khâu để giảm phụ thuộc vào con người trong quy trình vận hành"
+        },
+        {
+          "key": "C",
+          "text": "Càng nhiều kỹ thuật hiện đại được áp dụng thì hệ thống càng đáng tin cậy trong thực tế"
+        },
+        {
+          "key": "D",
+          "text": "Model càng mạnh thì sản phẩm càng tốt, nên ưu tiên ngân sách cho việc nâng cấp model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba trụ cột lặp lại qua tám ngày: (1) hiểu cơ chế — Day 1 giải thích token prediction và giới hạn, Day 3 giải thích vòng lặp agent; (2) chọn đúng mức phức tạp — Day 2 Rule/Workflow/Agent, Day 3 Agentic Fit, Day 7 chọn chunking đơn giản trước, Day 8 cân nhắc ROI; (3) đưa đúng dữ liệu và đo được — Day 4 context engineering, Day 7 data quality, Day 8 RAGAS. Câu kết Day 8 tóm gọn: 'Bạn đang thiếu model mạnh hơn, hay đang thiếu một pipeline đủ kỷ luật?'",
+      "tags": [
+        "cross-day",
+        "summary"
+      ]
+    },
+    {
+      "id": "T3-009",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cách xử lý lỗi 'Error response' từ tool theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bỏ qua và tiếp tục vòng lặp"
+        },
+        {
+          "key": "B",
+          "text": "Truyền error message cho model để nó thông báo user"
+        },
+        {
+          "key": "C",
+          "text": "Crash chương trình để dev biết"
+        },
+        {
+          "key": "D",
+          "text": "Retry vô hạn cho đến khi thành công"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Khi tool trả lỗi, đưa thông báo lỗi vào cho model để model giải thích cho người dùng thay vì im lặng hoặc crash.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "error"
+      ]
+    },
+    {
+      "id": "T3-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 dạy Quick Problem Card có trường 'Định hướng giải pháp'. Nếu một nhóm điền 'Agent' cho bài toán tra cứu FAQ nội bộ, phản biện đúng nhất dựa trên Day 3 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent phù hợp vì FAQ nội bộ thường có nhiều tài liệu nên cần tự động lập kế hoạch tìm kiếm"
+        },
+        {
+          "key": "B",
+          "text": "Agent là overkill vì FAQ là bài toán một bước, không cần dữ liệu mới và không cần quyết định động"
+        },
+        {
+          "key": "C",
+          "text": "Agent chỉ sai nếu ngân sách hạn chế, còn về mặt kỹ thuật thì đây vẫn là lựa chọn hợp lý"
+        },
+        {
+          "key": "D",
+          "text": "Agent phù hợp nếu bổ sung ít nhất hai tool để mô hình có thể hành động thay vì chỉ suy nghĩ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 3 chấm Agentic Fit cho 'FAQ nội bộ HR' được 1+1+1 = 3 điểm, nằm trong khoảng 0–5 nghĩa là chatbot/rule đã đủ. Anti-pattern đầu tiên trong danh sách là 'Bài toán 1 bước: hỏi đáp, tra FAQ, phân loại cơ bản'. Day 2 cũng nêu case Customer FAQ có best fit là 'chatbot có retrieval', không cần autonomy.",
+      "tags": [
+        "cross-day",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "T3-011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ iteration prompt v1→v2→v3, phiên bản v2 cải thiện được gì nhưng vẫn thiếu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rõ focus nhưng thiếu độ dài, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Rõ audience nhưng thiếu format, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Rõ format (3 bullets, mỗi bullet dưới 20 từ) nhưng thiếu audience và focus"
+        },
+        {
+          "key": "D",
+          "text": "Đã hoàn chỉnh, không thiếu gì, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "v2 'Tóm tắt trong 3 bullets, mỗi bullet dưới 20 từ' đã rõ format nhưng chưa nêu người đọc là ai và cần tập trung vào khía cạnh nào.",
+      "tags": [
+        "day4",
+        "iteration"
+      ]
+    },
+    {
+      "id": "T3-012",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 3 giới thiệu vòng lặp ReAct. Day 8 giới thiệu Agentic RAG. Điểm nối giữa hai khái niệm này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agentic RAG chỉ là một tên gọi mới của ReAct khi pattern này được áp dụng vào bài toán tìm kiếm tài liệu"
+        },
+        {
+          "key": "B",
+          "text": "ReAct được dùng cho agent có tool bên ngoài còn Agentic RAG chỉ dùng cho hệ thống đọc dữ liệu tĩnh trong store"
+        },
+        {
+          "key": "C",
+          "text": "Agentic RAG = RAG + reasoning loop; agent lặp lại, tự sửa và tự chọn chiến thuật thay vì search một lần"
+        },
+        {
+          "key": "D",
+          "text": "Agentic RAG loại bỏ hẳn vòng lặp ReAct và thay thế bằng kiến trúc graph có state được biểu diễn rõ ràng hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 3 định nghĩa vòng lặp Thought → Action → Observation và bốn cấp độ agent. Day 8 kết luận 'Agentic RAG = RAG + reasoning loop. Agent không chỉ search 1 lần mà lặp lại, tự sửa, tự quyết định chiến thuật' với ba biến thể Self-Query, C-RAG và Adaptive RAG. Đồng thời mở rộng chữ R 'từ chỉ vector search sang bất kỳ nguồn dữ liệu nào agent có thể gọi' — chính là tool use của Day 3.",
+      "tags": [
+        "cross-day",
+        "agentic-rag"
+      ]
+    },
+    {
+      "id": "T3-013",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng so sánh format, vì sao Markdown được khuyến nghị làm lựa chọn mặc định cho LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì Markdown là định dạng duy nhất mà embedding model có thể xử lý mà không cần chuyển đổi"
+        },
+        {
+          "key": "B",
+          "text": "Vì Markdown có cấu trúc key-value phù hợp với structured output và function calling"
+        },
+        {
+          "key": "C",
+          "text": "Vì Markdown bảo toàn được bảng lồng nhau và thuộc tính colspan tốt hơn mọi định dạng khác"
+        },
+        {
+          "key": "D",
+          "text": "Vì tiết kiệm khoảng 30–50% token so với HTML cùng nội dung và LLM được train trên lượng lớn MD"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide ghi: 'Nên chọn Markdown. So với HTML cùng nội dung, tiết kiệm ~30–50% token vì không có closing tags, attributes, class names. LLM được train trên lượng lớn MD nên hiểu rất tự nhiên.' Bảng đánh giá Markdown 5 sao về token hiệu quả, giữ được heading, list, table, bold. Phương án C mô tả HTML, D mô tả JSON/YAML.",
+      "tags": [
+        "day7",
+        "format",
+        "markdown"
+      ]
+    },
+    {
+      "id": "T3-014",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 7 dạy cosine vs Euclidean, Day 8 dạy dense vs sparse. Một truy vấn tra mã lỗi 'ERR-4012' nên xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng hybrid search vì dense sẽ bỏ lỡ exact term này còn sparse BM25 bắt được chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Dùng semantic search với top-k lớn rồi lọc thủ công kết quả chứa đúng mã lỗi cần tìm"
+        },
+        {
+          "key": "C",
+          "text": "Dùng Euclidean distance vì mã lỗi là chuỗi ký tự có độ dài cố định nên cùng scale"
+        },
+        {
+          "key": "D",
+          "text": "Dùng cosine similarity trên dense vector vì embedding hiểu được ngữ nghĩa của mã lỗi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Day 8 nêu chính ví dụ này: 'VD thất bại của Dense: Query lỗi ERR-4012 → trả về docs lỗi hệ thống chung thay vì đúng mã lỗi.' Nguyên nhân là embedding mã hóa ý nghĩa nên mã lỗi cụ thể bị hòa vào khái niệm chung. Sparse BM25 match chính xác từ khóa nên bắt được. Giải pháp là hybrid, và case study cho thấy Context Recall tăng từ 60% lên 90% khi thêm BM25.",
+      "tags": [
+        "cross-day",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "T3-015",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Python example về embedding, hàm cosine được viết là 'a @ b / (np.linalg.norm(a) * np.linalg.norm(b))'. Toán tử @ ở đây làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nối hai mảng numpy lại thành một mảng có độ dài bằng tổng hai mảng gốc"
+        },
+        {
+          "key": "B",
+          "text": "Nhân từng phần tử tương ứng của hai mảng rồi trả về mảng kết quả cùng kích thước"
+        },
+        {
+          "key": "C",
+          "text": "So sánh hai mảng và trả về mảng boolean đánh dấu các vị trí có giá trị bằng nhau"
+        },
+        {
+          "key": "D",
+          "text": "Tính tích vô hướng (dot product) giữa hai vector, tức tử số của công thức cosine"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Toán tử @ trong numpy là phép nhân ma trận; với hai vector 1 chiều nó chính là tích vô hướng A·B — đúng bằng tử số trong công thức cosine. Mẫu số np.linalg.norm(a) * np.linalg.norm(b) là tích hai độ dài. Kết quả in ra: ~0.87 cho 'hoàn tiền' ↔ 'đổi trả', và ~0.31 cho 'hoàn tiền' ↔ 'thời tiết'.",
+      "tags": [
+        "day7",
+        "embedding",
+        "code"
+      ]
+    },
+    {
+      "id": "T3-016",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sau khi lấy mẫu một token, bước tiếp theo trong vòng lặp sinh văn bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa toàn bộ ngữ cảnh và bắt đầu lại"
+        },
+        {
+          "key": "B",
+          "text": "Gửi token đó đến server để xác nhận"
+        },
+        {
+          "key": "C",
+          "text": "Tạm dừng và chờ phản hồi từ người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Thêm token đó vào ngữ cảnh rồi dự đoán token tiếp theo"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Vòng lặp autoregressive: dự đoán → lấy mẫu token → append vào context → dự đoán tiếp theo → ... → token kết thúc (EOS).",
+      "tags": [
+        "llm",
+        "autoregressive"
+      ]
+    },
+    {
+      "id": "T3-017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 2 của PAIR (Automate hay Augment) trả lời câu hỏi trọng tâm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ai chịu trách nhiệm vận hành?"
+        },
+        {
+          "key": "B",
+          "text": "Đo bằng chỉ số gì?"
+        },
+        {
+          "key": "C",
+          "text": "Có thực sự cần AI không?"
+        },
+        {
+          "key": "D",
+          "text": "Giải pháp ở cấp độ nào (Rule/Workflow/Agent)?"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bước 2 xác định vai trò con người trong hệ thống, từ đó dẫn tới cấp độ giải pháp — trả lời câu hỏi trọng tâm số 2.",
+      "tags": [
+        "pair",
+        "3-steps"
+      ]
+    },
+    {
+      "id": "T3-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mấu chốt quan trọng nhất về hallucination được slide nhấn mạnh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hallucination chỉ xảy ra với các model nhỏ, còn model frontier hầu như đã khắc phục được"
+        },
+        {
+          "key": "B",
+          "text": "LLM luôn báo lỗi rõ ràng khi gặp câu hỏi nằm ngoài phạm vi kiến thức đã được huấn luyện"
+        },
+        {
+          "key": "C",
+          "text": "Tăng temperature lên cao sẽ giúp model thừa nhận giới hạn kiến thức của chính nó tốt hơn"
+        },
+        {
+          "key": "D",
+          "text": "LLM không biết bản thân không biết — đây là lý do cần hệ thống cung cấp chứng cứ thực"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide ghi: 'LLM không biết bản thân không biết. Đây là lý do chính để cần một hệ thống cung cấp chứng cứ thực trước khi sinh câu trả lời.' Điểm nguy hiểm không phải là model sai, mà là model sai một cách tự tin và trôi chảy — người dùng không có tín hiệu nào để nghi ngờ. RAG giải quyết bằng cách đưa chứng cứ vào trước khi sinh.",
+      "tags": [
+        "day8",
+        "hallucination",
+        "principle"
+      ]
+    },
+    {
+      "id": "T3-019",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hiện tượng 'Lost in the Middle' xuất hiện ở Day 1, Day 4 và Day 8 với ba hàm ý khác nhau. Cặp ghép nào ĐÚNG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Day 1 đề xuất document reordering cho prompt dài, Day 4 giải thích cơ chế attention nhiều đầu, Day 8 cảnh báo về giới hạn của context window hiện nay"
+        },
+        {
+          "key": "B",
+          "text": "Day 1 khuyên nén context lại cho gọn, Day 4 đề xuất chia nhỏ prompt thành nhiều lượt gọi, Day 8 yêu cầu tăng số chiều vector để giữ được nhiều thông tin hơn"
+        },
+        {
+          "key": "C",
+          "text": "Day 1 đo hiện tượng này bằng chỉ số recall, Day 4 dùng nó để chọn embedding model phù hợp, Day 8 lấy nó làm căn cứ quyết định giá trị của tham số top-k"
+        },
+        {
+          "key": "D",
+          "text": "Day 1 nêu giới hạn context window, Day 4 khuyên đặt instruction ở đầu/cuối, Day 8 áp dụng document reordering đặt Top 1 ở đầu và Top 2 ở cuối"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cùng một hiện tượng nhưng ba tầng ứng dụng: Day 1 mô tả nó như một giới hạn của context window ('bàn làm việc'); Day 4 rút ra quy tắc viết prompt — đặt instruction quan trọng ở đầu hoặc cuối, chia list dài bằng header; Day 8 biến nó thành thuật toán cụ thể — Document Reordering đặt Block 1 (Top 1) ở ĐẦU và Block 2 (Top 2) ở CUỐI, dồn block kém quan trọng vào giữa.",
+      "tags": [
+        "cross-day",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "T3-020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sơ đồ RAG Overview, phần nào chạy offline và phần nào chạy runtime?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Offline là Retrieval và Generation chạy theo lô; runtime là Ingestion và cập nhật Vector Store định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Offline gồm Question và Retrieval; runtime gồm Augmentation, Generation và Answer trả về cho người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Offline là Document → Ingestion → Vector Store; runtime là Question → Retrieval → Augmentation → Generation → Answer"
+        },
+        {
+          "key": "D",
+          "text": "Offline gồm toàn bộ RAG Pipeline đã dựng sẵn; runtime chỉ là bước hiển thị kết quả cuối cho người dùng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi: 'Offline: Document → Ingestion → Vector Store (đã xây ở Day 07). Runtime: Question → Retrieval → Augmentation → Generation → Answer.' Phân biệt này quan trọng vì chi phí và ràng buộc độ trễ của hai pha hoàn toàn khác nhau — offline có thể chạy hàng giờ, runtime phải trả lời trong vài giây.",
+      "tags": [
+        "day8",
+        "rag",
+        "overview"
+      ]
+    },
+    {
+      "id": "T3-021",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong function calling, developer khai báo tool bằng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Regex pattern, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Câu lệnh SQL, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "File YAML cấu hình, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "JSON Schema: tên, mô tả, tham số, kiểu dữ liệu"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Dev khai báo tool bằng JSON Schema gồm name, description, parameters (kiểu dữ liệu, required) — schema này được gửi kèm mỗi request tới model.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "schema"
+      ]
+    },
+    {
+      "id": "T3-022",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi số 04 của Day 02 nói gì về độ phức tạp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Càng phức tạp càng hiệu quả, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chọn Agent để đảm bảo tương lai, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Rule, Workflow và Agent là ba cấp độ khác nhau; độ phức tạp kỹ thuật KHÔNG đồng nghĩa với hiệu quả tối ưu"
+        },
+        {
+          "key": "D",
+          "text": "Độ phức tạp tỷ lệ thuận với giá trị mang lại, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc 04: chọn cấp độ tối giản nhất đủ giải quyết bài toán. Agent phức tạp hơn không có nghĩa là giải pháp tốt hơn.",
+      "tags": [
+        "recap",
+        "principle"
+      ]
+    },
+    {
+      "id": "T3-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 3 nêu guardrails cho agent loop, Day 4 nêu defense chống prompt injection, Day 8 nêu Guardrails Pattern. Điểm chung về kiến trúc phòng thủ là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đều là defense-in-depth: nhiều lớp kiểm soát ở cả đầu vào lẫn đầu ra vì không lớp nào hoàn hảo"
+        },
+        {
+          "key": "B",
+          "text": "Đều yêu cầu con người phê duyệt thủ công trước khi hệ thống thực hiện bất kỳ hành động nào"
+        },
+        {
+          "key": "C",
+          "text": "Đều chỉ áp dụng được sau khi hệ thống đã chạy ổn định trong môi trường production"
+        },
+        {
+          "key": "D",
+          "text": "Đều dựa vào một lớp kiểm tra duy nhất đặt ở đầu vào để chặn mọi rủi ro từ sớm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Day 3 liệt kê 5 guardrails cho agent (max iterations, timeout, budget, retry có kiểm soát, fallback). Day 4 nêu 6 defense và cảnh báo 'Không có defense nào hoàn hảo 100%. Defense-in-depth: kết hợp nhiều layers'. Day 8 cụ thể hóa thành Pre-guard (detect injection, validate format, rate limiting) và Post-guard (mask PII, validate schema, block dangerous tool calls). Cùng một triết lý nhiều lớp.",
+      "tags": [
+        "cross-day",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "T3-024",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 3 phân biệt Bi-Encoder và Cross-Encoder không được nhắc tới, nhưng Day 7 dạy embedding và Day 8 dạy reranking. Vì sao Cross-Encoder không dùng để thay thế embedding search ngay từ đầu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì phải chạy model cho từng cặp query–document nên không pre-compute được như embedding, không thể quét hàng triệu tài liệu"
+        },
+        {
+          "key": "B",
+          "text": "Vì Cross-Encoder yêu cầu tài liệu phải được gán nhãn thủ công trước khi đưa vào xếp hạng lại nên chi phí chuẩn bị rất lớn"
+        },
+        {
+          "key": "C",
+          "text": "Vì Cross-Encoder chỉ hoạt động tốt với văn bản tiếng Anh nên không phù hợp với corpus đa ngôn ngữ của doanh nghiệp Việt Nam"
+        },
+        {
+          "key": "D",
+          "text": "Vì Cross-Encoder cho ra điểm số kém chính xác hơn so với cosine similarity tính trên vector đã được chuẩn hóa về độ dài một"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Day 7 giải thích embedding cho phép tính vector document MỘT LẦN lúc ingest rồi chỉ so khoảng cách lúc query — cực nhanh. Day 8 nêu Cross-Encoder ghép query và document thành một input nên phải chạy forward pass cho từng cặp tại thời điểm truy vấn. Vì vậy kiến trúc hai giai đoạn: bi-encoder quét rộng lấy Top 50–100, cross-encoder chấm lại còn Top 3–5.",
+      "tags": [
+        "cross-day",
+        "encoder"
+      ]
+    },
+    {
+      "id": "T3-025",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Để tối ưu chi phí khi dùng LLM API, người dùng nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn temperature cao để giảm số lần gọi, trong khi trải nghiệm người dùng gần như không đổi"
+        },
+        {
+          "key": "B",
+          "text": "Luôn gửi context tối đa để mô hình hiểu đầy đủ, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ gửi thông tin thực sự cần thiết; tránh context thừa; dùng tier thấp nhất đáp ứng yêu cầu"
+        },
+        {
+          "key": "D",
+          "text": "Dùng output token thay input token, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cost optimization: (1) trim context về chỉ những gì cần; (2) dùng tier thấp nhất đáp ứng; (3) cache kết quả khi có thể; (4) tối ưu prompt giảm output dài.",
+      "tags": [
+        "token-cost",
+        "optimization"
+      ]
+    },
+    {
+      "id": "T3-026",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chiến lược Retrieve-and-Rerank gồm hai giai đoạn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giai đoạn 1 search rộng lấy Top 50–100, giai đoạn 2 đưa qua cross-encoder chấm lại còn Top 3–5"
+        },
+        {
+          "key": "B",
+          "text": "Giai đoạn 1 rerank sơ bộ bằng metadata, giai đoạn 2 mới chạy vector search chính thức"
+        },
+        {
+          "key": "C",
+          "text": "Giai đoạn 1 lọc theo access level, giai đoạn 2 xếp hạng theo độ mới của tài liệu"
+        },
+        {
+          "key": "D",
+          "text": "Giai đoạn 1 gọi LLM đánh giá, giai đoạn 2 dùng embedding model xác nhận lại kết quả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide mô tả: 'Giai đoạn 1: Search rộng → Top 50–100. Nhanh nhưng nhiễu. Giai đoạn 2: Đưa qua Cross-encoder đọc kỹ và chấm lại → Top 3–5 cho LLM.' Sơ đồ minh họa: Search top-100 → Rerank top-5 → LLM top-3. Ý tưởng là dùng model rẻ để lọc rộng, model đắt để chọn tinh.",
+      "tags": [
+        "day8",
+        "rerank",
+        "strategy"
+      ]
+    },
+    {
+      "id": "T3-027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'bắt đầu bằng giải pháp đơn giản nhất' lặp lại ở nhiều ngày học. Cách phát biểu nào KHÔNG thuộc nguyên tắc này?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Day 3: luôn benchmark rule, workflow và chatbot trước khi quyết định mở agent loop cho hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Day 7: bắt đầu bằng chunking đơn giản nhất chạy được rồi mới nâng cấp dựa trên số đo eval"
+        },
+        {
+          "key": "C",
+          "text": "Day 8: luôn triển khai đầy đủ hybrid search, rerank và MMR ngay từ phiên bản đầu tiên"
+        },
+        {
+          "key": "D",
+          "text": "Day 2: Rule/Workflow/Agent là ba cấp độ, chọn cấp tối giản nhất đủ giải quyết bài toán đặt ra"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ba ngày đầu đều nhất quán: leo thang độ phức tạp dựa trên bằng chứng. Day 8 cũng vậy — slide ROI cảnh báo 'Không phải kỹ thuật nào cũng đáng thêm; mỗi cải tiến cần cân nhắc quality gain vs latency vs cost', với ví dụ reranker tăng Answer Relevance chỉ 5% nhưng latency tăng từ 1s lên 4s và chi phí server gấp đôi. Phương án D đi ngược lại tinh thần đó.",
+      "tags": [
+        "cross-day",
+        "principle"
+      ]
+    },
+    {
+      "id": "T3-028",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khối Perception trong kiến trúc Agent nhận những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ nhận user input"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ nhận kết quả từ database"
+        },
+        {
+          "key": "C",
+          "text": "Text từ user, tool output, và feedback"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ nhận system prompt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Perception là cổng vào của agent: nhận user input, kết quả trả về từ tool, và feedback từ môi trường.",
+      "tags": [
+        "day3",
+        "architecture",
+        "perception"
+      ]
+    },
+    {
+      "id": "T3-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, tool calling về bản chất là bài toán gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bài toán control flow: khi nào gọi, gọi cái gì, gọi theo thứ tự nào, và làm gì khi tool fail"
+        },
+        {
+          "key": "B",
+          "text": "Bài toán thiết kế giao diện, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Bài toán tối ưu chi phí API, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Bài toán chọn model phù hợp, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tool calling không chỉ là 'gọi API'. Nó là bài toán điều phối luồng: thời điểm, đối tượng, thứ tự, và xử lý thất bại.",
+      "tags": [
+        "day4",
+        "patterns",
+        "concept"
+      ]
+    },
+    {
+      "id": "T3-030",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature nào phù hợp cho classification và extraction?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0 — deterministic, reproducible"
+        },
+        {
+          "key": "B",
+          "text": "0.3-0.5"
+        },
+        {
+          "key": "C",
+          "text": "0.7-1.0"
+        },
+        {
+          "key": "D",
+          "text": "1.0-1.5"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Classification/extraction cần kết quả nhất quán và tái lập → temperature = 0 (deterministic). Ở temperature 0 model luôn chọn token có xác suất cao nhất nên cùng đầu vào cho cùng đầu ra, điều kiện bắt buộc khi output được đưa vào pipeline tự động hoặc cần kiểm thử lại.",
+      "tags": [
+        "day4",
+        "temperature"
+      ]
+    },
+    {
+      "id": "T3-031",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Attribute filter với cú pháp where={\"category\": \"support\"} hoạt động ở thời điểm nào trong luồng truy vấn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lọc theo metadata TRƯỚC khi thực hiện semantic search để thu hẹp không gian tìm kiếm"
+        },
+        {
+          "key": "B",
+          "text": "Song song với semantic search rồi hợp nhất hai tập kết quả bằng phép giao"
+        },
+        {
+          "key": "C",
+          "text": "Sau khi semantic search hoàn tất, dùng để sắp xếp lại thứ tự các kết quả trả về"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng ở bước ingest để quyết định chunk nào được phép đưa vào collection"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảng tham số ghi: Attribute filter = 'Lọc theo metadata TRƯỚC khi search'. Luồng chuẩn được mô tả: 'Filter theo category trước → semantic search → lấy top-3 có score > 0.6.' Lọc trước có hai lợi ích: giảm không gian tìm kiếm (nhanh hơn) và đảm bảo kết quả chắc chắn nằm trong domain đúng, không phụ thuộc vào may rủi của điểm cosine.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "filter"
+      ]
+    },
+    {
+      "id": "T3-032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 3 nói ReAct dùng Action dạng text còn function calling dùng JSON schema. Day 4 nói tool description quyết định model chọn đúng tool. Kết luận đúng khi ghép hai ý này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Function calling giải quyết lỗi CÚ PHÁP (parse thất bại) nhưng lỗi NGỮ NGHĨA (chọn sai tool) vẫn phụ thuộc chất lượng description"
+        },
+        {
+          "key": "B",
+          "text": "Tool description chỉ thật sự cần thiết với ReAct dạng text, còn với function calling thì model tự suy ra được ý nghĩa từ tên hàm đã khai báo"
+        },
+        {
+          "key": "C",
+          "text": "Function calling đã loại bỏ hoàn toàn vấn đề chọn sai tool nên chất lượng phần mô tả description không còn ảnh hưởng gì tới kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai cơ chế đều có tỷ lệ lỗi tương đương nhau trong thực tế nên việc chuyển đổi giữa chúng không mang lại lợi ích gì rõ rệt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Day 3 nêu: function calling nhờ grammar-constrained decoding đạt 100% tuân thủ schema so với dưới 40% trước đó, và 'error mode điển hình' chuyển từ 'Could not parse LLM output' sang 'chọn sai tool'. Day 4 chỉ ra chính xác cách chữa lỗi còn lại: description phải nêu (1) chức năng, (2) khi nào dùng, (3) khi nào KHÔNG dùng — ví dụ 'Search orders' quá rộng khiến model gọi cho mọi câu hỏi về đơn hàng.",
+      "tags": [
+        "cross-day",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "T3-033",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 1 nói giá cùng năng lực giảm ~10x mỗi năm. Day 8 nói cân nhắc ROI khi thêm reranker. Hai ý này gợi ý chiến lược kiến trúc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trì hoãn mọi quyết định kỹ thuật cho đến khi giá thị trường ổn định ở mức đủ thấp"
+        },
+        {
+          "key": "B",
+          "text": "Luôn chọn model rẻ nhất vì chênh lệch chất lượng sẽ tự thu hẹp trong vòng vài tháng tới"
+        },
+        {
+          "key": "C",
+          "text": "Thiết kế hệ thống dễ hoán đổi thành phần, và đo ROI trước khi thêm mỗi lớp phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Đầu tư mạnh vào fine-tuning ngay từ đầu vì chi phí huấn luyện cũng giảm theo cùng tốc độ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 1 nêu xu hướng giá giảm ~10x/năm và khuyên không lock-in vào một vendor, thiết kế dễ swap model. Day 8 đưa ví dụ định lượng: reranker tăng Answer Relevance 5% nhưng latency 1s → 4s và chi phí gấp đôi, rồi đặt câu hỏi cho kỹ sư trưởng liệu có đáng. Ghép lại: kiến trúc mô-đun cộng với kỷ luật đo lường trước khi thêm độ phức tạp.",
+      "tags": [
+        "cross-day",
+        "architecture-roi"
+      ]
+    },
+    {
+      "id": "T3-034",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Cross-Encoder chính xác hơn nhưng chỉ dùng được cho danh sách nhỏ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó yêu cầu tài liệu phải được gán nhãn thủ công trước khi đưa vào xếp hạng lại"
+        },
+        {
+          "key": "B",
+          "text": "Vì phải chạy model cho từng cặp query–document nên không thể pre-compute và tốn thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó chỉ hỗ trợ tiếng Anh nên phải dịch tài liệu trước khi đưa vào mô hình"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó chỉ hoạt động với tài liệu ngắn dưới 500 token nên không xử lý được văn bản dài"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bi-encoder embed document một lần lúc index, sau đó chỉ cần so khoảng cách — cực nhanh. Cross-encoder phải chạy model đầy đủ cho MỖI cặp query-document tại thời điểm truy vấn, không tận dụng được tính toán trước. Với 100 candidate thì phải chạy 100 lần forward pass, nên chỉ khả thi với danh sách đã lọc.",
+      "tags": [
+        "day8",
+        "rerank",
+        "encoder"
+      ]
+    },
+    {
+      "id": "T3-035",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Structured Outputs (OpenAI, từ 2024) hoạt động theo cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm tra output sau khi sinh xong rồi retry nếu sai, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "B",
+          "text": "Dùng model thứ hai để sửa output, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "C",
+          "text": "Schema được biên dịch thành grammar, ép decoding chỉ sinh token hợp lệ với schema"
+        },
+        {
+          "key": "D",
+          "text": "Prompt model nhiều lần rồi chọn kết quả tốt nhất, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Structured Outputs biên dịch JSON Schema thành grammar (finite-state machine); ở mỗi bước sinh token, chỉ token hợp lệ theo schema mới được phép chọn.",
+      "tags": [
+        "day3",
+        "structured-outputs"
+      ]
+    },
+    {
+      "id": "T3-036",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'Idempotency' cho tool nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tool phải chạy nhanh dưới 1 giây, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Cùng input cho cùng kết quả; side effect được kiểm soát — vi phạm thì retry dễ sinh lỗi phụ"
+        },
+        {
+          "key": "C",
+          "text": "Tool không được gọi API bên ngoài, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Tool phải trả JSON, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Idempotency quan trọng vì agent thường retry. Nếu tool không idempotent, retry có thể tạo bản ghi trùng hoặc gửi email 2 lần.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "idempotency"
+      ]
+    },
+    {
+      "id": "T3-037",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một PM hỏi: 'Chính sách công ty đổi mỗi quý, ta fine-tune model để nó thuộc luôn có được không?'. Câu trả lời tổng hợp từ Day 1, Day 7 và Day 8 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Được, vì giai đoạn SFT trong pipeline huấn luyện chính là bước để nạp kiến thức mới vào trọng số của model một cách bền vững"
+        },
+        {
+          "key": "B",
+          "text": "Không, vì fine-tuning sẽ làm giảm khả năng suy luận nền của model gốc theo cách không thể phục hồi lại được sau đó"
+        },
+        {
+          "key": "C",
+          "text": "Được, nhưng chỉ khi corpus có dưới 100 tài liệu và chuẩn bị được ít nhất năm nghìn cặp hỏi đáp chất lượng cao đã qua kiểm duyệt"
+        },
+        {
+          "key": "D",
+          "text": "Không, fine-tuning dạy model CÁCH NÓI còn RAG cung cấp ĐIỀU CẦN NÓI; fact hay đổi thì phải re-index chứ không train lại"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Day 1 giải thích pipeline huấn luyện: SFT dạy model FORMAT phản hồi, RLHF định hình hành vi — không giai đoạn nào là để nhồi fact. Day 7 và Day 8 đều gọi đây là 'hiểu nhầm phổ biến nhất'. Day 8 bổ sung lý do vận hành: policy đổi thì RAG chỉ cần cập nhật index, còn fine-tune lại mỗi quý vừa tốn GPU vừa dễ catastrophic forgetting.",
+      "tags": [
+        "cross-day",
+        "rag-vs-finetune"
+      ]
+    },
+    {
+      "id": "T3-038",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ thất bại điển hình của Sparse Search (BM25) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query 'nghỉ phép' bỏ lỡ document chỉ chứa 'annual leave' hoặc 'PTO' do không hiểu đồng nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Query 'ERR-4012' bị hiểu thành mã lỗi tương tự nên trả về nhầm tài liệu khác nhóm"
+        },
+        {
+          "key": "C",
+          "text": "Query chứa nhiều từ đồng nghĩa khiến điểm TF-IDF bị phân tán giữa các tài liệu"
+        },
+        {
+          "key": "D",
+          "text": "Query dạng câu hỏi tự nhiên bị tách từ sai nên kết quả trả về hoàn toàn ngẫu nhiên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nêu VD thất bại của Sparse: 'Query nghỉ phép → bỏ lỡ doc chỉ chứa annual leave, PTO.' BM25 chỉ đếm tần suất từ nên hai cách diễn đạt cùng nghĩa nhưng khác chữ sẽ không match. Ngược lại, mã lỗi ERR-4012 lại là thế mạnh của BM25 vì đây là exact term.",
+      "tags": [
+        "day8",
+        "sparse",
+        "limitation"
+      ]
+    },
+    {
+      "id": "T3-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 7 nêu 'garbage in, garbage out' cho embedding. Day 8 nêu 'chất lượng ingestion quyết định trần của retrieval'. Hệ quả thực tiễn khi cả ba chỉ số RAGAS đều thấp là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải bổ sung thêm bước rerank bằng cross-encoder để cải thiện thứ hạng của kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Phải tăng đồng thời top-k và hạ score threshold để mở rộng phạm vi tài liệu được lấy về"
+        },
+        {
+          "key": "C",
+          "text": "Phải đổi ngay sang model generation mạnh hơn vì đây là điểm nghẽn của toàn hệ thống"
+        },
+        {
+          "key": "D",
+          "text": "Phải sửa Indexing vì dữ liệu gốc có vấn đề, không phải sửa riêng một tầng nào của pipeline"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng chẩn đoán RAG Triad của Day 8 ghi: Thấp – Thấp – Thấp → 'Sửa Indexing (dữ liệu gốc có vấn đề)'. Điều này khớp với hai nguyên tắc của Day 7: embedding không tự tạo ra sự thật, và index dữ liệu raw rồi kỳ vọng retrieval tự chữa là sai lầm phổ biến. Khi cả ba trục cùng thấp thì vấn đề ở nền móng chứ không ở một tầng.",
+      "tags": [
+        "cross-day",
+        "ragas-indexing"
+      ]
+    },
+    {
+      "id": "T3-040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu 'Rules of Machine Learning' của Google truyền tải nguyên tắc thực chiến nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn dùng deep learning cho mọi bài toán"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng ML khi có ít nhất 1 triệu mẫu dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Thu thập càng nhiều dữ liệu càng tốt trước khi bắt đầu"
+        },
+        {
+          "key": "D",
+          "text": "Giải pháp đơn giản (rule, heuristic) trước, ML sau"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Rules of ML của Google: bắt đầu bằng heuristic/rule đơn giản, chỉ chuyển sang ML khi rule không còn đủ — cùng tinh thần với Anthropic.",
+      "tags": [
+        "day2",
+        "google",
+        "resources"
+      ]
+    },
+    {
+      "id": "T3-041",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, tool definitions phải nêu rõ những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần tên tool"
+        },
+        {
+          "key": "B",
+          "text": "Rõ input / output / error mode"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần mô tả bằng một câu"
+        },
+        {
+          "key": "D",
+          "text": "Ngôn ngữ lập trình được dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tool definition tốt phải rõ ba thứ: input nhận gì, output trả gì, và error mode khi thất bại — thiếu error mode thì agent không biết xử lý khi tool fail.",
+      "tags": [
+        "day3",
+        "tool-definition"
+      ]
+    },
+    {
+      "id": "T3-042",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sentence-window chunking giải quyết vấn đề gì mà chunk cố định không giải quyết được?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép retrieve rất chính xác ở mức câu nhưng vẫn inject đủ ngữ cảnh nhờ mở rộng ±k câu"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số lượng record trong vector store nhờ gộp nhiều câu vào cùng một bản ghi"
+        },
+        {
+          "key": "C",
+          "text": "Tự động phát hiện điểm chuyển chủ đề mà không cần tính toán embedding cho từng câu"
+        },
+        {
+          "key": "D",
+          "text": "Bảo toàn cấu trúc bảng biểu bằng cách kèm lại header dòng cho mỗi phần của bảng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sentence-window tách bạch hai việc vốn bị gộp: ĐƠN VỊ TÌM KIẾM và ĐƠN VỊ INJECT. Index ở mức 1 câu để vector rất sắc nét (retrieve chính xác cao), nhưng khi trả kết quả thì mở rộng ra ±k câu xung quanh để LLM có đủ ngữ cảnh. Yếu: số record lớn và cần lưu vị trí câu để tra ngược. Phương án D mô tả Table/layout-aware.",
+      "tags": [
+        "day7",
+        "chunking",
+        "sentence-window"
+      ]
+    },
+    {
+      "id": "T3-043",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phần 'Headroom' 20% trong token budget dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ lịch sử hội thoại của các lượt trao đổi trước đó trong cùng một phiên"
+        },
+        {
+          "key": "B",
+          "text": "Chứa metadata và thông tin trích dẫn nguồn kèm theo mỗi chunk được inject"
+        },
+        {
+          "key": "C",
+          "text": "Dự phòng cho trường hợp context bị nén không thành công ở bước compression"
+        },
+        {
+          "key": "D",
+          "text": "Dành chỗ cho query của người dùng và phần output mà model sẽ sinh ra"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Biểu đồ ghi rõ: 'Headroom (Query & Output)' chiếm 20%. Đây là phần bắt buộc phải chừa lại — nếu context chiếm hết thì model không đủ chỗ sinh câu trả lời đầy đủ, dẫn tới output bị cắt cụt giữa chừng.",
+      "tags": [
+        "day8",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "T3-044",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 nêu 4 pattern Human-in-the-loop. Day 8 nêu Abstention. Điểm chung về triết lý thiết kế của hai khái niệm này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều chỉ áp dụng được sau khi hệ thống đã đạt độ chính xác trên chín mươi phần trăm trong kiểm thử"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai thừa nhận AI không hoàn hảo và thiết kế sẵn đường lui an toàn thay vì cố ép hệ thống luôn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều nhằm mục tiêu giảm chi phí vận hành bằng cách hạn chế bớt số lần phải gọi tới model đắt tiền"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều là yêu cầu bắt buộc theo quy định pháp lý hiện hành của ngành tài chính, y tế và pháp lý"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 2 khẳng định 'AI Product = AI + UX. Dùng UX để hỗ trợ chỗ AI chưa đủ tốt', với 4 pattern: làm rõ, minh bạch nguồn, phê duyệt thủ công, thiết lập ranh giới. Day 8 gọi Abstention là một trong hai tính năng quan trọng nhất của RAG production, kèm Graceful Degradation. Cả hai đều xuất phát từ giả định 'hệ thống sẽ có lúc sai' và thiết kế cho tình huống đó.",
+      "tags": [
+        "cross-day",
+        "hitl"
+      ]
+    },
+    {
+      "id": "T3-045",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi phát hiện agent không tiến triển, nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đổi sang model mạnh hơn ngay lập tức"
+        },
+        {
+          "key": "B",
+          "text": "Xóa toàn bộ context và chạy lại"
+        },
+        {
+          "key": "C",
+          "text": "Dừng loop và fallback (sang human hoặc chatbot)"
+        },
+        {
+          "key": "D",
+          "text": "Tăng MAX_ITERATIONS lên gấp đôi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Khi output không tiến triển, cùng tool bị gọi lặp lại, hoặc observation không đổi mà agent vẫn tiếp tục — cần dừng loop và fallback.",
+      "tags": [
+        "day3",
+        "guardrails",
+        "fallback"
+      ]
+    },
+    {
+      "id": "T3-046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba workflow pattern cơ bản theo Anthropic là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAG, Fine-tuning, Prompt Engineering"
+        },
+        {
+          "key": "B",
+          "text": "Map, Reduce, Filter, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Prompt Chaining, Routing, Parallelization"
+        },
+        {
+          "key": "D",
+          "text": "Orchestrator-Workers, Evaluator-Optimizer, Agent"
+        }
+      ],
+      "answer": "C",
+      "explanation": "3 pattern cơ bản: Prompt Chaining (chuỗi tuần tự có gate), Routing (phân loại rồi đưa vào nhánh chuyên biệt), Parallelization (chạy song song rồi tổng hợp/vote).",
+      "tags": [
+        "workflow-patterns",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "T3-047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 1 nói context window là 'bàn làm việc' có hạn. Day 7 nói vector store là 'bộ nhớ dài hạn tìm được bằng ngữ nghĩa'. Kết hợp hai ẩn dụ này giải thích RAG thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAG là cơ chế lấy đúng vài tài liệu từ kho lưu trữ khổng lồ đặt lên bàn làm việc có hạn, thay vì cố nhét cả kho lên bàn"
+        },
+        {
+          "key": "B",
+          "text": "RAG mở rộng kích thước của bàn làm việc bằng cách nén thông tin xuống dạng vector nhỏ gọn hơn nhiều so với văn bản gốc"
+        },
+        {
+          "key": "C",
+          "text": "RAG lưu lại toàn bộ bàn làm việc vào kho sau mỗi phiên để lần sau có thể khôi phục lại đúng trạng thái cũ"
+        },
+        {
+          "key": "D",
+          "text": "RAG thay thế hẳn bàn làm việc bằng kho lưu trữ nên model không còn bị giới hạn bởi context window nữa khi trả lời"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây chính là logic vì sao RAG tồn tại: context window (bàn) không thể chứa 800 file policy (kho). Day 8 mô tả ba lựa chọn — In-Context nhét thẳng lên bàn (chỉ hợp 1–20 trang), RAG lấy đúng vài chunk từ kho đặt lên bàn, Fine-tuning học thuộc vào trọng số. RAG không mở rộng bàn mà tối ưu việc CHỌN gì đặt lên bàn.",
+      "tags": [
+        "cross-day",
+        "rag-metaphor"
+      ]
+    },
+    {
+      "id": "T3-048",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một hệ thống hỏi đáp nội bộ có Context Recall 92%, Faithfulness 61%, Answer Relevance 88%. Kết hợp Day 4 và Day 8, hành động ưu tiên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sửa tầng Generation: thêm strict grounding vào prompt, đặt rule ở cuối, giảm temperature về 0 và bật self-check"
+        },
+        {
+          "key": "B",
+          "text": "Sửa tầng Augmentation: áp dụng document reordering và nén bớt context lại bằng một model nhỏ hơn cho gọn"
+        },
+        {
+          "key": "C",
+          "text": "Sửa tầng Retrieval: chuyển sang hybrid search kết hợp BM25 và bổ sung thêm bước rerank bằng cross-encoder model"
+        },
+        {
+          "key": "D",
+          "text": "Sửa tầng Indexing: chunk lại toàn bộ corpus theo heading và bổ sung đầy đủ metadata cho từng chunk đã tạo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Recall cao nghĩa là retriever đã tìm đúng tài liệu; Relevance cao nghĩa là câu trả lời đúng trọng tâm; nhưng Faithfulness thấp nghĩa là model bịa thêm nội dung không có trong context. Bảng chẩn đoán Day 8 ghi rõ tổ hợp Cao–Thấp–Cao → 'Sửa Generation (model bịa thêm)'. Danh sách khắc phục lấy từ Day 8 và trùng với kỹ thuật viết system prompt của Day 4.",
+      "tags": [
+        "cross-day",
+        "diagnosis"
+      ]
+    },
+    {
+      "id": "T3-049",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 nêu 'Không index mọi thứ theo kiểu cứ nạp hết vào vector DB'. Day 7 nêu governance với access level. Day 8 nêu pre-filter theo quyền user. Ba ý này tạo thành chuỗi kiểm soát nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuỗi cập nhật dữ liệu: xác định chu kỳ re-index, theo dõi độ tươi rồi làm mới định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Chuỗi tối ưu chi phí: giảm dung lượng lưu trữ, giảm chi phí embed và giảm số lượng truy vấn"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi đảm bảo chất lượng: làm sạch dữ liệu, chuẩn hóa định dạng rồi kiểm thử trước khi phát hành"
+        },
+        {
+          "key": "D",
+          "text": "Chuỗi kiểm soát truy cập: quyết định index gì, gắn nhãn access level, rồi lọc theo quyền lúc truy vấn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba tầng nối tiếp nhau: Day 2 (governance ở tầng bài toán — không nạp bừa vì mất kiểm soát trách nhiệm và quyền truy cập), Day 7 (gắn metadata access:public/internal/restricted lúc ingest để 'tránh dùng nội dung có giới hạn truy cập'), Day 8 (pre-filter lọc theo quyền user trước khi vector search). Thiếu một mắt xích thì tài liệu restricted có thể lọt vào câu trả lời cho người không có quyền.",
+      "tags": [
+        "cross-day",
+        "access-control"
+      ]
+    },
+    {
+      "id": "T3-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản v3 hoàn chỉnh trong ví dụ iteration bổ sung thêm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ thêm số lượng bullet, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Thêm ví dụ mẫu, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Audience (Bạn là analyst... cho CTO), focus (Q2 revenue impact) và tone (data-driven)"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ thêm độ dài, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "v3 = RTCF đầy đủ: role (analyst), audience (CTO), format (3 bullets <20 từ), focus (Q2 revenue impact), tone (data-driven).",
+      "tags": [
+        "day4",
+        "iteration",
+        "rtcf"
+      ]
+    },
+    {
+      "id": "T3-051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature được nhắc ở Day 1, Day 4 và Day 8. Vai trò của nó ở Day 8 khác gì so với Day 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Day 8 không còn dùng tới temperature nữa vì grounding constraints trong prompt đã thay thế hoàn toàn vai trò của tham số này"
+        },
+        {
+          "key": "B",
+          "text": "Day 8 khuyên tăng temperature lên khi Context Recall thấp để model tự bù đắp phần thông tin còn thiếu trong ngữ cảnh"
+        },
+        {
+          "key": "C",
+          "text": "Day 1 giải thích cơ chế lấy mẫu, còn Day 8 dùng temperature = 0 như một biện pháp cụ thể để sửa Faithfulness thấp"
+        },
+        {
+          "key": "D",
+          "text": "Day 8 dùng temperature cao để tăng tính đa dạng cho câu trả lời khi context được lấy về từ nhiều nguồn tài liệu khác nhau"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 1 giải thích temperature chỉ thay đổi cách lấy mẫu từ phân phối xác suất, không thay đổi kiến thức model. Day 4 gắn từng khoảng giá trị với use case cụ thể. Day 8 biến nó thành một mục trong danh sách khắc phục khi Faithfulness thấp: 'Generation prompt thêm strict grounding; Self-correction loop; Giảm temperature = 0; Đặt rule quan trọng ở cuối prompt'.",
+      "tags": [
+        "cross-day",
+        "temperature"
+      ]
+    },
+    {
+      "id": "T3-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu quy trình hoàn toàn có tính xác định (deterministic) thì nên chọn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Workflow có AI hỗ trợ, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Các quy tắc luật tĩnh (rule) sẽ tối ưu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình frontier mạnh nhất"
+        },
+        {
+          "key": "D",
+          "text": "Agent tự chủ, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng nêu rõ: quy trình deterministic thì rule tối ưu hơn — rẻ hơn, nhanh hơn, đúng 100% và dễ kiểm soát.",
+      "tags": [
+        "pair",
+        "rule"
+      ]
+    },
+    {
+      "id": "T3-053",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temperature thay đổi điều gì trong quá trình sinh token?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ kết nối API, kể cả khi hệ thống đã chạy ổn định nhiều tháng"
+        },
+        {
+          "key": "B",
+          "text": "Cách mô hình lấy mẫu từ phân phối xác suất — không thay đổi kiến thức hay tham số"
+        },
+        {
+          "key": "C",
+          "text": "Kiến thức nền (knowledge) của mô hình, kể cả khi hệ thống đã chạy ổn định nhiều tháng"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng tham số được kích hoạt, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Temperature chỉ thay đổi sampling strategy, không thay đổi logit weights hay kiến thức. Mô hình 'biết' như nhau ở mọi temperature.",
+      "tags": [
+        "api",
+        "temperature",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "T3-054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 4 nói output token đắt và cần structured output. Day 8 nói cần citation. Khi thiết kế API trả về cho dashboard, cách kết hợp đúng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Yêu cầu model trả về văn bản tự do rồi dùng biểu thức regex để trích xuất phần citation ra ở bước xử lý phía sau"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hẳn citation để tiết kiệm token vì dashboard đã hiển thị sẵn danh sách tài liệu nguồn ở một khu vực riêng"
+        },
+        {
+          "key": "C",
+          "text": "Trả về hai lời gọi API riêng biệt: một lời gọi cho câu trả lời và một lời gọi khác cho danh sách nguồn tham khảo"
+        },
+        {
+          "key": "D",
+          "text": "Định nghĩa JSON schema có trường answer và trường citations, dùng response_format để ép cấu trúc và luôn validate output"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Day 4 dạy structured output với JSON mode/response_format và cảnh báo 'luôn validate JSON output'. Day 8 nhấn mạnh 'RAG mất 50% giá trị nếu model không chỉ ra lấy từ tài liệu nào' và Output Control yêu cầu format phục vụ tích hợp API/dashboard. Ghép lại: đưa citation thành một trường trong schema thay vì nhúng vào văn bản rồi parse ngược.",
+      "tags": [
+        "cross-day",
+        "structured-citation"
+      ]
+    },
+    {
+      "id": "T3-055",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 1 nói LLM là stateless nên chatbot phải gửi lại toàn bộ lịch sử. Day 4 nói context ≤ 60% budget. Hệ quả kinh tế khi hội thoại kéo dài là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí không đổi nhưng chất lượng tăng vì model có thêm ngữ cảnh từ các lượt trước"
+        },
+        {
+          "key": "B",
+          "text": "Chi phí mỗi lượt tăng dần vì phải gửi lại lịch sử ngày càng dài, đồng thời chỗ cho context và output bị thu hẹp"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí giữ nguyên vì nhà cung cấp tính phí theo số lượt gọi API chứ không theo token"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí giảm dần vì hệ thống cache được phần lịch sử đã gửi ở các lượt trước đó"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 1 giải thích mỗi API call là độc lập nên client phải append [system, user1, assistant1, user2...] và gửi lại toàn bộ, khiến 'chi phí tăng theo độ dài hội thoại'. Day 4 bổ sung ràng buộc phân bổ: history ăn vào phần 60% context, đẩy nguy cơ lost in the middle và cắt cụt output. Đây là lý do cần Context Compression và chiến lược drop/summarize history.",
+      "tags": [
+        "cross-day",
+        "stateless-cost"
+      ]
+    },
+    {
+      "id": "T3-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ phù hợp cho Agent theo bảng so sánh là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "FAQ, support cơ bản"
+        },
+        {
+          "key": "B",
+          "text": "Menu IVR, form validation"
+        },
+        {
+          "key": "C",
+          "text": "Booking, research, coding assistant"
+        },
+        {
+          "key": "D",
+          "text": "Hiển thị nội dung tĩnh"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Agent phù hợp cho bài toán nhiều bước, cần tool và quyết định động: booking, research, coding assistant.",
+      "tags": [
+        "day3",
+        "agent",
+        "use-case"
+      ]
+    },
+    {
+      "id": "T3-057",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật debug được dạy ở Day 3, Day 4 và Day 8. Kỹ thuật nào của Day 8 giúp trả lời nhanh nhất câu hỏi 'lỗi thuộc Retrieval hay Generation'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đọc trace Thought/Action/Observation của agent để xem nó đã chọn tool nào và truyền tham số gì ở từng bước"
+        },
+        {
+          "key": "B",
+          "text": "Kiểm tra xem tool description đã nêu rõ khi nào nên dùng và khi nào KHÔNG nên dùng tool đó hay chưa"
+        },
+        {
+          "key": "C",
+          "text": "In formatted_context ra log: có đáp án trong context thì lỗi Generation, không có thì lỗi Retrieval"
+        },
+        {
+          "key": "D",
+          "text": "Chạy lại cùng một truy vấn mười lần rồi đo tỷ lệ output giống nhau giữa các lần chạy để đánh giá độ ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 3 dạy đọc trace cho agent, Day 4 dạy debug checklist cho tool và prompt, Day 8 đưa ra phép thử đơn giản nhất cho RAG: in formatted_context ra log rồi tự đọc. Nếu đáp án nằm trong context mà model vẫn trả lời sai thì lỗi ở Generation; nếu context không chứa đáp án thì lỗi ở Retrieval. Không cần công cụ nào ngoài một lệnh print.",
+      "tags": [
+        "cross-day",
+        "debug"
+      ]
+    },
+    {
+      "id": "T3-058",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chain-of-Thought prompting là kỹ thuật gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Yêu cầu mô hình 'suy nghĩ từng bước' — tạo không gian nháp trung gian, cải thiện độ chính xác suy luận"
+        },
+        {
+          "key": "B",
+          "text": "Kỹ thuật kết hợp output của nhiều mô hình song song, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Chuỗi các câu hỏi nối tiếp nhau trong một hội thoại, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật cung cấp nhiều ví dụ (few-shot) trong prompt, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thêm 'hãy suy nghĩ từng bước' vào prompt tạo 'scratch pad' để mô hình thực hiện suy luận trung gian trước khi kết luận — cải thiện rõ rệt bài toán toán, logic.",
+      "tags": [
+        "llm",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "T3-059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi dùng tool_choice = 'required' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí tăng gấp 10 lần, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "API sẽ trả lỗi 400, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Model có thể gọi tool với arguments bịa nếu user không cung cấp đủ thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Model sẽ bỏ qua system prompt, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ép buộc gọi tool khi thiếu dữ liệu đầu vào dẫn đến model tự bịa tham số — nguồn lỗi khó phát hiện. Đây là lý do phải cẩn thận với required: khi user chưa cung cấp đủ thông tin, model vẫn buộc phải gọi tool nên nó sẽ điền đại tham số, tạo ra lỗi trông như dữ liệu thật.",
+      "tags": [
+        "day4",
+        "tool-choice",
+        "risk"
+      ]
+    },
+    {
+      "id": "T3-060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Diamond 2 trong Double Diamond gồm hai pha nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Discover và Define, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Develop (mở rộng — nhiều giải pháp tiềm năng) và Deliver (thu hẹp — chọn và triển khai)"
+        },
+        {
+          "key": "C",
+          "text": "Build và Measure, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Prototype và Test, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Diamond 2 = Tìm đúng giải pháp: Develop mở rộng ra nhiều phương án, Deliver thu hẹp lại để chọn và triển khai.",
+      "tags": [
+        "discovery",
+        "double-diamond"
+      ]
+    },
+    {
+      "id": "T3-061",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 4 dạy viết system prompt 5 thành phần. Day 8 dạy grounding constraints. Thành phần nào của system prompt Day 4 tương ứng trực tiếp với grounding của Day 8?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Capabilities — vì nó khai báo model được dùng tool nào và nguồn dữ liệu nào ưu tiên"
+        },
+        {
+          "key": "B",
+          "text": "Persona — vì vai trò và phong cách giao tiếp quyết định cách model diễn đạt câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Output format — vì nó quy định câu trả lời phải trả về dạng JSON hay markdown có cấu trúc"
+        },
+        {
+          "key": "D",
+          "text": "Constraints — vì nó quy định không làm gì, khi nào từ chối và khi nào escalate cho con người"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Day 4 định nghĩa Constraints là 'không làm gì, khi nào từ chối, khi nào escalate'. Day 8 cụ thể hóa thành Strict Grounding ('Only answer from the provided context. If not found, say: I don't have enough information') và Graceful Degradation (từ chối kèm gợi ý bước tiếp theo). Hai ngày mô tả cùng một cơ chế ở hai mức trừu tượng khác nhau.",
+      "tags": [
+        "cross-day",
+        "system-prompt-grounding"
+      ]
+    },
+    {
+      "id": "T3-062",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Embedding model được định nghĩa chính xác là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thuật toán nén dữ liệu nhằm giảm dung lượng lưu trữ mà vẫn giữ được thông tin gốc"
+        },
+        {
+          "key": "B",
+          "text": "Hàm biến dữ liệu thô (text, ảnh, audio) thành vector số cùng kích thước để đo khoảng cách"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình sinh văn bản mới dựa trên ngữ cảnh đầu vào và phân phối xác suất token"
+        },
+        {
+          "key": "D",
+          "text": "Bộ phân loại gán nhãn chủ đề cho tài liệu dựa trên tần suất xuất hiện của từ khóa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide định nghĩa: 'Embedding model là hàm biến dữ liệu thô (text, ảnh, audio) thành vector số CÙNG KÍCH THƯỚC. Sau đó, đo khoảng cách giữa các vector = đo độ giống nhau về nghĩa.' Điểm mấu chốt là 'cùng kích thước' và 'cùng không gian' — chỉ khi đó mới so sánh được text với ảnh, hoặc tiếng Việt với tiếng Anh.",
+      "tags": [
+        "day7",
+        "embedding",
+        "definition"
+      ]
+    },
+    {
+      "id": "T3-063",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "MMR (Maximum Marginal Relevance) giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chunk có độ dài chênh lệch lớn khiến việc phân bổ token budget cho prompt trở nên khó kiểm soát"
+        },
+        {
+          "key": "B",
+          "text": "Điểm cosine của các chunk quá gần nhau nên hệ thống không phân biệt được đâu là kết quả thực sự tốt hơn"
+        },
+        {
+          "key": "C",
+          "text": "Tài liệu quan trọng bị xếp ở giữa prompt nên model rất dễ bỏ sót khi đọc phần context được inject vào"
+        },
+        {
+          "key": "D",
+          "text": "Redundancy — cả Top 3 chunk cùng nói một ý khiến LLM tốn token vô ích mà không có thêm dữ kiện mới"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nêu vấn đề: 'Reranker đưa Top 3 lên đầu. Nhưng nếu cả 3 nói cùng một ý thì sao?' với ví dụ ba chunk đều nói hoàn tiền mất 7 ngày bằng ba cách diễn đạt. 'LLM tốn token vô ích, không có thêm dữ kiện mới.' MMR chọn chunk vừa liên quan vừa khác biệt với những chunk đã chọn.",
+      "tags": [
+        "day8",
+        "mmr"
+      ]
+    },
+    {
+      "id": "T3-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu có hơn 1 câu trả lời chưa rõ ràng trong 5 câu hỏi đánh giá mức sẵn sàng, quyết định nên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Not Yet — tạm hoãn để bổ sung dữ liệu, chuẩn hóa quy trình"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển sang dùng Agent, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "No-Go — hủy dự án hoàn toàn, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Go — cứ triển khai rồi hoàn thiện dần, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng quy định: hơn 1 câu chưa rõ ràng → quyết định Not Yet. Đây là trạng thái 'có triển vọng nhưng cần bổ sung', không phải từ chối.",
+      "tags": [
+        "pair",
+        "readiness",
+        "decision"
+      ]
+    },
+    {
+      "id": "T3-065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 7 dạy chọn chiến lược chunking, Day 8 dạy đo Context Recall. Nếu Context Recall thấp thì theo Day 8 phải xem lại điều gì thuộc Day 7?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần thêm bước rerank bằng cross-encoder là đủ để khắc phục hoàn toàn vấn đề"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần đổi sang vector store có hiệu năng cao hơn để tăng tốc độ truy vấn"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần tăng giá trị top-k lên gấp đôi mà không cần chạm vào chiến lược chunking"
+        },
+        {
+          "key": "D",
+          "text": "Chunking (chunk quá to, thiếu metadata) và embedding model có phù hợp domain không"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Day 8 liệt kê bốn hướng sửa khi Context Recall thấp: retrieval strategy (hybrid, rerank), CHUNKING (chunk quá to, thiếu metadata), query transformation, và EMBEDDING MODEL (đổi model phù hợp domain). Hai hướng in hoa chính là nội dung Day 7 — đúng như câu 'chất lượng ingestion quyết định trần của retrieval'.",
+      "tags": [
+        "cross-day",
+        "chunking-recall"
+      ]
+    },
+    {
+      "id": "T3-066",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 7 dạy gắn metadata cho mỗi chunk. Day 8 dạy Pre-Filtering. Vì sao hai kỹ thuật này bắt buộc phải đi cùng nhau?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì metadata giúp giảm dung lượng lưu trữ của collection còn pre-filter giúp tăng tốc độ ghi dữ liệu mới vào trong vector store"
+        },
+        {
+          "key": "B",
+          "text": "Vì cả hai đều là yêu cầu bắt buộc theo quy định compliance của các ngành tài chính, y tế và pháp lý hiện hành"
+        },
+        {
+          "key": "C",
+          "text": "Vì pre-filter lọc theo metadata trước khi search, nên không gắn metadata lúc ingest thì không lọc được lúc query"
+        },
+        {
+          "key": "D",
+          "text": "Vì metadata quyết định thứ tự sắp xếp chunk trong prompt còn pre-filter quyết định số lượng chunk được đưa vào context cuối"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 7 nêu 5 trường metadata (source, category, time/freshness, access level, section id) và kết luận 'Retrieval tốt = chunk đúng + metadata đủ + filter hợp lý'. Day 8 mô tả Pre-Filtering thu gọn scope từ N chunks xuống n ≪ N trước khi vector search. Quan hệ nhân quả rõ ràng: metadata là điều kiện tiên quyết — không gắn lúc ingest thì lúc query không có gì để lọc.",
+      "tags": [
+        "cross-day",
+        "metadata-filter"
+      ]
+    },
+    {
+      "id": "T3-067",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm lưu ý chung của nhóm vector store commercial/managed là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phải tự lo scaling, backup và monitoring nên cần có đội ngũ hạ tầng chuyên trách vận hành thường xuyên"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ triển khai được on-premise nên không phù hợp với tổ chức có ràng buộc compliance nghiêm ngặt"
+        },
+        {
+          "key": "C",
+          "text": "Không hỗ trợ metadata filter phức tạp nên chỉ phù hợp với các bài toán tìm kiếm tương đối đơn giản"
+        },
+        {
+          "key": "D",
+          "text": "Trả tiền để khỏi lo hạ tầng, đổi lại là chi phí theo scale và phụ thuộc vendor — cần tính cost path trước"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide ghi: 'Nhóm commercial/managed: trả tiền để khỏi lo hạ tầng. Đổi lại là chi phí theo scale và phụ thuộc vendor — cần tính cost path trước khi cam kết.' Ngược lại nhóm open source: 'tự host, không phí license, kiểm soát dữ liệu — nhưng phải tự lo scaling, backup, monitoring.'",
+      "tags": [
+        "day7",
+        "vector-store",
+        "managed"
+      ]
+    },
+    {
+      "id": "T3-068",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Calling Flow gồm những bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự chạy code rồi trả kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Tool tự quyết định khi nào được gọi"
+        },
+        {
+          "key": "C",
+          "text": "Model decides → App executes tool → Model uses response"
+        },
+        {
+          "key": "D",
+          "text": "User gọi tool trực tiếp, model chỉ xem kết quả"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Model quyết định gọi tool nào → ứng dụng của bạn thực thi tool → kết quả gửi lại model để tổng hợp câu trả lời.",
+      "tags": [
+        "day4",
+        "tool-calling",
+        "flow"
+      ]
+    },
+    {
+      "id": "T3-069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 1 giải thích hallucination xảy ra vì model tối ưu cho văn bản 'nghe hợp lý' chứ không phải sự thật. Day 8 đưa ra giải pháp hệ thống nào cho vấn đề này?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển sang model có số tham số lớn hơn nhiều lần để tăng độ chính xác của phần kiến thức nền đã được huấn luyện"
+        },
+        {
+          "key": "B",
+          "text": "RAG — cung cấp chứng cứ thực trước khi sinh, kết hợp grounding constraints và abstention khi thiếu dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số lượng ví dụ few-shot trong prompt để model học được cách trả lời chính xác hơn từ các mẫu đã cho"
+        },
+        {
+          "key": "D",
+          "text": "Giảm temperature về 0 để loại bỏ tính ngẫu nhiên trong quá trình lấy mẫu token, nhờ đó model không còn bịa thông tin"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 1 và Day 8 mô tả cùng cơ chế: LLM ưu tiên fluency hơn factual accuracy, và mấu chốt là 'LLM không biết bản thân không biết'. Day 8 gọi RAG là hệ thống cung cấp chứng cứ thực trước khi sinh, rồi bổ sung hai tính năng mà slide gọi là 'quan trọng nhất của RAG production': Grounding (neo vào chứng cứ) và Abstention (biết giới hạn, từ chối thay vì đoán mò).",
+      "tags": [
+        "cross-day",
+        "hallucination"
+      ]
+    },
+    {
+      "id": "T3-070",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 phân loại giải pháp thành Rule / Workflow / Agent. Day 3 phân loại agent thành L0–L3. Hai khung này quan hệ thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chúng chỉ là hai tên gọi khác nhau của cùng một thang đo độ phức tạp kỹ thuật, được dùng luân phiên tùy theo ngữ cảnh trình bày"
+        },
+        {
+          "key": "B",
+          "text": "L0 tương ứng với Rule, L1 tương ứng với Workflow, còn L2 và L3 cùng ánh xạ vào nhóm Agent trong khung phân loại của Day 2"
+        },
+        {
+          "key": "C",
+          "text": "Khung Day 2 phân loại toàn bộ phổ giải pháp gồm cả phi-AI, còn L0–L3 chỉ phân loại mức tự chủ bên trong nhóm dùng LLM"
+        },
+        {
+          "key": "D",
+          "text": "Khung của Day 2 được thiết kế cho product manager còn khung L0–L3 của Day 3 dành riêng cho kỹ sư trực tiếp triển khai hệ thống"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 2 bắt đầu từ 'No AI' và Rule (if/else, không cần LLM), rồi mới tới Workflow và Agent — tức bao phủ cả giải pháp không dùng AI. Day 3 giả định đã dùng LLM và phân tầng theo mức tự chủ: L0 bare LLM, L1 thêm tools, L2 planning đa bước, L3 multi-agent. Vì vậy L0 (LLM thuần) không hề tương ứng với Rule — Rule thậm chí không cần model nào.",
+      "tags": [
+        "cross-day",
+        "levels"
+      ]
+    },
+    {
+      "id": "T3-071",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giai đoạn đầu tiên trong pipeline huấn luyện LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RLHF (Reinforcement Learning from Human Feedback), dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "SFT (Supervised Fine-Tuning), nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Reasoning training, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Pre-training — học dự đoán token tiếp theo trên lượng văn bản khổng lồ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Pipeline: (1) Pre-training 'đọc tất cả' → (2) SFT 'học phản hồi' → (3) RLHF/DPO 'định hình hành vi' → (4) Reasoning training. Pre-training tốn tài nguyên nhất.",
+      "tags": [
+        "llm",
+        "training",
+        "pre-training"
+      ]
+    },
+    {
+      "id": "T3-072",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mô hình nào được liệt kê trong Tier 1 (Frontier closed)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Claude Fable 5, GPT-5.6 Sol, Claude Opus 4.8"
+        },
+        {
+          "key": "B",
+          "text": "Llama, Mistral, Falcon"
+        },
+        {
+          "key": "C",
+          "text": "Sonnet 4.6, Terra, Gemini 3.1 Pro"
+        },
+        {
+          "key": "D",
+          "text": "Kimi K3, DeepSeek, Qwen"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tier 1 Frontier (7/2026): Claude Fable 5 (strongest), GPT-5.6 Sol (top of GPT-5.6 line), Claude Opus 4.8 — mạnh nhất nhưng đắt và có thể bị export-controlled.",
+      "tags": [
+        "model-selection",
+        "tier1"
+      ]
+    },
+    {
+      "id": "T3-073",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 9 sẽ tiếp tục với chủ đề nào và bài tập chuẩn bị là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tuning và distillation; chuẩn bị bộ dữ liệu huấn luyện gồm ít nhất năm nghìn cặp Q–A"
+        },
+        {
+          "key": "B",
+          "text": "Deployment và monitoring; chuẩn bị kịch bản kiểm thử tải cho hệ thống ở quy mô lớn"
+        },
+        {
+          "key": "C",
+          "text": "Multimodal RAG; chuẩn bị corpus gồm hình ảnh và tài liệu PDF có nhiều biểu đồ phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Multi-Agent, MCP & A2A; chuẩn bị use case mà single-agent đang quá tải và nghĩ cách tách worker"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide 'Tiếp theo' ghi: 'Multi-Agent, MCP & A2A — Một agent rất giỏi vẫn có giới hạn. Khi bài toán lớn hơn một vòng RAG, ta cần supervisor, worker, và giao thức kết nối.' Bài tập: chuẩn bị 1 use case mà single-agent đang quá tải; nghĩ trước nếu tách 2–3 worker thì chia theo tool, domain hay bước xử lý; xem lại artifact Day 08 để xác định phần nào có thể thành worker độc lập.",
+      "tags": [
+        "day8",
+        "next"
+      ]
+    },
+    {
+      "id": "T3-074",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai lớp cơ chế đảm bảo function calling hoạt động là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt engineering và RAG, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Lớp 1: Fine-tuning/RLHF (semantic — chọn đúng tool đúng lý do). Lớp 2: Grammar constraint (syntactic — output luôn parse được)"
+        },
+        {
+          "key": "C",
+          "text": "Validation và logging, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Cache và retry, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lớp 1 fine-tuning giúp model chọn đúng tool và đúng lý do (ngữ nghĩa); Lớp 2 grammar constraint đảm bảo output luôn parse được (cú pháp).",
+      "tags": [
+        "day3",
+        "function-calling",
+        "two-layers"
+      ]
+    },
+    {
+      "id": "T3-075",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 4 dạy 4 lớp prompt (System, User, Context, Format). Day 8 dạy cấu trúc THE PROMPT cho RAG. Khác biệt quan trọng nhất mà Day 8 bổ sung là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đưa Format lên đầu prompt để model biết trước cấu trúc đầu ra ngay từ khi bắt đầu đọc"
+        },
+        {
+          "key": "B",
+          "text": "Đặt Constraints/Grounding ở CUỐI prompt, gần vị trí model bắt đầu sinh, để model không quên rule khi context dài"
+        },
+        {
+          "key": "C",
+          "text": "Gộp Context và Question vào cùng một khối để giảm số lượng delimiter phải xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ hoàn toàn phần System Rules vì context đã đủ để model hiểu nhiệm vụ cần thực hiện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 8 vẽ THE PROMPT theo thứ tự [System Rules] → [Retrieved Documents] → [User Question] → [Constraints/Grounding]. Vị trí cuối của constraints là chủ ý, khớp với failure pattern 'Bỏ qua constraints — hay gặp với model nhỏ hoặc context dài. Fix: Đặt rule quan trọng ở cuối prompt (gần Answer: nhất)'. Đây là ứng dụng trực tiếp của Lost in the Middle.",
+      "tags": [
+        "cross-day",
+        "prompt-structure"
+      ]
+    },
+    {
+      "id": "T3-076",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 'Thought' trong ReAct trả lời câu hỏi gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả trả về là gì?"
+        },
+        {
+          "key": "B",
+          "text": "Mình đang thiếu gì, nên làm gì tiếp?"
+        },
+        {
+          "key": "C",
+          "text": "Người dùng có hài lòng không?"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí bao nhiêu?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thought là bước tự vấn: agent đánh giá mình đang thiếu thông tin gì và bước hành động tiếp theo nên là gì.",
+      "tags": [
+        "day3",
+        "react",
+        "thought"
+      ]
+    },
+    {
+      "id": "T3-077",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quan điểm của bài giảng về hiệu quả của các defense strategy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không có defense nào hoàn hảo 100% — cần defense-in-depth, kết hợp nhiều layers"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần một defense mạnh là đủ, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Không thể phòng thủ được prompt injection, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần dùng model mới nhất, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng cảnh báo rõ: không có lớp phòng thủ nào tuyệt đối; phải kết hợp nhiều lớp (defense-in-depth).",
+      "tags": [
+        "day4",
+        "safety",
+        "principle"
+      ]
+    },
+    {
+      "id": "T3-078",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "GPT-5.6 trong bài giảng có mấy phiên bản (sub-model)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 phiên bản duy nhất"
+        },
+        {
+          "key": "B",
+          "text": "2 phiên bản (Sol, Luna)"
+        },
+        {
+          "key": "C",
+          "text": "3 phiên bản (Sol, Terra, Luna)"
+        },
+        {
+          "key": "D",
+          "text": "4 phiên bản"
+        }
+      ],
+      "answer": "C",
+      "explanation": "GPT-5.6 có 3 tier: Sol (Tier 1, mạnh nhất), Terra (Tier 2 cheap-but-powerful), Luna (nhỏ/nhanh nhất).",
+      "tags": [
+        "model-selection",
+        "gpt56"
+      ]
+    },
+    {
+      "id": "T3-079",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao reward function phải được thiết kế liên chức năng (cross-functional)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì để tăng tốc độ phát triển, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Vì cần nhiều người để chia sẻ trách nhiệm, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó quyết định trải nghiệm người dùng cuối — tối thiểu cần Product × Engineering cùng ngồi lại"
+        },
+        {
+          "key": "D",
+          "text": "Vì quy định pháp lý yêu cầu, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Reward function không chỉ là quyết định kỹ thuật: cân bằng precision/recall trực tiếp định hình UX. Nên tối thiểu Product và Engineering phải cùng quyết.",
+      "tags": [
+        "reward",
+        "cross-functional"
+      ]
+    },
+    {
+      "id": "T3-080",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Memory' (bộ nhớ) trong kiến trúc agent dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng tốc độ xử lý GPU, nên chất lượng truy xuất bị giới hạn ngay từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Lưu kết quả trung gian, lịch sử hành động, thông tin cần ghi lại trong quá trình thực hiện"
+        },
+        {
+          "key": "C",
+          "text": "Cache phản hồi để tránh gọi API lại, kể cả khi corpus được cập nhật thường xuyên"
+        },
+        {
+          "key": "D",
+          "text": "Lưu tham số của mô hình, trong khi metadata vẫn được gắn đầy đủ cho từng chunk"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Memory trong agent đóng vai 'notebook': ghi lại những gì đã làm, kết quả trung gian, học từ kinh nghiệm — cho phép agent duy trì trạng thái qua nhiều bước.",
+      "tags": [
+        "agent",
+        "memory"
+      ]
+    },
+    {
+      "id": "T3-081",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 yêu cầu định nghĩa reward function với TP/TN/FP/FN. Day 8 đưa ra khung RAGAS ba trục. Mối liên hệ giữa hai khung này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai khung này mâu thuẫn nhau về mục tiêu vì reward function tối ưu cho precision còn RAGAS lại tối ưu cho chỉ số recall"
+        },
+        {
+          "key": "B",
+          "text": "Reward function chỉ dùng cho giai đoạn thiết kế ban đầu còn RAGAS chỉ áp dụng khi hệ thống đã ngừng phát triển và đi vào ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều nhằm biến 'cảm giác ổn' thành số đo được — Day 2 định nghĩa đúng/sai ở mức nghiệp vụ, Day 8 tách bạch lỗi theo tầng kỹ thuật"
+        },
+        {
+          "key": "D",
+          "text": "RAGAS thay thế hoàn toàn reward function vì nó đo được tự động bằng công cụ mà không cần con người tham gia đánh giá thủ công"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Day 2 nhấn mạnh 'điểm đau chưa được định lượng thì không thể xác định giá trị thực tế của AI' và yêu cầu thiết kế đánh đổi precision/recall theo lợi ích người dùng. Day 8 nói 'Cảm giác ổn không phải metric' và tách RAGAS thành ba trục để biết lỗi nằm ở Retriever, Generator hay Augmentation. Cùng triết lý đo lường, khác tầng áp dụng.",
+      "tags": [
+        "cross-day",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "T3-082",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Use case 'Dedup' bằng embedding hoạt động theo cơ chế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Embed cả truy vấn lẫn tài liệu rồi trả về những kết quả đạt điểm cosine similarity cao nhất"
+        },
+        {
+          "key": "B",
+          "text": "Embed ý định của người dùng cùng với từng item rồi xếp hạng danh sách gợi ý theo độ tương đồng"
+        },
+        {
+          "key": "C",
+          "text": "Gom các vector nằm gần nhau thành từng nhóm riêng rồi gán nhãn chủ đề tương ứng cho mỗi nhóm"
+        },
+        {
+          "key": "D",
+          "text": "So cosine giữa các cặp và đánh dấu cặp vượt ngưỡng threshold để phát hiện nội dung trùng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng use case: Dedup = 'So cosine giữa các cặp, đánh dấu cặp > threshold'. Ví dụ thực tế: phát hiện 2 bài FAQ nội dung gần giống nhau để gộp lại. Đây là bước vệ sinh knowledge base quan trọng, vì nội dung trùng lặp làm loãng kết quả top-k. Phương án A là Clustering, B là Semantic search, D là Recommendation.",
+      "tags": [
+        "day7",
+        "embedding",
+        "dedup"
+      ]
+    },
+    {
+      "id": "T3-083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Winter lần 2 xảy ra vào khoảng năm nào và do nguyên nhân gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1987, do sự sụp đổ của thị trường máy Lisp"
+        },
+        {
+          "key": "B",
+          "text": "1973, do báo cáo Lighthill"
+        },
+        {
+          "key": "C",
+          "text": "1995, do internet bùng nổ"
+        },
+        {
+          "key": "D",
+          "text": "2001, do bong bóng dot-com"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AI Winter 2 bắt đầu khoảng 1987 khi thị trường máy Lisp chuyên dụng cho AI sụp đổ, cắt giảm tài trợ cho Expert Systems.",
+      "tags": [
+        "ai-history",
+        "1987",
+        "ai-winter"
+      ]
+    },
+    {
+      "id": "T3-084",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Model có cần được train riêng để function calling hoạt động tốt không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần context window lớn hơn, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Có — gpt-4-0613/gpt-3.5-turbo-0613 đã được fine-tune để tự nhận biết khi nào cần gọi function và trả JSON đúng signature"
+        },
+        {
+          "key": "C",
+          "text": "Không, chỉ cần prompt khéo là đủ, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần tăng temperature, trong khi tham số của model không hề thay đổi, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "OpenAI xác nhận rõ: các model này đã được fine-tune để (a) tự nhận biết khi nào cần gọi function, (b) trả JSON đúng theo signature — không chỉ là prompting khéo léo.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "training"
+      ]
+    },
+    {
+      "id": "T3-085",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cần tách rõ ba phần System / Context / Question trong prompt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để LLM biết đâu là sự thật khách quan, đâu là câu hỏi người dùng, đâu là instruction cho model"
+        },
+        {
+          "key": "B",
+          "text": "Để có thể cache riêng phần system prompt và tái sử dụng cho nhiều truy vấn khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Để hệ thống dễ dàng log lại từng phần riêng biệt phục vụ mục đích kiểm toán về sau"
+        },
+        {
+          "key": "D",
+          "text": "Để giảm tổng số token phải gửi lên API và tiết kiệm chi phí cho mỗi lần gọi model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi: 'Viết chỉ dẫn rõ ràng để LLM biết: Đâu là sự thật khách quan (Context/Evidence); Đâu là câu hỏi của người dùng (Question); Đâu là instruction cho model (System). Dùng XML tags, Markdown headers, hoặc delimiters rõ ràng để tách các phần.' Không tách rõ thì model dễ nhầm nội dung tài liệu thành mệnh lệnh.",
+      "tags": [
+        "day8",
+        "prompt-structure"
+      ]
+    },
+    {
+      "id": "T3-086",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tổ hợp Recall Cao + Faithfulness Cao + Relevance Thấp chỉ ra vấn đề ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sửa Augmentation vì context đúng nhưng đóng gói sai cách khiến câu trả lời lạc trọng tâm"
+        },
+        {
+          "key": "B",
+          "text": "Sửa Indexing vì metadata chưa đủ chi tiết để hệ thống lọc đúng phạm vi tài liệu"
+        },
+        {
+          "key": "C",
+          "text": "Sửa Retrieval vì tuy tìm được nhiều tài liệu nhưng thứ hạng chưa phản ánh đúng độ liên quan"
+        },
+        {
+          "key": "D",
+          "text": "Sửa Generation vì model bám chứng cứ quá chặt nên câu trả lời trở nên máy móc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảng chẩn đoán ghi: Cao – Cao – Thấp → 'Sửa Augmentation (context đúng nhưng đóng gói sai)'. Đây là trường hợp tinh tế: retriever tìm đúng, generator bám chứng cứ trung thực, nhưng câu trả lời vẫn lạc đề — nguyên nhân thường là thứ tự chunk sai, chunk quan trọng rơi vào vùng giữa, hoặc context quá dài làm loãng trọng tâm.",
+      "tags": [
+        "day8",
+        "ragas",
+        "diagnosis"
+      ]
+    },
+    {
+      "id": "T3-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sách 'Perceptrons' (1969) của Minsky & Papert gây ra hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ra đời kiến trúc CNN, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Khai sinh Expert Systems, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Chứng minh perceptron đơn lớp không giải được XOR, làm cạn ngân quỹ nghiên cứu mạng nơ-ron"
+        },
+        {
+          "key": "D",
+          "text": "Thúc đẩy đầu tư mạnh vào AI, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Minsky & Papert chứng minh giới hạn nghiêm trọng của perceptron, dẫn đến cắt giảm tài trợ cho nghiên cứu mạng nơ-ron hơn một thập kỷ.",
+      "tags": [
+        "ai-history",
+        "1969"
+      ]
+    },
+    {
+      "id": "T3-088",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm bước tiến hóa từ LLM thuần đến agent hiện đại theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rule → Chatbot → Agent → AGI → ASI, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "LLM → RAG → Fine-tuning → Agent → Multi-agent, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "GPT-3 → GPT-4 → GPT-5 → Agent SDK → MCP, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "LLM thuần → Prompt Engineering → Text-based ReAct (2022) → Function Calling (2023+) → Agent hiện nay"
+        }
+      ],
+      "answer": "D",
+      "explanation": "5 bước: (1) LLM thuần chỉ next-token prediction; (2) Prompt engineering few-shot/CoT; (3) Text-based ReAct 2022; (4) Function Calling 2023+; (5) Agent hiện nay gộp reasoning + tool call + memory.",
+      "tags": [
+        "day3",
+        "evolution"
+      ]
+    },
+    {
+      "id": "T3-089",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng ví dụ score, cặp 'Chính sách hoàn tiền' vs 'Cách giao hàng nhanh' đạt khoảng 0.52 được diễn giải là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trùng lặp nội dung, cần được gộp lại trong quá trình dedup knowledge base"
+        },
+        {
+          "key": "B",
+          "text": "Không liên quan, nên bị loại bỏ hoàn toàn ở mọi ngưỡng score threshold thông dụng"
+        },
+        {
+          "key": "C",
+          "text": "Rất gần nghĩa, có thể coi là hai cách diễn đạt của cùng một khái niệm"
+        },
+        {
+          "key": "D",
+          "text": "Liên quan — cùng thuộc miền chính sách bán hàng nhưng không cùng chủ đề cụ thể"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng score có 4 mức: ~0.87 'Quy định đổi trả' = rất gần nghĩa; ~0.52 'Cách giao hàng nhanh' = liên quan; ~0.31 'Thời tiết hôm nay' = không liên quan; ~0.82 'Refund policy' = cross-lingual. Mức 0.52 nằm ở vùng xám — cùng miền chính sách bán hàng nên không hoàn toàn xa lạ, nhưng chủ đề khác. Đây chính là lý do cần score threshold để lọc.",
+      "tags": [
+        "day7",
+        "embedding",
+        "score"
+      ]
+    },
+    {
+      "id": "T3-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Slide mô tả RAG bằng công thức nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm chứng cứ → đóng gói có cấu trúc → sinh câu trả lời grounded, có thể trích dẫn và kiểm chứng"
+        },
+        {
+          "key": "B",
+          "text": "Chọn model mạnh nhất → viết prompt tốt nhất → nhận được câu trả lời chính xác nhất"
+        },
+        {
+          "key": "C",
+          "text": "Tăng số lượng chunk retrieve → tăng recall → tăng chất lượng câu trả lời cuối cùng"
+        },
+        {
+          "key": "D",
+          "text": "Nén toàn bộ knowledge base → đưa vào context window → để model tự chọn thông tin cần dùng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide kết luận phần định nghĩa: 'RAG = tìm chứng cứ → đóng gói có cấu trúc → sinh câu trả lời grounded. Kết quả có thể trích dẫn và kiểm chứng.' Ba động từ này tương ứng chính xác với R, A, G. Điểm nhấn cuối — 'trích dẫn và kiểm chứng' — là giá trị mà chỉ RAG mang lại, fine-tuning không có.",
+      "tags": [
+        "day8",
+        "rag",
+        "formula"
+      ]
+    },
+    {
+      "id": "T3-091",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 2 nói 'AI chatbot chưa phải là một bài toán'. Day 3 nói 'không phải mọi thứ dùng LLM đều là agent'. Hai phát biểu này chống lại cùng một sai lầm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh giá thấp chi phí vận hành thực tế khi hệ thống được đưa lên môi trường production"
+        },
+        {
+          "key": "B",
+          "text": "Nhảy thẳng vào giải pháp công nghệ trước khi làm rõ vấn đề và điều kiện áp dụng"
+        },
+        {
+          "key": "C",
+          "text": "Lựa chọn model có số tham số lớn hơn mức cần thiết cho độ phức tạp của bài toán"
+        },
+        {
+          "key": "D",
+          "text": "Bỏ qua bước kiểm thử với dữ liệu thật trước khi bàn giao sản phẩm cho người dùng cuối"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Day 2 gọi tên sai lầm này là anti-pattern 'Solution-first' — xây chatbot/agent trước khi làm rõ quy trình và điểm nghẽn. Day 3 lặp lại ở tầng kỹ thuật: 'Agent chỉ xuất hiện khi hệ thống phải quyết định, hành động, quan sát kết quả, rồi lặp lại' và liệt kê anti-pattern 'bài toán 1 bước mà dùng agent'. Cùng một căn bệnh, hai biểu hiện.",
+      "tags": [
+        "cross-day",
+        "solution-first"
+      ]
+    },
+    {
+      "id": "T3-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tree-of-Thought (ToT) nên được giới thiệu ở vị trí nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ dùng cho classification, kể cả khi context window được mở rộng thêm, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Là mặc định cho mọi task, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hoàn toàn CoT, kể cả khi context window được mở rộng thêm, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Như extension — hữu ích cho bài toán cần explore nhiều hướng, nhưng phức tạp hơn và tốn token/latency hơn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "ToT hữu ích khi cần khám phá nhiều hướng, nhưng phức tạp và tốn kém hơn CoT — chỉ nên coi là extension, không phải mặc định.",
+      "tags": [
+        "day4",
+        "tot"
+      ]
+    },
+    {
+      "id": "T3-093",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Direct prompt injection là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "User trực tiếp nói 'Ignore your instructions and do X'"
+        },
+        {
+          "key": "B",
+          "text": "Malicious content ẩn trong document mà agent đọc qua tool"
+        },
+        {
+          "key": "C",
+          "text": "Tool trả về dữ liệu sai định dạng"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi khi parse JSON output"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Direct injection: người dùng trực tiếp nhập câu lệnh nhằm ghi đè hướng dẫn hệ thống. Khác với indirect injection vốn ẩn trong tài liệu hay email mà agent đọc qua tool — dạng gián tiếp nguy hiểm hơn vì nạn nhân không hề nhập bất kỳ nội dung độc hại nào.",
+      "tags": [
+        "day4",
+        "safety",
+        "injection"
+      ]
+    },
+    {
+      "id": "T3-094",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao bài giảng nhấn mạnh 'không index mọi thứ theo kiểu cứ nạp hết vào vector DB đã'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nạp bừa làm mất kiểm soát về quyền truy cập, độ tươi của dữ liệu và trách nhiệm cập nhật"
+        },
+        {
+          "key": "B",
+          "text": "Vì chi phí lưu trữ vector tăng theo cấp số nhân khiến ngân sách vượt kiểm soát nhanh chóng"
+        },
+        {
+          "key": "C",
+          "text": "Vì embedding model xử lý chậm hơn đáng kể khi collection vượt quá một triệu vector"
+        },
+        {
+          "key": "D",
+          "text": "Vì vector store có giới hạn cứng về số lượng record nên phải chọn lọc ngay từ đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là câu hỏi governance chứ không phải kỹ thuật. Nạp bừa dẫn tới: không biết ai chịu trách nhiệm khi nội dung sai, tài liệu restricted lọt vào kết quả của người không có quyền, nội dung cũ 2023 lẫn với bản mới, và PII bị embed vào vector không gỡ ra được. Chính ví dụ mở đầu bài giảng — agent trả sai chính sách hoàn tiền vì data là policy cũ 2023 — minh họa hậu quả này.",
+      "tags": [
+        "day7",
+        "governance",
+        "principle"
+      ]
+    },
+    {
+      "id": "T3-095",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo tổng kết bài giảng, công thức của agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent = LLM + context window lớn"
+        },
+        {
+          "key": "B",
+          "text": "Agent = LLM + reasoning + tools + memory/state"
+        },
+        {
+          "key": "C",
+          "text": "Agent = chatbot thông minh hơn"
+        },
+        {
+          "key": "D",
+          "text": "Agent = nhiều LLM chạy song song"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Key takeaway: agent KHÔNG phải 'chatbot thông minh hơn'; agent = LLM + reasoning + tools + memory/state.",
+      "tags": [
+        "day3",
+        "summary"
+      ]
+    },
+    {
+      "id": "T3-096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Xu hướng giá LLM theo thời gian là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giá giảm chậm khoảng 20% mỗi năm"
+        },
+        {
+          "key": "B",
+          "text": "Giá tăng theo nhu cầu thị trường"
+        },
+        {
+          "key": "C",
+          "text": "Cùng năng lực AI tốn chi phí ~10x ít hơn mỗi năm"
+        },
+        {
+          "key": "D",
+          "text": "Giá ổn định, chỉ thay đổi theo gói dịch vụ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bài giảng nhấn mạnh: cùng năng lực AI, giá giảm ~10x mỗi năm — xu hướng quan trọng ảnh hưởng đến quyết định kiến trúc và chiến lược kinh doanh.",
+      "tags": [
+        "landscape",
+        "pricing",
+        "trend"
+      ]
+    },
+    {
+      "id": "T3-097",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 1 nói output token đắt hơn input 3–5 lần. Day 4 đưa ra rule context ≤ 60% token budget. Day 8 nói MMR loại chunk trùng lặp. Ba ý này cùng phục vụ mục tiêu nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng độ chính xác của câu trả lời bằng cách cung cấp càng nhiều ngữ cảnh càng tốt"
+        },
+        {
+          "key": "B",
+          "text": "Kiểm soát chi phí và chất lượng bằng cách chỉ đưa vào đúng lượng token cần thiết"
+        },
+        {
+          "key": "C",
+          "text": "Giảm độ trễ phản hồi bằng cách chạy song song nhiều lời gọi model cùng lúc"
+        },
+        {
+          "key": "D",
+          "text": "Đảm bảo tính nhất quán của output giữa các lần chạy khác nhau trên cùng đầu vào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ba ngày cùng một logic kinh tế: Day 1 cho biết token không miễn phí và output đắt hơn input; Day 4 chia budget 20% system / 60% context / 20% headroom để không cắt cụt output; Day 8 dùng MMR loại chunk nói cùng một ý vì 'LLM tốn token vô ích, không có thêm dữ kiện mới'. Cả ba đều chống lại phản xạ 'nhét càng nhiều càng tốt'.",
+      "tags": [
+        "cross-day",
+        "token-economy"
+      ]
+    },
+    {
+      "id": "T3-098",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Weaviate có điểm mạnh đặc trưng nào so với các vector store open source khác?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Filter metadata mạnh nhất với API rõ ràng viết bằng ngôn ngữ Rust"
+        },
+        {
+          "key": "B",
+          "text": "Khả năng scale tới hàng tỉ vector với GPU index và kiến trúc cloud-native"
+        },
+        {
+          "key": "C",
+          "text": "Tốc độ ANN search thuần nhanh nhất nhờ nhiều loại index tối ưu khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Hybrid search sẵn có kết hợp schema và module vectorizer tích hợp"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng: Weaviate là server viết bằng Go, điểm mạnh 'Hybrid search sẵn, schema + module vectorizer', phù hợp khi 'cần hybrid keyword + vector'. Phương án A mô tả Milvus, C mô tả FAISS, D mô tả Qdrant. Hybrid search quan trọng khi truy vấn có cả yếu tố ngữ nghĩa lẫn từ khóa chính xác như mã sản phẩm hay tên riêng.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "weaviate"
+      ]
+    },
+    {
+      "id": "T3-099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khái niệm 'memory' xuất hiện ở Day 3, Day 7 và Day 8 với ba nghĩa hơi khác nhau. Phát biểu nào của Day 8 làm rõ ranh giới quan trọng nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieval trọng tâm ở relevance và grounding cho câu hỏi hiện tại; memory trọng tâm ở continuity và personalization cho người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Memory thực chất chính là context window, nên việc tăng kích thước context window cũng đồng nghĩa với tăng khả năng ghi nhớ của agent"
+        },
+        {
+          "key": "C",
+          "text": "Memory chỉ cần thiết với agent hội thoại nhiều lượt, còn hệ thống RAG hỏi đáp một lượt thì hoàn toàn không dùng đến"
+        },
+        {
+          "key": "D",
+          "text": "Memory và retrieval chỉ là hai tên gọi khác nhau của cùng một cơ chế truy xuất dữ liệu từ nguồn lưu trữ bên ngoài model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Day 3 mô tả memory như 'notebook' của agent. Day 7 phân biệt short-term (trong context window) và long-term (ngoài context window). Day 8 làm rõ ranh giới then chốt: retrieval trả lời 'domain facts là gì', memory trả lời 'user này là ai và đã làm gì trước đó' — và nhiều hệ thống thực tế dùng CẢ HAI vì chúng bổ sung chứ không thay thế nhau.",
+      "tags": [
+        "cross-day",
+        "memory"
+      ]
+    },
+    {
+      "id": "T3-100",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm thành phần của System Prompt production-grade là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Role, Task, Context, Format, Example"
+        },
+        {
+          "key": "B",
+          "text": "Persona, Rules, Capabilities, Constraints, Output format"
+        },
+        {
+          "key": "C",
+          "text": "Identity, Memory, Tools, Safety, Version"
+        },
+        {
+          "key": "D",
+          "text": "Input, Process, Output, Error, Log"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anatomy: Persona (role, expertise, style), Rules (việc nên/phải làm), Capabilities (tool và dữ liệu được phép dùng), Constraints (không làm gì, khi nào từ chối/escalate), Output format.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anatomy"
+      ]
+    }
+  ]
+}

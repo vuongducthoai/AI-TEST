@@ -1,0 +1,3189 @@
+{
+  "id": "exam-96",
+  "title": "Tổng ôn 2 — Kỹ thuật Agent & Dữ liệu (Day 4, 7, 8)",
+  "description": "100 câu tổng ôn phần kỹ thuật: prompt engineering, system prompt production-grade, tool calling và design principles cho tools (Day 4); chunking, embedding, vector store và ingestion pipeline (Day 7); RAG pipeline đầy đủ gồm hybrid search, rerank, MMR, augmentation, generation và khung đánh giá RAGAS (Day 8).",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề tổng ôn tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "T2-001",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Mâu thuẫn' trong system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt quá ngắn, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Không có ví dụ mẫu, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Dùng quá nhiều tool, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Vừa bảo 'ngắn gọn', vừa bắt 'giải thích chi tiết từng bước'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mâu thuẫn nội tại khiến model không biết ưu tiên gì — kết quả trở nên không dự đoán được. Ví dụ điển hình là vừa yêu cầu 'ngắn gọn' vừa bắt 'giải thích chi tiết từng bước'. Model buộc phải chọn một, và lựa chọn đó thay đổi giữa các lần chạy nên hành vi mất tính ổn định.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "T2-002",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context window được phân bổ cho những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ history hội thoại, dù kiến thức nền của model vẫn giữ nguyên, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "System prompt (policy), History (recent/relevant), Current input (task), Tools (schemas), Output buffer"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ system prompt và tool, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ user input và output, kể cả khi context window được mở rộng thêm, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "5 phần: system prompt, history, current input, tool schemas, và output buffer. Cần phân bổ chủ động để không hết chỗ cho output.",
+      "tags": [
+        "day4",
+        "context",
+        "allocation"
+      ]
+    },
+    {
+      "id": "T2-003",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Failure pattern 'Suy diễn quá đà' được minh họa bằng ví dụ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model trích dẫn sai số thứ tự tài liệu khiến người dùng không thể tra cứu lại nguồn gốc thông tin đó"
+        },
+        {
+          "key": "B",
+          "text": "Tài liệu nói 'Free ship đơn 500k ở HN', user hỏi 'HCM thì sao?', model tự suy 'HN được thì HCM chắc cũng được'"
+        },
+        {
+          "key": "C",
+          "text": "Model trả lời dựa trên chính sách năm 2024 trong khi tài liệu mới nhất trong store đã là bản năm 2026"
+        },
+        {
+          "key": "D",
+          "text": "Model gộp thông tin từ năm tài liệu khác nhau thành một câu trả lời dài dòng và khó theo dõi cho user"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nêu ví dụ cụ thể này với fix: 'Không tự suy luận điều kiện không được đề cập rõ ràng.' Đây là dạng hallucination tinh vi nhất vì model không bịa ra thông tin hoàn toàn mới mà chỉ ngoại suy từ dữ liệu có thật — nghe rất hợp lý nhưng vẫn sai.",
+      "tags": [
+        "day8",
+        "failure",
+        "overreach"
+      ]
+    },
+    {
+      "id": "T2-004",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi về vai trò của system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System prompt là policy layer — càng rõ boundary, càng dễ predict hành vi"
+        },
+        {
+          "key": "B",
+          "text": "System prompt nên thay đổi mỗi request, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "System prompt là nơi chứa dữ liệu người dùng, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "System prompt chỉ để đặt persona, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "System prompt đóng vai trò policy layer của hệ thống. Boundary càng rõ thì hành vi càng dự đoán được.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "principle"
+      ]
+    },
+    {
+      "id": "T2-005",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Output Control gồm hai nhóm kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Formatting (Markdown, Table, JSON, response_format) và Safety & Alignment (chính sách, PII, access level)"
+        },
+        {
+          "key": "B",
+          "text": "Translation và localization được dùng để hỗ trợ người dùng ở nhiều quốc gia và nhiều ngôn ngữ khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Streaming và caching được dùng để tối ưu trải nghiệm người dùng cùng với chi phí vận hành của hệ thống"
+        },
+        {
+          "key": "D",
+          "text": "Compression và deduplication được dùng để giảm độ dài câu trả lời xuống mức tối thiểu cần thiết"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide chia Output Control thành: Formatting — yêu cầu output dạng Markdown/Table/JSON, phục vụ tích hợp vào hệ thống khác (API, dashboard), dùng response_format hoặc instruction rõ ràng. Safety & Alignment — đảm bảo không vi phạm chính sách, không rò rỉ dữ liệu nhạy cảm, kiểm tra PII và access level trước khi trả về user.",
+      "tags": [
+        "day8",
+        "output-control"
+      ]
+    },
+    {
+      "id": "T2-006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Data Quality Pyramid có 4 tầng từ dưới lên. Tầng nào xử lý việc chuẩn hóa Unicode và loại bỏ header/footer?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Enriched — vì đây là tầng cuối cùng nên bao gồm cả việc dọn dẹp lẫn gắn thẻ metadata"
+        },
+        {
+          "key": "B",
+          "text": "Structured — vì việc bỏ header/footer thuộc về khâu tổ chức lại cấu trúc tài liệu"
+        },
+        {
+          "key": "C",
+          "text": "Cleaned — vì tầng này chịu trách nhiệm làm sạch text, sửa lỗi OCR và chuẩn hóa Unicode"
+        },
+        {
+          "key": "D",
+          "text": "Raw — vì đây là bước đầu tiên tiếp nhận file gốc trước khi mọi xử lý khác diễn ra"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Kim tự tháp 4 tầng: Raw (PDF scan lệch, OCR ra 'đổi trả' thành 'd0̲i trả', HTML chứa tag rác) → Cleaned (sửa thành 'đổi trả', bỏ header/footer, chuẩn hóa Unicode) → Structured (chunk theo heading, gắn source refund-v3.pdf) → Enriched (tag category:support, access:public, quality:verified). Mỗi tầng có nhiệm vụ riêng, không lẫn lộn.",
+      "tags": [
+        "day7",
+        "data-quality",
+        "pyramid"
+      ]
+    },
+    {
+      "id": "T2-007",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lời khuyên của slide khi chọn embedding model cho sản phẩm thực tế là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn chọn model có điểm MTEB cao nhất trên bảng xếp hạng hiện tại để đảm bảo chất lượng retrieval tối ưu"
+        },
+        {
+          "key": "B",
+          "text": "Nên dùng đồng thời hai model khác nhau rồi lấy trung bình điểm số để giảm rủi ro chọn sai ngay từ đầu"
+        },
+        {
+          "key": "C",
+          "text": "Model cân bằng thường tốt hơn model mạnh nhất nhưng chậm và đắt; chọn theo quality, latency, storage, language"
+        },
+        {
+          "key": "D",
+          "text": "Luôn chọn model open-source để tránh phụ thuộc nhà cung cấp và tiết kiệm tối đa chi phí vận hành hằng tháng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nêu: 'Không có model tốt nhất cho mọi use case. Chọn theo quality, latency, storage, language.' Và: 'Với product thực tế, model cân bằng thường tốt hơn model mạnh nhất nhưng chậm và đắt.' Điểm MTEB chỉ đo chất lượng trên benchmark chung, không phản ánh độ trễ, chi phí lưu trữ (số chiều lớn = tốn storage), hay chất lượng trên ngôn ngữ cụ thể của bạn.",
+      "tags": [
+        "day7",
+        "embedding",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "T2-008",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Short-term memory và long-term memory của agent khác nhau ở điểm nào về mặt vị trí lưu trữ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term nằm trong context window còn long-term nằm ngoài, thường là vector store, DB hoặc profile store"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều nằm bên ngoài context window nhưng khác nhau về tần suất truy xuất và cơ chế ghi dữ liệu khi cần dùng"
+        },
+        {
+          "key": "C",
+          "text": "Short-term nằm trong vector store bên ngoài còn long-term nằm trong context window của phiên làm việc hiện tại"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều nằm bên trong context window của phiên hiện tại nhưng khác nhau về thời gian tồn tại của dữ liệu được lưu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Short-term memory nằm TRONG context window: giữ lịch sử gần đây và task hiện tại, rẻ để dùng nhưng dễ đầy token, phù hợp session logic ngắn. Long-term memory nằm NGOÀI context window: thường là vector store, DB, profile store; phải truy xuất khi cần; phù hợp cho tri thức tích lũy và user history chọn lọc.",
+      "tags": [
+        "day7",
+        "memory"
+      ]
+    },
+    {
+      "id": "T2-009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thiếu thành phần Format trong prompt gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model trả lời sai nội dung"
+        },
+        {
+          "key": "B",
+          "text": "Model gọi sai tool"
+        },
+        {
+          "key": "C",
+          "text": "Model không hiểu câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Model thêm giải thích không cần thiết"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Không nêu 'Return only the function, no explanation' thì model tự thêm phần giải thích dư thừa — khó dùng trong pipeline tự động.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "format"
+      ]
+    },
+    {
+      "id": "T2-010",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ FAQ, khi chunk quá nhỏ chỉ chứa 'Trong 30 ngày.' và người dùng hỏi 'đổi size', điều gì xảy ra?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector store trả về lỗi ngay lập tức vì chunk không đủ số token tối thiểu để tạo ra một embedding hợp lệ"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống retrieve chunk 'Q2: Đổi size được không?' nhưng thiếu ngữ cảnh nên LLM không đủ thông tin trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Cosine similarity giữa query và chunk vượt ngưỡng 0.9 nên câu trả lời cuối cùng của hệ thống sẽ rất chính xác"
+        },
+        {
+          "key": "D",
+          "text": "LLM tự suy luận bổ sung phần thông tin còn thiếu dựa trên kiến thức nền nên vẫn cho ra được đáp án đúng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là minh họa kinh điển: khi cắt Q và A thành hai chunk riêng, retrieval tìm đúng câu hỏi 'Q2: Đổi size được không?' nhưng phần trả lời '30 ngày' lại nằm ở chunk khác. LLM nhận được câu hỏi mà không có đáp án — thiếu ngữ cảnh để trả lời. Ngược lại chunk hợp lý giữ trọn cặp Q2+A2 nên LLM trả lời chính xác. Đây là lý do cần overlap và cắt theo đơn vị ngữ nghĩa.",
+      "tags": [
+        "day7",
+        "chunking",
+        "too-small"
+      ]
+    },
+    {
+      "id": "T2-011",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy trình hai bước của MMR được mô tả thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "B1 loại bỏ hết chunk trùng lặp hoàn toàn, B2 xếp hạng phần còn lại theo điểm cosine giảm dần từ cao xuống thấp"
+        },
+        {
+          "key": "B",
+          "text": "B1 chọn chunk liên quan nhất với query, B2 chọn chunk tiếp theo liên quan query nhưng xa nhất so với chunk đã chọn"
+        },
+        {
+          "key": "C",
+          "text": "B1 tính điểm trung bình của toàn bộ tập chunk, B2 chỉ giữ lại những chunk có điểm nằm trên mức trung bình đó"
+        },
+        {
+          "key": "D",
+          "text": "B1 gom các chunk thành từng cụm theo chủ đề, B2 lấy chunk đại diện của mỗi cụm đưa vào context cuối cùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide mô tả: 'B1: Chọn chunk liên quan nhất với Query. B2: Chọn chunk tiếp theo liên quan Query nhưng xa nhất so với chunk đã chọn.' Đây là thuật toán tham lam (greedy) chạy lặp: mỗi vòng chọn một chunk tối ưu hóa cân bằng giữa relevance và diversity.",
+      "tags": [
+        "day8",
+        "mmr",
+        "algorithm"
+      ]
+    },
+    {
+      "id": "T2-012",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói 'RAG mất 50% giá trị nếu model không chỉ ra lấy từ tài liệu nào'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model sẽ tự động giảm độ chính xác khi không được yêu cầu trích dẫn nguồn cụ thể"
+        },
+        {
+          "key": "B",
+          "text": "Vì không có citation thì người dùng không kiểm chứng được, mất đi khả năng audit và truy vết"
+        },
+        {
+          "key": "C",
+          "text": "Vì các quy định pháp lý hiện hành bắt buộc mọi output AI phải kèm nguồn tham chiếu"
+        },
+        {
+          "key": "D",
+          "text": "Vì chi phí vận hành RAG cao gấp đôi so với việc gọi model trực tiếp không có retrieval"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giá trị cốt lõi của RAG so với LLM thuần là câu trả lời có thể trích dẫn và kiểm chứng — như slide định nghĩa ban đầu. Không có citation, người dùng lại rơi vào tình trạng phải tin tưởng mù quáng giống như khi dùng LLM không có RAG. Slide đưa ví dụ output đúng chuẩn: 'Nghỉ 14 ngày phép [doc_3].'",
+      "tags": [
+        "day8",
+        "citation",
+        "principle"
+      ]
+    },
+    {
+      "id": "T2-013",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo slide, chatbot FAQ nên đặt α trong khoảng nào và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "α = 0.7–0.9 vì FAQ cần hiểu ngữ nghĩa và paraphrase nên thiên về dense search"
+        },
+        {
+          "key": "B",
+          "text": "α = 0.5 cố định để cân bằng tuyệt đối giữa hai phương pháp tìm kiếm khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "α = 1.0 để tắt hoàn toàn sparse search vì BM25 không có giá trị với dữ liệu FAQ"
+        },
+        {
+          "key": "D",
+          "text": "α = 0.2–0.4 vì cần ưu tiên khớp chính xác từ khóa trong câu hỏi của người dùng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nêu: Chatbot FAQ α = 0.7–0.9; Code, Log, Luật α = 0.2–0.4. Vì α nhân với s_dense, nên α cao nghĩa là ưu tiên dense. FAQ có nhiều cách diễn đạt cùng một ý nên cần semantic; ngược lại code và luật có thuật ngữ chính xác nên cần lexical.",
+      "tags": [
+        "day8",
+        "alpha-weighting",
+        "tuning"
+      ]
+    },
+    {
+      "id": "T2-014",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Guardrails Pattern gồm hai lớp nào và mỗi lớp làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input layer và Database layer, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, dù agent vẫn gọi được đầy đủ các tool đã khai báo, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        },
+        {
+          "key": "B",
+          "text": "Model guard và Human guard, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, dù agent vẫn gọi được đầy đủ các tool đã khai báo, kể cả khi số vòng lặp tối đa được nới rộng"
+        },
+        {
+          "key": "C",
+          "text": "Frontend guard và Backend guard, trong khi mục tiêu ban đầu vẫn được giữ nguyên, kể cả khi số vòng lặp tối đa được nới rộng, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Pre-guard (validate input: detect injection, validate format, rate limiting) và Post-guard (validate output: mask PII, validate JSON schema, block dangerous tool calls)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Pre-guard chặn ở đầu vào: phát hiện injection, kiểm tra format, giới hạn tần suất. Post-guard chặn ở đầu ra: che PII, kiểm tra schema, chặn tool call nguy hiểm.",
+      "tags": [
+        "day4",
+        "safety",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "T2-015",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "FAISS có hạn chế quan trọng nào cần lưu ý trước khi chọn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn tối đa một triệu vector nên không dùng được cho corpus quy mô lớn"
+        },
+        {
+          "key": "B",
+          "text": "Là library chứ không phải DB: không có metadata filter và không có persistence sẵn"
+        },
+        {
+          "key": "C",
+          "text": "Không hỗ trợ tiếng Việt do thiết kế ban đầu chỉ nhắm tới các ngôn ngữ châu Âu"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ chạy được trên GPU nên chi phí hạ tầng cao hơn các lựa chọn khác đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng ghi rõ FAISS là 'Library (Meta)', mạnh nhất cho ANN search thuần với nhiều loại index, phù hợp khi 'cần tốc độ, tự quản lý; KHÔNG PHẢI DB (không metadata filter, không persistence sẵn)'. Đây là điểm phân biệt quan trọng: FAISS giải bài toán tìm kiếm gần đúng, nhưng mọi thứ khác — lưu trữ bền vững, lọc metadata, quản lý collection — bạn phải tự xây.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "faiss"
+      ]
+    },
+    {
+      "id": "T2-016",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'Vibe Check' không đủ để đánh giá RAG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì không phát hiện edge case, không biết regression khi đổi config, không có bằng chứng cho stakeholder"
+        },
+        {
+          "key": "B",
+          "text": "Vì thời gian kiểm thử thủ công quá lâu so với việc chạy tự động bằng các công cụ chuyên dụng có sẵn"
+        },
+        {
+          "key": "C",
+          "text": "Vì cần có sự tham gia của nhiều người đánh giá độc lập thì mới đảm bảo được tính khách quan của kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Vì con người không thể tự đánh giá được chất lượng của các câu trả lời do hệ thống AI sinh ra tự động"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide so sánh: Kiểm thử thủ công — hỏi vài câu thấy 'ổn' rồi deploy, không phát hiện edge case, không biết regression khi đổi config, không có bằng chứng cho stakeholder. Evaluation có hệ thống — bộ test cố định chạy lại được, phát hiện lỗi do Retriever hay Generator, so sánh trước/sau khi thay đổi, báo cáo bằng số liệu cho PM/sếp.",
+      "tags": [
+        "day8",
+        "evaluation",
+        "why"
+      ]
+    },
+    {
+      "id": "T2-017",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết luận của slide về Agentic RAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agentic RAG chỉ phù hợp với những doanh nghiệp có đội ngũ kỹ thuật quy mô lớn và ngân sách rất cao"
+        },
+        {
+          "key": "B",
+          "text": "Agentic RAG loại bỏ được hoàn toàn hiện tượng hallucination nhờ vào cơ chế tự kiểm tra qua nhiều vòng"
+        },
+        {
+          "key": "C",
+          "text": "Agentic RAG = RAG + reasoning loop; agent không chỉ search 1 lần mà lặp lại, tự sửa, tự quyết định chiến thuật"
+        },
+        {
+          "key": "D",
+          "text": "Agentic RAG thay thế hoàn toàn RAG truyền thống trong mọi tình huống triển khai thực tế của doanh nghiệp"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi: 'Agentic RAG = RAG + reasoning loop. Agent không chỉ search 1 lần mà lặp lại, tự sửa, tự quyết định chiến thuật.' Đây là sự kết hợp giữa vòng lặp agent đã học ở Day 3 và pipeline RAG của Day 8.",
+      "tags": [
+        "day8",
+        "agentic-rag",
+        "principle"
+      ]
+    },
+    {
+      "id": "T2-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nhấn mạnh 'RAG không phải chỉ là gắn thêm context'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cần phải fine-tune model song song thì RAG mới phát huy được hiệu quả tối đa"
+        },
+        {
+          "key": "B",
+          "text": "Vì bắt buộc phải có tầng agent điều phối thì pipeline mới hoạt động đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Vì phải dùng vector store thương mại thay vì các giải pháp open-source miễn phí"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó là sự phối hợp giữa retrieval system, augmentation layer và generation system"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Tiêu đề phần 02 ghi: 'RAG không phải chỉ là gắn thêm context; nó là sự phối hợp giữa retrieval system, augmentation layer, và generation system.' Nhiều người hiểu RAG chỉ là 'tìm rồi dán vào prompt', bỏ qua rằng mỗi tầng đều có kỹ thuật riêng và mỗi tầng đều có thể là nguồn lỗi riêng biệt.",
+      "tags": [
+        "day8",
+        "rag",
+        "concept"
+      ]
+    },
+    {
+      "id": "T2-019",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Table/layout-aware chunking giải quyết vấn đề đặc thù nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giữ nguyên bảng và kèm lại header dòng cho mỗi phần bảng để bảng không mất nghĩa khi cắt"
+        },
+        {
+          "key": "B",
+          "text": "Tự động chuyển bảng thành văn bản mô tả để embedding model dễ hiểu nội dung hơn"
+        },
+        {
+          "key": "C",
+          "text": "Phát hiện và loại bỏ các bảng không chứa thông tin hữu ích trước khi đưa vào index"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số lượng token cần embed khi tài liệu chứa nhiều hình ảnh và biểu đồ phức tạp"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Khi một bảng dài bị cắt ngang, phần dưới mất header nên các con số trở nên vô nghĩa — không biết cột nào là gì. Table-aware giữ nguyên bảng và lặp lại header dòng cho mỗi phần. Mạnh: bảng không bị mất nghĩa khi cắt. Yếu: cần layout parser cho PDF, vốn là bài toán khó vì PDF không lưu cấu trúc bảng một cách tường minh.",
+      "tags": [
+        "day7",
+        "chunking",
+        "table-aware"
+      ]
+    },
+    {
+      "id": "T2-020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự thử thực dụng khi chọn kỹ thuật prompting là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CoT → few-shot → zero-shot"
+        },
+        {
+          "key": "B",
+          "text": "Luôn bắt đầu với Tree-of-Thought"
+        },
+        {
+          "key": "C",
+          "text": "few-shot → zero-shot → CoT"
+        },
+        {
+          "key": "D",
+          "text": "zero-shot → few-shot → decomposition/CoT"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Thứ tự thực dụng: zero-shot (nhanh, rẻ, nên thử trước) → few-shot → decomposition/CoT. Đừng nhảy vào prompt phức tạp ngay từ đầu.",
+      "tags": [
+        "day4",
+        "techniques",
+        "order"
+      ]
+    },
+    {
+      "id": "T2-021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba lý do khiến doanh nghiệp BẮT BUỘC phải dùng RAG theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm phụ thuộc vendor, tránh vấn đề bản quyền dữ liệu và dễ dàng chuyển đổi giữa các model"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu nội bộ là tài sản, yêu cầu compliance và trách nhiệm, và nhu cầu cập nhật liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Model open-source đã đủ mạnh, hạ tầng vector store đã rẻ, và cộng đồng hỗ trợ đông đảo"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí thấp hơn, tốc độ nhanh hơn và độ chính xác cao hơn so với mọi phương án khác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ba lý do: (1) Dữ liệu nội bộ = tài sản — policy, SOP, hợp đồng, ticket, báo cáo mà LLM không hề biết; (2) Compliance & trách nhiệm — ngành tài chính, y tế, pháp lý cần câu trả lời có nguồn và audit trail, hallucination là rủi ro pháp lý; (3) Cập nhật liên tục — dữ liệu thay đổi hàng ngày, fine-tune lại mỗi ngày là không khả thi, RAG chỉ cần cập nhật index.",
+      "tags": [
+        "day8",
+        "rag",
+        "business"
+      ]
+    },
+    {
+      "id": "T2-022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Công thức cosine similarity là A·B / (‖A‖ × ‖B‖). Việc chia cho tích hai độ dài có tác dụng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Triệt tiêu norm nên chỉ còn đo hướng: 1 là cùng hướng, 0 là vuông góc, −1 là ngược hướng"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ tính toán bằng cách giảm số phép nhân cần thực hiện trên từng chiều"
+        },
+        {
+          "key": "C",
+          "text": "Chuẩn hóa các chiều về cùng đơn vị đo để tránh chiều nào đó chi phối kết quả cuối"
+        },
+        {
+          "key": "D",
+          "text": "Đưa kết quả về thang điểm phần trăm để dễ so sánh giữa các cặp vector khác nhau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide giải thích: 'Mẫu số chia cho hai độ dài → norm bị triệt tiêu. 1 = cùng hướng, 0 = vuông góc, −1 = ngược.' Đây là lý do cosine phù hợp với text: một truy vấn 5 từ và cả trang policy có độ dài vector rất khác nhau, nhưng nếu cùng chủ đề thì hướng vẫn gần nhau. Loại bỏ độ lớn chính là loại bỏ ảnh hưởng của độ dài văn bản.",
+      "tags": [
+        "day7",
+        "embedding",
+        "cosine"
+      ]
+    },
+    {
+      "id": "T2-023",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Failure Demo, chunk xấu khiến LLM trả lời 'Bạn có thể đổi trả và liên hệ hotline 1900...'. Vấn đề của câu trả lời này là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu trả lời không được trích dẫn nguồn tài liệu nên người dùng không có cách nào kiểm chứng lại được"
+        },
+        {
+          "key": "B",
+          "text": "Câu trả lời nhiễu và thiếu chi tiết vì chunk retrieve được trộn lẫn thông tin giao hàng và hotline"
+        },
+        {
+          "key": "C",
+          "text": "Câu trả lời sai hoàn toàn về mặt sự thật vì chính sách đổi trả thực tế không hề tồn tại trong tài liệu"
+        },
+        {
+          "key": "D",
+          "text": "Câu trả lời quá dài dòng lan man khiến người dùng khó nắm bắt được ý chính thật sự cần thiết"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chunk xấu (cosine 0.61) chứa: '...giao hàng miễn phí đơn trên 500k. Đổi trả trong 30 ngày. Liên hệ hotline 1900...' — thông tin về đổi trả bị chôn giữa nội dung không liên quan. LLM đọc được nhưng bị phân tán nên trả lời thiếu chi tiết quan trọng (điều kiện sản phẩm còn nguyên tem) và thêm thông tin thừa. Chunk tốt (0.89) cho câu trả lời chính xác và có nguồn.",
+      "tags": [
+        "day7",
+        "failure-demo"
+      ]
+    },
+    {
+      "id": "T2-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mỗi record trong store cần tối thiểu bốn thành phần nào theo nhắc lại Day 07?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query, embedding vector, điểm cosine và thứ hạng của kết quả trong lần truy vấn gần nhất"
+        },
+        {
+          "key": "B",
+          "text": "Tên file nguồn, số trang, số thứ tự chunk và thời điểm tài liệu được index lần cuối"
+        },
+        {
+          "key": "C",
+          "text": "Chunk gốc, tóm tắt tự động, nhãn phân loại chủ đề và mức độ tin cậy do hệ thống chấm"
+        },
+        {
+          "key": "D",
+          "text": "ID, original text, vector và metadata gồm source, section, date cùng với access level"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nhắc lại: 'Mỗi record trong store cần tối thiểu: ID · Original text · Vector · Metadata (source, section, date, access).' Bốn thành phần này phục vụ bốn mục đích khác nhau: ID để tra cứu, original text để inject vào prompt, vector để search, và metadata để filter cùng truy vết nguồn.",
+      "tags": [
+        "day8",
+        "retro",
+        "store"
+      ]
+    },
+    {
+      "id": "T2-025",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhận xét tổng kết về lịch sử phát triển embedding là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi thế hệ mới đều giữ nguyên chi phí tính toán nhưng tăng gấp đôi độ chính xác trên các benchmark chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Các thế hệ sau đều rẻ hơn và nhanh hơn thế hệ trước nhờ thuật toán được tối ưu liên tục qua từng năm"
+        },
+        {
+          "key": "C",
+          "text": "Xu hướng chung là giảm dần số chiều của vector để tiết kiệm dung lượng lưu trữ cho toàn bộ hệ thống"
+        },
+        {
+          "key": "D",
+          "text": "Sự phát triển đi từ đơn giản đến phức tạp, đánh đổi chi phí tài nguyên để lấy khả năng hiểu sâu ngữ nghĩa"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide kết luận: 'Sự phát triển đi từ đơn giản đến phức tạp, đánh đổi chi phí tài nguyên để lấy khả năng hiểu sâu sắc ngữ nghĩa của ngôn ngữ.' Nhìn lại: One-Hot rất nhanh nhưng không hiểu nghĩa; BERT/GPT hiểu ngữ cảnh đa chiều nhưng đòi GPU và có độ trễ lớn. Đây là đánh đổi chứ không phải cải tiến thuần túy — điều này giải thích vì sao vẫn còn chỗ cho các model nhỏ trong thực tế.",
+      "tags": [
+        "day7",
+        "embedding",
+        "history"
+      ]
+    },
+    {
+      "id": "T2-026",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu embed nguyên một file PDF dài thành MỘT vector duy nhất, hậu quả cụ thể là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá trình embed sẽ mất thời gian gấp nhiều lần nhưng chất lượng retrieval vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ tìm được file nào liên quan chứ không xác định được đoạn nào trong file trả lời câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Cosine similarity luôn trả về giá trị âm do vector bị lệch khỏi phân phối chuẩn của model"
+        },
+        {
+          "key": "D",
+          "text": "Vector sẽ vượt quá số chiều tối đa mà vector store hỗ trợ nên thao tác add sẽ báo lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi rõ: '1 file dài → 1 vector: chỉ tìm được file, không tìm được đoạn liên quan'. Đây là vấn đề về ĐỘ PHÂN GIẢI của retrieval. Vector là trung bình ngữ nghĩa của toàn file, nên một file chứa cả chính sách đổi trả, hoàn tiền và giao hàng sẽ có vector 'mờ' — không nổi bật ở chủ đề nào. Khi inject vào prompt, bạn buộc phải đưa cả file, gây nhiễu nặng.",
+      "tags": [
+        "day7",
+        "chunking",
+        "rationale"
+      ]
+    },
+    {
+      "id": "T2-027",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "System prompt v2 cải thiện bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thêm nhiều ví dụ few-shot, kể cả khi thêm nhiều ví dụ mẫu vào prompt, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ đơn giản làm dài hơn, kể cả khi thêm nhiều ví dụ mẫu vào prompt, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Giảm temperature xuống 0, dù phần hướng dẫn hệ thống đã được viết rõ ràng, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Thêm clear boundaries (NEVER invent order status), refusal pattern rõ ràng, và output contract (JSON {intent, action, reply})"
+        }
+      ],
+      "answer": "D",
+      "explanation": "v2 bổ sung: rules cụ thể, constraint cấm bịa trạng thái đơn, câu từ chối chuẩn khi ngoài scope, và hợp đồng output JSON rõ ràng.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "T2-028",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói 'đưa quá nhiều context không liên quan có thể làm giảm chất lượng câu trả lời'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì LLM sẽ ưu tiên chunk xuất hiện cuối cùng và bỏ qua hoàn toàn các chunk phía trước"
+        },
+        {
+          "key": "B",
+          "text": "Vì model bị phân tán bởi thông tin thừa, đồng thời tốn thêm token và tăng độ trễ phản hồi"
+        },
+        {
+          "key": "C",
+          "text": "Vì vector store sẽ từ chối trả về kết quả khi tổng số token vượt ngưỡng cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Vì embedding model tự động giảm trọng số của các chunk có độ dài vượt mức trung bình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nêu ba hệ quả: model bị phân tán, tốn thêm token, và tăng latency. Đây cũng liên hệ với hiện tượng 'Lost in the Middle' đã học ở Day 4 — khi context dài, thông tin ở giữa dễ bị bỏ sót. Vì vậy mục tiêu của chunking không phải là 'đưa được nhiều nhất' mà là 'đưa đúng nhất'.",
+      "tags": [
+        "day7",
+        "chunking",
+        "rationale"
+      ]
+    },
+    {
+      "id": "T2-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mỗi record trong vector store gồm bốn thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tên file nguồn, số thứ tự chunk, embedding vector và ngưỡng score threshold"
+        },
+        {
+          "key": "B",
+          "text": "ID, embedding vector, search results và điểm số cosine similarity của lần query gần nhất"
+        },
+        {
+          "key": "C",
+          "text": "ID, original chunk (text gốc), embedding vector và metadata dạng key-value"
+        },
+        {
+          "key": "D",
+          "text": "Query text, embedding vector, danh sách top-k kết quả và thời điểm truy vấn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide liệt kê 4 thành phần: ID, Original chunk (text gốc), Embedding vector, và Metadata (key-value). Search results (top-k) được ghi chú rõ là 'Output khi query, KHÔNG PHẢI thứ được lưu' — đây là bẫy phổ biến. Nguyên tắc cốt lõi: vector dùng để TÌM (semantic search), chunk dùng để INJECT vào prompt cho LLM. Hai thứ khác nhau, lưu cùng nhau.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "record"
+      ]
+    },
+    {
+      "id": "T2-030",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong code Chroma, tham số metadatas=[{\"cat\": \"returns\"}, {\"cat\": \"refund\"}] phục vụ mục đích gì sau này?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặt tên hiển thị cho từng document khi in kết quả truy vấn ra màn hình"
+        },
+        {
+          "key": "B",
+          "text": "Xác định thứ tự ưu tiên khi có nhiều document cùng đạt điểm cosine bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Gán trọng số cho từng document để điều chỉnh điểm số similarity cuối cùng"
+        },
+        {
+          "key": "D",
+          "text": "Cho phép lọc theo thuộc tính trước khi search, ví dụ where={\"cat\": \"refund\"}"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Metadata gắn lúc add là điều kiện tiên quyết để dùng attribute filter lúc query. Không có metadata thì mọi truy vấn buộc phải quét toàn bộ collection và chỉ dựa vào similarity — dễ trả về chunk đúng nghĩa nhưng sai domain. Đây là lý do slide nhấn mạnh phải làm giàu metadata ở tầng Enriched của Data Quality Pyramid.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "metadata"
+      ]
+    },
+    {
+      "id": "T2-031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần R–A–G trong RAG lần lượt đảm nhiệm vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "R xếp hạng tài liệu theo độ liên quan, A kiểm tra tính chính xác, G tạo báo cáo tổng hợp cho người dùng cuối"
+        },
+        {
+          "key": "B",
+          "text": "R lọc nhiễu khỏi kết quả, A dịch ngôn ngữ khi cần, G sinh nhiều phương án trả lời để người dùng lựa chọn"
+        },
+        {
+          "key": "C",
+          "text": "R truy xuất chứng cứ từ kho ngoài, A đóng gói context có cấu trúc, G sinh câu trả lời grounded kèm trích dẫn"
+        },
+        {
+          "key": "D",
+          "text": "R nén dữ liệu đầu vào, A phân tích ngữ nghĩa của văn bản, G tối ưu định dạng đầu ra cho hệ thống tích hợp"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide định nghĩa: R (Retrieval) — truy xuất thông tin từ kho dữ liệu ngoài, tìm đúng chứng cứ, lọc nhiễu, xếp hạng relevance. A (Augmentation) — tăng cường prompt, đóng gói context có cấu trúc, gắn metadata, tách evidence với question để giảm noise và chống lost in the middle. G (Generation) — sinh câu trả lời bám sát chứng cứ, kèm citation và self-check.",
+      "tags": [
+        "day8",
+        "rag",
+        "definition"
+      ]
+    },
+    {
+      "id": "T2-032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu context vẫn quá dài sau khi đã chọn top-K, giải pháp được đề xuất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng kích thước context window bằng cách chuyển sang model có giới hạn token lớn hơn nhiều so với hiện tại"
+        },
+        {
+          "key": "B",
+          "text": "Context Compression — dùng model nhỏ nén chunk thô chỉ giữ ý chính, với tool như LLMLingua hoặc Recomp"
+        },
+        {
+          "key": "C",
+          "text": "Chia câu hỏi thành nhiều lượt gọi API riêng biệt rồi tổng hợp các câu trả lời lại thành kết quả cuối cùng"
+        },
+        {
+          "key": "D",
+          "text": "Giảm số lượng chunk retrieve xuống còn một nửa và chấp nhận đánh mất một phần thông tin quan trọng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi: 'Nếu context vẫn quá dài sau khi chọn top-K, có thể dùng Context Compression — model nhỏ nén chunk thô, chỉ giữ ý chính. Tools: LLMLingua, Recomp.' Ý tưởng: dùng model rẻ để nén, tiết kiệm token cho model đắt ở bước generation.",
+      "tags": [
+        "day8",
+        "compression"
+      ]
+    },
+    {
+      "id": "T2-033",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Use case Clustering bằng embedding được minh họa bằng ví dụ nào trong slide?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai bài FAQ có nội dung gần giống nhau được phát hiện và đề xuất gộp lại"
+        },
+        {
+          "key": "B",
+          "text": "User hỏi 'trả hàng' rồi tìm được chunk 'chính sách đổi trả' dù không trùng từ nào"
+        },
+        {
+          "key": "C",
+          "text": "Mười nghìn ticket CS được tự động phân thành khoảng mười lăm nhóm chủ đề"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng vừa đọc 'React hooks' nên hệ thống gợi ý tiếp 'useState patterns'"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng use case: Clustering = 'Gom các vector gần nhau thành nhóm', ví dụ '10,000 ticket CS → tự phân thành 15 chủ đề'. Đây là ứng dụng phân tích: không cần định nghĩa trước danh mục, thuật toán tự phát hiện cấu trúc chủ đề từ dữ liệu. Rất hữu ích để hiểu khách hàng đang gặp vấn đề gì nhiều nhất.",
+      "tags": [
+        "day7",
+        "embedding",
+        "clustering"
+      ]
+    },
+    {
+      "id": "T2-034",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cần Structured Output Prompting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì LLM output mặc định là free-form text, khó parse programmatically; trong agent pipeline cần JSON/structured data"
+        },
+        {
+          "key": "B",
+          "text": "Để giảm chi phí API, trong khi định dạng đầu ra vẫn được giữ ổn định, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Để tăng temperature, kể cả khi thêm nhiều ví dụ mẫu vào prompt, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Để câu trả lời dài hơn, trong khi định dạng đầu ra vẫn được giữ ổn định, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong pipeline agent, output phải máy đọc được. Free-form text không parse được ổn định nên cần ép cấu trúc.",
+      "tags": [
+        "day4",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "T2-035",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ưu điểm của Sparse Search (BM25) so với Dense Search là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hiểu được paraphrase và ngữ cảnh nên phù hợp với câu hỏi tự nhiên của người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Tìm được tài liệu cross-lingual mà không cần bước dịch tường minh nào ở giữa"
+        },
+        {
+          "key": "C",
+          "text": "Match chính xác từ khóa, mã lỗi, tên riêng và chạy nhanh mà không cần đến GPU"
+        },
+        {
+          "key": "D",
+          "text": "Tự động điều chỉnh trọng số theo domain nên không cần tuning cho từng lĩnh vực"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide liệt kê ưu điểm Sparse: '+ Match chính xác từ khóa, mã lỗi, tên riêng; + Nhanh, không cần GPU'. Nhược điểm: '– Không hiểu đồng nghĩa, paraphrase; – hoàn tiền ≠ refund'. Phương án A và B đều là ưu điểm của Dense chứ không phải Sparse.",
+      "tags": [
+        "day8",
+        "sparse",
+        "advantage"
+      ]
+    },
+    {
+      "id": "T2-036",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chain-of-Thought trong Generation của RAG được dùng cho loại câu hỏi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi loại câu hỏi để đảm bảo model luôn suy luận kỹ trước khi đưa ra kết luận cuối"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi so sánh, suy luận logic, tổng hợp từ nhiều nguồn — không cần cho lookup đơn giản"
+        },
+        {
+          "key": "C",
+          "text": "Câu hỏi mà retrieval trả về ít hơn ba chunk nên model cần tự suy luận bổ sung phần thiếu"
+        },
+        {
+          "key": "D",
+          "text": "Câu hỏi có chứa nhiều thuật ngữ chuyên ngành mà model cần giải thích lại cho người dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi rõ: 'Câu hỏi so sánh, suy luận logic, tổng hợp từ nhiều nguồn. Không cần cho câu hỏi lookup đơn giản.' Ví dụ minh họa trong <thought_process>: 'Doc_1 nói nghỉ 12 ngày (2024); Doc_3 nói nghỉ 14 ngày (2026) → Ưu tiên doc mới nhất' rồi mới ra Answer: 'Nghỉ 14 ngày phép [doc_3].'",
+      "tags": [
+        "day8",
+        "cot"
+      ]
+    },
+    {
+      "id": "T2-037",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Day 8 sẽ tiếp tục với chủ đề nào dựa trên nền tảng của Day 7?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deployment và monitoring hệ thống AI trong môi trường production quy mô lớn"
+        },
+        {
+          "key": "B",
+          "text": "Multi-agent orchestration cho phép nhiều agent chuyên biệt phối hợp giải quyết vấn đề"
+        },
+        {
+          "key": "C",
+          "text": "Fine-tuning model trên dữ liệu riêng để agent thuộc lòng toàn bộ knowledge base"
+        },
+        {
+          "key": "D",
+          "text": "RAG pipeline đầy đủ gồm indexing, retrieval, generation và evaluation"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide 'Tiếp theo' ghi: 'Ngày 8 đi tiếp sang RAG pipeline: indexing, retrieval, generation, evaluation.' Day 7 mới dựng xong nền tảng dữ liệu (chunk, embed, store, query cơ bản); Day 8 sẽ ghép thêm phần generation (LLM tổng hợp câu trả lời từ context) và evaluation (đo chất lượng retrieval và câu trả lời) để thành pipeline hoàn chỉnh.",
+      "tags": [
+        "day7",
+        "next"
+      ]
+    },
+    {
+      "id": "T2-038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'ví dụ có lỗi' trong few-shot dẫn đến gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự phát hiện và sửa lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Model bỏ qua toàn bộ ví dụ"
+        },
+        {
+          "key": "C",
+          "text": "Model sẽ reproduce lỗi một cách trung thành"
+        },
+        {
+          "key": "D",
+          "text": "API trả về lỗi validation"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Model học pattern từ ví dụ — nếu ví dụ sai, model sẽ tái tạo cái sai đó một cách nhất quán. Kiểm tra kỹ ví dụ mẫu là bắt buộc.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "T2-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao pgvector được gọi là 'lựa chọn nhàm chán nhưng rất hiệu quả'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó có hiệu năng thấp nhất trong nhóm nhưng bù lại chi phí vận hành gần như bằng không khi đã có sẵn"
+        },
+        {
+          "key": "B",
+          "text": "Vì dùng luôn DB đang có, JOIN được với data quan hệ và có ACID — hợp khi đã có Postgres và corpus vừa phải"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó là công nghệ cũ ra đời trước làn sóng AI nên không được cộng đồng kỹ thuật quan tâm nhiều nữa"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó chỉ hỗ trợ các tính năng vector cơ bản nên rất dễ học nhưng lại khó mở rộng quy mô về sau này"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng ghi pgvector: 'Dùng luôn DB đang có, JOIN với data quan hệ, ACID' — phù hợp khi 'đã có Postgres và corpus vừa phải — lựa chọn nhàm chán nhưng rất hiệu quả'. Ý nghĩa: bạn không phải thêm một hệ thống mới vào kiến trúc, không phải học công cụ mới, không phải lo backup riêng. Khả năng JOIN vector với bảng quan hệ là lợi thế lớn mà vector DB chuyên dụng không có.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "pgvector"
+      ]
+    },
+    {
+      "id": "T2-040",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Word2Vec/GloVe (2013) mang lại đột phá gì nhưng vẫn còn vướng vấn đề nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đột phá ở tốc độ xử lý cực nhanh không cần huấn luyện; vướng ở việc tốn nhiều bộ nhớ khi kích thước từ điển lớn"
+        },
+        {
+          "key": "B",
+          "text": "Đột phá ở cơ chế Self-Attention hiểu ngữ cảnh đa chiều; vướng ở chi phí tính toán và độ trễ triển khai rất lớn"
+        },
+        {
+          "key": "C",
+          "text": "Đột phá ở vector dày học được quan hệ ngữ nghĩa; vướng ở chỗ vector tĩnh nên không xử lý được từ đa nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Đột phá ở embedding động thay đổi theo ngữ cảnh câu; vướng ở chỗ mạng LSTM xử lý tuần tự nên huấn luyện chậm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Word2Vec/GloVe mở ra kỷ nguyên vector DÀY (dense): biến từ thành vector có số chiều cố định, các từ cùng ngữ cảnh đứng gần nhau — lần đầu tiên máy học được quan hệ ngữ nghĩa. Hạn chế: vector TĨNH, mỗi từ chỉ có một biểu diễn duy nhất, nên không giải quyết được từ đa nghĩa (homonyms) — 'bank' trong ngân hàng và bờ sông có cùng một vector.",
+      "tags": [
+        "day7",
+        "embedding",
+        "history",
+        "word2vec"
+      ]
+    },
+    {
+      "id": "T2-041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo dữ liệu Stanford AI Index 2025 trong slide, tỷ lệ tổ chức áp dụng AI thay đổi thế nào và hàm ý gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ 71% xuống 33% với AI use, phản ánh giai đoạn vỡ mộng diễn ra sau làn sóng hào hứng ban đầu của thị trường"
+        },
+        {
+          "key": "B",
+          "text": "Từ 55% lên 78% với GenAI, chứng minh rằng việc chọn đúng model vẫn là yếu tố quyết định thành công của sản phẩm"
+        },
+        {
+          "key": "C",
+          "text": "Từ 78% lên 90% với AI use, cho thấy AI đã trở thành hạ tầng mặc định của hầu hết doanh nghiệp trên toàn cầu"
+        },
+        {
+          "key": "D",
+          "text": "Từ 33% lên 71% với GenAI, cho thấy câu hỏi trọng tâm đã chuyển từ 'dùng model nào' sang 'agent được phép biết gì'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Biểu đồ trong slide: AI use 55% (2023) → 78% (2024); GenAI 33% (2023) → 71% (2024). Hàm ý mà giảng viên rút ra: khi ai cũng đã dùng AI, lợi thế cạnh tranh không còn nằm ở việc chọn model nào, mà ở việc agent được truy cập dữ liệu gì. Data quality và retrieval quality quyết định trải nghiệm thật hơn là đổi sang model đắt hơn.",
+      "tags": [
+        "day7",
+        "data-strategy",
+        "ai-index"
+      ]
+    },
+    {
+      "id": "T2-042",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context Recall đo lường điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỷ lệ câu trả lời được người dùng đánh giá là hữu ích sau khi sử dụng hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ thông tin cần thiết (ground truth) được tìm thấy trong retrieved context"
+        },
+        {
+          "key": "C",
+          "text": "Tỷ lệ truy vấn trả về ít nhất một kết quả vượt ngưỡng score threshold đã đặt"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ chunk trong context thực sự được model sử dụng khi sinh ra câu trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide định nghĩa: 'Context Recall — Retriever có mang về đủ chứng cứ cần thiết để trả lời câu hỏi không?' Đo: tỷ lệ thông tin cần thiết (ground truth) được tìm thấy trong retrieved context. Recall thấp nghĩa là retriever bỏ sót tài liệu quan trọng.",
+      "tags": [
+        "day8",
+        "ragas",
+        "recall"
+      ]
+    },
+    {
+      "id": "T2-043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên dùng few-shot prompting?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cần giảm chi phí token, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Khi task quá đơn giản, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Khi model hiểu task nhưng ra sai format hoặc không ổn định giữa các input tương tự"
+        },
+        {
+          "key": "D",
+          "text": "Khi model không hiểu task, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Few-shot dùng khi cần giữ format ổn định, hoặc giữ tiêu chuẩn đánh giá/tone/cách lập luận nhất quán giữa các input tương tự.",
+      "tags": [
+        "day4",
+        "few-shot"
+      ]
+    },
+    {
+      "id": "T2-044",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật overlap khi cắt chunk được thực hiện cụ thể như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chèn phần tóm tắt của toàn tài liệu vào đầu mỗi chunk nhằm cung cấp bối cảnh tổng thể"
+        },
+        {
+          "key": "B",
+          "text": "Nhân đôi toàn bộ chunk rồi lưu hai bản với metadata khác nhau để tăng khả năng trúng"
+        },
+        {
+          "key": "C",
+          "text": "Dịch chuyển ranh giới cắt sang trái một khoảng bằng 10% độ dài chunk trong lần index thứ hai"
+        },
+        {
+          "key": "D",
+          "text": "Lấy thêm 1–2 câu cuối của chunk trước làm phần đầu của chunk sau để giữ ngữ cảnh tại điểm cắt"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide mô tả: 'Khi cắt chunk, lấy thêm 1–2 câu cuối của chunk trước làm phần đầu chunk sau. Giúp giữ ngữ cảnh tại điểm cắt.' Overlap giải quyết vấn đề: nếu một ý bị cắt đôi ngay giữa, cả hai chunk đều không đủ nghĩa. Overlap 10–15% đảm bảo ý đó xuất hiện trọn vẹn ở ít nhất một chunk. Đánh đổi là tăng nhẹ số token lưu trữ và chi phí embed.",
+      "tags": [
+        "day7",
+        "chunking",
+        "overlap"
+      ]
+    },
+    {
+      "id": "T2-045",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ iteration v1→v2, system prompt v1 gặp những vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí token quá cao, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "B",
+          "text": "Quá dài và mâu thuẫn, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Không gọi được tool, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "D",
+          "text": "Model hallucinate order status, trả lời câu ngoài scope, output format không nhất quán"
+        }
+      ],
+      "answer": "D",
+      "explanation": "v1 ('You are a support agent. Help customers with orders. Be polite.') quá mơ hồ → hallucinate trạng thái đơn, trả lời ngoài phạm vi, format không ổn định.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "T2-046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Luồng retrieval được khuyến nghị trong slide tham số kết hợp ba yếu tố theo thứ tự nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Filter theo category trước → semantic search → lấy top-3 có score lớn hơn 0.6"
+        },
+        {
+          "key": "B",
+          "text": "Lấy top-k lớn nhất có thể → lọc metadata → sắp xếp lại theo điểm cosine giảm dần"
+        },
+        {
+          "key": "C",
+          "text": "Semantic search trước → lọc theo category → cuối cùng áp dụng ngưỡng điểm số"
+        },
+        {
+          "key": "D",
+          "text": "Áp dụng score threshold → semantic search → lọc metadata trên tập kết quả thu được"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi luồng chuẩn: 'Filter theo category trước → semantic search → lấy top-3 có score > 0.6.' Thứ tự này tối ưu cả về hiệu năng lẫn chất lượng: lọc metadata thu hẹp không gian tìm kiếm trước, sau đó semantic search xếp hạng trong phạm vi hẹp, cuối cùng threshold loại bỏ những kết quả yếu. Kết luận: 'Retrieval tốt = chunk đúng + metadata đủ + filter hợp lý — không phải đổi model.'",
+      "tags": [
+        "day7",
+        "vector-store",
+        "flow"
+      ]
+    },
+    {
+      "id": "T2-047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Công thức MMR = Sim(d, q) − λ · Sim(d, d_selected) có ý nghĩa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhân điểm tương đồng với hệ số λ để điều chỉnh trọng số của từng nguồn kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Cộng điểm tương đồng với query và điểm khác biệt với tài liệu đã chọn để tăng recall"
+        },
+        {
+          "key": "C",
+          "text": "Trừ đi phần tương đồng với chunk đã chọn nên chunk càng giống cái đã có thì điểm càng thấp"
+        },
+        {
+          "key": "D",
+          "text": "Chia điểm tương đồng cho khoảng cách tới centroid của cụm để chuẩn hóa kết quả"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vế đầu Sim(d, q) thưởng cho độ liên quan với câu hỏi. Vế sau −λ·Sim(d, d_selected) PHẠT những chunk quá giống với chunk đã được chọn. Kết quả: chunk vừa liên quan vừa mang thông tin mới sẽ được ưu tiên. Tham số λ điều chỉnh mức độ ưu tiên đa dạng so với độ liên quan thuần túy.",
+      "tags": [
+        "day8",
+        "mmr",
+        "formula"
+      ]
+    },
+    {
+      "id": "T2-048",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Step-Back Prompting được dùng trong tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi câu hỏi chứa nhiều ý cần tách ra để tìm kiếm riêng biệt rồi tổng hợp lại"
+        },
+        {
+          "key": "B",
+          "text": "Khi câu hỏi quá chi tiết, LLM sinh câu hỏi lùi một bước để lấy ngữ cảnh chung trước"
+        },
+        {
+          "key": "C",
+          "text": "Khi kết quả tìm kiếm quá ít, cần nới lỏng điều kiện lọc metadata để mở rộng phạm vi"
+        },
+        {
+          "key": "D",
+          "text": "Khi câu hỏi dùng sai thuật ngữ, cần bổ sung từ đồng nghĩa để tăng độ phủ tìm kiếm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide mô tả Step-Back: 'Khi câu hỏi quá chi tiết, LLM sinh câu hỏi lùi một bước (abstract) để lấy ngữ cảnh chung trước. Tránh bị lạc trong tiểu tiết.' Ví dụ: 'Lỗi 404 API Momo user 8910' → lùi thành 'Kiến trúc tích hợp Momo?' vì knowledge base khó có tài liệu về đúng user 8910.",
+      "tags": [
+        "day8",
+        "step-back"
+      ]
+    },
+    {
+      "id": "T2-049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Quick Exercise viết prompt cho chatbot đăng ký môn học VinUni, cần xác định những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cần đặt temperature, nên model dễ hiểu sai phạm vi nhiệm vụ được giao, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần chọn model phù hợp, trong khi định dạng đầu ra vẫn được giữ ổn định, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần Task, trong khi định dạng đầu ra vẫn được giữ ổn định, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Role (chatbot là ai, expertise level), Task (nhiệm vụ cụ thể), Context (hệ thống nào, giới hạn gì), Format (output trông thế nào)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài tập yêu cầu áp dụng đủ 4 thành phần RTCF cho tình huống cụ thể: chatbot hỗ trợ sinh viên đăng ký môn học.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "exercise"
+      ]
+    },
+    {
+      "id": "T2-050",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context Injection được định nghĩa là gì và điều gì bị nhấn mạnh là 'không chỉ là'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kỹ thuật sắp xếp và định dạng chunk vào context window; không chỉ là nối chuỗi text1 + text2"
+        },
+        {
+          "key": "B",
+          "text": "Kỹ thuật chọn chunk phù hợp nhất; không chỉ là lấy chunk có điểm cosine cao nhất"
+        },
+        {
+          "key": "C",
+          "text": "Kỹ thuật nén chunk để tiết kiệm token; không chỉ là cắt bớt chữ mà còn giữ lại ý chính"
+        },
+        {
+          "key": "D",
+          "text": "Kỹ thuật thêm metadata vào chunk; không chỉ là ghi tên file nguồn vào đầu mỗi đoạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide định nghĩa: 'Kỹ thuật sắp xếp và định dạng các chunk dữ liệu (đã retrieve) vào trong Context Window của LLM để nó dễ đọc, dễ hiểu nhất. KHÔNG CHỈ LÀ NỐI CHUỖI (text1 + text2). Cách bạn định dạng quyết định việc LLM có tôn trọng dữ liệu đó hay không.'",
+      "tags": [
+        "day8",
+        "context-injection"
+      ]
+    },
+    {
+      "id": "T2-051",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp nào sau đây nên dùng Euclidean distance thay vì Cosine?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xếp hạng mức độ liên quan giữa các chunk văn bản trong một knowledge base nội bộ của doanh nghiệp"
+        },
+        {
+          "key": "B",
+          "text": "So sánh truy vấn 'hoàn tiền' chỉ năm từ với toàn bộ trang policy nói về chính sách hoàn tiền"
+        },
+        {
+          "key": "C",
+          "text": "Tính khoảng cách giữa hai điểm GPS vì 2 km và 200 km khác nhau thật, không được chuẩn hóa mất"
+        },
+        {
+          "key": "D",
+          "text": "Tìm tài liệu viết bằng tiếng Anh tương ứng với một câu hỏi được người dùng đặt bằng tiếng Việt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nêu: dùng Euclidean khi 'độ lớn là thông tin thật, không phải nhiễu, và các chiều cùng đơn vị/cùng scale. Cần khoảng cách tuyệt đối: toạ độ, cảm biến, image feature, clustering (k-means). Ví dụ: hai điểm GPS — 2 km và 200 km khác nhau thật, không được chuẩn hóa mất.' Các phương án còn lại đều là bài toán text embedding, nơi cosine phù hợp hơn.",
+      "tags": [
+        "day7",
+        "embedding",
+        "euclidean"
+      ]
+    },
+    {
+      "id": "T2-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Prompt engineering được mô tả là quá trình như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tự động hóa hoàn toàn bằng công cụ, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần copy template có sẵn, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Iterative process: viết → test → observe → improve; không ai viết prompt hoàn hảo lần đầu"
+        },
+        {
+          "key": "D",
+          "text": "Viết một lần là xong nếu đủ giỏi, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bài giảng nhấn mạnh: prompt engineering là quá trình lặp — viết, test, quan sát, cải thiện. Không ai viết hoàn hảo ngay lần đầu.",
+      "tags": [
+        "day4",
+        "iteration"
+      ]
+    },
+    {
+      "id": "T2-053",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ prompt của slide, thẻ <context> chứa nội dung như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ chứa text thuần của chunk mà không kèm bất kỳ thông tin định danh nào khác"
+        },
+        {
+          "key": "B",
+          "text": "Chứa embedding vector dạng số để model tự tính toán lại độ liên quan khi cần"
+        },
+        {
+          "key": "C",
+          "text": "Chứa số thứ tự, đường dẫn file và section, ví dụ [1] policy/refund-v4.pdf | Section 3"
+        },
+        {
+          "key": "D",
+          "text": "Chứa toàn bộ tài liệu gốc để model có đủ bối cảnh trước khi trả lời câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ trong slide: <context>[1] policy/refund-v4.pdf | Section 3 — Yeu cau hoan tien trong 7 ngay...</context>. Ba thành phần: số thứ tự [1] để model cite, đường dẫn file để truy vết, và section để định vị chính xác. System prompt đi kèm: 'Answer only from the context below. Cite [doc_id] when possible.'",
+      "tags": [
+        "day8",
+        "prompt-structure",
+        "citation"
+      ]
+    },
+    {
+      "id": "T2-054",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Strict Grounding được mô tả với đặc điểm cực đoan nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nếu đổi context sai thì model cũng phải trả lời sai theo context đó — trọng tài duy nhất là dữ liệu nội bộ"
+        },
+        {
+          "key": "B",
+          "text": "Model phải kiểm tra chéo giữa context và kiến thức training rồi báo cáo lại nếu phát hiện có mâu thuẫn"
+        },
+        {
+          "key": "C",
+          "text": "Model được phép bổ sung thêm kiến thức nền khi context không đủ để trả lời một cách đầy đủ cho câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Model chỉ được phép trả lời khi tất cả chunk trong context đều đồng thuận về cùng một đáp án duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide mô tả Strict Grounding: 'Ép LLM chỉ dùng context được cấp, cấm dùng kiến thức từ training. Nếu đổi context sai, model cũng phải trả lời sai theo context đó. Trọng tài duy nhất = dữ liệu nội bộ.' Đây là phép thử để xác minh model thực sự bám context chứ không lén dùng kiến thức nền.",
+      "tags": [
+        "day8",
+        "grounding",
+        "strict"
+      ]
+    },
+    {
+      "id": "T2-055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một công ty có 800 file policy và cần agent trả lời câu hỏi về chính sách hoàn tiền. Nhóm kỹ thuật đề xuất fine-tune model trên 5.000 cặp Q–A để model 'thuộc' toàn bộ policy. Theo bài giảng, vì sao đây là lựa chọn sai?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tuning chỉ hoạt động ổn định với corpus dưới 100 file nên 800 file đã vượt quá giới hạn kỹ thuật cho phép"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tuning yêu cầu context window lớn hơn tổng dung lượng 800 file nên không thể nạp đủ dữ liệu vào một training job"
+        },
+        {
+          "key": "C",
+          "text": "Fine-tuning làm giảm chất lượng reasoning của model gốc nên các câu trả lời sau đó sẽ kém chính xác hơn hẳn ban đầu"
+        },
+        {
+          "key": "D",
+          "text": "Fine-tuning dạy model cách nói chứ không phải điều cần nói; policy thay đổi thường xuyên nên mỗi lần đổi phải train lại"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài giảng chỉ rõ đây là hiểu nhầm phổ biến nhất: fine-tuning dạy model CÁCH NÓI (giọng điệu, format), còn RAG cung cấp ĐIỀU CẦN NÓI (fact). Fact thay đổi thường xuyên thì phải chọn RAG, vì sửa policy chỉ cần re-index là xong, trong khi fine-tuning phải chạy lại training job tốn GPU và cần data sạch. Fine-tuning chỉ nên dùng khi cần style/tone riêng, không phải để nhớ fact.",
+      "tags": [
+        "day7",
+        "data-strategy",
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "T2-056",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide cảnh báo phải kiểm tra bản mới nhất của MTEB Leaderboard?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì điểm số phụ thuộc vào phần cứng dùng để chạy benchmark nên không ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Vì điểm MTEB được tính lại mỗi tháng dựa trên phản hồi thực tế của người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Vì số liệu MTEB chỉ mang tính tham khảo (đầu 2026) và leaderboard thay đổi liên tục"
+        },
+        {
+          "key": "D",
+          "text": "Vì các model cũ sẽ bị gỡ khỏi bảng xếp hạng sau khi ngừng được hỗ trợ chính thức"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi: 'Số liệu MTEB tham khảo (đầu 2026); leaderboard thay đổi liên tục — luôn kiểm tra bản mới nhất.' Lĩnh vực embedding có hàng trăm model (Cohere, Voyage, Gemini, Jina...) và các model mới liên tục xuất hiện. Con số trong slide chỉ là ảnh chụp tại một thời điểm, không nên coi là kết luận vĩnh viễn.",
+      "tags": [
+        "day7",
+        "embedding",
+        "mteb"
+      ]
+    },
+    {
+      "id": "T2-057",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case study Hybrid Search, việc thêm BM25 vào pipeline mang lại kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context Recall tăng từ 60% lên 75%, tức tăng khoảng 15 điểm phần trăm so với ban đầu"
+        },
+        {
+          "key": "B",
+          "text": "Context Recall giữ nguyên nhưng Faithfulness tăng mạnh nhờ context đầy đủ hơn trước"
+        },
+        {
+          "key": "C",
+          "text": "Context Recall tăng gấp đôi nhưng latency cũng tăng gấp bốn lần so với dense only"
+        },
+        {
+          "key": "D",
+          "text": "Context Recall tăng từ 60% lên 90%, tức tăng 30 điểm phần trăm và Faithfulness cũng tăng theo"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide so sánh: V1 Dense Only — Context Recall 60%, bỏ lỡ mã lỗi/tên riêng/số ticket, Faithfulness trung bình vì context thiếu. V2 Hybrid (BM25 + Vector) — Context Recall 90% (↑30%), bắt được exact term nhờ BM25, Faithfulness tăng theo vì context đầy đủ hơn.",
+      "tags": [
+        "day8",
+        "case-study",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "T2-058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'ví dụ quá giống nhau' trong few-shot gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model từ chối trả lời, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Format bị lệch, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Tốn nhiều token, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "D",
+          "text": "Model overfit pattern, không generalize sang input mới"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ quá đồng nhất khiến model học một pattern hẹp và không xử lý được input khác dạng. Cần ví dụ đa dạng, cover edge cases.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "T2-059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng so sánh model, text-embedding-3-small có thông số nào và phù hợp với mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "768 chiều, MTEB khoảng 61, phù hợp cho self-host với dữ liệu nhạy cảm"
+        },
+        {
+          "key": "B",
+          "text": "4096 chiều, MTEB khoảng 66, phù hợp cho corpus quy mô hàng tỉ vector"
+        },
+        {
+          "key": "C",
+          "text": "1536 chiều, MTEB khoảng 62.3, phù hợp cho demo, PoC và lab vì rẻ và nhanh"
+        },
+        {
+          "key": "D",
+          "text": "3072 chiều, MTEB khoảng 64.6, phù hợp cho production cần chất lượng cao nhất"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng so sánh: text-embedding-3-small (1536 chiều, MTEB 62.3) dùng cho demo/PoC/lab vì rẻ và nhanh; text-embedding-3-large (3072 chiều, MTEB 64.6) cho production cần chất lượng; open-source như e5 và BGE (768–4096 chiều, MTEB 61–66) cho self-host, data nhạy cảm và miễn phí.",
+      "tags": [
+        "day7",
+        "embedding",
+        "model-selection"
+      ]
+    },
+    {
+      "id": "T2-060",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Công thức RRF (Reciprocal Rank Fusion) có đặc điểm gì và giá trị k mặc định là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lấy trung bình cộng có trọng số của hai nguồn điểm, k được tuning theo từng domain"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ dùng thứ hạng và bỏ qua điểm số, k thường được chọn mặc định là 60"
+        },
+        {
+          "key": "C",
+          "text": "Nhân điểm dense với điểm sparse rồi lấy căn bậc hai, k là số lượng kết quả giữ lại"
+        },
+        {
+          "key": "D",
+          "text": "Dùng điểm số trực tiếp sau khi normalize về cùng scale, k thường được đặt bằng 10"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi công thức RRF(d) = Σr 1/(k + rankr(d)), với đặc điểm: 'Chỉ dùng thứ hạng, bỏ qua điểm số' và 'k thường được chọn mặc định là 60'. Ưu điểm lớn nhất là không cần normalize điểm số giữa hai hệ thống có thang đo khác nhau — chỉ cần biết thứ tự.",
+      "tags": [
+        "day8",
+        "rrf"
+      ]
+    },
+    {
+      "id": "T2-061",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba yếu tố UX quan trọng cho RAG theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Citations, Confidence và Streaming — biến AI từ hộp đen thành công cụ đáng tin cậy"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ tải trang, giao diện tối giản và khả năng tùy biến theo sở thích người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Đa ngôn ngữ, hỗ trợ giọng nói và khả năng xuất kết quả ra nhiều định dạng file"
+        },
+        {
+          "key": "D",
+          "text": "Đăng nhập một lần, phân quyền chi tiết và lịch sử hội thoại được lưu trữ đầy đủ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nêu 3 yếu tố: Citations (click [id] → popup nguồn gốc); Confidence (score thấp → cảnh báo user với nhãn 'ĐỘ TIN CẬY THẤP'); Streaming (hiển thị tiến trình 'Đang tìm trong kho HR... Đang đọc 5 tài liệu...' để 3–5s không đơ). Kết luận: 'Citation + confidence + streaming biến AI từ hộp đen thành công cụ đáng tin cậy.'",
+      "tags": [
+        "day8",
+        "ux"
+      ]
+    },
+    {
+      "id": "T2-062",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sai lầm phổ biến trong pipeline xử lý dữ liệu văn bản theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuyển đổi mọi tài liệu sang Markdown làm mất đi cấu trúc bảng biểu phức tạp vốn có trong tài liệu gốc"
+        },
+        {
+          "key": "B",
+          "text": "Gắn quá nhiều trường metadata ở bước cuối làm chậm đáng kể quá trình ghi dữ liệu vào trong vector store"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua bước Clean & Structure, đưa raw text thẳng vào chunking khiến chunk chứa header/footer rác và lỗi OCR"
+        },
+        {
+          "key": "D",
+          "text": "Chạy OCR cho cả những tài liệu vốn đã có sẵn text layer làm lãng phí tài nguyên tính toán một cách vô ích"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi: 'Sai lầm phổ biến: bỏ qua bước Clean & Structure, đưa raw text thẳng vào chunking. Kết quả: chunk chứa header/footer rác, OCR lỗi, ký tự đặc biệt — retrieval quality giảm rõ rệt.' Liên hệ với Data Quality Pyramid: đây chính là việc nhảy từ tầng Raw thẳng lên indexing, bỏ qua hai tầng Cleaned và Structured.",
+      "tags": [
+        "day7",
+        "pipeline",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "T2-063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo slide Retro, pipeline Day 07 còn thiếu những thành phần nào so với RAG pipeline hoàn chỉnh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thiếu cơ chế phân quyền truy cập và kiểm soát PII nên chưa thể triển khai cho môi trường doanh nghiệp"
+        },
+        {
+          "key": "B",
+          "text": "Thiếu hybrid search, rerank, augmentation và evaluation — chỉ có dense search, threshold, top-k rồi inject thô"
+        },
+        {
+          "key": "C",
+          "text": "Thiếu chunking, embedding và metadata nên chưa lưu đủ thông tin cần thiết cho mỗi record trong store"
+        },
+        {
+          "key": "D",
+          "text": "Thiếu bước tiền xử lý tài liệu như OCR và làm sạch nên chất lượng chunk chưa đạt yêu cầu tối thiểu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi rõ: 'Pipeline Day 07 chỉ có dense search + threshold + top-k + inject thô vào LLM. Chưa có hybrid, rerank, augmentation, hay evaluation.' Day 08 nâng cấp thành RAG đầy đủ: R (search + rerank) → A (đóng gói context) → G (sinh câu trả lời grounded) và bổ sung tầng evaluation.",
+      "tags": [
+        "day8",
+        "retro"
+      ]
+    },
+    {
+      "id": "T2-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật 'Document Reordering' và 'Conflict Resolution' thuộc nhóm nào trong R–A–G?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không thuộc nhóm nào mà là kỹ thuật tiền xử lý được áp dụng ở giai đoạn ingestion"
+        },
+        {
+          "key": "B",
+          "text": "Nhóm G vì chúng quyết định cách model tổng hợp thông tin thành câu trả lời cuối cùng"
+        },
+        {
+          "key": "C",
+          "text": "Nhóm R vì chúng ảnh hưởng trực tiếp đến thứ hạng của tài liệu trong kết quả tìm kiếm"
+        },
+        {
+          "key": "D",
+          "text": "Nhóm A vì chúng xử lý việc sắp xếp và giải quyết mâu thuẫn khi đóng gói context"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nhóm A (Augmentation) gồm: Context Injection, Document Reordering, Instruction Tuning, Metadata Integration, Citation Formatting, Context Compression, Token Budget Management, Conflict Resolution, Grounding Constraints, Context Deduplication. Đây đều là các thao tác trên tập chunk ĐÃ retrieve, trước khi đưa vào LLM.",
+      "tags": [
+        "day8",
+        "rag",
+        "augmentation"
+      ]
+    },
+    {
+      "id": "T2-065",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phát biểu 'Context window không phải là vector store' hàm ý điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context window có dung lượng nhỏ hơn vector store nên chỉ chứa được một phần dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Agent chỉ thật sự nhớ dài hạn khi có cơ chế truy xuất hoặc lưu trữ bên ngoài được thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Hai khái niệm này thuộc hai tầng kiến trúc khác nhau nên không thể so sánh trực tiếp"
+        },
+        {
+          "key": "D",
+          "text": "Vector store hoạt động chậm hơn context window nên chỉ dùng cho dữ liệu ít truy cập"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nhiều người nhầm rằng context window lớn (1M token) đồng nghĩa với việc agent 'nhớ lâu'. Thực tế context window là bộ nhớ tạm của một lượt gọi — hết phiên là mất. Muốn agent nhớ dài hạn, phải chủ động thiết kế cơ chế lưu (ghi ra store) và cơ chế truy xuất (đọc lại đúng lúc). Đó là hai việc kỹ thuật riêng biệt, không tự có khi tăng context window.",
+      "tags": [
+        "day7",
+        "memory",
+        "principle"
+      ]
+    },
+    {
+      "id": "T2-066",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật Document Reordering sắp xếp các block theo mô hình nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặt Top 1 ở đầu và Top 2 ở cuối, các block xếp hạng thấp hơn dồn vào giữa"
+        },
+        {
+          "key": "B",
+          "text": "Xếp theo thứ tự điểm số giảm dần từ trên xuống dưới để model đọc cái tốt nhất trước"
+        },
+        {
+          "key": "C",
+          "text": "Xếp theo thời gian tài liệu từ cũ đến mới để model nắm được diễn biến thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Xếp ngẫu nhiên để tránh model bị thiên vị bởi vị trí của tài liệu trong context"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sơ đồ trong slide minh họa: ĐẦU = Block 1 (Top 1); GIỮA = Block 3, Block 5, Block 4; CUỐI = Block 2 (Top 2). Nguyên lý: tận dụng hai vùng model chú ý tốt nhất (đầu và cuối) cho hai chunk quan trọng nhất, dồn các chunk kém quan trọng hơn vào vùng giữa vốn dễ bị bỏ sót.",
+      "tags": [
+        "day8",
+        "reordering"
+      ]
+    },
+    {
+      "id": "T2-067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Slide dùng phép ẩn dụ nào để mô tả RAG so với fine-tuning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAG là open-book exam — mang tài liệu vào phòng thi thay vì học thuộc lòng"
+        },
+        {
+          "key": "B",
+          "text": "RAG là học thuộc lòng còn fine-tuning là mang tài liệu vào phòng thi"
+        },
+        {
+          "key": "C",
+          "text": "RAG là thư viện tham khảo còn fine-tuning là bộ nhớ ngắn hạn của con người"
+        },
+        {
+          "key": "D",
+          "text": "RAG là gia sư riêng còn fine-tuning là lớp học đại trà cho nhiều học viên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi: 'Fine-tuning để nhồi facts rất đắt và dễ bị catastrophic forgetting. RAG = open-book exam — mang tài liệu vào phòng thi thay vì học thuộc lòng.' Ẩn dụ này giải thích vì sao RAG phù hợp với fact hay thay đổi: bạn chỉ cần cập nhật tài liệu mang vào, không cần học lại từ đầu.",
+      "tags": [
+        "day8",
+        "rag",
+        "analogy"
+      ]
+    },
+    {
+      "id": "T2-068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, In-Context phù hợp nhất với tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Corpus khoảng 200 tài liệu nhưng nội dung ổn định và ít khi cần cập nhật lại"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu nhạy cảm cần kiểm soát truy cập chặt chẽ theo từng nhóm người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Bất kỳ corpus nào miễn là model có context window từ 128K token trở lên"
+        },
+        {
+          "key": "D",
+          "text": "Tài liệu 1–20 trang, ít thay đổi, cần triển khai nhanh mà không dựng hạ tầng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài giảng ghi rõ: 'Dùng khi 1–20 trang, ít thay đổi'. Ưu điểm là làm được trong 5 phút, không cần embed hay DB. Ngưỡng này không phải do context window quyết định mà do tính thực dụng: khi corpus lớn hoặc thay đổi thường xuyên, việc dán thủ công trở nên không bền vững và tốn token mỗi lần gọi.",
+      "tags": [
+        "day7",
+        "data-strategy",
+        "in-context"
+      ]
+    },
+    {
+      "id": "T2-069",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc được nhấn mạnh khi lựa chọn và tối ưu chiến lược chunking là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nên chọn Proposition hoặc Hierarchical ngay từ đầu vì đây là các phương pháp hiện đại nhất"
+        },
+        {
+          "key": "B",
+          "text": "Ưu tiên chiến lược nào cho ra số lượng chunk ít nhất để tiết kiệm chi phí lưu trữ và embed"
+        },
+        {
+          "key": "C",
+          "text": "Bắt đầu bằng strategy đơn giản nhất chạy được, dựng bộ eval query, rồi nâng cấp dựa trên số đo"
+        },
+        {
+          "key": "D",
+          "text": "Luôn thử nghiệm cả bảy chiến lược song song rồi chọn phương án cho cosine trung bình cao nhất"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi nguyên văn: 'Bắt đầu bằng strategy đơn giản nhất chạy được, dựng bộ eval query, rồi mới nâng cấp dựa trên số đo — không nhảy thẳng vào Proposition vì nghe hiện đại.' Đây là cùng tinh thần với nguyên tắc rule/workflow/agent ở Day 3: leo thang độ phức tạp dựa trên bằng chứng, không dựa trên cảm tính hay xu hướng.",
+      "tags": [
+        "day7",
+        "chunking",
+        "principle"
+      ]
+    },
+    {
+      "id": "T2-070",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thành phần 'Capabilities' trong system prompt nêu điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngôn ngữ phản hồi, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Model được phép dùng tools nào, dữ liệu nào priority"
+        },
+        {
+          "key": "C",
+          "text": "Trình độ chuyên môn của persona, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Độ dài tối đa của câu trả lời, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Capabilities khai báo phạm vi năng lực: tool nào được gọi và nguồn dữ liệu nào ưu tiên khi có xung đột.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "capabilities"
+      ]
+    },
+    {
+      "id": "T2-071",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "HyDE (Hypothetical Document Embeddings) hoạt động theo nguyên lý nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán trước các câu hỏi có thể xuất hiện rồi cache sẵn kết quả tìm kiếm tương ứng"
+        },
+        {
+          "key": "B",
+          "text": "LLM sinh câu trả lời giả định cho query, rồi embed câu trả lời giả đó để search"
+        },
+        {
+          "key": "C",
+          "text": "Tạo tài liệu giả rồi thêm vào index để tăng khả năng match với các câu hỏi tương tự"
+        },
+        {
+          "key": "D",
+          "text": "Embed câu hỏi rồi so sánh trực tiếp với embedding của toàn bộ tài liệu trong store"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide mô tả HyDE: 'LLM sinh câu trả lời giả định cho query; Embed câu trả lời giả → search bằng vector đó.' Ví dụ: Query 'SLA P1?' → HyDE sinh 'SLA P1 là phản hồi 15 phút, xử lý 4 giờ...' rồi dùng vector của câu này để tìm. Lý do hiệu quả: câu trả lời giả gần với văn phong của tài liệu thật hơn là câu hỏi ngắn.",
+      "tags": [
+        "day8",
+        "hyde"
+      ]
+    },
+    {
+      "id": "T2-072",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba dimension trong Prompt Evaluation Framework là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Speed, Cost, Scale"
+        },
+        {
+          "key": "B",
+          "text": "Input, Output, Error"
+        },
+        {
+          "key": "C",
+          "text": "Correctness, Consistency, Safety"
+        },
+        {
+          "key": "D",
+          "text": "Precision, Recall, F1"
+        }
+      ],
+      "answer": "C",
+      "explanation": "3 dimension: Correctness (output có đúng không — test cases + human review), Consistency (10 lần chạy có cùng kết quả — đo % match), Safety (có bị bypass không — adversarial test cases).",
+      "tags": [
+        "day4",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "T2-073",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide gọi việc thêm BM25 là 'thay đổi ROI cao nhất cho hầu hết RAG system'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì BM25 thay thế được hoàn toàn dense search nên giảm được chi phí embedding model"
+        },
+        {
+          "key": "B",
+          "text": "Vì chỉ cần thêm một thành phần đơn giản mà Context Recall tăng vọt tới 30 điểm phần trăm"
+        },
+        {
+          "key": "C",
+          "text": "Vì BM25 hoàn toàn miễn phí và không làm tăng thêm bất kỳ chi phí vận hành nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì BM25 giúp giảm latency của toàn bộ pipeline xuống còn khoảng một nửa so với trước"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide kết luận: 'Chỉ cần thêm BM25 vào pipeline, Context Recall tăng vọt. Đây là thay đổi ROI cao nhất cho hầu hết RAG system.' ROI cao vì tỷ lệ giữa lợi ích (recall +30%) và chi phí (BM25 nhanh, không cần GPU) rất thuận lợi — khác hẳn với reranker vốn tăng chất lượng ít hơn nhưng tốn kém hơn nhiều.",
+      "tags": [
+        "day8",
+        "case-study",
+        "roi"
+      ]
+    },
+    {
+      "id": "T2-074",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi history chiếm quá nhiều context là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temperature tự tăng"
+        },
+        {
+          "key": "B",
+          "text": "Dễ nhiễu, dễ rơi vào lost in the middle"
+        },
+        {
+          "key": "C",
+          "text": "Model quên system prompt hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "Tool schema bị xóa"
+        }
+      ],
+      "answer": "B",
+      "explanation": "History quá dài tạo nhiễu và đẩy thông tin quan trọng vào vùng giữa context — nơi model dễ bỏ sót. Cách xử lý là chủ động cắt bớt history không liên quan tới task hiện tại, ưu tiên giữ các lượt gần nhất, và tóm tắt phần cũ thay vì kéo theo nguyên văn toàn bộ transcript.",
+      "tags": [
+        "day4",
+        "context",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "T2-075",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Score threshold 0.7 so với 0.4 khác nhau thế nào về mặt hành vi hệ thống?",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.7 chỉ giữ chunk thật sự liên quan, còn 0.4 chấp nhận cả những chunk liên quan nhẹ"
+        },
+        {
+          "key": "B",
+          "text": "0.7 áp dụng cho Euclidean distance còn 0.4 dành riêng cho cosine similarity"
+        },
+        {
+          "key": "C",
+          "text": "0.7 dùng khi corpus nhỏ dưới nghìn chunk, 0.4 dùng cho corpus quy mô lớn hơn"
+        },
+        {
+          "key": "D",
+          "text": "0.7 trả về nhiều kết quả hơn vì ngưỡng cao cho phép nhiều chunk vượt qua bộ lọc"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảng tham số: Score threshold = 'Bỏ chunk có cosine thấp hơn ngưỡng'. Ví dụ 0.7 chỉ giữ chunk thật sự liên quan; 0.4 chấp nhận liên quan nhẹ. Đối chiếu với bảng score đã học: 0.87 là rất gần nghĩa, 0.52 là liên quan, 0.31 là không liên quan — nên ngưỡng 0.7 sẽ loại bỏ cả nhóm 'liên quan' ở mức 0.52.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "threshold"
+      ]
+    },
+    {
+      "id": "T2-076",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ FAQ với chunk quá to (gộp cả Q1, Q2, Q3), truy vấn 'đổi size' dẫn tới kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieve được cả 3 cặp Q–A nên LLM bị nhiễu bởi thông tin về hoàn tiền và ship quốc tế"
+        },
+        {
+          "key": "B",
+          "text": "Retrieve đúng chunk chứa Q2 nhưng score cosine giảm xuống dưới ngưỡng threshold mặc định"
+        },
+        {
+          "key": "C",
+          "text": "Retrieve trả về cảnh báo vượt giới hạn token nên hệ thống tự động cắt bớt phần cuối chunk"
+        },
+        {
+          "key": "D",
+          "text": "Retrieve trượt hoàn toàn vì vector trung bình không còn gần với truy vấn về đổi size"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi: 'Query đổi size → retrieve cả 3 → LLM bị nhiễu bởi Q1, Q3'. Lưu ý điểm quan trọng: retrieval KHÔNG thất bại — chunk đó thật sự chứa câu trả lời nên vẫn được tìm thấy. Thất bại xảy ra ở bước generation: LLM phải đọc thêm thông tin về thời gian hoàn tiền (7 ngày) và ship quốc tế, dễ trộn lẫn con số hoặc trả lời lan man.",
+      "tags": [
+        "day7",
+        "chunking",
+        "too-big"
+      ]
+    },
+    {
+      "id": "T2-077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi mở đầu bài giảng: 'Agent CS dùng GPT-4 nhưng trả sai chính sách hoàn tiền — vì data là policy cũ 2023'. Bài học rút ra là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent trả lời sai không hẳn do model yếu mà thường do không có đúng dữ liệu để suy luận"
+        },
+        {
+          "key": "B",
+          "text": "Cần tăng temperature để model linh hoạt hơn khi gặp thông tin mâu thuẫn trong tài liệu"
+        },
+        {
+          "key": "C",
+          "text": "GPT-4 đã lỗi thời và cần nâng cấp lên thế hệ model mới hơn để cải thiện độ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Chính sách hoàn tiền là loại nội dung quá phức tạp nên cần fine-tune riêng cho từng domain"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là luận điểm xuyên suốt Day 7: chất lượng câu trả lời bị chặn bởi chất lượng dữ liệu, không phải bởi sức mạnh model. Một model frontier với policy cũ vẫn trả lời sai, trong khi một model rẻ hơn với chunk đúng và mới sẽ trả lời chính xác. Bài giảng kết luận: data quality và retrieval quality thường quyết định trải nghiệm thật hơn là đổi sang model đắt hơn.",
+      "tags": [
+        "day7",
+        "data-strategy",
+        "key-insight"
+      ]
+    },
+    {
+      "id": "T2-078",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi mới bắt đầu triển khai hybrid search, slide khuyên chọn phương pháp fusion nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Alpha weighting vì cho phép kiểm soát chính xác tỷ trọng giữa dense và sparse"
+        },
+        {
+          "key": "B",
+          "text": "Không dùng fusion mà chạy riêng hai pipeline rồi hiển thị song song cho user"
+        },
+        {
+          "key": "C",
+          "text": "RRF vì đơn giản và không cần tuning tham số cho từng domain cụ thể"
+        },
+        {
+          "key": "D",
+          "text": "Kết hợp cả hai phương pháp rồi so sánh kết quả để chọn ra cái tốt hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide kết luận: 'Mới bắt đầu → RRF (đơn giản, không cần tuning). Cần kiểm soát tỷ trọng dense/sparse → Alpha weighting.' RRF chỉ dùng thứ hạng nên không cần lo việc normalize điểm số giữa hai hệ thống — bớt được một biến phải tinh chỉnh.",
+      "tags": [
+        "day8",
+        "fusion",
+        "practice"
+      ]
+    },
+    {
+      "id": "T2-079",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hậu quả khi tool có granularity QUÁ TO (VD: handle_all_customer_operations) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quá nhiều calls và overhead lớn"
+        },
+        {
+          "key": "B",
+          "text": "Retry sinh lỗi phụ, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Tool description quá ngắn, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Model không hiểu boundary, khó debug, khó reuse"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Tool ôm quá nhiều việc làm model không biết khi nào nên gọi, và khi lỗi thì rất khó xác định phần nào hỏng.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "granularity"
+      ]
+    },
+    {
+      "id": "T2-080",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tổ hợp Recall Cao + Faithfulness Thấp + Relevance Cao chỉ ra vấn đề ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sửa Retrieval vì tài liệu tìm được không đủ liên quan tới câu hỏi của người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Sửa Augmentation vì thứ tự sắp xếp chunk trong prompt chưa được tối ưu hóa"
+        },
+        {
+          "key": "C",
+          "text": "Sửa Indexing vì chunking chưa phù hợp làm mất ngữ cảnh của thông tin quan trọng"
+        },
+        {
+          "key": "D",
+          "text": "Sửa Generation vì tìm đúng tài liệu nhưng model bị ảo giác hoặc prompt viết dở"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng chẩn đoán ghi: Cao – Thấp – Cao → 'Sửa Generation (model bịa thêm)'. Slide bổ sung: 'Recall Cao + Faithfulness Thấp — Tìm đúng tài liệu, nhưng model bị ảo giác hoặc prompt viết dở. → Sửa Generation.' Đây chính là tình huống mà kỹ thuật in formatted_context ra log sẽ xác nhận nhanh nhất.",
+      "tags": [
+        "day8",
+        "ragas",
+        "diagnosis"
+      ]
+    },
+    {
+      "id": "T2-081",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật Citation Formatting yêu cầu LLM làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tóm tắt nội dung của từng tài liệu nguồn trước khi đưa ra kết luận tổng hợp"
+        },
+        {
+          "key": "B",
+          "text": "Ghi lại toàn bộ đường dẫn file đầy đủ vào cuối mỗi đoạn văn của câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Xếp hạng độ tin cậy của từng nguồn tài liệu theo thang điểm từ một đến năm"
+        },
+        {
+          "key": "D",
+          "text": "Trả về số thứ tự tài liệu như [1], [2] để người dùng có thể kiểm chứng lại nguồn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide mô tả Citation Formatting: 'Yêu cầu LLM trả về số thứ tự tài liệu (ví dụ: [1], [2]) để người dùng có thể kiểm chứng (verify)' với câu lệnh mẫu 'Cite [doc_id] for every claim you make.' Số thứ tự này khớp với đánh số trong khối <context> đã inject.",
+      "tags": [
+        "day8",
+        "citation"
+      ]
+    },
+    {
+      "id": "T2-082",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc 'Đừng tin phần mở rộng file' trong Input Control nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phần mở rộng của file thường bị mất khi tải về từ URL nên cần có cơ chế tự động đặt tên lại cho chuẩn"
+        },
+        {
+          "key": "B",
+          "text": "Nên yêu cầu người dùng đổi tên file theo đúng quy ước chuẩn của hệ thống trước khi tải tài liệu lên"
+        },
+        {
+          "key": "C",
+          "text": "File .pdf có thể là scan ảnh, .txt có thể là JSON, .doc có thể là RTF — phải kiểm tra magic bytes/MIME thật"
+        },
+        {
+          "key": "D",
+          "text": "Nên bỏ qua hoàn toàn tên file cùng phần mở rộng và chỉ dựa vào nội dung bên trong để phân loại tài liệu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nêu ví dụ cụ thể: '.pdf có thể là scan ảnh; .txt có thể là JSON; .doc có thể là RTF. Kiểm tra magic bytes/MIME thật, không chỉ đọc đuôi file.' Hậu quả nếu tin đuôi file: một PDF scan sẽ được đưa vào PDF text parser và trả về chuỗi rỗng, hoặc tệ hơn là vài ký tự rác được index vào store mà không ai biết.",
+      "tags": [
+        "day7",
+        "pipeline",
+        "mime"
+      ]
+    },
+    {
+      "id": "T2-083",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vòng lặp Self-Correction hoạt động theo sơ đồ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context → Self-Check → Generate Answer → Final Answer, retry nếu người dùng phản hồi tiêu cực"
+        },
+        {
+          "key": "B",
+          "text": "Context → Generate Answer → Self-Check vs Context → Final Answer, retry nếu không grounded"
+        },
+        {
+          "key": "C",
+          "text": "Context → Retrieve lại → Generate Answer → Final Answer với retry nếu điểm cosine thấp"
+        },
+        {
+          "key": "D",
+          "text": "Context → Generate Answer → Human Review → Final Answer, retry nếu reviewer từ chối duyệt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sơ đồ trong slide: Context → Generate Answer → Self-Check vs Context → Final Answer, với nhánh 'retry nếu không grounded' quay ngược lại. Mô tả: 'LLM tự đánh giá câu trả lời của chính mình so với context trước khi hiển thị cho người dùng. Nếu phát hiện suy diễn vượt chứng cứ → retry hoặc abstain.'",
+      "tags": [
+        "day8",
+        "self-correction"
+      ]
+    },
+    {
+      "id": "T2-084",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Các cách tiếp cận để có structured output theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ dùng regex parse sau, trong khi định dạng đầu ra vẫn được giữ ổn định, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ có JSON mode, trong khi định dạng đầu ra vẫn được giữ ổn định, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "JSON mode (API parameter), prompt-based ('Respond ONLY with valid JSON'), XML tags, và Prefill (bắt đầu assistant msg bằng '{')"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ có fine-tuning, kể cả khi thêm nhiều ví dụ mẫu vào prompt, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "4 cách: JSON mode của OpenAI, prompt-based, XML tags (<thinking>...</thinking>), và prefill của Anthropic (mở đầu assistant message bằng dấu {).",
+      "tags": [
+        "day4",
+        "structured-output"
+      ]
+    },
+    {
+      "id": "T2-085",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Metadata Integration trong grounding giúp giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giúp người dùng click vào để xem nguồn gốc chính xác của từng tuyên bố trong câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Giúp giảm số token phải đưa vào context bằng cách thay thế text bằng mã định danh"
+        },
+        {
+          "key": "C",
+          "text": "Giúp hệ thống tự động loại bỏ các tài liệu không đủ điều kiện trước khi đưa vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Giúp LLM phân biệt được văn bản cũ và mới để ưu tiên nguồn cập nhật gần nhất"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide mô tả: 'Đưa thêm thời gian, tác giả, phòng ban vào context để LLM phân biệt được văn bản cũ/mới, ưu tiên nguồn mới nhất' với câu lệnh mẫu 'If documents conflict, prefer the most recent by date.' Đây là cách xử lý xung đột giữa các phiên bản policy khác nhau.",
+      "tags": [
+        "day8",
+        "grounding",
+        "metadata"
+      ]
+    },
+    {
+      "id": "T2-086",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong nhóm commercial/managed, File Search API (OpenAI, Anthropic) có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Được managed hoàn toàn theo mô hình serverless với độ tin cậy rất cao và gần như không cần vận hành"
+        },
+        {
+          "key": "B",
+          "text": "Tích hợp sẵn pipeline ingest, OCR và hybrid search nhưng gắn chặt với hệ sinh thái đám mây của Azure"
+        },
+        {
+          "key": "C",
+          "text": "Không cần chunk, embed hay store — gọi API là xong; nhưng ít kiểm soát chunking, metadata và cost path"
+        },
+        {
+          "key": "D",
+          "text": "Hybrid BM25 kết hợp vector rất mạnh cùng với hệ sinh thái công cụ và plugin lớn xung quanh sản phẩm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng commercial: File Search API là 'Retrieval as a service — không cần chunk/embed/store, gọi API là xong', nhưng lưu ý 'ít kiểm soát chunking, metadata, và cost path'. Đây là đánh đổi cực đoan nhất: tiện lợi tối đa nhưng mất gần hết quyền kiểm soát — trong khi Day 7 vừa chứng minh chunking là quyết định thiết kế ảnh hưởng lớn tới chất lượng.",
+      "tags": [
+        "day7",
+        "vector-store",
+        "file-search-api"
+      ]
+    },
+    {
+      "id": "T2-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao negative prompting ('đừng làm X') kém hiệu quả nếu đứng một mình?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model không hiểu từ phủ định, kể cả khi thêm nhiều ví dụ mẫu vào prompt, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Vì làm tăng temperature, dù phần hướng dẫn hệ thống đã được viết rõ ràng, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Vì tốn nhiều token hơn, trong khi định dạng đầu ra vẫn được giữ ổn định, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Vì model cần biết nên làm gì, không chỉ biết đừng làm gì — hiệu quả nhất khi kèm positive alternative"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Negative prompt hiệu quả nhất khi kèm phương án thay thế: thay vì 'Đừng dùng jargon' → 'Giải thích bằng ngôn ngữ lớp 10 hiểu được'.",
+      "tags": [
+        "day4",
+        "negative-prompting"
+      ]
+    },
+    {
+      "id": "T2-088",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide kết luận 'mặc định cứ dùng cosine cho text'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì phần lớn embedding model hiện đại trả vector đã normalize, khi đó cosine và Euclidean xếp hạng giống nhau"
+        },
+        {
+          "key": "B",
+          "text": "Vì cosine tính toán nhanh hơn Euclidean khoảng ba lần khi làm việc với vector có số chiều lớn hàng nghìn"
+        },
+        {
+          "key": "C",
+          "text": "Vì mọi vector store thương mại hiện nay đều chỉ hỗ trợ duy nhất phép đo cosine similarity chứ không có lựa chọn khác"
+        },
+        {
+          "key": "D",
+          "text": "Vì Euclidean cho kết quả sai lệch hoàn toàn khi số chiều của vector vượt quá ngưỡng một nghìn chiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi: 'Khi vector đã normalize về độ dài 1, cosine và Euclidean xếp hạng giống nhau. Phần lớn embedding model hiện đại đều trả vector đã normalize → mặc định cứ dùng cosine cho text.' Điểm tinh tế: không phải Euclidean sai, mà là trong trường hợp vector đã chuẩn hóa thì hai phép đo cho cùng thứ tự xếp hạng, nên chọn cosine vì quen thuộc và diễn giải dễ hơn.",
+      "tags": [
+        "day7",
+        "embedding",
+        "normalize"
+      ]
+    },
+    {
+      "id": "T2-089",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi gốc để quyết định dùng Cosine hay Euclidean là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ lớn của vector có mang thông tin cần so sánh hay không?"
+        },
+        {
+          "key": "B",
+          "text": "Dữ liệu đầu vào là văn bản hay là hình ảnh và âm thanh đa phương tiện?"
+        },
+        {
+          "key": "C",
+          "text": "Số chiều của vector lớn hơn hay nhỏ hơn ngưỡng một nghìn chiều?"
+        },
+        {
+          "key": "D",
+          "text": "Vector store đang dùng có hỗ trợ sẵn phép đo khoảng cách đó hay không?"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide đặt câu hỏi gốc: 'độ lớn của vector có mang thông tin cần so sánh hay không?' Nếu độ lớn là nhiễu (như độ dài văn bản) thì dùng cosine để triệt tiêu nó. Nếu độ lớn là thông tin thật (như khoảng cách GPS, giá trị cảm biến) thì phải dùng Euclidean vì chuẩn hóa sẽ làm mất thông tin quan trọng.",
+      "tags": [
+        "day7",
+        "embedding",
+        "cosine-vs-euclidean"
+      ]
+    },
+    {
+      "id": "T2-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thiếu thành phần Context trong prompt gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model từ chối trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Chi phí tăng gấp đôi"
+        },
+        {
+          "key": "C",
+          "text": "Model đoán sai stack/bối cảnh"
+        },
+        {
+          "key": "D",
+          "text": "Output quá ngắn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ trong bảng: không nêu 'Codebase: FastAPI, Python 3.12, PostgreSQL' thì model sẽ đoán sai công nghệ đang dùng.",
+      "tags": [
+        "day4",
+        "rtcf",
+        "context"
+      ]
+    },
+    {
+      "id": "T2-091",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sai lầm phổ biến nhất liên quan đến Data Quality Pyramid là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Index ngay dữ liệu raw rồi kỳ vọng retrieval sẽ tự chữa mọi vấn đề chất lượng dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Dành quá nhiều thời gian cho tầng Cleaned khiến dự án chậm tiến độ triển khai thực tế"
+        },
+        {
+          "key": "C",
+          "text": "Gắn quá nhiều metadata ở tầng Enriched làm tăng dung lượng lưu trữ của vector store"
+        },
+        {
+          "key": "D",
+          "text": "Chuẩn hóa Unicode quá sớm khiến các ký tự đặc biệt trong tài liệu gốc bị mất mát"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi nguyên văn: 'Sai lầm phổ biến: index ngay dữ liệu raw rồi kỳ vọng retrieval sẽ tự chữa mọi vấn đề'. Đây là ảo tưởng nguy hiểm vì embedding model chỉ mã hóa những gì bạn đưa vào — nếu chunk chứa tag HTML, header lặp lại, hay lỗi OCR thì vector sẽ mang cả nhiễu đó. Nguyên tắc garbage in, garbage out áp dụng nguyên vẹn.",
+      "tags": [
+        "day7",
+        "data-quality",
+        "anti-pattern"
+      ]
+    },
+    {
+      "id": "T2-092",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ ROI về Cross-encoder Reranker trong slide nêu những con số nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Answer Relevance tăng 5%, latency tăng từ 1s lên 4s và chi phí server tăng gấp đôi"
+        },
+        {
+          "key": "B",
+          "text": "Context Recall tăng 30%, latency giữ nguyên và chi phí server tăng khoảng 20%"
+        },
+        {
+          "key": "C",
+          "text": "Faithfulness tăng 10%, latency tăng gấp ba lần và chi phí server không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Answer Relevance tăng 15%, latency tăng từ 1s lên 2s và chi phí server tăng 50%"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nêu: 'Answer Relevance tăng +5%; Latency tăng từ 1s → 4s; Chi phí server tăng gấp đôi.' Rồi đặt câu hỏi cho kỹ sư trưởng: '5% độ chính xác đó có đáng giá với trải nghiệm chậm chạp của người dùng, $500/tháng chi phí thêm, và +3s latency mỗi request?'",
+      "tags": [
+        "day8",
+        "roi",
+        "reranker"
+      ]
+    },
+    {
+      "id": "T2-093",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên dùng Sequential tool calls thay vì Parallel?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi có nhiều hơn 3 tool, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Khi muốn chạy nhanh hơn, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Khi tool chạy trên cùng server, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Khi Tool B cần output của Tool A — ví dụ tìm order ID rồi mới tra shipping status"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chỉ song song hóa khi KHÔNG có phụ thuộc dữ liệu. Có phụ thuộc thì bắt buộc tuần tự. Ba pattern thường gặp là conditional tool use, tool chaining và parallel fetch rồi merge. Tool calling vì vậy là bài toán control flow chứ không đơn thuần là gọi API.",
+      "tags": [
+        "day4",
+        "patterns",
+        "sequential"
+      ]
+    },
+    {
+      "id": "T2-094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Query Decomposition giải quyết loại câu hỏi nào và vì sao cần thiết?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi có lỗi chính tả nên cần sửa và bổ sung thêm từ đồng nghĩa trước khi đưa vào hệ thống tìm kiếm"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi phức tạp multi-hop, tách thành nhiều câu nhỏ vì một vector không trả lời được 2 ý khác biệt cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Câu hỏi quá chi tiết nên cần lùi lại một bước để lấy bối cảnh rộng hơn trước khi tiến hành trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Câu hỏi quá ngắn nên cần mở rộng thành nhiều biến thể khác nhau để tăng khả năng bắt trúng chunk đúng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide mô tả Query Decomposition: 'Tách câu hỏi phức tạp (multi-hop) thành nhiều câu hỏi nhỏ, search song song, rồi gộp context. Một vector không thể trả lời 2 ý khác biệt cùng lúc.' Ví dụ: 'So sánh hoàn tiền Shopee vs Tiki' → Q1 'Shopee hoàn tiền?' + Q2 'Tiki hoàn tiền?'. Phương án A là Query Expansion, B là Step-Back.",
+      "tags": [
+        "day8",
+        "decomposition"
+      ]
+    },
+    {
+      "id": "T2-095",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "A/B testing prompt được thực hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy 2 model khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Cho 2 nhóm người dùng khác nhau dùng thử"
+        },
+        {
+          "key": "C",
+          "text": "So sánh prompt v1 vs v2 trên cùng test set"
+        },
+        {
+          "key": "D",
+          "text": "Đổi temperature giữa 2 lần chạy"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A/B test prompt: giữ nguyên test set, chỉ đổi phiên bản prompt để so sánh công bằng. Đây là cách duy nhất để biết prompt mới thực sự tốt hơn hay chỉ khác đi. Nếu đồng thời đổi cả prompt lẫn model hoặc test set thì không quy được nguyên nhân cho thay đổi nào.",
+      "tags": [
+        "day4",
+        "evaluation",
+        "ab-test"
+      ]
+    },
+    {
+      "id": "T2-096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ưu điểm nào sau đây thuộc về RAG mà In-Context KHÔNG có?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Triển khai được ngay trong vài phút mà không cần dựng thêm bất kỳ thành phần hạ tầng nào"
+        },
+        {
+          "key": "B",
+          "text": "Trích được nguồn để cite, và khi sửa policy chỉ cần re-index thay vì sửa thủ công từng prompt"
+        },
+        {
+          "key": "C",
+          "text": "Không yêu cầu thay đổi trọng số model nên tránh được chi phí GPU cho việc huấn luyện"
+        },
+        {
+          "key": "D",
+          "text": "Dạy được model giọng điệu và định dạng riêng phù hợp với thương hiệu của doanh nghiệp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide liệt kê ưu điểm RAG: (+) sửa policy → re-index, xong; (+) trích được nguồn để cite. Phương án A là ưu điểm của In-Context. Phương án B đúng cho cả In-Context lẫn RAG nên không phân biệt được. Phương án D là ưu điểm riêng của fine-tuning ('học được giọng điệu, format riêng').",
+      "tags": [
+        "day7",
+        "data-strategy",
+        "rag"
+      ]
+    },
+    {
+      "id": "T2-097",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự đầy đủ của các kỹ thuật Query Processing theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pre-Filter → Query Expansion → Decomposition → Step-Back → Multi-Query → HyDE → Search"
+        },
+        {
+          "key": "B",
+          "text": "Search → Pre-Filter → Query Expansion → Decomposition → Step-Back → Multi-Query → HyDE"
+        },
+        {
+          "key": "C",
+          "text": "Query Expansion → Pre-Filter → Multi-Query → HyDE → Decomposition → Step-Back → Search"
+        },
+        {
+          "key": "D",
+          "text": "HyDE → Multi-Query → Step-Back → Decomposition → Query Expansion → Pre-Filter → Search"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide tổng kết: 'Pre-Filter (metadata) → Query Expansion (đồng nghĩa) → Decomposition (tách multi-hop) → Step-Back (khái quát hóa) → Multi-Query (nhiều biến thể) → HyDE (giả lập answer) → Search.' Logic thứ tự: thu gọn phạm vi trước, rồi biến đổi query dần từ đơn giản đến phức tạp, cuối cùng mới thực hiện tìm kiếm.",
+      "tags": [
+        "day8",
+        "query-processing",
+        "order"
+      ]
+    },
+    {
+      "id": "T2-098",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tham số tool_choice với giá trị 'auto' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model tự quyết gọi hay không — mặc định, phù hợp hầu hết use cases"
+        },
+        {
+          "key": "B",
+          "text": "Cấm gọi tool, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Bắt buộc gọi ít nhất 1 tool, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Buộc gọi một tool cụ thể, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "auto là giá trị mặc định: model tự đánh giá có cần tool hay trả lời trực tiếp. Ba giá trị còn lại: required hoặc any buộc gọi ít nhất một tool dùng cho pipeline và routing; none cấm gọi tool dùng khi test hoặc fallback; chỉ định tên cụ thể khi đã biết chắc cần tool nào.",
+      "tags": [
+        "day4",
+        "tool-choice"
+      ]
+    },
+    {
+      "id": "T2-099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trạng thái đơn hàng của khách nên được đưa vào agent bằng cách nào và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query có kiểm soát vì đây là operational data cần độ chính xác tuyệt đối, không phải tìm mờ theo nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune model định kỳ theo tuần để model cập nhật được trạng thái đơn hàng mới nhất của toàn bộ khách hàng"
+        },
+        {
+          "key": "C",
+          "text": "Inject toàn bộ vào system prompt ngay từ đầu phiên để agent luôn có sẵn thông tin mà không cần gọi thêm tool"
+        },
+        {
+          "key": "D",
+          "text": "Embed rồi lưu vào vector store để agent tìm bằng semantic search cho linh hoạt và hỗ trợ nhiều cách diễn đạt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trạng thái đơn hàng là operational data. Bài giảng nêu: 'operational data thường cần query có kiểm soát'. Lý do sâu hơn: dữ liệu này thay đổi liên tục và yêu cầu chính xác tuyệt đối — semantic search trả về 'gần giống' là không chấp nhận được khi khách hỏi đơn của họ đang ở đâu. Ngoài ra vector store sẽ lỗi thời ngay khi trạng thái thay đổi.",
+      "tags": [
+        "day7",
+        "data-types",
+        "operational"
+      ]
+    },
+    {
+      "id": "T2-100",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Mơ hồ' trong system prompt biểu hiện thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng từ như 'hãy thông minh', 'hãy chuyên nghiệp' nhưng không định nghĩa chuẩn output"
+        },
+        {
+          "key": "B",
+          "text": "Không khai báo tool, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Prompt viết bằng nhiều ngôn ngữ, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Prompt vượt quá 2000 token, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính từ trừu tượng không tạo ra hành vi cụ thể. Phải định nghĩa chuẩn đầu ra đo được thay vì mô tả cảm tính.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "anti-pattern"
+      ]
+    }
+  ]
+}

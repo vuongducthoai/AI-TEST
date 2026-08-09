@@ -1,0 +1,3156 @@
+{
+  "id": "exam-95",
+  "title": "Tổng ôn 1 — Nền tảng & Tư duy sản phẩm AI (Day 1–4)",
+  "description": "100 câu tổng ôn phần nền tảng và tư duy sản phẩm: cơ chế hoạt động của LLM cùng lịch sử AI 70 năm (Day 1), khung xác định bài toán gồm Problem Discovery, Problem Statement, PAIR 3 bước và Rule/Workflow/Agent (Day 2), phân biệt chatbot với agent cùng design pattern ReAct và Function Calling (Day 3), và phần prompt engineering cơ bản (Day 4).",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề tổng ôn tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "T1-001",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đánh đổi (trade-off) còn lại của function calling là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí cao gấp 10 lần, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Vẫn phụ thuộc chất lượng mô tả tool — tool mô tả mơ hồ vẫn khiến model chọn sai"
+        },
+        {
+          "key": "C",
+          "text": "Vẫn không parse được output, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Không hỗ trợ nhiều tool, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Function calling giải quyết vấn đề cú pháp nhưng không giải quyết vấn đề ngữ nghĩa: nếu description của tool mơ hồ, model vẫn chọn sai tool.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "T1-002",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lỗi điển hình nhất của text-based ReAct trong production là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Could not parse LLM output' — chỉ cần thiếu dấu hai chấm, sai hoa/thường, hoặc quên 'Action Input:' là parser vỡ"
+        },
+        {
+          "key": "B",
+          "text": "Model timeout, trong khi mục tiêu ban đầu vẫn được giữ nguyên, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "C",
+          "text": "Rate limit exceeded, kể cả khi số vòng lặp tối đa được nới rộng, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Out of memory, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Parser dựa trên regex rất mong manh: chỉ một ký tự sai định dạng là toàn bộ vòng lặp dừng lại với lỗi 'Could not parse LLM output'.",
+      "tags": [
+        "day3",
+        "react",
+        "error"
+      ]
+    },
+    {
+      "id": "T1-003",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chọn AUGMENT (AI hỗ trợ con người) theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi có đáp án đúng rõ ràng, trong khi chỉ số recall của bước tìm kiếm vẫn cao, trong khi chỉ số recall của bước tìm kiếm vẫn cao"
+        },
+        {
+          "key": "B",
+          "text": "Khi người dùng thích tự làm; stakes cao (tiền bạc, pháp lý, sức khỏe); kết quả cần trách nhiệm cá nhân; sở thích khó diễn đạt thành lời"
+        },
+        {
+          "key": "C",
+          "text": "Khi cần xử lý khối lượng cực lớn, dù chứng cứ đã được lấy về đầy đủ từ kho dữ liệu, dù chứng cứ đã được lấy về đầy đủ từ kho dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Khi việc quá nhàm chán, kể cả khi số lượng chunk lấy về được tăng lên, kể cả khi số lượng chunk lấy về được tăng lên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Augment phù hợp khi con người muốn giữ quyền chủ động, rủi ro cao, kết quả gắn với trách nhiệm/uy tín cá nhân, hoặc sở thích khó mô tả.",
+      "tags": [
+        "automate-augment",
+        "pair"
+      ]
+    },
+    {
+      "id": "T1-004",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pattern 'Prompt Chaining' có ý nghĩa quyết định gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng khả năng tự chủ của hệ thống, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Giảm rủi ro một đầu ra sai bằng cách vote, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Tiết kiệm chi phí bằng cách dùng model rẻ, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Đổi độ trễ để lấy độ chính xác — chia task thành chuỗi bước tuần tự có gate kiểm tra giữa các bước"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Prompt Chaining chia nhỏ (VD: viết outline → check → viết bài). Đánh đổi: chậm hơn nhưng chính xác hơn nhờ có gate kiểm tra giữa các bước.",
+      "tags": [
+        "workflow-patterns",
+        "prompt-chaining"
+      ]
+    },
+    {
+      "id": "T1-005",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấp độ 2 (LLM Feature / Workflow) phù hợp khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đầu vào đa dạng không viết hết rule được; đầu ra cần linh hoạt (tóm tắt, dịch, phân loại); có cách đo chất lượng; người có thể kiểm tra trước khi gửi"
+        },
+        {
+          "key": "B",
+          "text": "Cần AI tự ra quyết định giữa các bước, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Logic hoàn toàn viết được thành if/else, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Quy trình thay đổi liên tục không đoán trước được, dù kiến thức nền của model vẫn giữ nguyên, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Workflow phù hợp khi rule không phủ hết đầu vào nhưng quy trình vẫn xác định được, và con người có thể kiểm tra đầu ra trước khi phát hành.",
+      "tags": [
+        "rwa",
+        "workflow"
+      ]
+    },
+    {
+      "id": "T1-006",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thông điệp 'AI Product = AI + UX' hàm ý điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI không cần hoàn hảo, nếu UX đỡ được chỗ nó yếu — dùng UX để hỗ trợ chỗ AI chưa đủ tốt"
+        },
+        {
+          "key": "B",
+          "text": "AI và UX là hai dự án tách biệt, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần UX đẹp là đủ, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "UX quan trọng hơn chất lượng model, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng nhấn mạnh: model không bao giờ hoàn hảo. Thiết kế UX tốt (làm rõ, trích dẫn, phê duyệt, ranh giới) giúp hệ thống vẫn dùng được dù AI sai.",
+      "tags": [
+        "ux",
+        "hitl",
+        "principle"
+      ]
+    },
+    {
+      "id": "T1-007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong 5 câu hỏi Discovery Interview, câu nào liên quan đến người có quyền phê duyệt dự án?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ai là người có quyền phê duyệt dự án (nói YES)?"
+        },
+        {
+          "key": "B",
+          "text": "Pain point là gì, tần suất ra sao?"
+        },
+        {
+          "key": "C",
+          "text": "Thiệt hại do vấn đề này gây ra là gì?"
+        },
+        {
+          "key": "D",
+          "text": "Workflow hiện tại như thế nào?"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu 5 của Discovery Interview: xác định ai có quyền nói YES, vì metric và mức rủi ro họ quan tâm sẽ trực tiếp quyết định việc đầu tư.",
+      "tags": [
+        "discovery",
+        "interview",
+        "stakeholder"
+      ]
+    },
+    {
+      "id": "T1-008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn thành phần của một prompt tốt (RTCF) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reason, Think, Check, Finalize"
+        },
+        {
+          "key": "B",
+          "text": "Read, Transform, Compute, Format"
+        },
+        {
+          "key": "C",
+          "text": "Role, Task, Context, Format"
+        },
+        {
+          "key": "D",
+          "text": "Request, Type, Content, Feedback"
+        }
+      ],
+      "answer": "C",
+      "explanation": "RTCF = Role (vai trò), Task (nhiệm vụ), Context (bối cảnh), Format (định dạng đầu ra). Thứ tự ưu tiên khi viết: bắt đầu bằng Task và Format vì đây là hai thành phần quyết định nhất, chỉ thêm Role và Context khi chúng thực sự cải thiện chất lượng hoặc tính nhất quán.",
+      "tags": [
+        "day4",
+        "rtcf"
+      ]
+    },
+    {
+      "id": "T1-009",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Những guardrails nào cần có cho agent loop?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn số vòng lặp, timeout cho từng tool, budget token/cost trần, retry có kiểm soát, fallback sang human hoặc chatbot"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần timeout, dù agent vẫn gọi được đầy đủ các tool đã khai báo, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần giới hạn số vòng lặp, dù agent vẫn gọi được đầy đủ các tool đã khai báo, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần logging đầy đủ, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        }
+      ],
+      "answer": "A",
+      "explanation": "5 guardrails: max iterations, timeout mỗi tool, budget token/cost trần, retry có kiểm soát, và fallback sang con người hoặc chatbot khi bế tắc.",
+      "tags": [
+        "day3",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "T1-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case study Cursor minh họa bài học gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lệch năng lực cốt lõi — từ bỏ AI thiết kế cơ khí (CAD) để tập trung vào AI code editor, nơi đội ngũ am hiểu sâu quy trình nghiệp vụ"
+        },
+        {
+          "key": "B",
+          "text": "Cần huy động vốn sớm, trong khi tham số của model không hề thay đổi, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Sản phẩm tốt ≠ thị trường lớn, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Định vị đúng điểm đau, dù kiến thức nền của model vẫn giữ nguyên, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cursor ban đầu làm AI cho CAD nhưng đội ngũ không am hiểu ngành đó; họ chuyển sang AI code editor — lĩnh vực họ hiểu sâu — và thành công.",
+      "tags": [
+        "discovery",
+        "case-study",
+        "cursor"
+      ]
+    },
+    {
+      "id": "T1-011",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "top_p (nucleus sampling) hoạt động thế nào và lưu ý gì khi dùng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giới hạn số token tối đa; nên dùng chung với temperature, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ xét các token có tổng xác suất ≤ p (thường 0.9-0.95); ĐỪNG tune cả temp và top_p cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Lặp lại p lần rồi lấy vote, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng cho model open-weight, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "top_p thường dùng 0.9-0.95. Bài giảng cảnh báo: đừng tune cả temperature và top_p cùng lúc vì khó xác định biến nào gây thay đổi.",
+      "tags": [
+        "day4",
+        "top-p"
+      ]
+    },
+    {
+      "id": "T1-012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần của việc định lượng hóa bài toán là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Baseline (hiện trạng), Target (mục tiêu), Measurement (đo lường)"
+        },
+        {
+          "key": "B",
+          "text": "Plan, Do, Check, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Cost, Time, Quality, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Input, Process, Output, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Định lượng hóa gồm: Baseline — where we are; Target — where to go; Measurement — how we know (chỉ số nào chứng minh và cách thu thập).",
+      "tags": [
+        "problem-statement",
+        "quantify"
+      ]
+    },
+    {
+      "id": "T1-013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu nói phản trực giác của Don Norman được trích dẫn trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The user is always right"
+        },
+        {
+          "key": "B",
+          "text": "Do not solve the problem I am asked to solve"
+        },
+        {
+          "key": "C",
+          "text": "Design is how it works, not how it looks"
+        },
+        {
+          "key": "D",
+          "text": "Always ship fast and iterate"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Don Norman: 'Do not solve the problem I am asked to solve' — yêu cầu ban đầu thường không phải bài toán thật; phải đào sâu để tìm vấn đề gốc.",
+      "tags": [
+        "discovery",
+        "don-norman"
+      ]
+    },
+    {
+      "id": "T1-014",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thí nghiệm Othello-GPT chứng minh điều gì về LLM?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình chỉ được huấn luyện trên chuỗi nước đi nhưng phát triển biểu diễn nội tại của trạng thái bàn cờ"
+        },
+        {
+          "key": "B",
+          "text": "LLM chỉ ghi nhớ mẫu ngôn ngữ, không có hiểu biết thực sự, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Cần cung cấp luật chơi rõ ràng cho mô hình mới chơi được, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "LLM không thể học các trò chơi chiến lược, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Othello-GPT chỉ thấy chuỗi nước đi (không có bàn cờ, không có luật) nhưng phân tích cho thấy mô hình hình thành biểu diễn nội tại của trạng thái bàn cờ — bằng chứng LLM xây dựng world model.",
+      "tags": [
+        "llm",
+        "world-model",
+        "othello-gpt"
+      ]
+    },
+    {
+      "id": "T1-015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn cách truy cập LLM được đề cập trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Subscription, API, Enterprise, Academic"
+        },
+        {
+          "key": "B",
+          "text": "Chat app, Coding assistant, API, Self-host"
+        },
+        {
+          "key": "C",
+          "text": "Web, Mobile, Desktop, Wearable"
+        },
+        {
+          "key": "D",
+          "text": "Browser, Plugin, SDK, Local"
+        }
+      ],
+      "answer": "B",
+      "explanation": "4 access modes: (1) Chat app (ChatGPT, Claude.ai), (2) Coding assistant (Copilot), (3) API (★ focus of course), (4) Self-host (open-weight models).",
+      "tags": [
+        "landscape",
+        "access-modes"
+      ]
+    },
+    {
+      "id": "T1-016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba bước quyết định AI theo Google PAIR là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nghiên cứu → Thiết kế → Kiểm thử, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Thu thập dữ liệu → Huấn luyện → Triển khai, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Rule → Workflow → Agent, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Giao điểm nhu cầu × thế mạnh AI → Automate hay Augment → Reward function & tiêu chí thành công"
+        }
+      ],
+      "answer": "D",
+      "explanation": "PAIR 3 bước: (1) bài toán có nằm trong nhóm AI làm tốt hơn hẳn rule/heuristic? (2) AI thay thế hay hỗ trợ con người? (3) định nghĩa đúng/sai và ngưỡng thành công đo được.",
+      "tags": [
+        "pair",
+        "3-steps"
+      ]
+    },
+    {
+      "id": "T1-017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thuật ngữ 'Artificial Intelligence' được đặt ra lần đầu tại sự kiện nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dartmouth Conference 1956"
+        },
+        {
+          "key": "B",
+          "text": "MIT AI Lab 1950"
+        },
+        {
+          "key": "C",
+          "text": "Turing Conference 1970"
+        },
+        {
+          "key": "D",
+          "text": "DARPA Workshop 1963"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hội nghị Dartmouth năm 1956 do John McCarthy tổ chức là nơi thuật ngữ 'Artificial Intelligence' ra đời và ngành AI chính thức bắt đầu.",
+      "tags": [
+        "ai-history",
+        "1956"
+      ]
+    },
+    {
+      "id": "T1-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhiệm vụ cốt lõi mà LLM thực hiện khi tạo văn bản là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dịch thuật từ ngôn ngữ này sang ngôn ngữ khác"
+        },
+        {
+          "key": "B",
+          "text": "Sao chép đoạn văn có sẵn từ internet"
+        },
+        {
+          "key": "C",
+          "text": "Tra cứu câu trả lời từ cơ sở dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Dự đoán token tiếp theo dựa trên ngữ cảnh"
+        }
+      ],
+      "answer": "D",
+      "explanation": "LLM hoạt động bằng cách lặp đi lặp lại dự đoán token tiếp theo có xác suất cao dựa trên toàn bộ ngữ cảnh hiện có.",
+      "tags": [
+        "llm",
+        "token-prediction"
+      ]
+    },
+    {
+      "id": "T1-019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'mọi thứ phải 100% deterministic' là anti-pattern của agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi sai sót đều rất đắt, trong khi agent vốn có tính không tất định"
+        },
+        {
+          "key": "B",
+          "text": "Vì cần quá nhiều dữ liệu, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Vì agent không hỗ trợ tiếng Việt, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Vì agent chạy chậm, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Agent có tính stochastic (chọn tool, sinh args). Khi yêu cầu chính xác tuyệt đối và mỗi lỗi đều rất đắt, rule/workflow deterministic là lựa chọn đúng.",
+      "tags": [
+        "day3",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "T1-020",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Giai đoạn huấn luyện nào mới xuất hiện ~2025 giúp mô hình 'tự chấm điểm'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reasoning training"
+        },
+        {
+          "key": "B",
+          "text": "Pre-training nâng cao"
+        },
+        {
+          "key": "C",
+          "text": "SFT lần 2"
+        },
+        {
+          "key": "D",
+          "text": "RLHF nâng cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Reasoning training (giai đoạn 4) dạy mô hình tự sinh chuỗi suy luận và tự đánh giá đúng/sai — nền tảng của các mô hình như o1, o3, R1.",
+      "tags": [
+        "llm",
+        "training",
+        "reasoning"
+      ]
+    },
+    {
+      "id": "T1-021",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn khối trong kiến trúc Agent theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model, Context, Planning, Tools"
+        },
+        {
+          "key": "B",
+          "text": "Input, Process, Output, Feedback"
+        },
+        {
+          "key": "C",
+          "text": "Perception, Reasoning, Action, Memory"
+        },
+        {
+          "key": "D",
+          "text": "Frontend, Backend, Database, API"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Kiến trúc Agent gồm 4 khối: Perception (nhận input/tool output/feedback), Reasoning (LLM Core phân tích và chọn bước), Action (gọi tool hoặc trả lời), Memory (giữ goal, facts, kết quả trung gian).",
+      "tags": [
+        "day3",
+        "architecture"
+      ]
+    },
+    {
+      "id": "T1-022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "AI Discriminative (phân biệt) làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo ra nội dung mới như hình ảnh, văn bản"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại hoặc dự đoán nhãn từ dữ liệu đầu vào"
+        },
+        {
+          "key": "C",
+          "text": "Lập kế hoạch và hành động theo mục tiêu"
+        },
+        {
+          "key": "D",
+          "text": "Học không giám sát từ dữ liệu thô"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AI Discriminative học ranh giới giữa các lớp — nhận đầu vào và phân loại/dự đoán nhãn. Ví dụ: phân loại email spam/không spam.",
+      "tags": [
+        "ai-types",
+        "discriminative"
+      ]
+    },
+    {
+      "id": "T1-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'Solution-first' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải quyết vấn đề của người dùng trước vấn đề kỹ thuật, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Chọn giải pháp rẻ nhất trước, kể cả khi context window được mở rộng thêm, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Ưu tiên giải pháp có sẵn trên thị trường, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Xây dựng chatbot/agent trước khi làm rõ quy trình vận hành và điểm nghẽn thực tế"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Solution-first là sai lầm phổ biến nhất: nhảy vào công nghệ (chatbot, agent) trước khi hiểu quy trình và bottleneck thật sự.",
+      "tags": [
+        "discovery",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "T1-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chương nào của PAIR Guidebook là xương sống của buổi sáng Day 02?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chương 5 — Feedback + Control"
+        },
+        {
+          "key": "B",
+          "text": "Chương 3 — Mental Models"
+        },
+        {
+          "key": "C",
+          "text": "Chương 1 — User Needs + Defining Success"
+        },
+        {
+          "key": "D",
+          "text": "Chương 6 — Errors + Graceful Failure"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chương 1 (User Needs + Defining Success) chứa PAIR 3 bước — nền tảng để trả lời 'có nên dùng AI không' và 'thành công đo bằng gì'.",
+      "tags": [
+        "day2",
+        "pair"
+      ]
+    },
+    {
+      "id": "T1-025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Long Horizon' trong Agentic Fit nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu trả lời phải dài, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "B",
+          "text": "Model có context window lớn, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống có phải giữ mục tiêu xuyên suốt qua nhiều vòng lặp hoặc nhiều state không"
+        },
+        {
+          "key": "D",
+          "text": "Dự án kéo dài nhiều tháng, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Long Horizon = khả năng duy trì mục tiêu và trạng thái qua nhiều vòng lặp, không bị 'mất mạch' giữa chừng.",
+      "tags": [
+        "day3",
+        "agentic-fit"
+      ]
+    },
+    {
+      "id": "T1-026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LLM là viết tắt của cụm từ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Layered Logic Module"
+        },
+        {
+          "key": "B",
+          "text": "Large Language Model"
+        },
+        {
+          "key": "C",
+          "text": "Linear Learning Machine"
+        },
+        {
+          "key": "D",
+          "text": "Latent Learning Method"
+        }
+      ],
+      "answer": "B",
+      "explanation": "LLM = Large Language Model — mô hình ngôn ngữ lớn, huấn luyện trên lượng văn bản khổng lồ, dựa trên kiến trúc Transformer.",
+      "tags": [
+        "llm",
+        "definition"
+      ]
+    },
+    {
+      "id": "T1-027",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pha 2 trong lộ trình tăng tự động hóa của case 1000 học viên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI chỉ gợi ý cho TA, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Bỏ hoàn toàn vai trò TA, kể cả khi context window được mở rộng thêm, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "AI soạn nháp, TA duyệt — rủi ro thấp hơn sau khi đo được chất lượng gợi ý ở Pha 1, TA hiệu chỉnh bản nháp trước khi gửi"
+        },
+        {
+          "key": "D",
+          "text": "AI tự động hoàn toàn, dù kiến thức nền của model vẫn giữ nguyên, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Pha 2 nâng mức tự động: AI soạn nháp đầy đủ, TA chỉ hiệu chỉnh và duyệt — chỉ chuyển sang khi dữ liệu Pha 1 chứng minh chất lượng đủ tốt.",
+      "tags": [
+        "automate-phases",
+        "case-1000hv"
+      ]
+    },
+    {
+      "id": "T1-028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, prompt đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Là cách tăng tốc độ suy luận của model, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Là interface giữa human intent (ý định người dùng) và model behavior (hành vi model)"
+        },
+        {
+          "key": "C",
+          "text": "Là cách giảm chi phí token, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Là tài liệu kỹ thuật cho developer, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Mục tiêu buổi học: hiểu prompt là interface giữa ý định con người và hành vi model; tool calling là interface giữa model và thế giới bên ngoài.",
+      "tags": [
+        "day4",
+        "prompt",
+        "concept"
+      ]
+    },
+    {
+      "id": "T1-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao LLM stateless là hạn chế quan trọng khi xây dựng chatbot?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô hình không xử lý được văn bản dài, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình không thể học thêm sau khi deploy, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Mô hình không nhớ hội thoại trước — mỗi API call độc lập, client phải gửi lại toàn bộ lịch sử"
+        },
+        {
+          "key": "D",
+          "text": "Mô hình không thể xử lý nhiều yêu cầu đồng thời, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mỗi lần gọi API là độc lập. Để chatbot 'nhớ' hội thoại, client phải gửi lại toàn bộ [system, user1, assistant1, user2, assistant2...] mỗi lần — chi phí tăng theo độ dài.",
+      "tags": [
+        "llm",
+        "stateless",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "T1-030",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ Tool Description Engineering, description 'Search orders' gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model không bao giờ gọi tool, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Model gọi tool 2 lần liên tiếp, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Model gọi cho MỌI câu hỏi liên quan đến order, kể cả 'đơn hàng là gì?'"
+        },
+        {
+          "key": "D",
+          "text": "Model báo lỗi schema, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Description quá rộng khiến model gọi tool ngay cả với câu hỏi khái niệm. Bản tốt hơn nêu rõ: 'Use ONLY when user provides an order number or asks about specific order status.'",
+      "tags": [
+        "day4",
+        "tool-schema",
+        "description"
+      ]
+    },
+    {
+      "id": "T1-031",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng dùng phép ẩn dụ nào để mô tả context window?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bộ nhớ RAM"
+        },
+        {
+          "key": "B",
+          "text": "Hộp thư"
+        },
+        {
+          "key": "C",
+          "text": "Tủ sách"
+        },
+        {
+          "key": "D",
+          "text": "Bàn làm việc"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài giảng dùng ẩn dụ 'bàn làm việc' (desk): mọi thứ mô hình có thể 'nhìn thấy và làm việc với' phải nằm trên bàn. Nếu bàn đầy, thứ cũ phải rời đi.",
+      "tags": [
+        "llm",
+        "context-window",
+        "analogy"
+      ]
+    },
+    {
+      "id": "T1-032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi hệ thống có nhiều nhánh hơn, bài giảng khuyên chuyển từ ReAct sang gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt engineering thuần"
+        },
+        {
+          "key": "B",
+          "text": "Graph/state machine rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Rule-based bot"
+        },
+        {
+          "key": "D",
+          "text": "Multi-agent ngẫu nhiên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ReAct dễ bắt đầu nhất, nhưng khi workflow nhiều nhánh thì nên chuyển sang graph/state machine (như LangGraph) để dễ biểu diễn và bảo trì.",
+      "tags": [
+        "day3",
+        "react",
+        "langgraph"
+      ]
+    },
+    {
+      "id": "T1-033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp 'Cần duy trì tính dự đoán được' thuộc nhóm nào và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ áp dụng cho ứng dụng di động, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "AI probably NOT better — nút Home/Cancel phải luôn nằm ở chỗ quen thuộc, người dùng không phải đoán mỗi lần"
+        },
+        {
+          "key": "C",
+          "text": "AI probably better — vì AI dự đoán rất tốt, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Tùy vào loại mô hình sử dụng, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Giao diện cần nhất quán để người dùng hình thành thói quen. Nội dung động do AI sinh sẽ phá vỡ tính dự đoán được — nên dùng layout tĩnh.",
+      "tags": [
+        "pair",
+        "ai-not-better",
+        "ux"
+      ]
+    },
+    {
+      "id": "T1-034",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context window 1 triệu token tương đương khoảng bao nhiêu cuốn sách?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4-5 cuốn"
+        },
+        {
+          "key": "B",
+          "text": "50 cuốn"
+        },
+        {
+          "key": "C",
+          "text": "1 cuốn"
+        },
+        {
+          "key": "D",
+          "text": "10 cuốn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng: 128K token ≈ 300 trang (1 cuốn sách), do đó 1M token ≈ 4-5 cuốn sách. Lưu ý context lớn không đồng nghĩa chất lượng tốt hơn: hiện tượng Lost in the Middle khiến thông tin nằm giữa vùng context dài dễ bị bỏ sót dù vẫn nằm trong giới hạn token.",
+      "tags": [
+        "llm",
+        "context-window"
+      ]
+    },
+    {
+      "id": "T1-035",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong pseudocode agent loop tối thiểu, vòng lặp được giới hạn bởi biến nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "TIMEOUT"
+        },
+        {
+          "key": "B",
+          "text": "MAX_TOOLS"
+        },
+        {
+          "key": "C",
+          "text": "MAX_ITERATIONS"
+        },
+        {
+          "key": "D",
+          "text": "MAX_TOKENS"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Pseudocode dùng `for step in range(MAX_ITERATIONS)` — đây là safeguard cơ bản nhất, ngăn agent chạy vô hạn khi không tiến triển.",
+      "tags": [
+        "day3",
+        "code",
+        "loop"
+      ]
+    },
+    {
+      "id": "T1-036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bài giảng, 'giải pháp xuất sắc cho sai vấn đề' dẫn đến hệ quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vẫn tốt hơn không có giải pháp nào"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ tốn thêm 10-20% chi phí"
+        },
+        {
+          "key": "C",
+          "text": "Luôn có thể sửa được ở giai đoạn sau"
+        },
+        {
+          "key": "D",
+          "text": "Có thể còn tệ hơn không có giải pháp"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài giảng cảnh báo: giải pháp xuất sắc cho sai vấn đề có thể còn tệ hơn không có giải pháp — vì tiêu tốn nguồn lực và tạo ảo giác đã giải quyết.",
+      "tags": [
+        "discovery",
+        "principle"
+      ]
+    },
+    {
+      "id": "T1-037",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Eval Plan cần bao phủ những nhóm tiêu chí nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ đo chi phí token, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, kể cả khi context window được mở rộng thêm, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần đo accuracy tổng thể, kể cả khi context window được mở rộng thêm, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Tác vụ đơn lẻ (phân loại chính xác không?), Hiệu năng quy trình (hoàn thành nhanh hơn, ít kẹt hơn không?), Rủi ro & sai sót (có chuyển tiếp cho người phê duyệt không?)"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đo tốc độ phản hồi, trong khi tham số của model không hề thay đổi, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Eval Plan cần 3 nhóm: chất lượng tác vụ đơn lẻ, hiệu năng của cả quy trình, và xử lý rủi ro/sai sót (có escalate đúng cho con người không).",
+      "tags": [
+        "evaluation",
+        "eval-plan"
+      ]
+    },
+    {
+      "id": "T1-038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về UX, agent tạo ra cảm giác gì nếu làm tốt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cảm giác nhanh và đơn giản"
+        },
+        {
+          "key": "B",
+          "text": "Cảm giác tiết kiệm chi phí"
+        },
+        {
+          "key": "C",
+          "text": "Cảm giác 'làm việc giúp bạn'"
+        },
+        {
+          "key": "D",
+          "text": "Cảm giác an toàn tuyệt đối"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chatbot cho UX phản hồi nhanh, đơn giản. Agent nếu làm tốt tạo cảm giác 'đang làm việc giúp bạn' — giá trị cảm nhận khác hẳn.",
+      "tags": [
+        "day3",
+        "comparison",
+        "ux"
+      ]
+    },
+    {
+      "id": "T1-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tool use pattern thường gặp theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Map, Filter, Reduce, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Create, Read, Update, Delete, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Conditional tool use (agent tự quyết có cần tool hay trả lời trực tiếp), Tool chaining (output A là input B), Parallel fetch + merge"
+        },
+        {
+          "key": "D",
+          "text": "Retry, Fallback, Circuit-breaker, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "3 pattern: conditional (quyết định có gọi tool không), chaining (nối tiếp), và parallel fetch rồi tổng hợp.",
+      "tags": [
+        "day4",
+        "patterns"
+      ]
+    },
+    {
+      "id": "T1-040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Diamond 1 trong Double Diamond gồm hai pha nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Design và Deploy"
+        },
+        {
+          "key": "B",
+          "text": "Discover (phân kỳ) và Define (hội tụ)"
+        },
+        {
+          "key": "C",
+          "text": "Develop và Deliver"
+        },
+        {
+          "key": "D",
+          "text": "Research và Result"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Diamond 1 = Tìm đúng vấn đề: Discover (mở rộng — khảo sát vấn đề căn bản) rồi Define (thu hẹp — xác định đúng bài toán gốc).",
+      "tags": [
+        "discovery",
+        "double-diamond"
+      ]
+    },
+    {
+      "id": "T1-041",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Tool Calling được gọi là 'tay chân của agent'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó giúp agent chạy nhanh hơn, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó giảm chi phí token, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó thay thế hoàn toàn phần reasoning, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó là cầu nối giữa reasoning trong model và hành động ngoài thế giới thực"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Tool calling biến suy luận thành hành động thật. Agent mạnh lên nhờ tool nhưng cũng dễ fail hơn vì phụ thuộc dependency bên ngoài.",
+      "tags": [
+        "day3",
+        "tool-calling"
+      ]
+    },
+    {
+      "id": "T1-042",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao Chain-of-Thought prompting hiệu quả?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nó buộc mô hình dùng ít token hơn, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "B",
+          "text": "Nó tạo 'không gian nháp' cho mô hình thực hiện suy luận từng bước trước khi đưa ra kết luận"
+        },
+        {
+          "key": "C",
+          "text": "Nó tăng số lượng tham số hoạt động, kể cả khi số vòng lặp tối đa được nới rộng"
+        },
+        {
+          "key": "D",
+          "text": "Nó kết nối mô hình với internet để kiểm tra, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Token suy luận trung gian trong CoT cho phép mô hình 'tính toán' nhiều bước. Mỗi bước suy luận trở thành context, giúp bước tiếp theo chính xác hơn.",
+      "tags": [
+        "agent",
+        "chain-of-thought"
+      ]
+    },
+    {
+      "id": "T1-043",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba trạng thái quyết định cuối cùng của Day 02 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Approve / Reject / Pending, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Now / Next / Later, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Build / Buy / Partner, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Go (thực hiện) / Not Yet (tạm hoãn) / No-Go (không triển khai)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Khung quyết định 3 trạng thái: Go — đủ điều kiện; Not Yet — có triển vọng nhưng cần bổ sung; No-Go — không phù hợp để dùng AI.",
+      "tags": [
+        "decision",
+        "go-notyet-nogo"
+      ]
+    },
+    {
+      "id": "T1-044",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Defense strategy 'Instruction hierarchy' nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sắp xếp instruction theo độ dài"
+        },
+        {
+          "key": "B",
+          "text": "User input luôn ưu tiên hơn system prompt"
+        },
+        {
+          "key": "C",
+          "text": "Tool output ưu tiên cao nhất"
+        },
+        {
+          "key": "D",
+          "text": "System prompt luôn ưu tiên hơn user input"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Instruction hierarchy thiết lập thứ bậc quyền: chỉ thị từ system luôn thắng chỉ thị đến từ nội dung người dùng.",
+      "tags": [
+        "day4",
+        "safety",
+        "defense"
+      ]
+    },
+    {
+      "id": "T1-045",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật 'Enum constraints' trong parameter design giúp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tự động retry khi lỗi, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Giảm chi phí token, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "C",
+          "text": "Giảm lỗi arguments — ví dụ status chỉ nhận ['pending','shipped','delivered']"
+        },
+        {
+          "key": "D",
+          "text": "Tăng tốc độ thực thi tool, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Enum giới hạn tập giá trị hợp lệ ngay ở tầng schema, ngăn model bịa ra giá trị không tồn tại. Đây là cách chặn lỗi ngay ở tầng schema thay vì phải kiểm tra sau khi model đã trả về. Cùng nhóm kỹ thuật còn có required fields và default values được ghi rõ trong description.",
+      "tags": [
+        "day4",
+        "tool-design",
+        "parameters"
+      ]
+    },
+    {
+      "id": "T1-046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Code assistant có test & fix loop' được chấm điểm cao nhất là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "12 điểm"
+        },
+        {
+          "key": "B",
+          "text": "13 điểm"
+        },
+        {
+          "key": "C",
+          "text": "10 điểm"
+        },
+        {
+          "key": "D",
+          "text": "14 điểm"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Code assistant có test & fix loop: 5 + 5 + 4 = 14 điểm — cao nhất trong bảng, rất phù hợp với agent. Điểm cao vì hội đủ cả ba yếu tố: sửa code cần suy luận nhiều bước, phải gọi nhiều tool như đọc file và chạy test, và bước tiếp theo phụ thuộc hoàn toàn vào kết quả test vừa chạy.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "example"
+      ]
+    },
+    {
+      "id": "T1-047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chỉ số thành công của case Weekly Report được đặt ra như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm 50% chi phí nhân sự, dù kiến thức nền của model vẫn giữ nguyên, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Giảm thời gian làm report xuống 0 phút, kể cả khi context window được mở rộng thêm, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Tăng độ dài báo cáo lên gấp đôi, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Giảm thời gian làm report từ 90 phút xuống dưới 30 phút, nhưng không làm tăng số câu CEO/EM phải hỏi lại"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chỉ số tốt có hai vế: cải thiện hiệu quả (90 → dưới 30 phút) VÀ ràng buộc chất lượng (không tăng số câu hỏi lại) — tránh tối ưu một chiều.",
+      "tags": [
+        "problem-statement",
+        "metrics"
+      ]
+    },
+    {
+      "id": "T1-048",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Deep Learning là tập con của loại AI nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Symbolic AI"
+        },
+        {
+          "key": "B",
+          "text": "Machine Learning"
+        },
+        {
+          "key": "C",
+          "text": "Generative AI"
+        },
+        {
+          "key": "D",
+          "text": "Expert Systems"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phân cấp: AI ⊃ ML ⊃ Deep Learning. Deep Learning là nhánh của Machine Learning sử dụng mạng nơ-ron nhiều lớp.",
+      "tags": [
+        "hierarchy",
+        "deep-learning"
+      ]
+    },
+    {
+      "id": "T1-049",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong kịch bản Live Demo, hai tool được định nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "search_web và summarize"
+        },
+        {
+          "key": "B",
+          "text": "query_db và send_email"
+        },
+        {
+          "key": "C",
+          "text": "search_flights và book_ticket"
+        },
+        {
+          "key": "D",
+          "text": "get_weather và recommend_outfit"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Live demo dùng 2 tool tối thiểu: get_weather (tra cứu thời tiết) và recommend_outfit (gợi ý trang phục).",
+      "tags": [
+        "day3",
+        "demo"
+      ]
+    },
+    {
+      "id": "T1-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm 2006, ai đã có đột phá quan trọng về Deep Learning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fei-Fei Li"
+        },
+        {
+          "key": "B",
+          "text": "Andrew Ng"
+        },
+        {
+          "key": "C",
+          "text": "Yann LeCun"
+        },
+        {
+          "key": "D",
+          "text": "Geoffrey Hinton"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Geoffrey Hinton và nhóm của ông công bố kết quả huấn luyện thành công mạng nơ-ron sâu năm 2006, mở đường cho làn sóng Deep Learning.",
+      "tags": [
+        "ai-history",
+        "2006",
+        "deep-learning"
+      ]
+    },
+    {
+      "id": "T1-051",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một hệ thống AI thực tế gồm những thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model + Context + Planning + Tools"
+        },
+        {
+          "key": "B",
+          "text": "Data + Training + Inference"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ cần Model (LLM) là đủ"
+        },
+        {
+          "key": "D",
+          "text": "Frontend + Backend + Database"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hệ thống AI = Model (tư duy & sáng tạo) + Context (tri thức chuyên biệt) + Planning (điều phối quy trình) + Tools (liên kết hệ thống).",
+      "tags": [
+        "system",
+        "architecture"
+      ]
+    },
+    {
+      "id": "T1-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tiêu chí 'Tool Interaction' hỏi điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống có cần gọi search, API, database, calculator, browser, file system không?"
+        },
+        {
+          "key": "B",
+          "text": "Model nào đang được sử dụng?, nên model dễ hiểu sai phạm vi nhiệm vụ được giao"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống có giao diện đẹp không?, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Có bao nhiêu người dùng?, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tool Interaction đánh giá nhu cầu tương tác với thế giới bên ngoài: search, API, DB, calculator, browser, file system.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "tools"
+      ]
+    },
+    {
+      "id": "T1-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case 1000 học viên K3 & K4, bài toán cốt lõi được xác định là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nội dung bài giảng quá khó, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Học viên không đủ trình độ theo kịp chương trình, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Nền tảng học trực tuyến bị lỗi kỹ thuật, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Trợ giảng (TA) quá tải vì rà soát thủ công các câu hỏi trùng lặp và các yêu cầu hỗ trợ thiếu thông tin"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Case xuyên suốt: lớp 1000 học viên nhưng nguồn lực TA có hạn; nút thắt là TA mất thời gian rà soát thủ công câu hỏi trùng lặp và yêu cầu thiếu ngữ cảnh.",
+      "tags": [
+        "problem-statement",
+        "case-1000hv"
+      ]
+    },
+    {
+      "id": "T1-054",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Context window' (cửa sổ ngữ cảnh) của LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lượng token tối đa mô hình có thể xử lý trong một lần — tất cả văn bản trên 'bàn làm việc'"
+        },
+        {
+          "key": "B",
+          "text": "Thời gian tối đa mô hình có thể chạy, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng tham số của mô hình, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Giao diện chat người dùng nhìn thấy, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng dùng ẩn dụ 'bàn làm việc': context window là tất cả văn bản mà mô hình có thể 'nhìn thấy' cùng lúc — system prompt, lịch sử chat, tài liệu đính kèm.",
+      "tags": [
+        "llm",
+        "context-window"
+      ]
+    },
+    {
+      "id": "T1-055",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấu trúc messages trong API call có những role nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "admin, user, bot"
+        },
+        {
+          "key": "B",
+          "text": "human, ai, context"
+        },
+        {
+          "key": "C",
+          "text": "input, output, system"
+        },
+        {
+          "key": "D",
+          "text": "system, user, assistant"
+        }
+      ],
+      "answer": "D",
+      "explanation": "API call gửi array messages với 3 roles: system (hướng dẫn ngầm định), user (lượt người dùng), assistant (lượt mô hình).",
+      "tags": [
+        "api",
+        "messages",
+        "roles"
+      ]
+    },
+    {
+      "id": "T1-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng chấm điểm ví dụ, 'FAQ nội bộ HR' được bao nhiêu điểm và kết luận gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 điểm — chatbot/rule là đủ"
+        },
+        {
+          "key": "B",
+          "text": "14 điểm — bắt buộc dùng agent"
+        },
+        {
+          "key": "C",
+          "text": "13 điểm — agent đáng thử"
+        },
+        {
+          "key": "D",
+          "text": "7 điểm — augmented chatbot"
+        }
+      ],
+      "answer": "A",
+      "explanation": "FAQ nội bộ HR được 1+1+1 = 3 điểm, nằm trong khoảng 0-5 → chatbot/rule đã đủ, không cần agent. Ba tiêu chí chấm gồm Reasoning, Tool use và Dynamic decision, mỗi tiêu chí thang 1-5. Thang đọc điểm: 0-5 chatbot/rule là đủ, 6-10 augmented chatbot, 11+ mới đáng thử agent.",
+      "tags": [
+        "day3",
+        "agentic-fit",
+        "example"
+      ]
+    },
+    {
+      "id": "T1-057",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 'Action' trong ReAct xác định điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết quả cuối cùng cho người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Chi phí token đã dùng"
+        },
+        {
+          "key": "C",
+          "text": "Số vòng lặp còn lại"
+        },
+        {
+          "key": "D",
+          "text": "Gọi tool nào, với tham số nào"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Action là quyết định cụ thể: chọn tool nào trong registry và truyền tham số gì vào. Trong ReAct dạng text, Action được viết thành chuỗi theo format quy ước nên dễ vỡ parser; từ 2023 function calling chuyển Action thành JSON object có schema nên đáng tin cậy hơn hẳn.",
+      "tags": [
+        "day3",
+        "react",
+        "action"
+      ]
+    },
+    {
+      "id": "T1-058",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu defense strategy chống prompt injection theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encrypt, Hash, Sign, Verify, Log, Alert, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Cache, Retry, Timeout, Fallback, Rollback, Restart, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Delimiter separation, Instruction hierarchy, Input validation, Output validation, Least privilege, Human-in-the-loop"
+        },
+        {
+          "key": "D",
+          "text": "Test, Deploy, Monitor, Patch, Update, Audit, dù kiến thức nền của model vẫn giữ nguyên, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "6 defense: tách delimiter, thứ bậc chỉ thị, validate input, validate output trước khi execute, quyền tối thiểu, và yêu cầu con người xác nhận với hành động nhạy cảm.",
+      "tags": [
+        "day4",
+        "safety",
+        "defense"
+      ]
+    },
+    {
+      "id": "T1-059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case Weekly Report, tổng thời gian hao phí của team 3 PM là bao nhiêu mỗi tuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "90 phút/tuần"
+        },
+        {
+          "key": "B",
+          "text": "180 phút/tuần"
+        },
+        {
+          "key": "C",
+          "text": "540 phút/tuần"
+        },
+        {
+          "key": "D",
+          "text": "khoảng 270 phút/tuần"
+        }
+      ],
+      "answer": "D",
+      "explanation": "90 phút/tuần/PM × 3 PM = khoảng 270 phút/tuần — đây là con số baseline định lượng hóa tổn thất. Baseline này là điều kiện bắt buộc trước khi triển khai: không có con số hiện trạng thì sau khi có AI không thể chứng minh cải thiện được bao nhiêu — đúng anti-pattern 'No baseline'.",
+      "tags": [
+        "problem-statement",
+        "case-weekly-report",
+        "baseline"
+      ]
+    },
+    {
+      "id": "T1-060",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao chatbot xây dựng trên LLM phải gửi lại toàn bộ lịch sử mỗi lần gọi API?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM là stateless — không có bộ nhớ giữa các API call; client tự quản lý lịch sử"
+        },
+        {
+          "key": "B",
+          "text": "Server xóa context sau 30 giây, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "API yêu cầu context đầy đủ để phân tích cảm xúc, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Đây là cách tính token để billing chính xác, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mỗi API call độc lập. Để duy trì hội thoại, client append [system, user1, assistant1, user2, assistant2...] và gửi lại toàn bộ mỗi lần.",
+      "tags": [
+        "api",
+        "stateless",
+        "chatbot"
+      ]
+    },
+    {
+      "id": "T1-061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba trụ cột nền tảng của AI Product theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Research, Development, Testing, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "AI Engineering, Product Thinking (Inspired), Design Thinking (Everyday Things)"
+        },
+        {
+          "key": "C",
+          "text": "Frontend, Backend, Database, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Data Engineering, MLOps, DevOps, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "3 trụ cột: AI Engineering (RAG, Agent, Guardrails, Evaluation), Product Thinking theo Marty Cagan (Inspired), Design Thinking theo Don Norman (The Design of Everyday Things).",
+      "tags": [
+        "day2",
+        "foundation"
+      ]
+    },
+    {
+      "id": "T1-062",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Registry có chức năng gì trong agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo lường chi phí token, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Lưu lịch sử hội thoại, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "Quản lý người dùng đăng nhập, trong khi định dạng đầu ra vẫn được giữ ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Khai báo 'tay chân' cho agent — danh sách tool khả dụng kèm định nghĩa input/output"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Tool Registry là nơi khai báo tập tool agent được phép gọi, kèm mô tả và signature — model dựa vào đây để chọn tool.",
+      "tags": [
+        "day3",
+        "tool-registry"
+      ]
+    },
+    {
+      "id": "T1-063",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "False Negative (FN) trong case AI gợi ý câu trả lời là tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI gợi ý sai và học viên tin theo, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "AI gợi ý đúng câu trả lời, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "AI phát hiện câu hỏi đã có tài liệu sẵn, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Học viên đang kẹt thật nhưng AI bỏ sót, không gợi ý → học viên vẫn chờ lâu như cũ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "FN = bỏ sót: có vấn đề thật nhưng hệ thống không phát hiện. Hậu quả là giữ nguyên hiện trạng — không tệ hơn nhưng cũng không tạo giá trị.",
+      "tags": [
+        "reward",
+        "confusion-matrix"
+      ]
+    },
+    {
+      "id": "T1-064",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Streaming' trong API LLM là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gửi toàn bộ phản hồi sau khi mô hình sinh xong, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Phát video hướng dẫn sử dụng API, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Kỹ thuật cache để tăng tốc phản hồi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Truyền token từng cái ngay khi sinh ra — người dùng thấy chữ xuất hiện dần thay vì chờ đợi"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Streaming (Server-Sent Events): mỗi token gửi ngay khi sinh ra thay vì buffer toàn bộ. Cải thiện perceived latency và cho thấy trực tiếp cơ chế next-token prediction.",
+      "tags": [
+        "api",
+        "streaming"
+      ]
+    },
+    {
+      "id": "T1-065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm 2009 đánh dấu sự kiện gì quan trọng trong lịch sử AI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Công bố tập dữ liệu ImageNet"
+        },
+        {
+          "key": "B",
+          "text": "OpenAI thành lập"
+        },
+        {
+          "key": "C",
+          "text": "Ra đời AlexNet"
+        },
+        {
+          "key": "D",
+          "text": "DeepMind thành lập"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Năm 2009, Fei-Fei Li công bố ImageNet — bộ dữ liệu 14M ảnh, 20K danh mục — nền tảng cho cuộc cách mạng Deep Learning.",
+      "tags": [
+        "ai-history",
+        "2009",
+        "imagenet"
+      ]
+    },
+    {
+      "id": "T1-066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kỹ thuật nào thuộc pha DISCOVER (phân kỳ) của Diamond 1?",
+      "options": [
+        {
+          "key": "A",
+          "text": "How Might We, Problem Statement, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Affinity Mapping, 5 Whys, Dot Voting, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Impact-Effort Matrix, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Quan sát thực tế, Phỏng vấn người dùng, Khảo sát, Nhật ký hành vi, Stakeholder Mapping"
+        }
+      ],
+      "answer": "D",
+      "explanation": "DISCOVER là pha mở rộng góc nhìn: Observation, User Interview, Survey, Diary Study, phân tích dữ liệu/log, Stakeholder Mapping.",
+      "tags": [
+        "discovery",
+        "techniques"
+      ]
+    },
+    {
+      "id": "T1-067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anti-pattern 'No baseline' gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không lượng hóa tổn thất hiện tại, dẫn đến mất căn cứ đánh giá hiệu quả cải tiến"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống chạy chậm, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí API tăng cao, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng không hiểu cách dùng, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Không có baseline (con số hiện trạng) thì sau khi triển khai AI không thể chứng minh được cải thiện bao nhiêu — không có căn cứ đánh giá.",
+      "tags": [
+        "discovery",
+        "anti-patterns"
+      ]
+    },
+    {
+      "id": "T1-068",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba chiến lược Context Compression là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Encrypt, Compress, Store, dù kiến thức nền của model vẫn giữ nguyên, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Split, Merge, Rank, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Cache, Index, Query, trong khi tham số của model không hề thay đổi, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Summarize (tóm tắt phần cũ), Drop (bỏ hẳn phần không còn liên quan), Archive (đẩy ra ngoài context, chỉ fetch lại khi cần)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "3 chiến lược nén context: Summarize, Drop, và Archive (lưu ngoài rồi truy xuất lại khi cần). Ba chiến lược này áp dụng cho phần history cũ trong hội thoại dài. Nguyên tắc chọn lọc: nếu mọi thứ đều được coi là quan trọng thì với model sẽ không còn gì thực sự nổi bật.",
+      "tags": [
+        "day4",
+        "context",
+        "compression"
+      ]
+    },
+    {
+      "id": "T1-069",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng so sánh tham số của LLM với điều gì trong hệ thần kinh?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vỏ não (cortex)"
+        },
+        {
+          "key": "B",
+          "text": "Trọng số synapse (synaptic weights)"
+        },
+        {
+          "key": "C",
+          "text": "Tế bào thần kinh (neurons)"
+        },
+        {
+          "key": "D",
+          "text": "Điện thế hành động (action potential)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng dùng phép loại suy: tham số của LLM ≈ trọng số kết nối synapse. Học = điều chỉnh các số này qua gradient descent, giống não điều chỉnh sức mạnh kết nối qua kinh nghiệm.",
+      "tags": [
+        "llm",
+        "parameters",
+        "analogy"
+      ]
+    },
+    {
+      "id": "T1-070",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chọn AUTOMATE (AI làm thay) theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi stakes cao: tiền bạc, pháp lý, sức khỏe, nên câu trả lời cuối vẫn thiếu căn cứ để kiểm chứng, dù chứng cứ đã được lấy về đầy đủ từ kho dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Khi việc khó/nhàm chán/nguy hiểm hoặc cần scale; người dùng thiếu kiến thức để tự làm; có 'đáp án đúng' mà mọi người cùng đồng thuận"
+        },
+        {
+          "key": "C",
+          "text": "Khi kết quả cần trách nhiệm cá nhân, nên câu trả lời cuối vẫn thiếu căn cứ để kiểm chứng, trong khi chỉ số recall của bước tìm kiếm vẫn cao"
+        },
+        {
+          "key": "D",
+          "text": "Khi người dùng thích tự làm việc đó, kể cả khi số lượng chunk lấy về được tăng lên, nên câu trả lời cuối vẫn thiếu căn cứ để kiểm chứng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Automate phù hợp khi công việc nhàm chán/nguy hiểm/cần quy mô, người dùng thiếu năng lực tự làm, và tồn tại đáp án đúng được đồng thuận.",
+      "tags": [
+        "automate-augment",
+        "pair"
+      ]
+    },
+    {
+      "id": "T1-071",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy trình iterate system prompt theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sao chép template rồi dùng luôn"
+        },
+        {
+          "key": "B",
+          "text": "Viết một lần rồi deploy"
+        },
+        {
+          "key": "C",
+          "text": "Viết → test 10 câu → fix → test lại"
+        },
+        {
+          "key": "D",
+          "text": "Nhờ AI viết rồi không cần kiểm tra"
+        }
+      ],
+      "answer": "C",
+      "explanation": "System prompt cần iterate dựa trên kết quả test: viết, chạy 10 câu test, sửa dựa trên lỗi phát hiện, rồi test lại.",
+      "tags": [
+        "day4",
+        "system-prompt",
+        "iteration"
+      ]
+    },
+    {
+      "id": "T1-072",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'top_p' (nucleus sampling) hoạt động như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lặp lại token p lần để nhấn mạnh, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ giữ các token có xác suất cộng dồn đến p (ví dụ 0.9), loại bỏ phần đuôi phân phối"
+        },
+        {
+          "key": "C",
+          "text": "Giới hạn số token tối đa trong phản hồi, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Chọn đúng p token có xác suất cao nhất, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "top_p=0.9: sắp xếp token giảm dần, cộng dồn đến 90% → chỉ sample từ nhóm token đó. Loại bỏ token hiếm gặp (đuôi phân phối) → giảm hallucination kỳ lạ.",
+      "tags": [
+        "api",
+        "top-p",
+        "sampling"
+      ]
+    },
+    {
+      "id": "T1-073",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điều gì giúp Agent vượt qua giới hạn của LLM đơn thuần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng mô hình có số tham số lớn hơn, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "B",
+          "text": "Tăng nhiệt độ (temperature) lên cao, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "C",
+          "text": "Kết nối với công cụ bên ngoài và bộ nhớ để hành động trong thế giới thực"
+        },
+        {
+          "key": "D",
+          "text": "Dùng nhiều prompt khác nhau, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        }
+      ],
+      "answer": "C",
+      "explanation": "LLM đơn thuần chỉ tạo văn bản. Agent bổ sung: tools, memory, planning — biến LLM thành tác nhân tự chủ có thể hành động trong thế giới thực.",
+      "tags": [
+        "agent",
+        "vs-llm"
+      ]
+    },
+    {
+      "id": "T1-074",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba cấp độ (tier) chọn mô hình trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Student, Professional, Enterprise, kể cả khi hệ thống đã chạy ổn định nhiều tháng"
+        },
+        {
+          "key": "B",
+          "text": "Tier 1 Frontier closed (mạnh nhất), Tier 2 cheap-but-powerful, Tier 3 self-host"
+        },
+        {
+          "key": "C",
+          "text": "Fast, Balanced, Accurate, trong khi trải nghiệm người dùng gần như không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Nhỏ, Vừa, Lớn, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Framework 3 tier: T1 Frontier (mạnh nhất, đắt nhất), T2 cheap-but-powerful (sweet spot), T3 self-host (kiểm soát data, giá thấp ở scale lớn).",
+      "tags": [
+        "model-selection",
+        "tiers"
+      ]
+    },
+    {
+      "id": "T1-075",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao ReAct mạnh về khả năng debug?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó dùng ít token hơn, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Vì trace lý do hành động được bộc lộ ra ngoài, giúp con người debug và can thiệp dễ hơn so với chỉ nhìn final answer"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó không bao giờ sai, dù agent vẫn gọi được đầy đủ các tool đã khai báo, trong khi mục tiêu ban đầu vẫn được giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó chạy nhanh hơn các pattern khác, kể cả khi số vòng lặp tối đa được nới rộng, kể cả khi số vòng lặp tối đa được nới rộng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm mạnh của ReAct không chỉ là answer tốt hơn, mà là con người nhìn được agent đã hành động dựa trên quan sát nào — trace minh bạch hóa quá trình.",
+      "tags": [
+        "day3",
+        "react",
+        "debug"
+      ]
+    },
+    {
+      "id": "T1-076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khóa học 'AI in Action' tập trung vào cách truy cập LLM nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "API"
+        },
+        {
+          "key": "B",
+          "text": "Self-host"
+        },
+        {
+          "key": "C",
+          "text": "Chat app (như ChatGPT, Claude.ai)"
+        },
+        {
+          "key": "D",
+          "text": "Coding assistant (như GitHub Copilot)"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng nhấn mạnh: khóa học tập trung vào API — cách lập trình viên tích hợp LLM vào ứng dụng, không phải dùng qua giao diện chat.",
+      "tags": [
+        "landscape",
+        "api"
+      ]
+    },
+    {
+      "id": "T1-077",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tại sao cần SFT sau khi đã có pre-trained model?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm kích thước (compress) mô hình, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Mô hình chưa học đủ dữ liệu văn bản, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Pre-trained model chỉ biết tiếp tục văn bản; SFT dạy nó format phản hồi như trợ lý hữu ích"
+        },
+        {
+          "key": "D",
+          "text": "Để thêm ngôn ngữ mới vào mô hình, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Pre-trained model là 'document completer'. SFT chuyển nó thành 'helpful assistant' bằng cách huấn luyện trên cặp (instruction, response) chất lượng cao.",
+      "tags": [
+        "llm",
+        "training",
+        "sft"
+      ]
+    },
+    {
+      "id": "T1-078",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro khi không quản lý token budget chủ động là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temperature bị reset, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Model trả lời sai ngôn ngữ, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        },
+        {
+          "key": "C",
+          "text": "Đừng để history, tools, và examples ăn hết chỗ dành cho output"
+        },
+        {
+          "key": "D",
+          "text": "Tool không gọi được, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nếu history/tools/examples chiếm hết context, output buffer không đủ → câu trả lời bị cắt cụt giữa chừng.",
+      "tags": [
+        "day4",
+        "context",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "T1-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tài liệu đọc thêm của Anthropic được nhắc trong Day 02 là gì và thông điệp chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Claude Code Best Practices — cách viết code với AI, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Building effective agents — chọn giải pháp đơn giản nhất: rule/workflow trước, agent chỉ khi thật sự cần"
+        },
+        {
+          "key": "C",
+          "text": "Model Card — cách công bố thông số mô hình, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Constitutional AI — cách huấn luyện AI an toàn, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Anthropic 'Building effective agents' nhấn mạnh nguyên tắc: luôn ưu tiên giải pháp đơn giản nhất, chỉ tăng độ phức tạp khi thực sự cần thiết.",
+      "tags": [
+        "day2",
+        "anthropic",
+        "resources"
+      ]
+    },
+    {
+      "id": "T1-080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case study, 'Booking Assistant' được kết luận best fit là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reactive agent có tool use — nhiều ràng buộc, phải search/so sánh/hỏi lại, bước sau phụ thuộc kết quả bước trước"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot có retrieval, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Không cần AI, trong khi tham số của model không hề thay đổi, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Rule-based bot, dù kiến thức nền của model vẫn giữ nguyên, trong khi tham số của model không hề thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Booking Assistant có nhiều ràng buộc (thời gian, ngân sách, preference), phải search-so sánh-hỏi lại, và bước sau phụ thuộc bước trước → reactive agent.",
+      "tags": [
+        "day3",
+        "case-study"
+      ]
+    },
+    {
+      "id": "T1-081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kiến trúc nền tảng của các LLM hiện đại là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RNN (Recurrent Neural Network)"
+        },
+        {
+          "key": "B",
+          "text": "Transformer"
+        },
+        {
+          "key": "C",
+          "text": "CNN (Convolutional Neural Network)"
+        },
+        {
+          "key": "D",
+          "text": "GAN (Generative Adversarial Network)"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kể từ bài báo 'Attention Is All You Need' (2017), Transformer là kiến trúc cốt lõi của mọi LLM lớn. Trước 2017 ngành dùng RNN/LSTM vốn xử lý tuần tự và bị bottleneck khi nén cả chuỗi vào một context vector; Transformer thay bằng self-attention cho phép mọi token nhìn nhau song song.",
+      "tags": [
+        "llm",
+        "transformer"
+      ]
+    },
+    {
+      "id": "T1-082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về mặt tốc độ, chatbot và agent khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tốc độ chỉ phụ thuộc vào model, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot nhanh, ít round-trip; Agent chậm hơn do loop và tool calls"
+        },
+        {
+          "key": "C",
+          "text": "Agent luôn nhanh hơn vì chạy song song, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai tốc độ như nhau, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chatbot phản hồi trong một round-trip. Agent phải chạy nhiều vòng lặp và gọi tool nên chậm hơn đáng kể.",
+      "tags": [
+        "day3",
+        "comparison",
+        "speed"
+      ]
+    },
+    {
+      "id": "T1-083",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Output token đắt hơn input token khoảng bao nhiêu lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3-5 lần"
+        },
+        {
+          "key": "B",
+          "text": "Tương đương nhau"
+        },
+        {
+          "key": "C",
+          "text": "10 lần"
+        },
+        {
+          "key": "D",
+          "text": "2 lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng: output tokens thường đắt hơn input khoảng 3-5x. Ví dụ: $3/M input, $15/M output. Hàm ý: tối ưu prompt để giảm output không cần thiết.",
+      "tags": [
+        "token-cost",
+        "pricing"
+      ]
+    },
+    {
+      "id": "T1-084",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tham số 'temperature' trong API ảnh hưởng đến điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài phản hồi của mô hình, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ xử lý của server, nên chi phí vận hành tăng lên đáng kể theo thời gian"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng token tối đa được sinh ra, dù độ trễ phản hồi vẫn nằm trong ngưỡng cho phép"
+        },
+        {
+          "key": "D",
+          "text": "Mức độ ngẫu nhiên trong chọn token — 0 là quyết định/ổn định, 2 là ngẫu nhiên/sáng tạo"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Temperature điều chỉnh sampling: T=0 → lấy token xác suất cao nhất (deterministic); T cao → phân phối phẳng hơn → đầu ra đa dạng hơn.",
+      "tags": [
+        "api",
+        "temperature"
+      ]
+    },
+    {
+      "id": "T1-085",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trường hợp nào sau đây KHÔNG thuộc nhóm 'AI probably better' theo PAIR?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự đoán tương lai để chuẩn bị phản ứng, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện cái hiếm & biến đổi (VD: gian lận), nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "Yêu cầu minh bạch tuyệt đối — mọi quyết định phải giải thích được từng bước, truy vết được"
+        },
+        {
+          "key": "D",
+          "text": "Hiểu ngôn ngữ tự nhiên, kể cả khi context window được mở rộng thêm, dù kiến thức nền của model vẫn giữ nguyên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "'Yêu cầu minh bạch tuyệt đối' thuộc nhóm 'AI probably NOT better' — vì mô hình AI khó truy vết đầy đủ từng bước ra quyết định.",
+      "tags": [
+        "pair",
+        "ai-not-better"
+      ]
+    },
+    {
+      "id": "T1-086",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vấn đề 'Lost in the Middle' (Liu et al. 2023) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context bị nén tự động, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Model quên system prompt, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Thông tin nằm ở giữa context dài dễ bị 'quên' — model chú ý tốt nhất ở đầu và cuối"
+        },
+        {
+          "key": "D",
+          "text": "Model không đọc được tool schema, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nghiên cứu Liu et al. 2023: hiệu suất truy xuất thông tin giảm mạnh khi thông tin nằm ở giữa context dài.",
+      "tags": [
+        "day4",
+        "context",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "T1-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự phân cấp đúng từ rộng nhất đến hẹp nhất trong bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "AI ⊃ Deep Learning ⊃ ML ⊃ Generative AI ⊃ LLM"
+        },
+        {
+          "key": "B",
+          "text": "ML ⊃ AI ⊃ Deep Learning ⊃ LLM ⊃ Generative AI"
+        },
+        {
+          "key": "C",
+          "text": "AI ⊃ ML ⊃ Deep Learning ⊃ Generative AI ⊃ LLM"
+        },
+        {
+          "key": "D",
+          "text": "LLM ⊃ Generative AI ⊃ Deep Learning ⊃ ML ⊃ AI"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phân cấp lồng nhau: AI là tập lớn nhất, trong đó có ML, trong ML có Deep Learning, trong DL có Generative AI, và LLM là tập con của Generative AI.",
+      "tags": [
+        "ai-landscape",
+        "hierarchy"
+      ]
+    },
+    {
+      "id": "T1-088",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hệ quả thực tiễn của 'Lost in the Middle' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nên dùng context window nhỏ nhất có thể, kể cả khi context window được mở rộng thêm, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Nên tắt hoàn toàn history, kể cả khi context window được mở rộng thêm, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Nên lặp lại mọi thông tin 3 lần, kể cả khi context window được mở rộng thêm, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Đặt instructions quan trọng ở đầu hoặc cuối; break long lists bằng headers/separators; recent context đặt ngay trước user query"
+        }
+      ],
+      "answer": "D",
+      "explanation": "4 hệ quả: đặt instruction quan trọng ở đầu/cuối, tránh chôn thông tin ở giữa, chia list dài bằng header/separator, và đặt context gần nhất ngay trước câu hỏi.",
+      "tags": [
+        "day4",
+        "context",
+        "lost-in-middle"
+      ]
+    },
+    {
+      "id": "T1-089",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba thành phần của một vòng lặp ReAct là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Input, Process, Output"
+        },
+        {
+          "key": "B",
+          "text": "Query, Retrieve, Generate"
+        },
+        {
+          "key": "C",
+          "text": "Thought → Action → Observation"
+        },
+        {
+          "key": "D",
+          "text": "Plan, Execute, Review"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vòng lặp ReAct: Thought (đang thiếu gì, nên làm gì tiếp?) → Action (gọi tool nào, tham số nào?) → Observation (kết quả trả về là gì?) → lặp lại.",
+      "tags": [
+        "day3",
+        "react",
+        "loop"
+      ]
+    },
+    {
+      "id": "T1-090",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Function calling thay đổi bản chất bài toán như thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ 'prompt model trả lời đúng format' sang 'model được thiết kế để trả structured output'"
+        },
+        {
+          "key": "B",
+          "text": "Từ 'dùng ít token' sang 'dùng nhiều token', trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Từ 'model chậm' sang 'model nhanh', nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Từ 'một tool' sang 'không tool nào', kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là bước chuyển tư duy: thay vì cầu mong model tuân thủ format text, ngành chuyển sang thiết kế model để sinh ra output có cấu trúc theo schema.",
+      "tags": [
+        "day3",
+        "function-calling",
+        "paradigm"
+      ]
+    },
+    {
+      "id": "T1-091",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Observation 1 trong trace ví dụ trả về kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không tìm thấy chuyến bay nào, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "B",
+          "text": "Lỗi timeout khi gọi API, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        },
+        {
+          "key": "C",
+          "text": "Nhiệt độ 27-32C, xác suất mưa 70%, nên vòng lặp hành động sẽ dừng sớm hơn dự kiến"
+        },
+        {
+          "key": "D",
+          "text": "2 lựa chọn phù hợp: VietJet 06:10 giá 1.75M, Vietnam Airlines 08:20 giá 1.95M"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Observation 1 là kết quả thật từ tool search_flights: hai chuyến phù hợp với giá cụ thể. Điểm quan trọng là Observation đến từ hệ thống bên ngoài chứ không phải model tự sinh — đây chính là chứng cứ thực giúp Thought tiếp theo quyết định đúng thay vì đoán.",
+      "tags": [
+        "day3",
+        "react",
+        "trace"
+      ]
+    },
+    {
+      "id": "T1-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản chất của few-shot prompting là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ ra pattern mà bạn muốn model bám theo"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tune model trên dữ liệu mới"
+        },
+        {
+          "key": "C",
+          "text": "Tăng kích thước context window"
+        },
+        {
+          "key": "D",
+          "text": "Dạy lại model mọi thứ từ đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bài giảng nêu rõ: few-shot không phải để 'dạy lại' model mọi thứ; nó là cách chỉ ra pattern mà bạn muốn model tuân theo.",
+      "tags": [
+        "day4",
+        "few-shot",
+        "concept"
+      ]
+    },
+    {
+      "id": "T1-093",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm mạnh của Agentic AI so với Generative AI thuần túy là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agentic AI rẻ hơn và nhanh hơn, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        },
+        {
+          "key": "B",
+          "text": "Agentic AI tạo ra văn bản chất lượng cao hơn, kể cả khi số vòng lặp tối đa được nới rộng"
+        },
+        {
+          "key": "C",
+          "text": "Agentic AI thực hiện chuỗi hành động, dùng công cụ và đạt mục tiêu dài hạn trong thế giới thực"
+        },
+        {
+          "key": "D",
+          "text": "Agentic AI không cần dữ liệu huấn luyện, dù agent vẫn gọi được đầy đủ các tool đã khai báo"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Generative AI dừng ở việc tạo nội dung. Agentic AI dùng LLM như 'não', thêm công cụ, bộ nhớ và vòng lặp hành động — đạt được mục tiêu nhiều bước.",
+      "tags": [
+        "agent",
+        "vs-generative"
+      ]
+    },
+    {
+      "id": "T1-094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kết quả text của API call thường nằm ở trường nào trong response?",
+      "options": [
+        {
+          "key": "A",
+          "text": "response.text"
+        },
+        {
+          "key": "B",
+          "text": "result.answer"
+        },
+        {
+          "key": "C",
+          "text": "choices[0].message.content"
+        },
+        {
+          "key": "D",
+          "text": "output.message"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chuẩn OpenAI-compatible API: response JSON có `choices` array. Đọc `choices[0].message.content` để lấy text phản hồi.",
+      "tags": [
+        "api",
+        "response",
+        "structure"
+      ]
+    },
+    {
+      "id": "T1-095",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm khác biệt về tool use giữa LLM Chatbot và Agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều hard-coded tool, dù phần hướng dẫn hệ thống đã được viết rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Chatbot có thể gọi tool theo chỉ định; Agent chủ động chọn tool theo bước tiếp theo"
+        },
+        {
+          "key": "C",
+          "text": "Chatbot không dùng được tool nào, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        },
+        {
+          "key": "D",
+          "text": "Agent chỉ dùng được 1 tool duy nhất, kể cả khi thêm nhiều ví dụ mẫu vào prompt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng so sánh trong bài: Chatbot 'có thể gọi tool theo chỉ định'; Agent 'chủ động chọn tool theo bước tiếp theo' — đây là khác biệt về quyền tự quyết.",
+      "tags": [
+        "day3",
+        "tool-use"
+      ]
+    },
+    {
+      "id": "T1-096",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài giảng so sánh việc debug agent với việc gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tối ưu truy vấn SQL, trong khi tham số của model không hề thay đổi, kể cả khi context window được mở rộng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Debug một hàm Python đơn giản, trong khi tham số của model không hề thay đổi, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Debug distributed system — phải nhìn cả model, tool, state, và orchestration, chứ không chỉ prompt tuning"
+        },
+        {
+          "key": "D",
+          "text": "Sửa lỗi chính tả trong văn bản, kể cả khi context window được mở rộng thêm, kể cả khi context window được mở rộng thêm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Agent debugging gần với debugging distributed system hơn là prompt tuning: phải nhìn đồng thời model, tool, state và orchestration.",
+      "tags": [
+        "day3",
+        "debug",
+        "mindset"
+      ]
+    },
+    {
+      "id": "T1-097",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ngưỡng pass được khuyến nghị khi chạy test cases cho prompt là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "100% mới chấp nhận, dù kiến thức nền của model vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Chạy 10-20 test cases; nếu dưới 90% pass thì cần iterate prompt"
+        },
+        {
+          "key": "C",
+          "text": "70%, trong khi tham số của model không hề thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "50%, nên chất lượng đầu ra phụ thuộc vào cách đặt câu hỏi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài giảng đưa heuristic: chạy 10-20 test case, dưới 90% pass là dấu hiệu prompt cần cải thiện. Ba trục cần đo là Correctness (đúng không), Consistency (chạy 10 lần có cùng kết quả không) và Safety (có bị bypass không). Có test set cố định mới phát hiện được regression khi đổi config.",
+      "tags": [
+        "day4",
+        "evaluation",
+        "threshold"
+      ]
+    },
+    {
+      "id": "T1-098",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn nguồn gốc lỗi AI theo PAIR Chương 6 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi dữ liệu & dự đoán, Lỗi đầu vào, Lỗi liên quan, Lỗi phân cấp hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Lỗi mạng, lỗi phần cứng, lỗi phần mềm, lỗi người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi training, lỗi inference, lỗi deploy, lỗi monitor"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi cú pháp, lỗi logic, lỗi runtime, lỗi biên dịch"
+        }
+      ],
+      "answer": "A",
+      "explanation": "4 nguồn: (1) dữ liệu gán nhãn sai/thiếu; (2) input bất ngờ ngoài thiết kế; (3) kết quả không liên quan (VD gợi ý 'hoạt động vui chơi' cho chuyến đi đám tang); (4) nhiều hệ thống AI xung đột tín hiệu.",
+      "tags": [
+        "errors",
+        "error-sources"
+      ]
+    },
+    {
+      "id": "T1-099",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ReAct là viết tắt của cụm từ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reactive Action"
+        },
+        {
+          "key": "B",
+          "text": "Real-time Action"
+        },
+        {
+          "key": "C",
+          "text": "Reasoning + Acting"
+        },
+        {
+          "key": "D",
+          "text": "Retrieval + Action"
+        }
+      ],
+      "answer": "C",
+      "explanation": "ReAct = Reasoning + Acting — pattern kết hợp suy luận theo từng bước với gọi công cụ và quan sát kết quả.",
+      "tags": [
+        "day3",
+        "react"
+      ]
+    },
+    {
+      "id": "T1-100",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ nào sau đây là một Target (mục tiêu) được định lượng đúng chuẩn?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng sự hài lòng của người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Giảm tỷ lệ lỗi phân loại từ 20% xuống dưới 5%"
+        },
+        {
+          "key": "C",
+          "text": "Ứng dụng AI vào quy trình"
+        },
+        {
+          "key": "D",
+          "text": "Làm cho báo cáo tốt hơn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Target tốt phải có ngưỡng cụ thể và đo được: 'từ 20% xuống dưới 5%' — có điểm xuất phát, có ngưỡng đích, đo được bằng số.",
+      "tags": [
+        "problem-statement",
+        "target"
+      ]
+    }
+  ]
+}
