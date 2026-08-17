@@ -1,0 +1,3115 @@
+{
+  "id": "exam-103",
+  "title": "AICB Ngày 16 — Advanced Agent Architectures (Harness & Kiến trúc)",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P2T3 Ngày 16: Advanced Agent Architectures — Harness & Kiến trúc' (VinUniversity, 59 slide). Nội dung: ba failure mode của ReAct và khi nào escalate, Reflexion (Evaluator/Reflector, state, failure modes production), LATS & PRM & đường cong chi phí test-time compute, Voyager và skill files, self-evolving agents (DGM, ba định luật Endure-Excel-Evolve), Plan-Act-Verify và deep agents, harness với ba núm xoay và sáu hook middleware, context engineering (compaction vs eviction), orchestrator-worker, guardrails & capability control, grounding & citation attribution, đánh giá kiến trúc agent (benchmark 2026, trajectory evaluation, ma trận quyết định). Câu hỏi dạng phân tích tình huống, đáp án phân bố đều và giải thích chi tiết.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "D16-001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hiện tượng 'drift' của plan trong context nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi lần viết lại, chi tiết cũ có thể bị bỏ sót hoặc bị diễn giải khác đi so với bản gốc"
+        },
+        {
+          "key": "B",
+          "text": "Kế hoạch bị các agent khác ghi đè khi nhiều agent cùng làm việc trên một task chung"
+        },
+        {
+          "key": "C",
+          "text": "Thứ tự các bước trong kế hoạch bị xáo trộn do model không giữ được trật tự khi sinh lại"
+        },
+        {
+          "key": "D",
+          "text": "Kế hoạch dần lệch khỏi mục tiêu ban đầu vì agent bị cuốn theo các phát hiện mới giữa chừng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nguyên nhân gốc là plan trong context phải được VIẾT LẠI mỗi turn để phản ánh tiến độ mới. Mỗi lần viết lại là một lần model diễn giải lại, nên sai lệch tích lũy dần — trong khi plan file chỉ cần cập nhật bằng edit thay vì viết lại toàn bộ.",
+      "tags": [
+        "day16",
+        "plan-file"
+      ]
+    },
+    {
+      "id": "D16-002",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nội dung Day 16 gồm bao nhiêu phần chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mười một phần trong đó ba phần cuối dành cho demo và bài lab thực hành cuối buổi, kể cả khi số bước suy luận đã được giới hạn, nên failure mode gốc vẫn chưa được xử lý, dù benchmark cho điểm số khá cao, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Mười ba phần: từ khi nào single agent thất bại, Reflexion, bức tranh rộng hơn, tích lũy kỹ năng, self-evolving, Plan-Act-Verify, harness & middleware, context engineering, orchestrator-worker, guardrails, grounding & citation, đánh giá kiến trúc, tới demo & thực hành"
+        },
+        {
+          "key": "C",
+          "text": "Bảy phần tương ứng bảy lớp harness được giới thiệu trong bài giảng của ngày hôm nay, nên failure mode gốc vẫn chưa được xử lý, mà chi phí token không giảm đi chút nào, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "D",
+          "text": "Chín phần chia đều giữa lý thuyết kiến trúc và thực hành triển khai agent nâng cao, trong khi model không hề bị thay đổi trọng số, kể cả khi số bước suy luận đã được giới hạn, dù context window vẫn còn chỗ trống, trong khi state vẫn được cập nhật bình thường"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cấu trúc này đi theo mạch: nhận diện vấn đề (§1), từng lớp giải pháp (§2-§6), nơi mọi lớp trở thành code (§7), rồi các vấn đề vận hành (§8-§11), cuối cùng là cách đo (§12) và thực hành (§13).",
+      "tags": [
+        "day16",
+        "outline"
+      ]
+    },
+    {
+      "id": "D16-003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm khác biệt cốt lõi của Reflexion so với việc huấn luyện lại model là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng text feedback thay gradient — LLM đã train trên ngôn ngữ tự nhiên nên critique bằng text là natural modality, và trace vẫn ghi đủ các bước đã đi qua, trong khi model không hề bị thay đổi trọng số, dù hook phía trước đã chạy xong không lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Reflexion chạy offline sau mỗi phiên nên không ảnh hưởng tới độ trễ khi agent phục vụ người dùng, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù hook phía trước đã chạy xong không lỗi, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "C",
+          "text": "Reflexion cập nhật một phần nhỏ trọng số nên rẻ hơn nhiều so với fine-tune toàn bộ model, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù benchmark cho điểm số khá cao, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Reflexion dùng nhiều model khác nhau để giảm thiểu rủi ro thiên vị trong quá trình đánh giá, và trace vẫn ghi đủ các bước đã đi qua, trong khi model không hề bị thay đổi trọng số, dù hook phía trước đã chạy xong không lỗi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là insight quan trọng: không cần cập nhật tham số nào (số liệu trong slide ghi rõ '0 tham số model được cập nhật'). Vì model vốn được huấn luyện trên ngôn ngữ tự nhiên, phản hồi dạng văn bản là kênh giao tiếp tự nhiên nhất để truyền tín hiệu sửa lỗi.",
+      "tags": [
+        "day16",
+        "reflexion"
+      ]
+    },
+    {
+      "id": "D16-004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Self-evolution được reframe là lớp gì của harness?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Skill layer vì nó tích lũy năng lực mới qua từng thế hệ agent được sinh ra"
+        },
+        {
+          "key": "B",
+          "text": "Search layer vì nó khám phá không gian các biến thể có thể có của chính agent"
+        },
+        {
+          "key": "C",
+          "text": "Persistence layer — và bằng chứng để thêm lớp này đắt hơn hẳn: cần cả một eval harness (§12)"
+        },
+        {
+          "key": "D",
+          "text": "Critic layer vì nó đánh giá và loại bỏ các biến thể không đạt yêu cầu benchmark"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide dùng đúng công thức lặp lại: 'Như critic (§2), search (§3), skill (§4): chỉ thêm khi có bằng chứng.' Điểm khác biệt là chi phí bằng chứng — với self-evolution, bạn không thể chỉ đo một failure mode mà cần cả hệ thống đánh giá tự động hoàn chỉnh.",
+      "tags": [
+        "day16",
+        "self-evolving",
+        "layer"
+      ]
+    },
+    {
+      "id": "D16-005",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "METR HCAST / time horizons đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thời gian trung bình agent cần để hoàn thành một task tiêu chuẩn trong môi trường thử nghiệm"
+        },
+        {
+          "key": "B",
+          "text": "Số bước tối đa agent thực hiện được trước khi context window bị đầy hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "Task dài nhất agent hoàn thành được với xác suất 50%, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng thời gian agent duy trì được hiệu suất ổn định trước khi chất lượng bắt đầu giảm"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là cách đo autonomy rất khác các benchmark còn lại: thay vì hỏi 'agent làm đúng bao nhiêu phần trăm task', nó hỏi 'agent tự chủ được bao lâu'. Chỉ số này phản ánh trực tiếp khả năng giao việc dài hơi cho agent mà không cần can thiệp.",
+      "tags": [
+        "day16",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "D16-006",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compaction và structured eviction bổ sung nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Compaction dùng LLM viết lại holistic (lossy, tốn một lượt gọi, giữ theo độ liên quan); eviction xóa theo luật cố định (rẻ, không gọi model, dự đoán được nhưng chỉ cắt theo vị trí/luật), và tool output đã được offload ra file"
+        },
+        {
+          "key": "B",
+          "text": "Compaction áp dụng khi context vượt 80% còn eviction áp dụng khi vượt 95% giới hạn, và tool output đã được offload ra file, trong khi plan file không hề bị đụng tới, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Compaction chạy trước để nén, eviction chạy sau để xóa phần đã nén không còn cần thiết, kể cả khi ngưỡng nén chưa bị chạm tới, dù context window vẫn còn chỗ trống, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Compaction dùng cho hội thoại còn eviction dùng cho tool output, hai loại dữ liệu khác nhau, dù context window vẫn còn chỗ trống, và tool output đã được offload ra file, trong khi plan file không hề bị đụng tới"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ví dụ luật eviction: xóa tool result cũ hơn N lượt, hoặc output đã offload ra file (§6). Đánh đổi rõ ràng: eviction rẻ và dự đoán được nhưng không cứu được thông tin rải rác giữa lịch sử; compaction giữ được thông tin quan trọng nhưng lossy và tốn thêm một lượt gọi model.",
+      "tags": [
+        "day16",
+        "eviction"
+      ]
+    },
+    {
+      "id": "D16-007",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi mở đầu Day 16 đặt ra vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì sao agent trả lời sai khi dữ liệu đầu vào bị thay đổi mà không ai phát hiện được"
+        },
+        {
+          "key": "B",
+          "text": "Vì sao cùng một model, chỉ đổi harness, agent lại nhảy từ 52.8% lên 66.5%"
+        },
+        {
+          "key": "C",
+          "text": "Vì sao một agent giỏi vẫn có giới hạn khi bài toán trở nên quá lớn để xử lý một mình"
+        },
+        {
+          "key": "D",
+          "text": "Vì sao agent mạnh mà không kiểm soát được thì nguy hiểm hơn là agent yếu nhưng an toàn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguồn được ghi rõ: LangChain (2026), harness engineering trên Terminal-Bench 2.0. Câu hỏi này đóng khung toàn bộ bài học: hiệu năng agent không nằm hết trong model mà phần lớn nằm ở lớp code bao quanh nó.",
+      "tags": [
+        "day16",
+        "framing"
+      ]
+    },
+    {
+      "id": "D16-008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng nấc thang, 'Memory / kinh nghiệm' được xếp vào chiều nào và trạng thái hôm nay ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Environment — agentic topology; phần lớn vẫn phải cấu hình thủ công bởi con người"
+        },
+        {
+          "key": "B",
+          "text": "Environment — dynamic experience; đang vào production, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Co-evolution model và environment; chỉ khả thi với các phòng lab nghiên cứu lớn"
+        },
+        {
+          "key": "D",
+          "text": "Model-centric — training-based; còn ở giai đoạn nghiên cứu chưa triển khai được"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng cũng ghi chú Memory/kinh nghiệm là chủ đề của Ngày 17. Điều này khớp với ranh giới §8: 'Ngày 16 nén context trong MỘT phiên đang chạy — nhưng agent có nhớ gì khi phiên đó kết thúc không? Đó là câu hỏi của một ngày khác.'",
+      "tags": [
+        "day16",
+        "evolution-ladder"
+      ]
+    },
+    {
+      "id": "D16-009",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Live demo của Day 16 so sánh gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ReAct vs Reflexion trên cùng câu hỏi 2-hop HotpotQA với LangSmith tracing: ReAct sai entity ở hop 1 lỗi lan tỏa trả lời sai, Reflexion attempt 1 sai được Evaluator cho score=0 rồi Reflector sinh bài học và attempt 2 đúng"
+        },
+        {
+          "key": "B",
+          "text": "So sánh hiệu năng của cùng một agent khi chạy với và khi chạy không có middleware, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, và tool output đã được offload ra file"
+        },
+        {
+          "key": "C",
+          "text": "So sánh ba kiến trúc ReAct, Reflexion và LATS trên cùng một bộ benchmark chuẩn, dù vòng lặp reasoning vẫn chạy đúng thiết kế, và trace vẫn ghi đủ các bước đã đi qua, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "So sánh chi phí token giữa single agent và orchestrator-worker trên cùng một task, kể cả khi số bước suy luận đã được giới hạn, nên failure mode gốc vẫn chưa được xử lý, dù benchmark cho điểm số khá cao"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn thứ được so sánh sau demo: trace, accuracy, và cost/query. Demo này minh họa trực quan chính failure mode 'lỗi lan tỏa' đã nêu ở §1 và cách critic layer của §2 giải quyết nó.",
+      "tags": [
+        "day16",
+        "demo"
+      ]
+    },
+    {
+      "id": "D16-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compaction khác truncation ở điểm căn bản nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Compaction chạy tự động còn truncation phải được kích hoạt thủ công bởi người vận hành, dù context window vẫn còn chỗ trống, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Compaction giữ lại nhiều token hơn truncation nên tiết kiệm chi phí gọi model tốt hơn, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "C",
+          "text": "Compaction dùng LLM viết bản tóm tắt holistic, giữ thông tin theo độ liên quan ngữ nghĩa; truncation cắt theo vị trí nên luôn mất phần cũ nhất kể cả khi phần đó vẫn quan trọng"
+        },
+        {
+          "key": "D",
+          "text": "Compaction chỉ áp dụng cho tool output còn truncation áp dụng cho toàn bộ hội thoại, trong khi plan file không hề bị đụng tới, và tool output đã được offload ra file"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ minh họa trong slide: 'một chi tiết quan trọng từ đầu hội thoại vẫn giữ được dù đã qua rất nhiều lượt' — điều mà truncation không làm được vì nó luôn cắt từ đầu. Slide ghi rõ đây là ví dụ minh họa, không phải số đo.",
+      "tags": [
+        "day16",
+        "compaction-vs-truncation"
+      ]
+    },
+    {
+      "id": "D16-011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cải tiến của DGM được đánh giá là 'chuyển được' (transfer)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mã nguồn được viết theo chuẩn mở nên chạy được trên nhiều nền tảng hạ tầng khác nhau, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Vì kiến trúc được thiết kế module hóa nên từng phần có thể tái sử dụng ở dự án khác, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Vì các cải tiến vẫn hiệu quả khi đổi foundation model, chứng tỏ chúng mang tính nền tảng chứ không overfit vào một model cụ thể"
+        },
+        {
+          "key": "D",
+          "text": "Vì agent có thể xuất kỹ năng đã học ra định dạng chuẩn để agent khác nhập vào sử dụng, và trace vẫn ghi đủ các bước đã đi qua"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là tiêu chí phân biệt cải tiến thật với overfit — cũng chính là yêu cầu thứ ba của eval harness: 'Kiểm tra tính chuyển được: validate trên nhiều task/model để phân biệt cải tiến thật với overfit vào một benchmark.'",
+      "tags": [
+        "day16",
+        "dgm",
+        "transfer"
+      ]
+    },
+    {
+      "id": "D16-012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ThinkPRM (thinking verifier) khác PRM thông thường ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nó không cần nhãn huấn luyện nào mà tự học từ chính kết quả của các lần chạy trước, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Nó chấm điểm nhanh hơn nhiều lần nhờ chỉ dùng một phép so sánh đơn giản trên embedding, trong khi model không hề bị thay đổi trọng số, và trace vẫn ghi đủ các bước đã đi qua, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Nó chấm cả chuỗi cùng lúc nên nhìn được quan hệ giữa các bước thay vì chấm rời từng bước, kể cả khi số bước suy luận đã được giới hạn, dù vòng lặp reasoning vẫn chạy đúng thiết kế, mà harness vẫn tiếp tục vòng lặp như cũ"
+        },
+        {
+          "key": "D",
+          "text": "Nó sinh verification chain-of-thought cho mỗi bước thay vì chỉ gán một điểm số rời rạc, và đạt hiệu năng mạnh với ít hơn nhiều bậc độ lớn nhãn huấn luyện, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cụm 'orders of magnitude fewer' (ít hơn nhiều bậc độ lớn) là điểm đáng chú ý về mặt kinh tế: chi phí gán nhãn thường là rào cản lớn nhất khi triển khai PRM. Nguồn: ThinkPRM (2025).",
+      "tags": [
+        "day16",
+        "thinkprm"
+      ]
+    },
+    {
+      "id": "D16-013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba điều kiện để escalate kiến trúc agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số lượng người dùng vượt ngưỡng, độ trễ vượt cam kết và chi phí vận hành vượt kế hoạch, mà chi phí token không giảm đi chút nào, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "Ngân sách dự án tăng, đội ngũ có thêm người và hạ tầng đã sẵn sàng để mở rộng quy mô, dù vòng lặp reasoning vẫn chạy đúng thiết kế, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Model hiện tại đã đạt trần năng lực, dữ liệu huấn luyện không còn đủ và benchmark đã bão hòa, và trace vẫn ghi đủ các bước đã đi qua, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Tool overload (quá nhiều tool 1 agent không quản nổi), branching logic (prompt phải rẽ nhánh phức tạp), specialist ownership (cần agent sở hữu riêng một domain)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguyên tắc nền: 'bắt đầu với single agent hoặc workflow đơn giản — chỉ thêm phức tạp khi có bằng chứng thực sự cần thiết'. Bẫy được cảnh báo: 'Càng nhiều agent càng tốt là ngộ nhận — mỗi agent thêm vào là thêm latency, cost, và điểm lỗi mới.'",
+      "tags": [
+        "day16",
+        "escalate"
+      ]
+    },
+    {
+      "id": "D16-014",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba bước của citation-verification loop là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Parse claim thành đơn vị kiểm được, verify từng claim đối chiếu đúng đoạn nguồn được trích (không chỉ kiểm citation có tồn tại), và abstain khi thiếu bằng chứng"
+        },
+        {
+          "key": "B",
+          "text": "Truy xuất tài liệu, xếp hạng theo độ liên quan và chọn top-k đoạn để đưa vào câu trả lời, nên không có tín hiệu nào để cải thiện, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Sinh câu trả lời, gắn citation vào cuối mỗi câu và kiểm tra tổng số citation có đủ không, và regression set vẫn chưa phát hiện lỗi, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Tìm nguồn, trích dẫn nguồn và kiểm tra định dạng trích dẫn có đúng chuẩn hay không, mà chi phí đánh giá thì tăng lên đáng kể, nên không có tín hiệu nào để cải thiện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước 2 có điểm tinh tế: 'một citation thật vẫn có thể không hỗ trợ claim (misattributed)' — nên chỉ kiểm tra citation tồn tại là chưa đủ. Bước 3 quan trọng nhất: 'agent phải trả lời insufficient evidence thay vì confabulate khi không tìm được nguồn hỗ trợ'.",
+      "tags": [
+        "day16",
+        "citation-loop"
+      ]
+    },
+    {
+      "id": "D16-015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LATS được reframe là lớp gì của harness và giải quyết failure mode nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Skill layer, giải quyết vấn đề agent phải học lại từ đầu ở mỗi task mới gặp phải"
+        },
+        {
+          "key": "B",
+          "text": "Persistence layer, giải quyết việc cải tiến bị mất khi episode kết thúc và reset"
+        },
+        {
+          "key": "C",
+          "text": "Search layer, giải quyết failure mode thứ 3 ở §1 — đi sai một nhánh và không quay lại được"
+        },
+        {
+          "key": "D",
+          "text": "Critic layer, giải quyết failure mode lỗi lan tỏa từ bước đầu tiên của chuỗi suy luận"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là mô típ lặp lại xuyên suốt bài: mỗi kiến trúc nổi tiếng được đặt lại vị trí như một lớp của harness. Reflexion là critic layer, tree search là search layer, Voyager là skill layer — và mỗi lớp nhắm đúng một failure mode cụ thể đã nêu ở §1.",
+      "tags": [
+        "day16",
+        "lats",
+        "layer"
+      ]
+    },
+    {
+      "id": "D16-016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Darwin Gödel Machine đạt kết quả gì và điều đáng chú ý nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SWE-bench 20.0% → 50.0%, Polyglot 14.2% → 30.7%; điều đáng chú ý không phải điểm số mà là những cải tiến nó tự tìm ra (tool sửa code, quản lý long-context, peer-review) mang tính nền tảng và chuyển được sang foundation model khác"
+        },
+        {
+          "key": "B",
+          "text": "Giảm được chi phí huấn luyện xuống một phần mười so với phương pháp fine-tune truyền thống, trong khi model không hề bị thay đổi trọng số, dù vòng lặp reasoning vẫn chạy đúng thiết kế, mà chi phí đánh giá thì tăng lên đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "Đạt điểm số cao nhất trên mọi benchmark coding hiện có nhờ tự động tối ưu hóa kiến trúc, nên failure mode gốc vẫn chưa được xử lý, trong khi model không hề bị thay đổi trọng số, dù hook phía trước đã chạy xong không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Tự động phát hiện và sửa được toàn bộ lỗi trong mã nguồn của mình mà không cần con người, dù vòng lặp reasoning vẫn chạy đúng thiết kế, kể cả khi số bước suy luận đã được giới hạn, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vòng lặp DGM: lấy một agent từ archive → foundation model sinh biến thể (sửa chính mã nguồn của agent) → validate bằng benchmark → chỉ giữ lại cái chạy được. Archive kiểu Darwin giữ cả nhánh kém hơn nên cây agent đa dạng, khám phá song song. Nguồn: arXiv:2505.22954.",
+      "tags": [
+        "day16",
+        "dgm"
+      ]
+    },
+    {
+      "id": "D16-017",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba chiều tiến hoá theo survey arXiv:2508.07407 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model-centric (inference-based và training-based), environment-centric (static knowledge, dynamic experience, modular architecture, agentic topology), và co-evolution model–environment, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Offline, online và hybrid theo ba chế độ cập nhật của hệ thống tự tiến hoá, trong khi model không hề bị thay đổi trọng số, nên failure mode gốc vẫn chưa được xử lý, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, dù hook phía trước đã chạy xong không lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Prompt-centric, tool-centric và memory-centric theo ba thành phần chính của agent, kể cả khi số bước suy luận đã được giới hạn, trong khi model không hề bị thay đổi trọng số, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Individual, collective và ecosystem theo ba quy mô của quá trình tiến hoá, nên failure mode gốc vẫn chưa được xử lý, mà chi phí token không giảm đi chút nào, dù hook phía trước đã chạy xong không lỗi, kể cả khi trace đã được sinh đầy đủ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Chi tiết model-centric: inference-based gồm parallel sampling, sequential self-correction, structured reasoning; training-based gồm synthesis-driven offline và exploration-driven online. Bảng nấc thang trong bài ánh xạ từng nấc vào một trong ba chiều này.",
+      "tags": [
+        "day16",
+        "survey"
+      ]
+    },
+    {
+      "id": "D16-018",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài tập về nhà sau Day 16 gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đọc toàn bộ các paper được trích dẫn trong bài và viết tóm tắt cho mỗi paper một trang, dù vòng lặp reasoning vẫn chạy đúng thiết kế, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Ôn lại sơ đồ sáu hook vì lab dùng đúng sáu tên đó, đọc Anthropic Building Effective Agents, và chuẩn bị một failure mode thật từng gặp rồi xác định lớp nào ở §2-§9 sẽ sửa nó"
+        },
+        {
+          "key": "C",
+          "text": "Chạy benchmark trên năm bộ dữ liệu khác nhau để đánh giá agent theo nhiều chiều khác nhau, mà chi phí token không giảm đi chút nào, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "D",
+          "text": "Triển khai đầy đủ cả sáu lớp harness lên agent hiện tại rồi so sánh hiệu năng trước và sau, nên failure mode gốc vẫn chưa được xử lý, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bài tập thứ ba đặc biệt có giá trị vì nó buộc học viên áp dụng ma trận quyết định của §12 vào tình huống thật của chính mình — đúng tinh thần 'chọn kiến trúc theo failure mode đang gặp' của takeaway số 1.",
+      "tags": [
+        "day16",
+        "homework"
+      ]
+    },
+    {
+      "id": "D16-019",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dimension Safety của injection_guard chấm hai điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ chính xác của bộ lọc đầu vào và độ chính xác của bộ lọc đầu ra khi kiểm tra nội dung, trong khi đáp án cuối vẫn hoàn toàn chính xác, nên không có tín hiệu nào để cải thiện, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "B",
+          "text": "Injection resistance (agent có làm theo chỉ thị giả trong tool output/retrieved content không) và correct abstention (agent có từ chối hành động ngoài scope thay vì cứ thực thi không), dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "C",
+          "text": "Tỷ lệ chặn được prompt injection và thời gian phản hồi khi phát hiện tấn công, mà chi phí đánh giá thì tăng lên đáng kể, và regression set vẫn chưa phát hiện lỗi, dù benchmark cho điểm số khá cao, nên vấn đề trôi xuống bước tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Số lượng tool bị chặn và số lượng tool được phép gọi trong phạm vi cho phép, và regression set vẫn chưa phát hiện lỗi, trong khi đáp án cuối vẫn hoàn toàn chính xác, nên vấn đề trôi xuống bước tiếp theo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai tiêu chí này đo hai năng lực khác nhau: kháng cự chủ động (không bị lừa) và tự giới hạn (biết dừng khi ngoài phạm vi). Correct abstention song song với tiêu chí abstain trong citation_checker — cả hai đều thưởng cho việc biết nói không.",
+      "tags": [
+        "day16",
+        "injection-guard"
+      ]
+    },
+    {
+      "id": "D16-020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Con số 91% của Reflexion đại diện cho điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "HumanEval pass@1 cho code generation theo Shinn et al. 2023, và trace vẫn ghi đủ các bước đã đi qua, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ evaluator chấm điểm chính xác khi đối chiếu với đánh giá của con người, và trace vẫn ghi đủ các bước đã đi qua, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "C",
+          "text": "Mức cải thiện trung bình so với ReAct trên toàn bộ các benchmark đã được kiểm chứng, và middleware không ghi nhận bất thường nào, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ agent tự sửa được lỗi sau lần thử thất bại đầu tiên trên các bài toán suy luận, dù context window vẫn còn chỗ trống, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi chú rõ về cách trích dẫn: 'Chỉ con số này được trích dẫn: mức tăng trên các task khác thay đổi theo benchmark, nên ghi định tính thay vì gán một con số duy nhất.' Hai ô còn lại ghi 'Tăng — multi-hop QA & decision-making' và '0 — tham số model được cập nhật'.",
+      "tags": [
+        "day16",
+        "reflexion-result"
+      ]
+    },
+    {
+      "id": "D16-021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn thành phần của Deep Agents là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System prompt, Tools, Middleware và State theo bốn thành phần cấu thành một harness, kể cả khi ngưỡng nén chưa bị chạm tới, và tool output đã được offload ra file"
+        },
+        {
+          "key": "B",
+          "text": "Plan file (artifact ghi bằng write_todos), Filesystem làm external memory, Subagent spawning để cô lập context, và Auto-summarisation offload output tool lớn ra file"
+        },
+        {
+          "key": "C",
+          "text": "Orchestrator, Worker, Router và Aggregator theo bốn thành phần của hệ multi-agent, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, kể cả khi ngưỡng nén chưa bị chạm tới"
+        },
+        {
+          "key": "D",
+          "text": "Actor, Evaluator, Reflector và Memory theo bốn vai trò trong kiến trúc Reflexion mở rộng, dù context window vẫn còn chỗ trống, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nhấn mạnh: 'Không thành phần nào tự làm agent deep — chính sự kết hợp bốn thành phần mới tạo khả năng xử lý task dài hơi.' Bốn lớp context tương ứng: skills (§4) → memory (agents-file, lúc khởi động) → summarisation/offloading → prompt caching.",
+      "tags": [
+        "day16",
+        "deep-agents"
+      ]
+    },
+    {
+      "id": "D16-022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao guardrail phải nằm ở tầng infrastructure khi agent có khả năng tự tiến hoá?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì tầng infrastructure có hiệu năng cao hơn nên việc kiểm tra không làm chậm agent, nên thông tin quan trọng vẫn bị bỏ sót, kể cả khi ngưỡng nén chưa bị chạm tới"
+        },
+        {
+          "key": "B",
+          "text": "Vì đội vận hành cần quyền truy cập độc lập để có thể can thiệp khi phát hiện bất thường, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "C",
+          "text": "Vì các quy định pháp lý yêu cầu tách biệt logic nghiệp vụ khỏi logic kiểm soát an toàn, kể cả khi ngưỡng nén chưa bị chạm tới, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Vì agent sửa được mã nguồn của chính nó thì guardrail nằm trong mã nguồn đó cũng nằm trong tầm với — vùng tiến hoá phải không có quyền ghi vào vùng guardrail"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là lập luận về ranh giới quyền hạn chứ không phải về kỹ thuật. Nó song song với nguyên tắc ở §10: 'Một rule chỉ tồn tại trong system prompt không phải một lớp phòng thủ' — cả hai đều nói rằng biện pháp kiểm soát phải nằm ở nơi đối tượng bị kiểm soát không chạm tới được.",
+      "tags": [
+        "day16",
+        "guardrail-boundary"
+      ]
+    },
+    {
+      "id": "D16-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn lớp context của deep agents theo LangChain Deep Agents runtime là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "skills (§4) → memory (agents-file, lúc khởi động) → summarisation/offloading → prompt caching"
+        },
+        {
+          "key": "B",
+          "text": "plan file → filesystem → subagent → auto-summarisation theo bốn thành phần của deep agent"
+        },
+        {
+          "key": "C",
+          "text": "input → processing → output → feedback theo bốn giai đoạn xử lý một yêu cầu"
+        },
+        {
+          "key": "D",
+          "text": "system prompt → tools → middleware → state theo bốn thành phần của một harness hoàn chỉnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lưu ý phương án D liệt kê bốn THÀNH PHẦN của deep agents, còn câu hỏi hỏi bốn LỚP CONTEXT — hai khái niệm khác nhau trong cùng một slide. Đây là loại phân biệt tinh tế mà học viên dễ nhầm nếu chỉ đọc lướt.",
+      "tags": [
+        "day16",
+        "context-layers"
+      ]
+    },
+    {
+      "id": "D16-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "'Compound learning' trong Voyager nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Skill mới được xây trên skill cũ, nên năng lực tích lũy chứ không phải học lại từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "Agent kết hợp học có giám sát với học tăng cường để tận dụng ưu điểm của cả hai phương pháp"
+        },
+        {
+          "key": "C",
+          "text": "Agent học đồng thời từ nhiều nguồn dữ liệu khác nhau để có góc nhìn toàn diện hơn"
+        },
+        {
+          "key": "D",
+          "text": "Nhiều agent cùng học và chia sẻ kinh nghiệm với nhau qua một kho tri thức chung"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là điều tạo ra khác biệt về dài hạn: mỗi skill mới không chỉ cộng thêm một đơn vị năng lực mà còn mở ra khả năng xây thêm skill phức tạp hơn trên nền đó. Slide ghi nhận Voyager 'tích luỹ kỹ năng độc nhất nhiều hơn hẳn baseline không có skill library'.",
+      "tags": [
+        "day16",
+        "voyager"
+      ]
+    },
+    {
+      "id": "D16-025",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm lớp defence in depth theo §10 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác thực, phân quyền, mã hóa, ghi log và giám sát theo năm trụ cột bảo mật truyền thống, và trace vẫn ghi đủ các bước đã đi qua, mà chi phí token không giảm đi chút nào, kể cả khi trace đã được sinh đầy đủ, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "B",
+          "text": "Phát hiện, ngăn chặn, cách ly, khôi phục và báo cáo theo năm bước ứng phó sự cố, kể cả khi số bước suy luận đã được giới hạn, nên failure mode gốc vẫn chưa được xử lý, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù benchmark cho điểm số khá cao, kể cả khi ngưỡng nén chưa bị chạm tới"
+        },
+        {
+          "key": "C",
+          "text": "Validate input trước khi model nhìn thấy, validate output trước khi kích hoạt hành động, enforce permission qua capability manifest tại wrap_tool_call, gate hành động không thể hoàn tác bằng blocking pause chờ người duyệt, và giới hạn budget & action rate như circuit breaker cứng"
+        },
+        {
+          "key": "D",
+          "text": "Input rails, LLM rails, output rails, human review và audit trail theo năm tầng kiểm soát, mà chi phí token không giảm đi chút nào, kể cả khi số bước suy luận đã được giới hạn, dù benchmark cho điểm số khá cao, kể cả khi ngưỡng nén chưa bị chạm tới, và tool output đã được offload ra file"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mục cuối cùng của checklist là lời cảnh báo: 'Một rule chỉ tồn tại trong system prompt không phải một lớp phòng thủ.' Lớp thứ ba chính là hook wrap_tool_call của §7 — đây là lúc §7 trả lời lời hứa đã đưa ra.",
+      "tags": [
+        "day16",
+        "defence-layers"
+      ]
+    },
+    {
+      "id": "D16-026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reflexion thêm hai thành phần nào vào ReAct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planner (lập kế hoạch) và Verifier (kiểm chứng kết quả cuối cùng trước khi trả lời), kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "B",
+          "text": "Evaluator (đánh giá kết quả) và Reflector (rút bài học), kể cả khi số bước suy luận đã được giới hạn, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Search layer (mở rộng cây tìm kiếm) và Value model (ước lượng giá trị mỗi nhánh), kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "Skill library (lưu kỹ năng đã học) và Auto curriculum (tự đặt mục tiêu tiếp theo), nên failure mode gốc vẫn chưa được xử lý"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Analogy trong slide: 'như sinh viên làm bài thi — lần 1 sai, xem đáp án hiểu tại sao sai, lần 2 làm đúng; ReAct chỉ làm 1 lần rồi nộp, Reflexion cho phép xem lại bài và sửa.' Ba vai trò LLM: Actor hành động, Evaluator chấm điểm 0 hoặc 1, Reflector rút bài học.",
+      "tags": [
+        "day16",
+        "reflexion"
+      ]
+    },
+    {
+      "id": "D16-027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "before_model làm hai việc chính nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo hạn mức token và mở root span cho trace của toàn bộ phiên chạy, kể cả khi ngân sách token vẫn còn dư nhiều, và regression set vẫn chưa phát hiện lỗi, nên failure mode gốc vẫn chưa được xử lý, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "B",
+          "text": "Đánh giá output vừa sinh và quyết định có chấp nhận hay bắt model sinh lại, nên vấn đề trôi xuống bước tiếp theo, kể cả khi ngân sách token vẫn còn dư nhiều, dù context window vẫn còn chỗ trống, trong khi state vẫn được cập nhật bình thường"
+        },
+        {
+          "key": "C",
+          "text": "Context summarisation (nén thứ đã dài ra) và context injection (thêm thứ đang thiếu như skill file, plan file, bài học từ lượt trước), nên failure mode gốc vẫn chưa được xử lý, trong khi state vẫn được cập nhật bình thường"
+        },
+        {
+          "key": "D",
+          "text": "Chặn lời gọi tool nguy hiểm và chèn thông tin định danh vào tham số của tool, mà harness vẫn tiếp tục vòng lặp như cũ, dù context window vẫn còn chỗ trống, và regression set vẫn chưa phát hiện lỗi, dù benchmark cho điểm số khá cao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm quan trọng về summarisation: 'Nén cái gì là quyết định kỹ thuật, không phải của model: giữ plan file, kết quả verify, ràng buộc gốc — nén phần transcript trung gian.' Và hậu quả nếu thiếu: 'task dài hơi kết thúc bằng đầy context chứ không phải xong việc'.",
+      "tags": [
+        "day16",
+        "before-model"
+      ]
+    },
+    {
+      "id": "D16-028",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba định luật của self-evolving agent theo survey là gì và thứ tự ưu tiên ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Explore, Exploit và Evaluate theo ba pha của quá trình tìm kiếm giải pháp tối ưu, nên failure mode gốc vẫn chưa được xử lý, kể cả khi số bước suy luận đã được giới hạn, nên vấn đề trôi xuống bước tiếp theo, và tool output đã được offload ra file"
+        },
+        {
+          "key": "B",
+          "text": "Efficiency, Effectiveness và Ethics theo ba tiêu chí đánh giá một hệ thống tự tiến hoá, kể cả khi số bước suy luận đã được giới hạn, mà chi phí token không giảm đi chút nào, và tool output đã được offload ra file, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Evolve trước tiên vì không tiến hoá thì không có gì để bảo toàn, rồi mới tới Excel và Endure, dù vòng lặp reasoning vẫn chạy đúng thiết kế, nên failure mode gốc vẫn chưa được xử lý, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "D",
+          "text": "Endure (safety adaptation — biến thể phá ràng buộc an toàn thì bị loại dù điểm cao hơn), Excel (performance preservation — mạnh ở task mới mà yếu ở task cũ là regression), Evolve (autonomous evolution — chỉ có nghĩa khi hai điều trên đã giữ được)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Lý do Endure đứng đầu: 'Agent sửa được mã nguồn của chính nó thì guardrail nằm trong mã nguồn đó cũng nằm trong tầm với.' Giải pháp: vùng agent tự sửa được và vùng chứa guardrail phải tách rời — allowlist, capability manifest, budget breaker nằm ở tầng infrastructure mà vòng lặp tiến hoá không có quyền ghi.",
+      "tags": [
+        "day16",
+        "three-laws"
+      ]
+    },
+    {
+      "id": "D16-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao 'prompt rules' không phải controls?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì prompt chiếm token nên việc thêm quá nhiều rule làm giảm không gian cho nội dung, dù vòng lặp reasoning vẫn chạy đúng thiết kế, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Vì prompt có thể bị người dùng đọc được nên kẻ tấn công biết cách né tránh quy tắc, nên failure mode gốc vẫn chưa được xử lý, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "C",
+          "text": "Vì prompt được viết bằng ngôn ngữ tự nhiên nên dễ mơ hồ và khó kiểm chứng tự động, và trace vẫn ghi đủ các bước đã đi qua, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Vì model có thể bị thuyết phục bỏ qua một câu instruction trong prompt — nhưng không thể bỏ qua một allowlist chặn cứng ở tầng infrastructure, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Yêu cầu cụ thể: 'Mọi tool có thể gọi cần đủ ba thứ: scope định nghĩa rõ, allowlist entry, và reversibility classification (có rollback được không).' Nguyên tắc này song song với §5 về việc guardrail phải nằm ngoài vùng agent tự sửa được.",
+      "tags": [
+        "day16",
+        "prompt-vs-control"
+      ]
+    },
+    {
+      "id": "D16-030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reframe của Voyager trong bức tranh harness là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Voyager là persistence layer vì nó giữ lại kỹ năng sau khi episode kết thúc hoàn toàn, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Voyager là skill layer của harness — cấp kiến thức domain theo yêu cầu, giống Reflexion là critic layer và tree search là search layer"
+        },
+        {
+          "key": "C",
+          "text": "Voyager là memory layer vì Skill Library đóng vai trò bộ nhớ dài hạn cho agent, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Voyager là search layer vì Auto Curriculum phải tìm kiếm task phù hợp trong không gian mục tiêu, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ở §6, skill layer là một trong bốn lớp context của deep agents — cùng plan file, filesystem-as-memory, và subagent isolation. Cách reframe nhất quán này giúp học viên thấy các kiến trúc nổi tiếng đều quy về cùng một khung.",
+      "tags": [
+        "day16",
+        "voyager",
+        "layer"
+      ]
+    },
+    {
+      "id": "D16-031",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Terminal-Bench 2.0 đo gì và có quy mô ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent tự động trong môi trường command-line thực tế (đọc file, chạy lệnh, sửa code, debug), chấm bằng hidden verifier tests, 89 task mỗi agent thử 5 lần, kể cả khi trace đã được sinh đầy đủ, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "B",
+          "text": "Tương tác tool-agent-user trong domain doanh nghiệp với user do LLM mô phỏng, mà chi phí đánh giá thì tăng lên đáng kể, trong khi đáp án cuối vẫn hoàn toàn chính xác, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Khả năng agent duyệt web nhiều bước, parse file và dùng tool với 466 task có ground truth, và regression set vẫn chưa phát hiện lỗi, mà chi phí đánh giá thì tăng lên đáng kể, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Khả năng sửa bug GitHub thật trên tập con đã được kiểm duyệt bởi các chuyên gia, trong khi đáp án cuối vẫn hoàn toàn chính xác, dù benchmark cho điểm số khá cao, nên không có tín hiệu nào để cải thiện"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sáu benchmark trong bảng: Terminal-Bench 2.0 (Laude Institute), GAIA (466 task, Meta FAIR/Hugging Face), τ²-bench (Sierra), OSWorld (computer use trên desktop thật), SWE-bench Verified (OpenAI-curated subset), METR HCAST/time horizons (task dài nhất agent hoàn thành với xác suất 50%).",
+      "tags": [
+        "day16",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "D16-032",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba con số của AgentHallu (§11) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "41.1% step-localisation accuracy của model tốt nhất, 11.6% tool-use hallucination (nhóm khó nhất), và 693 trajectory được gán nhãn qua 5 domain, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "B",
+          "text": "30.7% độ chính xác, 15% tool-use hallucination và 800 trajectory qua 6 domain khác nhau, nên không có tín hiệu nào để cải thiện, nên failure mode gốc vẫn chưa được xử lý, và tool output đã được offload ra file"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác 89.5% của model tốt nhất, 45% tool-use hallucination và 1200 trajectory, và regression set vẫn chưa phát hiện lỗi, và tool output đã được offload ra file, nên vấn đề trôi xuống bước tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Độ chính xác 65.3%, 22.4% tool-use hallucination và 500 trajectory qua 3 domain, kể cả khi trace đã được sinh đầy đủ, và regression set vẫn chưa phát hiện lỗi, nên failure mode gốc vẫn chưa được xử lý"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi chú: '41.1% là điểm số CAO NHẤT đạt được, không phải điểm trung bình' — nghĩa là bài toán hallucination attribution khó ngay cả với model top-tier. Nguồn: arXiv:2601.06818.",
+      "tags": [
+        "day16",
+        "agenthallu"
+      ]
+    },
+    {
+      "id": "D16-033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Con số 35.1% trong slide bằng chứng về ReAct đại diện cho điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mức cải thiện đạt được khi bổ sung cơ chế tự đánh giá vào vòng lặp reasoning của agent, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "B",
+          "text": "Tỷ lệ thất bại của ReAct trên các bài toán suy luận nhiều bước theo đo lường của nhóm nghiên cứu, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "C",
+          "text": "ReAct Exact Match trên HotpotQA theo paper của Yao et al, trong khi model không hề bị thay đổi trọng số, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Tỷ lệ agent tự phát hiện và sửa được lỗi trong quá trình thực hiện chuỗi suy luận, trong khi model không hề bị thay đổi trọng số"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi chú rất cẩn thận về nguồn: 'EM của ReAct trên HotpotQA. Hai ô còn lại là mô tả định tính, không phải số đo.' Hai ô đó là 'Cao — fail rate trên multi-hop' và '0 — số lần agent tự sửa lỗi'. Đây là cách trình bày trung thực: chỉ con số có nguồn mới được ghi dạng số.",
+      "tags": [
+        "day16",
+        "evidence"
+      ]
+    },
+    {
+      "id": "D16-034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Archive kiểu Darwin trong DGM có đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ giữ lại biến thể tốt nhất ở mỗi thế hệ để tập trung nguồn lực vào hướng hứa hẹn nhất"
+        },
+        {
+          "key": "B",
+          "text": "Lưu toàn bộ lịch sử thay đổi để có thể khôi phục lại bất kỳ phiên bản nào trong quá khứ"
+        },
+        {
+          "key": "C",
+          "text": "Giữ cả nhánh kém hơn nên cây agent đa dạng, khám phá được song song nhiều hướng"
+        },
+        {
+          "key": "D",
+          "text": "Xếp hạng các biến thể theo điểm số rồi loại bỏ nửa dưới sau mỗi vòng đánh giá"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ý tưởng này mượn từ tiến hóa sinh học: một nhánh kém ở thời điểm hiện tại có thể là tổ tiên của nhánh mạnh về sau. Giữ đa dạng giúp tránh mắc kẹt ở cực trị địa phương — vấn đề kinh điển của mọi thuật toán tối ưu tham lam.",
+      "tags": [
+        "day16",
+        "dgm"
+      ]
+    },
+    {
+      "id": "D16-035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao model không tự thấy được doom loop?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì từ bên trong context, vòng lặp thứ N trông y hệt vòng thứ nhất — sự lặp lại là thuộc tính của lịch sử, mà lịch sử đó có thể đã bị nén mất, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "Vì model được thiết kế để tối ưu cho từng lượt riêng lẻ chứ không tối ưu cho cả chuỗi, và middleware không ghi nhận bất thường nào, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Vì mỗi lượt gọi model là một tiến trình độc lập không chia sẻ bộ nhớ với nhau, trong khi state vẫn được cập nhật bình thường, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì model không có quyền truy cập vào lịch sử các lượt gọi trước của chính nó, dù hook phía trước đã chạy xong không lỗi, trong khi state vẫn được cập nhật bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Middleware thì thấy được vì nó giữ state qua các vòng: cùng tool cùng tham số lặp quá N lần; hành động quay về đúng trạng thái cũ; hoặc plan file không đổi qua nhiều vòng liền. Đây là lý do 'infinite loop là lỗi ở tầng vòng lặp — chỉ sửa được ở nơi nhìn thấy vòng lặp'.",
+      "tags": [
+        "day16",
+        "doom-loop"
+      ]
+    },
+    {
+      "id": "D16-036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Filesystem trong deep agents đóng vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu trữ mã nguồn của các skill đã được kiểm chứng để tái sử dụng ở các task sau"
+        },
+        {
+          "key": "B",
+          "text": "Ghi log toàn bộ hoạt động của agent phục vụ mục đích kiểm toán và debug về sau"
+        },
+        {
+          "key": "C",
+          "text": "Nơi lưu kết quả cuối cùng của task để người dùng có thể tải về sau khi agent hoàn tất"
+        },
+        {
+          "key": "D",
+          "text": "External memory với read/write/edit_file và ls/glob/grep thay context window lưu trạng thái"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ý tưởng cốt lõi là chuyển gánh nặng lưu trữ trạng thái từ context window (tài nguyên khan hiếm, mất khi nén) sang filesystem (bền vững, truy cập theo nhu cầu). Điều này cũng giải thích vì sao auto-summarisation 'offload output tool lớn ra file'.",
+      "tags": [
+        "day16",
+        "filesystem"
+      ]
+    },
+    {
+      "id": "D16-037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Correlated failure trong Reflexion xảy ra vì lý do gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhiều agent chạy song song trên cùng một tập dữ liệu nên cùng gặp một lỗi hệ thống, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Reflection memory bị ghi đè giữa các lần thử nên bài học của lần trước bị mất đi hoàn toàn, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Evaluator được huấn luyện trên chính đầu ra của Actor nên học theo các sai lệch của Actor, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "D",
+          "text": "Evaluator và Actor dùng chung model hoặc prompt base nên evaluator đồng ý với câu trả lời sai thay vì bắt lỗi độc lập"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguồn gốc được chỉ ra ở slide evaluator prompt: 'Evaluator dùng chung context với Actor = evaluator mất tính độc lập. Đây là nguồn gốc của correlated failure.' Đây là lý do nguyên tắc thứ tư yêu cầu tách context giữa hai vai trò.",
+      "tags": [
+        "day16",
+        "correlated-failure"
+      ]
+    },
+    {
+      "id": "D16-038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong case study PR review, chuỗi lỗi lan tỏa diễn ra thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent chạy quá nhiều lần kiểm tra nên vượt ngân sách token trước khi kịp đưa ra kết luận cuối, dù vòng lặp reasoning vẫn chạy đúng thiết kế, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "Agent gọi sai tool ở bước đầu nên nhận về lỗi và phải thử lại nhiều lần cho tới khi hết lượt, và trace vẫn ghi đủ các bước đã đi qua, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Agent bỏ sót một phần của diff nên kết luận thiếu nhưng phần đã kiểm tra thì vẫn hoàn toàn chính xác, nên failure mode gốc vẫn chưa được xử lý, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Agent đọc nhầm module trong diff, chạy checker trên file không liên quan, tổng hợp bằng chứng sai nhưng vẫn trình bày tự tin, và ReAct không có signal nào để dừng lại"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Điểm mấu chốt được nêu: 'không ai chấm điểm bước giữa chừng'. Giải pháp là evaluator có thể chấm 'kết luận có grounded vào diff thật và test logs thật hay không' — bắt lỗi trước khi agent tự tin trình bày câu trả lời sai.",
+      "tags": [
+        "day16",
+        "case-study"
+      ]
+    },
+    {
+      "id": "D16-039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn cách phá doom loop theo thứ tự leo thang là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cảnh báo vào context (before_model), chặn hành động lặp (wrap_tool_call), ép đổi chiến lược (after_model), dừng và bàn giao (after_agent), trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "B",
+          "text": "Tăng nhiệt độ, đổi model, thêm tool và cuối cùng là chuyển sang kiến trúc khác, kể cả khi ngân sách token vẫn còn dư nhiều, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Ghi log, gửi cảnh báo, tạm dừng agent và yêu cầu con người can thiệp thủ công, mà harness vẫn tiếp tục vòng lặp như cũ, kể cả khi ngân sách token vẫn còn dư nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Retry ngay, chờ rồi retry, chuyển sang tool dự phòng, và báo lỗi cho người dùng biết, nên vấn đề trôi xuống bước tiếp theo, trong khi state vẫn được cập nhật bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn cách này dùng bốn hook khác nhau theo mức độ can thiệp tăng dần: từ chỉ nhắc nhở (context), tới chặn hành động cụ thể, tới từ chối output, và cuối cùng là dừng có kiểm soát khi hết ngân sách. Slide lưu ý Reflexion 'chấm chất lượng, không chấm sự lặp lại' nên không giải quyết được failure mode này.",
+      "tags": [
+        "day16",
+        "doom-loop"
+      ]
+    },
+    {
+      "id": "D16-040",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Self-evolving agent được định nghĩa thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent sinh ra các agent con mới với năng lực chuyên biệt hơn để giải quyết task phức tạp, trong khi model không hề bị thay đổi trọng số, mà chi phí đánh giá thì tăng lên đáng kể, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Agent tự động cải thiện chất lượng câu trả lời qua từng lần tương tác với người dùng, nên failure mode gốc vẫn chưa được xử lý, mà chi phí đánh giá thì tăng lên đáng kể, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Agent dùng reinforcement learning để cập nhật trọng số sau mỗi episode hoàn thành, kể cả khi số bước suy luận đã được giới hạn, trong khi đáp án cuối vẫn hoàn toàn chính xác, nên vấn đề trôi xuống bước tiếp theo"
+        },
+        {
+          "key": "D",
+          "text": "Agent tự sửa chính mình (prompt, kỹ năng, bộ nhớ, trọng số, code) và giữ lại thay đổi sau khi task kết thúc, nên failure mode gốc vẫn chưa được xử lý, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Điểm phân biệt cốt lõi là 'giữ lại thay đổi sau khi task kết thúc'. Slide đối chiếu: Reflexion sửa được trajectory rồi quên khi episode kết thúc; tree search bỏ cả cây khi chọn xong nhánh; Voyager thì không quên vì skill verified ghi ra Skill Library — đó đã là self-evolution.",
+      "tags": [
+        "day16",
+        "self-evolving"
+      ]
+    },
+    {
+      "id": "D16-041",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "τ²-bench (tau2-bench) đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Độ dài của task mà agent hoàn thành được với xác suất năm mươi phần trăm trở lên, nên không có tín hiệu nào để cải thiện, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Tool-agent-user interaction trong domain doanh nghiệp: user do LLM mô phỏng, agent gọi tool API domain-specific, phải tuân theo policy document, mà độ trễ mỗi lượt gọi vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Khả năng agent duyệt web nhiều bước và tổng hợp thông tin từ nhiều nguồn khác nhau, trong khi đáp án cuối vẫn hoàn toàn chính xác, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Khả năng agent thao tác trên desktop thật với chuột và bàn phím như người dùng bình thường, dù benchmark cho điểm số khá cao, nên không có tín hiệu nào để cải thiện"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm đặc biệt của τ²-bench là yếu tố 'phải tuân theo policy document' — nó không chỉ đo agent làm được việc mà còn đo agent làm ĐÚNG QUY TRÌNH, gần với yêu cầu thực tế của doanh nghiệp. Nguồn: Sierra.",
+      "tags": [
+        "day16",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "D16-042",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "citation_checker của lab chấm Grounding bằng những tiêu chí nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tỷ lệ câu có citation trên tổng số câu trong câu trả lời cuối cùng của agent, và regression set vẫn chưa phát hiện lỗi, mà chi phí đánh giá thì tăng lên đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "Citation precision/recall (claim có nguồn đúng không) cộng hallucination penalty (trừ điểm nặng cho unsupported/misattributed/fabricated), và abstain đúng lúc được thưởng điểm"
+        },
+        {
+          "key": "C",
+          "text": "Số lượng citation, độ dài trích dẫn và mức độ đa dạng của các nguồn được sử dụng, kể cả khi trace đã được sinh đầy đủ, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Độ tương đồng ngữ nghĩa giữa câu trả lời và tài liệu nguồn theo điểm cosine similarity, trong khi đáp án cuối vẫn hoàn toàn chính xác, và regression set vẫn chưa phát hiện lỗi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cơ chế thưởng cho abstain rất đáng chú ý: 'im lặng khi thiếu bằng chứng tốt hơn là bịa'. Điều này chống lại xu hướng tự nhiên của model là luôn cố đưa ra câu trả lời — vốn là nguồn gốc của hallucination.",
+      "tags": [
+        "day16",
+        "citation-checker"
+      ]
+    },
+    {
+      "id": "D16-043",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi kết bài Day 16 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một agent giỏi có thể làm nhiều việc, nhưng nên chia vai trò ở đâu để hệ thống dễ kiểm soát?"
+        },
+        {
+          "key": "B",
+          "text": "Bạn đang định thêm một lớp harness — bằng chứng nào cho thấy nó đáng chi phí token và latency?"
+        },
+        {
+          "key": "C",
+          "text": "Nếu chỉ được giữ một dashboard thì bạn giữ chất lượng câu trả lời hay data observability?"
+        },
+        {
+          "key": "D",
+          "text": "Bạn đang thiếu model mạnh hơn hay đang thiếu một pipeline đủ kỷ luật để kiểm soát chất lượng?"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Câu hỏi này tổng kết đúng tinh thần của bài: mọi lớp harness đều có giá, nên quyết định thêm lớp phải dựa trên bằng chứng (failure mode đo được, trace, ngân sách) chứ không phải cảm tính hay xu hướng.",
+      "tags": [
+        "day16",
+        "closing"
+      ]
+    },
+    {
+      "id": "D16-044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LATS kết hợp những gì và có đặc điểm gì so với Reflexion?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kết hợp orchestrator với worker; xử lý được task lớn hơn nhưng khó debug hơn đáng kể, trong khi model không hề bị thay đổi trọng số, kể cả khi số bước suy luận đã được giới hạn, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "B",
+          "text": "MCTS + LLM, mỗi node là một trạng thái suy luận; chính xác hơn Reflexion (92.7% vs 91%) nhưng tốn gấp 3-5 lần compute và cần environment cho phép undo, và regression set vẫn chưa phát hiện lỗi, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Kết hợp nhiều evaluator độc lập; giảm được correlated failure nhưng tăng chi phí gọi model, nên failure mode gốc vẫn chưa được xử lý, kể cả khi trace đã được sinh đầy đủ, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Kết hợp ReAct với skill library; chính xác tương đương nhưng rẻ hơn nhờ tái sử dụng kinh nghiệm, kể cả khi số bước suy luận đã được giới hạn, dù context window vẫn còn chỗ trống, kể cả khi trace đã được sinh đầy đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide giải thích quan hệ ba khái niệm: 'ToT + Reflexion → LATS: ToT chỉ expand cây, Reflexion chỉ reflect — LATS làm cả hai cộng MCTS search.' Điều kiện dùng: 'chỉ đáng dùng khi task giá trị cao, cho phép rollback (code gen, game)'. Nguồn arXiv:2310.04406.",
+      "tags": [
+        "day16",
+        "lats"
+      ]
+    },
+    {
+      "id": "D16-045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reflexion được reframe là gì trong bức tranh tổng thể của bài?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một biến thể của tree search với chiều sâu bằng một và không có bước mở rộng nhánh"
+        },
+        {
+          "key": "B",
+          "text": "Một phương pháp huấn luyện model bằng phản hồi văn bản thay cho tín hiệu gradient"
+        },
+        {
+          "key": "C",
+          "text": "Một critic layer — Evaluator + Reflector — được quấn quanh vòng lặp reasoning đã có sẵn"
+        },
+        {
+          "key": "D",
+          "text": "Một kiến trúc đối thủ của ReAct với cách tiếp cận hoàn toàn khác về vòng lặp suy luận"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nói rõ: 'Reflexion không phải một model khác và cũng không phải một kiến trúc đối thủ của ReAct.' Forward-reference sang §7: chính lớp critic này sẽ được hiện thực hóa như một after_model hook — điểm móc chạy sau khi model trả lời, trước khi harness quyết định bước tiếp theo.",
+      "tags": [
+        "day16",
+        "reframe"
+      ]
+    },
+    {
+      "id": "D16-046",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ma trận quyết định, chi phí của layer '+ search (§3)' được ký hiệu thế nào và dấu hiệu dừng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ký hiệu $$ với dấu hiệu dừng là vòng lặp self-reflect không thoát ra được sau nhiều lần"
+        },
+        {
+          "key": "B",
+          "text": "Ký hiệu $$$ với dấu hiệu dừng là library phình to nhưng ít skill được tái sử dụng lại"
+        },
+        {
+          "key": "C",
+          "text": "Ký hiệu $$$$ với dấu hiệu dừng là orchestrator tốn token điều phối hơn worker làm việc"
+        },
+        {
+          "key": "D",
+          "text": "Ký hiệu $$$$$ với dấu hiệu dừng là compute vượt giá trị mang lại hoặc môi trường không undo được"
+        }
+      ],
+      "answer": "D",
+      "explanation": "$$$$$ là mức chi phí cao nhất trong bảng, khớp với thông tin ở §3 rằng LATS 'tốn gấp 3–5× compute'. Điều kiện 'cho phép rollback' cũng lặp lại từ §3: LATS chỉ đáng dùng khi task giá trị cao và môi trường cho phép undo.",
+      "tags": [
+        "day16",
+        "matrix"
+      ]
+    },
+    {
+      "id": "D16-047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Anatomy của Orchestrator–Worker gồm những đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Orchestrator và worker chia sẻ chung một context window để đảm bảo thông tin nhất quán, mà chi phí token không giảm đi chút nào, kể cả khi số bước suy luận đã được giới hạn, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi worker được cấp một model riêng phù hợp với loại công việc mà nó phụ trách xử lý, kể cả khi số bước suy luận đã được giới hạn, dù vòng lặp reasoning vẫn chạy đúng thiết kế, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "C",
+          "text": "Orchestrator chạy tuần tự qua từng worker và tổng hợp kết quả sau khi worker cuối hoàn tất, dù vòng lặp reasoning vẫn chạy đúng thiết kế, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi ngân sách token vẫn còn dư nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Orchestrator tách task giao cho subagent; mỗi worker chạy context window cô lập không thấy transcript của worker khác; worker trả tóm tắt cô đọng khoảng 1.000–2.000 token chứ không trả nguyên transcript"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nối về §6: 'Đây chính là subagent spawning ở §6 (deep agents), nhìn ở quy mô một hệ nhiều agent.' Cô lập context là điểm mấu chốt — nó ngăn ô nhiễm context lan từ worker này sang worker khác. Nguồn: Anthropic (2026).",
+      "tags": [
+        "day16",
+        "orchestrator"
+      ]
+    },
+    {
+      "id": "D16-048",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao trajectory evaluation quan trọng hơn final-answer accuracy?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì final-answer accuracy che giấu agent đã đi lệch ở bước nào — hai agent cùng ra đáp án đúng có thể có trajectory rất khác nhau, một cái đi thẳng một cái lạc đường rồi may mắn tìm lại, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Vì final-answer accuracy chỉ áp dụng được cho task có đáp án duy nhất và rõ ràng, nên không có tín hiệu nào để cải thiện, trong khi đáp án cuối vẫn hoàn toàn chính xác, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Vì trajectory cho biết agent tốn bao nhiêu token nên tính được chi phí chính xác hơn, dù benchmark cho điểm số khá cao, nên không có tín hiệu nào để cải thiện, nên thông tin quan trọng vẫn bị bỏ sót, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì trajectory dễ đo hơn nhiều so với việc phải xác định đáp án cuối có đúng hay không, mà chi phí đánh giá thì tăng lên đáng kể, dù benchmark cho điểm số khá cao, nên không có tín hiệu nào để cải thiện, kể cả khi ngân sách token vẫn còn dư nhiều"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trajectory evaluation chấm ba thứ: agent có chọn đúng tool không, có tự phục hồi sau lỗi không, có ở trong ngân sách không. Slide nhấn mạnh: 'Với agent nhiều bước (Reflexion, LATS, orchestrator–worker), trajectory là nơi mọi lớp harness ở §2–§9 để lại dấu vết.'",
+      "tags": [
+        "day16",
+        "trajectory-eval"
+      ]
+    },
+    {
+      "id": "D16-049",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn nguyên tắc thiết kế evaluator prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng model mạnh nhất, đặt temperature bằng 0, lặp lại nhiều lần và lấy kết quả đa số, dù benchmark cho điểm số khá cao, trong khi đáp án cuối vẫn hoàn toàn chính xác, kể cả khi ngân sách token vẫn còn dư nhiều"
+        },
+        {
+          "key": "B",
+          "text": "Ngắn gọn, rõ ràng, có ví dụ mẫu và định dạng đầu ra thống nhất giữa các lần chấm, trong khi đáp án cuối vẫn hoàn toàn chính xác, kể cả khi ngân sách token vẫn còn dư nhiều, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Chấm theo rubric tường minh, bắt buộc trích dẫn bằng chứng, verdict máy đọc được dạng JSON {score, reason, evidence}, và tách context với Actor, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Chấm theo thang điểm mười, có trọng số cho từng tiêu chí, tính điểm tổng và so với ngưỡng, và regression set vẫn chưa phát hiện lỗi, dù benchmark cho điểm số khá cao, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide gọi evaluator là 'mắt xích yếu nhất của Reflexion — nếu nó chấm sai, cả vòng lặp Reflect–Retry đi sai hướng'. Nguyên tắc thứ tư đặc biệt quan trọng: 'evaluator không được thấy lý do biện minh của Actor, nếu không nó dễ bị thuyết phục đồng ý thay vì đánh giá độc lập'.",
+      "tags": [
+        "day16",
+        "evaluator-prompt"
+      ]
+    },
+    {
+      "id": "D16-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "after_model khác wrap_model_call ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "after_model chỉ đọc được output còn wrap_model_call sửa được cả input lẫn output của model, trong khi state vẫn được cập nhật bình thường, và middleware không ghi nhận bất thường nào, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "B",
+          "text": "wrap_model_call chỉ dùng cho tool call còn after_model dùng cho mọi phản hồi của model, và middleware không ghi nhận bất thường nào, trong khi plan file không hề bị đụng tới, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "C",
+          "text": "wrap_model_call bọc bản thân lời gọi (retry, fallback, latency/cost); after_model nói về nội dung của output vừa sinh, dù hook phía trước đã chạy xong không lỗi, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "D",
+          "text": "after_model chạy sau khi toàn bộ agent kết thúc còn wrap_model_call chạy mỗi vòng lặp, dù hook phía trước đã chạy xong không lỗi, nên không có tín hiệu nào để cải thiện, mà harness vẫn tiếp tục vòng lặp như cũ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phân biệt này quan trọng khi thiết kế: nếu vấn đề là hạ tầng (model timeout, cần fallback sang model khác) thì dùng wrap_model_call; nếu vấn đề là chất lượng nội dung (sai schema, chứa PII, lặp lại) thì dùng after_model.",
+      "tags": [
+        "day16",
+        "after-model"
+      ]
+    },
+    {
+      "id": "D16-051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm thành phần của ReflexionState trong code là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "task, plan, worker_results, status và final_answer theo cấu trúc state của multi-agent, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "B",
+          "text": "state, action, reward, next_state và done theo chuẩn của học tăng cường truyền thống, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "prompt, context, constraints, expected_output và error theo cấu trúc phiếu giao việc, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "D",
+          "text": "messages, trajectory, reflection_memory, attempt_count và success, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ý nghĩa từng thành phần: messages là conversation hiện tại, trajectory là lịch sử hành động, reflection_memory là bài học rút ra, attempt_count đếm số lần thử, success cho biết đã đúng chưa. Lưu ý kèm theo: reflection memory dùng sliding window — quá nhỏ thì agent quên, quá lớn thì chiếm hết context window.",
+      "tags": [
+        "day16",
+        "reflexion-state"
+      ]
+    },
+    {
+      "id": "D16-052",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dấu hiệu 'skill rot' thuộc về layer nào trong ma trận quyết định?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Layer subagents, khi các worker tích lũy quá nhiều kinh nghiệm chồng chéo lên nhau"
+        },
+        {
+          "key": "B",
+          "text": "Layer plan file, khi kế hoạch cũ không còn phù hợp với tình huống hiện tại nữa"
+        },
+        {
+          "key": "C",
+          "text": "Layer critic, khi các bài học phản tỉnh cũ mâu thuẫn với bài học mới rút ra"
+        },
+        {
+          "key": "D",
+          "text": "Layer skills (§4) — library phình to nhưng ít skill được tái sử dụng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chi phí của layer skills là $$$ và điều kiện dùng là 'lặp domain, cần tích lũy kinh nghiệm'. Skill rot là dấu hiệu chi phí duy trì thư viện vượt quá giá trị nó mang lại — cần rà soát và loại bỏ skill không dùng đến.",
+      "tags": [
+        "day16",
+        "matrix"
+      ]
+    },
+    {
+      "id": "D16-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Skill Library của Voyager tái xuất hiện năm 2026 dưới dạng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector store chứa embedding của các kỹ năng, truy xuất theo độ tương đồng ngữ nghĩa với task, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "Fine-tuned model được huấn luyện lại định kỳ trên các trajectory thành công đã tích lũy, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Cơ sở dữ liệu quan hệ lưu mã nguồn của từng kỹ năng cùng metadata về điều kiện áp dụng, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "Skill files nạp progressive — chỉ khi agent chạm tới, không nhồi hết vào context từ đầu; kèm persistent instruction file đọc một lần lúc khởi động"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân biệt hai loại: skill files là on-demand (kiến thức domain chi tiết, chỉ load khi task chạm đến); persistent instruction file kiểu CLAUDE.md đọc một lần lúc khởi động và áp dụng luôn không đợi task chạm tới.",
+      "tags": [
+        "day16",
+        "skill-files"
+      ]
+    },
+    {
+      "id": "D16-054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Các lớp §2-§6 ánh xạ vào hook nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Critic layer vào before_model, skill layer vào after_model, search layer vào wrap_tool_call, và middleware không ghi nhận bất thường nào, kể cả khi ngân sách token vẫn còn dư nhiều, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Critic layer (§2) = after_model; skill layer (§4) = nạp skill file ở before_model; search layer (§3) = điều khiển quanh wrap_model_call; deep-agent context (§6) = before_model + wrap_tool_call, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả các lớp đều cắm vào wrap_model_call vì đó là nơi duy nhất truy cập được model, kể cả khi ngân sách token vẫn còn dư nhiều, nên vấn đề trôi xuống bước tiếp theo, dù vòng lặp reasoning vẫn chạy đúng thiết kế, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "Critic vào after_agent, skill vào before_agent, search vào wrap_tool_call, context vào after_model, nên vấn đề trôi xuống bước tiếp theo, trong khi state vẫn được cập nhật bình thường, kể cả khi số bước suy luận đã được giới hạn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide kết luận: 'Không cái nào là kiến trúc đối thủ.' Đây là thông điệp trung tâm của bài — mọi kiến trúc nổi tiếng đều là các cách hiện thực hóa khác nhau trên cùng sáu điểm móc.",
+      "tags": [
+        "day16",
+        "hook-mapping"
+      ]
+    },
+    {
+      "id": "D16-055",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn key takeaway của Day 16 nhấn mạnh điều gì ở ý số 2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Các lớp còn lại sẽ được học ở những ngày khác gồm memory, giao thức multi-agent và MCP, trong khi model không hề bị thay đổi trọng số, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "B",
+          "text": "Mọi kiến trúc có tên trong bài là một lớp của harness chứ không phải sản phẩm đối thủ — critic, search, skill, plan file, subagent đều cắm vào sáu hook của §7, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi lớp harness đều tốn token và latency nên chỉ thêm khi có bằng chứng đo được rõ ràng, nên failure mode gốc vẫn chưa được xử lý, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "D",
+          "text": "Single agent thất bại theo ba kiểu có tên nên phải chọn kiến trúc theo failure mode đang gặp, dù vòng lặp reasoning vẫn chạy đúng thiết kế, trong khi model không hề bị thay đổi trọng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là thông điệp thống nhất toàn bài: thay vì học từng kiến trúc như các lựa chọn cạnh tranh nhau, học viên nhìn chúng như các lớp có thể cộng dồn trên cùng một khung harness. Điều này thay đổi hoàn toàn cách ra quyết định kiến trúc.",
+      "tags": [
+        "day16",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D16-056",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba loại lỗi trích dẫn và defence tương ứng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hallucination, misinformation và disinformation theo ba mức độ nghiêm trọng tăng dần, dù benchmark cho điểm số khá cao, mà chi phí đánh giá thì tăng lên đáng kể, kể cả khi ngưỡng nén chưa bị chạm tới, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Unsupported claim (không có nguồn nào — bắt bằng kiểm tra có citation không), Misattributed claim (nguồn có thật nhưng không chứa nội dung hỗ trợ — phải đọc lại nguồn mới bắt được), Fabricated source (nguồn không tồn tại — phải xác minh nguồn tồn tại)"
+        },
+        {
+          "key": "C",
+          "text": "Trích dẫn thiếu, trích dẫn thừa và trích dẫn sai vị trí trong văn bản trả lời của agent, nên không có tín hiệu nào để cải thiện, dù benchmark cho điểm số khá cao, nên failure mode gốc vẫn chưa được xử lý, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "D",
+          "text": "Sai ngữ pháp, sai chính tả và sai định dạng trích dẫn theo chuẩn học thuật quy định, và regression set vẫn chưa phát hiện lỗi, nên không có tín hiệu nào để cải thiện, nên thông tin quan trọng vẫn bị bỏ sót, và trace vẫn ghi đủ các bước đã đi qua"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide giải thích vì sao phân biệt ba loại quan trọng: mỗi defence chỉ bắt được một loại. Kiểm tra 'có citation không' là rẻ nhất nhưng chỉ bắt unsupported — hai loại còn lại cần công sức xác minh nhiều hơn. Đây chính là các bẫy corpus mà lab dùng để chấm điểm.",
+      "tags": [
+        "day16",
+        "citation-errors"
+      ]
+    },
+    {
+      "id": "D16-057",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ranh giới của §8 dừng ở đâu và phần nào thuộc Ngày 17?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngày 16 có compaction & eviction trong MỘT context window đang chạy; Ngày 17 có bộ nhớ sống sót qua session, memory store, và retrieval-backed memory"
+        },
+        {
+          "key": "B",
+          "text": "Ngày 16 có memory store còn Ngày 17 có cách truy hồi bộ nhớ theo truy vấn của người dùng, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, và tool output đã được offload ra file"
+        },
+        {
+          "key": "C",
+          "text": "Ngày 16 có context engineering còn Ngày 17 có toàn bộ phần kiến trúc multi-agent, kể cả khi ngưỡng nén chưa bị chạm tới, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "D",
+          "text": "Ngày 16 có compaction còn Ngày 17 có eviction và các chiến lược nén nâng cao hơn, và tool output đã được offload ra file, kể cả khi ngưỡng nén chưa bị chạm tới"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu hỏi bắc cầu được nêu rõ: 'Ngày 16 nén context trong MỘT phiên đang chạy — nhưng agent có nhớ gì khi phiên đó kết thúc không?' Đây cũng là forward-reference của bài tiếp theo về Memory Systems for Agents.",
+      "tags": [
+        "day16",
+        "boundary-8"
+      ]
+    },
+    {
+      "id": "D16-058",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn yêu cầu của eval harness để agent 'được phép tiến hoá' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chấm tự động bằng verifier, regression set bắt buộc, kiểm tra tính chuyển được trên nhiều task/model, và trace hợp lệ từ middleware"
+        },
+        {
+          "key": "B",
+          "text": "Chạy nhanh, chi phí thấp, dễ cấu hình và tích hợp được với hệ thống CI/CD hiện có, nên vấn đề trôi xuống bước tiếp theo"
+        },
+        {
+          "key": "C",
+          "text": "Đo accuracy, đo latency, đo cost và đo mức độ hài lòng của người dùng cuối, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "D",
+          "text": "Có ground truth, có baseline, có nhiều lần chạy và có phân tích thống kê độ tin cậy, trong khi state vẫn được cập nhật bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cảnh báo quan trọng: 'Metric yếu thì agent tiến hoá theo metric, không theo mục tiêu — evaluator ở đây thành hàm mục tiêu của cả quá trình, sai lệch bị khuếch đại qua từng thế hệ.' Yêu cầu regression set chính là định luật Excel (performance preservation).",
+      "tags": [
+        "day16",
+        "eval-harness"
+      ]
+    },
+    {
+      "id": "D16-059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 4 liệt kê các lớp học ở ngày nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Memory và multi-agent ở Ngày 17, guardrails và MCP ở Ngày 24 theo hai cặp chủ đề, nên failure mode gốc vẫn chưa được xử lý, trong khi đáp án cuối vẫn hoàn toàn chính xác, trong khi state vẫn được cập nhật bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Memory qua session ở Ngày 17, giao thức multi-agent ở Ngày 20, guardrails triển khai ở Ngày 24, MCP ở Ngày 26, kể cả khi số bước suy luận đã được giới hạn, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả các chủ đề còn lại đều được gộp vào một ngày tổng kết cuối chương trình học, trong khi model không hề bị thay đổi trọng số, trong khi state vẫn được cập nhật bình thường, và tool output đã được offload ra file"
+        },
+        {
+          "key": "D",
+          "text": "Memory ở Ngày 18, multi-agent ở Ngày 21, guardrails ở Ngày 25 và MCP ở Ngày 27, kể cả khi số bước suy luận đã được giới hạn, và tool output đã được offload ra file, mà chi phí đánh giá thì tăng lên đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn forward-reference này nhất quán với các slide 'Ranh giới' ở §8, §9 và §10. Cách đánh dấu ranh giới rõ ràng giúp học viên không kỳ vọng sai về phạm vi của bài và biết khi nào sẽ có câu trả lời đầy đủ.",
+      "tags": [
+        "day16",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D16-060",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ranh giới của §9 dừng ở đâu và phần nào thuộc Ngày 20?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngày 16 có lý thuyết còn Ngày 20 có phần thực hành triển khai hệ multi-agent thật, kể cả khi ngưỡng nén chưa bị chạm tới, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "B",
+          "text": "Ngày 16 có orchestrator còn Ngày 20 có worker và cách chúng phối hợp với nhau, trong khi plan file không hề bị đụng tới, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Ngày 16 có kinh tế học multi-agent còn Ngày 20 có anatomy chi tiết của từng thành phần, nên thông tin quan trọng vẫn bị bỏ sót, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Ngày 16 có anatomy (ai gọi ai, context cô lập, tóm tắt bao nhiêu token) và kinh tế học; Ngày 20 có giao thức giao tiếp, handoff pattern, và A2A"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Câu hỏi bắc cầu: 'Orchestrator đã biết phân việc và cô lập context — nhưng các agent nói chuyện với nhau thế nào?' A2A (Agent-to-Agent) là chuẩn giao tiếp liên-agent sẽ học ở Ngày 20.",
+      "tags": [
+        "day16",
+        "boundary-9"
+      ]
+    },
+    {
+      "id": "D16-061",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lab 16 'Agent Arena' chấm ba chiều nào và trên chúng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context Recall, Faithfulness và Answer Relevance theo khung RAGAS đã học ở Ngày 8, dù benchmark cho điểm số khá cao, và regression set vẫn chưa phát hiện lỗi, kể cả khi số bước suy luận đã được giới hạn, và trace vẫn ghi đủ các bước đã đi qua, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy, Latency và Cost theo ba tiêu chí đánh giá hiệu năng hệ thống thông thường, mà chi phí đánh giá thì tăng lên đáng kể, trong khi đáp án cuối vẫn hoàn toàn chính xác, và trace vẫn ghi đủ các bước đã đi qua, dù vòng lặp reasoning vẫn chạy đúng thiết kế, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Grounding (citation precision/recall, phạt hallucination — §11 lớp citation_checker), Safety (kháng injection + abstain đúng lúc — §10 lớp injection_guard), Efficiency (token cost + latency so với ngân sách — §3 lớp budget_policy); trên cả ba là trace-conformance gate PASS/FAIL"
+        },
+        {
+          "key": "D",
+          "text": "Correctness, Consistency và Safety theo ba trục của khung đánh giá prompt đã học trước đó, trong khi đáp án cuối vẫn hoàn toàn chính xác, dù benchmark cho điểm số khá cao, dù vòng lặp reasoning vẫn chạy đúng thiết kế, dù context window vẫn còn chỗ trống, kể cả khi ngưỡng nén chưa bị chạm tới"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lý do trace-conformance gate được đặt lên trên cả ba chiều: 'không sinh được trace hợp lệ thì không chấm được chiều nào. Đó là lý do middleware (§7) là bắt buộc.' Ba chiều chấm điểm ánh xạ đúng ba section khác nhau của bài.",
+      "tags": [
+        "day16",
+        "lab-arena"
+      ]
+    },
+    {
+      "id": "D16-062",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài đọc 'AI Agents That Matter' (2024) được trích ở đâu và với thông điệp gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ở §1, với thông điệp rằng ReAct vẫn là nền tảng cho mọi kiến trúc agent hiện đại, kể cả khi số bước suy luận đã được giới hạn, và tool output đã được offload ra file"
+        },
+        {
+          "key": "B",
+          "text": "Ở §7, với thông điệp rằng harness quan trọng hơn model trong việc quyết định hiệu năng, mà chi phí token không giảm đi chút nào, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Ở §5, với thông điệp rằng tự tiến hóa cần eval harness làm điều kiện tiên quyết, mà chi phí token không giảm đi chút nào, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Ở §12 dưới bảng ma trận quyết định, với thông điệp nhiều bài toán không cần agent nên đừng over-engineer, kể cả khi số bước suy luận đã được giới hạn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Việc đặt bài đọc này ngay dưới ma trận quyết định rất có chủ ý: sau khi trình bày sáu layer có thể thêm vào, bài giảng nhắc lại rằng lựa chọn hợp lý nhất đôi khi là không thêm layer nào cả.",
+      "tags": [
+        "day16",
+        "reading"
+      ]
+    },
+    {
+      "id": "D16-063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao ReAct không tự thoát được infinite loop?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model không đủ mạnh để nhận ra mình đang lặp lại chính hành động đã thực hiện"
+        },
+        {
+          "key": "B",
+          "text": "Vì context window bị đầy nên agent quên mất mình đã thử cách đó rồi ở các bước trước"
+        },
+        {
+          "key": "C",
+          "text": "Vì ReAct không có cơ chế tự đánh giá — không có signal nào báo dừng lại và suy nghĩ lại"
+        },
+        {
+          "key": "D",
+          "text": "Vì tool trả về kết quả không ổn định nên agent phải thử lại nhiều lần để có kết quả nhất quán"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là root cause chung cho cả ba failure mode. Ở §7 slide còn bổ sung góc nhìn sâu hơn về infinite loop: 'Từ bên trong context, vòng lặp thứ N trông y hệt vòng thứ nhất. Sự lặp lại là thuộc tính của lịch sử — mà lịch sử đó có thể đã bị nén mất.'",
+      "tags": [
+        "day16",
+        "react-failure"
+      ]
+    },
+    {
+      "id": "D16-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn failure mode của Reflexion trong production là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Model quá yếu, prompt chưa tối ưu, dữ liệu huấn luyện thiếu và benchmark không phù hợp, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, nên failure mode gốc vẫn chưa được xử lý, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Correlated failure (evaluator và actor dùng chung model/prompt base nên evaluator đồng ý với câu trả lời sai), reflection không đổi chiến lược, retry không giới hạn, và reflection memory mâu thuẫn nhau, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Evaluator chấm quá nghiêm khắc, reflector viết quá dài, memory tràn context và chi phí vượt ngân sách, nên failure mode gốc vẫn chưa được xử lý, trong khi model không hề bị thay đổi trọng số, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "Tool gọi sai, schema không khớp, parse lỗi và định dạng đầu ra không đúng chuẩn quy định, trong khi model không hề bị thay đổi trọng số, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, nên failure mode gốc vẫn chưa được xử lý"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Failure mode thứ hai được mô tả cụ thể: reflection chỉ diễn đạt lại lỗi ('câu trả lời sai vì thiếu thông tin') mà không đưa ra hướng thử khác cụ thể, nên attempt 2 lặp lại attempt 1. Failure mode thứ tư: các bài học tích lũy chỏi nhau khiến agent bối rối hơn là học được.",
+      "tags": [
+        "day16",
+        "reflexion-failure"
+      ]
+    },
+    {
+      "id": "D16-065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào CHƯA cần multi-agent theo kinh tế học của §9?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi một agent đơn với tool tốt vẫn thắng, task vừa đủ trong một context window, chi phí bị coordination chi phối (orchestrator + N worker = N+1 lượt gọi), và debug khó hơn vì lỗi có thể nằm ở điều phối"
+        },
+        {
+          "key": "B",
+          "text": "Khi một agent phải chọn giữa hàng chục tool khiến việc chọn đúng trở nên khó khăn, và trace vẫn ghi đủ các bước đã đi qua, mà chi phí token không giảm đi chút nào, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Khi các subtask hoàn toàn độc lập và có thể chạy song song để rút ngắn thời gian tổng, trong khi model không hề bị thay đổi trọng số, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi ngân sách token vẫn còn dư nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Khi mỗi worker cần sở hữu một domain riêng với bộ tool và tiêu chí đúng/sai riêng biệt, mà chi phí token không giảm đi chút nào, kể cả khi số bước suy luận đã được giới hạn, và tool output đã được offload ra file"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba phương án còn lại đều là điều kiện KHI NÀO multi-agent bắt đầu đáng tiền. Slide nhấn mạnh: 'Cô lập context là mục đích, không phải tác dụng phụ — worker ô nhiễm không lan sang orchestrator hay worker khác.'",
+      "tags": [
+        "day16",
+        "multi-agent-economics"
+      ]
+    },
+    {
+      "id": "D16-066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Con số 52.8% → 66.5% trên Terminal-Bench 2.0 chứng minh điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Việc bổ sung thêm tool giúp agent xử lý được nhiều loại task hơn so với trước đây, và middleware không ghi nhận bất thường nào, nên vấn đề trôi xuống bước tiếp theo"
+        },
+        {
+          "key": "B",
+          "text": "Việc fine-tune model trên dữ liệu chuyên biệt của domain mang lại cải thiện đáng kể, nên vấn đề trôi xuống bước tiếp theo, mà harness vẫn tiếp tục vòng lặp như cũ"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ mức tăng đến từ harness engineering — lớp code bao quanh model — chứ không phải từ model mạnh hơn; hiệu năng của agent không nằm hết trong model"
+        },
+        {
+          "key": "D",
+          "text": "Model mới mạnh hơn model cũ khoảng mười bốn điểm phần trăm trên cùng bộ benchmark, dù hook phía trước đã chạy xong không lỗi, và middleware không ghi nhận bất thường nào"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ba con số đi kèm: 52.8% → 66.5% trên Terminal-Bench 2.0; thứ hạng từ ngoài top 30 lên hạng 5; và 0 thay đổi ở model (cùng model, cùng weights). Nguồn: LangChain (2026) — slide ghi rõ đây là 'con số duy nhất của §7'.",
+      "tags": [
+        "day16",
+        "harness"
+      ]
+    },
+    {
+      "id": "D16-067",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấu trúc mỗi entry trong reflection memory theo Lab 16 gồm những trường nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "score, reason, evidence và verdict theo định dạng đầu ra của evaluator prompt"
+        },
+        {
+          "key": "B",
+          "text": "task, context, constraints, expected_output và error theo cấu trúc phiếu giao việc"
+        },
+        {
+          "key": "C",
+          "text": "timestamp, agent_id, action, input_summary và output_summary theo chuẩn trace 7 field"
+        },
+        {
+          "key": "D",
+          "text": "attempt_id, failure_reason, lesson và strategy_next, mà chi phí đánh giá thì tăng lên đáng kể"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bốn trường này ánh xạ đúng template REFLECT ở §2: 'Previous attempt failed because: {error} / Lesson: {lesson} / Next strategy: {strategy}'. Trường strategy_next đặc biệt quan trọng vì nó chống lại failure mode 'reflection không đổi chiến lược'.",
+      "tags": [
+        "day16",
+        "lab-memory"
+      ]
+    },
+    {
+      "id": "D16-068",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao trace-conformance gate được đặt là PASS/FAIL thay vì cho điểm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì trace chỉ phục vụ mục đích debug nên không cần đánh giá chi tiết như ba chiều còn lại, dù benchmark cho điểm số khá cao"
+        },
+        {
+          "key": "B",
+          "text": "Vì các định dạng trace khác nhau không so sánh được với nhau bằng một thang điểm chung, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Vì việc chấm điểm trace tốn nhiều công sức hơn so với chỉ kiểm tra tính hợp lệ đơn thuần, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Vì không sinh được trace hợp lệ thì không chấm được chiều nào — đây là điều kiện tiên quyết chứ không phải một tiêu chí song song"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là lý do slide kết luận 'middleware (§7) là bắt buộc'. Nó cũng nhất quán với yêu cầu thứ tư của eval harness ở §5: 'không có trace chuẩn từ middleware thì không chấm được chiều nào, nên cũng không có tín hiệu để tiến hoá'.",
+      "tags": [
+        "day16",
+        "trace-gate"
+      ]
+    },
+    {
+      "id": "D16-069",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Voyager hoạt động theo vòng lặp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Generate → Evaluate → Reflect → Retry với reflection memory lưu bài học giữa các lần thử, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Auto Curriculum đặt task → Code Generator viết code → Verify & Debug → skill verified vào Skill Library, và retrieve skills từ library cho task tiếp theo, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Plan → Act → Verify → Replan với ba pha tách biệt có prompt và budget riêng cho từng pha, mà chi phí token không giảm đi chút nào, và trace vẫn ghi đủ các bước đã đi qua, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "D",
+          "text": "Orchestrator giao việc cho worker, worker trả tóm tắt, orchestrator tổng hợp thành kết quả, kể cả khi số bước suy luận đã được giới hạn, nên thông tin quan trọng vẫn bị bỏ sót, dù benchmark cho điểm số khá cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ba đặc điểm của Voyager: agent tự đặt mục tiêu, viết code, lưu skill đã verified; skill mới xây trên skill cũ (compound learning); tích lũy kỹ năng độc nhất nhiều hơn hẳn baseline không có skill library. Ứng dụng: code generation, DevOps automation.",
+      "tags": [
+        "day16",
+        "voyager"
+      ]
+    },
+    {
+      "id": "D16-070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ORM và PRM khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ORM dùng cho task ngắn còn PRM dùng cho task dài nhiều bước với chi phí cao hơn nhiều, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "ORM cho điểm số liên tục từ 0 tới 1 còn PRM chỉ cho điểm nhị phân đúng hoặc sai, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "ORM chấm bằng người còn PRM chấm tự động bằng một model riêng được huấn luyện chuyên biệt, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "D",
+          "text": "ORM chỉ chấm đáp án cuối nên không biết bước nào sai; PRM chấm từng bước suy luận nên bắt lỗi sớm trước khi nó lan sang bước sau"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sơ đồ minh họa rõ: với chuỗi B1-B2-B3, ORM chỉ biết kết quả sau khi đã đi hết B3; PRM bắt lỗi ở B2 ngay khi nó xảy ra. Đây chính là giải pháp cho failure mode 'lỗi lan tỏa' — chấm điểm bước giữa chừng, điều mà case study PR review đã chỉ ra là thiếu.",
+      "tags": [
+        "day16",
+        "prm"
+      ]
+    },
+    {
+      "id": "D16-071",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 3 của Day 16 nói gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mọi kiến trúc có tên trong bài đều là một lớp của harness chứ không phải sản phẩm đối thủ, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "B",
+          "text": "Single agent thất bại theo ba kiểu có tên nên phải chọn kiến trúc theo failure mode đang gặp, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi lớp đều tốn token và latency — thêm lớp khi có bằng chứng (failure mode đo được, trace, ngân sách), không thêm mặc định; dùng ma trận §12"
+        },
+        {
+          "key": "D",
+          "text": "Các lớp còn lại học ngày khác gồm memory qua session, giao thức multi-agent, guardrails và MCP, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cụm 'failure mode đo được, trace, ngân sách' liệt kê chính xác ba loại bằng chứng cần có. Đây cũng là câu trả lời cho câu hỏi kết bài: 'Bạn đang định thêm một lớp harness — bằng chứng nào cho thấy nó đáng chi phí token và latency?'",
+      "tags": [
+        "day16",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D16-072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu hook của middleware theo đúng thứ tự trong vòng lặp là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "on_start, on_message, on_tool, on_error, on_complete và on_end theo mô hình hướng sự kiện"
+        },
+        {
+          "key": "B",
+          "text": "init, pre_process, run, post_process, cleanup và finalize theo vòng đời chuẩn của một tiến trình"
+        },
+        {
+          "key": "C",
+          "text": "before_agent, before_model, wrap_model_call, after_model, wrap_tool_call, after_agent"
+        },
+        {
+          "key": "D",
+          "text": "validate, execute, verify, retry, log và close theo năm bước xử lý một yêu cầu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Tài liệu tham khảo §7 cảnh báo rất cụ thể: 'scaffold của lab Agent Arena có sẵn stub cho đúng sáu tên hook, viết y hệt cách viết ở trên (kể cả dấu gạch dưới). Đổi tên, đổi thứ tự, hay viết sai một ký tự = lab không chạy.'",
+      "tags": [
+        "day16",
+        "six-hooks"
+      ]
+    },
+    {
+      "id": "D16-073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cần tách Plan – Act – Verify thành ba pha?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi pha có prompt riêng, budget compute riêng và tín hiệu thất bại riêng — pha nào hỏng thì biết ngay pha đó thay vì phải đoán lại từ một transcript lẫn lộn cả ba việc"
+        },
+        {
+          "key": "B",
+          "text": "Vì mỗi pha cần một model khác nhau phù hợp với đặc thù của loại công việc trong pha đó, kể cả khi số bước suy luận đã được giới hạn, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "C",
+          "text": "Vì việc tách pha giúp giảm chi phí token do mỗi pha chỉ cần đọc phần context liên quan, trong khi model không hề bị thay đổi trọng số, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Vì ba pha có thể chạy song song trên ba tiến trình khác nhau nên rút ngắn được thời gian, mà chi phí token không giảm đi chút nào, kể cả khi số bước suy luận đã được giới hạn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba tín hiệu thất bại khác nhau: Plan thất bại (mục tiêu sai), Act thất bại (tool lỗi), Verify thất bại (không đạt tiêu chí). Đánh đổi được nêu rõ: 'Tách pha không miễn phí: mỗi pha là một lượt gọi model riêng — đổi latency lấy sự ổn định và khả năng debug.'",
+      "tags": [
+        "day16",
+        "plan-act-verify"
+      ]
+    },
+    {
+      "id": "D16-074",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài đọc thêm được khuyến nghị ở §7 và §13 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A Comprehensive Survey of Self-Evolving AI Agents về quỹ đạo bốn giai đoạn của tiến hóa, kể cả khi số bước suy luận đã được giới hạn, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Anthropic, Building Effective Agents — cùng lập luận 'bắt đầu đơn giản, chỉ thêm phức tạp khi có bằng chứng' đã dùng ở §1, nhìn từ phía thiết kế hệ thống thay vì phía hook"
+        },
+        {
+          "key": "C",
+          "text": "OWASP Top 10 for LLM Applications với danh sách các lỗ hổng phổ biến khi triển khai, mà chi phí token không giảm đi chút nào, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "D",
+          "text": "LangChain Deep Agents runtime documentation về bốn thành phần của kiến trúc deep agent, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tài liệu này xuất hiện hai lần: ở mục 5 tài liệu tham khảo §7 và ở bài tập về nhà. Điều đó cho thấy nguyên tắc 'đừng over-engineer' là thông điệp mà bài giảng muốn học viên mang về nhất.",
+      "tags": [
+        "day16",
+        "reading"
+      ]
+    },
+    {
+      "id": "D16-075",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quỹ đạo bốn giai đoạn theo survey về self-evolving agent là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prompt → Skills → Memory → Weights theo bốn nấc thang tự tiến hoá của agent, dù vòng lặp reasoning vẫn chạy đúng thiết kế, mà harness vẫn tiếp tục vòng lặp như cũ"
+        },
+        {
+          "key": "B",
+          "text": "Endure → Excel → Evolve → Transcend theo bốn định luật của quá trình tự tiến hoá, và trace vẫn ghi đủ các bước đã đi qua, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "C",
+          "text": "MOP (pretraining offline) → MOA (thích nghi online) → MAO (điều phối đa agent) → MASE (đa agent tự tiến hoá), trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "D",
+          "text": "ReAct → Reflexion → LATS → Multi-agent theo mức độ phức tạp tăng dần của kiến trúc, trong khi model không hề bị thay đổi trọng số, và regression set vẫn chưa phát hiện lỗi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Quỹ đạo này mô tả hành trình 'từ model tĩnh do người cấu hình sang hệ sinh thái đa agent tự chủ'. Nguồn: arXiv:2508.07407 — A Comprehensive Survey of Self-Evolving AI Agents.",
+      "tags": [
+        "day16",
+        "mop-mase"
+      ]
+    },
+    {
+      "id": "D16-076",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng ma trận quyết định §12, dấu hiệu nên dừng lại với 'ReAct thuần' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Library phình to nhưng rất ít kỹ năng thực sự được tái sử dụng ở các task sau"
+        },
+        {
+          "key": "B",
+          "text": "Compute vượt quá giá trị mang lại hoặc môi trường không cho phép hoàn tác hành động"
+        },
+        {
+          "key": "C",
+          "text": "Sai ngay bước đầu và không tự sửa được, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Orchestrator tốn token điều phối nhiều hơn số token worker dùng để làm việc thật"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng ma trận có sáu dòng, mỗi dòng gồm layer, khi nào dùng, chi phí và dấu hiệu nên dừng lại. Chi phí tăng dần từ $ (ReAct thuần) tới $$$$$ (search layer). Đây là công cụ quyết định trung tâm của cả bài.",
+      "tags": [
+        "day16",
+        "matrix"
+      ]
+    },
+    {
+      "id": "D16-077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đường cong chi phí của việc 'search thêm' cho thấy ba hiện tượng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accuracy giảm khi compute vượt ngưỡng, chi phí tăng theo cấp số nhân và độ trễ ổn định, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "B",
+          "text": "Accuracy tăng tuyến tính, chi phí tăng tuyến tính và độ trễ giữ nguyên ở mức ổn định, dù vòng lặp reasoning vẫn chạy đúng thiết kế, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "C",
+          "text": "Accuracy tăng theo test-time compute nhưng diminishing returns đến rất nhanh, latency variance nới rộng với outlier ngày càng xa trung vị, và chi phí hạ tầng có điểm không còn justify được"
+        },
+        {
+          "key": "D",
+          "text": "Accuracy đạt trần ngay từ đầu, chi phí không đổi và độ trễ giảm dần theo thời gian chạy, kể cả khi số bước suy luận đã được giới hạn, mà chi phí token không giảm đi chút nào"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi rõ trục là 'định tính — xu hướng minh hoạ, không phải số liệu đo được'. Kết luận quan trọng: 'Hướng nghiên cứu đúng không phải search nhiều hơn mà là compute-efficient reasoning.' Nguồn: arXiv:2506.04301.",
+      "tags": [
+        "day16",
+        "cost-curve"
+      ]
+    },
+    {
+      "id": "D16-078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Reflection memory nên LƯU những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bài học rút ra dạng 'thử X không được vì Y, lần sau thử Z', chiến lược đã thất bại, và ràng buộc mới phát hiện, và trace vẫn ghi đủ các bước đã đi qua, kể cả khi số bước suy luận đã được giới hạn, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "B",
+          "text": "Bản diễn giải lại task bằng ngôn ngữ khác để agent có góc nhìn mới ở lần thử tiếp theo, dù vòng lặp reasoning vẫn chạy đúng thiết kế, nên không có tín hiệu nào để cải thiện, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Tool dump đầy đủ gồm raw JSON và log request/response để có thể tái hiện lại tình huống, mà chi phí token không giảm đi chút nào, kể cả khi số bước suy luận đã được giới hạn, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "D",
+          "text": "Toàn bộ lịch sử chat thô của attempt cũ để không mất thông tin nào có thể hữu ích về sau, và trace vẫn ghi đủ các bước đã đi qua, nên không có tín hiệu nào để cải thiện, kể cả khi trace đã được sinh đầy đủ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba loại KHÔNG lưu được nêu rõ: lịch sử chat thô (giữ nguyên chỉ tốn token, không tăng khả năng sửa lỗi); tool dump đầy đủ (chỉ phần kết luận mới đáng giữ); diễn giải lại task (không thêm thông tin mới, chỉ lặp điều actor đã biết).",
+      "tags": [
+        "day16",
+        "reflection-memory"
+      ]
+    },
+    {
+      "id": "D16-079",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba bề mặt tấn công mới của agentic AI theo §10 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tool poisoning (metadata/mô tả tool bị chỉnh để dụ agent gọi sai), credential theft qua tool output (output chứa lệnh ẩn đánh cắp secret), indirect injection qua nội dung retrieved"
+        },
+        {
+          "key": "B",
+          "text": "Brute force, credential stuffing và session hijacking nhắm vào lớp xác thực của hệ thống, và trace vẫn ghi đủ các bước đã đi qua, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Model extraction, membership inference và adversarial examples nhắm vào chính model, nên failure mode gốc vẫn chưa được xử lý, kể cả khi số bước suy luận đã được giới hạn"
+        },
+        {
+          "key": "D",
+          "text": "SQL injection, XSS và CSRF được điều chỉnh để áp dụng vào giao diện hội thoại của agent, mà chi phí token không giảm đi chút nào, và trace vẫn ghi đủ các bước đã đi qua"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide dẫn OWASP: prompt injection là LLM01 — hạng mục đứng đầu OWASP Top 10 for LLM Applications ở cả bản 2023 lẫn 2025. Lưu ý về RAG poisoning được ghi thận trọng: 'kết quả của một nghiên cứu đơn lẻ, không phải hằng số đã được xác lập — đọc như tín hiệu cảnh báo'.",
+      "tags": [
+        "day16",
+        "attack-surface"
+      ]
+    },
+    {
+      "id": "D16-080",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "wrap_tool_call làm được ba việc gì mà hook khác không làm được?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo ngân sách, đếm token đã dùng và chốt sổ chi phí khi phiên chạy kết thúc, kể cả khi ngân sách token vẫn còn dư nhiều, dù hook phía trước đã chạy xong không lỗi, mà chi phí đánh giá thì tăng lên đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "Đánh giá chất lượng output, sinh bài học và ghi vào reflection memory cho lần thử sau, dù hook phía trước đã chạy xong không lỗi, và middleware không ghi nhận bất thường nào, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "C",
+          "text": "Nén context, chèn skill file và chặn output không đúng schema trước khi trả về người dùng, nên vấn đề trôi xuống bước tiếp theo, kể cả khi ngân sách token vẫn còn dư nhiều, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "D",
+          "text": "Gating (chặn/đổi tham số/trả lỗi trước mọi side effect), injecting context (tự điền tenant/user, giới hạn scope, gắn request-id), và intercepting results (redact PII, cắt output khổng lồ, offload ra file)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Lý do hook này đặc biệt: nó chạy CẢ TRƯỚC LẪN SAU lời gọi tool nên thấy cả đầu vào lẫn đầu ra. Slide nhấn mạnh: 'Đừng gọi tool xoá khi chưa xác nhận trong system prompt là lời đề nghị; cùng luật đó trong wrap_tool_call là bất biến.'",
+      "tags": [
+        "day16",
+        "wrap-tool-call"
+      ]
+    },
+    {
+      "id": "D16-081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ánh xạ một–một giữa Reflexion (§2) và after_model là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Evaluator thành after_agent vì nó chỉ chấm được khi toàn bộ quá trình đã hoàn tất, nên vấn đề trôi xuống bước tiếp theo, dù hook phía trước đã chạy xong không lỗi, nên thông tin quan trọng vẫn bị bỏ sót, và trace vẫn ghi đủ các bước đã đi qua"
+        },
+        {
+          "key": "B",
+          "text": "Evaluator → after_model (chấm output vừa sinh); Reflector → cũng ở đó (sinh bài học, ghi vào reflection memory); vòng thử lại → hook không chấp nhận output, đẩy state quay lại vòng lặp, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Actor thành before_model, Evaluator thành after_model, Reflector thành wrap_tool_call, trong khi state vẫn được cập nhật bình thường, và middleware không ghi nhận bất thường nào, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "D",
+          "text": "Toàn bộ Reflexion thành một hook duy nhất là wrap_model_call bọc quanh cả vòng lặp, và middleware không ghi nhận bất thường nào, nên vấn đề trôi xuống bước tiếp theo, và trace vẫn ghi đủ các bước đã đi qua"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Kết luận: 'Reflexion vì thế không phải kiến trúc riêng — nó là một cách hiện thực của after_model.' Slide còn liệt kê các luật khác cắm vào cùng hook: validate output (sai schema thì bắt sinh lại), redact PII, phát hiện mẫu bất thường, đếm ngân sách.",
+      "tags": [
+        "day16",
+        "reflexion-hook"
+      ]
+    },
+    {
+      "id": "D16-082",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dấu hiệu nên dừng lại với layer '+ plan file (§6)' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Plan file bị rewrite toàn bộ thay vì patch, kể cả khi trace đã được sinh đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Plan file không được đọc lại ở các vòng sau nên trở thành gánh nặng không cần thiết"
+        },
+        {
+          "key": "C",
+          "text": "Plan file quá dài vượt quá giới hạn kích thước file mà hệ thống cho phép lưu trữ"
+        },
+        {
+          "key": "D",
+          "text": "Nhiều agent cùng ghi vào plan file gây xung đột khi hai bên cập nhật đồng thời"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Dấu hiệu này rất tinh tế: nếu plan file bị viết lại toàn bộ mỗi lần thì nó đã mất đi hai ưu điểm chính so với plan trong context — addressable và diffable. Lúc đó bạn chỉ còn phải chịu chi phí lưu file mà không thu được lợi ích gì.",
+      "tags": [
+        "day16",
+        "matrix"
+      ]
+    },
+    {
+      "id": "D16-083",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi bắc cầu sang Ngày 17 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "§8 chỉ nén context trong một phiên — vậy agent nhớ gì sau khi phiên đó kết thúc?"
+        },
+        {
+          "key": "B",
+          "text": "Agent mạnh rồi nhưng ai kiểm soát nó khi nó có quyền hành động trong thế giới thực?"
+        },
+        {
+          "key": "C",
+          "text": "Một agent giỏi vẫn có giới hạn — làm sao chia vai để hệ thống dễ kiểm soát và mở rộng?"
+        },
+        {
+          "key": "D",
+          "text": "Cùng một model chỉ đổi harness mà hiệu năng nhảy vọt — vậy harness gồm những gì?"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu hỏi này lặp lại chính ranh giới đã vẽ ở §8: Ngày 16 có compaction và eviction trong một context window đang chạy; Ngày 17 có bộ nhớ sống sót qua session, memory store, và retrieval-backed memory. Chủ đề Ngày 17 là Memory Systems for Agents.",
+      "tags": [
+        "day16",
+        "next-day"
+      ]
+    },
+    {
+      "id": "D16-084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Reflexion hiệu quả theo giải thích của slide?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì nó chia nhỏ bài toán thành các bước đơn giản hơn nên xác suất sai ở mỗi bước giảm xuống"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó dùng episodic memory — agent nhớ bài học từ các lần thử trước trong cùng episode"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó tăng số lượng token dành cho suy luận nên model có nhiều không gian tính toán hơn"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó dùng nhiều model khác nhau nên giảm được rủi ro sai lệch hệ thống của một model đơn lẻ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Analogy trong slide: 'Giống cách bạn nhớ lần trước đã thử cách này không được, lần này thử khác.' Từ khóa 'trong cùng episode' rất quan trọng — nó phân biệt Reflexion với self-evolving agent ở §5, nơi cải tiến sống sót qua ranh giới episode.",
+      "tags": [
+        "day16",
+        "reflexion-why"
+      ]
+    },
+    {
+      "id": "D16-085",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dấu hiệu nên dừng lại với layer '+ critic (§2)' trong ma trận quyết định là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia được sub-task độc lập nhưng không thực sự chạy song song để rút ngắn thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Compute vượt giá trị mang lại hoặc môi trường không hỗ trợ thao tác hoàn tác"
+        },
+        {
+          "key": "C",
+          "text": "Plan file bị rewrite toàn bộ thay vì được cập nhật từng phần bằng thao tác patch"
+        },
+        {
+          "key": "D",
+          "text": "Lặp self-reflect không thoát — degeneration-of-thought, kể cả khi trace đã được sinh đầy đủ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Degeneration-of-thought là hiện tượng agent phản tỉnh mãi mà không tiến bộ — tương ứng failure mode 'reflection không đổi chiến lược' đã nêu ở §2. Nó cho thấy mỗi layer đều có giới hạn riêng cần theo dõi.",
+      "tags": [
+        "day16",
+        "matrix"
+      ]
+    },
+    {
+      "id": "D16-086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba việc mà nhiều tác vụ thực tế chỉ cần là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieval (tìm thông tin liên quan), Tools (gọi API/function có sẵn), và Structured output (trả kết quả đúng format)"
+        },
+        {
+          "key": "B",
+          "text": "Planning, memory và multi-agent coordination cho các bài toán nghiệp vụ thông thường, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Guardrails, observability và evaluation theo ba trụ cột vận hành hệ thống AI, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "D",
+          "text": "Reflexion, tree search và skill library theo ba lớp nâng cao đã học trong bài giảng, và trace vẫn ghi đủ các bước đã đi qua"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là lời nhắc chống over-engineering ngay từ đầu bài. Nó nhất quán với tài liệu tham khảo của §7: Anthropic 'Building Effective Agents' với cùng lập luận 'bắt đầu đơn giản, chỉ thêm phức tạp khi có bằng chứng'.",
+      "tags": [
+        "day16",
+        "simple-first"
+      ]
+    },
+    {
+      "id": "D16-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba núm xoay của một harness là gì và núm nào lập trình được?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System prompt (model là ai, cư xử thế nào), Tools (agent chạm được vào cái gì), Middleware (code chạy quanh từng bước vòng lặp) — chỉ middleware lập trình được, trong khi state vẫn được cập nhật bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Input rails, LLM rails và Output rails — cả ba đều cấu hình được bằng file YAML, dù hook phía trước đã chạy xong không lỗi, trong khi state vẫn được cập nhật bình thường, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Prompt, context và memory — chỉ memory thay đổi được theo trạng thái của phiên làm việc, trong khi state vẫn được cập nhật bình thường, và middleware không ghi nhận bất thường nào, và tool output đã được offload ra file"
+        },
+        {
+          "key": "D",
+          "text": "Model, temperature và max_tokens — chỉ temperature điều chỉnh được lúc chạy, nên vấn đề trôi xuống bước tiếp theo, dù hook phía trước đã chạy xong không lỗi, trong khi state vẫn được cập nhật bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide chốt: 'Prompt và tools chỉ mô tả agent; middleware can thiệp lúc agent đang chạy — đọc được state, chặn được hành động, sửa được context, dừng được vòng lặp.' Prompt và tools đều là cấu hình TĨNH: viết một lần, áp cho mọi lượt.",
+      "tags": [
+        "day16",
+        "three-knobs"
+      ]
+    },
+    {
+      "id": "D16-088",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thời gian và deliverable của Lab 16 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 giờ, nộp một agent hoàn chỉnh đã triển khai lên môi trường cloud có thể truy cập được, mà chi phí đánh giá thì tăng lên đáng kể, nên vấn đề trôi xuống bước tiếp theo, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "4 giờ, nộp báo cáo phân tích so sánh sáu kiến trúc agent đã học trong bài giảng, kể cả khi trace đã được sinh đầy đủ, trong khi đáp án cuối vẫn hoàn toàn chính xác, mà chi phí đánh giá thì tăng lên đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "1 giờ, nộp sơ đồ kiến trúc và mã giả mô tả cách triển khai Reflexion agent, dù benchmark cho điểm số khá cao, kể cả khi trace đã được sinh đầy đủ, mà chi phí đánh giá thì tăng lên đáng kể"
+        },
+        {
+          "key": "D",
+          "text": "2 giờ, nộp Reflexion agent repo + benchmark report gồm EM comparison, cost analysis và failure categorization, mà chi phí đánh giá thì tăng lên đáng kể, nên vấn đề trôi xuống bước tiếp theo"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mục tiêu lab: 'Implement Reflexion agent từ scratch với LangGraph'. Ba phần của benchmark report tương ứng ba câu hỏi thực tế: nó có tốt hơn không (EM), có đáng tiền không (cost), và hỏng theo kiểu nào (failure categorization).",
+      "tags": [
+        "day16",
+        "lab"
+      ]
+    },
+    {
+      "id": "D16-089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng nấc thang tự tiến hoá, nấc nào được đánh giá 'Offline, tốn kém'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Skills / tools vì việc kiểm chứng từng kỹ năng mới đòi hỏi chạy qua nhiều kịch bản thử nghiệm, dù vòng lặp reasoning vẫn chạy đúng thiết kế, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Prompt / instructions vì phải viết lại toàn bộ hướng dẫn mỗi khi thay đổi hành vi agent, nên failure mode gốc vẫn chưa được xử lý, dù context window vẫn còn chỗ trống, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Topology đa agent vì việc thay đổi cách agent gọi nhau ảnh hưởng tới toàn bộ hệ thống, mà chi phí token không giảm đi chút nào, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "D",
+          "text": "Trọng số model — fine-tune từ trajectory đã lọc, RL từ môi trường, nên failure mode gốc vẫn chưa được xử lý, nên thông tin quan trọng vẫn bị bỏ sót, mà chi phí đánh giá thì tăng lên đáng kể"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng có sáu nấc với cột 'Hôm nay' đánh giá mức khả thi: Prompt và Skills là 'Dùng được ngay'; Memory là 'Đang vào production'; Topology đa agent là 'Phần lớn còn thủ công'; Trọng số model là 'Offline, tốn kém'; Code & kiến trúc của chính agent là 'Nghiên cứu'.",
+      "tags": [
+        "day16",
+        "evolution-ladder"
+      ]
+    },
+    {
+      "id": "D16-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Dynamic tool selection nhờ wrap_tool_call giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Số lượng tool được giới hạn theo quyền của người dùng đang đăng nhập vào hệ thống, mà harness vẫn tiếp tục vòng lặp như cũ"
+        },
+        {
+          "key": "B",
+          "text": "Tool bị lỗi được thay thế bằng tool dự phòng có chức năng tương đương ngay lập tức, và middleware không ghi nhận bất thường nào"
+        },
+        {
+          "key": "C",
+          "text": "Tập tool đổi được theo state — pha Plan thấy tool khác pha Act, nhờ đó giảm tool overload (failure mode ở §1)"
+        },
+        {
+          "key": "D",
+          "text": "Tool được chọn tự động theo điểm số phù hợp nên agent không cần suy luận để chọn, kể cả khi ngân sách token vẫn còn dư nhiều"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là ví dụ đẹp về cách các phần của bài nối với nhau: tool overload là một trong ba điều kiện escalate ở §1, Plan-Act-Verify là §6, và giải pháp nằm ở wrap_tool_call của §7. Cùng một vấn đề được nhìn từ ba tầng khác nhau.",
+      "tags": [
+        "day16",
+        "dynamic-tool"
+      ]
+    },
+    {
+      "id": "D16-091",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ngưỡng kích hoạt compaction được khuyến nghị là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén sau mỗi mười lượt gọi model để đảm bảo context luôn ở mức gọn nhất có thể, trong khi plan file không hề bị đụng tới"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ nén khi nhận được cảnh báo từ API rằng context sắp vượt quá giới hạn cho phép, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "C",
+          "text": "Luôn nén khi context đạt 80% giới hạn của model đang sử dụng bất kể loại workload, và tool output đã được offload ra file"
+        },
+        {
+          "key": "D",
+          "text": "Workload đơn giản nén ở khoảng 5–20k token; workload phức tạp nhiều tool nhiều bước nén ở khoảng 50–100k token"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sai lầm phổ biến nhất được nêu: 'đợi context đầy rồi mới nén. Lúc đó model đã bắt đầu mất chất lượng vì context quá dài — nén muộn không cứu được lượt gọi vừa hỏng.' Nơi cắm vào luôn là before_model.",
+      "tags": [
+        "day16",
+        "compaction-threshold"
+      ]
+    },
+    {
+      "id": "D16-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sơ đồ Reflexion, điều kiện nào khiến vòng lặp tiếp tục?",
+      "options": [
+        {
+          "key": "A",
+          "text": "attempt_count nhỏ hơn ba thì tiếp tục bất kể điểm số của evaluator là bao nhiêu"
+        },
+        {
+          "key": "B",
+          "text": "score = 0 thì tiếp tục sang bước Reflect; score = 1 thì kết thúc"
+        },
+        {
+          "key": "C",
+          "text": "trajectory còn ngắn hơn ngưỡng quy định thì tiếp tục thêm các bước hành động mới"
+        },
+        {
+          "key": "D",
+          "text": "reflection_memory chưa đầy thì tiếp tục cho tới khi bộ nhớ đạt giới hạn cấu hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sơ đồ bốn bước: 1. Generate (Actor) → 2. Evaluate (Evaluator) → nếu score = 1 thì kết thúc, nếu score = 0 thì → 3. Reflect (Reflector) → 4. Retry (Actor), lặp đến khi đúng hoặc hết attempts. Reflection Memory nằm ở giữa, lưu 'Lần trước sai vì..., lần này thử...'.",
+      "tags": [
+        "day16",
+        "reflexion-loop"
+      ]
+    },
+    {
+      "id": "D16-093",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Auto Curriculum trong Voyager có vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đánh giá chất lượng của từng skill trong library và loại bỏ những skill không còn hiệu quả"
+        },
+        {
+          "key": "B",
+          "text": "Tự động sinh dữ liệu huấn luyện để fine-tune model theo từng giai đoạn phát triển của agent"
+        },
+        {
+          "key": "C",
+          "text": "Xếp lịch chạy các task theo thứ tự ưu tiên dựa trên độ khó và giá trị mang lại"
+        },
+        {
+          "key": "D",
+          "text": "Tự đặt mục tiêu cho agent, từ đó quyết định task nào cần làm tiếp và skill nào cần retrieve"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Trong sơ đồ, Auto Curriculum sinh ra task, task đi tới Code Generator, code qua Verify & Debug, skill verified được lưu vào Skill Library, và Auto Curriculum retrieve skills từ library — tạo thành vòng lặp khép kín cho compound learning.",
+      "tags": [
+        "day16",
+        "voyager"
+      ]
+    },
+    {
+      "id": "D16-094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ranh giới của §10 dừng ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngày 16 có phần lý thuyết còn phần thực hành nằm trong lab của chính ngày hôm đó, kể cả khi ngưỡng nén chưa bị chạm tới, và tool output đã được offload ra file, kể cả khi trace đã được sinh đầy đủ, kể cả khi ngân sách token vẫn còn dư nhiều, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Ngày 16 chỉ nhắc lại kiến thức đã học ở Ngày 11 mà không bổ sung nội dung mới nào, và tool output đã được offload ra file, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, kể cả khi ngân sách token vẫn còn dư nhiều, kể cả khi trace đã được sinh đầy đủ, nên failure mode gốc vẫn chưa được xử lý"
+        },
+        {
+          "key": "C",
+          "text": "Ngày 16 xây khái niệm (threat model, năm lớp phòng thủ, ranh giới prompt-vs-infrastructure); Ngày 24 có guardrail cụ thể & LLM-as-judge, Ngày 25 có circuit breaker & reliability, Ngày 26 có MCP capability manifest thật, kể cả khi ngân sách token vẫn còn dư nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Ngày 16 triển khai đầy đủ guardrails còn các ngày sau chỉ ôn tập và mở rộng thêm, dù context window vẫn còn chỗ trống, kể cả khi ngưỡng nén chưa bị chạm tới, mà chi phí token không giảm đi chút nào, và tool output đã được offload ra file, trong khi đáp án cuối vẫn hoàn toàn chính xác"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cấu trúc 'Ngày 16 có / Ngày 16 KHÔNG có' lặp lại ở §8, §9 và §10 — đây là cách bài giảng vẽ ranh giới rõ ràng để học viên biết cái gì đang học và cái gì để dành cho ngày khác.",
+      "tags": [
+        "day16",
+        "boundary-10"
+      ]
+    },
+    {
+      "id": "D16-095",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Node 'reflect' trong LangGraph thực hiện bốn bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chấm điểm output, so sánh với ngưỡng, quyết định retry hay dừng, và ghi log kết quả"
+        },
+        {
+          "key": "B",
+          "text": "Lấy trajectory, gọi Reflector LLM, append reflection vào memory, reset messages và tăng attempt"
+        },
+        {
+          "key": "C",
+          "text": "Tóm tắt lịch sử, nén context, giải phóng bộ nhớ và khởi tạo lại phiên làm việc mới"
+        },
+        {
+          "key": "D",
+          "text": "Đọc state, gọi model, ghi kết quả và chuyển sang node tiếp theo theo conditional edge"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điều kiện dừng của vòng lặp: success = True, hoặc attempt đạt max (mặc định 3). Slide nhấn mạnh vai trò của giới hạn này: 'Tránh infinite loop — cái mà ReAct gặp phải' — tức Reflexion giải quyết được failure mode thứ hai của §1 nhờ max_attempts.",
+      "tags": [
+        "day16",
+        "reflexion-graph"
+      ]
+    },
+    {
+      "id": "D16-096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba con số về compaction trong §8 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "+10% với context editing, +20% khi kết hợp memory tool, và giảm 60% token trên eval dài"
+        },
+        {
+          "key": "B",
+          "text": "+50% với context editing, +70% khi kết hợp memory tool, và giảm 90% token trên eval dài"
+        },
+        {
+          "key": "C",
+          "text": "+29% context editing một mình, +39% khi kèm memory tool, và giảm 84% token trên eval web-search 100 lượt"
+        },
+        {
+          "key": "D",
+          "text": "+15% với context editing, +25% khi kết hợp memory tool, và giảm 50% token trên eval dài"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ý nghĩa của con số 84% được nhấn mạnh: 'không chỉ là tiết kiệm chi phí — ở eval 100 lượt, nó là ranh giới giữa chạy xong và hết context giữa chừng. Đây là vấn đề khả năng hoàn thành task, không chỉ vấn đề ngân sách.' Nguồn: Anthropic (2026).",
+      "tags": [
+        "day16",
+        "compaction"
+      ]
+    },
+    {
+      "id": "D16-097",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn bước thực hành của Lab 16 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn benchmark, chạy baseline, thêm từng lớp harness và đo cải thiện sau mỗi lớp, nên không có tín hiệu nào để cải thiện, dù benchmark cho điểm số khá cao, nên vấn đề trôi xuống bước tiếp theo, trong khi đáp án cuối vẫn hoàn toàn chính xác, mà harness vẫn tiếp tục vòng lặp như cũ"
+        },
+        {
+          "key": "B",
+          "text": "Build state machine (nodes = act/evaluate/reflect/terminate với conditional routing), build Evaluator (LLM-as-Judge, score 0-1 + reason, parse Pydantic), add reflection memory (mỗi entry = attempt_id/failure_reason/lesson/strategy_next), và benchmark Reflexion vs ReAct trên 20 câu HotpotQA"
+        },
+        {
+          "key": "C",
+          "text": "Đọc tài liệu, thiết kế kiến trúc, viết code và triển khai lên môi trường production, kể cả khi trace đã được sinh đầy đủ, nên không có tín hiệu nào để cải thiện, trong khi đáp án cuối vẫn hoàn toàn chính xác, mà harness vẫn tiếp tục vòng lặp như cũ, và regression set vẫn chưa phát hiện lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Cài đặt môi trường, chạy demo mẫu, sửa tham số và viết báo cáo kết quả cuối cùng, trong khi đáp án cuối vẫn hoàn toàn chính xác, kể cả khi trace đã được sinh đầy đủ, mà harness vẫn tiếp tục vòng lặp như cũ, và regression set vẫn chưa phát hiện lỗi, trong khi plan file không hề bị đụng tới"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Deliverable: GitHub repo + benchmark report gồm bảng so sánh EM, phân tích cost, và phân loại failure modes. Thời gian: 2 giờ. Cấu trúc reflection memory entry khớp đúng với template REFLECT đã nêu ở §2.",
+      "tags": [
+        "day16",
+        "lab-steps"
+      ]
+    },
+    {
+      "id": "D16-098",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "before_agent và after_agent phục vụ hai mục đích nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khởi tạo kết nối tới các tool bên ngoài và đóng kết nối để giải phóng tài nguyên, và middleware không ghi nhận bất thường nào, mà chi phí token không giảm đi chút nào, trong khi model không hề bị thay đổi trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Budget accounting (khởi tạo hạn mức, chốt sổ tổng token/cost/trần đã chạm) và trace emission (mở root span gắn run-id, đóng span gắn kết quả), trong khi model không hề bị thay đổi trọng số, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Xác thực người dùng khi bắt đầu phiên và ghi log kiểm toán khi phiên kết thúc, trong khi state vẫn được cập nhật bình thường, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, mà chi phí đánh giá thì tăng lên đáng kể, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Nạp cấu hình từ file khi khởi động và ghi trạng thái cuối cùng vào cơ sở dữ liệu, mà harness vẫn tiếp tục vòng lặp như cũ, trong khi state vẫn được cập nhật bình thường, trong khi model không hề bị thay đổi trọng số"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide chốt: 'Con số ở đầu §7 chỉ đo được vì mỗi lần chạy đều có ngân sách và trace. Thiếu hai hook này, bạn vẫn sửa được harness — nhưng không biết mình đã cải thiện hay làm tệ đi.' Nhờ trace mới diff được hai lần chạy cùng task khác harness.",
+      "tags": [
+        "day16",
+        "agent-hooks"
+      ]
+    },
+    {
+      "id": "D16-099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao plan file trên đĩa thắng plan trong context?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì file trên đĩa lưu được nhiều thông tin hơn giới hạn của context window hiện tại, trong khi plan file không hề bị đụng tới, kể cả khi ngưỡng nén chưa bị chạm tới, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Vì file trên đĩa đọc nhanh hơn nên giảm được độ trễ mỗi khi agent cần tham chiếu kế hoạch, mà độ trễ mỗi lượt gọi vẫn giữ nguyên, nên thông tin quan trọng vẫn bị bỏ sót, nên không có tín hiệu nào để cải thiện"
+        },
+        {
+          "key": "C",
+          "text": "Vì plan file addressable (mỗi mục có vị trí cố định), diffable (so sánh hai thời điểm), và sống sót qua compaction; còn plan trong context bị drift, không diff được, và mất trắng nếu context bị nén"
+        },
+        {
+          "key": "D",
+          "text": "Vì file trên đĩa có thể chia sẻ giữa nhiều agent trong khi context chỉ thuộc về một agent, nên thông tin quan trọng vẫn bị bỏ sót, trong khi plan file không hề bị đụng tới, dù context window vẫn còn chỗ trống"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Forward-reference sang §8: 'compaction — nén context khi conversation dài ra — là lý do khiến plan-on-disk trở thành yêu cầu bắt buộc, không chỉ lựa chọn phong cách, cho task dài hơi.' Ba nhược điểm của plan trong context đều bắt nguồn từ việc nó phải được viết lại mỗi turn.",
+      "tags": [
+        "day16",
+        "plan-file"
+      ]
+    },
+    {
+      "id": "D16-100",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba failure mode chính của ReAct là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context tràn, chi phí token cao và độ trễ tăng dần theo số bước agent phải thực hiện, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "B",
+          "text": "Tool overload, branching logic phức tạp và nhu cầu specialist ownership cho từng domain riêng, dù vòng lặp reasoning vẫn chạy đúng thiết kế"
+        },
+        {
+          "key": "C",
+          "text": "Lỗi lan tỏa (sai bước 1 kéo sai cả chuỗi), infinite loop (tool trả noise agent lặp mãi), và không backtrack, mà chi phí token không giảm đi chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Hallucination, prompt injection và data leakage theo ba nhóm rủi ro an toàn phổ biến nhất, nên failure mode gốc vẫn chưa được xử lý"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Root cause được nêu rõ: 'ReAct không có cơ chế tự đánh giá. Khi đi sai, không có signal nào báo dừng lại, suy nghĩ lại.' Ba failure mode này là kim chỉ nam cho cả bài — mỗi kiến trúc nâng cao sau đó giải quyết một failure mode cụ thể chứ không phải nâng cấp chung chung.",
+      "tags": [
+        "day16",
+        "react-failure"
+      ]
+    }
+  ]
+}
