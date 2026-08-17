@@ -1,0 +1,3111 @@
+{
+  "id": "exam-104",
+  "title": "AICB Ngày 17 — Memory Systems for Agents",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P2T3 Ngày 17: Memory Systems for Agents' (VinUniversity, 30 slide). Nội dung: vì sao agent stateless by default, analogy RAM/ổ cứng, 7 context layers và token budget 20%, cognitive memory model 4 loại (short-term/long-term/episodic/semantic), 3 chiến lược short-term (buffer/summary/sliding window), long-term với Redis và TTL, memory management flow, LangGraph MemoryState và memory router, episodic tuple cùng 4 cơ chế quản lý, semantic memory với vector DB, Mem0 & Zep vs custom, privacy-by-design & GDPR & federated forgetting, và trend radar 2025-2026 (cross-session memory, compaction + notes, identity files, heartbeat loops, compiled knowledge base). Câu hỏi dạng phân tích tình huống, đáp án phân bố đều và giải thích chi tiết.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "D17-001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compaction giữ lại ba lớp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Recent turns (phần hội thoại mới nhất còn đang nóng), Session summary (tóm tắt trạng thái hiện tại, quyết định, blockers), Durable notes (facts/tasks đủ quan trọng để chuyển sang long-term memory)"
+        },
+        {
+          "key": "B",
+          "text": "System prompt, tool definitions và output schema để đảm bảo agent vẫn hoạt động đúng, trong khi TTL chưa hết hạn cho bản ghi đó, kể cả khi episode đã được consolidate lại, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Nửa đầu, nửa cuối và phần tóm tắt của đoạn giữa để tránh hiện tượng lost in the middle, kể cả khi episode đã được consolidate lại, nên recall trả về kết quả nhiễu hơn, và session summary vẫn giữ nguyên nội dung"
+        },
+        {
+          "key": "D",
+          "text": "User messages, agent responses và tool outputs được nén riêng theo ba tỷ lệ khác nhau, nên recall trả về kết quả nhiễu hơn, và session summary vẫn giữ nguyên nội dung, kể cả khi user đã explicit opt-in từ trước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba lớp này có ba vòng đời khác nhau: recent turns sẽ bị nén ở lần compaction sau; session summary tồn tại trong phiên; durable notes chuyển hẳn sang long-term memory. Nguyên tắc: 'Agent chỉ mang theo những gì còn phục vụ lượt suy luận tiếp theo.'",
+      "tags": [
+        "day17",
+        "compaction-layers"
+      ]
+    },
+    {
+      "id": "D17-002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu một fact được ghi vào memory mà không có provenance thì rủi ro là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fact đó không thể được truy xuất bằng vector search vì thiếu metadata cần thiết, và provenance vẫn được ghi đầy đủ, dù confidence score của bản ghi khá cao, và deletion request đã propagate xong"
+        },
+        {
+          "key": "B",
+          "text": "Fact đó chiếm dung lượng lưu trữ mà không mang lại giá trị nào cho agent, trong khi namespacing theo user_id vẫn đúng, và provenance vẫn được ghi đầy đủ, dù confidence score của bản ghi khá cao"
+        },
+        {
+          "key": "C",
+          "text": "Fact đó sẽ bị hệ thống tự động loại bỏ khi chạy quá trình dọn dẹp định kỳ, nên thông tin quan trọng vẫn bị bỏ sót, trong khi namespacing theo user_id vẫn đúng, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Không truy vết được nguồn gốc nên không phân biệt được đâu là điều user nói, đâu là quy tắc hệ thống, đâu là suy diễn của agent — đây là một trong các write nguy hiểm của heartbeat"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide liệt kê 'lưu fact không có provenance' là một trong bốn write nguy hiểm. Guardrail tương ứng: 'Tách user request, system rule, agent inference thành các trường riêng' — ngăn agent tự nâng suy diễn của mình thành sự thật đã được xác nhận.",
+      "tags": [
+        "day17",
+        "provenance"
+      ]
+    },
+    {
+      "id": "D17-003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Token budget cho bốn loại memory được phân bổ thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mỗi loại chiếm 5% để đảm bảo cân bằng giữa bốn nguồn thông tin khác nhau, dù confidence score của bản ghi khá cao, và deletion request đã propagate xong"
+        },
+        {
+          "key": "B",
+          "text": "Short-term 10%, long-term facts 4%, episodic 3%, semantic 3%, trong khi durable notes đã được trích xuất, dù confidence score của bản ghi khá cao"
+        },
+        {
+          "key": "C",
+          "text": "Short-term 15%, long-term 8%, episodic 4% và semantic 3% tùy theo use case cụ thể, và deletion request đã propagate xong, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Short-term 20%, long-term 10%, episodic 5% và semantic 5% của tổng context window, trong khi durable notes đã được trích xuất, dù confidence score của bản ghi khá cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tổng bốn loại memory chiếm 20% context window. Phần còn lại dành cho system prompt, task instructions, tool outputs và output generation. Cảnh báo: 'Vượt 20% → context bị nhiễu, accuracy giảm.'",
+      "tags": [
+        "day17",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "D17-004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao vượt quá 20% context window cho memory lại có hại?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì thời gian truy xuất từ các store bên ngoài sẽ vượt quá giới hạn timeout cho phép, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Vì context bị nhiễu và accuracy giảm — phần còn lại không đủ cho system prompt, task instructions, tool outputs và output generation"
+        },
+        {
+          "key": "C",
+          "text": "Vì chi phí gọi API tăng theo cấp số nhân khi lượng token vượt qua ngưỡng này, mà token budget không hề bị vượt quá"
+        },
+        {
+          "key": "D",
+          "text": "Vì model sẽ ưu tiên thông tin từ memory hơn là chỉ dẫn trong system prompt hiện tại, kể cả khi heartbeat đã chạy nền định kỳ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là bài toán đánh đổi: memory càng nhiều thì agent càng biết nhiều về người dùng, nhưng càng ít chỗ cho việc suy luận. Ngưỡng 20% là điểm cân bằng được khuyến nghị để giữ cả hai mặt.",
+      "tags": [
+        "day17",
+        "token-budget"
+      ]
+    },
+    {
+      "id": "D17-005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cơ chế Voyager-style trong quản lý episodic memory làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gộp các episode có nội dung tương tự lại thành một bản ghi duy nhất cho gọn"
+        },
+        {
+          "key": "B",
+          "text": "Xóa các episode ít được dùng đến nhất khi dung lượng lưu trữ vượt quá giới hạn"
+        },
+        {
+          "key": "C",
+          "text": "Giảm dần điểm quan trọng của episode theo thời gian để ưu tiên kinh nghiệm mới"
+        },
+        {
+          "key": "D",
+          "text": "Extract reusable strategy từ các episode rồi đưa vào skill library để tái sử dụng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phương án B là LRU, C là importance decay, D là consolidation — cả bốn đều là cơ chế quản lý episodic memory nhưng Voyager-style khác biệt ở chỗ nó nâng cấp dữ liệu thành năng lực. Đây là cầu nối trực tiếp với skill library đã học ở Ngày 16.",
+      "tags": [
+        "day17",
+        "voyager-style"
+      ]
+    },
+    {
+      "id": "D17-006",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đội đang phân vân giữa dùng Mem0 và tự build Redis + Chroma. Theo bảng so sánh, tiêu chí quyết định là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Setup time và mức độ control cần thiết — framework cho MVP và go-to-market, custom cho production và đặc thù domain"
+        },
+        {
+          "key": "B",
+          "text": "Ngôn ngữ lập trình mà đội đang dùng và mức độ quen thuộc với từng công nghệ cụ thể, nên agent vẫn phải hỏi lại người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí vận hành hằng tháng và số lượng người dùng mà hệ thống phải phục vụ đồng thời, dù confidence score của bản ghi khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Yêu cầu về độ trễ truy xuất và khả năng mở rộng khi lượng dữ liệu tăng lên nhiều lần, nên chất lượng câu trả lời cuối giảm xuống"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là quyết định theo giai đoạn phát triển sản phẩm chứ không theo kỹ thuật thuần túy. Ở giai đoạn MVP, tốc độ ra thị trường quan trọng hơn quyền kiểm soát; khi đã có product-market fit và yêu cầu đặc thù thì mới cần custom.",
+      "tags": [
+        "day17",
+        "build-vs-buy"
+      ]
+    },
+    {
+      "id": "D17-007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ánh xạ giữa thuật ngữ khoa học nhận thức và thuật ngữ kỹ thuật là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Working memory ↔ Long-term; Declarative memory ↔ Short-term; hai loại còn lại đảo ngược, kể cả khi similarity search trả về top-k đủ, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Không có ánh xạ nào vì thuật ngữ kỹ thuật được đặt độc lập với khoa học nhận thức, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Working memory ↔ Episodic; Declarative memory ↔ Semantic; hai loại còn lại là mới hoàn toàn, trong khi backend lưu trữ hoạt động bình thường, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "D",
+          "text": "Working memory ↔ Short-term; Declarative memory ↔ Long-term; Episodic và Semantic giữ nguyên tên gọi, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi similarity search trả về top-k đủ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Việc mượn thuật ngữ từ khoa học nhận thức giúp có sẵn một khung phân loại đã được nghiên cứu kỹ. Tuy nhiên điều quan trọng là hiểu bản chất kỹ thuật: mỗi loại tương ứng một backend và một chiến lược truy xuất khác nhau.",
+      "tags": [
+        "day17",
+        "mapping"
+      ]
+    },
+    {
+      "id": "D17-008",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn key takeaway của Day 17 gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn framework, thiết kế schema, triển khai backend và đo lường hiệu quả sau khi chạy, và deletion request đã propagate xong, mà chi phí lưu trữ vẫn trong ngân sách, dù compaction đã chạy đúng ngưỡng cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Bốn loại memory, bốn backend tương ứng, bốn cơ chế quản lý và bốn nguyên tắc privacy, nên chất lượng câu trả lời cuối giảm xuống, và deletion request đã propagate xong, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "C",
+          "text": "Short-term, long-term, episodic và semantic memory với cách triển khai của từng loại, mà chi phí lưu trữ vẫn trong ngân sách, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "D",
+          "text": "Không có one size fits all (cần ít nhất short-term + long-term), memory retrieval quality quyết định agent quality, memory write-back cần careful design, và privacy không phải afterthought, nên chất lượng câu trả lời cuối giảm xuống"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Takeaway thứ hai nêu chuỗi nhân quả rất rõ: 'bad retrieval = irrelevant context = wrong answer'. Takeaway thứ ba liệt kê bốn câu hỏi thiết kế: nhớ gì, khi nào ghi, xử lý conflict ra sao, TTL bao lâu.",
+      "tags": [
+        "day17",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D17-009",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent đang trong một phiên rất dài và context sắp đầy. Theo slide nên xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngắt phiên và yêu cầu người dùng bắt đầu lại từ đầu với ngữ cảnh sạch, và provenance vẫn được ghi đầy đủ, dù context window vẫn còn chỗ trống, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Chạy compaction: detect pressure, summarize decisions/blockers/next steps, extract notes (facts, tasks, prefs), rebuild context với summary + recent turns, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển toàn bộ lịch sử sang external store rồi truy xuất lại theo nhu cầu từng lượt, trong khi backend lưu trữ hoạt động bình thường, trong khi namespacing theo user_id vẫn đúng, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "D",
+          "text": "Truncate phần cũ nhất của lịch sử vì đó là phần ít liên quan nhất tới câu hỏi hiện tại, dù context window vẫn còn chỗ trống, trong khi backend lưu trữ hoạt động bình thường, và provenance vẫn được ghi đầy đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án B (truncate) đã được Ngày 16 chỉ ra là kém hơn compaction vì nó cắt theo vị trí chứ không theo độ liên quan. Ngày 17 bổ sung chi tiết về nội dung cần ưu tiên khi tóm tắt: trạng thái, quyết định, TODO, constraint.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Heartbeat loops phù hợp với use case nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chatbot hỏi đáp một lần nơi mỗi câu hỏi độc lập với câu hỏi trước đó hoàn toàn"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống xử lý giao dịch thời gian thực cần phản hồi trong vòng vài mili giây"
+        },
+        {
+          "key": "C",
+          "text": "Personal assistant, inbox triage, research copilot, coding agent có backlog dài ngày"
+        },
+        {
+          "key": "D",
+          "text": "Agent chỉ chạy khi được người dùng gọi và không cần duy trì trạng thái giữa các lần gọi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm chung của các use case này là có công việc tồn đọng kéo dài nhiều ngày. Lợi ích: 'Background pass giảm áp lực phải ghi nhớ ngay lập tức ở cuối mỗi chat' — agent không cần vội vàng tổng kết khi user đóng chat.",
+      "tags": [
+        "day17",
+        "heartbeat-usecase"
+      ]
+    },
+    {
+      "id": "D17-011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba chiến lược quản lý Short-term Memory là gì và chiến lược nào tốt nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cache, Compress và Discard — trong đó Compress cho tỷ lệ nén tốt nhất cho production, dù compaction đã chạy đúng ngưỡng cấu hình, nên agent vẫn phải hỏi lại người dùng, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Full history, Partial history và No history — trong đó Partial history phù hợp nhất, và provenance vẫn được ghi đầy đủ, nên chất lượng câu trả lời cuối giảm xuống, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "C",
+          "text": "Buffer, Truncate và Rotate — trong đó Rotate cân bằng nhất giữa chi phí và chất lượng, nên agent vẫn phải hỏi lại người dùng, và provenance vẫn được ghi đầy đủ, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "D",
+          "text": "Buffer (giữ tất cả, hit limit sau ~50 turns), Summary (LLM tóm tắt history cũ, tốn thêm LLM calls), Sliding window (system + summary + last K turns) — sliding window là best tradeoff cho production"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sliding window kết hợp ưu điểm của cả hai: giữ được thông tin cũ dưới dạng tóm tắt nhưng vẫn có đầy đủ chi tiết của các lượt gần nhất. Slide cũng nhắc: 'Short-term memory nên chiếm tối đa 10% context window. Trim khi vượt — keep recent N tokens, discard oldest.'",
+      "tags": [
+        "day17",
+        "short-term"
+      ]
+    },
+    {
+      "id": "D17-012",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảng so sánh framework và custom cho thấy điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Framework nhanh về setup nhưng hạn chế control, dùng cho MVP và go-to-market; Custom (Redis + Chroma) chậm hơn khi build nhưng full control, dùng cho production và đặc thù domain"
+        },
+        {
+          "key": "B",
+          "text": "Custom luôn tốt hơn vì phù hợp chính xác với yêu cầu đặc thù của từng dự án cụ thể, mà chi phí lưu trữ vẫn trong ngân sách, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Framework luôn tốt hơn vì được đội chuyên trách bảo trì và cập nhật liên tục theo thời gian, mà token budget không hề bị vượt quá, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "D",
+          "text": "Hai lựa chọn tương đương nhau về mọi mặt nên chỉ cần chọn theo sở thích của đội, kể cả khi similarity search trả về top-k đủ, mà độ trễ truy xuất không tăng đáng kể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba tiêu chí so sánh: setup time, control, và khi nào dùng. Đây là quyết định kinh điển build-vs-buy — chọn framework khi cần ra thị trường nhanh, chọn custom khi yêu cầu đặc thù hoặc đã ở giai đoạn production ổn định.",
+      "tags": [
+        "day17",
+        "framework-vs-custom"
+      ]
+    },
+    {
+      "id": "D17-013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Layer nào trong 7 context layers được trim cuối cùng và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System Context — vì nó định nghĩa persona và ràng buộc cơ bản của agent"
+        },
+        {
+          "key": "B",
+          "text": "User Context — vì mất thông tin người dùng sẽ làm trải nghiệm giảm sút nghiêm trọng"
+        },
+        {
+          "key": "C",
+          "text": "Policy Context — vì safety không bao giờ được bỏ dù context có chật đến đâu"
+        },
+        {
+          "key": "D",
+          "text": "Memory Context — vì đây là chủ đề trọng tâm của cả bài học ngày hôm nay"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Thứ tự bảy layer từ trên xuống là System, Task, User, Memory, Retrieval, Tool, Policy. Trim từ dưới lên nghĩa là Tool Context bị cắt trước, nhưng Policy Context nằm cuối danh sách lại được giữ lại lâu nhất — đây là ngoại lệ có chủ ý vì lý do an toàn.",
+      "tags": [
+        "day17",
+        "7-layers"
+      ]
+    },
+    {
+      "id": "D17-014",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác biệt căn bản giữa Episodic Memory và Long-term Memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Episodic có TTL ngắn hơn nên tự động hết hạn sớm hơn so với Long-term memory, và provenance vẫn được ghi đầy đủ, kể cả khi episode đã được consolidate lại, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "B",
+          "text": "Episodic dùng vector search còn Long-term dùng truy vấn chính xác theo khóa, dù compaction đã chạy đúng ngưỡng cấu hình, và provenance vẫn được ghi đầy đủ, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "C",
+          "text": "Episodic lưu trong context window còn Long-term lưu ở store bên ngoài context, dù context window vẫn còn chỗ trống, dù compaction đã chạy đúng ngưỡng cấu hình, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Episodic lưu trải nghiệm có thứ tự thời gian (task, trajectory, outcome, reflection) trả lời 'lần trước tôi đã làm gì'; Long-term lưu facts và preferences ổn định của user qua sessions"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân biệt này quan trọng khi thiết kế memory router: câu hỏi về sở thích người dùng thì tra Long-term; câu hỏi kiểu 'lần trước ta đã thử cách nào' thì tra Episodic. Hai loại lưu hai kiểu thông tin khác nhau về bản chất — trạng thái tĩnh và chuỗi sự việc.",
+      "tags": [
+        "day17",
+        "episodic-vs-longterm"
+      ]
+    },
+    {
+      "id": "D17-015",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Rủi ro chính của heartbeat loops là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dữ liệu bị ghi đè nhiều lần làm mất phiên bản gốc và không thể khôi phục lại được, trong khi namespacing theo user_id vẫn đúng, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Agent có thể tự ý thay đổi cấu hình hệ thống dẫn tới hành vi không như thiết kế ban đầu, dù memory router đã chọn đúng loại store, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Chi phí vận hành tăng do agent chạy liên tục ngay cả khi không có người dùng nào, dù context window vẫn còn chỗ trống, dù memory router đã chọn đúng loại store"
+        },
+        {
+          "key": "D",
+          "text": "Heartbeat + persistent memory khiến prompt injection không chỉ phá một lượt chat mà còn có thể trở thành memory poisoning hoặc backlog poisoning kéo dài qua nhiều phiên"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là sự leo thang về mức độ nghiêm trọng: injection thông thường chỉ ảnh hưởng một lượt trả lời, nhưng khi kết hợp với memory bền vững thì nó cắm rễ vào hệ thống. Các write nguy hiểm gồm: ghi lại instruction mới, thay đổi preference nhạy cảm, tạo task tự chạy, hoặc lưu fact không có provenance.",
+      "tags": [
+        "day17",
+        "heartbeat-risk"
+      ]
+    },
+    {
+      "id": "D17-016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy tắc conflict resolution giữa user preference và policy constraint là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "User preference luôn thắng vì trải nghiệm người dùng là ưu tiên cao nhất của sản phẩm"
+        },
+        {
+          "key": "B",
+          "text": "Bên nào được ghi vào context sau cùng thì bên đó được ưu tiên áp dụng"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống hỏi lại người dùng để xác nhận trước khi quyết định ưu tiên bên nào"
+        },
+        {
+          "key": "D",
+          "text": "Policy luôn thắng — cần explicit rules trong system design để xử lý xung đột này"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là nguyên tắc thiết kế quan trọng vì nó liên quan tới an toàn: nếu người dùng yêu cầu điều gì đó vi phạm guardrail thì hệ thống phải từ chối. Slide nhấn mạnh cần 'explicit rules' — tức phải viết ra thành quy tắc rõ ràng chứ không để model tự quyết.",
+      "tags": [
+        "day17",
+        "conflict"
+      ]
+    },
+    {
+      "id": "D17-017",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Episodic Memory trả lời câu hỏi nào của agent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiến thức chuyên môn nào liên quan tới câu hỏi hiện tại của người dùng?"
+        },
+        {
+          "key": "B",
+          "text": "Quy tắc nào đang ràng buộc hành vi của tôi trong tình huống này?"
+        },
+        {
+          "key": "C",
+          "text": "Lần trước tôi đã làm gì?, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "D",
+          "text": "Người dùng này thích gì và có những đặc điểm nào cần lưu ý khi giao tiếp?"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Episodic memory là 'log trải nghiệm có thứ tự' — nó lưu chuỗi sự việc đã diễn ra chứ không lưu sự thật tĩnh. Đây là điểm phân biệt với Semantic memory vốn lưu tri thức không gắn với thời điểm cụ thể.",
+      "tags": [
+        "day17",
+        "episodic"
+      ]
+    },
+    {
+      "id": "D17-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kiến trúc Long-term Memory với Redis hoạt động theo ý tưởng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng Redis làm cache cho các câu trả lời đã sinh để không phải gọi lại model, trong khi TTL chưa hết hạn cho bản ghi đó, và session summary vẫn giữ nguyên nội dung, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "B",
+          "text": "Lưu toàn bộ transcript của mỗi conversation vào Redis rồi load lại khi cần tra cứu, và session summary vẫn giữ nguyên nội dung, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "C",
+          "text": "Sau mỗi conversation LLM extract key facts rồi store vào Redis với TTL; session mới load user profile vào system prompt trước khi user nói, trong khi durable notes đã được trích xuất"
+        },
+        {
+          "key": "D",
+          "text": "Đồng bộ context window với Redis theo thời gian thực để không mất dữ liệu khi lỗi, kể cả khi user đã explicit opt-in từ trước, trong khi TTL chưa hết hạn cho bản ghi đó"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cấu trúc dữ liệu cụ thể: Hash lưu preferences (language, style); Set lưu facts ('biết Python, học ML'); List lưu session history (recent). Slide nhấn mạnh 'Tất cả O(1) reads — production-ready' — tốc độ truy xuất là lý do chọn Redis.",
+      "tags": [
+        "day17",
+        "redis"
+      ]
+    },
+    {
+      "id": "D17-019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vấn đề gốc khiến compaction tốt hơn full transcript là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Conversation dài làm context window bị lấp bởi phần đã xử xong — agent vẫn đọc lại lịch sử nhưng phần lớn token không còn tạo giá trị cho lượt trả lời hiện tại"
+        },
+        {
+          "key": "B",
+          "text": "Chi phí lưu trữ transcript đầy đủ vượt quá ngân sách của phần lớn dự án thực tế, và deletion request đã propagate xong, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Model không đọc được transcript quá dài nên tự động bỏ qua phần lớn nội dung, và provenance vẫn được ghi đầy đủ, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "D",
+          "text": "Transcript chứa thông tin cá nhân nên vi phạm quy định bảo vệ dữ liệu người dùng, dù context window vẫn còn chỗ trống, trong khi backend lưu trữ hoạt động bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn hậu quả nếu không compact: latency tăng, chi phí tăng, retrieval kém chính xác hơn, và output dễ lẫn giữa việc 'đã quyết định' với việc 'đang thảo luận'. Hậu quả cuối cùng là nguy hiểm nhất vì nó ảnh hưởng tới tính đúng đắn chứ không chỉ hiệu năng.",
+      "tags": [
+        "day17",
+        "compaction-why"
+      ]
+    },
+    {
+      "id": "D17-020",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nội dung Day 17 gồm bao nhiêu phần chính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sáu phần chia đều giữa lý thuyết về các loại memory và phần triển khai thực tế, kể cả khi episode đã được consolidate lại, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "B",
+          "text": "Năm phần từ vấn đề agent quên tới thực hành xây dựng hệ thống memory hoàn chỉnh, kể cả khi user đã explicit opt-in từ trước, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "C",
+          "text": "Bảy phần: tại sao agent quên, context engineering framework, cognitive memory model, implementation deep-dive, frameworks & privacy, xu hướng 2025-2026, demo & thực hành"
+        },
+        {
+          "key": "D",
+          "text": "Tám phần trong đó ba phần cuối dành cho các xu hướng mới và bài lab cuối buổi, trong khi namespacing theo user_id vẫn đúng, nên agent vẫn phải hỏi lại người dùng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cấu trúc này đi từ vấn đề (§1) qua khung tư duy (§2), phân loại (§3), triển khai (§4), công cụ có sẵn và ràng buộc pháp lý (§5), tới xu hướng tương lai (§6) và thực hành (§7).",
+      "tags": [
+        "day17",
+        "outline"
+      ]
+    },
+    {
+      "id": "D17-021",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent cần nhớ 'lần trước dùng approach X để debug API nhưng thất bại vì Y'. Đây là loại memory nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Long-term memory vì đây là một fact về kỹ thuật cần được giữ lại lâu dài, nên agent vẫn phải hỏi lại người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Semantic memory vì nó liên quan tới kiến thức chuyên môn về debug và API, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "C",
+          "text": "Episodic memory — lưu tuple (task, trajectory, outcome, reflection) để agent biết approach X đã fail vì Y trong task tương tự"
+        },
+        {
+          "key": "D",
+          "text": "Short-term memory vì thông tin này chỉ hữu ích trong phạm vi một task cụ thể, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây chính là ví dụ trong slide Episodic Memory: Task 'debug API', Trajectory 'tried X, Y', Outcome 'Y worked', Reflection 'X fails vì...'. Khi gặp task tương tự, agent dùng similarity search để tìm lại episode này.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-022",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide cảnh báo 'Summary mơ hồ hơn transcript gốc'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì việc tóm tắt nhiều lần liên tiếp khiến thông tin bị biến dạng qua từng lần nén, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "B",
+          "text": "Vì tóm tắt lan man làm mất chi tiết cụ thể — nên notes phải ưu tiên trạng thái, quyết định, TODO, constraint"
+        },
+        {
+          "key": "C",
+          "text": "Vì model tóm tắt thường bỏ sót phần đầu và phần cuối của đoạn hội thoại được nén, dù confidence score của bản ghi khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Vì bản tóm tắt được sinh bằng model nhỏ hơn nên chất lượng thấp hơn nội dung gốc, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là nghịch lý cần lưu ý: mục đích của compaction là làm gọn để rõ hơn, nhưng nếu tóm tắt theo kiểu văn xuôi tự do thì kết quả có thể mờ hơn bản gốc. Bốn loại nội dung được ưu tiên đều là thông tin có cấu trúc và hành động được.",
+      "tags": [
+        "day17",
+        "compaction-trap"
+      ]
+    },
+    {
+      "id": "D17-023",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một agent coding có backlog kéo dài nhiều ngày. Xu hướng nào phù hợp nhất và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cross-session memory — vì cần nhớ được các quyết định đã đưa ra ở phiên trước đó, và provenance vẫn được ghi đầy đủ, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "B",
+          "text": "Identity files — vì cần giữ hành vi nhất quán qua nhiều phiên làm việc khác nhau, nên recall trả về kết quả nhiễu hơn, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "C",
+          "text": "Heartbeat loops — vì agent cần được đánh thức định kỳ để refresh state, xử lý backlog, làm sạch notes mà không phụ thuộc vào việc user có mở chat hay không"
+        },
+        {
+          "key": "D",
+          "text": "Compiled knowledge base — vì cần tích lũy tri thức về codebase qua thời gian dài, trong khi durable notes đã được trích xuất, nên recall trả về kết quả nhiễu hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Coding agent có backlog dài ngày là một trong bốn use case được nêu đích danh cho heartbeat loops. Điểm mấu chốt là công việc tồn đọng cần được xử lý ngay cả khi không có tương tác — điều mà ba xu hướng còn lại không giải quyết được.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn cơ chế quản lý Episodic Memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Create, Read, Update và Delete theo bốn thao tác cơ bản với cơ sở dữ liệu, nên thông tin quan trọng vẫn bị bỏ sót, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "B",
+          "text": "LRU (xóa episode ít dùng nhất), Importance decay (score giảm theo thời gian), Consolidation (merge episodes tương tự), Voyager-style (extract reusable strategy → skill library)"
+        },
+        {
+          "key": "C",
+          "text": "Embed, Index, Query và Rerank theo bốn bước của một pipeline tìm kiếm ngữ nghĩa, trong khi namespacing theo user_id vẫn đúng, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Buffer, Summary, Sliding window và Truncation theo bốn chiến lược quản lý context, mà chi phí lưu trữ vẫn trong ngân sách, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn cơ chế này giải quyết bốn vấn đề khác nhau: LRU giới hạn dung lượng; importance decay phản ánh việc thông tin cũ mất dần giá trị; consolidation giảm trùng lặp; Voyager-style nâng cấp kinh nghiệm thành kỹ năng tái sử dụng được — nối trực tiếp với §4 của Ngày 16.",
+      "tags": [
+        "day17",
+        "episodic-mgmt"
+      ]
+    },
+    {
+      "id": "D17-025",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhược điểm của chiến lược Buffer là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần thiết kế phức tạp với nhiều tham số phải tinh chỉnh cho từng use case"
+        },
+        {
+          "key": "B",
+          "text": "Phải gọi thêm LLM để tóm tắt nên tốn chi phí và tăng độ trễ mỗi lượt trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Mất thông tin ở giữa hội thoại vì chỉ giữ được phần đầu và phần cuối"
+        },
+        {
+          "key": "D",
+          "text": "Giữ tất cả nên đơn giản nhưng hit limit sau khoảng 50 turns hội thoại"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Buffer là chiến lược đơn giản nhất — chỉ nối thêm mỗi lượt vào lịch sử. Nhược điểm là không có cơ chế nào giới hạn kích thước, nên đến một lúc sẽ vượt context window và hệ thống dừng hoạt động. Phương án B là nhược điểm của Summary.",
+      "tags": [
+        "day17",
+        "buffer"
+      ]
+    },
+    {
+      "id": "D17-026",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một hệ thống có ba agent cùng lưu bản sao thông tin của user. User yêu cầu xóa dữ liệu. Phải làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xóa ở agent chính rồi các agent còn lại sẽ tự động đồng bộ theo sau một khoảng thời gian, dù memory router đã chọn đúng loại store, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "B",
+          "text": "Chờ TTL hết hạn tự nhiên vì việc xóa thủ công có thể gây mất nhất quán dữ liệu, trong khi namespacing theo user_id vẫn đúng, và session summary vẫn giữ nguyên nội dung"
+        },
+        {
+          "key": "C",
+          "text": "Đánh dấu dữ liệu là đã xóa nhưng vẫn giữ lại bản sao để phục vụ mục đích kiểm toán, dù memory router đã chọn đúng loại store, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Federated Forgetting — deletion request phải propagate đến tất cả agents có copy, sau đó confirm deletion, trong khi namespacing theo user_id vẫn đúng, dù memory router đã chọn đúng loại store"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nêu rõ trong phần Privacy: 'trong multi-agent system, deletion request phải propagate đến tất cả agents có copy'. Kết hợp với Right to be Forgotten: sau khi xóa phải confirm deletion — tạo bằng chứng tuân thủ.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong analogy với não người, Context Window và External Store tương đương với gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context Window = Ổ cứng lưu trữ lâu dài; External Store = RAM cho phép truy cập nhanh khi cần, kể cả khi similarity search trả về top-k đủ, dù compaction đã chạy đúng ngưỡng cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Context Window = cache tạm thời; External Store = mạng phân tán lưu bản sao trên nhiều máy, kể cả khi episode đã được consolidate lại, dù compaction đã chạy đúng ngưỡng cấu hình, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "C",
+          "text": "Context Window = RAM (nhanh, tạm thời, giới hạn khoảng 128K tokens); External Store = Ổ cứng (chậm hơn, bền vững, gần như vô hạn như Redis hay Vector DB), kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Context Window = CPU xử lý logic; External Store = GPU tăng tốc các phép tính ma trận lớn, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi similarity search trả về top-k đủ, kể cả khi episode đã được consolidate lại"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ánh xạ tương ứng bên não người: Working Memory ↔ Context Window (qua quá trình consolidation), Long-term Memory ↔ External Store (qua persist facts). Kết luận: 'Agent cần cả hai: fast access cho conversation hiện tại + persistent storage cho knowledge qua sessions.'",
+      "tags": [
+        "day17",
+        "analogy"
+      ]
+    },
+    {
+      "id": "D17-028",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn loại memory trong Cognitive Memory Model được phân theo hai trục nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trục thời gian sống và trục mức độ quan trọng đối với chất lượng câu trả lời cuối"
+        },
+        {
+          "key": "B",
+          "text": "Trục Tạm thời ↔ Bền vững và trục Cá nhân ↔ Tri thức, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "C",
+          "text": "Trục tốc độ truy cập và trục chi phí lưu trữ của từng loại backend khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Trục kích thước dữ liệu và trục tần suất truy cập trong quá trình agent hoạt động"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn ô tương ứng: Short-term/Working (tạm thời + cá nhân, context window buffer); Long-term/Declarative (bền vững + cá nhân, Redis/PostgreSQL); Episodic (tạm thời + cá nhân, log trải nghiệm có thứ tự); Semantic (bền vững + tri thức, embeddings + Vector DB).",
+      "tags": [
+        "day17",
+        "4-types"
+      ]
+    },
+    {
+      "id": "D17-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Checklist GDPR compliance gồm năm mục nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Anonymization, pseudonymization, aggregation, retention và disposal của dữ liệu cá nhân, dù context window vẫn còn chỗ trống, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "B",
+          "text": "Encryption, access control, audit logging, backup và disaster recovery cho hệ thống, trong khi namespacing theo user_id vẫn đúng, mà độ trễ truy xuất không tăng đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "Consent, notice, access, correction và portability theo năm quyền của chủ thể dữ liệu, mà độ trễ truy xuất không tăng đáng kể, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "D",
+          "text": "Data minimization, Purpose limitation, Storage limitation (TTL), Consent management, Deletion verification, trong khi namespacing theo user_id vẫn đúng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Năm mục này ánh xạ vào các cơ chế kỹ thuật cụ thể đã học: data minimization tương ứng nguyên tắc chỉ lưu facts thay vì raw transcript; storage limitation tương ứng TTL trong Redis; deletion verification tương ứng bước confirm deletion.",
+      "tags": [
+        "day17",
+        "gdpr"
+      ]
+    },
+    {
+      "id": "D17-030",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự bốn mức priority khi inject memory vào system prompt là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term (gần nhất), long-term facts (user prefs), relevant episodes, semantic knowledge"
+        },
+        {
+          "key": "B",
+          "text": "Semantic knowledge, relevant episodes, long-term facts rồi cuối cùng là short-term gần nhất"
+        },
+        {
+          "key": "C",
+          "text": "Long-term facts, short-term gần nhất, semantic knowledge rồi relevant episodes"
+        },
+        {
+          "key": "D",
+          "text": "Relevant episodes, semantic knowledge, short-term rồi long-term facts theo độ liên quan"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thứ tự này phản ánh mức độ trực tiếp liên quan tới lượt trả lời hiện tại: short-term là ngữ cảnh tức thời, long-term là đặc điểm người dùng, episodes là kinh nghiệm tương tự, semantic là kiến thức nền. Khi cần trim thì cắt ngược từ mức 4 lên.",
+      "tags": [
+        "day17",
+        "priority"
+      ]
+    },
+    {
+      "id": "D17-031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bẫy thường gặp khi làm compaction là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Compaction chạy quá thường xuyên làm tăng chi phí gọi model lên nhiều lần so với dự kiến, trong khi durable notes đã được trích xuất"
+        },
+        {
+          "key": "B",
+          "text": "Nén quá mạnh khiến agent mất hoàn toàn ngữ cảnh và phải hỏi lại người dùng từ đầu, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Summary mơ hồ hơn transcript gốc — vì vậy notes phải ưu tiên trạng thái, quyết định, TODO, constraint thay vì tóm tắt lan man"
+        },
+        {
+          "key": "D",
+          "text": "Bản tóm tắt bị lưu nhầm vào long-term memory thay vì chỉ dùng trong phiên hiện tại, nên chất lượng câu trả lời cuối giảm xuống"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là nghịch lý của việc tóm tắt: mục đích là làm rõ hơn nhưng kết quả có thể mờ hơn. Giải pháp là quy định rõ nội dung ưu tiên — bốn loại được liệt kê đều là thông tin có cấu trúc và hành động được, khác với văn tóm tắt tự do.",
+      "tags": [
+        "day17",
+        "compaction-trap"
+      ]
+    },
+    {
+      "id": "D17-032",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Kiến trúc cross-session memory quy định scope thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term vẫn thread-scoped; long-term thường user-scoped hoặc org-scoped"
+        },
+        {
+          "key": "B",
+          "text": "Scope được quyết định động theo loại nội dung mà agent đang xử lý tại thời điểm đó"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả memory đều thread-scoped để tránh rủi ro rò rỉ dữ liệu giữa các phiên"
+        },
+        {
+          "key": "D",
+          "text": "Tất cả memory đều user-scoped để đảm bảo tính nhất quán trong toàn hệ thống"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Namespacing được thực hiện theo user_id, org_id và topic. Nguyên tắc kèm theo: 'Persist facts, decisions, preferences, open loops; đừng lưu raw chat vô tội vạ' và 'Memory record nên có source, timestamp, confidence, ttl'.",
+      "tags": [
+        "day17",
+        "cross-session-arch"
+      ]
+    },
+    {
+      "id": "D17-033",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao chỉ nên persist sau khi task hoàn thành?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để giảm số lần ghi vào database nhằm tiết kiệm chi phí vận hành hạ tầng lưu trữ"
+        },
+        {
+          "key": "B",
+          "text": "Để tận dụng cơ chế batch write của Redis giúp tăng thông lượng ghi lên nhiều lần"
+        },
+        {
+          "key": "C",
+          "text": "Để tránh inconsistent state — ghi giữa chừng có thể lưu lại thông tin chưa được xác nhận"
+        },
+        {
+          "key": "D",
+          "text": "Để đảm bảo mọi thông tin ghi ra đều đã được người dùng xác nhận là chính xác"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Trong một task đang chạy, agent có thể đưa ra giả định rồi sau đó tự sửa. Nếu ghi ngay thì giả định sai sẽ nằm lại trong long-term memory và ảnh hưởng mọi session sau. Chờ tới khi task xong thì chỉ những kết luận đã ổn định mới được lưu.",
+      "tags": [
+        "day17",
+        "persist"
+      ]
+    },
+    {
+      "id": "D17-034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác nhau giữa Memory Management Flow (§3) và Compaction Pipeline (§6) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Memory Management Flow chuyển thông tin từ context window sang external store (Buffer → Summarize → Extract → Persist); Compaction Pipeline tái cấu trúc context đang chạy (Detect pressure → Summarize → Extract notes → Rebuild context)"
+        },
+        {
+          "key": "B",
+          "text": "Memory Management Flow chạy tự động còn Compaction Pipeline phải kích hoạt thủ công, kể cả khi episode đã được consolidate lại, kể cả khi heartbeat đã chạy nền định kỳ, kể cả khi user đã explicit opt-in từ trước, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai giống hệt nhau, chỉ khác tên gọi được dùng ở hai phần khác nhau của bài giảng, và provenance vẫn được ghi đầy đủ, kể cả khi episode đã được consolidate lại, kể cả khi heartbeat đã chạy nền định kỳ, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "D",
+          "text": "Memory Management Flow dùng cho short-term còn Compaction Pipeline dùng cho long-term, kể cả khi heartbeat đã chạy nền định kỳ, kể cả khi user đã explicit opt-in từ trước, dù context window vẫn còn chỗ trống, trong khi backend lưu trữ hoạt động bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm khác biệt nằm ở bước cuối: Flow kết thúc bằng Persist (ghi ra Redis/Chroma), còn Pipeline kết thúc bằng Rebuild context (dựng lại context window với summary + recent turns). Một cái hướng ra ngoài, một cái hướng vào trong.",
+      "tags": [
+        "day17",
+        "flow-vs-pipeline"
+      ]
+    },
+    {
+      "id": "D17-035",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Curation rules trong compiled KB quản trị những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Định dạng trang wiki, độ dài tối đa của mỗi mục và cấu trúc liên kết giữa các trang"
+        },
+        {
+          "key": "B",
+          "text": "Quyền đọc, quyền ghi và quyền xóa của từng nhóm người dùng đối với knowledge base"
+        },
+        {
+          "key": "C",
+          "text": "Tần suất cập nhật, dung lượng lưu trữ và chi phí vận hành của toàn bộ hệ thống"
+        },
+        {
+          "key": "D",
+          "text": "source, contradiction, freshness, trong khi backend lưu trữ hoạt động bình thường"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba quy tắc này giải quyết ba vấn đề đặc thù của tri thức tích lũy: source đảm bảo truy vết được; contradiction xử lý khi hai nguồn nói ngược nhau; freshness đánh giá thông tin còn đúng không. Chúng chính là lý do compiled KB mạnh hơn RAG về provenance.",
+      "tags": [
+        "day17",
+        "curation"
+      ]
+    },
+    {
+      "id": "D17-036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảy context layer theo thứ tự ưu tiên khi trim là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Memory, Retrieval, Tool, User, Task, System và Policy theo thứ tự tần suất sử dụng, kể cả khi user đã explicit opt-in từ trước, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "B",
+          "text": "Task, System, User, Policy, Memory, Retrieval và Tool theo thứ tự quan trọng giảm dần, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "C",
+          "text": "System Context, Task Context, User Context, Memory Context, Retrieval Context, Tool Context, Policy Context, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "D",
+          "text": "User, Task, System, Memory, Policy, Tool và Retrieval theo thứ tự thời gian tạo ra, mà chi phí lưu trữ vẫn trong ngân sách, dù confidence score của bản ghi khá cao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc trim: 'Khi gần token limit: trim từ dưới lên. Policy context trim cuối cùng (safety không bao giờ bỏ).' Nghĩa là Tool Context và Retrieval Context bị cắt trước, còn System và Policy được giữ lại lâu nhất.",
+      "tags": [
+        "day17",
+        "7-layers"
+      ]
+    },
+    {
+      "id": "D17-037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tín hiệu nên nâng từ RAG lên compiled KB là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi lặp lại nhưng vẫn phải retrieval/synthesis lại từ đầu; team cần theo dõi timeline, contradiction, entity pages, decision history; người dùng cần audit trail thay vì chỉ top-k chunks, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "B",
+          "text": "Corpus vượt quá một triệu tài liệu; ngân sách hạ tầng tăng gấp đôi; đội có thêm nhân sự, trong khi namespacing theo user_id vẫn đúng, và session summary vẫn giữ nguyên nội dung, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác của RAG giảm xuống dưới bảy mươi phần trăm trên tập câu hỏi kiểm thử, và session summary vẫn giữ nguyên nội dung, kể cả khi similarity search trả về top-k đủ, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "Tài liệu được cập nhật hằng ngày; nhiều người dùng truy cập đồng thời; cần hỗ trợ đa ngôn ngữ, kể cả khi similarity search trả về top-k đủ, mà chi phí lưu trữ vẫn trong ngân sách, trong khi backend lưu trữ hoạt động bình thường"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lời khuyên cụ thể: 'Nếu team hỏi lặp lại những câu hỏi phức tạp trên cùng một tập tài liệu trong nhiều tuần, hãy cân nhắc compiled KB thay vì chỉ tăng top-k cho RAG.' Tăng top-k là phản xạ tự nhiên nhưng không giải quyết được vấn đề gốc.",
+      "tags": [
+        "day17",
+        "rag-to-kb"
+      ]
+    },
+    {
+      "id": "D17-038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao agent 'quên' mọi thứ sau mỗi conversation?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model được thiết kế để bảo vệ quyền riêng tư nên chủ động không lưu lại thông tin người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Vì LLM không có persistent state — mỗi API call là một request độc lập nên session mới bắt đầu từ zero"
+        },
+        {
+          "key": "C",
+          "text": "Vì chi phí lưu trữ quá cao nên các nhà cung cấp giới hạn thời gian lưu lịch sử hội thoại"
+        },
+        {
+          "key": "D",
+          "text": "Vì context window bị xóa sau mỗi lượt trả lời để giải phóng bộ nhớ cho phiên tiếp theo"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nêu ba hệ quả cụ thể: user nói 'tôi thích Python' ở session 1 thì session 2 agent không nhớ; conversation dài trên 50 turns sẽ hit context limit. Lưu ý quan trọng: 'Đây là vấn đề #1 khi deploy agent thực tế: user kỳ vọng agent nhớ — nhưng nó không.'",
+      "tags": [
+        "day17",
+        "stateless"
+      ]
+    },
+    {
+      "id": "D17-039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Memory Management Flow gồm bốn bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Buffer (context window) → Summarize (LLM call) → Extract (key facts) → Persist (external store gồm Redis cho long-term facts và Chroma cho semantic embeddings)"
+        },
+        {
+          "key": "B",
+          "text": "Load, Process, Validate và Save theo vòng đời xử lý dữ liệu tiêu chuẩn của hệ thống, kể cả khi similarity search trả về top-k đủ, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "C",
+          "text": "Detect, Compact, Store và Verify theo bốn bước xử lý khi context sắp đầy, nên recall trả về kết quả nhiễu hơn, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "D",
+          "text": "Retrieve, Rank, Merge và Inject theo bốn bước đưa memory vào context của agent, dù context window vẫn còn chỗ trống, nên recall trả về kết quả nhiễu hơn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trigger được nêu rõ: token count vượt threshold. Nguyên tắc quan trọng: 'Chỉ persist sau task completion — không write giữa chừng để tránh inconsistent state.' Conflict resolution: 'long-term fact mâu thuẫn short-term info → recency wins, flag for review.'",
+      "tags": [
+        "day17",
+        "memory-flow"
+      ]
+    },
+    {
+      "id": "D17-040",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hiểu sai phổ biến về identity files là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Coi chúng là retrieval engine — thực tế chúng không tự re-rank, không TTL, không conflict resolution, không provenance"
+        },
+        {
+          "key": "B",
+          "text": "Nghĩ rằng chúng phải được viết bằng định dạng Markdown mới hoạt động được đúng, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "C",
+          "text": "Nghĩ rằng chúng chỉ dùng được với một framework cụ thể chứ không phải chuẩn chung, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "Nghĩ rằng chúng thay thế được hoàn toàn system prompt trong việc định hình hành vi agent, kể cả khi heartbeat đã chạy nền định kỳ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn thứ mà identity file KHÔNG có đều là tính năng cốt lõi của một memory backend thật. Đây là lý do slide sau kết luận: stack tốt nhất là kết hợp cả hai — files cho hành vi, retrieval memory cho recall.",
+      "tags": [
+        "day17",
+        "identity-misunderstanding"
+      ]
+    },
+    {
+      "id": "D17-041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Heartbeat loops có thể dùng để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trả lời tự động các câu hỏi thường gặp mà không cần người dùng phải chờ đợi lâu"
+        },
+        {
+          "key": "B",
+          "text": "Kiểm tra tình trạng hoạt động của hệ thống và khởi động lại khi phát hiện lỗi"
+        },
+        {
+          "key": "C",
+          "text": "De-duplicate notes, re-rank backlog, expire stale tasks, tạo daily recap"
+        },
+        {
+          "key": "D",
+          "text": "Đồng bộ dữ liệu giữa các backend memory để đảm bảo tính nhất quán của thông tin"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide mô tả ý nghĩa lớn hơn: 'Agent chủ động duy trì state ngay cả khi user không mở chat mới. Đây là bước chuyển từ chatbot phản ứng sang agent có vòng đời.' Ba việc trong sơ đồ: compact old context, refresh task list, write safe summaries.",
+      "tags": [
+        "day17",
+        "heartbeat-tasks"
+      ]
+    },
+    {
+      "id": "D17-042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nguyên tắc cốt lõi về quyền hạn của heartbeat là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Heartbeat cần quyền cao hơn phiên thường vì nó chạy tự động không có người giám sát, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Heartbeat chỉ được đọc chứ không bao giờ được ghi vào bất kỳ store nào của hệ thống, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "C",
+          "text": "Heartbeat nên có quyền riêng biệt được cấu hình độc lập với quyền của phiên tương tác, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "D",
+          "text": "Heartbeat không được tự cho mình thêm quyền — nó chỉ là cơ chế vận hành nền, không phải cánh cửa để bypass policy"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguyên tắc này song song với bài học ở Ngày 16 về self-evolving agent: vùng agent tự sửa được phải tách khỏi vùng chứa guardrail. Cả hai đều nói rằng cơ chế tự động không được trở thành đường vòng để né kiểm soát.",
+      "tags": [
+        "day17",
+        "heartbeat-authority"
+      ]
+    },
+    {
+      "id": "D17-043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự khác biệt giữa Semantic Memory và Long-term Memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semantic thuộc trục tri thức (domain knowledge chung, embeddings + Vector DB); Long-term thuộc trục cá nhân (user prefs và facts riêng của từng người, Redis/PostgreSQL)"
+        },
+        {
+          "key": "B",
+          "text": "Semantic dùng cho agent còn Long-term dùng cho người dùng cuối tra cứu thông tin, trong khi namespacing theo user_id vẫn đúng, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "C",
+          "text": "Semantic lưu bền vững còn Long-term chỉ lưu tạm trong vài phiên rồi tự động xóa đi, kể cả khi user đã explicit opt-in từ trước, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "Semantic có dung lượng lớn hơn nhiều lần so với Long-term nên phù hợp corpus lớn, kể cả khi episode đã được consolidate lại, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Trong ma trận hai trục ở §3, cả hai đều nằm ở cột 'Bền vững' nhưng khác hàng: Long-term ở hàng 'Cá nhân', Semantic ở hàng 'Tri thức'. Đây là lý do chúng dùng backend khác nhau — dữ liệu cá nhân cần truy vấn chính xác theo user, tri thức cần tìm theo ngữ nghĩa.",
+      "tags": [
+        "day17",
+        "semantic-vs-longterm"
+      ]
+    },
+    {
+      "id": "D17-044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao pattern cross-session memory bùng lên?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì quy định pháp lý yêu cầu doanh nghiệp phải lưu lại lịch sử tương tác với người dùng, nên chất lượng câu trả lời cuối giảm xuống, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Vì user không còn chấp nhận agent mất trí nhớ sau mỗi thread — với product assistant, sales copilot, tutor, coding agent thì trải nghiệm phải liên tục qua nhiều ngày"
+        },
+        {
+          "key": "C",
+          "text": "Vì các model mới có context window lớn hơn nên chứa được nhiều phiên hội thoại cùng lúc, trong khi namespacing theo user_id vẫn đúng, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "D",
+          "text": "Vì chi phí lưu trữ giảm mạnh nên việc giữ lại toàn bộ lịch sử trở nên khả thi về kinh tế, nên thông tin quan trọng vẫn bị bỏ sót, trong khi namespacing theo user_id vẫn đúng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn loại sản phẩm được nêu đều có đặc điểm chung: người dùng quay lại nhiều lần trong nhiều ngày. Với chatbot hỏi đáp một lần thì cross-session memory không cần thiết — đây là ví dụ của nguyên tắc chỉ thêm khi có nhu cầu thật.",
+      "tags": [
+        "day17",
+        "cross-session-why"
+      ]
+    },
+    {
+      "id": "D17-045",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Slide nhấn mạnh điều gì về Privacy trong key takeaways?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Privacy được đảm bảo tự động nếu dùng các framework managed như Mem0 hoặc Zep"
+        },
+        {
+          "key": "B",
+          "text": "Privacy chỉ cần thiết khi hệ thống phục vụ người dùng ở thị trường châu Âu"
+        },
+        {
+          "key": "C",
+          "text": "Privacy không phải afterthought — GDPR compliance cần thiết kế từ đầu (Privacy-by-Design)"
+        },
+        {
+          "key": "D",
+          "text": "Privacy nên được bổ sung sau khi hệ thống đã chạy ổn định để không làm chậm tiến độ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Lý do phải thiết kế từ đầu: các yêu cầu như deletion verification hay federated forgetting đòi hỏi kiến trúc phải hỗ trợ ngay từ tầng lưu trữ. Bổ sung sau thường phải viết lại toàn bộ tầng dữ liệu.",
+      "tags": [
+        "day17",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D17-046",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "TTL được đề xuất cho từng loại dữ liệu trong Redis là bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Preferences 30 ngày, facts 90 ngày và sessions 14 ngày theo mức độ ổn định của dữ liệu"
+        },
+        {
+          "key": "B",
+          "text": "Tất cả đều 30 ngày để đơn giản hóa việc quản lý vòng đời dữ liệu trong hệ thống"
+        },
+        {
+          "key": "C",
+          "text": "Preferences 90 ngày, facts 30 ngày, sessions 7 ngày, dù compaction đã chạy đúng ngưỡng cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Preferences không hết hạn, facts 60 ngày và sessions 30 ngày tùy theo yêu cầu nghiệp vụ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Thứ tự TTL phản ánh mức độ ổn định: preferences ít thay đổi nhất nên giữ lâu nhất (90 ngày); facts có thể lỗi thời nhanh hơn (30 ngày); session history chỉ hữu ích trong thời gian ngắn (7 ngày). TTL cũng là một biện pháp tuân thủ GDPR về storage limitation.",
+      "tags": [
+        "day17",
+        "ttl"
+      ]
+    },
+    {
+      "id": "D17-047",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo takeaway số 3, memory write-back cần thiết kế cẩn thận về bốn khía cạnh nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhớ gì, khi nào ghi, xử lý conflict ra sao, TTL bao lâu, nên chất lượng câu trả lời cuối giảm xuống, nên agent vẫn phải hỏi lại người dùng"
+        },
+        {
+          "key": "B",
+          "text": "Định dạng lưu trữ, backend sử dụng, cơ chế backup và chiến lược khôi phục khi lỗi, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "C",
+          "text": "Tần suất ghi, kích thước mỗi lần ghi, độ trễ cho phép và mức độ nhất quán yêu cầu, dù memory router đã chọn đúng loại store"
+        },
+        {
+          "key": "D",
+          "text": "Ai được ghi, ghi ở đâu, ghi bằng cách nào và ai chịu trách nhiệm kiểm tra lại, nên chất lượng câu trả lời cuối giảm xuống"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn câu hỏi này đã được trả lời rải rác trong bài: nhớ gì (preference, decision, open loop, episodic outcome); khi nào ghi (sau task completion, không ghi giữa chừng); conflict (recency wins + flag for review); TTL (prefs 90d, facts 30d, sessions 7d).",
+      "tags": [
+        "day17",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D17-048",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 1 nói production agent cần tối thiểu những loại memory nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ít nhất short-term + long-term, thêm episodic hoặc semantic tùy use case"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ cần semantic memory vì nó bao phủ được cả kiến thức lẫn thông tin người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Cả bốn loại memory vì thiếu loại nào cũng sẽ ảnh hưởng tới chất lượng câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ cần long-term memory vì short-term đã có sẵn trong context window của model"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cụm 'không có one size fits all' là thông điệp chống lại việc áp dụng máy móc cả bốn loại. Short-term và long-term là bắt buộc vì chúng giải quyết hai vấn đề cốt lõi: context window có hạn và stateless by default.",
+      "tags": [
+        "day17",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D17-049",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi mở đầu Day 17 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent đã có memory, tiếp theo cần knowledge retrieval tốt hơn — tại sao RAG demo tốt mà production chỉ 60%?, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "B",
+          "text": "Tại sao agent của bạn quên mọi thứ sau mỗi conversation — và làm sao fix nó đúng cách?, trong khi namespacing theo user_id vẫn đúng, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "C",
+          "text": "Agent mạnh rồi — nhưng ai kiểm soát nó khi nó có quyền hành động trong thế giới thực?, dù context window vẫn còn chỗ trống, mà độ trễ truy xuất không tăng đáng kể"
+        },
+        {
+          "key": "D",
+          "text": "Vì sao cùng một model, chỉ đổi harness, agent lại nhảy từ 52.8% lên 66.5% trên benchmark?, dù context window vẫn còn chỗ trống, trong khi durable notes đã được trích xuất"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án A chính là câu hỏi mở đầu của Ngày 18 (Production RAG), được nêu ở slide 'Tiếp theo & Bài tập'. Cách đặt câu hỏi mở đầu mỗi ngày giúp đóng khung vấn đề trọng tâm mà buổi học sẽ giải quyết.",
+      "tags": [
+        "day17",
+        "framing"
+      ]
+    },
+    {
+      "id": "D17-050",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu chỉ có 128K token context và dành 20% cho memory thì mỗi loại được bao nhiêu token?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term khoảng 12.8K (10%), long-term facts khoảng 5.1K (4%), episodic khoảng 3.8K (3%), semantic khoảng 3.8K (3%)"
+        },
+        {
+          "key": "B",
+          "text": "Short-term 25.6K, long-term 12.8K, episodic 6.4K và semantic 6.4K theo tỷ lệ giảm dần, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "C",
+          "text": "Mỗi loại được 6.4K token vì 20% chia đều cho bốn loại memory khác nhau, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "Không thể tính được vì tỷ lệ phân bổ thay đổi động theo nội dung của từng phiên, kể cả khi episode đã được consolidate lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tính toán: 128K × 10% = 12.8K cho short-term; × 4% = 5.12K cho long-term facts; × 3% = 3.84K cho mỗi loại episodic và semantic. Tổng khoảng 25.6K, tức 20% context window — phần còn lại 80% dành cho system prompt, task instructions, tool outputs và output generation.",
+      "tags": [
+        "day17",
+        "token-calc"
+      ]
+    },
+    {
+      "id": "D17-051",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn identity file và vai trò của chúng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả bốn file đều có cùng vai trò là lưu trữ ngữ cảnh, chỉ khác nhau về định dạng nội dung, mà chi phí lưu trữ vẫn trong ngân sách, dù confidence score của bản ghi khá cao, mà token budget không hề bị vượt quá, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "AGENTS.md (quy tắc làm việc, workflow, boundaries, coding/execution norms), SOUL.md (identity, tone, preferred defaults, behavioral profile), MEMORY.md (notes bền vững, memory schema, recap quyết định), TASKS.md (open loops, backlog, agenda đang theo dõi)"
+        },
+        {
+          "key": "C",
+          "text": "AGENTS.md cho danh sách agent, SOUL.md cho cấu hình model, MEMORY.md cho lịch sử, TASKS.md cho lịch chạy, trong khi TTL chưa hết hạn cho bản ghi đó, mà chi phí lưu trữ vẫn trong ngân sách, dù confidence score của bản ghi khá cao, mà token budget không hề bị vượt quá"
+        },
+        {
+          "key": "D",
+          "text": "AGENTS.md cho persona, SOUL.md cho quy tắc, MEMORY.md cho backlog, TASKS.md cho notes, kể cả khi user đã explicit opt-in từ trước, trong khi TTL chưa hết hạn cho bản ghi đó, mà chi phí lưu trữ vẫn trong ngân sách, dù confidence score của bản ghi khá cao"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vai trò đúng của các file này: 'đây là control plane — giúp phiên mới bootstrap nhanh, giữ hành vi nhất quán và giảm việc phải nhắc lại prompt gốc.' Lưu ý phương án A đảo ngược vai trò của AGENTS.md và SOUL.md.",
+      "tags": [
+        "day17",
+        "identity-files"
+      ]
+    },
+    {
+      "id": "D17-052",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Benchmark của Lab 17 đo những chỉ số nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo độ trễ, thông lượng và tỷ lệ lỗi của từng backend memory dưới tải cao, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "So sánh bốn framework memory khác nhau trên cùng một tập câu hỏi chuẩn, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "C",
+          "text": "So sánh agent có/không memory trên 10 multi-turn conversations, đo response relevance, context utilization và token efficiency"
+        },
+        {
+          "key": "D",
+          "text": "Đo tỷ lệ truy xuất đúng của từng loại memory trên một tập test đã gán nhãn sẵn, và deletion request đã propagate xong"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Deliverable gồm GitHub repo + benchmark report với ba phần: bảng so sánh metrics, memory hit rate analysis, và token budget breakdown. Thiết kế so sánh có/không memory là cách chứng minh giá trị của memory một cách định lượng.",
+      "tags": [
+        "day17",
+        "lab-benchmark"
+      ]
+    },
+    {
+      "id": "D17-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn guardrail tối thiểu cho heartbeat loops là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Allowlist rõ memory types nào được phép ghi; gắn source/timestamp/confidence cho mọi durable write; tách user request, system rule, agent inference thành các trường riêng; high-impact writes phải qua human review hoặc policy check"
+        },
+        {
+          "key": "B",
+          "text": "Giới hạn thời gian chạy, giới hạn số lượng ghi, giới hạn dung lượng và giới hạn phạm vi, nên thông tin quan trọng vẫn bị bỏ sót, kể cả khi similarity search trả về top-k đủ, và provenance vẫn được ghi đầy đủ, nên agent vẫn phải hỏi lại người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Mã hóa dữ liệu, xác thực hai lớp, giới hạn tần suất và ghi log đầy đủ mọi thao tác, dù memory router đã chọn đúng loại store, nên thông tin quan trọng vẫn bị bỏ sót, kể cả khi similarity search trả về top-k đủ, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Sao lưu trước khi ghi, kiểm tra sau khi ghi, thông báo cho người dùng và cho phép hoàn tác, kể cả khi similarity search trả về top-k đủ, và provenance vẫn được ghi đầy đủ, nên agent vẫn phải hỏi lại người dùng, kể cả khi heartbeat đã chạy nền định kỳ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Guardrail thứ ba đặc biệt tinh tế: tách ba nguồn thông tin thành các trường riêng giúp phân biệt được điều gì do user nói, điều gì là quy tắc hệ thống, và điều gì là suy diễn của agent — ngăn agent tự nâng suy diễn của mình thành sự thật.",
+      "tags": [
+        "day17",
+        "heartbeat-guardrails"
+      ]
+    },
+    {
+      "id": "D17-054",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tầng summary của Zep là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term, long-term và archive theo vòng đời của dữ liệu trong hệ thống"
+        },
+        {
+          "key": "B",
+          "text": "Turn → session → cross-session, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "C",
+          "text": "Sentence, paragraph và document theo ba mức độ chi tiết của văn bản được nén"
+        },
+        {
+          "key": "D",
+          "text": "Raw, cleaned và enriched theo ba tầng chất lượng dữ liệu đã học ở Ngày 10"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ba tầng này tương ứng ba phạm vi thời gian tăng dần. Kết hợp với entity extraction, Zep 'tự build user knowledge graph qua sessions' — tức nó không chỉ nén mà còn cấu trúc hóa thông tin thành đồ thị quan hệ.",
+      "tags": [
+        "day17",
+        "zep-summaries"
+      ]
+    },
+    {
+      "id": "D17-055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hàm retrieve_memory trong code mẫu lấy dữ liệu từ ba nguồn nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "PostgreSQL cho profile, file log cho episodes, và Elasticsearch cho tìm kiếm ngữ nghĩa, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "B",
+          "text": "Context window cho short-term, Redis cho long-term, và một API bên ngoài cho tri thức, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "C",
+          "text": "redis.hgetall(uid) cho user_profile, find_similar(query, k=3) cho episodes, và chroma.query(query) cho semantic_hits"
+        },
+        {
+          "key": "D",
+          "text": "Ba lời gọi tới cùng một vector database với ba loại filter metadata khác nhau, dù memory router đã chọn đúng loại store"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm đáng chú ý là query được lấy từ tin nhắn cuối cùng: state['messages'][-1].content. Ba backend khác nhau phục vụ ba loại memory khác nhau — đúng như bảng phân loại ở §3.",
+      "tags": [
+        "day17",
+        "retrieve-code"
+      ]
+    },
+    {
+      "id": "D17-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Memory router trong Lab 17 có nhiệm vụ gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quyết định thứ tự ghi vào các backend để đảm bảo tính nhất quán của dữ liệu, dù confidence score của bản ghi khá cao, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "B",
+          "text": "Cân bằng tải giữa các backend để không backend nào bị quá tải khi lượng truy vấn tăng, và deletion request đã propagate xong"
+        },
+        {
+          "key": "C",
+          "text": "Chọn memory type phù hợp dựa trên query intent — user preference vs factual recall vs experience recall, và deletion request đã propagate xong"
+        },
+        {
+          "key": "D",
+          "text": "Định tuyến yêu cầu tới đúng phiên bản của agent tùy theo cấu hình của người dùng, và deletion request đã propagate xong, dù confidence score của bản ghi khá cao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ba loại intent tương ứng ba loại memory: user preference → long-term; factual recall → semantic; experience recall → episodic. Đây là bước tối ưu quan trọng vì truy vấn cả bốn backend cho mọi câu hỏi vừa chậm vừa tốn token.",
+      "tags": [
+        "day17",
+        "memory-router"
+      ]
+    },
+    {
+      "id": "D17-057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm chung giữa compaction (Ngày 16) và compaction + notes (Ngày 17) là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều nén phần đã xử lý và giữ recent context; Ngày 17 bổ sung việc đẩy facts/tasks ra durable notes để chuyển sang long-term memory"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều dùng chung một thuật toán nén được cài đặt sẵn trong framework LangGraph, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều chỉ áp dụng cho phần lịch sử hội thoại chứ không đụng tới tool output, và session summary vẫn giữ nguyên nội dung"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều chạy tự động theo lịch định kỳ mà không cần điều kiện kích hoạt nào, kể cả khi user đã explicit opt-in từ trước"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ngày 16 dừng ở việc nén context trong một phiên; Ngày 17 mở rộng bằng cách trích xuất phần đáng giữ ra khỏi phiên. Đây đúng là ranh giới đã vẽ ở Ngày 16: 'Ngày 16 nén context trong MỘT phiên đang chạy — Ngày 17 có bộ nhớ sống sót qua session.'",
+      "tags": [
+        "day17",
+        "day16-link"
+      ]
+    },
+    {
+      "id": "D17-058",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tool Context trong 7 layers chứa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Danh sách các tool mà agent được phép gọi cùng mô tả và schema tham số của chúng"
+        },
+        {
+          "key": "B",
+          "text": "Kết quả tìm kiếm từ RAG và các tài liệu được truy xuất phục vụ câu hỏi hiện tại"
+        },
+        {
+          "key": "C",
+          "text": "Các quy tắc về việc khi nào nên gọi tool và khi nào nên trả lời trực tiếp cho người dùng"
+        },
+        {
+          "key": "D",
+          "text": "Function outputs và API responses — tức kết quả trả về sau khi tool đã được thực thi"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân biệt với Retrieval Context (RAG results, documents) — hai layer này đều chứa dữ liệu lấy từ bên ngoài nhưng khác nguồn: Retrieval từ knowledge base, còn Tool từ việc gọi hàm hay API. Cả hai đều nằm gần cuối danh sách ưu tiên nên bị trim sớm.",
+      "tags": [
+        "day17",
+        "7-layers"
+      ]
+    },
+    {
+      "id": "D17-059",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mem0 có những đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Multi-level summaries theo ba tầng turn, session và cross-session để giảm kích thước context, nên thông tin quan trọng vẫn bị bỏ sót, dù compaction đã chạy đúng ngưỡng cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Auto-classify memory types, smart retrieval kết hợp relevance và recency ranking, claim 90% token reduction và 91% faster retrieval, API-first nên nhanh go-to-market"
+        },
+        {
+          "key": "C",
+          "text": "Full control cho đội phát triển nhưng đòi hỏi thời gian xây dựng từ đầu khá dài, dù compaction đã chạy đúng ngưỡng cấu hình, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "D",
+          "text": "Entity extraction kết hợp progressive summarization để xây knowledge graph theo thời gian, kể cả khi similarity search trả về top-k đủ, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án A và B mô tả Zep — framework còn lại trong slide. Từ 'claim' trong slide rất đáng chú ý: đây là con số do nhà cung cấp công bố chứ không phải kết quả đo độc lập, nên cần kiểm chứng trước khi tin.",
+      "tags": [
+        "day17",
+        "mem0"
+      ]
+    },
+    {
+      "id": "D17-060",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một agent CS lưu toàn bộ transcript của mọi phiên vào Redis rồi load lại ở phiên sau. Vấn đề lớn nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chi phí lưu trữ tăng nhanh khiến ngân sách hạ tầng vượt kế hoạch trong vài tháng, trong khi durable notes đã được trích xuất, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "B",
+          "text": "Redis không phù hợp để lưu văn bản dài nên hiệu năng sẽ giảm khi dữ liệu tích lũy, mà độ trễ truy xuất không tăng đáng kể, trong khi durable notes đã được trích xuất"
+        },
+        {
+          "key": "C",
+          "text": "Đây đúng là sai lầm phổ biến nhất — token phình to, recall nhiễu và rủi ro rò rỉ dữ liệu giữa user tăng mạnh; nên lưu structured facts thay vì raw chat"
+        },
+        {
+          "key": "D",
+          "text": "Thời gian load tăng làm độ trễ của lượt trả lời đầu tiên trong mỗi phiên bị kéo dài, dù context window vẫn còn chỗ trống, nên thông tin quan trọng vẫn bị bỏ sót"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ba hậu quả này được nêu trực tiếp ở §6. Cách sửa: chuyển từ 'save chat history' sang 'save structured facts' — chỉ lưu preference, decision, open loop, episodic outcome. Đồng thời namespacing theo user_id để tránh gán nhầm memory cho user khác.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-061",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Xu hướng identity files được mô tả là 'lớp control plane'. Điều này nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chúng kiểm soát quyền truy cập của agent vào các tài nguyên trong hệ thống, trong khi namespacing theo user_id vẫn đúng, mà token budget không hề bị vượt quá"
+        },
+        {
+          "key": "B",
+          "text": "Chúng điều phối việc gọi tool và quyết định thứ tự thực thi của các bước xử lý, mà token budget không hề bị vượt quá, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Chúng giám sát hoạt động của agent và can thiệp khi phát hiện hành vi bất thường, trong khi namespacing theo user_id vẫn đúng, trong khi durable notes đã được trích xuất"
+        },
+        {
+          "key": "D",
+          "text": "Chúng giúp phiên mới bootstrap nhanh, giữ hành vi nhất quán và giảm việc phải nhắc lại prompt gốc, mà token budget không hề bị vượt quá, và deletion request đã propagate xong"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Control plane là thuật ngữ mượn từ hạ tầng mạng: tầng quyết định 'cư xử thế nào' tách khỏi tầng thực thi. Slide kết luận rất rõ ranh giới: 'Instruction files trả lời hãy cư xử thế nào; retrieval memory trả lời nên nhớ điều gì lúc này.'",
+      "tags": [
+        "day17",
+        "control-plane"
+      ]
+    },
+    {
+      "id": "D17-062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compiled KB phù hợp với loại công việc nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hệ thống hỏi đáp phục vụ hàng triệu người dùng với yêu cầu độ trễ cực thấp"
+        },
+        {
+          "key": "B",
+          "text": "Tài liệu thay đổi liên tục hằng ngày nên cần luôn truy xuất từ bản mới nhất"
+        },
+        {
+          "key": "C",
+          "text": "Hỏi đáp một lần trên corpus lớn nơi mỗi câu hỏi độc lập với câu hỏi trước đó"
+        },
+        {
+          "key": "D",
+          "text": "Research, due diligence, course notes, internal KB — nơi provenance và synthesis quan trọng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phương án A và B chính là các trường hợp mà 'plain RAG đủ tốt'. Điểm chung của các use case phù hợp với compiled KB: cùng một tập tài liệu được khai thác nhiều lần trong thời gian dài, và người dùng cần hiểu mối liên hệ chứ không chỉ tìm đoạn văn.",
+      "tags": [
+        "day17",
+        "compiled-kb-usecase"
+      ]
+    },
+    {
+      "id": "D17-063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong kiến trúc cross-session memory, ba loại store được vẽ song song với User profile là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Short-term buffer, working memory và context window của phiên đang chạy hiện tại, dù memory router đã chọn đúng loại store"
+        },
+        {
+          "key": "B",
+          "text": "Redis, Chroma và PostgreSQL cho ba loại dữ liệu có đặc tính truy vấn khác nhau, nên agent vẫn phải hỏi lại người dùng, dù memory router đã chọn đúng loại store"
+        },
+        {
+          "key": "C",
+          "text": "Thread A, Thread B và Thread C với dữ liệu riêng biệt cho từng luồng hội thoại, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "D",
+          "text": "Open loops / tasks, Episodes + reflections, và Semantic KB, dù memory router đã chọn đúng loại store, nên agent vẫn phải hỏi lại người dùng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sơ đồ cho thấy nhiều thread (A, B, C) cùng ánh xạ vào các store dùng chung ở cấp user. Bốn loại nội dung persist được nêu: facts, decisions, preferences, open loops — khớp với bốn loại mà 'memory hiện đại thường lưu'.",
+      "tags": [
+        "day17",
+        "cross-session-arch"
+      ]
+    },
+    {
+      "id": "D17-064",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấu trúc của chiến lược Sliding window gồm những phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "System prompt cộng toàn bộ lịch sử được nén xuống một nửa kích thước ban đầu"
+        },
+        {
+          "key": "B",
+          "text": "Summary của toàn bộ lịch sử cộng với lượt hội thoại mới nhất của người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ gồm K lượt hội thoại gần nhất, mọi thứ cũ hơn đều bị loại bỏ hoàn toàn"
+        },
+        {
+          "key": "D",
+          "text": "System + summary + last K turns, nên agent vẫn phải hỏi lại người dùng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba phần này phục vụ ba mục đích khác nhau: system giữ persona và ràng buộc; summary giữ ngữ cảnh cũ dưới dạng cô đọng; last K turns giữ chi tiết đầy đủ của phần gần nhất — nơi thường chứa thông tin cần thiết nhất cho lượt trả lời hiện tại.",
+      "tags": [
+        "day17",
+        "sliding-window"
+      ]
+    },
+    {
+      "id": "D17-065",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhược điểm của chiến lược Summary trong short-term memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ giữ được K lượt gần nhất nên thông tin quan trọng ở đầu hội thoại bị mất đi"
+        },
+        {
+          "key": "B",
+          "text": "Mất hoàn toàn thông tin cũ nên agent không thể tham chiếu lại các lượt trước đó"
+        },
+        {
+          "key": "C",
+          "text": "Ổn định nhưng tốn thêm LLM calls để thực hiện việc tóm tắt lịch sử hội thoại cũ"
+        },
+        {
+          "key": "D",
+          "text": "Không kiểm soát được kích thước nên vẫn có nguy cơ vượt quá giới hạn context window"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mỗi lần tóm tắt là một lần gọi model, tức thêm chi phí và độ trễ. Đây là lý do sliding window được coi là 'best tradeoff' — nó chỉ tóm tắt phần cũ và giữ nguyên phần gần nhất, cân bằng giữa chi phí và chất lượng thông tin.",
+      "tags": [
+        "day17",
+        "summary"
+      ]
+    },
+    {
+      "id": "D17-066",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sơ đồ Long-term Memory với Redis, thứ tự luồng xử lý là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Conversation kết thúc → LLM Extract → key facts → Redis (với TTL); và Next Session → load profile ← Redis, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "B",
+          "text": "Next Session → load profile → Redis → LLM Extract → Conversation kết thúc theo chiều ngược, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "C",
+          "text": "Conversation → Redis → LLM Extract → key facts → Next Session theo một chiều duy nhất, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "D",
+          "text": "LLM Extract chạy song song với conversation rồi ghi trực tiếp vào Redis theo thời gian thực, kể cả khi heartbeat đã chạy nền định kỳ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sơ đồ có hai luồng: luồng ghi diễn ra khi conversation kết thúc (extract rồi store với TTL), và luồng đọc diễn ra khi session mới bắt đầu (load profile vào system prompt trước khi user nói). Hai luồng này tách biệt về thời điểm.",
+      "tags": [
+        "day17",
+        "redis-flow"
+      ]
+    },
+    {
+      "id": "D17-067",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lab 17 yêu cầu implement bốn memory backend nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Redis, PostgreSQL, MongoDB và Elasticsearch cho bốn loại dữ liệu khác nhau, kể cả khi heartbeat đã chạy nền định kỳ, dù memory router đã chọn đúng loại store"
+        },
+        {
+          "key": "B",
+          "text": "Context window, vector store, graph database và key-value store theo bốn kiểu lưu trữ, dù memory router đã chọn đúng loại store, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "C",
+          "text": "LangChain memory, LlamaIndex memory, Mem0 và Zep để so sánh bốn framework, dù memory router đã chọn đúng loại store, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "D",
+          "text": "ConversationBufferMemory (short-term), Redis (long-term), JSON episodic log, Chroma (semantic), kể cả khi heartbeat đã chạy nền định kỳ, dù memory router đã chọn đúng loại store"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bốn backend này ánh xạ đúng bốn loại memory trong cognitive model. Việc dùng JSON log cho episodic thay vì database cho thấy episodic memory không nhất thiết cần hạ tầng phức tạp — quan trọng là cấu trúc tuple đúng.",
+      "tags": [
+        "day17",
+        "lab-backends"
+      ]
+    },
+    {
+      "id": "D17-068",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Right to be Forgotten yêu cầu hệ thống làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cho phép người dùng tải về toàn bộ dữ liệu của mình rồi tự quyết định xóa hay không"
+        },
+        {
+          "key": "B",
+          "text": "User yêu cầu xóa → xóa tất cả memory entries liên quan → confirm deletion"
+        },
+        {
+          "key": "C",
+          "text": "Ẩn dữ liệu của người dùng khỏi kết quả truy xuất nhưng vẫn giữ lại bản sao để dự phòng"
+        },
+        {
+          "key": "D",
+          "text": "Đặt TTL ngắn cho mọi bản ghi để dữ liệu tự động hết hạn sau một khoảng thời gian"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bước confirm deletion rất quan trọng: nó biến việc xóa từ hành động một chiều thành quy trình có xác nhận, tạo bằng chứng tuân thủ. Checklist GDPR cũng liệt kê 'Deletion verification' như một mục riêng.",
+      "tags": [
+        "day17",
+        "rtbf"
+      ]
+    },
+    {
+      "id": "D17-069",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Zep khác Mem0 ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Zep tập trung vào entity extraction + progressive summarization, tự build user knowledge graph qua sessions, và multi-level summaries theo ba tầng turn → session → cross-session, dù context window vẫn còn chỗ trống"
+        },
+        {
+          "key": "B",
+          "text": "Zep cho phép kiểm soát hoàn toàn hạ tầng còn Mem0 chỉ cung cấp API dạng dịch vụ, dù context window vẫn còn chỗ trống, mà độ trễ truy xuất không tăng đáng kể, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Zep dùng cho production quy mô lớn còn Mem0 chỉ phù hợp với giai đoạn thử nghiệm, mà độ trễ truy xuất không tăng đáng kể, nên recall trả về kết quả nhiễu hơn, dù confidence score của bản ghi khá cao"
+        },
+        {
+          "key": "D",
+          "text": "Zep hỗ trợ đầy đủ GDPR trong khi Mem0 chưa có cơ chế xóa dữ liệu theo yêu cầu, nên recall trả về kết quả nhiễu hơn, dù confidence score của bản ghi khá cao, dù memory router đã chọn đúng loại store"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm khác biệt cốt lõi: Mem0 mạnh ở phân loại và truy xuất thông minh; Zep mạnh ở việc xây dựng cấu trúc tri thức (knowledge graph) và tóm tắt nhiều tầng. Cả hai đều nhằm 'giảm context size tối ưu' nhưng bằng cách tiếp cận khác nhau.",
+      "tags": [
+        "day17",
+        "zep"
+      ]
+    },
+    {
+      "id": "D17-070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Semantic Memory hoạt động theo luồng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Task → trajectory → outcome → reflection → lưu tuple vào file log có thứ tự thời gian"
+        },
+        {
+          "key": "B",
+          "text": "Domain Docs → Embed → vectors → Chroma DB; Agent Query → cosine similarity → Top-K"
+        },
+        {
+          "key": "C",
+          "text": "Agent Query → Redis → key facts → merge với context rồi đưa vào system prompt"
+        },
+        {
+          "key": "D",
+          "text": "Conversation → LLM Extract → facts → PostgreSQL → load lại khi session mới bắt đầu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đặc điểm quan trọng: 'Agent discover facts mới → add vào DB với metadata (source, confidence, timestamp)'. Nhờ vậy 'Agent tự mở rộng knowledge base qua interactions — incremental knowledge growth' chứ không phải chỉ đọc một kho tĩnh.",
+      "tags": [
+        "day17",
+        "semantic-flow"
+      ]
+    },
+    {
+      "id": "D17-071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "MemoryState trong LangGraph gồm những trường nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "context, history, facts, embeddings và budget theo bốn loại memory đã học, trong khi namespacing theo user_id vẫn đúng, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "messages, user_profile (long-term), episodes (episodic), semantic_hits (semantic), memory_budget (tokens left), dù memory router đã chọn đúng loại store, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "messages, trajectory, reflection_memory, attempt_count và success theo Reflexion state, kể cả khi similarity search trả về top-k đủ, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "task, plan, worker_results, status và final_answer theo cấu trúc state của multi-agent, dù memory router đã chọn đúng loại store, kể cả khi similarity search trả về top-k đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lưu ý phương án B chính là ReflexionState của Ngày 16 — một distractor dễ nhầm nếu học viên chỉ nhớ mang máng. Trường memory_budget đặc biệt quan trọng vì nó hiện thực hóa nguyên tắc giới hạn 20% token đã nêu ở §2.",
+      "tags": [
+        "day17",
+        "memory-state"
+      ]
+    },
+    {
+      "id": "D17-072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Long-term Memory (Declarative) được lưu ở đâu và chứa gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector DB với embeddings, chứa domain knowledge để retrieval theo ngữ nghĩa"
+        },
+        {
+          "key": "B",
+          "text": "Trong context window buffer, chứa lịch sử hội thoại gần nhất của phiên đang chạy"
+        },
+        {
+          "key": "C",
+          "text": "File log có thứ tự thời gian, chứa các trải nghiệm đã qua của agent trong quá khứ"
+        },
+        {
+          "key": "D",
+          "text": "Redis hoặc PostgreSQL, chứa user prefs và facts qua các sessions khác nhau"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bốn loại có bốn backend khác nhau: Short-term dùng context window buffer (nhanh, tạm thời, khoảng 128K tokens); Long-term dùng Redis/PostgreSQL; Episodic là log trải nghiệm có thứ tự trả lời câu 'Lần trước tôi đã làm gì?'; Semantic dùng embeddings + Vector DB.",
+      "tags": [
+        "day17",
+        "long-term"
+      ]
+    },
+    {
+      "id": "D17-073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compiled knowledge base kiểu Karpathy LLM Wiki hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén toàn bộ tài liệu thành embedding rồi lưu vào vector store để truy xuất nhanh hơn, nên recall trả về kết quả nhiễu hơn, và provenance vẫn được ghi đầy đủ, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "B",
+          "text": "Tự động sinh câu hỏi thường gặp từ tài liệu rồi cache lại câu trả lời cho lần sau, và provenance vẫn được ghi đầy đủ, kể cả khi episode đã được consolidate lại, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Chia tài liệu thành chunk nhỏ rồi gán nhãn chủ đề để lọc trước khi tìm kiếm ngữ nghĩa, kể cả khi episode đã được consolidate lại, kể cả khi similarity search trả về top-k đủ, trong khi durable notes đã được trích xuất"
+        },
+        {
+          "key": "D",
+          "text": "LLM tích lũy knowledge thành wiki liên kết thay vì rediscover từ raw docs cho mỗi query; mỗi page đại diện cho một entity, concept, timeline, contradiction hoặc decision summary, nên recall trả về kết quả nhiễu hơn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Luồng ba tầng: Raw sources (papers, docs, transcripts) → ingest → Persistent wiki (entity pages, summaries, links) → govern → Curation rules (source, contradiction, freshness). Kết quả: 'Knowledge ngày càng được biên tập tốt hơn theo thời gian.'",
+      "tags": [
+        "day17",
+        "compiled-kb"
+      ]
+    },
+    {
+      "id": "D17-074",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway số 2 nêu chuỗi nhân quả nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thiết kế tốt dẫn tới triển khai tốt dẫn tới trải nghiệm người dùng tốt hơn hẳn, kể cả khi similarity search trả về top-k đủ, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Memory nhiều hơn dẫn tới context dài hơn dẫn tới chi phí cao hơn và độ trễ tăng, và provenance vẫn được ghi đầy đủ, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Bad retrieval = irrelevant context = wrong answer, nên memory retrieval quality quyết định agent quality, và provenance vẫn được ghi đầy đủ, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Lưu nhiều dữ liệu dẫn tới rủi ro privacy cao hơn dẫn tới nguy cơ vi phạm pháp lý, kể cả khi heartbeat đã chạy nền định kỳ, trong khi TTL chưa hết hạn cho bản ghi đó"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Chuỗi này nhấn mạnh rằng chất lượng truy xuất quan trọng hơn dung lượng lưu trữ. Một hệ thống lưu rất nhiều nhưng truy xuất sai vẫn cho câu trả lời sai — thậm chí tệ hơn không có memory vì context bị nhiễu bởi thông tin không liên quan.",
+      "tags": [
+        "day17",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D17-075",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thời gian và deliverable của Lab 17 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 giờ, nộp Agent với full memory stack + benchmark report so sánh agent có/không memory trên 10 multi-turn conversations"
+        },
+        {
+          "key": "B",
+          "text": "4 giờ, nộp báo cáo so sánh chi tiết giữa bốn loại memory và bốn framework khác nhau, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "C",
+          "text": "3 giờ, nộp một hệ thống memory hoàn chỉnh đã triển khai lên môi trường production, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "D",
+          "text": "1 giờ, nộp sơ đồ kiến trúc và mã giả mô tả cách tích hợp memory vào agent hiện có, và provenance vẫn được ghi đầy đủ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Mục tiêu lab: 'Build Multi-Memory Agent với LangGraph'. Cùng thời lượng 2 giờ với Lab 16 — cho thấy hai lab được thiết kế cùng quy mô, mỗi lab tập trung vào một lớp khác nhau của hệ thống agent.",
+      "tags": [
+        "day17",
+        "lab"
+      ]
+    },
+    {
+      "id": "D17-076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Plain RAG vẫn đủ tốt khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi đội đã có sẵn hạ tầng vector database và không muốn đầu tư thêm vào công cụ mới, mà token budget không hề bị vượt quá"
+        },
+        {
+          "key": "B",
+          "text": "Khi hỏi đáp 1 lần trên corpus lớn, tài liệu đổi liên tục, hoặc team chưa cần curate tri thức theo entity/timeline/contradiction"
+        },
+        {
+          "key": "C",
+          "text": "Khi người dùng cần audit trail đầy đủ để kiểm chứng lại nguồn gốc của mọi thông tin, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "D",
+          "text": "Khi corpus nhỏ dưới một trăm tài liệu và câu hỏi thuộc phạm vi hẹp đã được xác định, nên chất lượng câu trả lời cuối giảm xuống"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điều kiện 'tài liệu đổi liên tục' đặc biệt quan trọng: compiled KB tốn công biên tập, nên nếu nội dung thay đổi nhanh thì công sức đó nhanh chóng lỗi thời. RAG truy xuất trực tiếp từ bản mới nhất nên phù hợp hơn trong trường hợp này.",
+      "tags": [
+        "day17",
+        "plain-rag"
+      ]
+    },
+    {
+      "id": "D17-077",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bốn loại memory, loại nào chịu trách nhiệm cho việc agent nhớ 'user thích Python'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semantic memory vì Python là một khái niệm thuộc về tri thức chuyên môn của lĩnh vực"
+        },
+        {
+          "key": "B",
+          "text": "Long-term memory — đây là user preference cần persist qua sessions, lưu trong Redis dạng Hash"
+        },
+        {
+          "key": "C",
+          "text": "Episodic memory vì đây là một trải nghiệm mà agent đã ghi nhận trong quá khứ"
+        },
+        {
+          "key": "D",
+          "text": "Short-term memory vì đây là thông tin người dùng vừa nói trong phiên hiện tại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cấu trúc dữ liệu Redis được nêu rõ: Hash lưu preferences (language, style); Set lưu facts; List lưu session history. Demo của bài cũng minh họa đúng tình huống này: Session 1 user nói thích Python, Session 2 agent load memory rồi chủ động gợi ý Python.",
+      "tags": [
+        "day17",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D17-078",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba metadata được gắn khi agent thêm fact mới vào semantic memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "source, confidence, timestamp, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "embedding, chunk_size và similarity_threshold để phục vụ việc tìm kiếm về sau"
+        },
+        {
+          "key": "C",
+          "text": "user_id, session_id và thread_id để biết fact này thuộc về ngữ cảnh nào"
+        },
+        {
+          "key": "D",
+          "text": "category, priority và ttl để quyết định thứ tự truy xuất và thời gian lưu trữ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba metadata này phục vụ ba mục đích: source cho phép truy vết nguồn gốc (provenance); confidence cho phép lọc theo độ tin cậy; timestamp cho phép đánh giá độ tươi. Chúng cũng xuất hiện lại ở §6 trong yêu cầu về memory record.",
+      "tags": [
+        "day17",
+        "metadata"
+      ]
+    },
+    {
+      "id": "D17-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pipeline compaction gồm bốn bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Detect pressure (token budget/latency) → Summarize (decisions, blockers, next steps) → Extract notes (facts, tasks, prefs) → Rebuild context (summary + recent turns)"
+        },
+        {
+          "key": "B",
+          "text": "Trim, Merge, Validate và Rebuild theo bốn thao tác trên context window đang chạy, dù compaction đã chạy đúng ngưỡng cấu hình, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "C",
+          "text": "Load, Analyze, Compress và Store theo bốn giai đoạn xử lý dữ liệu tiêu chuẩn, trong khi backend lưu trữ hoạt động bình thường, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "D",
+          "text": "Buffer, Summarize, Extract và Persist theo Memory Management Flow đã học ở §3, và provenance vẫn được ghi đầy đủ, dù compaction đã chạy đúng ngưỡng cấu hình"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lưu ý phương án B là Memory Management Flow của §3 — gần giống nhưng khác mục đích: flow đó nói về việc chuyển từ short-term sang long-term store, còn pipeline này nói về việc tái cấu trúc context đang chạy.",
+      "tags": [
+        "day17",
+        "compaction-pipeline"
+      ]
+    },
+    {
+      "id": "D17-080",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Demo của Day 17 minh họa gì qua ba session?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ba loại memory khác nhau được kích hoạt lần lượt qua ba tình huống sử dụng khác nhau, kể cả khi heartbeat đã chạy nền định kỳ, và session summary vẫn giữ nguyên nội dung, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Ba mức độ chi tiết của memory được thử nghiệm để tìm ra ngưỡng token tối ưu nhất, trong khi backend lưu trữ hoạt động bình thường, nên thông tin quan trọng vẫn bị bỏ sót, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "C",
+          "text": "Ba framework memory được so sánh trên cùng một kịch bản hội thoại với người dùng, và session summary vẫn giữ nguyên nội dung, trong khi backend lưu trữ hoạt động bình thường, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "D",
+          "text": "Session 1 user nói thích Python không thích Java rồi agent ghi vào Redis; Session 2 (process mới) agent load memory và proactively suggest Python; Session 3 agent recall episode user bị confused async/await rồi tự thêm explanation"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Điểm quan trọng nhất là chi tiết 'new process' ở Session 2 — nó chứng minh memory thực sự bền vững ngoài context window chứ không phải chỉ là lịch sử hội thoại còn trong bộ nhớ. Bước 4 so sánh agent có memory vs không memory về response relevance và user satisfaction.",
+      "tags": [
+        "day17",
+        "demo"
+      ]
+    },
+    {
+      "id": "D17-081",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói identity files 'không phải retrieval engine'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chúng không tự re-rank, không có TTL, không có conflict resolution và không có provenance"
+        },
+        {
+          "key": "B",
+          "text": "Vì chúng chỉ đọc được một lần lúc khởi động chứ không truy xuất được lúc đang chạy"
+        },
+        {
+          "key": "C",
+          "text": "Vì chúng do con người viết chứ không do agent tự sinh ra trong quá trình hoạt động"
+        },
+        {
+          "key": "D",
+          "text": "Vì chúng được lưu dưới dạng file văn bản nên không thể tìm kiếm nhanh như database"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn tính năng thiếu này đều là năng lực cốt lõi của memory backend. Hệ quả thực tiễn: nếu chỉ dùng identity files thì agent không lọc được thông tin theo độ liên quan với câu hỏi hiện tại — nó luôn đọc toàn bộ file bất kể nội dung có liên quan hay không.",
+      "tags": [
+        "day17",
+        "identity-files"
+      ]
+    },
+    {
+      "id": "D17-082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chuyển từ retrieval chỉ dựa similarity sang đa tiêu chí?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi người dùng phản ánh rằng kết quả tìm kiếm không đủ chính xác so với mong đợi, kể cả khi user đã explicit opt-in từ trước, kể cả khi heartbeat đã chạy nền định kỳ"
+        },
+        {
+          "key": "B",
+          "text": "Khi làm cross-session memory — cần scope + recency + relevance + provenance thay vì chỉ similarity, vì memory phải đúng user và đúng thời điểm chứ không chỉ đúng chủ đề"
+        },
+        {
+          "key": "C",
+          "text": "Khi đội có đủ nguồn lực để xây dựng một hệ thống xếp hạng phức tạp hơn hiện tại, và provenance vẫn được ghi đầy đủ, kể cả khi user đã explicit opt-in từ trước"
+        },
+        {
+          "key": "D",
+          "text": "Khi corpus vượt quá một triệu bản ghi khiến tìm kiếm theo similarity trở nên chậm, trong khi durable notes đã được trích xuất, và provenance vẫn được ghi đầy đủ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn tiêu chí giải quyết bốn vấn đề khác nhau: scope đảm bảo đúng user/org; recency đảm bảo thông tin còn mới; relevance đảm bảo liên quan tới câu hỏi; provenance đảm bảo truy vết được nguồn. Similarity một mình chỉ giải quyết được tiêu chí thứ ba.",
+      "tags": [
+        "day17",
+        "retrieval-criteria"
+      ]
+    },
+    {
+      "id": "D17-083",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước 3 của Lab 17 về context window management yêu cầu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén toàn bộ lịch sử hội thoại xuống còn một nửa mỗi khi đạt tới ngưỡng cấu hình, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển toàn bộ nội dung sang external store rồi chỉ giữ lại con trỏ tham chiếu trong context, mà độ trễ truy xuất không tăng đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "Auto-trim khi gần limit và priority-based eviction theo 4-level hierarchy, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "D",
+          "text": "Tự động mở rộng context window khi phát hiện lượng thông tin vượt quá giới hạn hiện tại, trong khi TTL chưa hết hạn cho bản ghi đó"
+        }
+      ],
+      "answer": "C",
+      "explanation": "4-level hierarchy chính là thứ tự priority đã nêu ở §4: short-term (1), long-term facts (2), relevant episodes (3), semantic knowledge (4). Khi cần cắt bớt thì cắt từ mức 4 lên — semantic knowledge bị bỏ trước, short-term giữ lại lâu nhất.",
+      "tags": [
+        "day17",
+        "lab-context"
+      ]
+    },
+    {
+      "id": "D17-084",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài tiếp theo sau Day 17 là gì và câu hỏi mở đầu ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngày 18 về Multi-Agent Systems với câu hỏi làm sao để nhiều agent phối hợp hiệu quả, và provenance vẫn được ghi đầy đủ, và deletion request đã propagate xong"
+        },
+        {
+          "key": "B",
+          "text": "Ngày 18 về Deployment với câu hỏi làm sao đưa agent từ localhost lên phục vụ nhiều người, mà chi phí lưu trữ vẫn trong ngân sách, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "C",
+          "text": "Ngày 18 về Agent Evaluation với câu hỏi làm sao đo được agent có thực sự tốt lên không, và deletion request đã propagate xong, mà chi phí lưu trữ vẫn trong ngân sách"
+        },
+        {
+          "key": "D",
+          "text": "Ngày 18 về Production RAG với câu hỏi 'Agent đã có memory, tiếp theo cần knowledge retrieval tốt hơn — tại sao RAG pipeline demo chạy tốt nhưng production chỉ đạt 60%?'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bài tập về nhà gồm hai việc: hoàn thành Lab 17 (Multi-Memory Agent + benchmark) và đọc Anthropic 'Building Effective Agents' mục Context Engineering. Tài liệu này cũng được dùng ở Ngày 16 — cho thấy nó là nền tảng chung cho cả chương.",
+      "tags": [
+        "day17",
+        "next-day"
+      ]
+    },
+    {
+      "id": "D17-085",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Federated Forgetting trong hệ multi-agent nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deletion request phải propagate đến tất cả agents có copy của dữ liệu đó"
+        },
+        {
+          "key": "B",
+          "text": "Mỗi agent tự quyết định có xóa dữ liệu của mình hay không dựa trên chính sách riêng"
+        },
+        {
+          "key": "C",
+          "text": "Việc xóa được thực hiện bởi một agent trung tâm rồi đồng bộ xuống các agent còn lại"
+        },
+        {
+          "key": "D",
+          "text": "Dữ liệu được chia nhỏ và phân tán nên xóa một phần là đủ để không thể khôi phục lại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là thách thức đặc thù của kiến trúc multi-agent: khi nhiều agent cùng giữ bản sao của một thông tin, việc xóa ở một nơi không đủ. Nó liên hệ với nguyên tắc ở §6: 'Deletion và consent phải chạy xuyên suốt mọi store, không chỉ store chính.'",
+      "tags": [
+        "day17",
+        "federated-forgetting"
+      ]
+    },
+    {
+      "id": "D17-086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Unified interface của Memory Architecture hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một router phân loại query rồi chỉ gọi đúng một loại memory phù hợp nhất với câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "retrieve(query, types=['all']) trả về merged context từ cả 4 loại memory, đã trim theo token budget"
+        },
+        {
+          "key": "C",
+          "text": "Tất cả memory được gộp vào một vector store duy nhất và truy vấn bằng một lời gọi"
+        },
+        {
+          "key": "D",
+          "text": "Mỗi loại memory có API riêng và agent phải gọi lần lượt từng loại rồi tự ghép kết quả"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai yếu tố quan trọng trong thiết kế này: merged context (agent không phải biết chi tiết từng backend) và trim theo token budget (tự động tôn trọng giới hạn 20% đã nêu ở §2). Thứ tự priority: short-term 1, long-term 2, episodic 3, semantic 4.",
+      "tags": [
+        "day17",
+        "unified-interface"
+      ]
+    },
+    {
+      "id": "D17-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi long-term fact mâu thuẫn với short-term info thì xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lưu cả hai với trọng số khác nhau rồi để model tự quyết định khi sinh câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Recency wins — thông tin mới thắng, đồng thời flag lại để review sau"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ qua cả hai và hỏi lại người dùng để xác nhận thông tin nào là chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Ưu tiên long-term fact vì nó đã được xác nhận qua nhiều phiên làm việc trước đó"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cơ chế hai phần này rất thực dụng: recency wins đảm bảo agent phản ứng đúng với thông tin mới nhất ngay lập tức, còn flag for review đảm bảo mâu thuẫn không bị bỏ qua âm thầm mà được con người xem xét sau.",
+      "tags": [
+        "day17",
+        "conflict-resolution"
+      ]
+    },
+    {
+      "id": "D17-088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn thay đổi quan trọng trong cross-session memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Từ thread-scoped sang user-scoped namespace; từ save chat history sang save structured facts; từ retrieval chỉ dựa similarity sang scope + recency + relevance + provenance; từ write-back cuối phiên sang hot path + background consolidation"
+        },
+        {
+          "key": "B",
+          "text": "Từ prompt sang fine-tune, từ few-shot sang zero-shot, từ single-turn sang multi-turn, từ text sang multimodal, kể cả khi episode đã được consolidate lại, trong khi TTL chưa hết hạn cho bản ghi đó, trong khi namespacing theo user_id vẫn đúng"
+        },
+        {
+          "key": "C",
+          "text": "Từ text sang vector, từ đơn ngôn ngữ sang đa ngôn ngữ, từ đồng bộ sang bất đồng bộ, từ đơn agent sang đa agent, và provenance vẫn được ghi đầy đủ, nên chất lượng câu trả lời cuối giảm xuống, kể cả khi episode đã được consolidate lại"
+        },
+        {
+          "key": "D",
+          "text": "Từ file sang database, từ đơn máy sang phân tán, từ thủ công sang tự động, từ tĩnh sang động, nên chất lượng câu trả lời cuối giảm xuống, kể cả khi episode đã được consolidate lại, trong khi TTL chưa hết hạn cho bản ghi đó"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn thay đổi này thể hiện sự trưởng thành của lĩnh vực: từ lưu thô sang lưu có cấu trúc, từ truy xuất đơn giản sang truy xuất đa tiêu chí, và từ ghi một lần sang ghi liên tục có nền. Memory hiện đại lưu preference, decision, open loop, episodic outcome chứ không lưu toàn bộ transcript.",
+      "tags": [
+        "day17",
+        "cross-session-changes"
+      ]
+    },
+    {
+      "id": "D17-089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Episodic Memory lưu mỗi episode dưới dạng tuple gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(task, trajectory, outcome, reflection), và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "(attempt_id, failure_reason, lesson, strategy_next) theo cấu trúc reflection memory"
+        },
+        {
+          "key": "C",
+          "text": "(query, retrieved_docs, answer, score) theo cấu trúc của một lượt RAG hoàn chỉnh"
+        },
+        {
+          "key": "D",
+          "text": "(user_id, timestamp, message, response) để có thể tái hiện lại toàn bộ cuộc hội thoại"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nhờ tuple này agent biết được: 'approach X đã fail vì Y trong task tương tự'. Lưu ý phương án D là cấu trúc reflection memory entry của Lab 16 — hai khái niệm gần nhau nhưng khác mục đích: reflection dùng trong một episode, còn episodic memory dùng xuyên episode.",
+      "tags": [
+        "day17",
+        "episodic-tuple"
+      ]
+    },
+    {
+      "id": "D17-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Stack tốt nhất kết hợp files và retrieval memory gồm bốn thành phần nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bốn file AGENTS.md, SOUL.md, MEMORY.md và TASKS.md được đồng bộ tự động với nhau, trong khi TTL chưa hết hạn cho bản ghi đó, kể cả khi episode đã được consolidate lại, và provenance vẫn được ghi đầy đủ"
+        },
+        {
+          "key": "B",
+          "text": "Một file instruction đủ ngắn để nạp đầu phiên, một file working notes để agent cập nhật có kiểm soát, một memory backend riêng cho recall theo scope/relevance, và chính sách rõ về ai được ghi gì khi nào ghi ghi vào đâu"
+        },
+        {
+          "key": "C",
+          "text": "Bốn backend Redis, Chroma, PostgreSQL và file system cho bốn loại memory khác nhau, kể cả khi episode đã được consolidate lại, và provenance vẫn được ghi đầy đủ, mà token budget không hề bị vượt quá, trong khi TTL chưa hết hạn cho bản ghi đó"
+        },
+        {
+          "key": "D",
+          "text": "Bốn tầng short-term, long-term, episodic và semantic được nạp theo thứ tự ưu tiên, và provenance vẫn được ghi đầy đủ, mà token budget không hề bị vượt quá, trong khi backend lưu trữ hoạt động bình thường"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Câu chốt rất đáng nhớ: 'Instruction files trả lời hãy cư xử thế nào; retrieval memory trả lời nên nhớ điều gì lúc này.' Hai câu hỏi khác nhau nên cần hai cơ chế khác nhau, không thay thế được cho nhau.",
+      "tags": [
+        "day17",
+        "best-stack"
+      ]
+    },
+    {
+      "id": "D17-091",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi Hỏi & Đáp cuối Day 17 đặt ra hai vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm sao đảm bảo tuân thủ GDPR, và ai chịu trách nhiệm khi dữ liệu bị rò rỉ ra ngoài"
+        },
+        {
+          "key": "B",
+          "text": "Bao nhiêu token nên dành cho memory, và làm sao tối ưu chi phí lưu trữ dài hạn"
+        },
+        {
+          "key": "C",
+          "text": "Memory nào là must-have cho production agent, và khi nào dùng framework (Mem0, Zep) vs tự build"
+        },
+        {
+          "key": "D",
+          "text": "Làm sao đo được chất lượng của memory, và làm sao biết agent đã nhớ đúng thông tin"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hai câu hỏi này tổng kết hai quyết định thiết kế quan trọng nhất của bài: chọn loại memory nào (trả lời ở takeaway 1: tối thiểu short-term + long-term) và chọn cách triển khai nào (trả lời ở bảng so sánh framework vs custom).",
+      "tags": [
+        "day17",
+        "qa"
+      ]
+    },
+    {
+      "id": "D17-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm xu hướng trong Trend Radar 2025-2026 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tuning, RAG, prompt engineering, tool calling và context engineering theo kỹ thuật"
+        },
+        {
+          "key": "B",
+          "text": "Cross-session memory, Compaction + notes, Identity files, Heartbeat loops, Compiled knowledge base"
+        },
+        {
+          "key": "C",
+          "text": "Vector DB, graph DB, key-value store, file system và cloud storage theo backend lưu trữ"
+        },
+        {
+          "key": "D",
+          "text": "Multi-agent, MCP, A2A, guardrails và evaluation theo năm hướng phát triển của agent"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Chi tiết từng xu hướng: cross-session memory chuyển từ thread history sang user-scoped profile; compaction + notes tóm tắt phần đã xử lý và đẩy facts ra durable notes; identity files (AGENTS.md, CLAUDE.md, SOUL.md) trở thành lớp control plane; heartbeat loops đánh thức agent định kỳ; compiled KB kiểu Karpathy LLM Wiki.",
+      "tags": [
+        "day17",
+        "trends"
+      ]
+    },
+    {
+      "id": "D17-093",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Privacy-by-Design trong context memory nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ cho phép người dùng truy cập vào memory của chính mình chứ không của người khác"
+        },
+        {
+          "key": "B",
+          "text": "Mặc định không lưu PII — user phải explicit opt-in trước khi agent ghi nhớ thông tin cá nhân"
+        },
+        {
+          "key": "C",
+          "text": "Ẩn danh hóa mọi thông tin cá nhân trước khi đưa vào hệ thống lưu trữ dài hạn"
+        },
+        {
+          "key": "D",
+          "text": "Mã hóa toàn bộ dữ liệu memory trước khi lưu và chỉ giải mã khi agent thực sự cần dùng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm mấu chốt là chữ 'mặc định': hệ thống bắt đầu ở trạng thái không lưu gì, và chỉ lưu khi có sự đồng ý rõ ràng. Đây khác hẳn với thiết kế lưu tất cả rồi cho phép người dùng tắt đi.",
+      "tags": [
+        "day17",
+        "privacy-by-design"
+      ]
+    },
+    {
+      "id": "D17-094",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Khi nào nên chạy compaction?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Theo lịch định kỳ mỗi mười lăm phút bất kể agent đang xử lý công việc gì, mà độ trễ truy xuất không tăng đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ khi gần token limit, khi session kéo dài, hoặc khi chuẩn bị chuyển pha từ thảo luận sang thực thi"
+        },
+        {
+          "key": "C",
+          "text": "Sau mỗi lượt trả lời để đảm bảo context luôn ở trạng thái gọn nhất có thể, dù compaction đã chạy đúng ngưỡng cấu hình"
+        },
+        {
+          "key": "D",
+          "text": "Ngay khi bắt đầu mỗi session mới để dọn sạch phần còn sót lại của phiên trước, dù memory router đã chọn đúng loại store"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nhấn mạnh 'Không compact mọi lúc'. Điều kiện thứ ba đặc biệt tinh tế: chuyển pha từ thảo luận sang thực thi là thời điểm tự nhiên để chốt lại các quyết định — đúng lúc để tóm tắt.",
+      "tags": [
+        "day17",
+        "compaction-when"
+      ]
+    },
+    {
+      "id": "D17-095",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Memory hiện đại thường lưu những gì thay vì toàn bộ transcript?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Toàn bộ metadata của phiên như thời gian, thiết bị, vị trí và các thông tin kỹ thuật"
+        },
+        {
+          "key": "B",
+          "text": "Chỉ lưu câu hỏi và câu trả lời cuối cùng của mỗi phiên làm việc với người dùng"
+        },
+        {
+          "key": "C",
+          "text": "Preference, decision, open loop, episodic outcome, mà độ trễ truy xuất không tăng đáng kể"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ lưu embedding của toàn bộ hội thoại để tiết kiệm dung lượng lưu trữ tối đa"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bốn loại này đều có đặc điểm chung: chúng là kết luận đã ổn định chứ không phải quá trình đi tới kết luận. Đây là ứng dụng của nguyên tắc data minimization trong GDPR checklist — chỉ lưu cái thực sự cần dùng lại.",
+      "tags": [
+        "day17",
+        "what-to-store"
+      ]
+    },
+    {
+      "id": "D17-096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Integration pattern của memory trong LangGraph gồm ba bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Load toàn bộ memory vào context, để model tự chọn phần liên quan, rồi lưu lại tất cả, trong khi backend lưu trữ hoạt động bình thường"
+        },
+        {
+          "key": "B",
+          "text": "Truy vấn memory ở mỗi lượt gọi model để đảm bảo thông tin luôn được cập nhật mới nhất, và deletion request đã propagate xong"
+        },
+        {
+          "key": "C",
+          "text": "Khởi tạo state, chạy vòng lặp agent và ghi kết quả cuối vào cơ sở dữ liệu bên ngoài, nên chất lượng câu trả lời cuối giảm xuống"
+        },
+        {
+          "key": "D",
+          "text": "Node load_memory đọc 3 loại memory khi bắt đầu, inject vào system prompt theo priority, node save_memory ghi khi kết thúc"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Thứ tự priority khi inject: 1. Short-term (gần nhất), 2. Long-term facts (user prefs), 3. Relevant episodes, 4. Semantic knowledge. Thứ tự này khớp với sơ đồ Memory Architecture ở phần sau.",
+      "tags": [
+        "day17",
+        "integration"
+      ]
+    },
+    {
+      "id": "D17-097",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Semantic Memory được mô tả với đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Log trải nghiệm có thứ tự thời gian, lưu lại những gì agent đã trải qua trong quá khứ"
+        },
+        {
+          "key": "B",
+          "text": "Embeddings + Vector DB, phục vụ domain knowledge retrieval theo ngữ nghĩa"
+        },
+        {
+          "key": "C",
+          "text": "Redis hoặc PostgreSQL lưu preferences và facts của người dùng qua nhiều phiên"
+        },
+        {
+          "key": "D",
+          "text": "Buffer trong context window giữ lịch sử hội thoại của phiên làm việc hiện tại"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Trong ma trận hai trục, Semantic nằm ở góc bền vững + tri thức — nghĩa là nó lưu kiến thức chung về lĩnh vực chứ không phải thông tin cá nhân của một người dùng cụ thể. Đây là loại memory gần với RAG nhất trong bốn loại.",
+      "tags": [
+        "day17",
+        "semantic"
+      ]
+    },
+    {
+      "id": "D17-098",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sai lầm phổ biến nhất khi làm cross-session memory là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng vector search thay vì tìm kiếm chính xác nên kết quả truy xuất thiếu độ tin cậy, nên thông tin quan trọng vẫn bị bỏ sót"
+        },
+        {
+          "key": "B",
+          "text": "Lưu quá ít thông tin nên agent vẫn không nhớ được điều người dùng đã nói ở phiên trước, kể cả khi similarity search trả về top-k đủ"
+        },
+        {
+          "key": "C",
+          "text": "Đặt TTL quá ngắn khiến thông tin quan trọng bị xóa trước khi người dùng quay lại, nên recall trả về kết quả nhiễu hơn"
+        },
+        {
+          "key": "D",
+          "text": "Đem toàn bộ transcript qua session mới — kết quả là token phình to, recall nhiễu và rủi ro rò rỉ dữ liệu giữa user tăng mạnh"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba hậu quả được nêu đều nghiêm trọng nhưng loại thứ ba nguy hiểm nhất: rò rỉ dữ liệu giữa các user. Slide sau nhấn mạnh: 'Memory gán nhầm user là bug nghiêm trọng. Isolation, TTL, deletion và provenance phải có từ đầu.'",
+      "tags": [
+        "day17",
+        "cross-session-mistake"
+      ]
+    },
+    {
+      "id": "D17-099",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Memory record trong kiến trúc cross-session nên có những trường nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "embedding, chunk_index, similarity_score và metadata theo cấu trúc của vector store"
+        },
+        {
+          "key": "B",
+          "text": "task, trajectory, outcome và reflection theo cấu trúc của một episodic memory entry"
+        },
+        {
+          "key": "C",
+          "text": "source, timestamp, confidence, ttl, mà token budget không hề bị vượt quá"
+        },
+        {
+          "key": "D",
+          "text": "user_id, thread_id, message_id và role theo cấu trúc của một tin nhắn hội thoại"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bốn trường này phục vụ bốn mục đích quản trị: source cho truy vết nguồn gốc; timestamp cho đánh giá độ tươi; confidence cho lọc theo độ tin cậy; ttl cho tuân thủ storage limitation của GDPR. Chúng cũng khớp với metadata của semantic memory ở §4.",
+      "tags": [
+        "day17",
+        "memory-record"
+      ]
+    },
+    {
+      "id": "D17-100",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Agent trả lời sai vì lấy nhầm preference của người dùng khác. Theo slide, đây là loại lỗi gì và phải làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lỗi của model khi tổng hợp context, cần bổ sung chỉ dẫn rõ hơn trong system prompt"
+        },
+        {
+          "key": "B",
+          "text": "Lỗi cấu hình vector store, cần rebuild lại index cho toàn bộ dữ liệu đã lưu trước đó"
+        },
+        {
+          "key": "C",
+          "text": "Memory gán nhầm user là bug nghiêm trọng — isolation, TTL, deletion và provenance phải có từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Lỗi truy xuất thông thường, chỉ cần tăng ngưỡng similarity để lọc kết quả chặt hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide dùng từ 'bug nghiêm trọng' chứ không phải 'vấn đề chất lượng' — đây là lỗi về an toàn dữ liệu chứ không phải về độ chính xác. Giải pháp nằm ở tầng kiến trúc (namespacing theo user_id, org_id) chứ không ở tầng tinh chỉnh tham số.",
+      "tags": [
+        "day17",
+        "isolation"
+      ]
+    }
+  ]
+}
