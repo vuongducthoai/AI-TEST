@@ -1,0 +1,3111 @@
+{
+  "id": "exam-105",
+  "title": "AICB Ngày 18 — Production RAG: Từ Demo 60% Đến Production 85%+",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P2T3 Ngày 18: Production RAG' (VinUniversity, 39 slide). Nội dung: bản đồ pipeline OFFLINE+ONLINE và Error Tree; OFFLINE ingestion (6 chiến lược chunking, hierarchical, late chunking, RAPTOR, contextual embeddings, enrichment pipeline, Matryoshka); ONLINE retrieval (hybrid+RRF, ColBERT, SPLADE, weighted fusion, ColPali, chọn vector DB, two-stage retrieval, reranker landscape); control flow (HyDE, Multi-Query, CRAG, augmentation với NLI/compression/citation/conflict resolution); Close the loop (RAGAS 4 metric, Error Tree theo metric, 4 điểm mù embedding và 5 giải pháp bù đắp). Câu hỏi dạng phân tích tình huống, đáp án phân bố đều và giải thích chi tiết.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "D18-001",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "HyDE và Multi-Query khác nhau ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "HyDE chạy offline lúc index còn Multi-Query chạy online mỗi lần người dùng đặt câu hỏi, mà điểm Faithfulness gần như không đổi, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "B",
+          "text": "HyDE cần model lớn để sinh câu trả lời chất lượng còn Multi-Query chỉ cần model nhỏ, trong khi reranker vẫn chạy đúng cấu hình, và pipeline vẫn chạy end-to-end không lỗi"
+        },
+        {
+          "key": "C",
+          "text": "HyDE cho LLM sinh câu trả lời giả định rồi embed câu đó để tìm (nối vocab gap); Multi-Query tách query phức thành nhiều sub-query rồi retrieve và gộp (xử lý câu hỏi nhiều phần)"
+        },
+        {
+          "key": "D",
+          "text": "HyDE dùng cho câu hỏi ngắn còn Multi-Query dùng cho câu hỏi dài vượt quá giới hạn token, nên câu trả lời cuối vẫn thiếu thông tin, trong khi reranker vẫn chạy đúng cấu hình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ TàiLiệuBot: 'nghỉ phép' bật HyDE (nối vocab gap với 'annual leave'); 'phép khác ốm?' bật Multi-Query (2 sub-query rồi hợp kết quả). Cả hai đều tốn +1 LLM call mỗi query nên slide nhấn mạnh 'bật theo vấn đề, không mặc định'.",
+      "tags": [
+        "day18",
+        "prerag"
+      ]
+    },
+    {
+      "id": "D18-002",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi mở đầu Day 18 đặt ra vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm sao đưa RAG pipeline từ localhost lên phục vụ được hàng trăm người dùng cùng lúc, dù chunk đúng vẫn nằm trong top-20, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "B",
+          "text": "Agent đã có memory nhưng chưa biết cách quản lý context window khi hội thoại kéo dài, kể cả khi query đã được viết lại nhiều lần, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Vì sao cùng một model, chỉ đổi harness mà hiệu năng agent lại nhảy vọt trên benchmark, trong khi vector DB hoạt động ổn định, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "D",
+          "text": "RAG pipeline demo chạy ngon nhưng lên production accuracy chỉ 60% — ingestion hay retrieval đang giết bạn?, kể cả khi query đã được viết lại nhiều lần"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide phụ đề của bài: 'Từ Demo 60% Đến Production 85%+'. Định vị so với các ngày trước: 'Day 07-08 dạy RAG chạy được. Hôm nay: làm RAG đáng tin và đo được.'",
+      "tags": [
+        "day18",
+        "framing"
+      ]
+    },
+    {
+      "id": "D18-003",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Hai chunk mâu thuẫn (policy v2 vs v3), LLM chọn bản cũ' được sửa ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieval — bằng cách lọc metadata để chỉ lấy về phiên bản mới nhất của tài liệu"
+        },
+        {
+          "key": "B",
+          "text": "Rerank — bằng cách tăng trọng số cho các chunk có timestamp gần hiện tại hơn"
+        },
+        {
+          "key": "C",
+          "text": "Augment — bằng conflict resolution với chiến lược newest-wins theo metadata"
+        },
+        {
+          "key": "D",
+          "text": "Generate — bằng cách viết prompt yêu cầu model luôn ưu tiên tài liệu có ngày mới hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng Augmentation liệt kê bốn bước, trong đó Conflict resolution xử lý đúng vấn đề '2 chunk mâu thuẫn (v2 vs v3)' bằng cách newest-wins theo metadata hoặc để LLM làm trọng tài. Slide ghi: 'TàiLiệuBot case #4 → conflict resolution chọn v3 (newest-wins)'.",
+      "tags": [
+        "day18",
+        "augment"
+      ]
+    },
+    {
+      "id": "D18-004",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "SPLADE khác BM25 ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SPLADE dùng dense vector còn BM25 dùng sparse vector nên bắt được synonym tốt hơn, kể cả khi index đã được dựng lại từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "SPLADE chạy trên GPU lúc query còn BM25 chạy trên CPU nên nhanh hơn nhiều lần, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        },
+        {
+          "key": "C",
+          "text": "SPLADE học trọng số từ và tự thêm từ liên quan (term expansion) vào sparse vector, vẫn chạy trên inverted index nhưng đóng được vocab gap"
+        },
+        {
+          "key": "D",
+          "text": "SPLADE giữ nhiều vector cho mỗi document còn BM25 chỉ giữ một vector duy nhất, dù hybrid search đã bật cả BM25 lẫn dense"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ví dụ trong slide: chunk 'annual leave 12 days' — BM25 cho ra {annual, leave, 12, days}; SPLADE mở rộng thành {annual, leave, vacation, holiday, pto, 12, days} nên query 'pto' vẫn tìm thấy. Chi phí: cần GPU lúc index để sinh sparse vector. Nguồn: Formal et al., SIGIR 2021.",
+      "tags": [
+        "day18",
+        "splade"
+      ]
+    },
+    {
+      "id": "D18-005",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RAPTOR giải quyết loại câu hỏi nào và bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi có nhiều phần, bằng cách tách thành các sub-query rồi retrieve song song, trong khi latency vẫn nằm dưới ngưỡng SLA, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi dùng từ vựng khác tài liệu, bằng cách sinh câu hỏi giả định lúc index, trong khi vector DB hoạt động ổn định, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Câu hỏi tổng hợp xuyên nhiều đoạn, bằng cách gom chunk thành cụm rồi LLM tóm tắt lặp lên thành cây — retrieve ở đúng độ cao: chi tiết ở lá, tổng hợp ở nút cao"
+        },
+        {
+          "key": "D",
+          "text": "Câu hỏi về quan hệ giữa nhiều entity, bằng cách xây knowledge graph thay cho vector phẳng, nên câu trả lời cuối vẫn thiếu thông tin, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vấn đề gốc: 'mọi chunk cùng một mức chi tiết. Câu hỏi tổng hợp (toàn bộ chính sách phép đổi gì?) phải gom hàng chục lá → dễ miss, dễ tràn context.' Chi phí: build cây tốn nhiều LLM tóm tắt lúc index, index phình to. Nguồn: Sarthi et al., ICLR 2024.",
+      "tags": [
+        "day18",
+        "raptor"
+      ]
+    },
+    {
+      "id": "D18-006",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RAGAS cho Context Recall 0.82, Context Precision 0.79, Faithfulness 0.64, Answer Relevancy 0.81. Vấn đề nằm ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tầng Rerank vì thứ hạng các chunk chưa phản ánh đúng mức độ liên quan thực tế, trong khi latency vẫn nằm dưới ngưỡng SLA, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "B",
+          "text": "Tầng Chunking vì cách cắt chunk hiện tại làm mất ngữ cảnh cần thiết cho việc trả lời, dù chunk đúng vẫn nằm trong top-20, và metadata đã được gắn đầy đủ lúc index"
+        },
+        {
+          "key": "C",
+          "text": "Tầng Retrieval vì chưa lấy đủ thông tin cần thiết để trả lời đầy đủ câu hỏi của user, kể cả khi threshold đã được nâng lên cao, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Tầng Generate: model đang bịa thông tin ngoài context — sửa bằng prompt chặt, hạ temperature, thêm citation, kể cả khi threshold đã được nâng lên cao, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cả hai metric retrieval đều đạt (>0.75) nên bước truy xuất hoạt động tốt. Faithfulness 0.64 dưới ngưỡng 0.85 là dấu hiệu hallucination rõ ràng — model có context đúng nhưng không bám theo. Đây đúng là case #3 trong bài tập 4 lỗi ở §1.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-007",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quy trình 5 bước khép kín để cải thiện RAG theo slide là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn model, viết prompt, chạy thử, đo kết quả rồi lặp lại cho tới khi đạt yêu cầu, kể cả khi query đã được viết lại nhiều lần"
+        },
+        {
+          "key": "B",
+          "text": "(1) RAGAS baseline → (2) bottom-5 fail → (3) đọc metric thấp → (4) tra bảng ra bản đồ pipeline → (5) sửa → so delta"
+        },
+        {
+          "key": "C",
+          "text": "Phân tích yêu cầu, thiết kế kiến trúc, triển khai, kiểm thử rồi đưa vào vận hành thật, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "D",
+          "text": "Thu thập dữ liệu, chuẩn hóa, index, truy vấn rồi đánh giá kết quả cuối cùng, kể cả khi context window còn dư nhiều chỗ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide còn nêu thứ tự ưu tiên rẻ → đắt: 'recall (hybrid) → precision (rerank) → faithfulness (prompt)'. Nghĩa là sửa recall bằng hybrid search trước vì rẻ nhất, rồi mới tới rerank, cuối cùng mới chỉnh prompt.",
+      "tags": [
+        "day18",
+        "loop"
+      ]
+    },
+    {
+      "id": "D18-008",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Human-in-the-loop được nêu như giải pháp cho tình huống nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cần gán nhãn dữ liệu để huấn luyện lại model embedding cho phù hợp domain"
+        },
+        {
+          "key": "B",
+          "text": "Khi corpus quá lớn khiến việc kiểm tra tự động trở nên tốn kém và chậm chạp"
+        },
+        {
+          "key": "C",
+          "text": "Khi hệ thống gặp lỗi kỹ thuật cần con người can thiệp để khôi phục lại hoạt động"
+        },
+        {
+          "key": "D",
+          "text": "High-stakes: người duyệt trước khi trả lời cho người dùng cuối"
+        }
+      ],
+      "answer": "D",
+      "explanation": "HITL là giải pháp cuối cùng trong năm cách bù đắp giới hạn embedding, được để dành cho Day 27. Nó phù hợp khi chi phí của một lần sai vượt quá chi phí của việc chờ người duyệt — đúng nguyên tắc đã học ở Day 11 về HITL trigger.",
+      "tags": [
+        "day18",
+        "hitl"
+      ]
+    },
+    {
+      "id": "D18-009",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Top-10 có chunk đúng ở vị trí #8 nhưng LLM chỉ đọc top-3' thuộc bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retrieval — vì hệ thống lấy về không đủ số lượng chunk cần thiết cho câu hỏi"
+        },
+        {
+          "key": "B",
+          "text": "Rerank — chunk đúng đã được retrieve nhưng chưa được đẩy lên top"
+        },
+        {
+          "key": "C",
+          "text": "Generate — vì model không đọc hết toàn bộ context được cung cấp trong prompt"
+        },
+        {
+          "key": "D",
+          "text": "Augment — vì bước làm sạch context đã loại nhầm chunk chứa câu trả lời đúng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm phân biệt then chốt: retrieval ĐÃ thành công (chunk đúng nằm trong top-10), vấn đề nằm ở thứ hạng. Đây chính là bài toán mà two-stage retrieval với cross-encoder giải quyết — lấy rộng top-20 rồi lọc tinh xuống top-3.",
+      "tags": [
+        "day18",
+        "error-case"
+      ]
+    },
+    {
+      "id": "D18-010",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng 'Chunking theo loại dữ liệu', Sentence Window phù hợp với data nào và tín hiệu RAGAS là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "PDF scan và report nhiều bảng, tín hiệu là recall ở bảng biểu bị giảm sút rõ rệt, mà chi phí embedding không hề tăng thêm, kể cả khi index đã được dựng lại từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "FAQ và doc ngắn đồng nhất, tín hiệu là Context Recall thấp khi dùng sai chiến lược, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "Spec, hợp đồng và ADR, tín hiệu là Context Precision cao khi dùng đúng chiến lược, kể cả khi index đã được dựng lại từ đầu, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "D",
+          "text": "KB article và HR policy, tín hiệu RAGAS là Faithfulness cao, nên delta so với baseline gần như bằng không, kể cả khi index đã được dựng lại từ đầu"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng đầy đủ: Fixed-size cho FAQ/doc ngắn (Context Recall thấp); Sentence Window cho KB article/HR policy (Faithfulness cao); Hierarchical cho spec/hợp đồng/ADR (Context Precision cao); Semantic cho corpus hỗn hợp; Layout-aware cho PDF scan; Multimodal cho deck/diagram.",
+      "tags": [
+        "day18",
+        "chunking-table"
+      ]
+    },
+    {
+      "id": "D18-011",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Compression trong augmentation dùng tool nào và giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Qdrant hybrid, giải quyết vấn đề tìm kiếm chậm khi corpus có quy mô rất lớn, kể cả khi threshold đã được nâng lên cao, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "LLMLingua, giải quyết vấn đề prompt quá dài nhiều nhiễu — nén hoặc bỏ câu ít liên quan, giữ ý chính, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "C",
+          "text": "nli-deberta-v3, giải quyết vấn đề chunk mâu thuẫn với nội dung câu hỏi được đặt ra, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "D",
+          "text": "RAGatouille, giải quyết vấn đề token hiếm bị bỏ sót khi dùng dense embedding thuần, kể cả khi context window còn dư nhiều chỗ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bốn bước augmentation có bốn tool khác nhau: NLI verification dùng nli-deberta-v3; Compression dùng LLMLingua; Citation injection dùng prompt + map về chunk gốc; Conflict resolution dùng metadata + LLM.",
+      "tags": [
+        "day18",
+        "compression"
+      ]
+    },
+    {
+      "id": "D18-012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao OFFLINE được mô tả là 'đặt trần chất lượng'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì retrieval không thể tốt hơn cái đã index — làm một lần lúc index nhưng quyết định trần chất lượng cho mọi query về sau"
+        },
+        {
+          "key": "B",
+          "text": "Vì OFFLINE tốn nhiều chi phí nhất nên phải làm cẩn thận ngay từ lần đầu tiên, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Vì OFFLINE chạy trước nên mọi lỗi ở đây sẽ được phát hiện muộn hơn ONLINE nhiều, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "D",
+          "text": "Vì OFFLINE không thể sửa lại được sau khi đã đưa hệ thống vào vận hành production, nên Error Tree không tra ngược được về đâu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là luận điểm trung tâm của §2. Nó cũng xuất hiện trong takeaway: 'OFFLINE đặt trần chất lượng. Hierarchical chunk + contextual + enrichment: làm 1 lần lúc index, lợi mọi query.'",
+      "tags": [
+        "day18",
+        "offline"
+      ]
+    },
+    {
+      "id": "D18-013",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phần Reflection 30 phút của Lab 18 yêu cầu gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Map lecture concept → code vừa viết → khó khăn & cách giải → action plan cho project cá nhân"
+        },
+        {
+          "key": "B",
+          "text": "Viết báo cáo so sánh chi tiết giữa các kỹ thuật đã thử nghiệm trong quá trình làm lab"
+        },
+        {
+          "key": "C",
+          "text": "Trình bày kết quả trước lớp và trả lời câu hỏi phản biện từ các nhóm khác trong buổi"
+        },
+        {
+          "key": "D",
+          "text": "Đánh giá chéo bài làm của bạn cùng nhóm rồi đề xuất ba điểm cải thiện cụ thể"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cấu trúc reflection này buộc học viên nối lý thuyết với thực hành và chuyển tiếp sang dự án cá nhân — chứ không dừng ở việc hoàn thành bài tập. Đây là điểm khác biệt so với các lab chỉ yêu cầu nộp code.",
+      "tags": [
+        "day18",
+        "lab"
+      ]
+    },
+    {
+      "id": "D18-014",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Corpus là hợp đồng PDF scan nhiều bảng biểu, parse thường xuyên lỗi. Nên dùng gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAPTOR — vì cây tóm tắt giúp trả lời được câu hỏi tổng hợp xuyên nhiều điều khoản"
+        },
+        {
+          "key": "B",
+          "text": "ColPali — vision-LLM embed thẳng ảnh trang, bỏ qua cả pipeline parse nên bảng/layout giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Late chunking — vì hợp đồng dài và có nhiều tham chiếu ngược giữa các điều khoản"
+        },
+        {
+          "key": "D",
+          "text": "SPLADE — vì learned sparse xử lý tốt các thuật ngữ chuyên ngành trong hợp đồng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi rõ điều kiện dùng ColPali: 'tài liệu nặng layout/bảng/scan (tài chính, form, hợp đồng) — nơi parse luôn hỏng'. Chi phí: lưu patch embeddings (lớn), cần vision model, tooling còn non.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-015",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đội chưa có label data nhưng muốn tăng precision. Nên chọn gì và tránh gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chọn ColBERT hoặc reranker; tránh Weighted Fusion vì nó cần label để học trọng số"
+        },
+        {
+          "key": "B",
+          "text": "Chọn Multi-Query để tăng độ phủ rồi lọc lại bằng threshold cao hơn ở bước cuối"
+        },
+        {
+          "key": "C",
+          "text": "Chọn Weighted Fusion vì nó cho mức tăng precision cao nhất trong các kỹ thuật đã học"
+        },
+        {
+          "key": "D",
+          "text": "Chọn ColPali vì nó không cần label data và cho kết quả ổn định trên mọi loại corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide khuyên rõ về Weighted Fusion: 'thu click-log trước, train fusion sau — đừng bắt đầu từ đây. Mặc định vẫn RRF tới khi đủ label.' ColBERT và reranker đều không cần label từ phía người dùng.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-016",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao contextual embeddings phải chạy lại mỗi lần re-index?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì model LLM dùng để sinh mô tả được cập nhật thường xuyên nên kết quả sẽ khác nhau, trong khi reranker vẫn chạy đúng cấu hình, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "B",
+          "text": "Vì đổi chunking hoặc đổi model đều làm ranh giới chunk thay đổi, nên đoạn mô tả ngữ cảnh cũ không còn khớp, nên câu trả lời cuối vẫn thiếu thông tin, trong khi reranker vẫn chạy đúng cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Vì cache của prompt hết hạn sau một khoảng thời gian nên phải sinh lại từ đầu, nên delta so với baseline gần như bằng không, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "D",
+          "text": "Vì nội dung tài liệu nguồn thay đổi liên tục nên ngữ cảnh mô tả cũng phải cập nhật theo, nên câu trả lời cuối vẫn thiếu thông tin, trong khi reranker vẫn chạy đúng cấu hình"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi rõ trong phần đánh đổi: '+1 LLM call/chunk lúc index (phải chạy lại mỗi lần re-index — đổi chunking, đổi model)'. Đây là chi phí ẩn cần tính vào khi đánh giá ROI của kỹ thuật này.",
+      "tags": [
+        "day18",
+        "contextual"
+      ]
+    },
+    {
+      "id": "D18-017",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm giải pháp bù đắp giới hạn embedding là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fine-tune embedding model, tăng số chiều vector, thêm dữ liệu huấn luyện, dùng model lớn hơn và chạy nhiều model song song, nên Error Tree không tra ngược được về đâu, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Metadata filtering (sửa temporal & numerical blindness), NLI verification post-retrieval (bắt negation/entity-swap), Failure-aware routing, GraphRAG (Day 19), Human-in-the-loop (Day 27), và metadata đã được gắn đầy đủ lúc index"
+        },
+        {
+          "key": "C",
+          "text": "Đổi vector database, tối ưu index, tăng bộ nhớ, dùng GPU và phân tán trên nhiều máy chủ, và metadata đã được gắn đầy đủ lúc index, kể cả khi context window còn dư nhiều chỗ, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        },
+        {
+          "key": "D",
+          "text": "Tăng top-k, hạ threshold, thêm nguồn dữ liệu, mở rộng corpus và cập nhật index thường xuyên, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng, và metadata đã được gắn đầy đủ lúc index, nên Error Tree không tra ngược được về đâu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Thông điệp cốt lõi: 'Không phải cứ thêm data hay đổi embedding model là fix được. Chẩn đoán loại lỗi trước, rồi chọn đúng công cụ.' Đây cũng là lý do phương án A — phản xạ tự nhiên của nhiều người — lại là cách tiếp cận sai.",
+      "tags": [
+        "day18",
+        "embedding-fix"
+      ]
+    },
+    {
+      "id": "D18-018",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ về temporal blindness của embedding là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "'Chính sách 2024' và 'chính sách 2026' cho cùng score vì vector không mã hóa thời gian"
+        },
+        {
+          "key": "B",
+          "text": "'Nghỉ 12 ngày' và 'nghỉ 20 ngày' cosine cao nhưng con số mới chính là đáp án cần tìm"
+        },
+        {
+          "key": "C",
+          "text": "'Được nghỉ' và 'không được nghỉ' có cosine cao nhưng mang nghĩa hoàn toàn ngược nhau"
+        },
+        {
+          "key": "D",
+          "text": "'Phép nhân viên' và 'phép quản lý' có vector gần nhau nên rất dễ bị nhầm lẫn"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bốn điểm mù được minh họa bằng bốn cặp ví dụ khác nhau. Cách bù đắp cho temporal blindness và numerical blindness là giống nhau: metadata filtering — lọc theo ngày hoặc con số TRƯỚC khi search thay vì kỳ vọng embedding phân biệt được.",
+      "tags": [
+        "day18",
+        "embedding-limits"
+      ]
+    },
+    {
+      "id": "D18-019",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tensor/Weighted Fusion khác RRF ở điểm nào và cần gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RRF cân bằng cứng 0.5/0.5 còn fusion học được trọng số (ví dụ 0.3/0.7 tin dense hơn); cần label data để train"
+        },
+        {
+          "key": "B",
+          "text": "RRF chạy nhanh hơn nhiều nhưng fusion cho kết quả ổn định hơn qua các loại truy vấn, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "C",
+          "text": "RRF dùng thứ hạng còn fusion dùng điểm số thô nên không cần chuẩn hóa trước khi gộp, và corpus đã được làm sạch trước khi index"
+        },
+        {
+          "key": "D",
+          "text": "RRF chỉ gộp được hai nguồn còn fusion gộp được nhiều nguồn khác nhau cùng lúc, mà số lượng chunk lấy về vẫn giữ nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide giải thích 'Label là gì?': cặp (query → doc nào đúng), nguồn từ người gán nhãn relevance (vàng, đắt) hoặc click/feedback log (weak label, rẻ). Lời khuyên: 'thu click-log trước, train fusion sau — đừng bắt đầu từ đây. Mặc định vẫn RRF tới khi đủ label.'",
+      "tags": [
+        "day18",
+        "fusion"
+      ]
+    },
+    {
+      "id": "D18-020",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng chọn retriever, khi nào nên leo lên ColBERT thay vì giữ Hybrid + RRF?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi corpus có nhiều tài liệu dạng PDF hoặc slide không parse được bằng công cụ thông thường"
+        },
+        {
+          "key": "B",
+          "text": "Khi Context Recall tụt do vocab mismatch giữa từ vựng người dùng và tài liệu nguồn"
+        },
+        {
+          "key": "C",
+          "text": "Khi đã thu thập được label data từ click-log để có thể train trọng số cho từng nguồn"
+        },
+        {
+          "key": "D",
+          "text": "Khi cần precision ở mức token-level và tín hiệu RAGAS cho thấy Context Precision cao là mục tiêu"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Nguyên tắc chung: 'Mặc định Hybrid + RRF, chỉ leo lên khi RAGAS chỉ rõ điểm đau: precision tụt → ColBERT; recall do vocab → SPLADE; có label → Fusion; ảnh/PDF → ColPali. Đừng bật hết — mỗi cái thêm latency/storage.'",
+      "tags": [
+        "day18",
+        "retriever-table"
+      ]
+    },
+    {
+      "id": "D18-021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sáu chiến lược chunking được liệt kê trong bài là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fixed-size, Semantic, Hierarchical, Structure-aware, Late chunking và RAPTOR"
+        },
+        {
+          "key": "B",
+          "text": "Token-based, sentence-based, paragraph-based, page-based, section-based và document-based"
+        },
+        {
+          "key": "C",
+          "text": "Naive, advanced, modular, agentic, hierarchical và graph-based theo mức độ phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Fixed, dynamic, adaptive, recursive, semantic và hybrid theo cách xác định ranh giới cắt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Tham số mặc định tương ứng: Fixed-size 512 tokens overlap 64; Semantic cosine threshold 0.85; Hierarchical parent 2048/child 256; Structure-aware theo heading/table; Late chunking embed doc trước cắt sau; RAPTOR cây tóm tắt đệ quy.",
+      "tags": [
+        "day18",
+        "chunking"
+      ]
+    },
+    {
+      "id": "D18-022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi 'Toàn bộ chính sách phép năm nay đổi gì so với năm ngoái?' phù hợp với kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAPTOR — câu hỏi tổng hợp xuyên nhiều đoạn mà chunk phẳng luôn trả thiếu"
+        },
+        {
+          "key": "B",
+          "text": "ColBERT — vì cần so khớp chính xác ở mức token cho các mốc thời gian trong câu hỏi"
+        },
+        {
+          "key": "C",
+          "text": "SPLADE — vì cần mở rộng từ vựng để bắt được các cách diễn đạt khác nhau về chính sách"
+        },
+        {
+          "key": "D",
+          "text": "Hierarchical chunking — vì chính sách thường là tài liệu có cấu trúc phân cấp rõ ràng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide mô tả đúng loại câu hỏi này: 'câu hỏi theme/tổng hợp xuyên nhiều đoạn mà chunk phẳng luôn trả thiếu'. Chi phí: build cây tốn nhiều LLM tóm tắt lúc index, index phình to. Lưu ý câu này còn có yếu tố temporal nên cần thêm metadata filtering.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cây quyết định chọn Vector DB đưa ra thứ tự câu hỏi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngân sách bao nhiêu → quy mô dữ liệu → yêu cầu latency → khả năng vận hành của đội, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "B",
+          "text": "Cần hybrid search không → cần GPU không → cần scale lớn không → cần open-source không, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "C",
+          "text": "Đã có Postgres và dữ liệu vừa phải? → Muốn managed zero-ops? → Cần hybrid + metadata filter? → Cần quan hệ giữa nhiều entity?"
+        },
+        {
+          "key": "D",
+          "text": "Loại dữ liệu là gì → định dạng ra sao → tần suất cập nhật → số lượng người dùng đồng thời, dù hybrid search đã bật cả BM25 lẫn dense"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc đọc: 'dừng ở dòng đầu tiên khớp'. Qdrant là default cho nhu cầu hybrid + metadata filter (đa số ca). Các lựa chọn khác: Weaviate (thích GraphQL), Milvus (quy mô lớn, GPU), Chroma/FAISS (prototype). Lab 18 dùng Qdrant qua Docker local.",
+      "tags": [
+        "day18",
+        "vectordb"
+      ]
+    },
+    {
+      "id": "D18-024",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong ví dụ TàiLiệuBot, hierarchical chunking hoạt động ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query match đồng thời cả hai tầng rồi hệ thống chọn tầng có điểm số cao hơn, kể cả khi threshold đã được nâng lên cao, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "B",
+          "text": "Query match vào parent trước rồi mới lọc xuống child phù hợp nhất trong đó, nên RAGAS không chỉ ra được tầng nào hỏng, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "C",
+          "text": "Query được chia thành nhiều phần rồi mỗi phần match với một tầng khác nhau của cây, kể cả khi threshold đã được nâng lên cao, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "D",
+          "text": "Query match vào child (256 token, dễ tìm) nhưng inject parent (2048 token, đủ ngữ cảnh) vào LLM, nên RAGAS không chỉ ra được tầng nào hỏng, kể cả khi threshold đã được nâng lên cao"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chi tiết trong slide: query match child, rồi inject cả mục 'Chế độ nghỉ phép' (parent) vào LLM. Đây là cách giải quyết mâu thuẫn 'chunk nhỏ dễ tìm nhưng thiếu ngữ cảnh, chunk lớn đủ ngữ cảnh nhưng khó match'.",
+      "tags": [
+        "day18",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "D18-025",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Context Recall và Context Precision đo gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context Recall đo thời gian truy xuất; Context Precision đo mức độ liên quan trung bình của kết quả, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Context Recall đo số lượng chunk lấy về; Context Precision đo chất lượng embedding của các chunk đó, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Context Recall đo tỷ lệ chunk được sử dụng trong câu trả lời cuối; Context Precision đo độ chính xác của từng chunk được lấy về"
+        },
+        {
+          "key": "D",
+          "text": "Context Recall đo 'đã lấy đủ thông tin cần thiết chưa'; Context Precision đo 'chunk liên quan có xếp hạng cao trong top-k không'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phân biệt này quan trọng khi tra Error Tree: recall thấp nghĩa là thông tin chưa được lấy về (sửa ở Retrieval); precision thấp nghĩa là thông tin có nhưng bị xếp hạng thấp (sửa ở Rerank). Cả hai đều có ngưỡng khuyến nghị > 0.75.",
+      "tags": [
+        "day18",
+        "ragas"
+      ]
+    },
+    {
+      "id": "D18-026",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Contextual Embeddings của Anthropic (2024) đạt kết quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm 35% lỗi retrieval khi chỉ dùng contextual embeddings mà không kết hợp BM25"
+        },
+        {
+          "key": "B",
+          "text": "Tăng 49% độ chính xác của câu trả lời cuối cùng trên tập kiểm thử nội bộ"
+        },
+        {
+          "key": "C",
+          "text": "Contextual (embed + BM25) giảm 49% lỗi retrieval so với baseline"
+        },
+        {
+          "key": "D",
+          "text": "Giảm 49% chi phí token nhờ việc nén ngữ cảnh trước khi đưa vào prompt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi chú thận trọng: 'Số liệu Anthropic (2024), tùy corpus.' Chi phí: +1 LLM call/chunk lúc index (one-time, model rẻ). Vấn đề nó giải quyết: chunk rời mất ngữ cảnh — 'điều này' là điều gì?",
+      "tags": [
+        "day18",
+        "contextual"
+      ]
+    },
+    {
+      "id": "D18-027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Late chunking khác contextual embeddings ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không gọi LLM cho mỗi chunk nên rẻ hơn, nhưng cần model phù hợp (long-context encoder)"
+        },
+        {
+          "key": "B",
+          "text": "Chạy lúc query thay vì lúc index nên linh hoạt hơn nhưng tốn chi phí mỗi lần truy vấn"
+        },
+        {
+          "key": "C",
+          "text": "Cần GPU lúc index còn contextual chỉ cần CPU nên chi phí hạ tầng thấp hơn nhiều"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ áp dụng được cho tài liệu ngắn trong khi contextual dùng được cho mọi độ dài"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi rõ: 'Khác contextual: không gọi LLM/chunk — rẻ hơn, nhưng cần model hợp.' Đây là đánh đổi giữa chi phí tính toán (contextual: +1 LLM call/chunk) và ràng buộc về model (late chunking: phải có long-context encoder).",
+      "tags": [
+        "day18",
+        "late-chunking"
+      ]
+    },
+    {
+      "id": "D18-028",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói 'Một điểm tổng che chỗ hỏng'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì phải tách retrieval và generation mới biết ngay tầng nào mất điểm để tra Error Tree"
+        },
+        {
+          "key": "B",
+          "text": "Vì các metric có thang đo khác nhau nên không thể cộng gộp thành một điểm duy nhất"
+        },
+        {
+          "key": "C",
+          "text": "Vì điểm tổng thường được làm tròn nên mất đi độ chính xác cần thiết khi so sánh"
+        },
+        {
+          "key": "D",
+          "text": "Vì điểm tổng chỉ phản ánh được chất lượng trung bình chứ không phản ánh trường hợp xấu nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là lập luận về khả năng chẩn đoán: một hệ thống có Context Recall 0.5 và Faithfulness 0.95 có thể cho điểm tổng giống hệ thống có Recall 0.95 và Faithfulness 0.5 — nhưng hai trường hợp cần cách sửa hoàn toàn khác nhau.",
+      "tags": [
+        "day18",
+        "ragas"
+      ]
+    },
+    {
+      "id": "D18-029",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ColPali tiếp cận tài liệu theo cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Parse PDF thành text rồi dùng vision model để bổ sung mô tả cho các hình ảnh trong đó, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "B",
+          "text": "Vision-LLM embed thẳng ảnh trang (patch embeddings) + late interaction với query — bỏ qua cả pipeline parse"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển bảng biểu thành văn bản mô tả trước khi embed để giữ được cấu trúc dữ liệu, kể cả khi query đã được viết lại nhiều lần"
+        },
+        {
+          "key": "D",
+          "text": "Dùng OCR chất lượng cao kết hợp layout detection để giữ nguyên cấu trúc tài liệu gốc, mà số lượng chunk lấy về vẫn giữ nguyên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vấn đề gốc: 'Parsing giòn: bảng, layout, scan, biểu đồ mất sạch. Garbage in.' ColPali giữ nguyên bảng/biểu/layout vì không parse. Khi nào dùng: tài liệu nặng layout/bảng/scan (tài chính, form, hợp đồng) — nơi parse luôn hỏng. Nguồn: Faysse et al., 2024.",
+      "tags": [
+        "day18",
+        "colpali"
+      ]
+    },
+    {
+      "id": "D18-030",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tổng hợp: đâu là quy trình đúng khi RAG production hoạt động kém?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đổi sang embedding model mạnh hơn, tăng top-k, rồi bổ sung thêm dữ liệu vào corpus, và pipeline vẫn chạy end-to-end không lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Bật đồng thời tất cả kỹ thuật nâng cao đã học rồi đo xem tổ hợp nào cho kết quả tốt nhất, và metadata đã được gắn đầy đủ lúc index"
+        },
+        {
+          "key": "C",
+          "text": "Đo RAGAS để biết retrieval hay generation hỏng → dùng Error Tree map vấn đề ra tầng → chọn núm vặn ở tầng đó → sửa → đo lại delta"
+        },
+        {
+          "key": "D",
+          "text": "Thu thập phản hồi từ người dùng để xác định các câu hỏi thường bị trả lời sai rồi bổ sung, trong khi reranker vẫn chạy đúng cấu hình"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là vòng lặp khép kín của cả bài: chẩn đoán → định vị tầng → chọn công cụ → đo lại. Phương án A là phản xạ tự nhiên nhưng bị slide phản bác trực tiếp; phương án C vi phạm nguyên tắc 'Đừng bật hết — mỗi cái thêm latency/storage'.",
+      "tags": [
+        "day18",
+        "summary"
+      ]
+    },
+    {
+      "id": "D18-031",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Pipeline RAG được chia thành hai nửa với đặc điểm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nửa rẻ và nửa đắt, quyết định bởi việc có phải gọi model ngôn ngữ lớn hay không, nên Error Tree không tra ngược được về đâu, nên delta so với baseline gần như bằng không, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Nửa tự động và nửa cần con người can thiệp khi hệ thống không đủ tự tin trả lời, kể cả khi threshold đã được nâng lên cao, nên Error Tree không tra ngược được về đâu, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "OFFLINE (chạy 1 lần lúc index): Parse → Chunk → Enrich → Embed → Index; ONLINE (mỗi query): PreRAG → Retrieve → Rerank → Augment → Generate → PostRAG, và pipeline vẫn chạy end-to-end không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Nửa nhanh và nửa chậm, tương ứng với hai mức độ ưu tiên khi tối ưu hiệu năng, và pipeline vẫn chạy end-to-end không lỗi, kể cả khi threshold đã được nâng lên cao, nên Error Tree không tra ngược được về đâu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide nhấn mạnh: 'Không bước nào an toàn — mỗi bước đều có thể là nơi pipeline hỏng.' Đây là bản đồ xuyên suốt cả ngày, và Error Tree ở §4 sẽ tra ngược về chính bản đồ này.",
+      "tags": [
+        "day18",
+        "pipeline-map"
+      ]
+    },
+    {
+      "id": "D18-032",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Faithfulness và Answer Relevancy đo gì và ngưỡng bao nhiêu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Faithfulness > 0.80 đo mức độ tin cậy của nguồn; Answer Relevancy > 0.85 đo tính đầy đủ, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Faithfulness > 0.85 đo 'câu trả lời có bám context không' (chống bịa); Answer Relevancy > 0.80 đo 'trả lời đúng trọng tâm câu hỏi không'"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai đều có ngưỡng > 0.90 vì đây là hai chỉ số quan trọng nhất của tầng generation, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "D",
+          "text": "Faithfulness > 0.75 đo độ bám context; Answer Relevancy > 0.75 đo độ liên quan tới câu hỏi, kể cả khi context window còn dư nhiều chỗ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Faithfulness có ngưỡng cao nhất trong bốn metric (0.85) vì hallucination là rủi ro nghiêm trọng nhất. Cả hai thấp đều dẫn tới hành động sửa ở tầng Generate — nhưng cách sửa khác nhau theo bảng Error Tree.",
+      "tags": [
+        "day18",
+        "ragas"
+      ]
+    },
+    {
+      "id": "D18-033",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hệ thống đang dùng Hybrid + RRF. RAGAS cho thấy Context Precision cao nhưng Context Recall thấp do vocab mismatch. Nên leo lên gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ColPali vì nó bỏ qua bước parse nên giữ được nhiều thông tin gốc của tài liệu hơn, kể cả khi index đã được dựng lại từ đầu, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "ColBERT vì late interaction cho precision ở mức token cao hơn hybrid thông thường, trong khi temperature đã được hạ về không, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "SPLADE — bảng ghi rõ 'recall do vocab → SPLADE', vì learned sparse đóng vocab gap bằng term expansion, trong khi temperature đã được hạ về không, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "D",
+          "text": "Weighted Fusion vì học được trọng số phù hợp hơn cho từng nguồn tìm kiếm khác nhau, kể cả khi context window còn dư nhiều chỗ, kể cả khi index đã được dựng lại từ đầu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc leo thang trong slide: 'precision tụt → ColBERT; recall do vocab → SPLADE; có label → Fusion; ảnh/PDF → ColPali.' Đây là ví dụ điển hình của việc dùng tín hiệu RAGAS để chọn đúng kỹ thuật thay vì bật hết.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-034",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "HyDE khác Hypothetical Q&A ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "HyDE sinh câu hỏi còn Hypothetical Q&A sinh câu trả lời giả định cho từng chunk, kể cả khi threshold đã được nâng lên cao, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "HyDE làm ONLINE nên tốn +1 LLM call mỗi query; Hypothetical Q&A làm OFFLINE nên trả tiền một lần cho cả corpus, kể cả khi threshold đã được nâng lên cao, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "HyDE dùng embedding model riêng còn Hypothetical Q&A dùng chung model với pipeline chính, dù đã thử nhiều chiến lược chunking khác nhau, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "D",
+          "text": "HyDE dùng cho FAQ còn Hypothetical Q&A dùng cho tài liệu kỹ thuật có cấu trúc phức tạp, kể cả khi context window còn dư nhiều chỗ, dù đã thử nhiều chiến lược chunking khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide gọi hai kỹ thuật này là 'họ hàng' vì cùng giải quyết vocab gap. Điểm phân biệt nằm ở thời điểm chạy và cấu trúc chi phí — đây cũng là mô típ chung của cả bài: 'Khác OFFLINE (trả 1 lần cho cả corpus): mỗi pattern ở đây = +1 LLM call mỗi query.'",
+      "tags": [
+        "day18",
+        "hyde"
+      ]
+    },
+    {
+      "id": "D18-035",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bài tập chuẩn bị cho Day 19 gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chuẩn bị một corpus tài liệu thật của doanh nghiệp để thực hành xây dựng knowledge graph, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "B",
+          "text": "Triển khai thêm ba kỹ thuật nâng cao vào pipeline rồi so sánh kết quả với baseline, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Hoàn thiện Lab 18 với RAGAS report đạt >0.75, thử 1 cải tiến M5 khác đo delta vs baseline, và đọc Microsoft GraphRAG paper (2024)"
+        },
+        {
+          "key": "D",
+          "text": "Đọc lại toàn bộ tài liệu tham khảo và tóm tắt mỗi bài nghiên cứu thành một trang, và corpus đã được làm sạch trước khi index"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Câu hỏi mở đầu Day 19 được trích: 'Khi user hỏi về quan hệ giữa 5 entity, flat RAG trả lời sai — GraphRAG trả lời đúng.' Đây cũng là một trong năm giải pháp bù đắp giới hạn embedding đã nêu ở §4.",
+      "tags": [
+        "day18",
+        "next-day"
+      ]
+    },
+    {
+      "id": "D18-036",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lưu ý về 'Open-weight = không phí license' trong bảng reranker là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ được dùng cho mục đích nghiên cứu chứ không được triển khai thương mại, mà chi phí embedding không hề tăng thêm, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "B",
+          "text": "Vẫn tốn compute để self-host — không đáng kể nếu model nhỏ, mà chi phí embedding không hề tăng thêm, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "C",
+          "text": "Model open-weight luôn có chất lượng thấp hơn các dịch vụ API thương mại tương đương, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Cần GPU chuyên dụng nên tổng chi phí thường cao hơn dùng API trả tiền theo lượt, kể cả khi threshold đã được nâng lên cao, dù hybrid search đã bật cả BM25 lẫn dense"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là lời nhắc về tổng chi phí sở hữu: miễn phí license không có nghĩa là miễn phí hoàn toàn. Với model nhỏ như Flashrank (<5ms, chạy được trên edge) thì chi phí compute không đáng kể; với model 8B thì lại là chuyện khác.",
+      "tags": [
+        "day18",
+        "reranker"
+      ]
+    },
+    {
+      "id": "D18-037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng chọn retriever, ColPali có tín hiệu RAGAS nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Context Precision cao, cho thấy các chunk được xếp hạng đúng theo mức độ liên quan"
+        },
+        {
+          "key": "B",
+          "text": "Faithfulness cao, cho thấy câu trả lời bám sát vào nội dung của tài liệu gốc"
+        },
+        {
+          "key": "C",
+          "text": "Answer Relevancy ổn định, cho thấy câu trả lời luôn đúng trọng tâm câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Context Recall (ảnh) — tức recall thấp ở các nội dung nằm trong hình ảnh và bảng biểu"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Bảng ánh xạ tín hiệu RAGAS cho từng kỹ thuật: Hybrid+RRF là baseline ~25ms; ColBERT → Context Precision cao; SPLADE → Context Recall tăng; Weighted Fusion → Precision ổn định tăng; ColPali → Context Recall (ảnh).",
+      "tags": [
+        "day18",
+        "retriever-table"
+      ]
+    },
+    {
+      "id": "D18-038",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảng so sánh BM25, Dense và Hybrid cho thấy gì về latency?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BM25 khoảng 40ms, Dense khoảng 60ms và Hybrid khoảng 100ms do cộng dồn hai luồng"
+        },
+        {
+          "key": "B",
+          "text": "BM25 dưới 5ms, Dense khoảng 20ms, Hybrid khoảng 25ms, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "BM25 khoảng 20ms, Dense dưới 5ms và Hybrid khoảng 25ms do phải chạy tuần tự hai bước"
+        },
+        {
+          "key": "D",
+          "text": "Cả ba đều dưới 10ms vì các phép tính đều được tối ưu trên phần cứng chuyên dụng"
+        }
+      ],
+      "answer": "B",
+      "explanation": "BM25 nhanh vì chạy trên inverted index không cần GPU. Về năng lực: BM25 bắt exact keyword nhưng không bắt synonym; Dense ngược lại; Hybrid có cả hai. Lưu ý cho tiếng Việt: BM25 cần word segmentation (underthesea, VnCoreNLP) trước khi index.",
+      "tags": [
+        "day18",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "D18-039",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đội đã có Postgres và corpus vừa phải. Theo cây quyết định, nên chọn vector DB nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "pgvector — dừng ở dòng đầu tiên khớp trong cây quyết định, tận dụng hạ tầng sẵn có"
+        },
+        {
+          "key": "B",
+          "text": "Qdrant vì đây là default được khuyến nghị cho đa số trường hợp trong bài giảng"
+        },
+        {
+          "key": "C",
+          "text": "Pinecone vì managed zero-ops giúp đội không phải lo về vận hành hạ tầng lưu trữ"
+        },
+        {
+          "key": "D",
+          "text": "Milvus vì hỗ trợ quy mô lớn và GPU nên có khả năng mở rộng tốt nhất về sau"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cây quyết định đọc theo thứ tự và dừng ở dòng đầu tiên khớp: 'Đã có Postgres, dữ liệu vừa phải?' là câu hỏi đầu tiên. Qdrant chỉ là default khi đi tới câu hỏi thứ ba về hybrid + metadata filter.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-040",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn điểm mù của embedding được nêu trong bài là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Văn bản quá dài, văn bản quá ngắn, văn bản có nhiều bảng biểu và văn bản dạng scan, dù hybrid search đã bật cả BM25 lẫn dense, nên delta so với baseline gần như bằng không, trong khi vector DB hoạt động ổn định, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Tốc độ, chi phí, dung lượng lưu trữ và khả năng mở rộng khi corpus tăng quy mô lớn, nên delta so với baseline gần như bằng không, trong khi vector DB hoạt động ổn định, dù đã thử nhiều chiến lược chunking khác nhau, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "C",
+          "text": "Negation ('được nghỉ' vs 'không được nghỉ' cosine cao nhưng nghĩa ngược), temporal (2024 vs 2026 cùng score), entity ('phép nhân viên' vs 'phép quản lý' vector gần nhau), numerical ('12 ngày' vs '20 ngày' cosine cao nhưng con số mới là đáp án)"
+        },
+        {
+          "key": "D",
+          "text": "Đa ngôn ngữ, từ viết tắt, thuật ngữ chuyên ngành và tên riêng ít xuất hiện trong dữ liệu, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng, dù hybrid search đã bật cả BM25 lẫn dense, nên delta so với baseline gần như bằng không, trong khi vector DB hoạt động ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide kết luận rất chính xác: '4 ca này đều cosine cao nhưng nghĩa khác — embedding một mình không phân biệt được phủ định/thời gian/thực thể/con số. Không phải kém, mà chưa đủ.'",
+      "tags": [
+        "day18",
+        "embedding-limits"
+      ]
+    },
+    {
+      "id": "D18-041",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Two-Stage Retrieval hoạt động thế nào và ROI ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy hai model embedding khác nhau rồi lấy giao của hai tập kết quả để tăng độ tin cậy, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Bi-encoder lấy top-20 (nhanh, recall) → cross-encoder rerank → top-3 (precision); tốn ~30-50ms/query đổi lấy +15-25% precision"
+        },
+        {
+          "key": "C",
+          "text": "Dense search lấy top-100 rồi BM25 lọc lại xuống top-10 để kết hợp ưu điểm hai phương pháp, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "D",
+          "text": "Retrieve hai lần với hai query khác nhau rồi gộp kết quả bằng thuật toán RRF chuẩn, và corpus đã được làm sạch trước khi index"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lý do hai giai đoạn: retriever (bi-encoder) embed query và doc riêng nên nhanh nhưng thô; reranker (cross-encoder) đọc cặp query+doc cùng lúc nên chính xác nhất nhưng đắt. Lấy rộng rồi lọc tinh. Ví dụ TàiLiệuBot: top-20 lẫn cả 'nghỉ phép/nghỉ ốm/nghỉ thai sản' → reranker đẩy đúng mục lên top-3.",
+      "tags": [
+        "day18",
+        "two-stage"
+      ]
+    },
+    {
+      "id": "D18-042",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Citation injection trong augmentation làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tự động thêm danh sách tài liệu tham khảo vào cuối câu trả lời cho người dùng xem"
+        },
+        {
+          "key": "B",
+          "text": "Kiểm tra xem mỗi trích dẫn trong câu trả lời có thực sự tồn tại trong corpus hay không"
+        },
+        {
+          "key": "C",
+          "text": "Gắn [1][2] vào mỗi câu để trace ngược được về chunk gốc — phục vụ kiểm chứng nguồn"
+        },
+        {
+          "key": "D",
+          "text": "Xếp hạng các nguồn theo độ tin cậy rồi chỉ giữ lại những nguồn đạt ngưỡng yêu cầu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vấn đề nó giải quyết theo bảng: 'Cần kiểm chứng nguồn'. Ở §4, citation cũng được nêu như một cách sửa khi Faithfulness thấp: 'Prompt chặt, hạ temperature, citation (Generate)'.",
+      "tags": [
+        "day18",
+        "citation"
+      ]
+    },
+    {
+      "id": "D18-043",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "GraphRAG được nêu như giải pháp cho loại câu hỏi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi cần tổng hợp thông tin xuyên nhiều đoạn văn bản dài trong cùng một tài liệu"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi dùng từ vựng khác hoàn toàn so với cách diễn đạt trong tài liệu nguồn"
+        },
+        {
+          "key": "C",
+          "text": "Câu hỏi có nhiều phần cần tách ra thành các truy vấn nhỏ rồi tổng hợp lại kết quả"
+        },
+        {
+          "key": "D",
+          "text": "Câu hỏi về quan hệ giữa nhiều entity — dùng graph thay vì flat vector"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Phương án A là bài toán của RAPTOR (cây tóm tắt), phương án B là HyDE hoặc SPLADE, phương án D là Multi-Query. GraphRAG được để dành cho Day 19 với câu hỏi mở đầu: 'Khi user hỏi về quan hệ giữa 5 entity, flat RAG trả lời sai.'",
+      "tags": [
+        "day18",
+        "graphrag"
+      ]
+    },
+    {
+      "id": "D18-044",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Contextual Embeddings hoạt động thế nào và cần lưu ý gì về chi phí?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén nhiều chunk lại thành một vector duy nhất để giảm số lượng bản ghi trong index, kể cả khi query đã được viết lại nhiều lần, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Sinh embedding riêng cho từng câu trong chunk rồi lấy trung bình có trọng số, trong khi vector DB hoạt động ổn định, trong khi reranker vẫn chạy đúng cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Thay thế hoàn toàn bước reranking bằng cách làm chunk giàu thông tin hơn từ đầu, trong khi reranker vẫn chạy đúng cấu hình, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "D",
+          "text": "Ghép một đoạn mô tả ngữ cảnh (ví dụ 'Đoạn này thuộc chính sách nghỉ phép 2026...') vào trước chunk; nhồi cả document mỗi call tốn token nên dùng prompt caching để giảm"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nhấn mạnh 'Bổ sung, không thay reranking'. Đánh đổi: phải chạy lại mỗi lần re-index (đổi chunking, đổi model); corpus ngắn hoặc đã rõ thì không cần. Với corpus văn bản dài/nhiều tham chiếu mơ hồ, đây thường là kỹ thuật OFFLINE ROI cao.",
+      "tags": [
+        "day18",
+        "contextual"
+      ]
+    },
+    {
+      "id": "D18-045",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "NLI verification trong augmentation làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén chunk lại để giảm số token phải đưa vào prompt của model sinh câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Chọn phiên bản mới nhất khi hai chunk có nội dung mâu thuẫn với nhau về cùng chủ đề"
+        },
+        {
+          "key": "C",
+          "text": "Gắn số thứ tự trích dẫn vào mỗi câu để người dùng truy ngược được về chunk gốc"
+        },
+        {
+          "key": "D",
+          "text": "Kiểm entailment giữa query và chunk, bỏ những chunk bị đánh giá là 'contradiction'"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Tool được nêu: nli-deberta-v3. Vấn đề nó giải quyết: chunk lạc đề hoặc mâu thuẫn với câu hỏi. Ở §4, NLI verification cũng được nhắc lại như một cách bù đắp giới hạn embedding: 'bắt negation/entity-swap'.",
+      "tags": [
+        "day18",
+        "nli"
+      ]
+    },
+    {
+      "id": "D18-046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt Hypothetical Q&A và HyDE về mặt chi phí vận hành?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hypothetical Q&A tốn nhiều hơn vì phải sinh nhiều câu hỏi cho mỗi chunk trong corpus"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai đều tốn +1 LLM call mỗi query nên chi phí vận hành tương đương nhau hoàn toàn"
+        },
+        {
+          "key": "C",
+          "text": "HyDE rẻ hơn vì chỉ chạy khi hệ thống phát hiện có vocab gap trong câu hỏi của user"
+        },
+        {
+          "key": "D",
+          "text": "Hypothetical Q&A trả tiền một lần lúc index cho cả corpus; HyDE tốn +1 LLM call mỗi query"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là mô típ lặp lại xuyên suốt bài: OFFLINE trả tiền một lần đặt trần chất lượng, ONLINE trả tiền mỗi query nhưng linh hoạt theo từng vấn đề. Với corpus lớn và lượng query cao, OFFLINE thường có ROI tốt hơn.",
+      "tags": [
+        "day18",
+        "offline-vs-online"
+      ]
+    },
+    {
+      "id": "D18-047",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Day 18 nhấn mạnh 'retrieval không thể tốt hơn cái đã index'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì chất lượng embedding phụ thuộc vào model được chọn ở bước index chứ không phải query, nên Error Tree không tra ngược được về đâu, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "B",
+          "text": "Vì bước index tốn nhiều thời gian nhất nên cần được đầu tư kỹ lưỡng ngay từ đầu, kể cả khi context window còn dư nhiều chỗ, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Vì index một khi đã tạo thì không thể sửa lại mà phải xây dựng lại hoàn toàn từ đầu, nên câu trả lời cuối vẫn thiếu thông tin, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "D",
+          "text": "Vì mọi kỹ thuật ONLINE chỉ làm việc trên tập chunk đã tồn tại — chunk cắt sai hoặc thiếu ngữ cảnh thì retrieval, rerank hay augment đều không tạo ra được thông tin chưa có"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là lý do §2 (OFFLINE) được đặt trước §3 (ONLINE) trong bài. Nó cũng giải thích vì sao takeaway số 2 nói 'OFFLINE đặt trần chất lượng: làm 1 lần lúc index, lợi mọi query'.",
+      "tags": [
+        "day18",
+        "offline"
+      ]
+    },
+    {
+      "id": "D18-048",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảng so sánh Naive vs Production cho thấy con số kỳ vọng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A-Naive (paragraph chunk 512 + dense-only): Faithfulness ~0.70, Recall ~0.55; B-Production (hierarchical + hybrid + bge-reranker): Faithfulness >0.85, Recall >0.75"
+        },
+        {
+          "key": "B",
+          "text": "A-Naive: Faithfulness ~0.80, Recall ~0.65; B-Production: Faithfulness >0.95, Recall >0.80, trong khi temperature đã được hạ về không, và metadata đã được gắn đầy đủ lúc index"
+        },
+        {
+          "key": "C",
+          "text": "Hai pipeline cho kết quả tương đương, khác biệt chủ yếu nằm ở latency và chi phí vận hành, và metadata đã được gắn đầy đủ lúc index, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "D",
+          "text": "A-Naive: Faithfulness ~0.60, Recall ~0.45; B-Production: Faithfulness >0.90, Recall >0.85, kể cả khi index đã được dựng lại từ đầu, trong khi temperature đã được hạ về không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi chú: 'Cùng dữ liệu, cùng judge model — chênh lệch điểm đến phần lớn từ kỹ thuật pipeline. Con số minh họa; số thật đo trong lab.' Pipeline C là tự chọn: thêm vào B một hoặc nhiều kỹ thuật nâng cao rồi đo delta.",
+      "tags": [
+        "day18",
+        "comparison"
+      ]
+    },
+    {
+      "id": "D18-049",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lưu ý về tiếng Việt khi dùng BM25 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần bỏ dấu tiếng Việt để tăng khả năng match giữa các cách viết khác nhau của cùng một từ"
+        },
+        {
+          "key": "B",
+          "text": "Cần dịch tài liệu sang tiếng Anh trước khi index vì BM25 hoạt động tốt hơn với tiếng Anh"
+        },
+        {
+          "key": "C",
+          "text": "Cần dùng model embedding chuyên biệt cho tiếng Việt thay vì model đa ngôn ngữ chung"
+        },
+        {
+          "key": "D",
+          "text": "Cần word segmentation (underthesea, VnCoreNLP) trước khi index, trong khi vector DB hoạt động ổn định"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Lý do: tiếng Việt viết rời từng âm tiết nên nếu không tách từ, BM25 sẽ coi mỗi âm tiết là một token riêng — 'nghỉ phép' thành hai token độc lập, làm giảm chất lượng match đáng kể.",
+      "tags": [
+        "day18",
+        "vietnamese"
+      ]
+    },
+    {
+      "id": "D18-050",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Chiến lược Semantic chunking nên tránh khi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bảng biểu hoặc code vì ranh giới câu trong các loại nội dung này không có ý nghĩa, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "B",
+          "text": "Corpus lớn — vì embed từng câu khiến ingest chậm và đắt, mà chi phí embedding không hề tăng thêm, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Văn bản phẳng không có cây phân cấp nào để khai thác trong quá trình truy xuất, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Tài liệu có cấu trúc chặt chẽ như văn bản pháp lý vì dễ cắt giữa ý quan trọng, mà chi phí embedding không hề tăng thêm"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cột 'Tránh khi' của bảng: Fixed-size tránh doc cấu trúc chặt (cắt giữa ý, legal); Sentence Window tránh bảng/code (ranh giới câu vô nghĩa); Hierarchical tránh text phẳng (không có cây để khai thác); Semantic tránh corpus lớn (ingest chậm/đắt).",
+      "tags": [
+        "day18",
+        "chunking-table"
+      ]
+    },
+    {
+      "id": "D18-051",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Corpus toàn văn bản thuần, không có bảng biểu hay hình ảnh. Có nên dùng ColPali không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nên, vì ColPali cho precision cao nhất trong các kỹ thuật retrieval hiện có, dù hybrid search đã bật cả BM25 lẫn dense, và metadata đã được gắn đầy đủ lúc index"
+        },
+        {
+          "key": "B",
+          "text": "Nên, nhưng chỉ áp dụng cho một phần nhỏ corpus để so sánh hiệu quả với phương pháp cũ, và metadata đã được gắn đầy đủ lúc index, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Không xác định được nếu chưa chạy thử nghiệm A/B trên tập dữ liệu thực tế của dự án, dù đã thử nhiều chiến lược chunking khác nhau, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Không nên — bảng ghi rõ 'GPU đắt; thừa nếu corpus text', đây là chi phí vision không cần thiết, dù hybrid search đã bật cả BM25 lẫn dense, và metadata đã được gắn đầy đủ lúc index"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cột 'Chi phí/Tránh khi' của ColPali trong bảng chọn retriever. Đây là ví dụ của nguyên tắc chung: 'Đừng bật hết — mỗi cái thêm latency/storage.' Chọn kỹ thuật theo đặc tính dữ liệu, không theo mức độ hiện đại.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng reranker landscape, model nào được ghi chú là 'tiếng Việt tốt, 8K context, self-host'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cohere Rerank v3.5 là lựa chọn managed phổ biến hỗ trợ đa ngôn ngữ"
+        },
+        {
+          "key": "B",
+          "text": "Qwen3-Reranker với điểm MTEB-rerank cao nhất và dải kích thước từ 0.6B tới 8B"
+        },
+        {
+          "key": "C",
+          "text": "bge-reranker-v2-m3, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Jina Reranker v2 hỗ trợ đa ngôn ngữ với context window 8K token"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng đầy đủ: Qwen3-Reranker (top MTEB-rerank, đa ngôn ngữ, 0.6B–8B); Cohere Rerank v3.5 (managed, API $); bge-reranker-v2-m3 (tiếng Việt tốt, 8K context); Jina Reranker v2 (đa ngôn ngữ, 8K); ms-marco-MiniLM (nhẹ, thiên English); Flashrank (siêu nhẹ <5ms, edge); LLM-as-Reranker (GPT-4/Claude, $$$).",
+      "tags": [
+        "day18",
+        "reranker"
+      ]
+    },
+    {
+      "id": "D18-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Corrective RAG (CRAG) hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So sánh kết quả của nhiều retriever khác nhau rồi lấy phần giao làm context cuối cùng, mà số lượng chunk lấy về vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Sinh câu trả lời trước rồi kiểm tra lại xem có bám vào context không, nếu không thì sinh lại, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Một evaluator chấm điểm chunk retrieve được, rồi rẽ nhánh theo điểm: Correct dùng luôn, Ambiguous viết lại query, Wrong fallback web search"
+        },
+        {
+          "key": "D",
+          "text": "Chạy retrieve nhiều lần với các tham số khác nhau rồi chọn lần cho kết quả tốt nhất, và metadata đã được gắn đầy đủ lúc index"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vấn đề gốc: 'retrieve được gì thì nhồi thẳng vào LLM — kể cả khi chunk lạc đề. Rác vào → bịa ra.' Khi nào dùng: corpus có lỗ hổng, câu hỏi ngoài phạm vi — thà fallback còn hơn bịa. Cách dùng: LangGraph node 'grade → route'. Nguồn: Yan et al., 2024.",
+      "tags": [
+        "day18",
+        "crag"
+      ]
+    },
+    {
+      "id": "D18-054",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Hybrid + RRF vẫn miss chunk đúng trong trường hợp mã hiếm như 'X7-204'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì BM25 không xử lý được các chuỗi có chứa dấu gạch ngang và chữ số lẫn lộn"
+        },
+        {
+          "key": "B",
+          "text": "Vì RRF gộp rank ở mức document, cần so khớp sâu hơn document — ở mức token"
+        },
+        {
+          "key": "C",
+          "text": "Vì giá trị k = 60 quá lớn khiến chênh lệch thứ hạng giữa các document bị san phẳng"
+        },
+        {
+          "key": "D",
+          "text": "Vì dense embedding luôn cho điểm thấp với các token hiếm nên kéo rank tổng xuống"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide đặt câu hỏi này như một bài tập suy nghĩ 30 giây trước khi xem bảng. Đây là động cơ dẫn tới ba kỹ thuật vượt hybrid: late interaction (ColBERT), learned sparse (SPLADE), và tensor/weighted fusion.",
+      "tags": [
+        "day18",
+        "beyond-hybrid"
+      ]
+    },
+    {
+      "id": "D18-055",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảng 'Mỗi vấn đề một pattern' ánh xạ 'Query lệch vocab so với corpus' vào đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tầng Rerank với cross-encoder để đọc kỹ cặp query-document và chấm lại điểm"
+        },
+        {
+          "key": "B",
+          "text": "Tầng PreRAG với pattern HyDE, kể cả khi index đã được dựng lại từ đầu"
+        },
+        {
+          "key": "C",
+          "text": "Tầng Retrieve với hybrid search kết hợp BM25 để bắt được các từ khóa chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Tầng Augment với NLI filter để kiểm tra mức độ liên quan giữa query và chunk"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng đầy đủ: query lệch vocab → PreRAG/HyDE; câu hỏi nhiều phần hoặc multi-hop → PreRAG/Multi-Query; retrieve chất lượng thấp cần fallback → PreRAG/Corrective RAG; context dư thừa hoặc mâu thuẫn → Augment/NLI filter, compression; cần kiểm chứng nguồn → Augment/Citation injection.",
+      "tags": [
+        "day18",
+        "pattern-map"
+      ]
+    },
+    {
+      "id": "D18-056",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tầng của Control Flow trong ONLINE là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "PreRAG (định hình query trước khi search) và Augment (làm sạch context trước khi generate)"
+        },
+        {
+          "key": "B",
+          "text": "Retrieve, Rerank và Generate theo ba bước xử lý chính của luồng truy vấn"
+        },
+        {
+          "key": "C",
+          "text": "Filter, Rank và Merge theo ba thao tác trên tập kết quả trả về từ vector store"
+        },
+        {
+          "key": "D",
+          "text": "Parse, Chunk và Embed theo ba bước chuẩn bị dữ liệu trước khi đưa vào index"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide mô tả Control Flow là 'Định hình query & làm sạch context theo vấn đề'. Hai tầng này nằm ở hai đầu của bước Retrieve trong sơ đồ ONLINE: PreRAG → Retrieve → Rerank → Augment → Generate.",
+      "tags": [
+        "day18",
+        "control-flow"
+      ]
+    },
+    {
+      "id": "D18-057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Deliverable cuối ngày của Day 18 gồm mấy module và là những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sáu module tương ứng sáu chiến lược chunking đã học trong phần lý thuyết của bài, dù đã thử nhiều chiến lược chunking khác nhau, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "B",
+          "text": "Bốn module: parse, chunk, embed và index tương ứng bốn bước của pipeline offline, kể cả khi query đã được viết lại nhiều lần, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Ba module: chunking, retrieval và evaluation với báo cáo so sánh trước sau khi tối ưu, dù chunk đúng vẫn nằm trong top-20, kể cả khi query đã được viết lại nhiều lần"
+        },
+        {
+          "key": "D",
+          "text": "Năm module: m1_chunking (hierarchical parent 2048/child 256), m2_search (hybrid BM25+Dense+RRF), m3_rerank (top-20 → top-3), m4_eval (RAGAS 4 metrics), m5_enrichment"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Kèm theo là thư mục analysis/ chứa RAGAS report và bottom-5 failure analysis map vào Error Tree. Đây là cấu trúc phản ánh đúng mạch bài: offline (m1, m5), online (m2, m3), và đo lường (m4).",
+      "tags": [
+        "day18",
+        "deliverable"
+      ]
+    },
+    {
+      "id": "D18-058",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thứ tự ưu tiên sửa 'rẻ → đắt' theo slide Error Tree là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả ba nên sửa đồng thời để có thể đo được tác động tổng hợp của các thay đổi, và pipeline vẫn chạy end-to-end không lỗi, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Precision (rerank) → recall (hybrid) → faithfulness (prompt) theo tác động tới người dùng, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Recall (hybrid) → precision (rerank) → faithfulness (prompt), dù prompt đã yêu cầu trích dẫn nguồn rõ ràng, và pipeline vẫn chạy end-to-end không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Faithfulness (prompt) → precision (rerank) → recall (hybrid) theo mức độ nghiêm trọng, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Logic của thứ tự này: thêm BM25 vào hybrid search gần như miễn phí về latency (~5ms); thêm reranker tốn 30-50ms; còn tinh chỉnh prompt tốn thời gian con người và cần lặp nhiều lần. Sửa cái rẻ trước để xem đã đủ chưa.",
+      "tags": [
+        "day18",
+        "error-tree"
+      ]
+    },
+    {
+      "id": "D18-059",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ về negation blindness của embedding là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai con số khác nhau trong cùng một ngữ cảnh không được embedding phân biệt rõ ràng"
+        },
+        {
+          "key": "B",
+          "text": "Hai tài liệu cùng chủ đề nhưng khác năm ban hành lại cho ra điểm tương đồng bằng nhau"
+        },
+        {
+          "key": "C",
+          "text": "Hai thực thể khác nhau nhưng cùng lĩnh vực có vector nằm rất gần nhau trong không gian"
+        },
+        {
+          "key": "D",
+          "text": "'Được nghỉ' và 'không được nghỉ' có cosine cao nhưng nghĩa ngược nhau hoàn toàn"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cách bù đắp cho negation blindness là NLI verification post-retrieval — kiểm entailment giữa query và chunk. Đây cũng chính là bước NLI verification trong bảng Augmentation ở §3, cho thấy hai phần của bài nối với nhau.",
+      "tags": [
+        "day18",
+        "embedding-limits"
+      ]
+    },
+    {
+      "id": "D18-060",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ranh giới của Day 18 với các ngày khác được vẽ thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Day 18 dạy toàn bộ RAG còn các ngày sau chỉ ôn tập và mở rộng thêm ứng dụng thực tế, dù hybrid search đã bật cả BM25 lẫn dense, mà số lượng chunk lấy về vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Day 18 dạy lý thuyết còn phần thực hành triển khai được để dành cho các ngày sau đó, mà số lượng chunk lấy về vẫn giữ nguyên, trong khi reranker vẫn chạy đúng cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Day 18 dạy chất lượng ingestion + retrieval; GraphRAG (Day 19), Multi-Agent (Day 20/23), RAGAS sâu & Guardrails (Day 24), Caching & reliability (Day 25), HITL UX (Day 27)"
+        },
+        {
+          "key": "D",
+          "text": "Day 18 dạy phần offline còn phần online được tách ra dạy riêng ở Day 19 và Day 20, trong khi reranker vẫn chạy đúng cấu hình, và pipeline vẫn chạy end-to-end không lỗi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi rõ: 'Hôm nay chỉ dùng các chủ đề này ở mức đủ để pipeline chạy & đo được; chi tiết để dành đúng ngày.' Đây là cách vẽ ranh giới nhất quán với các ngày khác trong chương trình.",
+      "tags": [
+        "day18",
+        "boundary"
+      ]
+    },
+    {
+      "id": "D18-061",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói 'Nhồi top-k thẳng vào prompt (như demo) bỏ lỡ tầng này'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cần sắp xếp lại thứ tự các chunk theo mức độ liên quan trước khi đưa vào prompt"
+        },
+        {
+          "key": "B",
+          "text": "Vì top-k thường chứa quá nhiều chunk khiến prompt vượt quá giới hạn token của model"
+        },
+        {
+          "key": "C",
+          "text": "Vì chunk từ retrieval chưa được kiểm tra xem có thuộc phạm vi quyền truy cập của user không"
+        },
+        {
+          "key": "D",
+          "text": "Vì bỏ qua tầng Augment — nơi làm sạch context bằng NLI, compression, citation, conflict resolution"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide mô tả tầng Augment nằm giữa Retrieve và Generate: 'Top-k chunks hiếm khi sạch: dư thừa, mâu thuẫn, thiếu nguồn.' Đây là tầng thường bị bỏ qua trong các demo RAG cơ bản.",
+      "tags": [
+        "day18",
+        "augment"
+      ]
+    },
+    {
+      "id": "D18-062",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Matryoshka Representation Learning (MRL) cho phép làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén nhiều document vào cùng một vector để giảm số lượng bản ghi cần lưu trữ, kể cả khi index đã được dựng lại từ đầu, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "B",
+          "text": "Chuyển đổi giữa các model embedding khác nhau mà không cần embed lại toàn bộ corpus, mà số lượng chunk lấy về vẫn giữ nguyên, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Tự động chọn số chiều embedding tối ưu cho từng loại câu hỏi khác nhau lúc query, nên RAGAS không chỉ ra được tầng nào hỏng, mà số lượng chunk lấy về vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Train sao cho 1 vector chứa nhiều vector lồng nhau — cắt ngắn prefix thì nhanh hơn, mất ít chất lượng; embed 1 lần dùng nhiều ngân sách, kể cả khi index đã được dựng lại từ đầu"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cách dùng thực tế: dùng 128-d lọc thô (nhanh) rồi full-d rerank. OpenAI text-embedding-3 hỗ trợ cắt chiều. Lợi ích: 'đổi cost/latency không cần re-embed — một index phục vụ nhiều SLA'. Nguồn: Kusupati et al., NeurIPS 2022.",
+      "tags": [
+        "day18",
+        "mrl"
+      ]
+    },
+    {
+      "id": "D18-063",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn phần nội dung của Day 18 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chunking, Embedding, Retrieval và Generation theo bốn bước của một pipeline RAG, dù đã thử nhiều chiến lược chunking khác nhau, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "B",
+          "text": "Naive RAG, Advanced RAG, Modular RAG và Agentic RAG theo bốn thế hệ kiến trúc, nên RAGAS không chỉ ra được tầng nào hỏng, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "Map & Compass (vì sao basic RAG hỏng), OFFLINE ingest (làm 1 lần, đặt trần), ONLINE retrieval (mỗi query, theo vấn đề), Close the Loop (đo bằng RAGAS, tra Error Tree)"
+        },
+        {
+          "key": "D",
+          "text": "Ingestion, Indexing, Querying và Evaluation theo bốn giai đoạn vận hành hệ thống, nên delta so với baseline gần như bằng không, kể cả khi threshold đã được nâng lên cao"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide chốt phạm vi: 'Hôm nay = chất lượng ingestion + retrieval.' Các chủ đề khác được để dành: GraphRAG (Day 19), Multi-Agent (Day 20/23), RAGAS sâu & guardrails (Day 24), caching & reliability (Day 25), HITL (Day 27).",
+      "tags": [
+        "day18",
+        "outline"
+      ]
+    },
+    {
+      "id": "D18-064",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai chunk cùng nói về chính sách nghỉ phép nhưng một bản ghi 12 ngày, một bản ghi 20 ngày. Xử lý thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Conflict resolution ở tầng Augment: newest-wins theo metadata, hoặc để LLM làm trọng tài"
+        },
+        {
+          "key": "B",
+          "text": "Tăng threshold rerank để chỉ giữ lại chunk có điểm số cao hơn trong hai chunk đó"
+        },
+        {
+          "key": "C",
+          "text": "Bỏ cả hai và trả lời rằng hệ thống không tìm được thông tin đủ tin cậy để trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Lấy cả hai và để LLM tự quyết định dựa trên ngữ cảnh của câu hỏi người dùng đặt ra"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây đúng là case #4 trong bài tập 4 lỗi ở §1 (policy v2 vs v3). Lưu ý phương án A chính là hành vi mặc định khi bỏ qua tầng Augment — và đó là nguyên nhân LLM chọn bản cũ. Điều kiện tiên quyết: phải có metadata về ngày, tức phải làm metadata extract lúc index.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-065",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Lab 18 yêu cầu implement năm module nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Parse, chunk, embed, index và query theo năm bước của pipeline ingestion cơ bản, và pipeline vẫn chạy end-to-end không lỗi, kể cả khi index đã được dựng lại từ đầu, nên delta so với baseline gần như bằng không, trong khi reranker vẫn chạy đúng cấu hình"
+        },
+        {
+          "key": "B",
+          "text": "Retrieve, rerank, augment, generate và evaluate theo năm bước của luồng online, kể cả khi index đã được dựng lại từ đầu, nên delta so với baseline gần như bằng không, trong khi reranker vẫn chạy đúng cấu hình, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "Baseline, hybrid, rerank, enrichment và optimization theo năm giai đoạn cải tiến, nên delta so với baseline gần như bằng không, trong khi reranker vẫn chạy đúng cấu hình, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "D",
+          "text": "m1_chunking (semantic, hierarchical, structure-aware), m2_search (BM25 Vietnamese + Dense + RRF), m3_rerank (CrossEncoder top-20 → top-3), m4_eval (RAGAS 4 metrics + failure analysis), m5_enrichment (contextual/summary/hypo-Q&A)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Thời lượng: 2 giờ implement + 30 phút reflection. Verify bằng pytest tests/test_m*.py, chạy pipeline bằng python src/pipeline.py. Setup: git clone lab18 → docker compose up -d (Qdrant) → pip install -r requirements.",
+      "tags": [
+        "day18",
+        "lab"
+      ]
+    },
+    {
+      "id": "D18-066",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói embedding 'không phải kém, mà chưa đủ'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì embedding cần được kết hợp với fine-tuning trên dữ liệu chuyên ngành mới đạt hiệu quả"
+        },
+        {
+          "key": "B",
+          "text": "Vì embedding giải quyết tốt bài toán ngữ nghĩa tổng thể nhưng có bốn điểm mù cần công cụ khác bù đắp"
+        },
+        {
+          "key": "C",
+          "text": "Vì chất lượng embedding phụ thuộc hoàn toàn vào chất lượng của dữ liệu huấn luyện ban đầu"
+        },
+        {
+          "key": "D",
+          "text": "Vì các model embedding hiện tại vẫn đang trong giai đoạn phát triển và sẽ cải thiện dần"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cách diễn đạt này tránh hai thái cực sai lầm: coi embedding là vạn năng (dẫn tới việc cứ đổi model khi gặp lỗi), hoặc coi embedding là vô dụng (bỏ qua thế mạnh về ngữ nghĩa). Giải pháp đúng là chẩn đoán loại lỗi rồi chọn công cụ bù đắp phù hợp.",
+      "tags": [
+        "day18",
+        "embedding-limits"
+      ]
+    },
+    {
+      "id": "D18-067",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "User hỏi 'pto' nhưng tài liệu viết 'annual leave'. Kỹ thuật nào đóng được vocab gap ngay lúc index?",
+      "options": [
+        {
+          "key": "A",
+          "text": "SPLADE — model học trọng số từ và tự thêm từ liên quan (vacation, holiday, pto) vào sparse vector lúc index, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "B",
+          "text": "ColBERT — vì late interaction so khớp ở mức token nên bắt được cả từ đồng nghĩa, nên câu trả lời cuối vẫn thiếu thông tin, trong khi reranker vẫn chạy đúng cấu hình"
+        },
+        {
+          "key": "C",
+          "text": "Reranking — vì cross-encoder đọc cặp query-document nên hiểu được quan hệ ngữ nghĩa, trong khi latency vẫn nằm dưới ngưỡng SLA, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "D",
+          "text": "HyDE — vì LLM sinh câu trả lời giả định rồi embed câu đó để tìm kiếm trong corpus, trong khi reranker vẫn chạy đúng cấu hình, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ví dụ trong slide dùng chính cặp này: BM25 cho {annual, leave, 12, days} còn SPLADE mở rộng thành {annual, leave, vacation, holiday, pto, 12, days}. HyDE cũng đóng vocab gap nhưng chạy ONLINE mỗi query, còn SPLADE làm lúc index.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-068",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn bước trong bảng Augmentation là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "NLI verification (bỏ chunk contradiction), Compression (nén bằng LLMLingua), Citation injection (gắn [1][2] mỗi câu), Conflict resolution (newest-wins hoặc LLM làm trọng tài)"
+        },
+        {
+          "key": "B",
+          "text": "Summarize, Extract, Validate và Inject theo bốn bước chuẩn bị context cho model, mà điểm Faithfulness gần như không đổi, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "C",
+          "text": "Dedupe, Sort, Trim và Wrap theo bốn bước tối ưu hóa độ dài của prompt cuối cùng, trong khi latency vẫn nằm dưới ngưỡng SLA, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "D",
+          "text": "Filter, Rank, Merge và Format theo bốn thao tác xử lý tập chunk trước khi đưa vào prompt, và metadata đã được gắn đầy đủ lúc index, mà điểm Faithfulness gần như không đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhấn mạnh tầng này thường bị bỏ qua: 'Nhồi top-k thẳng vào prompt (như demo) bỏ lỡ tầng này.' Nguyên tắc áp dụng giống PreRAG: 'bật đúng bước theo vấn đề, không bật cả 4.'",
+      "tags": [
+        "day18",
+        "augment"
+      ]
+    },
+    {
+      "id": "D18-069",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong tài liệu tham khảo, bài nào giới thiệu Contextual Retrieval?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Weaviate, Advanced RAG Techniques ebook về các kỹ thuật RAG nâng cao"
+        },
+        {
+          "key": "B",
+          "text": "Khattab & Zaharia, ColBERT: Late Interaction, SIGIR 2020"
+        },
+        {
+          "key": "C",
+          "text": "Anthropic, Introducing Contextual Retrieval (2024)"
+        },
+        {
+          "key": "D",
+          "text": "Sarthi et al., RAPTOR: Recursive Abstractive Tree, ICLR 2024"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Danh sách 11 tài liệu tham khảo gồm cả các paper được trích trong bài (ColBERT SIGIR 2020, RAPTOR ICLR 2024, Matryoshka NeurIPS 2022, ColPali arXiv 2407.01449, HyDE arXiv 2212.10496, CRAG arXiv 2401.15884, RAGAS arXiv 2309.15217) và tài liệu đọc thêm cho ngày sau (Self-RAG → Day 23, Agentic RAG Survey → Day 20/23).",
+      "tags": [
+        "day18",
+        "references"
+      ]
+    },
+    {
+      "id": "D18-070",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Latency SLA rất chặt, chỉ cho phép thêm dưới 10ms cho bước rerank. Nên chọn model nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Flashrank — siêu nhẹ, dưới 5ms, chạy được ở edge, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "B",
+          "text": "bge-reranker-v2-m3 vì hỗ trợ tiếng Việt tốt và có context window lên tới 8K token"
+        },
+        {
+          "key": "C",
+          "text": "Qwen3-Reranker vì đạt top MTEB-rerank nên cho chất lượng tốt nhất trong mọi tình huống"
+        },
+        {
+          "key": "D",
+          "text": "LLM-as-Reranker với GPT-4 vì chất lượng cao nhất dù phải chấp nhận một chút độ trễ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảng reranker landscape ghi Flashrank là 'Siêu nhẹ, <5ms, edge'. Các model khác đều tốn nhiều hơn — two-stage retrieval nói chung tốn ~30-50ms/query. Đây là quyết định đánh đổi chất lượng lấy latency theo đúng SLA.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-071",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hierarchical chunking giải quyết mâu thuẫn nào của Day 08 và bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chunk nhỏ retrieve chính xác nhưng thiếu ngữ cảnh, chunk lớn đủ ngữ cảnh nhưng khó match; giải bằng index 2 tầng — match trên child 256, inject parent 2048 vào LLM"
+        },
+        {
+          "key": "B",
+          "text": "Mâu thuẫn giữa tốc độ và độ chính xác; giải quyết bằng cách chạy song song hai luồng, mà chi phí embedding không hề tăng thêm, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "C",
+          "text": "Mâu thuẫn giữa exact match và semantic match; giải bằng cách kết hợp BM25 với dense, dù chunk đúng vẫn nằm trong top-20, và pipeline vẫn chạy end-to-end không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Mâu thuẫn giữa chi phí index và chất lượng truy xuất; giải bằng nén vector xuống ít chiều, trong khi temperature đã được hạ về không, dù chunk đúng vẫn nằm trong top-20"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi Hierarchical là 'Default tốt cho doc có cấu trúc (policy, manual)'. Cách dùng: LlamaIndex AutoMergingRetriever hoặc LangChain ParentDocumentRetriever — khai báo parent+child size, retriever tự gộp. Chi phí: lưu cả 2 tầng.",
+      "tags": [
+        "day18",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "D18-072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Structure-aware chunking cắt theo tiêu chí nào và phù hợp định dạng nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Theo cây tóm tắt đệ quy nhiều tầng, phù hợp với câu hỏi tổng hợp xuyên nhiều đoạn, nên câu trả lời cuối vẫn thiếu thông tin, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "B",
+          "text": "Theo ngưỡng cosine giữa các câu liền kề, phù hợp với chat log và tài liệu đổi chủ đề, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "C",
+          "text": "Theo heading hoặc table, phù hợp với Markdown, HTML và PDF, nên Error Tree không tra ngược được về đâu, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Theo số token cố định với overlap, phù hợp với văn bản đồng nhất không có cấu trúc, nên Error Tree không tra ngược được về đâu"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng chiến lược chunking: Fixed-size (512 tokens, overlap 64) cho baseline text đồng nhất; Semantic (cosine threshold 0.85) cho đoạn đổi chủ đề và chat log; Structure-aware theo heading/table cho Markdown/HTML/PDF.",
+      "tags": [
+        "day18",
+        "chunking"
+      ]
+    },
+    {
+      "id": "D18-073",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "SPLADE cần điều kiện hạ tầng gì và ưu điểm về storage ra sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cần GPU lúc query để tính toán term expansion theo thời gian thực cho mỗi truy vấn"
+        },
+        {
+          "key": "B",
+          "text": "Cần GPU lúc index để sinh sparse vector; storage gần bằng BM25 vì vẫn chạy trên inverted index"
+        },
+        {
+          "key": "C",
+          "text": "Cần lưu multi-vector cho mỗi document nên storage lớn hơn nhiều so với BM25 thông thường"
+        },
+        {
+          "key": "D",
+          "text": "Cần cơ sở dữ liệu đồ thị để lưu quan hệ giữa các từ được mở rộng trong quá trình index"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là điểm phân biệt quan trọng với ColBERT: cả hai đều tăng precision nhưng SPLADE giữ được lợi thế storage của inverted index, còn ColBERT phải lưu một vector cho mỗi token. Cách dùng: naver/splade encoder → Qdrant/Elasticsearch sparse vector.",
+      "tags": [
+        "day18",
+        "splade"
+      ]
+    },
+    {
+      "id": "D18-074",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mục tiêu Ngày 18 gồm bảy điểm, trong đó điểm đầu tiên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chẩn đoán pipeline hỏng bằng Error Tree, không đoán mò, trong khi temperature đã được hạ về không, và corpus đã được làm sạch trước khi index"
+        },
+        {
+          "key": "B",
+          "text": "So sánh được hiệu quả của các chiến lược chunking khác nhau trên cùng một tập dữ liệu, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "C",
+          "text": "Triển khai được hệ thống RAG lên môi trường production với độ tin cậy cao, trong khi temperature đã được hạ về không, và corpus đã được làm sạch trước khi index"
+        },
+        {
+          "key": "D",
+          "text": "Xây dựng được pipeline RAG hoàn chỉnh chạy end-to-end trên dữ liệu thật của doanh nghiệp, trong khi temperature đã được hạ về không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bảy mục tiêu: chẩn đoán bằng Error Tree; OFFLINE hierarchical/late chunk + contextual + enrichment; ONLINE retrieval vượt hybrid+RRF; ONLINE rerank chọn theo chất lượng/chi phí/ngôn ngữ; ONLINE control flow theo vấn đề; RAGAS + diagnostic tree; và giới hạn embedding.",
+      "tags": [
+        "day18",
+        "objectives"
+      ]
+    },
+    {
+      "id": "D18-075",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt Corrective RAG và Failure-aware routing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CRAG chấm điểm chất lượng chunk retrieve được rồi rẽ ba nhánh (dùng/rewrite/web search); failure-aware routing phát hiện LOẠI LỖI trước generate rồi đổi chiến lược"
+        },
+        {
+          "key": "B",
+          "text": "CRAG dùng classifier còn failure-aware routing bắt buộc phải dùng model ngôn ngữ lớn, kể cả khi query đã được viết lại nhiều lần, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "C",
+          "text": "CRAG chạy trước retrieve còn failure-aware routing chạy sau khi đã sinh câu trả lời, dù chunk đúng vẫn nằm trong top-20, kể cả khi query đã được viết lại nhiều lần"
+        },
+        {
+          "key": "D",
+          "text": "Hai khái niệm giống hệt nhau, chỉ khác tên gọi được dùng ở hai phần của bài giảng, mà số lượng chunk lấy về vẫn giữ nguyên, dù chunk đúng vẫn nằm trong top-20"
+        }
+      ],
+      "answer": "A",
+      "explanation": "CRAG hỏi 'chunk này có tốt không'; failure-aware routing hỏi 'đây là loại lỗi gì' (negation, temporal, entity, numerical) rồi chọn công cụ bù đắp phù hợp. CRAG nằm ở §3 (control flow), routing nằm ở §4 (bù giới hạn embedding).",
+      "tags": [
+        "day18",
+        "crag-vs-routing"
+      ]
+    },
+    {
+      "id": "D18-076",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng Error Tree, Context Recall thấp nên sửa bằng những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reranking, tăng threshold và metadata filter ở tầng Rerank của pipeline"
+        },
+        {
+          "key": "B",
+          "text": "Cải thiện prompt và mở rộng context được đưa vào model ở tầng Generate"
+        },
+        {
+          "key": "C",
+          "text": "Hybrid (thêm BM25), HyDE, Multi-Query, metadata filter ở tầng Retrieval"
+        },
+        {
+          "key": "D",
+          "text": "Prompt chặt hơn, hạ temperature và bổ sung citation ở tầng Generate"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng Error Tree đầy đủ: Context Recall thấp → Hybrid/HyDE/Multi-Query/metadata filter (Retrieval); Context Precision thấp → Reranking, tăng threshold, metadata filter (Rerank); Faithfulness thấp → prompt chặt, hạ temperature, citation (Generate); Answer Relevancy thấp → cải thiện prompt, mở rộng context (Generate).",
+      "tags": [
+        "day18",
+        "error-tree"
+      ]
+    },
+    {
+      "id": "D18-077",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Muốn giảm chi phí query nhưng không muốn re-embed cả corpus. Kỹ thuật nào phù hợp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Compression bằng LLMLingua để nén context trước khi đưa vào model sinh câu trả lời, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Giảm giá trị top-k xuống để lấy về ít chunk hơn, qua đó giảm số token phải xử lý, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển sang model embedding nhỏ hơn rồi index lại toàn bộ corpus một lần duy nhất, mà số lượng chunk lấy về vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Matryoshka (MRL) — cắt ngắn prefix vector để nhanh/rẻ hơn mà không cần re-embed; một index phục vụ nhiều SLA"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ứng dụng thực tế được nêu: dùng 128-d lọc thô (nhanh) rồi full-d rerank. OpenAI text-embedding-3 hỗ trợ cắt chiều. Điều kiện: cần model được train kiểu MRL; cắt càng sâu chất lượng giảm dần.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-078",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn metric RAGAS được chia thành hai trục nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RETRIEVAL (Context Recall > 0.75, Context Precision > 0.75) và GENERATION (Faithfulness > 0.85, Answer Relevancy > 0.80)"
+        },
+        {
+          "key": "B",
+          "text": "Trục định lượng và định tính, tương ứng với chỉ số máy đo được và chỉ số cần người chấm, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "C",
+          "text": "Trục offline và online, phản ánh hai nửa của pipeline RAG đã học ở phần đầu bài, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "D",
+          "text": "Trục tốc độ và trục chi phí, mỗi trục có hai chỉ số đo lường tương ứng riêng biệt, kể cả khi index đã được dựng lại từ đầu"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lý do tách hai trục: 'Một điểm tổng che chỗ hỏng. Tách retrieval vs generation → biết ngay tầng nào mất điểm để tra Error Tree.' Trục retrieval thấp thì sửa tầng Retrieve/Rerank; trục generation thấp thì sửa tầng Generate (prompt).",
+      "tags": [
+        "day18",
+        "ragas"
+      ]
+    },
+    {
+      "id": "D18-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Enrichment Pipeline gồm những bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chunk, Embed, Index và Verify theo bốn bước chuẩn của quy trình ingestion, và corpus đã được làm sạch trước khi index, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "B",
+          "text": "Summarization (embed bản tóm tắt cạnh chunk gốc), Hypothetical Q&A (LLM sinh câu hỏi mà chunk trả lời được), Prepend context, Metadata extract (rút entity, topic, ngày, nguồn)"
+        },
+        {
+          "key": "C",
+          "text": "Filter, Dedupe, Compress và Store theo bốn bước tối ưu hóa dung lượng lưu trữ, nên Error Tree không tra ngược được về đâu, kể cả khi context window còn dư nhiều chỗ"
+        },
+        {
+          "key": "D",
+          "text": "Parse, Clean, Normalize và Validate theo bốn bước xử lý dữ liệu thô đầu vào, và metadata đã được gắn đầy đủ lúc index, và corpus đã được làm sạch trước khi index"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide nhấn mạnh: 'Tất cả là chi phí one-time lúc index. Dùng model rẻ (GPT-4o-mini, Haiku). Cân nhắc theo giá trị/query.' Metadata extract đặc biệt quan trọng vì nó bật được metadata filtering ở tầng retrieval.",
+      "tags": [
+        "day18",
+        "enrichment"
+      ]
+    },
+    {
+      "id": "D18-080",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway về reranking nêu điều kiện gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reranking chỉ nên dùng khi corpus có trên một triệu tài liệu cần xếp hạng lại, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "B",
+          "text": "ROI cao khi recall đã đủ: +15-25% precision với ~30-50ms khi latency cho phép; vô dụng nếu chunk đúng chưa được retrieve"
+        },
+        {
+          "key": "C",
+          "text": "Reranking nên thay thế hoàn toàn bước retrieve để đơn giản hóa kiến trúc pipeline, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "D",
+          "text": "Reranking luôn nên bật vì nó cải thiện chất lượng trong mọi trường hợp sử dụng, nên delta so với baseline gần như bằng không"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vế cuối rất quan trọng: reranking chỉ sắp xếp lại những gì đã có. Nếu chunk đúng không nằm trong top-20 thì reranker không thể tạo ra nó. Đây là lý do thứ tự sửa là recall trước, precision sau.",
+      "tags": [
+        "day18",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D18-081",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Metadata extract trong enrichment pipeline rút ra những gì và để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rút ra các câu hỏi mà chunk có thể trả lời được để thu hẹp khoảng cách từ vựng"
+        },
+        {
+          "key": "B",
+          "text": "Rút ra các từ khóa quan trọng nhất để tăng trọng số cho chúng khi tính điểm BM25"
+        },
+        {
+          "key": "C",
+          "text": "Rút ra tóm tắt ngắn của chunk để embed song song với nội dung gốc ban đầu"
+        },
+        {
+          "key": "D",
+          "text": "LLM rút entity, topic, ngày, nguồn — để bật được metadata filtering ở tầng retrieval"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Metadata filtering sau đó trở thành công cụ quan trọng ở §4 để bù đắp giới hạn embedding: 'Metadata filtering (temporal, số, source) — sửa temporal & numerical blindness: lọc theo ngày/con số trước khi search.'",
+      "tags": [
+        "day18",
+        "metadata"
+      ]
+    },
+    {
+      "id": "D18-082",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba bước OFFLINE nào được dạy riêng ở ba slide kế trong phần chunking?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hierarchical (default), Late chunking, RAPTOR (tổng hợp), kể cả khi index đã được dựng lại từ đầu, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "B",
+          "text": "Fixed-size, Semantic và Structure-aware vì đây là ba chiến lược phổ biến nhất, kể cả khi index đã được dựng lại từ đầu, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Contextual embeddings, Matryoshka và enrichment vì đây là ba kỹ thuật ROI cao nhất, trong khi temperature đã được hạ về không"
+        },
+        {
+          "key": "D",
+          "text": "Summarization, Hypothetical Q&A và Metadata extract thuộc enrichment pipeline, nên RAGAS không chỉ ra được tầng nào hỏng, trong khi temperature đã được hạ về không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide ghi rõ: 'Hierarchical (default), Late chunking, RAPTOR (tổng hợp) dạy riêng ở 3 slide kế. Còn lại: tham khảo.' Ba kỹ thuật này giải quyết ba vấn đề khác nhau: mâu thuẫn kích thước chunk, tham chiếu ngược, và câu hỏi tổng hợp.",
+      "tags": [
+        "day18",
+        "chunking"
+      ]
+    },
+    {
+      "id": "D18-083",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Case 'Retrieve đúng chunk nhưng câu trả lời thêm thông tin không có trong chunk' thuộc bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Augment — vì bước làm sạch context đã bổ sung thêm thông tin từ nguồn bên ngoài"
+        },
+        {
+          "key": "B",
+          "text": "Generate — đây là hallucination ở tầng sinh câu trả lời chứ không phải lỗi truy xuất"
+        },
+        {
+          "key": "C",
+          "text": "Retrieval — vì hệ thống đã lấy về chunk không đầy đủ thông tin cần thiết cho câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Rerank — vì thứ tự các chunk chưa được sắp xếp đúng theo mức độ liên quan thực tế"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm phân biệt: retrieval đã hoàn toàn thành công. Theo bảng Error Tree ở §4, đây là dấu hiệu Faithfulness thấp, và cách sửa nằm ở tầng Generate: prompt chặt, hạ temperature, citation.",
+      "tags": [
+        "day18",
+        "error-case"
+      ]
+    },
+    {
+      "id": "D18-084",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu kết bài của Day 18 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Production RAG: bạn sẽ sửa tầng nào?, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "B",
+          "text": "Bạn đang thiếu dữ liệu tốt hơn hay thiếu một pipeline đủ kỷ luật để đo lường được?"
+        },
+        {
+          "key": "C",
+          "text": "Chọn đúng model embedding quyết định phần lớn chất lượng của hệ thống RAG production"
+        },
+        {
+          "key": "D",
+          "text": "RAG demo và RAG production khác nhau ở đâu và làm sao thu hẹp khoảng cách đó?"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Câu hỏi này tổng kết đúng tinh thần của bài: vấn đề không phải chọn kỹ thuật nào tốt nhất, mà là xác định đúng tầng đang hỏng rồi vặn đúng núm ở tầng đó.",
+      "tags": [
+        "day18",
+        "closing"
+      ]
+    },
+    {
+      "id": "D18-085",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "RAGAS cho Context Recall 0.52, Context Precision 0.81, Faithfulness 0.88, Answer Relevancy 0.84. Nên sửa gì trước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sửa Augment: áp dụng NLI verification và compression để làm sạch context trước generate"
+        },
+        {
+          "key": "B",
+          "text": "Sửa Rerank: bổ sung cross-encoder và tăng threshold để lọc chunk không liên quan"
+        },
+        {
+          "key": "C",
+          "text": "Sửa Generate: viết prompt chặt hơn và hạ temperature để giảm hiện tượng bịa thông tin"
+        },
+        {
+          "key": "D",
+          "text": "Sửa Retrieval: thêm BM25 vào hybrid, cân nhắc HyDE/Multi-Query hoặc metadata filter"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chỉ Context Recall dưới ngưỡng 0.75; ba metric còn lại đều đạt. Recall thấp nghĩa là thông tin cần thiết chưa được lấy về — reranker không cứu được vì nó chỉ sắp xếp lại những gì đã có. Đúng thứ tự rẻ → đắt: sửa recall bằng hybrid trước.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-086",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Công thức RRF và giá trị k mặc định là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "score(d) = max của điểm dense và điểm sparse, k không xuất hiện trong công thức"
+        },
+        {
+          "key": "B",
+          "text": "score(d) = α·dense + (1−α)·sparse với α mặc định là 0.5 cho cân bằng hai nguồn"
+        },
+        {
+          "key": "C",
+          "text": "score(d) = tổng điểm similarity của cả hai nguồn chia cho số nguồn tham gia"
+        },
+        {
+          "key": "D",
+          "text": "score(d) = Σ 1/(k + rank) với k = 60, có thể tinh chỉnh trong khoảng 10–100"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ưu điểm của RRF: 'Không cần training, gộp rank từ nhiều nguồn khác thang điểm.' Vì chỉ dùng thứ hạng nên không phải chuẩn hóa điểm số giữa BM25 và dense — hai hệ thống có thang đo hoàn toàn khác nhau.",
+      "tags": [
+        "day18",
+        "rrf"
+      ]
+    },
+    {
+      "id": "D18-087",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "ColBERT thoát 'nút cổ chai 1 vector' bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy cross-encoder đọc cặp query và document cùng lúc để tính điểm liên quan chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Chia document thành nhiều chunk nhỏ rồi embed riêng từng chunk để giữ chi tiết"
+        },
+        {
+          "key": "C",
+          "text": "Giữ 1 vector cho mỗi token; mỗi token query tìm token doc khớp nhất (MaxSim) rồi cộng lại"
+        },
+        {
+          "key": "D",
+          "text": "Tăng số chiều của vector lên gấp nhiều lần để chứa được nhiều thông tin chi tiết hơn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Vấn đề gốc: bi-encoder ép cả đoạn vào 1 vector nên chi tiết token (tên riêng, số, thuật ngữ hiếm) bị nén mất. ColBERT giữ chi tiết nhưng doc được tính trước nên vẫn nhanh hơn cross-encoder. Cách dùng: RAGatouille/Vespa/Qdrant multi-vector, cần index riêng (PLAID).",
+      "tags": [
+        "day18",
+        "colbert"
+      ]
+    },
+    {
+      "id": "D18-088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong sơ đồ CRAG, ba nhánh rẽ sau khi evaluator chấm điểm là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Pass, Warn và Fail theo ba mức chính sách xử lý lỗi trong hệ thống pipeline"
+        },
+        {
+          "key": "B",
+          "text": "Correct (dùng luôn), Ambiguous (viết lại query), Wrong (fallback web search)"
+        },
+        {
+          "key": "C",
+          "text": "Accept, Retry và Abort tùy theo mức điểm mà evaluator chấm cho tập chunk lấy về"
+        },
+        {
+          "key": "D",
+          "text": "High, Medium và Low confidence với ba mức xử lý khác nhau tương ứng cho mỗi mức"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ba nhánh này phản ánh ba mức chất lượng khác nhau của kết quả retrieval. Slide nêu khi nào dùng: 'corpus có lỗ hổng, câu hỏi ngoài phạm vi — thà fallback còn hơn bịa.' Chi phí: +1 bước chấm điểm mỗi query.",
+      "tags": [
+        "day18",
+        "crag"
+      ]
+    },
+    {
+      "id": "D18-089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bảng kỹ thuật vượt hybrid cho biết ColBERT có precision và latency thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tăng 10-15% precision với latency khoảng 80ms nhưng cần label data để train"
+        },
+        {
+          "key": "B",
+          "text": "Tăng 8-12% precision với latency khoảng 50ms nhưng tốn storage do multi-vector"
+        },
+        {
+          "key": "C",
+          "text": "Tăng 15-25% precision với latency khoảng 30-50ms nhưng cần chạy cross-encoder"
+        },
+        {
+          "key": "D",
+          "text": "Tăng 6-10% precision với latency khoảng 40ms nhưng storage gần bằng BM25"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bảng đầy đủ: RRF baseline ~25ms; ColBERT late interaction +8-12% ~50ms (tốn storage multi-vector); SPLADE learned sparse +6-10% ~40ms (storage gần BM25); Tensor/weighted fusion +10-15% ~80ms (cần label data). Slide ghi 'con số tham khảo, tùy dataset/baseline'.",
+      "tags": [
+        "day18",
+        "beyond-hybrid"
+      ]
+    },
+    {
+      "id": "D18-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hypothetical Q&A giải quyết vấn đề gì và khác HyDE ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải quyết vocab gap giữa câu hỏi của user và câu khẳng định trong tài liệu; khác HyDE ở chỗ làm OFFLINE lúc index nên không tốn call mỗi query, mà chi phí embedding không hề tăng thêm"
+        },
+        {
+          "key": "B",
+          "text": "Giải quyết vấn đề thiếu metadata; khác HyDE ở chỗ nó chạy sau bước embed chứ không trước, mà chi phí embedding không hề tăng thêm, nên RAGAS không chỉ ra được tầng nào hỏng"
+        },
+        {
+          "key": "C",
+          "text": "Giải quyết vấn đề tài liệu đa ngôn ngữ; khác HyDE ở chỗ nó dịch sang ngôn ngữ chung, mà số lượng chunk lấy về vẫn giữ nguyên, trong khi vector DB hoạt động ổn định, trong khi latency vẫn nằm dưới ngưỡng SLA"
+        },
+        {
+          "key": "D",
+          "text": "Giải quyết vấn đề chunk quá dài; khác HyDE ở chỗ nó nén nội dung thay vì mở rộng, nên RAGAS không chỉ ra được tầng nào hỏng, mà chi phí embedding không hề tăng thêm, mà số lượng chunk lấy về vẫn giữ nguyên"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide gọi hai kỹ thuật này là 'họ hàng': cùng ý tưởng thu hẹp khoảng cách giữa dạng câu hỏi và dạng văn bản, nhưng HyDE chạy ONLINE mỗi query còn Hypothetical Q&A trả tiền một lần lúc index. Khi nào dùng: FAQ, hỏi-đáp chính sách.",
+      "tags": [
+        "day18",
+        "hypo-qa"
+      ]
+    },
+    {
+      "id": "D18-091",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bản đồ 'Mỗi tầng có núm vặn riêng' liệt kê những gì ở tầng OFFLINE?",
+      "options": [
+        {
+          "key": "A",
+          "text": "HyDE, Multi-Query, CRAG và routing theo từng loại vấn đề gặp phải khi truy vấn, trong khi vector DB hoạt động ổn định, và corpus đã được làm sạch trước khi index"
+        },
+        {
+          "key": "B",
+          "text": "Hybrid+RRF, ColBERT, SPLADE và lựa chọn vector DB cho phù hợp với nhu cầu, mà điểm Faithfulness gần như không đổi, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Chunk (hierarchical, semantic, structure-aware, late) và Enrich (contextual, summary/hypo Q&A, metadata), mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "D",
+          "text": "NLI, compression, citation và conflict resolution để làm sạch context trước generate, và corpus đã được làm sạch trước khi index, mà điểm Faithfulness gần như không đổi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bản đồ hoàn chỉnh có OFFLINE (Chunk, Enrich) và ONLINE (PreRAG, Retrieve, Rerank, Augment). Thông điệp: 'RAG yếu trong production → (1) đo RAGAS biết retrieval hay generation hỏng → (2) Error Tree map vấn đề ra tầng → (3) bản đồ này chọn núm vặn. Đừng đổi model, vặn đúng tầng.'",
+      "tags": [
+        "day18",
+        "knob-map"
+      ]
+    },
+    {
+      "id": "D18-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Late chunking khác cách chunking thông thường ở điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chạy token-embedding cho cả document trước bằng long-context encoder, rồi mới pool theo ranh giới chunk — nên mỗi chunk vector đã tham ngữ cảnh toàn cục"
+        },
+        {
+          "key": "B",
+          "text": "Cắt chunk theo ranh giới ngữ nghĩa thay vì theo số token cố định của mỗi đoạn, nên câu trả lời cuối vẫn thiếu thông tin, trong khi vector DB hoạt động ổn định"
+        },
+        {
+          "key": "C",
+          "text": "Trì hoãn việc chunking tới lúc query để cắt theo đúng nhu cầu của từng câu hỏi, trong khi vector DB hoạt động ổn định, dù đã thử nhiều chiến lược chunking khác nhau"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ embed phần đầu và phần cuối của document rồi nội suy cho các chunk ở giữa, dù đã thử nhiều chiến lược chunking khác nhau, dù prompt đã yêu cầu trích dẫn nguồn rõ ràng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Vấn đề mà nó giải quyết: cắt trước rồi embed riêng khiến mỗi chunk mù phần còn lại của doc — 'điều này', 'công ty' là ai? Khi nào dùng: tài liệu dài, nhiều tham chiếu ngược. Cần encoder long-context (Jina-v3, nomic).",
+      "tags": [
+        "day18",
+        "late-chunking"
+      ]
+    },
+    {
+      "id": "D18-093",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm key takeaway của Day 18, ý đầu tiên là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đo để sửa đúng chỗ bằng RAGAS 4 metric và diagnostic tree để tìm tầng yếu nhất"
+        },
+        {
+          "key": "B",
+          "text": "OFFLINE đặt trần chất lượng nên phải đầu tư kỹ vào bước chuẩn bị dữ liệu trước khi index"
+        },
+        {
+          "key": "C",
+          "text": "Chẩn đoán trước, sửa sau — RAG = OFFLINE + ONLINE, dùng Error Tree để biết tầng nào mất điểm"
+        },
+        {
+          "key": "D",
+          "text": "Reranking có ROI cao khi recall đã đủ, mang lại 15-25% precision với 30-50ms latency"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Năm takeaway theo thứ tự: (1) chẩn đoán trước sửa sau; (2) OFFLINE đặt trần chất lượng; (3) reranking ROI cao khi recall đã đủ; (4) đo để sửa đúng chỗ; (5) biết giới hạn embedding. Tiêu đề phần tổng kết: 'Production RAG là kỹ thuật chẩn đoán + sửa đúng tầng, không phải thêm model mạnh hơn.'",
+      "tags": [
+        "day18",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D18-094",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt Contextual Embeddings và Late chunking?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Contextual cần GPU còn Late chunking chạy được trên CPU nên chi phí hạ tầng thấp hơn, kể cả khi threshold đã được nâng lên cao, dù chunk đúng vẫn nằm trong top-20, nên delta so với baseline gần như bằng không"
+        },
+        {
+          "key": "B",
+          "text": "Contextual dùng cho tài liệu ngắn còn Late chunking dùng cho tài liệu dài trên mười nghìn từ, kể cả khi index đã được dựng lại từ đầu, kể cả khi threshold đã được nâng lên cao, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "C",
+          "text": "Contextual chạy lúc query còn Late chunking chạy lúc index nên chi phí khác nhau hoàn toàn, nên delta so với baseline gần như bằng không, kể cả khi index đã được dựng lại từ đầu, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "D",
+          "text": "Contextual gọi LLM sinh đoạn mô tả ngữ cảnh cho mỗi chunk (tốn +1 call/chunk); Late chunking embed cả doc bằng long-context encoder rồi mới pool (không gọi LLM, nhưng cần model phù hợp), nên delta so với baseline gần như bằng không"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Cả hai đều giải quyết cùng một vấn đề — chunk rời mất ngữ cảnh — nhưng bằng hai cơ chế khác nhau. Slide ghi: 'Khác contextual: không gọi LLM/chunk — rẻ hơn, nhưng cần model hợp.'",
+      "tags": [
+        "day18",
+        "contextual-vs-late"
+      ]
+    },
+    {
+      "id": "D18-095",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Corpus là chat log dài, nhiều đoạn đổi chủ đề. Chiến lược chunking nào phù hợp?",
+      "options": [
+        {
+          "key": "A",
+          "text": "RAPTOR vì cây tóm tắt xử lý tốt các cuộc hội thoại dài trải qua nhiều chủ đề khác nhau"
+        },
+        {
+          "key": "B",
+          "text": "Semantic với cosine threshold 0.85 — bảng chiến lược ghi rõ dùng cho 'đoạn đổi chủ đề, chat log'"
+        },
+        {
+          "key": "C",
+          "text": "Structure-aware theo heading vì chat log thường có cấu trúc theo người nói và thời gian"
+        },
+        {
+          "key": "D",
+          "text": "Hierarchical với parent 2048 và child 256 vì đây là default an toàn cho mọi loại tài liệu"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Semantic chunking cắt tại điểm chủ đề thay đổi nên phù hợp với nội dung không có cấu trúc rõ ràng nhưng có ranh giới ngữ nghĩa. Lưu ý tránh khi corpus lớn vì embed từng câu khiến ingest chậm và đắt.",
+      "tags": [
+        "day18",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D18-096",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bài tập 4 case lỗi, case 'User hỏi nghỉ phép nhưng tài liệu chỉ ghi annual leave' thuộc bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rerank — vì chunk đúng có trong kết quả nhưng bị xếp hạng thấp nên không lên được top"
+        },
+        {
+          "key": "B",
+          "text": "Retrieval — fix bằng query rewrite hoặc thêm synonym, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "C",
+          "text": "Augment — vì context đưa vào LLM chưa được làm sạch trước khi sinh câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Generate — vì model không hiểu được mối liên hệ giữa hai cách diễn đạt khác nhau"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là ví dụ mẫu được slide đưa sẵn. Bốn case còn lại: top-10 có chunk đúng ở vị trí #8 nhưng LLM chỉ đọc top-3 → Rerank; retrieve đúng chunk nhưng câu trả lời thêm thông tin không có → Generate; hai chunk mâu thuẫn v2 vs v3 và LLM chọn bản cũ → Augment.",
+      "tags": [
+        "day18",
+        "error-case"
+      ]
+    },
+    {
+      "id": "D18-097",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong bảng chọn retriever, khi nào nên dùng Weighted Fusion?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khi cần precision ở mức token-level cho các truy vấn chứa mã hiệu hoặc tên riêng"
+        },
+        {
+          "key": "B",
+          "text": "Khi corpus có nhiều tài liệu PDF hoặc slide mà công cụ parse không xử lý được"
+        },
+        {
+          "key": "C",
+          "text": "Khi có labeled data để tune trọng số — nhưng cần label nên đừng bắt đầu từ đây"
+        },
+        {
+          "key": "D",
+          "text": "Khi vocab của người dùng lệch nhiều so với từ vựng được dùng trong tài liệu nguồn"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cột 'Chi phí/Tránh khi' của Weighted Fusion ghi 'Cần label để học trọng số'. Lời khuyên thực dụng của slide: thu click-log trước, train fusion sau — mặc định vẫn dùng RRF cho tới khi có đủ label.",
+      "tags": [
+        "day18",
+        "retriever-table"
+      ]
+    },
+    {
+      "id": "D18-098",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Failure-aware routing hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phát hiện loại lỗi trước khi generate rồi đổi chiến lược: rewrite, decompose, hoặc từ chối"
+        },
+        {
+          "key": "B",
+          "text": "Phân loại truy vấn theo độ khó rồi cấp ngân sách token tương ứng cho mỗi loại"
+        },
+        {
+          "key": "C",
+          "text": "Định tuyến truy vấn tới các vector store khác nhau tùy theo loại dữ liệu cần tìm kiếm"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển truy vấn sang model dự phòng khi model chính không phản hồi trong thời gian cho phép"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là ứng dụng của nguyên tắc 'chẩn đoán trước, sửa sau' vào thời điểm runtime. Nó họ hàng với Corrective RAG ở §3 nhưng CRAG chấm điểm chất lượng chunk, còn failure-aware routing phân loại loại lỗi để chọn chiến lược phù hợp.",
+      "tags": [
+        "day18",
+        "routing"
+      ]
+    },
+    {
+      "id": "D18-099",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong Pipeline C của bảng so sánh, học viên được gợi ý thêm những kỹ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bắt buộc thêm cả ColBERT, SPLADE và ColPali để so sánh ba hướng vượt hybrid, dù đã thử nhiều chiến lược chunking khác nhau, dù chunk đúng vẫn nằm trong top-20, nên Error Tree không tra ngược được về đâu"
+        },
+        {
+          "key": "B",
+          "text": "Contextual embeddings, summary/hypothetical-Q&A enrich, metadata filter, HyDE, Multi-Query, semantic chunk, threshold rerank — không giới hạn ở contextual, nên câu trả lời cuối vẫn thiếu thông tin"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ được thêm contextual embeddings vì đây là kỹ thuật có ROI cao nhất đã chứng minh, nên câu trả lời cuối vẫn thiếu thông tin, dù đã thử nhiều chiến lược chunking khác nhau, dù chunk đúng vẫn nằm trong top-20"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ được thay đổi tham số của pipeline B chứ không được thêm kỹ thuật mới nào, dù chunk đúng vẫn nằm trong top-20, nên Error Tree không tra ngược được về đâu, mà điểm Faithfulness gần như không đổi"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide ghi 'Thêm vào B một hoặc nhiều kỹ thuật rồi đo cải thiện' và 'Không giới hạn ở contextual'. Đây là phần mở để học viên tự thử nghiệm và đo delta — đúng tinh thần vòng lặp khép kín của §4.",
+      "tags": [
+        "day18",
+        "comparison"
+      ]
+    },
+    {
+      "id": "D18-100",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nhấn mạnh 'Đừng đổi model, vặn đúng tầng'?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì các model embedding hiện tại đều có chất lượng tương đương nên đổi cũng không cải thiện, kể cả khi threshold đã được nâng lên cao"
+        },
+        {
+          "key": "B",
+          "text": "Vì việc đổi model tốn nhiều thời gian và chi phí hơn so với tinh chỉnh các tham số, mà điểm Faithfulness gần như không đổi"
+        },
+        {
+          "key": "C",
+          "text": "Vì mỗi tầng của pipeline có núm vặn riêng — chẩn đoán bằng RAGAS rồi map ra tầng qua Error Tree mới biết vặn núm nào"
+        },
+        {
+          "key": "D",
+          "text": "Vì đổi model đòi hỏi phải index lại toàn bộ corpus nên gây gián đoạn dịch vụ đang chạy, nên delta so với baseline gần như bằng không"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Quy trình ba bước được nêu: '(1) đo RAGAS biết retrieval hay generation hỏng → (2) Error Tree map vấn đề ra tầng → (3) bản đồ này chọn núm vặn.' Đây cũng là tiêu đề của phần tổng kết: 'Production RAG là kỹ thuật chẩn đoán + sửa đúng tầng, không phải thêm model mạnh hơn.'",
+      "tags": [
+        "day18",
+        "knob-map"
+      ]
+    }
+  ]
+}
