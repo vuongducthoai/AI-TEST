@@ -1,0 +1,3111 @@
+{
+  "id": "exam-106",
+  "title": "AICB Ngày 19 — GraphRAG & Knowledge Graphs",
+  "description": "100 câu trắc nghiệm bám sát bài giảng 'AICB-P2T3 Ngày 19: GraphRAG & Knowledge Graphs' (VinUniversity, 65 slide). Nội dung: khi nào Flat RAG thất bại (multi-hop relational, global thematic, cross-document); nền tảng Knowledge Graph (nodes/edges/triples, directed labeled graph, Property Graph vs RDF, Cypher); Extraction Bottleneck (NER, relation extraction, coreference, disambiguation, deduplication, NetworkX vs Neo4j); pipeline GraphRAG 5 bước (query processing, seed matching, BFS traversal, textualization, generation), traversal depth, hybrid retrieval, temporal KG, failure modes; kiến trúc SOTA (Microsoft GraphRAG với local/global search, LightRAG dual-level retrieval); chiến lược doanh nghiệp & ROI, decision framework, ba use case thực tế và Lab 19. Câu hỏi dạng phân tích tình huống, đáp án phân bố đều và giải thích chi tiết.",
+  "durationMinutes": 90,
+  "totalPoints": 100,
+  "passingScore": 70,
+  "disclaimer": "Đề ôn tập tự soạn bám sát nội dung bài giảng, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "D19-001",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thách thức khi chọn công cụ cho NER và Relation Extraction là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "NER chỉ nhận diện được thực thể có tên riêng, còn khái niệm trừu tượng thì bỏ sót, kể cả khi giới hạn năm mươi cạnh đã được bật, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "B",
+          "text": "Các model NER hiện tại chưa hỗ trợ tiếng Việt nên phải huấn luyện lại từ đầu, trong khi graph database hoạt động ổn định, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "C",
+          "text": "Relation extraction cần dữ liệu gán nhãn thủ công mà việc này rất tốn thời gian, nên benchmark multi-hop không cải thiện gì, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "LLM mạnh nhưng chậm và đắt khi xử lý hàng ngàn trang tài liệu; NLP truyền thống nhanh nhưng kém linh hoạt, trong khi graph database hoạt động ổn định, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        }
+      ],
+      "answer": "D",
+      "explanation": "NER trả lời 'Ai', 'Cái gì', 'Ở đâu' — dùng spaCy hoặc prompting LLM. Relation Extraction tìm ra cách các thực thể tương tác. Đánh đổi tốc độ/chi phí vs linh hoạt là quyết định kiến trúc quan trọng khi scale.",
+      "tags": [
+        "day19",
+        "ner"
+      ]
+    },
+    {
+      "id": "D19-002",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Use case Nhân sự & Lập bản đồ Tổ chức giải quyết câu hỏi nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "‘Nhân viên nào có hiệu suất làm việc cao nhất trong quý vừa qua của công ty?’"
+        },
+        {
+          "key": "B",
+          "text": "‘Tìm cho tôi người biết Python và từng làm một dự án tương tự Dự án X’"
+        },
+        {
+          "key": "C",
+          "text": "‘Có bao nhiêu nhân viên đang làm việc tại phòng ban kỹ thuật của công ty?’"
+        },
+        {
+          "key": "D",
+          "text": "‘Chính sách nghỉ phép hiện hành quy định nhân viên được nghỉ bao nhiêu ngày?’"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Câu hỏi này cần đi qua hai loại quan hệ khác nhau: [CÓ_KỸ_NĂNG] và [THAM_GIA] dự án. Slide gọi đây là việc tạo ra 'bộ não nội bộ' kết nối tri thức phân tán để tìm đúng người, đúng việc.",
+      "tags": [
+        "day19",
+        "usecase"
+      ]
+    },
+    {
+      "id": "D19-003",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Các hệ thống GraphRAG SOTA (2024+) tập trung vào điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giảm độ trễ truy vấn xuống dưới ngưỡng mà người dùng cuối cảm nhận được, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "B",
+          "text": "Hiểu biết phân cấp (hierarchical understanding) và giảm thiểu chi phí tính toán khổng lồ khi xây đồ thị quy mô lớn"
+        },
+        {
+          "key": "C",
+          "text": "Hỗ trợ đa ngôn ngữ để trích xuất được thực thể từ tài liệu ở nhiều ngôn ngữ khác nhau, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "D",
+          "text": "Tích hợp với các nguồn dữ liệu thời gian thực để đồ thị luôn được cập nhật liên tục, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Slide đối chiếu: 'GraphRAG cơ bản dựa trên trích xuất Triple đơn giản' — tức là mọi triple đều nằm ở cùng một mức, không có tổng hợp cấp cao. Hai hướng cải tiến SOTA nhắm đúng hai giới hạn này.",
+      "tags": [
+        "day19",
+        "sota"
+      ]
+    },
+    {
+      "id": "D19-004",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đồ thị 100K nodes đang chạy trên NetworkX và bắt đầu chậm. Nên làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chia đồ thị thành nhiều đồ thị NetworkX nhỏ hơn rồi truy vấn từng cái một"
+        },
+        {
+          "key": "B",
+          "text": "Giảm số lượng triple bằng cách lọc bớt các quan hệ ít quan trọng trong đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Tăng RAM cho máy chủ vì NetworkX lưu toàn bộ đồ thị trong bộ nhớ khi hoạt động"
+        },
+        {
+          "key": "D",
+          "text": "Chuyển sang Neo4j hoặc FalkorDB (Redis-based) — slide khuyến nghị vượt 100K nodes thì đổi"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ngưỡng ~100K nodes là giới hạn thực tế của NetworkX theo bảng so sánh. Ngoài scale, Neo4j còn mang lại ACID và full library thuật toán — những thứ NetworkX không có và cần cho production.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-005",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba loại query mà Flat RAG gặp khó khăn theo bài giảng là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi cần tính toán, câu hỏi cần gọi tool bên ngoài và câu hỏi cần dữ liệu thời gian thực, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "B",
+          "text": "Câu hỏi về số liệu, câu hỏi về thời gian và câu hỏi yêu cầu suy luận nhân quả phức tạp, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Câu hỏi quá dài, câu hỏi nhiều nghĩa và câu hỏi chứa thuật ngữ chuyên ngành hiếm gặp, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Multi-hop relational (‘A liên kết B qua C’), Global thematic (‘tổng quan chủ đề X trong corpus’), Cross-document (‘so sánh Policy A với B’)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Điểm chung của ba loại này: đáp án không nằm gọn trong một đoạn văn. Slide chốt lại nguyên nhân: 'Vector RAG tìm câu giống nhau. Nhưng quan hệ giữa entities nằm ở CẤU TRÚC, không phải ở embedding similarity.'",
+      "tags": [
+        "day19",
+        "flat-rag-fail"
+      ]
+    },
+    {
+      "id": "D19-006",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu chỉ có 3 chunk rời rạc về Google, Transformer và Startup AI, thêm bao nhiêu chunk nữa cũng không giải quyết được vấn đề. Vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì thông tin về mối liên kết giữa các thực thể nằm ở CẤU TRÚC quan hệ, thứ mà biểu diễn phẳng theo chunk vốn không mã hóa"
+        },
+        {
+          "key": "B",
+          "text": "Vì các chunk mới sẽ có similarity thấp hơn nên không lọt vào top-k được lấy về, nên delta so với Flat RAG gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "Vì các chunk trùng lặp thông tin nên việc thêm chunk chỉ làm tăng nhiễu chứ không thêm dữ liệu, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "D",
+          "text": "Vì context window của LLM sẽ bị quá tải khi số lượng chunk vượt quá giới hạn cho phép, dù đồ thị đã được xây từ toàn bộ corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là lập luận cốt lõi mở đầu bài giảng. Nó cũng giải thích vì sao giải pháp là đổi cách BIỂU DIỄN dữ liệu (sang graph) chứ không phải tinh chỉnh tham số retrieval như top-k hay threshold.",
+      "tags": [
+        "day19",
+        "flat-rag-fail"
+      ]
+    },
+    {
+      "id": "D19-007",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cách tiếp cận Hybrid ở cấp độ định tuyến (routing) được mô tả thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Luôn chạy cả hai pipeline song song rồi để LLM chọn câu trả lời tốt hơn, nên câu trả lời cuối vẫn thiếu mối liên kết, nên không truy vết được nguồn của câu trả lời, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "B",
+          "text": "Chạy Flat RAG trước, nếu độ tin cậy thấp thì mới chuyển sang GraphRAG để thử lại, nên không truy vết được nguồn của câu trả lời, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "Detect query type rồi route tương ứng: single-doc factoid → Flat RAG; multi-entity relations → GraphRAG; thematic overview → GraphRAG global, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Chia corpus thành hai phần, phần cấu trúc dùng graph còn phần văn bản thuần dùng vector, dù embedding đã được gắn cho từng node một, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phân biệt với kiến trúc Hybrid ở §3: kiến trúc đó dùng CẢ HAI cho cùng một truy vấn (vector tìm seed node, graph duyệt quan hệ); còn routing ở đây CHỌN một pipeline dựa trên loại câu hỏi để tiết kiệm chi phí.",
+      "tags": [
+        "day19",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "D19-008",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Theo bảng so sánh, chi phí index của ba hệ thống xếp thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả ba đều có chi phí index tương đương, khác biệt chỉ nằm ở chi phí truy vấn, trong khi graph database hoạt động ổn định, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Flat RAG rẻ, LightRAG rất đắt, MS GraphRAG trung bình nhờ tối ưu pre-compute, mà độ chính xác gần như không thay đổi, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "C",
+          "text": "Flat RAG rẻ, MS GraphRAG rất đắt, LightRAG trung bình, và bước textualization giữ nguyên mọi predicate, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Flat RAG trung bình, MS GraphRAG rẻ, LightRAG rất đắt do phải embed cả cạnh, và bước textualization giữ nguyên mọi predicate, trong khi graph database hoạt động ổn định"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Bảng đầy đủ: Flat RAG (index rẻ, global kém, multi-hop kém); MS GraphRAG (index rất đắt, global xuất sắc, multi-hop xuất sắc); LightRAG (index trung bình, global tốt, multi-hop xuất sắc — kèm ghi chú 'triển khai nhanh').",
+      "tags": [
+        "day19",
+        "comparison"
+      ]
+    },
+    {
+      "id": "D19-009",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Takeaway ‘Graph quality beats Graph size’ nghĩa là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1000 high-quality triples tốt hơn 100K noisy ones, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Nên ưu tiên chọn graph database có hiệu năng cao hơn là mở rộng quy mô dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị nhỏ luôn cho kết quả tốt hơn đồ thị lớn nên hãy giới hạn số node từ đầu"
+        },
+        {
+          "key": "D",
+          "text": "Chất lượng embedding của node quan trọng hơn số lượng quan hệ được trích xuất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Takeaway này là hệ quả trực tiếp của nguyên tắc GIGO. Nó cũng lý giải takeaway kế bên: 'Entity extraction quality là bottleneck — invest NER + coreference resolution TRƯỚC khi build graph.'",
+      "tags": [
+        "day19",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D19-010",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Benchmark của Lab 19 so sánh trên bao nhiêu câu hỏi và đo những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "100 câu hỏi lấy từ HotpotQA, đo accuracy so với đáp án chuẩn của bộ dữ liệu, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "10 câu hỏi hỗn hợp, đo accuracy và mức độ hài lòng của người đánh giá, nên câu trả lời cuối vẫn thiếu mối liên kết, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "C",
+          "text": "50 câu hỏi factoid, đo precision, recall và F1 score của kết quả truy xuất, và mọi triple đều đã qua bước chuẩn hóa tên, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "20 multi-hop questions, đo accuracy, latency và cost, nên câu trả lời cuối vẫn thiếu mối liên kết, và mọi triple đều đã qua bước chuẩn hóa tên"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chọn multi-hop questions là có chủ đích: đó là loại câu hỏi mà GraphRAG có lợi thế rõ rệt. Nếu benchmark bằng câu hỏi factoid thì hai pipeline sẽ hòa nhau và không chứng minh được giá trị.",
+      "tags": [
+        "day19",
+        "lab"
+      ]
+    },
+    {
+      "id": "D19-011",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Flat RAG thất bại với câu hỏi Hook dù đã lấy được đủ 3 chunk liên quan?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì các chunk được xếp hạng sai thứ tự nên LLM chỉ đọc được chunk đầu tiên trong danh sách, và tài liệu nguồn đã được làm sạch trước khi nạp, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "B",
+          "text": "Vì nó lấy được chunk Google, chunk Transformer và chunk Startup nhưng thiếu mối LIÊN KẾT giữa chúng, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "Vì ba chunk đó có điểm similarity quá thấp nên bị lọc ra trước khi đưa vào prompt, nên không truy vết được nguồn của câu trả lời, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "D",
+          "text": "Vì context window không đủ chỗ để chứa cả ba chunk cùng lúc trong một lần gọi, nên không truy vết được nguồn của câu trả lời, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sơ đồ trong slide vẽ ba chunk rời rạc với chú thích 'Thiếu link giữa các entities!'. Đây là điểm mấu chốt: vấn đề không phải retrieval kém, mà là thông tin về quan hệ vốn không tồn tại trong biểu diễn phẳng.",
+      "tags": [
+        "day19",
+        "hook"
+      ]
+    },
+    {
+      "id": "D19-012",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Temporal Knowledge Graph giải quyết vấn đề gì và bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sắp xếp các node theo trình tự thời gian để việc duyệt đồ thị đi đúng chiều nhân quả, nên không truy vết được nguồn của câu trả lời, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "Tăng tốc độ truy vấn bằng cách lưu sẵn kết quả của các câu hỏi phổ biến theo thời gian, trong khi vector search vẫn trả kết quả đúng, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "C",
+          "text": "Cho phép quay ngược lại các phiên bản cũ của đồ thị bằng cách lưu lịch sử thay đổi, trong khi coreference đã chạy đầy đủ một lượt, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Đồ thị thông thường là tĩnh nhưng thế giới thay đổi — gắn validity dates vào thuộc tính của các CẠNH (edges), trong khi vector search vẫn trả kết quả đúng, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ minh họa: <code>Sam Altman —[CEO_OF {start: 2019, end: present}]→ OpenAI</code>. Câu hỏi 'Ai là CEO của OpenAI?' có đáp án năm 2018 khác 2024 — không có mốc thời gian trên cạnh thì đồ thị trả về cả hai mà không phân biệt được.",
+      "tags": [
+        "day19",
+        "temporal"
+      ]
+    },
+    {
+      "id": "D19-013",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong pipeline, khi nào embedding của node được sử dụng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ở bước Seed Node Matching, để tìm node có ngữ nghĩa tương đồng khi không khớp tên chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Ở bước Graph Traversal, để quyết định nên đi theo cạnh nào trước khi mở rộng tiếp"
+        },
+        {
+          "key": "C",
+          "text": "Ở bước Textualization, để sắp xếp thứ tự các triple theo mức độ liên quan tới câu hỏi"
+        },
+        {
+          "key": "D",
+          "text": "Ở bước Generation, để LLM đối chiếu lại xem câu trả lời có bám sát đồ thị hay không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là lý do mẹo 'thêm embeddings cho mỗi node' ở slide NetworkX vs Neo4j được ghi kèm chú thích 'enable hybrid search'. Semantic search tìm seed node, rồi graph traversal mới tìm quan hệ.",
+      "tags": [
+        "day19",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "D19-014",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao GraphRAG được mô tả là ‘truy vấn khá rẻ’ dù phải duyệt đồ thị?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì subgraph thu được luôn nhỏ hơn nhiều so với số chunk mà Flat RAG phải lấy về, trong khi graph database hoạt động ổn định, dù embedding đã được gắn cho từng node một, nên delta so với Flat RAG gần như bằng không"
+        },
+        {
+          "key": "B",
+          "text": "Vì việc duyệt đồ thị là thao tác trên cấu trúc dữ liệu đã dựng sẵn, không cần gọi LLM — phần đắt (LLM trích xuất triples) đã trả trước lúc index, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Vì đa số truy vấn chỉ cần duyệt một hop nên chi phí tính toán không đáng kể, nên không truy vết được nguồn của câu trả lời, trong khi graph database hoạt động ổn định, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "D",
+          "text": "Vì graph database có bộ nhớ đệm nên các truy vấn lặp lại gần như không tốn chi phí, dù embedding đã được gắn cho từng node một, trong khi graph database hoạt động ổn định, nên không truy vết được nguồn của câu trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là điểm phân biệt then chốt trong cấu trúc chi phí: LLM chỉ được gọi hai lần lúc truy vấn (trích xuất thực thể từ câu hỏi và sinh câu trả lời cuối), còn phần nặng nhất đã xong từ lúc index.",
+      "tags": [
+        "day19",
+        "cost"
+      ]
+    },
+    {
+      "id": "D19-015",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Use case Chuỗi cung ứng khai thác điểm mạnh nào của graph traversal?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dự báo nhu cầu linh kiện dựa trên dữ liệu lịch sử đặt hàng của các nhà cung cấp"
+        },
+        {
+          "key": "B",
+          "text": "Tối ưu chi phí vận chuyển bằng cách tìm đường đi ngắn nhất giữa các kho hàng"
+        },
+        {
+          "key": "C",
+          "text": "Xếp hạng nhà cung cấp theo mức độ quan trọng dựa trên số lượng linh kiện cung cấp"
+        },
+        {
+          "key": "D",
+          "text": "Xác định ngay lập tức các điểm nghẽn và tác động dây chuyền khi một mắt xích gặp sự cố"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide gọi đây là 'ánh xạ thế giới vật lý'. Câu hỏi mẫu: 'Nếu Nhà cung cấp A ngưng hoạt động, sản phẩm nào bị trễ?' — cần đi Nhà cung cấp A →[CUNG_CẤP]→ Linh kiện B → Sản phẩm, tức tối thiểu 2 hop.",
+      "tags": [
+        "day19",
+        "usecase"
+      ]
+    },
+    {
+      "id": "D19-016",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sản phẩm nộp của Lab 19 gồm những gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GitHub repo + Neo4j/NetworkX visualization + benchmark report gồm bảng accuracy và phân tích failure modes"
+        },
+        {
+          "key": "B",
+          "text": "Mã nguồn được đóng gói thành thư viện có thể tái sử dụng cho các dự án khác, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "C",
+          "text": "Một video demo và một bản trình bày tóm tắt kết quả trước lớp học, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Một bài viết kỹ thuật mô tả kiến trúc và các quyết định thiết kế đã đưa ra, kể cả khi context window còn dư rất nhiều chỗ"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Phần 'phân tích failure modes' nối trực tiếp với §3 — học viên cần nhận diện được super-nodes, đồ thị rời rạc, hay ngữ cảnh nghèo nàn trong chính đồ thị mình xây, chứ không chỉ báo cáo con số.",
+      "tags": [
+        "day19",
+        "lab"
+      ]
+    },
+    {
+      "id": "D19-017",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nội dung Day 20 và bài đọc chuẩn bị là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Agent Memory Systems với short-term và long-term memory, đọc paper về MemGPT, trong khi coreference đã chạy đầy đủ một lượt, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "B",
+          "text": "Production deployment cho hệ thống agent, đọc tài liệu về observability và tracing, mà độ chính xác gần như không thay đổi, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Advanced RAG với các kỹ thuật rerank nâng cao, đọc paper về ColBERT và SPLADE, trong khi độ sâu duyệt vẫn giữ ở mức hai hop, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "D",
+          "text": "Multi-Agent Systems — ‘Single agent mạnh, tiếp theo scale lên Multi-Agent: supervisor, debate, parallel’; đọc Anthropic ‘Building Effective Agents’ (2024)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Mạch chương trình: Day 18 làm RAG đủ tốt, Day 19 thêm khả năng suy luận quan hệ, Day 20 chuyển từ một agent sang nhiều agent phối hợp. Bài tập kèm theo là hoàn thành Lab 19 với benchmark report.",
+      "tags": [
+        "day19",
+        "next-day"
+      ]
+    },
+    {
+      "id": "D19-018",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Failure mode ‘ngữ cảnh nghèo nàn’ xảy ra ở bước nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ở bước trích xuất, khi NER bỏ sót các thực thể quan trọng trong văn bản gốc"
+        },
+        {
+          "key": "B",
+          "text": "Ở bước duyệt đồ thị, khi độ sâu đặt quá thấp nên không lấy đủ các quan hệ liên quan"
+        },
+        {
+          "key": "C",
+          "text": "Ở bước textualization, khi bước này lược bỏ quá nhiều thông tin trước khi đưa vào LLM"
+        },
+        {
+          "key": "D",
+          "text": "Ở bước seed matching, khi hệ thống chọn nhầm node gốc không liên quan tới câu hỏi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là failure mode dễ bị bỏ sót nhất vì đồ thị hoàn toàn khỏe mạnh — quan hệ đã được trích xuất đúng và duyệt đúng, nhưng thông tin bị mất ngay ở bước cuối khi chuyển sang văn bản cho LLM đọc.",
+      "tags": [
+        "day19",
+        "failure"
+      ]
+    },
+    {
+      "id": "D19-019",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao ‘Garbage In = Garbage Out’ đặc biệt nghiêm trọng với GraphRAG hơn Flat RAG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì graph database không có cơ chế rollback nên dữ liệu sai không thể xóa bỏ được, và bước textualization giữ nguyên mọi predicate, và pipeline vẫn chạy từ đầu tới cuối không lỗi, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "B",
+          "text": "Vì chi phí index của GraphRAG cao hơn nên việc xây lại đồ thị tốn kém hơn nhiều, và pipeline vẫn chạy từ đầu tới cuối không lỗi, và mọi triple đều đã qua bước chuẩn hóa tên, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "C",
+          "text": "Vì lỗi trích xuất triple lan truyền qua các bước duyệt multi-hop — một quan hệ sai làm hỏng mọi đường đi qua nó, trong khi Flat RAG chỉ mất một chunk, và bước textualization giữ nguyên mọi predicate"
+        },
+        {
+          "key": "D",
+          "text": "Vì LLM tin tưởng dữ liệu từ graph nhiều hơn dữ liệu từ chunk văn bản thông thường, và mọi triple đều đã qua bước chuẩn hóa tên, trong khi vector search vẫn trả kết quả đúng, kể cả khi context window còn dư rất nhiều chỗ"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phương án B đúng về mặt sự kiện nhưng không phải nguyên nhân khiến GIGO nghiêm trọng hơn — đó là chi phí sửa, không phải mức độ lan truyền lỗi. Điều này lý giải takeaway: 'Graph quality beats Graph size'.",
+      "tags": [
+        "day19",
+        "gigo"
+      ]
+    },
+    {
+      "id": "D19-020",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn key takeaway của Day 19 gồm những ý nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "BFS depth 2, giới hạn 50 cạnh, con trỏ về chunk gốc, và tinh chỉnh prompt NER liên tục, kể cả khi context window còn dư rất nhiều chỗ, nên không truy vết được nguồn của câu trả lời, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "B",
+          "text": "KG enable multi-hop reasoning mà flat RAG không làm được; entity extraction quality là bottleneck; ‘Graph quality beats Graph size’; GraphRAG pipeline là production-ready starting point cần customize entity extraction cho domain"
+        },
+        {
+          "key": "C",
+          "text": "Graph luôn tốt hơn vector, chi phí index không đáng kể, Neo4j là bắt buộc, và nên dùng depth 3, và mọi triple đều đã qua bước chuẩn hóa tên, mà độ chính xác gần như không thay đổi, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "D",
+          "text": "Sensemaking, hierarchical summarization, dual-level retrieval và temporal knowledge graph, mà độ chính xác gần như không thay đổi, kể cả khi context window còn dư rất nhiều chỗ, nên không truy vết được nguồn của câu trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Điểm chung của bốn takeaway: ba trong bốn ý xoay quanh CHẤT LƯỢNG TRÍCH XUẤT chứ không phải kỹ thuật truy vấn — đúng với thông điệp 'The Extraction Bottleneck' là phần khó nhất và tốn kém nhất của GraphRAG.",
+      "tags": [
+        "day19",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "D19-021",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước Query Processing làm gì với câu hỏi ‘Ai đồng sáng lập Microsoft?’",
+      "options": [
+        {
+          "key": "A",
+          "text": "Embed toàn bộ câu hỏi thành một vector rồi so khớp với embedding của tất cả các node, nên benchmark multi-hop không cải thiện gì, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "B",
+          "text": "LLM trích xuất các thực thể quan trọng — ở đây là [Microsoft], dù embedding đã được gắn cho từng node một, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "C",
+          "text": "Chuyển câu hỏi thành một truy vấn Cypher hoàn chỉnh để chạy trực tiếp trên graph DB, dù embedding đã được gắn cho từng node một, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "D",
+          "text": "Phân loại câu hỏi thuộc dạng multi-hop hay factoid để quyết định route sang pipeline nào, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là lý do bước này còn được gọi là 'trích xuất thực thể từ câu hỏi'. Kết quả không phải câu truy vấn hoàn chỉnh, mà là danh sách entity dùng làm điểm neo cho bước tìm seed node kế tiếp.",
+      "tags": [
+        "day19",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "D19-022",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đồ thị có 50.000 node nhưng nhiều node bị cô lập, không có cạnh nào. Nên rà lại bước nào trước?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bước seed node matching, vì các node cô lập không bao giờ được chọn làm điểm xuất phát, dù embedding đã được gắn cho từng node một, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Bước Relation Extraction và Coreference Resolution — node được tạo ra nhưng quan hệ nối chúng không được trích xuất, dẫn tới đồ thị rời rạc, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Bước graph traversal, vì có thể độ sâu duyệt chưa đủ để chạm tới các node đó, nên benchmark multi-hop không cải thiện gì, mà độ chính xác gần như không thay đổi, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "D",
+          "text": "Bước bulk insert, vì có thể một số triple đã bị mất khi ghi theo batch vào database, mà độ chính xác gần như không thay đổi, nên benchmark multi-hop không cải thiện gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Có node mà không có cạnh nghĩa là NER hoạt động nhưng RE thất bại. Coreference cũng đáng nghi vì bỏ qua nó làm mất 30–40% quan hệ. Bước traversal không phải nguyên nhân — nó chỉ là nơi triệu chứng lộ ra.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-023",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Super-node là failure mode thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một node bị trích xuất sai nên không kết nối được với bất kỳ node nào khác trong đồ thị"
+        },
+        {
+          "key": "B",
+          "text": "Một node như ‘USA’ có thể có 100.000 kết nối — duyệt nó sẽ làm sập context window"
+        },
+        {
+          "key": "C",
+          "text": "Một node có quá ít kết nối khiến các truy vấn liên quan tới nó luôn trả về kết quả rỗng"
+        },
+        {
+          "key": "D",
+          "text": "Một node bị nhân bản thành nhiều node do bước deduplication hoạt động không chính xác"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là lý do best practice khuyên đặt giới hạn cứng: 'duyệt 2 hop, nhưng tối đa 50 cạnh'. Giới hạn số cạnh quan trọng không kém giới hạn độ sâu, vì một super-node ở hop đầu tiên đã đủ làm nổ context.",
+      "tags": [
+        "day19",
+        "failure"
+      ]
+    },
+    {
+      "id": "D19-024",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cải tiến cốt lõi của LightRAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nén đồ thị bằng cách loại bỏ các node có ít hơn ba kết nối trước khi lưu trữ, kể cả khi context window còn dư rất nhiều chỗ, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Dùng model ngôn ngữ nhỏ hơn để trích xuất triple nên giảm được chi phí index, mà chi phí index không hề tăng thêm chút nào, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "C",
+          "text": "Truy xuất hai cấp độ (dual-level retrieval) — trích xuất cả thực thể chi tiết lẫn khái niệm trừu tượng mà KHÔNG cần tạo trước các báo cáo cộng đồng đắt đỏ"
+        },
+        {
+          "key": "D",
+          "text": "Chạy song song nhiều tiến trình trích xuất để rút ngắn thời gian xây dựng đồ thị, và mọi triple đều đã qua bước chuẩn hóa tên, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "C",
+      "explanation": "LightRAG được slide gọi là 'Kẻ thách thức tối ưu' vì nó giữ được khả năng trả lời câu hỏi trừu tượng (điểm mạnh của MS GraphRAG) nhưng bỏ được bước pre-compute tốn kém nhất.",
+      "tags": [
+        "day19",
+        "lightrag"
+      ]
+    },
+    {
+      "id": "D19-025",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Microsoft GraphRAG được thiết kế cho mục đích gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trích xuất triple với chi phí thấp nhất có thể trên các kho tài liệu rất lớn, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "B",
+          "text": "Duy trì đồ thị luôn đồng bộ với dữ liệu nguồn thay đổi theo thời gian thực, và bước textualization giữ nguyên mọi predicate"
+        },
+        {
+          "key": "C",
+          "text": "Truy vấn factoid tốc độ cao trên các corpus tài liệu doanh nghiệp quy mô vừa, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Sensemaking — tạo dựng ý nghĩa trên toàn bộ tập dữ liệu, để hỏi ‘Tập dữ liệu này nói về bức tranh tổng thể gì?’"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Triết lý cốt lõi được nêu rõ: 'Không chỉ để trả lời câu hỏi cụ thể, mà để hỏi hệ thống bức tranh tổng thể.' Đây là điểm phân biệt Microsoft GraphRAG với GraphRAG cơ bản chỉ trả lời câu hỏi về quan hệ cụ thể. Phát hành giữa năm 2024.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-026",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Mục tiêu và deliverable của Lab 19 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xây dựng đồ thị từ 100 bài Wikipedia và trực quan hóa bằng Neo4j Browser trong 3 giờ, nên câu trả lời cuối vẫn thiếu mối liên kết, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "B",
+          "text": "Build Knowledge Graph + GraphRAG agent với multi-hop accuracy vượt flat RAG +20%; deliverable là KG visualization + benchmark report (accuracy, latency, cost) trong 2 giờ"
+        },
+        {
+          "key": "C",
+          "text": "So sánh MS GraphRAG và LightRAG trên cùng một corpus rồi báo cáo chi phí index, dù đồ thị đã được xây từ toàn bộ corpus, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Triển khai pipeline GraphRAG lên môi trường production với đầy đủ giám sát và cảnh báo, kể cả khi seed node được chọn hoàn toàn chính xác, trong khi graph database hoạt động ổn định"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Lưu ý ba chỉ số trong benchmark report: accuracy, latency VÀ cost. Đo cả ba mới phản ánh đúng đánh đổi của GraphRAG — chỉ đo accuracy sẽ che mất chi phí index vốn là điểm yếu lớn nhất.",
+      "tags": [
+        "day19",
+        "lab"
+      ]
+    },
+    {
+      "id": "D19-027",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong câu Cypher mẫu, ký hiệu (p:Person) và [:CO_FOUNDED] biểu thị gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "p là biến, Person là nhãn của node; CO_FOUNDED là nhãn (loại) của cạnh cần khớp"
+        },
+        {
+          "key": "B",
+          "text": "p là tên biến, Person là giá trị thuộc tính name; CO_FOUNDED là tên của node đích"
+        },
+        {
+          "key": "C",
+          "text": "p là kiểu dữ liệu, Person là bí danh; CO_FOUNDED là điều kiện lọc trên cạnh đó"
+        },
+        {
+          "key": "D",
+          "text": "p là chỉ số node trong database, Person là namespace; CO_FOUNDED là hướng của cạnh"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cú pháp Cypher dùng dấu ngoặc tròn cho node, ngoặc vuông cho cạnh, và mũi tên <code>-></code> để chỉ hướng. Hiểu cú pháp này giúp đọc được truy vấn duyệt nhiều hop trong Lab 19.",
+      "tags": [
+        "day19",
+        "cypher"
+      ]
+    },
+    {
+      "id": "D19-028",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Một triple bị trích xuất sai: (Bill Gates, CO_FOUNDED, Apple). Hậu quả nghiêm trọng thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không nghiêm trọng vì các triple đúng khác sẽ lấn át triple sai khi LLM tổng hợp, kể cả khi seed node được chọn hoàn toàn chính xác, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Hệ thống sẽ tự phát hiện mâu thuẫn khi so sánh với các triple khác về cùng thực thể, mà độ chính xác gần như không thay đổi, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "Chỉ ảnh hưởng tới các truy vấn trực tiếp hỏi về Bill Gates hoặc về Apple mà thôi, nên không truy vết được nguồn của câu trả lời, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Tạo ra đường đi giả trong đồ thị — mọi truy vấn multi-hop đi qua cạnh này đều cho kết quả sai, và LLM sẽ trình bày nó rất tự tin vì được yêu cầu bám sát ngữ cảnh quan hệ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là mặt trái của việc ràng buộc LLM 'chỉ dùng ngữ cảnh được cung cấp': nó chống được ảo giác do thiếu liên kết, nhưng đồng thời khiến LLM tin tuyệt đối vào triple sai. GIGO ở dạng nguy hiểm nhất.",
+      "tags": [
+        "day19",
+        "gigo"
+      ]
+    },
+    {
+      "id": "D19-029",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt Global Search của MS GraphRAG và Graph Traversal thông thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Global Search duyệt toàn bộ đồ thị còn traversal thông thường chỉ duyệt trong phạm vi 2 hop, trong khi độ sâu duyệt vẫn giữ ở mức hai hop, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "B",
+          "text": "Global Search KHÔNG duyệt node thô — nó đọc các Báo cáo Cộng đồng đã pre-compute lúc index; traversal thông thường đi từ seed node ra các node lân cận theo thời gian thực"
+        },
+        {
+          "key": "C",
+          "text": "Global Search dùng vector embedding còn traversal thông thường dùng thuật toán BFS, dù đồ thị đã được xây từ toàn bộ corpus, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "D",
+          "text": "Global Search chạy trên nhiều máy song song còn traversal thông thường chạy tuần tự, và mọi triple đều đã qua bước chuẩn hóa tên, nên benchmark multi-hop không cải thiện gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là lý do Global Search trả lời được câu hỏi 'bức tranh tổng thể' — loại câu hỏi mà không có node nào cụ thể để làm seed. Cái giá phải trả là chi phí pre-compute lúc index.",
+      "tags": [
+        "day19",
+        "distinction"
+      ]
+    },
+    {
+      "id": "D19-030",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tiêu chí đánh giá GraphRAG được nêu trong bài là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tính toàn diện, Tính đa dạng, Tính chính xác, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "Độ chính xác, Độ phủ, và Độ trễ khi thực hiện truy vấn trên đồ thị quy mô lớn"
+        },
+        {
+          "key": "C",
+          "text": "Faithfulness, Answer Relevancy và Context Precision như trong bộ metric RAGAS"
+        },
+        {
+          "key": "D",
+          "text": "Tính nhất quán, Tính đầy đủ và Tính khả diễn giải của đường đi trong đồ thị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba tiêu chí này khác với bộ metric RAGAS của Day 18 vì chúng nhắm vào câu hỏi tổng hợp: một câu trả lời 'đúng' nhưng chỉ nêu một khía cạnh thì vẫn kém về tính toàn diện và tính đa dạng.",
+      "tags": [
+        "day19",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "D19-031",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi Hỏi & Đáp đặt ra ở cuối buổi là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "‘Nên chọn Neo4j hay NetworkX cho dự án đầu tiên về GraphRAG của một đội nhỏ?’"
+        },
+        {
+          "key": "B",
+          "text": "‘Chi phí thực tế để xây một đồ thị cho corpus doanh nghiệp là bao nhiêu?’"
+        },
+        {
+          "key": "C",
+          "text": "‘Làm sao đo được chất lượng của một Knowledge Graph trước khi đưa vào sử dụng?’"
+        },
+        {
+          "key": "D",
+          "text": "‘Khi nào nên dùng GraphRAG thay Flat RAG? Hybrid approach có đáng đầu tư không?’"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Câu hỏi này tổng kết đúng hai quyết định thực tế mà bài giảng chuẩn bị cho học viên: khi nào nâng cấp (Decision Framework ở §5) và có nên kết hợp cả hai (kiến trúc Hybrid ở §3).",
+      "tags": [
+        "day19",
+        "closing"
+      ]
+    },
+    {
+      "id": "D19-032",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi ‘Ai là CEO của OpenAI năm 2018?’ trả về Sam Altman (sai). Vấn đề ở đâu?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM ở bước generation đã dùng kiến thức nội tại thay vì bám vào ngữ cảnh được cung cấp, dù đồ thị đã được xây từ toàn bộ corpus, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "B",
+          "text": "Bước trích xuất thực thể từ câu hỏi đã bỏ sót mốc thời gian 2018 nên seeding sai node, kể cả khi context window còn dư rất nhiều chỗ, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị bị trùng lặp node OpenAI nên duyệt vào nhánh chứa dữ liệu mới nhất, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Đồ thị chưa phải Temporal KG — cạnh CEO_OF thiếu validity dates nên không phân biệt được đáp án theo giai đoạn, kể cả khi context window còn dư rất nhiều chỗ, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide nêu đúng ví dụ này: 'Ai là CEO của OpenAI? (Đáp án năm 2018 khác 2024).' Giải pháp là gắn validity dates vào thuộc tính của cạnh: <code>CEO_OF {start: 2019, end: present}</code>.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-033",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao BORN_IN phải là cạnh có hướng còn KNOWS có thể vô hướng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì BORN_IN được trích xuất tự động còn KNOWS phải do con người xác nhận thủ công, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "B",
+          "text": "Vì với BORN_IN chiều ngược lại không đúng (một thành phố không ‘sinh ra tại’ một người), còn KNOWS là quan hệ hai chiều"
+        },
+        {
+          "key": "C",
+          "text": "Vì BORN_IN nối hai loại thực thể khác nhau còn KNOWS nối hai thực thể cùng loại, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Vì BORN_IN có gắn thuộc tính thời gian còn KNOWS thì không cần thuộc tính nào, nên benchmark multi-hop không cải thiện gì"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án A mô tả đúng hiện tượng nhưng không phải nguyên nhân — có nhiều quan hệ nối hai loại thực thể khác nhau mà vẫn đối xứng. Tiêu chí quyết định là ngữ nghĩa của quan hệ có đối xứng hay không.",
+      "tags": [
+        "day19",
+        "directed"
+      ]
+    },
+    {
+      "id": "D19-034",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi dẫn dắt (The Hook) của bài giảng đòi hỏi liên kết mấy luồng thông tin?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai luồng: danh sách startup AI và danh sách cựu nhân viên của Google, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "B",
+          "text": "Một luồng duy nhất nhưng cần đọc toàn bộ corpus mới tổng hợp đủ thông tin, dù embedding đã được gắn cho từng node một, nên không truy vết được nguồn của câu trả lời, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "C",
+          "text": "Bốn luồng: startup, nhân sự, dự án nghiên cứu và các mốc thời gian thành lập, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "D",
+          "text": "Ba luồng: (1) Startup AI & nhà sáng lập, (2) Lịch sử làm việc tại Google, (3) Lịch sử dự án Transformer — trải dài qua hàng chục tài liệu, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Câu hỏi gốc: 'Những startup AI nào được đồng sáng lập bởi các cựu nhân viên Google, những người từng nghiên cứu về kiến trúc Transformer?'. Kết quả với Flat RAG: sinh ra ảo giác, hoặc trả lời 'Tôi không có đủ thông tin'.",
+      "tags": [
+        "day19",
+        "hook"
+      ]
+    },
+    {
+      "id": "D19-035",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao MS GraphRAG ‘không phù hợp cho dữ liệu thay đổi liên tục’?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì graph database không hỗ trợ cập nhật node sau khi đã được ghi vào hệ thống, và bước textualization giữ nguyên mọi predicate, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Vì thuật toán phát hiện cộng đồng chỉ chạy được một lần duy nhất trên mỗi đồ thị, và pipeline vẫn chạy từ đầu tới cuối không lỗi, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "Vì các báo cáo cộng đồng được pre-compute lúc index sẽ lỗi thời ngay khi đồ thị đổi, mà việc tạo lại chúng tốn $10–$50+ cho mỗi triệu token, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Vì việc thêm node mới làm thay đổi toàn bộ cấu trúc embedding đã tính trước đó, mà độ chính xác gần như không thay đổi, và bước textualization giữ nguyên mọi predicate"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là mối liên hệ nhân quả giữa hai điểm yếu được nêu trong slide. Với dữ liệu động, LightRAG là lựa chọn hợp lý hơn vì nó không phụ thuộc vào bước pre-compute đắt đỏ này.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-036",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao đánh giá GraphRAG khó hơn đánh giá RAG truyền thống?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì kết quả của GraphRAG thay đổi theo mỗi lần chạy do quá trình duyệt đồ thị ngẫu nhiên, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "Vì chưa có bộ dữ liệu benchmark nào được thiết kế riêng cho hệ thống dựa trên đồ thị, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "C",
+          "text": "Vì phải chạy đồng thời cả hai pipeline để so sánh nên chi phí đánh giá tăng gấp đôi, kể cả khi context window còn dư rất nhiều chỗ, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Vì không chỉ đánh giá khả năng trích xuất văn bản mà còn phải đánh giá khả năng suy luận trên CẤU TRÚC đồ thị, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba tiêu chí đánh giá được nêu: Tính toàn diện (câu trả lời có giải quyết trọn vẹn và đầy đủ câu hỏi không?), Tính đa dạng (thông tin cung cấp có phong phú và đa chiều không?), Tính chính xác (mức độ tin cậy của các sự kiện được nêu ra).",
+      "tags": [
+        "day19",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "D19-037",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba best practice được nêu ở cuối phần pipeline là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gắn embedding cho mọi node, gắn validity dates cho mọi cạnh, và bật hybrid search, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "B",
+          "text": "Dùng Neo4j thay NetworkX, bật ACID, và chạy deduplication định kỳ trên toàn đồ thị, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "C",
+          "text": "Duy trì con trỏ từ Graph Node ngược về Document Chunk gốc; đặt giới hạn duyệt (2 hop, tối đa 50 cạnh); liên tục tinh chỉnh prompt NER"
+        },
+        {
+          "key": "D",
+          "text": "Tăng độ sâu duyệt khi cần, cache kết quả truy vấn, và nén subgraph trước khi textualize, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ba mục này nhắm đúng ba khâu dễ hỏng: truy vết nguồn (chống ngữ cảnh nghèo nàn và không kiểm chứng được), giới hạn duyệt (chống super-node), và chất lượng NER (chống đồ thị rời rạc — gốc rễ của GIGO).",
+      "tags": [
+        "day19",
+        "best-practice"
+      ]
+    },
+    {
+      "id": "D19-038",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Với câu hỏi ‘Nếu Nhà cung cấp A ngưng hoạt động, sản phẩm nào bị trễ?’, độ sâu duyệt 1 có đủ không?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đủ, vì chỉ cần biết nhà cung cấp A cung cấp linh kiện gì là suy ra được ngay, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "B",
+          "text": "Đủ nếu đồ thị đã được gắn sẵn quan hệ trực tiếp giữa nhà cung cấp và sản phẩm, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "Không đủ — cần ít nhất 2 hop: A →[CUNG_CẤP]→ Linh kiện B →[thuộc về]→ Sản phẩm; depth 1 chỉ dừng ở linh kiện"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định được nếu chưa biết số lượng nhà cung cấp có trong đồ thị, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây chính là ý nghĩa của lời cảnh báo 'Depth = 1: Quá nông — chỉ lấy hàng xóm trực tiếp, dễ trượt mất ngữ cảnh multi-hop'. Use case chuỗi cung ứng trong bài minh họa đúng dạng câu hỏi 2 hop này.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-039",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói GraphRAG cho câu trả lời ‘miễn nhiễm với ảo giác RAG thông thường’?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì mỗi triple đều được nhiều tài liệu xác nhận chéo trước khi được lưu vào đồ thị, kể cả khi seed node được chọn hoàn toàn chính xác, và bước textualization giữ nguyên mọi predicate, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "B",
+          "text": "Vì LLM được huấn luyện lại trên chính dữ liệu đồ thị nên không thể bịa ra quan hệ mới, và bước textualization giữ nguyên mọi predicate, trong khi coreference đã chạy đầy đủ một lượt, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Vì LLM được yêu cầu chỉ dùng ngữ cảnh quan hệ được cung cấp, và các quan hệ này là dữ kiện đã được trích xuất tường minh chứ không phải suy diễn từ độ tương đồng, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Vì graph database có cơ chế kiểm tra tính nhất quán tự động trước khi trả về kết quả, trong khi graph database hoạt động ổn định, kể cả khi seed node được chọn hoàn toàn chính xác, và bước textualization giữ nguyên mọi predicate"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Cần hiểu đúng mức độ: 'miễn nhiễm' ở đây là so với ảo giác do THIẾU LIÊN KẾT — vấn đề đã nêu ở §1. Nếu bản thân triple bị trích xuất sai (GIGO), GraphRAG vẫn trả lời sai một cách rất tự tin.",
+      "tags": [
+        "day19",
+        "generation"
+      ]
+    },
+    {
+      "id": "D19-040",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong demo Tech Company Corpus, hai truy vấn cho kết quả thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query 1 Flat RAG đúng còn GraphRAG sai do duyệt sang vùng không liên quan, trong khi vector search vẫn trả kết quả đúng, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "B",
+          "text": "Cả hai truy vấn đều cho thấy GraphRAG vượt trội rõ rệt so với Flat RAG, trong khi coreference đã chạy đầy đủ một lượt, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "C",
+          "text": "Cả hai truy vấn Flat RAG đều sai vì corpus quá lớn với 100 bài Wikipedia, nên benchmark multi-hop không cải thiện gì, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "D",
+          "text": "Query 1 (‘What is OpenAI?’) cả hai pipeline đều đúng; Query 2 multi-hop (‘AI companies co-founded by former Google employees’) thì flat RAG hallucinate còn GraphRAG đúng"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Thiết kế demo này rất có chủ đích: Query 1 chứng minh GraphRAG KHÔNG phải luôn tốt hơn (factoid thì hòa, mà Flat RAG lại rẻ hơn), Query 2 mới cho thấy giá trị thật. Visualization bằng Neo4j Browser highlight các answer nodes.",
+      "tags": [
+        "day19",
+        "demo"
+      ]
+    },
+    {
+      "id": "D19-041",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba ca sử dụng thuộc nhóm ‘Flat RAG Optimization’ là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Điều tra báo chí, đánh giá tài liệu y khoa và thẩm định pháp lý phức tạp, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "B",
+          "text": "Tra cứu tài liệu IT Support (factoid lookup), chatbot chăm sóc khách hàng cơ bản, tra cứu quy định nhân sự đơn lẻ"
+        },
+        {
+          "key": "C",
+          "text": "Lập bản đồ tổ chức, phân tích chuỗi cung ứng và ánh xạ phụ thuộc hợp đồng, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Tóm tắt toàn cục corpus, so sánh chính sách và trả lời câu hỏi đa bước, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nguyên tắc chốt lại: 'Nếu đáp án nằm rõ ràng trong 1 đoạn văn, hãy dùng Flat RAG.' Ba ca này đều có chung đặc điểm là câu trả lời tự chứa trong một đoạn tài liệu duy nhất.",
+      "tags": [
+        "day19",
+        "decision"
+      ]
+    },
+    {
+      "id": "D19-042",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Với câu hỏi ‘Tra cứu quy định nghỉ phép của nhân viên’, chọn Flat RAG hay GraphRAG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "GraphRAG, vì quy định nhân sự luôn tham chiếu chéo tới nhiều văn bản khác nhau, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "B",
+          "text": "GraphRAG, vì độ chính xác cao hơn luôn đáng để đánh đổi chi phí index tăng thêm, dù embedding đã được gắn cho từng node một, mà thời gian truy vấn không tăng đáng kể"
+        },
+        {
+          "key": "C",
+          "text": "Bắt buộc dùng hybrid vì không thể biết trước câu hỏi có cần suy luận quan hệ hay không, dù embedding đã được gắn cho từng node một, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "Flat RAG — đây là factoid lookup, đáp án nằm rõ ràng trong một đoạn văn nên Flat RAG nhanh hơn và rẻ hơn, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide liệt kê đúng ca này trong nhóm Flat RAG Optimization, cùng với IT support lookup và chatbot CSKH cơ bản. Nguyên tắc: 'Nếu đáp án nằm rõ ràng trong 1 đoạn văn, hãy dùng Flat RAG.'",
+      "tags": [
+        "day19",
+        "decision"
+      ]
+    },
+    {
+      "id": "D19-043",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cấu trúc chi phí của Flat RAG và GraphRAG khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Flat RAG đắt khi xây và rẻ khi truy vấn; GraphRAG thì ngược lại hoàn toàn, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "GraphRAG rẻ hơn về tổng chi phí nếu tính trên số lượng câu hỏi đủ lớn theo thời gian, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "C",
+          "text": "Flat RAG rẻ cả khi xây lẫn khi truy vấn; GraphRAG rất đắt khi xây (do LLM trích xuất triples) nhưng truy vấn khá rẻ và cực kỳ chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Cả hai đều rẻ khi xây, khác biệt chỉ nằm ở chi phí truy vấn theo từng câu hỏi, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hệ quả chiến lược được slide nêu rõ: 'Đừng dùng GraphRAG cho các tài liệu dùng một lần. Hãy dùng nó cho TRI THỨC CỐT LÕI của doanh nghiệp' — nơi chi phí index một lần được khấu hao qua vô số truy vấn.",
+      "tags": [
+        "day19",
+        "cost"
+      ]
+    },
+    {
+      "id": "D19-044",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Con số benchmark mà slide đưa ra cho GraphRAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "+60% comprehensiveness và 4–5 lần multi-hop accuracy so với Flat RAG, mà thời gian truy vấn không tăng đáng kể"
+        },
+        {
+          "key": "B",
+          "text": "+40% comprehensiveness so với Flat RAG, 2–3 lần multi-hop accuracy gain — nhưng Flat RAG vẫn tốt cho factoid"
+        },
+        {
+          "key": "C",
+          "text": "+40% multi-hop accuracy nhưng comprehensiveness giữ nguyên không thay đổi đáng kể, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "D",
+          "text": "+25% comprehensiveness và 1.5–2 lần multi-hop accuracy so với Flat RAG, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Vế cuối rất quan trọng và hay bị bỏ qua: 'Nhưng single-doc factoid, Flat RAG nhanh hơn và rẻ hơn. Không phải lúc nào cũng cần graph.' Benchmark +40% được đo trên community questions.",
+      "tags": [
+        "day19",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "D19-045",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Corpus là các bài báo tin tức được cập nhật hàng giờ. Cách tiếp cận nào hợp lý nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MS GraphRAG với việc rebuild toàn bộ đồ thị sau mỗi lần dữ liệu được cập nhật, mà số lượng node trong đồ thị vẫn giữ nguyên, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "B",
+          "text": "Xây đồ thị một lần rồi chấp nhận rằng dữ liệu mới sẽ không được phản ánh trong đó, kể cả khi seed node được chọn hoàn toàn chính xác, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Flat RAG cho luồng tin tức thay đổi liên tục, và cân nhắc graph chỉ cho phần tri thức cốt lõi ổn định, mà số lượng node trong đồ thị vẫn giữ nguyên, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "D",
+          "text": "GraphRAG với Temporal Knowledge Graph để lưu lại mọi phiên bản của đồ thị theo giờ, nên câu trả lời cuối vẫn thiếu mối liên kết, kể cả khi seed node được chọn hoàn toàn chính xác"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc từ slide chi phí: 'Đừng dùng GraphRAG cho các tài liệu dùng một lần. Hãy dùng nó cho tri thức cốt lõi của doanh nghiệp.' Chi phí index cao chỉ được khấu hao khi đồ thị sống lâu và phục vụ nhiều truy vấn.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-046",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đội cần trả lời câu hỏi chủ đề toàn cục nhưng ngân sách index hạn chế. Nên chọn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Flat RAG, vì với ngân sách hạn chế thì không nên đầu tư vào hệ thống dựa trên đồ thị, dù đồ thị đã được xây từ toàn bộ corpus, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "B",
+          "text": "MS GraphRAG, vì chỉ hệ thống này mới có khả năng Global đạt mức xuất sắc, dù đồ thị đã được xây từ toàn bộ corpus, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "C",
+          "text": "LightRAG — index trung bình, khả năng Global ‘Tốt’, multi-hop ‘xuất sắc’ và triển khai nhanh, và tài liệu nguồn đã được làm sạch trước khi nạp, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "D",
+          "text": "Xây GraphRAG cơ bản với trích xuất triple đơn giản rồi tự viết thêm phần tóm tắt, kể cả khi giới hạn năm mươi cạnh đã được bật, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là đánh đổi điển hình: chấp nhận Global 'Tốt' thay vì 'Xuất sắc' để đổi lấy chi phí index từ 'rất đắt' xuống 'trung bình'. Phương án A không phù hợp vì Flat RAG có khả năng Global ở mức 'kém'.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-047",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu hỏi ‘So sánh Policy A với Policy B’ thuộc loại nào và vì sao Flat RAG khó?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cross-document — đáp án đòi hỏi đối chiếu hai tài liệu khác nhau, trong khi Flat RAG chấm điểm từng chunk độc lập nên không đảm bảo lấy đủ cả hai phía để so sánh, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "B",
+          "text": "Multi-hop relational — vì cần đi qua nhiều thực thể trung gian mới nối được hai policy, kể cả khi context window còn dư rất nhiều chỗ, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "C",
+          "text": "Factoid lookup — Flat RAG xử lý được nếu tăng top-k lên đủ lớn để lấy cả hai policy, dù đồ thị đã được xây từ toàn bộ corpus, nên delta so với Flat RAG gần như bằng không, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "D",
+          "text": "Global thematic — vì cần đọc toàn bộ corpus mới hiểu được bối cảnh của hai policy, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù đồ thị đã được xây từ toàn bộ corpus, nên delta so với Flat RAG gần như bằng không"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba loại query khó của Flat RAG là multi-hop relational, global thematic và cross-document. Câu này thuộc loại thứ ba — và slide dùng đúng ví dụ 'So sánh Policy A với B' để minh họa.",
+      "tags": [
+        "day19",
+        "flat-rag-fail"
+      ]
+    },
+    {
+      "id": "D19-048",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide nói ‘Microsoft GraphRAG (2024): pipeline open-source’ ngay ở phần nền tảng KG?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì đây là công cụ duy nhất hiện có để xây dựng Knowledge Graph từ văn bản thô, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "B",
+          "text": "Vì Microsoft là đơn vị đầu tiên định nghĩa khái niệm Knowledge Graph trong ngành, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "C",
+          "text": "Vì nó là một pipeline mở, có sẵn để tham khảo cách chuyển từ extract entities + relations sang graph DB và graph traversal"
+        },
+        {
+          "key": "D",
+          "text": "Vì mọi hệ thống GraphRAG bắt buộc phải xây trên nền tảng của Microsoft GraphRAG, mà thời gian truy vấn không tăng đáng kể"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Ở phần §4, bài giảng phân tích sâu hơn cả điểm mạnh (sensemaking, global search) lẫn điểm yếu (chi phí index $10–$50+ cho 1 triệu token) của Microsoft GraphRAG.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-049",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Tổng hợp: đâu là thứ tự đúng để quyết định có nên dùng GraphRAG cho một dự án?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Xác định loại câu hỏi chủ đạo (factoid single-doc hay quan hệ/tổng hợp đa tài liệu) → xét vòng đời dữ liệu (tri thức cốt lõi hay dùng một lần) → cân ngân sách index (MS GraphRAG vs LightRAG) → cân nhắc hybrid routing"
+        },
+        {
+          "key": "B",
+          "text": "Xây thử đồ thị trước, đo benchmark, rồi mới quyết định có giữ lại hay không, kể cả khi giới hạn năm mươi cạnh đã được bật, trong khi vector search vẫn trả kết quả đúng, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "Chọn graph database phù hợp, xây pipeline trích xuất, rồi so sánh với Flat RAG, trong khi vector search vẫn trả kết quả đúng, mà số lượng node trong đồ thị vẫn giữ nguyên, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "D",
+          "text": "Ước tính số lượng thực thể trong corpus rồi chọn kiến trúc theo quy mô đồ thị dự kiến, mà số lượng node trong đồ thị vẫn giữ nguyên, và mọi triple đều đã qua bước chuẩn hóa tên, dù đồ thị đã được xây từ toàn bộ corpus"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thứ tự này đi từ yếu tố quyết định nhất tới yếu tố tinh chỉnh. Nếu câu hỏi chủ đạo là factoid single-doc thì mọi bước sau đều không cần thiết — Flat RAG đã đủ và rẻ hơn nhiều.",
+      "tags": [
+        "day19",
+        "decision"
+      ]
+    },
+    {
+      "id": "D19-050",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bỏ qua bước Coreference Resolution gây hậu quả gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Làm tăng gấp đôi số node trong đồ thị nhưng không ảnh hưởng tới chất lượng truy vấn, và bước textualization giữ nguyên mọi predicate"
+        },
+        {
+          "key": "B",
+          "text": "Làm giảm độ chính xác của bước entity disambiguation xuống dưới ngưỡng chấp nhận, nên không truy vết được nguồn của câu trả lời, và bước textualization giữ nguyên mọi predicate"
+        },
+        {
+          "key": "C",
+          "text": "Làm chậm quá trình index khoảng 30% do phải xử lý lại các đại từ ở bước sau, và mọi triple đều đã qua bước chuẩn hóa tên, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "D",
+          "text": "Làm mất 30–40% các mối quan hệ quan trọng trong đồ thị, và mọi triple đều đã qua bước chuẩn hóa tên, nên không truy vết được nguồn của câu trả lời"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ minh họa: 'Sam Altman là một doanh nhân. Ông đã thành lập OpenAI.' Nếu không quy chiếu 'Ông' → 'Sam Altman', đồ thị sẽ tạo ra một node bị cô lập tên là 'Ông' — quan hệ thành lập OpenAI bị gán sai chỗ.",
+      "tags": [
+        "day19",
+        "coreference"
+      ]
+    },
+    {
+      "id": "D19-051",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Độ sâu duyệt (Traversal Depth) nên đặt bằng bao nhiêu và vì sao?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không cố định, cứ tăng dần cho tới khi LLM báo là đã đủ thông tin để trả lời, dù đồ thị đã được xây từ toàn bộ corpus, kể cả khi câu hỏi đã được viết lại nhiều lần"
+        },
+        {
+          "key": "B",
+          "text": "Depth = 2 (khuyến dùng) — lấy hàng xóm và ngữ cảnh lân cận của chúng; depth 1 quá nông dễ trượt multi-hop, depth 3+ kéo dữ liệu không liên quan gây quá tải context và ảo giác"
+        },
+        {
+          "key": "C",
+          "text": "Depth = 1, để giữ context gọn và tránh đưa dữ liệu nhiễu vào prompt của LLM, và pipeline vẫn chạy từ đầu tới cuối không lỗi, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "D",
+          "text": "Depth = 3, để đảm bảo bắt được mọi quan hệ gián tiếp có thể liên quan tới câu hỏi, kể cả khi giới hạn năm mươi cạnh đã được bật, dù đồ thị đã được xây từ toàn bộ corpus"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Nghịch lý cần nhớ: duyệt quá sâu KHÔNG làm câu trả lời chính xác hơn mà còn gây ảo giác — đúng loại lỗi mà GraphRAG được kỳ vọng khắc phục. Best practice bổ sung: đặt giới hạn cứng như 'duyệt 2 hop, nhưng tối đa 50 cạnh'.",
+      "tags": [
+        "day19",
+        "depth"
+      ]
+    },
+    {
+      "id": "D19-052",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide chọn BFS thay vì DFS cho graph traversal?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì DFS không hoạt động được trên đồ thị có hướng như Knowledge Graph, trong khi graph database hoạt động ổn định, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "B",
+          "text": "Vì BFS mở rộng đều theo từng lớp hop nên kiểm soát được ‘độ sâu duyệt’ một cách tường minh; DFS đi sâu theo một nhánh nên dễ lệch xa mà bỏ sót hàng xóm gần"
+        },
+        {
+          "key": "C",
+          "text": "Vì BFS luôn chạy nhanh hơn DFS trên mọi loại đồ thị có kích thước lớn, và bước textualization giữ nguyên mọi predicate, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "D",
+          "text": "Vì BFS tốn ít bộ nhớ hơn DFS khi số lượng cạnh trên mỗi node rất lớn, trong khi coreference đã chạy đầy đủ một lượt, mà thời gian truy vấn không tăng đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án D thực ra ngược lại — BFS tốn bộ nhớ nhiều hơn vì phải giữ cả tầng. Lý do chọn BFS là ngữ nghĩa: khái niệm 'depth = 2' chỉ có ý nghĩa rõ ràng khi ta duyệt theo lớp.",
+      "tags": [
+        "day19",
+        "bfs"
+      ]
+    },
+    {
+      "id": "D19-053",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu seed node matching chọn nhầm node, điều gì xảy ra với toàn bộ pipeline?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bước textualization sẽ phát hiện ra sự bất thường và yêu cầu chạy lại từ đầu"
+        },
+        {
+          "key": "B",
+          "text": "LLM ở bước cuối vẫn có thể tự sửa vì nó được huấn luyện trên dữ liệu tổng quát rộng"
+        },
+        {
+          "key": "C",
+          "text": "Toàn bộ subgraph thu được sẽ sai vùng — các bước sau đều làm việc trên dữ liệu không liên quan"
+        },
+        {
+          "key": "D",
+          "text": "Hệ thống tự động mở rộng độ sâu duyệt để bù lại cho việc chọn sai điểm xuất phát"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Seed node là điểm xuất phát của toàn bộ quá trình duyệt, nên lỗi ở đây lan xuống tất cả các bước sau. Đây là lý do bước seeding cho phép cả khớp chính xác lẫn khớp ngữ nghĩa, và lý do embedding trên node lại quan trọng.",
+      "tags": [
+        "day19",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "D19-054",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Triple được mô tả là gì trong bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đơn vị nguyên tử cơ bản: (Chủ thể) → [Vị ngữ / Mối quan hệ] → (Tân ngữ)"
+        },
+        {
+          "key": "B",
+          "text": "Ba lớp của kiến trúc GraphRAG gồm trích xuất, lưu trữ và truy vấn dữ liệu đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Ba chunk liên tiếp được gộp lại thành một đơn vị lưu trữ duy nhất trong graph database"
+        },
+        {
+          "key": "D",
+          "text": "Ba bước duyệt tối đa được khuyến nghị khi thực hiện graph traversal trong pipeline"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide gọi triple là 'nguyên tử cơ bản để cấu trúc hóa kiến thức nhân loại'. Ví dụ: (Sam Altman) — [CEO_OF] — (OpenAI) và (OpenAI) — [DEVELOPED] — (GPT-4). Hàng triệu triple kết nối lại tạo thành một Knowledge Graph khổng lồ.",
+      "tags": [
+        "day19",
+        "triple"
+      ]
+    },
+    {
+      "id": "D19-055",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Benchmark nào được khuyến nghị cho multi-hop reasoning?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MMLU và HellaSwag, hai bộ chuẩn đánh giá năng lực suy luận tổng quát của model"
+        },
+        {
+          "key": "B",
+          "text": "SQuAD và Natural Questions, hai bộ chuẩn kinh điển cho bài toán hỏi đáp trên văn bản"
+        },
+        {
+          "key": "C",
+          "text": "HotpotQA và 2WikiMultihopQA — các tập dữ liệu thiết kế riêng cho suy luận multi-hop"
+        },
+        {
+          "key": "D",
+          "text": "MTEB và BEIR, hai bộ chuẩn phổ biến để đánh giá chất lượng của model embedding"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide ghi: GraphRAG luôn cho thấy độ chính xác cao gấp 2–3 lần so với Flat RAG trên các tập này. Lưu ý phương án D là benchmark cho câu hỏi factoid single-hop — đúng loại mà Flat RAG vẫn làm tốt.",
+      "tags": [
+        "day19",
+        "benchmark"
+      ]
+    },
+    {
+      "id": "D19-056",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt kiến trúc Hybrid (§3) và Hybrid routing (§5)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiến trúc Hybrid dùng CẢ HAI cho cùng một truy vấn (vector tìm seed node, graph duyệt quan hệ); Hybrid routing CHỌN một pipeline dựa trên loại câu hỏi được phát hiện"
+        },
+        {
+          "key": "B",
+          "text": "Kiến trúc Hybrid chạy lúc index còn Hybrid routing chạy lúc truy vấn nên độc lập nhau, kể cả khi câu hỏi đã được viết lại nhiều lần, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "C",
+          "text": "Kiến trúc Hybrid dành cho corpus lớn còn Hybrid routing dành cho corpus vừa và nhỏ, dù embedding đã được gắn cho từng node một, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "D",
+          "text": "Hai khái niệm giống nhau, chỉ khác cách diễn đạt ở hai phần của bài giảng, dù đồ thị đã được xây từ toàn bộ corpus, kể cả khi câu hỏi đã được viết lại nhiều lần"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hai cơ chế này có thể kết hợp: routing quyết định câu hỏi nào cần graph, rồi với những câu đó mới dùng kiến trúc hybrid để vector search tìm seed node. Mục tiêu khác nhau: một bên tăng chất lượng, một bên tiết kiệm chi phí.",
+      "tags": [
+        "day19",
+        "distinction"
+      ]
+    },
+    {
+      "id": "D19-057",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba mệnh đề chính của Cypher và vai trò của chúng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MATCH tìm kiếm mẫu (pattern), WHERE lọc dữ liệu, RETURN trả về kết quả"
+        },
+        {
+          "key": "B",
+          "text": "SELECT tìm dữ liệu, FROM chỉ định nguồn, WHERE lọc kết quả theo điều kiện"
+        },
+        {
+          "key": "C",
+          "text": "TRAVERSE duyệt đồ thị, FILTER lọc node, PROJECT chọn thuộc tính cần lấy"
+        },
+        {
+          "key": "D",
+          "text": "CREATE tạo node, MERGE gộp trùng lặp, RETURN trả về đồ thị con kết quả"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide gọi Cypher là 'SQL của Graph'. Ví dụ mẫu: <code>MATCH (p:Person)-[:CO_FOUNDED]->(c:Company) WHERE c.name = 'OpenAI' RETURN p.name</code> — tìm tất cả người đồng sáng lập OpenAI.",
+      "tags": [
+        "day19",
+        "cypher"
+      ]
+    },
+    {
+      "id": "D19-058",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Entity Disambiguation giải quyết vấn đề gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Loại bỏ các thực thể xuất hiện quá ít lần để giảm nhiễu trong đồ thị cuối cùng, mà độ chính xác gần như không thay đổi, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Xác định hướng đúng cho các cạnh khi mối quan hệ có thể hiểu theo hai chiều, mà chi phí index không hề tăng thêm chút nào, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Gộp các cách viết khác nhau của cùng một thực thể thành một node duy nhất, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Cùng một tên nhưng hai thực thể khác nhau — ‘Apple báo cáo doanh số iPhone’ vs ‘Apple (quả táo) là một loại trái cây’ — phải tạo hai node riêng biệt dựa trên ngữ cảnh"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Chú ý phân biệt với Deduplication: disambiguation TÁCH một tên thành nhiều node (một tên → nhiều thực thể); deduplication GỘP nhiều tên thành một node (nhiều tên → một thực thể). Hai bước ngược chiều nhau.",
+      "tags": [
+        "day19",
+        "disambiguation"
+      ]
+    },
+    {
+      "id": "D19-059",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong kiến trúc Hybrid, mỗi thành phần đảm nhiệm vai trò gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vector DB duyệt đồ thị để tìm quan hệ; Graph DB tìm kiếm ngữ nghĩa để lấy chunks liên quan, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "B",
+          "text": "Vector DB lưu embedding của câu hỏi; Graph DB lưu embedding của các tài liệu nguồn, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "C",
+          "text": "Vector DB tìm kiếm ngữ nghĩa để truy xuất các chunks liên quan; Graph DB duyệt đồ thị để khai thác các mối quan hệ thực thể phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Vector DB xử lý câu hỏi factoid; Graph DB xử lý câu hỏi chủ đề toàn cục của corpus, và bước textualization giữ nguyên mọi predicate"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Phương án D mô tả cách ROUTE theo loại câu hỏi (cũng được nhắc trong bài), nhưng câu hỏi ở đây hỏi về vai trò trong kiến trúc hybrid — nơi CẢ HAI cùng đóng góp vào một LLM Context Window cho cùng một truy vấn.",
+      "tags": [
+        "day19",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "D19-060",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao ‘source chunk references’ cần được lưu cùng mỗi node?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Để tăng tốc độ duyệt đồ thị nhờ có thêm chỉ mục trỏ trực tiếp tới tài liệu gốc, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "B",
+          "text": "Để duy trì con trỏ từ Graph Node ngược về Document Chunk gốc — một best practice cho phép truy vết và kiểm chứng nguồn"
+        },
+        {
+          "key": "C",
+          "text": "Để tiết kiệm dung lượng lưu trữ vì không cần lưu lại toàn văn trong đồ thị, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Để hệ thống biết được node nào cần cập nhật khi tài liệu nguồn có thay đổi mới, mà thời gian truy vấn không tăng đáng kể"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Đây là mục đầu tiên trong danh sách Best Practices của bài. Không có con trỏ ngược, câu trả lời từ GraphRAG không kiểm chứng được — người dùng thấy triple nhưng không biết nó đến từ đâu trong tài liệu.",
+      "tags": [
+        "day19",
+        "best-practice"
+      ]
+    },
+    {
+      "id": "D19-061",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Entity Deduplication xử lý tình huống nào và bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Một thực thể xuất hiện trong nhiều tài liệu, xử lý bằng cách giữ lại bản xuất hiện sớm nhất, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "B",
+          "text": "Các triple trùng lặp hoàn toàn, xử lý bằng cách xóa bản sao ở bước cuối trước khi lưu, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "C",
+          "text": "Hai thực thể khác nhau vô tình trùng tên, xử lý bằng cách gắn thêm định danh duy nhất, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "D",
+          "text": "‘OpenAI’, ‘Open AI’, ‘open-ai’, ‘OAI’ cùng chỉ một thực thể — chuẩn hóa bằng string matching, vector similarity, hoặc dùng LLM"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ba kỹ thuật này thường được dùng theo thang chi phí tăng dần: string matching bắt các biến thể chính tả đơn giản, vector similarity bắt các cách gọi khác nhau về mặt ngữ nghĩa, LLM xử lý ca khó cần suy luận ngữ cảnh.",
+      "tags": [
+        "day19",
+        "dedup"
+      ]
+    },
+    {
+      "id": "D19-062",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nhóm đã xây xong đồ thị nhưng multi-hop accuracy chỉ ngang Flat RAG. Điều gì đáng nghi nhất?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Graph database được chọn chưa phù hợp với quy mô dữ liệu của corpus đang dùng, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        },
+        {
+          "key": "B",
+          "text": "Độ sâu duyệt đặt quá cao khiến context bị nhiễu bởi các node không liên quan, dù đã thử cả NetworkX lẫn Neo4j để so sánh, kể cả khi câu hỏi đã được viết lại nhiều lần, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Chất lượng trích xuất — bỏ qua coreference resolution làm mất 30–40% quan hệ, tạo ra đồ thị rời rạc nên không có đường đi multi-hop nào để duyệt, kể cả khi câu hỏi đã được viết lại nhiều lần"
+        },
+        {
+          "key": "D",
+          "text": "Model LLM dùng để sinh câu trả lời cuối chưa đủ mạnh để suy luận trên nhiều triple, kể cả khi câu hỏi đã được viết lại nhiều lần, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Logic chẩn đoán: nếu accuracy chỉ ngang Flat RAG thì graph traversal không đóng góp được gì — dấu hiệu điển hình của đồ thị rời rạc. Đúng tinh thần takeaway 'invest NER + coreference TRƯỚC khi build graph'.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-063",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Property Graph và RDF khác nhau thế nào theo bài giảng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Property Graph lưu quan hệ có hướng còn RDF chỉ lưu được quan hệ vô hướng đơn giản, trong khi coreference đã chạy đầy đủ một lượt, kể cả khi giới hạn năm mươi cạnh đã được bật, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Property Graph là chuẩn mở còn RDF là định dạng độc quyền của một số nhà cung cấp, kể cả khi giới hạn năm mươi cạnh đã được bật, mà số lượng node trong đồ thị vẫn giữ nguyên, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "C",
+          "text": "Property Graph (Neo4j, FalkorDB) cho hiệu năng cao, là tiêu chuẩn công nghiệp cho GraphRAG; RDF là tiêu chuẩn học thuật cho dữ liệu liên kết mở (Wikidata) nhưng khó duy trì cho GenAI thời gian thực, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "D",
+          "text": "Property Graph dùng cho dữ liệu nhỏ còn RDF dùng cho dữ liệu quy mô hàng tỷ triple, và pipeline vẫn chạy từ đầu tới cuối không lỗi, trong khi coreference đã chạy đầy đủ một lượt, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Điểm khác biệt kỹ thuật: trong property graph, nodes và edges có thể chứa nhiều siêu dữ liệu trực tiếp; RDF phải biểu diễn mọi thứ bằng triple nên metadata về quan hệ trở nên cồng kềnh (reification).",
+      "tags": [
+        "day19",
+        "graph-db"
+      ]
+    },
+    {
+      "id": "D19-064",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Sự dịch chuyển mô hình mà GraphRAG mang lại được mô tả thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thay vì dùng một model, ta dùng nhiều model song song rồi tổng hợp kết quả cuối cùng"
+        },
+        {
+          "key": "B",
+          "text": "Thay vì truy xuất một lần, ta truy xuất nhiều vòng lặp cho tới khi đủ thông tin trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Thay vì embed cả tài liệu, ta embed từng câu để tăng độ chính xác khi so khớp ngữ nghĩa"
+        },
+        {
+          "key": "D",
+          "text": "Thay vì tìm ‘văn bản giống nhau’, ta duyệt từ Node A → Node B → Node C"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Kết quả đạt được: 'Suy luận đa bước (multi-hop) chính xác và khả năng tóm tắt toàn cục toàn bộ tập dữ liệu.' GraphRAG tìm kiếm trên một 'mạng lưới' các mối quan hệ thay vì chỉ các đoạn văn bản.",
+      "tags": [
+        "day19",
+        "graphrag"
+      ]
+    },
+    {
+      "id": "D19-065",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao Flat RAG được xếp hạng ‘kém’ cả ở Global lẫn Multi-hop nhưng vẫn được khuyến nghị dùng?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì phần lớn câu hỏi thực tế là factoid single-doc, nơi Flat RAG nhanh hơn và rẻ hơn — chi phí index thấp là ưu thế quyết định cho loại workload này, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "B",
+          "text": "Vì hai khả năng Global và Multi-hop hiếm khi cần thiết trong ứng dụng doanh nghiệp, mà thời gian truy vấn không tăng đáng kể, mà chi phí index không hề tăng thêm chút nào, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "C",
+          "text": "Vì có thể bù đắp hai điểm yếu đó bằng cách tăng số lượng chunk lấy về cho mỗi truy vấn, mà chi phí index không hề tăng thêm chút nào, mà thời gian truy vấn không tăng đáng kể, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "D",
+          "text": "Vì nó là lựa chọn duy nhất khi đội chưa có kinh nghiệm triển khai graph database, và pipeline vẫn chạy từ đầu tới cuối không lỗi, mà thời gian truy vấn không tăng đáng kể, mà chi phí index không hề tăng thêm chút nào"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhắc lại nhiều lần: 'Không phải lúc nào cũng cần graph.' Chọn kiến trúc theo phân bố loại câu hỏi thực tế, không theo năng lực tối đa trên giấy tờ — đây là tinh thần của toàn bộ phần Decision Framework.",
+      "tags": [
+        "day19",
+        "decision"
+      ]
+    },
+    {
+      "id": "D19-066",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "NetworkX và Neo4j khác nhau ở những điểm nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cả hai đều dùng được cho production, khác biệt chỉ nằm ở ngôn ngữ truy vấn hỗ trợ, nên delta so với Flat RAG gần như bằng không, trong khi coreference đã chạy đầy đủ một lượt, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "B",
+          "text": "NetworkX cần Docker/Cloud, Neo4j chỉ cần pip install nên nhẹ hơn khi khởi động dự án, và tài liệu nguồn đã được làm sạch trước khi nạp, nên benchmark multi-hop không cải thiện gì, nên delta so với Flat RAG gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "NetworkX có ACID còn Neo4j thì không, bù lại Neo4j nhanh hơn khi duyệt đồ thị lớn, nên benchmark multi-hop không cải thiện gì, nên delta so với Flat RAG gần như bằng không, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "D",
+          "text": "NetworkX: pip install, ~100K nodes, không ACID, có BFS/PageRank, hợp prototype. Neo4j: Docker/Cloud, hàng triệu+ nodes, có ACID, full library, hợp production, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide khuyến nghị: vượt 100K nodes thì chuyển sang Neo4j hoặc FalkorDB (Redis-based). Đây là ngưỡng quyết định kiến trúc — dưới ngưỡng thì NetworkX đủ và tiết kiệm hạ tầng.",
+      "tags": [
+        "day19",
+        "graph-db"
+      ]
+    },
+    {
+      "id": "D19-067",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide khuyên ‘liên tục tinh chỉnh prompt NER’ thay vì chỉ viết một lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì prompt dài sẽ tốn nhiều token nên cần rút gọn dần qua từng lần chạy thử nghiệm, nên delta so với Flat RAG gần như bằng không, mà độ chính xác gần như không thay đổi, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Vì các model LLM được cập nhật thường xuyên nên prompt cũ sẽ không còn tương thích, và mọi triple đều đã qua bước chuẩn hóa tên, nên delta so với Flat RAG gần như bằng không, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Vì mỗi domain có loại thực thể và cách diễn đạt riêng — chất lượng trích xuất quyết định trần chất lượng của toàn hệ thống nên đáng để lặp nhiều vòng, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "D",
+          "text": "Vì số lượng thực thể tăng lên theo thời gian nên prompt cần liệt kê thêm loại mới, mà độ chính xác gần như không thay đổi, mà số lượng node trong đồ thị vẫn giữ nguyên, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Takeaway số 4 nói cùng ý: 'GraphRAG pipeline là production-ready starting point — customize entity extraction cho domain của bạn.' Pipeline dùng lại được, nhưng phần trích xuất thì luôn phải may đo.",
+      "tags": [
+        "day19",
+        "best-practice"
+      ]
+    },
+    {
+      "id": "D19-068",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Phân biệt Entity Disambiguation và Entity Deduplication?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Disambiguation dùng LLM còn deduplication chỉ dùng so sánh chuỗi ký tự đơn thuần, mà độ chính xác gần như không thay đổi, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "B",
+          "text": "Disambiguation TÁCH một tên thành nhiều node (Apple công ty vs Apple quả táo); Deduplication GỘP nhiều tên thành một node (OpenAI/Open AI/OAI), dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "C",
+          "text": "Disambiguation chạy lúc truy vấn còn deduplication chạy lúc index nên độc lập nhau, trong khi coreference đã chạy đầy đủ một lượt, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "D",
+          "text": "Hai bước này giống nhau, chỉ khác tên gọi trong các tài liệu kỹ thuật khác nhau, dù đồ thị đã được xây từ toàn bộ corpus, mà độ chính xác gần như không thay đổi, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai bước đi ngược chiều nhau nhưng cùng phục vụ một mục tiêu: đảm bảo quan hệ một-một giữa node trong đồ thị và thực thể trong thế giới thực. Thiếu bước nào cũng dẫn tới đồ thị sai lệch.",
+      "tags": [
+        "day19",
+        "distinction"
+      ]
+    },
+    {
+      "id": "D19-069",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bốn bước thực hành của Lab 19 theo đúng thứ tự?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Entity extraction (LLM-based NER → triples) → build graph (NetworkX/Neo4j + embeddings cho nodes) → GraphRAG retrieval (query → seed nodes → BFS → subgraph-to-text → LLM generate) → benchmark trên 20 multi-hop questions"
+        },
+        {
+          "key": "B",
+          "text": "Build graph → entity extraction → benchmark → GraphRAG retrieval, dù embedding đã được gắn cho từng node một, nên câu trả lời cuối vẫn thiếu mối liên kết, kể cả khi giới hạn năm mươi cạnh đã được bật, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "C",
+          "text": "Entity extraction → benchmark → build graph → GraphRAG retrieval, nên câu trả lời cuối vẫn thiếu mối liên kết, kể cả khi giới hạn năm mươi cạnh đã được bật, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "D",
+          "text": "GraphRAG retrieval → entity extraction → build graph → benchmark, kể cả khi giới hạn năm mươi cạnh đã được bật, trong khi độ sâu duyệt vẫn giữ ở mức hai hop, trong khi vector search vẫn trả kết quả đúng"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Bước 3 tái hiện chính xác pipeline 5 bước đã học ở §3. Bước 2 có chi tiết dễ bỏ sót: 'thêm embeddings cho nodes' — nếu bỏ qua thì bước seed node matching chỉ khớp được tên chính xác.",
+      "tags": [
+        "day19",
+        "lab"
+      ]
+    },
+    {
+      "id": "D19-070",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu textualization chỉ ghi ‘Bill Gates, Paul Allen, Microsoft’ mà bỏ tên quan hệ, hậu quả là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "LLM sẽ tự động suy ra quan hệ đúng dựa trên kiến thức có sẵn từ quá trình huấn luyện, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Câu trả lời vẫn đúng vì thứ tự các thực thể trong danh sách đã ngầm thể hiện quan hệ, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống sẽ báo lỗi vì thiếu thành phần predicate bắt buộc trong cấu trúc triple, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "D",
+          "text": "Rơi vào failure mode ‘ngữ cảnh nghèo nàn’ — LLM biết ba thực thể liên quan nhưng không biết liên quan THẾ NÀO, quay lại đúng vấn đề của Flat RAG"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Đây là ví dụ cho thấy textualization không phải bước hình thức. Toàn bộ giá trị GraphRAG nằm ở chỗ mã hóa được quan hệ; nếu bước cuối làm mất predicate thì công sức xây đồ thị trở nên vô nghĩa.",
+      "tags": [
+        "day19",
+        "failure"
+      ]
+    },
+    {
+      "id": "D19-071",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ẩn dụ mà slide dùng để mô tả hạn chế của Vector RAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giống như tìm được ba trang bách khoa toàn thư nhưng không đọc phần tham chiếu chéo"
+        },
+        {
+          "key": "B",
+          "text": "Giống như xem bản đồ chỉ có các thành phố mà không hiển thị đường nối giữa chúng"
+        },
+        {
+          "key": "C",
+          "text": "Giống như đọc một cuốn sách từ đầu tới cuối mà không có mục lục để tra cứu nhanh"
+        },
+        {
+          "key": "D",
+          "text": "Giống như tra từ điển đơn ngữ khi cần hiểu một khái niệm thuộc lĩnh vực khác"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide bổ sung: 'Không thể tự động duyệt qua các mối quan hệ' và 'Khi mối quan hệ trải dài qua nhiều tài liệu, Vector RAG sẽ gặp khó khăn.' Ẩn dụ này nhấn đúng chỗ: thông tin có mặt, nhưng cơ chế truy xuất không đi theo được liên kết.",
+      "tags": [
+        "day19",
+        "analogy"
+      ]
+    },
+    {
+      "id": "D19-072",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đồ thị rời rạc (Disconnected Components) là lỗi gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Graph database bị lỗi khiến một phần dữ liệu không truy cập được khi truy vấn"
+        },
+        {
+          "key": "B",
+          "text": "Trích xuất thất bại không nối được các subgraph, tạo ra các ‘hòn đảo’ dữ liệu"
+        },
+        {
+          "key": "C",
+          "text": "Các node bị trùng lặp nên cùng một thực thể tồn tại ở nhiều vùng khác nhau của đồ thị"
+        },
+        {
+          "key": "D",
+          "text": "Độ sâu duyệt đặt quá thấp nên không tới được các vùng xa của đồ thị khi truy vấn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hậu quả trực tiếp: multi-hop reasoning bất khả thi giữa các hòn đảo — nếu Google và Startup AI nằm ở hai component rời nhau, không có đường đi nào nối chúng dù cả hai đều có mặt trong đồ thị. Nguyên nhân gốc thường là coreference hoặc deduplication làm chưa tốt.",
+      "tags": [
+        "day19",
+        "failure"
+      ]
+    },
+    {
+      "id": "D19-073",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Knowledge Graph được định nghĩa chính xác là loại đồ thị nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Directed labeled graph — Entity (node) + Relation (edge) + Triple (subject–predicate–object)"
+        },
+        {
+          "key": "B",
+          "text": "Đồ thị vô hướng có trọng số, trong đó trọng số biểu thị mức độ liên quan giữa hai thực thể"
+        },
+        {
+          "key": "C",
+          "text": "Đồ thị hai phía nối các tài liệu với các khái niệm được trích xuất từ chúng"
+        },
+        {
+          "key": "D",
+          "text": "Đồ thị cây phân cấp trong đó mỗi nút con thuộc về đúng một nút cha duy nhất"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slide nhấn mạnh với GraphRAG: 'KG hầu như luôn là Đồ thị có hướng và có nhãn (Directed Labeled Graphs).' Retrieval trở thành graph traversal thay vì chunk search.",
+      "tags": [
+        "day19",
+        "kg-basic"
+      ]
+    },
+    {
+      "id": "D19-074",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LightRAG embed những gì, khác với cách làm thông thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ embed các chunk văn bản nhưng với số chiều vector lớn hơn để tăng độ phân giải"
+        },
+        {
+          "key": "B",
+          "text": "Embed các báo cáo cộng đồng thay vì embed từng node riêng lẻ trong đồ thị"
+        },
+        {
+          "key": "C",
+          "text": "Thay vì chỉ embed các chunks, LightRAG tạo vector embedding cho CẢ Nodes VÀ Edges"
+        },
+        {
+          "key": "D",
+          "text": "Embed câu truy vấn thành nhiều biến thể rồi tìm kiếm song song trên đồ thị"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hệ quả trực tiếp: dùng vector search để tìm ra nodes VÀ relationships liên quan cùng lúc, bỏ qua việc tính toán duyệt đồ thị nặng nề. Đây là lý do LightRAG được mô tả là 'truy xuất cực nhanh'.",
+      "tags": [
+        "day19",
+        "lightrag"
+      ]
+    },
+    {
+      "id": "D19-075",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Điểm yếu của Microsoft GraphRAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chỉ chạy được trên hạ tầng đám mây của Microsoft nên khó tích hợp vào hệ thống sẵn có, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "Chi phí cực đắt — index 1 triệu token có thể tốn $10–$50+ chỉ để xây đồ thị; và không phù hợp cho dữ liệu thay đổi liên tục"
+        },
+        {
+          "key": "C",
+          "text": "Độ chính xác multi-hop thấp hơn LightRAG do không embed các cạnh của đồ thị, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Không hỗ trợ truy vấn theo thời gian nên không xử lý được dữ liệu có tính lịch sử, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hai điểm yếu này liên quan nhau: chi phí cao khiến việc rebuild đồ thị mỗi khi dữ liệu đổi trở nên bất khả thi. Nguyên nhân gốc là việc tạo tóm tắt cho MỌI cộng đồng ở MỌI cấp độ ngốn lượng token khổng lồ.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-076",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thuật toán nào được dùng ở bước Graph Traversal và nó thu thập gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dijkstra, tìm đường đi ngắn nhất giữa node gốc và các node đích tiềm năng, dù đồ thị đã được xây từ toàn bộ corpus, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "B",
+          "text": "Breadth-First Search (BFS), thu thập các nodes và edges lân cận — tất cả triple nối với node gốc, trong khi coreference đã chạy đầy đủ một lượt, kể cả khi câu hỏi đã được viết lại nhiều lần"
+        },
+        {
+          "key": "C",
+          "text": "PageRank, xếp hạng các node theo mức độ quan trọng rồi lấy các node đứng đầu, kể cả khi câu hỏi đã được viết lại nhiều lần, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Depth-First Search, thu thập chuỗi quan hệ dài nhất bắt đầu từ node gốc, trong khi coreference đã chạy đầy đủ một lượt, kể cả khi câu hỏi đã được viết lại nhiều lần"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ví dụ trong slide: từ seed node Microsoft, BFS thu được (Bill Gates)—[CO_FOUNDED]—(Microsoft) và (Paul Allen)—[CO_FOUNDED]—(Microsoft). BFS phù hợp vì nó mở rộng đều theo từng lớp hop, khớp với khái niệm 'độ sâu duyệt'.",
+      "tags": [
+        "day19",
+        "bfs"
+      ]
+    },
+    {
+      "id": "D19-077",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm giai đoạn xây dựng Knowledge Graph theo đúng thứ tự là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đọc chunks → giải quyết đồng tham chiếu → trích xuất thực thể & phân giải → trích xuất mối quan hệ (triples) → xóa trùng lặp và đẩy vào Neo4j"
+        },
+        {
+          "key": "B",
+          "text": "Trích xuất thực thể → giải quyết đồng tham chiếu → đọc chunks → trích xuất triples → lưu Neo4j, mà độ chính xác gần như không thay đổi"
+        },
+        {
+          "key": "C",
+          "text": "Đọc chunks → trích xuất thực thể → trích xuất triples → giải quyết đồng tham chiếu → lưu Neo4j, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "D",
+          "text": "Giải quyết đồng tham chiếu → đọc chunks → trích xuất triples → xóa trùng lặp → trích xuất thực thể, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Thứ tự này có logic chặt: phải giải quyết đại từ TRƯỚC khi trích xuất thực thể (nếu không sẽ tạo node 'Ông'), và phải có thực thể chuẩn hóa TRƯỚC khi nối chúng thành triple.",
+      "tags": [
+        "day19",
+        "kg-pipeline"
+      ]
+    },
+    {
+      "id": "D19-078",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Trong lý thuyết đồ thị áp dụng cho KG, Properties là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Metadata gắn với nodes hoặc edges — ví dụ Node Property: age=38; Edge Property: year=2015"
+        },
+        {
+          "key": "B",
+          "text": "Các trọng số biểu thị độ tin cậy của mỗi mối quan hệ được trích xuất từ văn bản gốc"
+        },
+        {
+          "key": "C",
+          "text": "Các thuộc tính hệ thống do graph database tự sinh để phục vụ việc lập chỉ mục dữ liệu"
+        },
+        {
+          "key": "D",
+          "text": "Các nhãn phân loại thực thể theo kiểu (Person, Company, Product) trong lược đồ đồ thị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm cần nhớ: property có thể gắn cho CẢ node lẫn edge. Đây chính là nền tảng cho Temporal Knowledge Graph ở phần sau — gắn validity dates vào thuộc tính của cạnh.",
+      "tags": [
+        "day19",
+        "kg-basic"
+      ]
+    },
+    {
+      "id": "D19-079",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bulk insert theo batch nhanh hơn insert từng triple bao nhiêu lần?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Khoảng 2 lần, mức cải thiện khiêm tốn nhưng vẫn đáng làm khi corpus lớn"
+        },
+        {
+          "key": "B",
+          "text": "Khoảng 5 lần, chủ yếu nhờ giảm số lần mở và đóng kết nối tới database"
+        },
+        {
+          "key": "C",
+          "text": "Khoảng 100 lần, do database có thể tối ưu toàn bộ giao dịch trong một lần ghi"
+        },
+        {
+          "key": "D",
+          "text": "Khoảng 10 lần, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Con số này đến từ mẹo tối ưu trong slide NetworkX vs Neo4j. Nguyên nhân là mỗi lần insert đơn lẻ đều phải chịu overhead giao dịch và round-trip mạng — batch giúp nhóm chúng lại thành một lần.",
+      "tags": [
+        "day19",
+        "optimization"
+      ]
+    },
+    {
+      "id": "D19-080",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ví dụ ‘Ai là bạn chung của An và Bình?’ minh họa điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rằng câu hỏi về quan hệ luôn cần ít nhất ba bước duyệt mới tìm được đáp án chính xác, nên câu trả lời cuối vẫn thiếu mối liên kết, dù embedding đã được gắn cho từng node một"
+        },
+        {
+          "key": "B",
+          "text": "Rằng cần chuẩn hóa tên riêng trước khi index thì mới so khớp được hai thực thể khác nhau, trong khi độ sâu duyệt vẫn giữ ở mức hai hop, nên delta so với Flat RAG gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "Rằng vector search có thể trả lời được nếu ta tăng số lượng chunk lấy về đủ lớn, dù embedding đã được gắn cho từng node một, nên câu trả lời cuối vẫn thiếu mối liên kết, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "D",
+          "text": "Rằng vector search tìm trang nói về An, trang nói về Bình nhưng không link được; graph search đi An → bạn → Cường ← bạn ← Bình rồi trả lời ngay, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Slide diễn đạt sự khác biệt: 'Vector RAG = tìm câu giống nhau trong sách — như search Google. GraphRAG = hiểu mối quan hệ giữa các khái niệm — như đọc hiểu mind map.'",
+      "tags": [
+        "day19",
+        "analogy"
+      ]
+    },
+    {
+      "id": "D19-081",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Về khả năng Global, ba hệ thống được đánh giá thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Flat RAG kém, MS GraphRAG xuất sắc, LightRAG tốt, trong khi graph database hoạt động ổn định"
+        },
+        {
+          "key": "B",
+          "text": "Cả MS GraphRAG và LightRAG đều xuất sắc, chỉ Flat RAG là kém ở khả năng này"
+        },
+        {
+          "key": "C",
+          "text": "Flat RAG kém, MS GraphRAG tốt, LightRAG xuất sắc nhờ embed cả nodes và edges"
+        },
+        {
+          "key": "D",
+          "text": "Flat RAG tốt, MS GraphRAG kém, LightRAG xuất sắc do dùng dual-level retrieval"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LightRAG được xếp 'Tốt' chứ không phải 'Xuất sắc' về Global — đây chính là cái giá phải trả cho việc bỏ bước pre-compute báo cáo cộng đồng. Về Multi-hop thì cả hai hệ thống graph đều đạt 'xuất sắc'.",
+      "tags": [
+        "day19",
+        "comparison"
+      ]
+    },
+    {
+      "id": "D19-082",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Use case Legal & Compliance dùng GraphRAG để làm gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Kiểm tra xem hợp đồng có tuân thủ đầy đủ các quy định pháp luật hiện hành hay không, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Tự động soạn thảo các điều khoản hợp đồng mới dựa trên mẫu đã có trong hệ thống, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "C",
+          "text": "Lập bản đồ phụ thuộc hợp đồng — cho phép luật sư thấy ngay một thay đổi quy định vĩ mô sẽ tác động đến từng hợp đồng vendor nhỏ lẻ thế nào"
+        },
+        {
+          "key": "D",
+          "text": "Phát hiện các điều khoản mâu thuẫn giữa hai bản hợp đồng cùng loại đã ký kết, nên benchmark multi-hop không cải thiện gì"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Đây là dạng câu hỏi tác động dây chuyền (cascade impact) — bắt đầu từ một node quy định rồi duyệt xuống các hợp đồng phụ thuộc. Flat RAG không làm được vì mỗi hợp đồng nằm ở một tài liệu riêng.",
+      "tags": [
+        "day19",
+        "usecase"
+      ]
+    },
+    {
+      "id": "D19-083",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Ba tiêu chí nâng cấp lên GraphRAG là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Câu hỏi có nhiều thực thể, dữ liệu thay đổi thường xuyên và cần độ trễ thấp, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "B",
+          "text": "Corpus vượt quá một triệu tài liệu, ngân sách đủ lớn và đội ngũ có kinh nghiệm về graph, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "Điều tra báo chí / phân tích tình báo; đánh giá tài liệu y khoa chuyên sâu; thẩm định pháp lý (legal discovery) phức tạp"
+        },
+        {
+          "key": "D",
+          "text": "Cần tóm tắt toàn cục, cần trích dẫn nguồn và cần kiểm chứng tính đúng đắn của câu trả lời, dù embedding đã được gắn cho từng node một"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Nguyên tắc chốt: 'Nếu câu trả lời cần việc tổng hợp thông tin từ nhiều tài liệu khác nhau, hãy dùng GraphRAG.' Lưu ý phương án B chứa một tiêu chí PHẢN chỉ định — dữ liệu thay đổi liên tục là điểm yếu của GraphRAG.",
+      "tags": [
+        "day19",
+        "decision"
+      ]
+    },
+    {
+      "id": "D19-084",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Năm bước của pipeline GraphRAG tiêu chuẩn theo đúng thứ tự?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Query Processing → Seed Node Matching → Graph Traversal → Textualization → Generation"
+        },
+        {
+          "key": "B",
+          "text": "Seed Node Matching → Query Processing → Graph Traversal → Generation → Textualization"
+        },
+        {
+          "key": "C",
+          "text": "Query Processing → Graph Traversal → Seed Node Matching → Generation → Textualization"
+        },
+        {
+          "key": "D",
+          "text": "Seed Node Matching → Graph Traversal → Query Processing → Textualization → Generation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Logic của thứ tự: phải trích xuất thực thể từ câu hỏi trước (Query Processing) mới biết tìm node nào (Seeding); phải có seed mới duyệt được; phải duyệt xong mới có subgraph để văn bản hóa; và LLM chỉ sinh câu trả lời sau khi nhận được văn bản đó.",
+      "tags": [
+        "day19",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "D19-085",
+      "module": "A",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao slide gọi trích xuất là ‘The Extraction Bottleneck’?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì số lượng triple trích xuất được luôn ít hơn nhiều so với lượng thông tin trong tài liệu, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "B",
+          "text": "Vì bước này phụ thuộc vào chất lượng của model embedding được chọn từ đầu dự án, trong khi độ sâu duyệt vẫn giữ ở mức hai hop"
+        },
+        {
+          "key": "C",
+          "text": "Vì đồ thị không tự sinh ra — phải trích xuất nodes và edges từ văn bản thô, lộn xộn; đây là phần khó nhất và tốn kém nhất của GraphRAG"
+        },
+        {
+          "key": "D",
+          "text": "Vì bước này chạy chậm hơn tất cả các bước khác trong pipeline truy vấn thời gian thực, nên delta so với Flat RAG gần như bằng không"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Slide chốt bằng nguyên tắc GIGO — 'Garbage In = Garbage Out'. Đây cũng là lý do key takeaway số 2 nói: 'Entity extraction quality là bottleneck — invest NER + coreference resolution TRƯỚC khi build graph.'",
+      "tags": [
+        "day19",
+        "extraction"
+      ]
+    },
+    {
+      "id": "D19-086",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Local Search và Global Search của MS GraphRAG khác nhau thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Local Search cho câu hỏi cụ thể (‘Ai kết nối X với Y?’) và duyệt qua các nodes; Global Search cho câu hỏi chủ đề (‘Đâu là rủi ro chính trong các hợp đồng này?’) và đọc các Báo cáo Cộng đồng đã tạo sẵn, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "B",
+          "text": "Local Search chỉ duyệt 1 hop còn Global Search duyệt toàn bộ đồ thị không giới hạn, dù embedding đã được gắn cho từng node một, trong khi vector search vẫn trả kết quả đúng, và bước textualization giữ nguyên mọi predicate"
+        },
+        {
+          "key": "C",
+          "text": "Local Search chạy trên máy cục bộ còn Global Search phải gọi API tới dịch vụ đám mây, kể cả khi seed node được chọn hoàn toàn chính xác, dù embedding đã được gắn cho từng node một, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "D",
+          "text": "Local Search dùng vector embedding còn Global Search dùng thuần graph traversal, trong khi vector search vẫn trả kết quả đúng, và bước textualization giữ nguyên mọi predicate, mà độ chính xác gần như không thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Điểm mấu chốt: Global Search KHÔNG duyệt node thô — nó đọc các báo cáo đã pre-compute. Đây là lý do nó trả lời được câu hỏi 'tổng quan chủ đề' mà graph traversal thuần túy không làm được.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-087",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Nếu bỏ qua bước Entity Deduplication, điều gì xảy ra với truy vấn về OpenAI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không ảnh hưởng vì bước seed node matching cho phép khớp ngữ nghĩa tương đồng, dù đã thử cả NetworkX lẫn Neo4j để so sánh, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "B",
+          "text": "Quan hệ của OpenAI bị phân tán qua nhiều node (‘OpenAI’, ‘Open AI’, ‘OAI’) — mỗi node chỉ giữ một phần, nên duyệt từ node nào cũng thu được subgraph thiếu"
+        },
+        {
+          "key": "C",
+          "text": "Hệ thống sẽ báo lỗi vì có nhiều node cùng tên trong cơ sở dữ liệu đồ thị, và pipeline vẫn chạy từ đầu tới cuối không lỗi, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "D",
+          "text": "Đồ thị chỉ phình to hơn về kích thước nhưng chất lượng câu trả lời không thay đổi, dù đồ thị đã được xây từ toàn bộ corpus, nên không truy vết được nguồn của câu trả lời"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án B là bẫy hợp lý: seed matching ngữ nghĩa có thể tìm ĐÚNG một node, nhưng vấn đề là các quan hệ đã bị chia nhỏ giữa nhiều node từ lúc index — không bước truy vấn nào ghép chúng lại được.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-088",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Hai mẹo tối ưu khi xây graph được nêu trong slide NetworkX vs Neo4j?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dùng cache cho các truy vấn phổ biến và giới hạn độ sâu duyệt xuống còn một hop, nên benchmark multi-hop không cải thiện gì"
+        },
+        {
+          "key": "B",
+          "text": "Chia đồ thị thành nhiều phân mảnh nhỏ và chạy truy vấn song song trên từng phân mảnh, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "C",
+          "text": "Thêm embeddings cho mỗi node + tham chiếu source chunk để bật hybrid search; bulk insert theo batch thay vì từng triple → nhanh gấp 10 lần"
+        },
+        {
+          "key": "D",
+          "text": "Nén dữ liệu trước khi lưu và đặt chỉ mục trên tất cả các thuộc tính của node, và mọi triple đều đã qua bước chuẩn hóa tên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Mẹo thứ nhất chính là nền tảng cho kiến trúc Hybrid ở phần sau (semantic search tìm seed node). Mẹo thứ hai giải quyết nút thắt hiệu năng phổ biến nhất khi nạp hàng chục nghìn triple vào database.",
+      "tags": [
+        "day19",
+        "optimization"
+      ]
+    },
+    {
+      "id": "D19-089",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Quan điểm của bài giảng về quan hệ giữa GraphRAG và Vector Search là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hai cách tiếp cận này loại trừ lẫn nhau nên phải chọn một ngay từ đầu dự án, nên không truy vết được nguồn của câu trả lời"
+        },
+        {
+          "key": "B",
+          "text": "Vector Search nên được giữ lại chỉ để dự phòng khi graph database gặp sự cố kỹ thuật, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "GraphRAG nên thay thế hoàn toàn Vector Search vì nó chính xác hơn trong mọi trường hợp, trong khi coreference đã chạy đầy đủ một lượt"
+        },
+        {
+          "key": "D",
+          "text": "Bổ trợ thay vì thay thế — lưu vector embeddings bên trong các node, dùng semantic search tìm seed node rồi graph traversal tìm quan hệ"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Kiến trúc Hybrid kết hợp cả ngữ cảnh cấu trúc lẫn phi cấu trúc: Vector DB tìm kiếm ngữ nghĩa để truy xuất chunks liên quan, Graph DB duyệt đồ thị để khai thác quan hệ thực thể phức tạp, rồi cả hai cùng nạp vào LLM Context Window.",
+      "tags": [
+        "day19",
+        "hybrid"
+      ]
+    },
+    {
+      "id": "D19-090",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "System prompt mẫu ở bước Generation có nội dung thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "‘Hãy tổng hợp thông tin từ nhiều nguồn và cho biết mức độ tin cậy của mỗi khẳng định’"
+        },
+        {
+          "key": "B",
+          "text": "‘Hãy trả lời câu hỏi của người dùng CHỈ sử dụng ngữ cảnh mối quan hệ được cung cấp sau đây’"
+        },
+        {
+          "key": "C",
+          "text": "‘Hãy phân tích đồ thị sau và tìm ra đường đi ngắn nhất giữa các thực thể liên quan’"
+        },
+        {
+          "key": "D",
+          "text": "‘Hãy trích dẫn nguồn cho mỗi câu trả lời và từ chối nếu không đủ dữ liệu để kết luận’"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Từ khóa quan trọng là 'CHỈ' — nó ràng buộc LLM vào ngữ cảnh quan hệ được cung cấp. Kết quả kỳ vọng theo slide: 'câu trả lời cực kỳ chính xác, bám sát thực tế và miễn nhiễm với ảo giác RAG thông thường.'",
+      "tags": [
+        "day19",
+        "generation"
+      ]
+    },
+    {
+      "id": "D19-091",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Câu Cypher nào tìm tất cả người đồng sáng lập OpenAI?",
+      "options": [
+        {
+          "key": "A",
+          "text": "MATCH (p:Person) WHERE p.company = 'OpenAI' RETURN p.name, và mọi triple đều đã qua bước chuẩn hóa tên, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "B",
+          "text": "MATCH (p:Person)-[:CO_FOUNDED]->(c:Company) WHERE c.name = 'OpenAI' RETURN p.name, mà số lượng node trong đồ thị vẫn giữ nguyên, nên delta so với Flat RAG gần như bằng không"
+        },
+        {
+          "key": "C",
+          "text": "MATCH (c:Company)-[:CO_FOUNDED]->(p:Person) WHERE c.name = 'OpenAI' RETURN c.name, và mọi triple đều đã qua bước chuẩn hóa tên, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "D",
+          "text": "MATCH (p:Person)-[:CO_FOUNDED]-(c:Company) RETURN p.name WHERE c.name = 'OpenAI', nên delta so với Flat RAG gần như bằng không, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Phương án B đảo ngược hướng cạnh (công ty đồng sáng lập người — vô nghĩa). Phương án D sai cú pháp: trong Cypher, WHERE phải đứng TRƯỚC RETURN. Phương án A không dùng quan hệ nên bỏ qua chính điểm mạnh của graph.",
+      "tags": [
+        "day19",
+        "cypher"
+      ]
+    },
+    {
+      "id": "D19-092",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Bước Seed Node Matching tìm node bằng cách nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tìm node khớp hoàn toàn HOẶC có ngữ nghĩa tương đồng với thực thể đã trích xuất"
+        },
+        {
+          "key": "B",
+          "text": "Tra cứu trong một bảng ánh xạ tên thực thể được xây dựng thủ công lúc index"
+        },
+        {
+          "key": "C",
+          "text": "Duyệt toàn bộ đồ thị theo thứ tự rồi chọn node có số lượng cạnh nhiều nhất"
+        },
+        {
+          "key": "D",
+          "text": "Chỉ khớp chính xác tuyệt đối theo tên để tránh tạo ra kết quả sai lệch trong đồ thị"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cho phép khớp ngữ nghĩa là điểm quan trọng — nếu chỉ khớp chính xác, câu hỏi dùng tên viết khác (‘MSFT’ thay vì ‘Microsoft’) sẽ thất bại ngay từ bước đầu. Đây cũng là chỗ vector embedding trên node phát huy tác dụng.",
+      "tags": [
+        "day19",
+        "pipeline"
+      ]
+    },
+    {
+      "id": "D19-093",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao cần bước Textualization?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì cần chuyển dữ liệu sang định dạng JSON để LLM phân tích cấu trúc dễ dàng hơn, và tài liệu nguồn đã được làm sạch trước khi nạp, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "B",
+          "text": "Vì graph database và LLM dùng hai loại mã hóa ký tự khác nhau nên cần chuyển đổi, nên câu trả lời cuối vẫn thiếu mối liên kết, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "C",
+          "text": "Vì subgraph thu được thường quá lớn nên phải nén lại trước khi đưa vào prompt, kể cả khi context window còn dư rất nhiều chỗ, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "D",
+          "text": "Vì LLM không thể ‘đọc’ trực tiếp cơ sở dữ liệu đồ thị — phải chuyển subgraph thành một prompt văn bản, kể cả khi context window còn dư rất nhiều chỗ, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Ví dụ chuyển đổi: từ RAW TRIPLES <code>(Bill Gates, CO_FOUNDED, Microsoft), (Paul Allen, CO_FOUNDED, Microsoft)</code> thành văn bản 'Các mối quan hệ sau tồn tại trong cơ sở tri thức: Bill Gates CO_FOUNDED Microsoft. Paul Allen CO_FOUNDED Microsoft.'",
+      "tags": [
+        "day19",
+        "textualization"
+      ]
+    },
+    {
+      "id": "D19-094",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "LightRAG bỏ qua được điều gì mà GraphRAG cơ bản vẫn phải làm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bước trích xuất triple từ văn bản gốc, nhờ dùng embedding trực tiếp trên chunks, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "B",
+          "text": "Việc tính toán duyệt đồ thị nặng nề — vì đã embed cả nodes lẫn edges nên vector search tìm được nodes VÀ relationships cùng lúc"
+        },
+        {
+          "key": "C",
+          "text": "Bước giải quyết đồng tham chiếu, nhờ cơ chế dual-level retrieval xử lý luôn đại từ, kể cả khi seed node được chọn hoàn toàn chính xác"
+        },
+        {
+          "key": "D",
+          "text": "Bước chuyển subgraph thành văn bản, nhờ LLM đọc được cấu trúc đồ thị trực tiếp, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Cần phân biệt rõ: LightRAG bỏ được bước DUYỆT (traversal) chứ không bỏ được bước TRÍCH XUẤT (extraction) — đồ thị vẫn phải được xây. So với MS GraphRAG, thứ nó bỏ thêm là bước pre-compute báo cáo cộng đồng.",
+      "tags": [
+        "day19",
+        "lightrag"
+      ]
+    },
+    {
+      "id": "D19-095",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Cơ chế tóm tắt phân cấp của Microsoft GraphRAG hoạt động thế nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tạo một bản tóm tắt duy nhất cho toàn bộ đồ thị rồi cập nhật khi có dữ liệu mới, và pipeline vẫn chạy từ đầu tới cuối không lỗi, kể cả khi giới hạn năm mươi cạnh đã được bật"
+        },
+        {
+          "key": "B",
+          "text": "Tóm tắt từng tài liệu riêng lẻ rồi ghép các bản tóm tắt lại theo thứ tự thời gian, nên benchmark multi-hop không cải thiện gì, và pipeline vẫn chạy từ đầu tới cuối không lỗi"
+        },
+        {
+          "key": "C",
+          "text": "Khi các cộng đồng hình thành, dùng LLM tạo ‘báo cáo tóm tắt’ cho từng cộng đồng ở MỌI cấp độ, và pre-compute câu trả lời cho các câu hỏi mang tính chủ đề toàn cục"
+        },
+        {
+          "key": "D",
+          "text": "Nhóm các node theo nhãn thực thể rồi tóm tắt từng nhóm bằng model ngôn ngữ nhỏ, kể cả khi giới hạn năm mươi cạnh đã được bật, và mọi triple đều đã qua bước chuẩn hóa tên"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Hai từ khóa cần nhớ: 'mọi cấp độ' (nên mới gọi là phân cấp) và 'pre-compute' (tính trước lúc index, không phải lúc truy vấn). Đây vừa là điểm mạnh cho Global Search, vừa là nguyên nhân trực tiếp gây ra chi phí index cực đắt.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-096",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "‘Sensemaking’ khác gì với việc trả lời câu hỏi thông thường?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sensemaking là tạo dựng ý nghĩa trên TOÀN BỘ tập dữ liệu — hỏi ‘bức tranh tổng thể’ chứ không nhắm vào một dữ kiện cụ thể nào"
+        },
+        {
+          "key": "B",
+          "text": "Sensemaking đòi hỏi độ chính xác cao hơn nên cần model ngôn ngữ mạnh hơn để xử lý, và tài liệu nguồn đã được làm sạch trước khi nạp"
+        },
+        {
+          "key": "C",
+          "text": "Sensemaking cần con người tham gia đánh giá còn hỏi đáp có thể tự động hoàn toàn, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "D",
+          "text": "Sensemaking chỉ áp dụng cho dữ liệu phi cấu trúc còn hỏi đáp áp dụng cho dữ liệu có cấu trúc, mà độ chính xác gần như không thay đổi"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Loại câu hỏi này không có 'chunk chứa đáp án' để mà retrieve — đáp án chỉ xuất hiện khi tổng hợp toàn corpus. Đây là lý do MS GraphRAG phải pre-compute báo cáo cộng đồng thay vì tìm kiếm lúc truy vấn.",
+      "tags": [
+        "day19",
+        "ms-graphrag"
+      ]
+    },
+    {
+      "id": "D19-097",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Truy vấn về ‘USA’ khiến hệ thống trả lời lan man và tràn context. Nguyên nhân và cách xử lý?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Super-node — ‘USA’ có thể có 100.000 kết nối; xử lý bằng giới hạn cứng như ‘2 hop, tối đa 50 cạnh’, nên câu trả lời cuối vẫn thiếu mối liên kết, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "B",
+          "text": "Do độ sâu duyệt đặt bằng 1 nên thiếu ngữ cảnh, cần tăng lên 2 hoặc 3 hop, trong khi graph database hoạt động ổn định, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        },
+        {
+          "key": "C",
+          "text": "Do seed node matching chọn nhầm node, cần siết lại điều kiện khớp ngữ nghĩa, nên câu trả lời cuối vẫn thiếu mối liên kết, và mọi triple đều đã qua bước chuẩn hóa tên"
+        },
+        {
+          "key": "D",
+          "text": "Do textualization giữ lại quá nhiều chi tiết, cần nén subgraph trước khi đưa vào prompt, trong khi graph database hoạt động ổn định, nên câu trả lời cuối vẫn thiếu mối liên kết"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Đây là lý do best practice đặt HAI giới hạn chứ không chỉ một. Giới hạn độ sâu không cứu được khi một node duy nhất ở hop đầu đã có hàng chục nghìn cạnh — phải chặn thêm bằng số cạnh tối đa.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-098",
+      "module": "D",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Thông điệp tổng quát nhất của Day 19 là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Knowledge graph mở ra khả năng suy luận multi-hop mà flat RAG không có, nhưng chất lượng trích xuất mới là nút thắt — và không phải bài toán nào cũng cần graph"
+        },
+        {
+          "key": "B",
+          "text": "Nên bắt đầu mọi dự án RAG bằng việc xây knowledge graph để tránh phải làm lại về sau, trong khi coreference đã chạy đầy đủ một lượt, mà số lượng node trong đồ thị vẫn giữ nguyên"
+        },
+        {
+          "key": "C",
+          "text": "GraphRAG là bước tiến hóa tất yếu và sẽ dần thay thế hoàn toàn RAG dựa trên vector, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, trong khi vector search vẫn trả kết quả đúng"
+        },
+        {
+          "key": "D",
+          "text": "Chi phí là yếu tố quyết định duy nhất khi lựa chọn giữa Flat RAG và GraphRAG, trong khi vector search vẫn trả kết quả đúng, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ba vế của thông điệp tương ứng với ba phần của bài: §1 chứng minh Flat RAG thất bại ở đâu, §2–3 cho thấy trích xuất là nút thắt (GIGO, 'Graph quality beats Graph size'), §5 vẽ ranh giới rõ về khi nào KHÔNG nên dùng graph.",
+      "tags": [
+        "day19",
+        "summary"
+      ]
+    },
+    {
+      "id": "D19-099",
+      "module": "B",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Đội muốn dùng GraphRAG cho một bộ tài liệu đấu thầu chỉ dùng một lần rồi bỏ. Nên tư vấn gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Không nên — chi phí index cao chỉ được khấu hao khi đồ thị phục vụ nhiều truy vấn qua thời gian; slide khuyên dành GraphRAG cho tri thức cốt lõi của doanh nghiệp"
+        },
+        {
+          "key": "B",
+          "text": "Nên làm nhưng dùng LightRAG để giảm chi phí index xuống mức trung bình, mà chi phí index không hề tăng thêm chút nào, kể cả khi context window còn dư rất nhiều chỗ"
+        },
+        {
+          "key": "C",
+          "text": "Nên làm, vì chất lượng câu trả lời cao hơn luôn đáng để đầu tư bất kể vòng đời dữ liệu, nên benchmark multi-hop không cải thiện gì, mà chi phí index không hề tăng thêm chút nào"
+        },
+        {
+          "key": "D",
+          "text": "Không xác định được nếu chưa biết số lượng câu hỏi multi-hop sẽ được đặt ra, kể cả khi context window còn dư rất nhiều chỗ, trong khi coreference đã chạy đầy đủ một lượt"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Nguyên tắc gốc: 'Đừng dùng GraphRAG cho các tài liệu dùng một lần.' Cấu trúc chi phí của GraphRAG là đắt-khi-xây/rẻ-khi-truy-vấn, nên nó chỉ có lãi khi số lượt truy vấn đủ lớn để bù chi phí xây.",
+      "tags": [
+        "day19",
+        "scenario"
+      ]
+    },
+    {
+      "id": "D19-100",
+      "module": "C",
+      "type": "mcq",
+      "points": 1,
+      "prompt": "Vì sao validity dates được gắn vào cạnh chứ không phải vào node?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vì node thường có ít thuộc tính hơn nên việc thêm dữ liệu vào cạnh giúp cân bằng lưu trữ, dù đồ thị đã được xây từ toàn bộ corpus, dù đã thử cả NetworkX lẫn Neo4j để so sánh"
+        },
+        {
+          "key": "B",
+          "text": "Vì cạnh biểu diễn MỐI QUAN HỆ — thứ có tính hiệu lực theo giai đoạn; bản thân thực thể không ‘hết hạn’ theo cách đó, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "C",
+          "text": "Vì các node được chia sẻ giữa nhiều truy vấn nên không thể gắn thuộc tính riêng cho từng ca, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ, dù đồ thị đã được xây từ toàn bộ corpus"
+        },
+        {
+          "key": "D",
+          "text": "Vì graph database chỉ hỗ trợ gắn thuộc tính thời gian cho cạnh chứ không cho node, dù đã thử cả NetworkX lẫn Neo4j để so sánh, dù prompt đã yêu cầu bám sát ngữ cảnh quan hệ"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sam Altman vẫn tồn tại và OpenAI vẫn tồn tại — thứ thay đổi theo thời gian là quan hệ CEO_OF giữa họ. Đây là lý do slide Graph Theory Basics phân biệt rõ Node Property và Edge Property ngay từ phần nền tảng.",
+      "tags": [
+        "day19",
+        "temporal"
+      ]
+    }
+  ]
+}
