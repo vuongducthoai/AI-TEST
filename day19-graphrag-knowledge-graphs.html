@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 19 — GraphRAG &amp; Knowledge Graphs | Tóm tắt</title>
+<style>
+:root{
+  --bg:#f7f8fa; --card:#fff; --ink:#1a1d24; --muted:#5b6472; --line:#e3e7ee;
+  --brand:#6b3fa0; --brand-soft:#f1eaf9; --warn:#b8541a; --warn-soft:#fdf1e7;
+  --ok:#1d7a4f; --ok-soft:#e8f6ef; --bad:#c0392b; --bad-soft:#fdeceb;
+  --vec:#2f5fd0; --vec-soft:#eaf0fd; --gr:#0f7a6b; --gr-soft:#e6f4f1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+
+header{background:linear-gradient(135deg,#6b3fa0,#2f5fd0);color:#fff;padding:34px 0 26px}
+header .wrap{padding-bottom:0}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:31px;line-height:1.2;font-weight:700}
+header p{margin:0;opacity:.9;font-size:15px}
+
+.tabbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+  box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tabbar .wrap{display:flex;gap:4px;padding-top:0;padding-bottom:0}
+.tab{appearance:none;border:0;background:none;font:inherit;font-weight:600;font-size:15px;
+  padding:15px 18px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand)}
+.panel{display:none;padding-top:28px}
+.panel.on{display:block}
+
+h2{font-size:22px;margin:36px 0 4px;padding-top:14px;border-top:2px solid var(--line)}
+h2 .num{color:var(--brand);font-weight:700}
+h2:first-child{border-top:0;padding-top:0;margin-top:0}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+h3{font-size:17px;margin:26px 0 10px}
+h4{font-size:15.5px;margin:0 0 8px}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}
+li{margin:5px 0}
+code{background:#eef1f6;padding:2px 6px;border-radius:4px;font-size:13.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#1f2430;color:#e6e9ef;padding:13px 15px;border-radius:9px;overflow-x:auto;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;margin:12px 0}
+pre .kw{color:#c792ea;font-weight:600} pre .st{color:#c3e88d} pre .nd{color:#82aaff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f2f5fa;font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+
+.note{border-left:4px solid var(--brand);background:var(--brand-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.warn{border-left:4px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.bad{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.ok{border-left:4px solid var(--ok);background:var(--ok-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.note b,.warn b,.bad b,.ok b{display:block;margin-bottom:3px;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.note b{color:var(--brand)} .warn b{color:var(--warn)} .bad b{color:var(--bad)} .ok b{color:var(--ok)}
+
+.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:20px;margin-right:5px}
+.pill.v{background:var(--vec-soft);color:var(--vec)}
+.pill.g{background:var(--gr-soft);color:var(--gr)}
+.pill.o{background:var(--ok-soft);color:var(--ok)}
+.pill.w{background:var(--warn-soft);color:var(--warn)}
+
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+.step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:13.5px;font-weight:600}
+.step small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.step b{color:var(--brand)}
+.arw{color:var(--muted);font-weight:700;font-size:13px}
+
+.triple{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0}
+.ent{background:var(--gr-soft);color:var(--gr);border:1.5px solid var(--gr);border-radius:22px;
+  padding:7px 16px;font-weight:600;font-size:14px}
+.rel{color:var(--brand);font-weight:700;font-size:13px;letter-spacing:.03em}
+.rel::before{content:"—[ "} .rel::after{content:" ]→"}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.vs>div{border-radius:11px;padding:15px 17px;border:1px solid var(--line);background:#fff}
+.vs .lv{border-top:4px solid var(--vec)}
+.vs .lg{border-top:4px solid var(--gr)}
+.vs h4{margin:0 0 8px;font-size:15px}
+.vs .lv h4{color:var(--vec)} .vs .lg h4{color:var(--gr)}
+.vs p{margin:6px 0;font-size:14px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:700px){.stats{grid-template-columns:1fr}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:15px;text-align:center}
+.stat .n{font-size:26px;font-weight:700;color:var(--brand);line-height:1.1}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:5px}
+
+.fails{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:820px){.fails{grid-template-columns:1fr}}
+.fails div{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;font-size:14px}
+.fails div b{display:block;color:var(--bad);margin-bottom:4px;font-size:13.5px}
+
+#cheat{font-size:14px}
+#cheat h2{font-size:18px;margin:20px 0 8px;padding-top:10px}
+#cheat .card{padding:14px 16px;margin:10px 0}
+#cheat table{font-size:12.5px}
+#cheat th,#cheat td{padding:6px 8px}
+#cheat ul,#cheat ol{padding-left:19px} #cheat li{margin:3px 0}
+#cheat pre{font-size:11.5px;padding:9px 11px}
+.cheatgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.cheatgrid{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.kv dt{font-weight:600;color:var(--brand)}
+.kv dd{margin:0;color:var(--muted)}
+.printbtn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:9px 16px;
+  font:inherit;font-weight:600;font-size:14px;cursor:pointer;margin-bottom:6px}
+.printbtn:hover{background:#5a3488}
+
+.fcbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.fbtn{background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 15px;
+  font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted)}
+.fbtn:hover{border-color:var(--brand);color:var(--brand)}
+.fbtn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.counter{margin-left:auto;font-size:13.5px;color:var(--muted)}
+.fcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fc{perspective:1100px;height:215px;cursor:pointer}
+.fci{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .fci{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:18px;
+  display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);overflow:auto}
+.ff{background:#fff}
+.fb{background:var(--brand);color:#fff;transform:rotateY(180deg);border-color:var(--brand)}
+.fb code{background:rgba(255,255,255,.2);color:#fff}
+.ff .tag2{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.ff .q{font-size:15.5px;font-weight:600;line-height:1.45}
+.fb .a{font-size:13.5px;line-height:1.55}
+.hint{text-align:center;color:var(--muted);font-size:12.5px;margin-top:10px}
+
+@media print{
+  header,.tabbar,.printbtn,.hint{display:none!important}
+  .panel{display:none!important} #cheat{display:block!important;padding-top:0}
+  body{background:#fff;font-size:10.5px} .wrap{max-width:100%;padding:0}
+  .card{break-inside:avoid;border-color:#ccc} table{break-inside:avoid}
+  pre{background:#f4f4f4;color:#222;border:1px solid #ddd}
+  pre .kw,pre .st,pre .nd{color:#222}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="kicker">AICB-P2T3 · Chương 4 · Tuần 4</p>
+    <h1>Ngày 19 — GraphRAG &amp; Knowledge Graphs</h1>
+    <p>Khi user hỏi về mối quan hệ giữa 5 entities — flat RAG trả lời sai, GraphRAG trả lời đúng — tại sao?</p>
+  </div>
+</header>
+
+<nav class="tabbar">
+  <div class="wrap">
+    <button class="tab on" data-t="detail">Tóm tắt chi tiết</button>
+    <button class="tab" data-t="cheat">Cheat sheet</button>
+    <button class="tab" data-t="cards">Flashcard</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ==================== TAB 1 ==================== -->
+<section class="panel on" id="detail">
+
+<h2><span class="num">§1</span> &nbsp;Khi nào Flat RAG thất bại?</h2>
+<p class="sub">Giới hạn của vector search khi cần suy luận quan hệ.</p>
+
+<h3>3 loại query Flat RAG gặp khó</h3>
+<table>
+  <tr><th style="width:190px">Loại query</th><th>Ví dụ</th></tr>
+  <tr><td><b>Multi-hop relational</b></td><td>“A liên kết B qua C”</td></tr>
+  <tr><td><b>Global thematic</b></td><td>“Tổng quan chủ đề X trong corpus”</td></tr>
+  <tr><td><b>Cross-document</b></td><td>“So sánh Policy A với Policy B”</td></tr>
+</table>
+<div class="bad"><b>Nguyên nhân gốc rễ</b>Vector RAG tìm câu <b>giống nhau</b>. Nhưng quan hệ giữa entities nằm ở <b>CẤU TRÚC</b>, không phải ở embedding similarity.</div>
+
+<h3>Câu hỏi dẫn dắt (The Hook)</h3>
+<div class="card">
+  <p style="margin:0 0 10px"><i>“Những startup AI nào được đồng sáng lập bởi các cựu nhân viên Google, những người từng nghiên cứu về kiến trúc Transformer?”</i></p>
+  <p class="sub" style="margin:0 0 8px">Đòi hỏi liên kết <b>3 luồng thông tin</b>, trải dài qua hàng chục tài liệu:</p>
+  <ol style="margin:0">
+    <li>Startup AI &amp; Nhà sáng lập</li>
+    <li>Lịch sử làm việc tại Google</li>
+    <li>Lịch sử dự án Transformer</li>
+  </ol>
+</div>
+<div class="flow">
+  <span class="step">Chunk A<small>Google</small></span>
+  <span class="step">Chunk B<small>Transformer</small></span>
+  <span class="step">Chunk C<small>Startup AI</small></span>
+  <span class="arw">→ Thiếu link giữa các entities!</span>
+</div>
+<p class="sub">Kết quả: <b>sinh ra ảo giác (hallucination)</b>, hoặc trả lời “Tôi không có đủ thông tin”.</p>
+
+<h3>Vector RAG vs GraphRAG — cốt lõi</h3>
+<div class="vs">
+  <div class="lv">
+    <h4>Vector RAG (Flat RAG)</h4>
+    <p>Tìm sự tương đồng về mặt <b>ngữ nghĩa</b>. Như search Google.</p>
+    <p class="sub" style="margin:8px 0 0">Ẩn dụ: tìm thấy 3 trang bách khoa toàn thư nhưng <b>không đọc phần tham chiếu chéo</b>.</p>
+  </div>
+  <div class="lg">
+    <h4>GraphRAG</h4>
+    <p>Hiểu các kết nối mang tính <b>cấu trúc</b>. Như đọc hiểu mind map.</p>
+    <p class="sub" style="margin:8px 0 0">Dịch chuyển mô hình: thay vì tìm “văn bản giống nhau”, ta duyệt <b>Node A → Node B → Node C</b>.</p>
+  </div>
+</div>
+<div class="note"><b>Ẩn dụ dễ nhớ</b>“Ai là bạn chung của An và Bình?” — Vector search tìm trang nói về An, trang nói về Bình nhưng <b>không link được</b>. Graph search: An → bạn → <b>Cường</b> ← bạn ← Bình. Trả lời ngay.</div>
+
+<h3>Bằng chứng benchmark</h3>
+<div class="stats">
+  <div class="stat"><div class="n">+40%</div><div class="l">Comprehensiveness vs Flat RAG<br>(community questions)</div></div>
+  <div class="stat"><div class="n">2–3×</div><div class="l">Multi-hop accuracy gain</div></div>
+  <div class="stat"><div class="n">OK</div><div class="l">Flat RAG vẫn tốt cho factoid</div></div>
+</div>
+<div class="warn"><b>Đừng quên vế sau</b>Với single-doc factoid, Flat RAG <b>nhanh hơn và rẻ hơn</b>. Không phải lúc nào cũng cần graph.</div>
+
+<h2><span class="num">§2</span> &nbsp;Knowledge Graph Fundamentals</h2>
+<p class="sub">Nodes, Edges, Triples — nền tảng của graph-based reasoning.</p>
+
+<h3>Định nghĩa</h3>
+<p><b>Knowledge Graph = Directed labeled graph:</b> Entity (node) + Relation (edge) + Triple (subject–predicate–object).</p>
+<div class="triple">
+  <span class="ent">Sam Altman</span><span class="rel">CEO_OF</span><span class="ent">OpenAI</span>
+</div>
+<div class="triple">
+  <span class="ent">OpenAI</span><span class="rel">DEVELOPED</span><span class="ent">GPT-4</span>
+</div>
+<p class="sub">Triple là <b>nguyên tử cơ bản</b> để cấu trúc hóa kiến thức. Hàng triệu triple kết nối lại tạo thành một Knowledge Graph khổng lồ. Retrieval = <b>graph traversal</b> thay vì chunk search.</p>
+
+<h3>Graph Theory Basics</h3>
+<div class="grid g3">
+  <div class="card" style="margin:0"><h4>Nodes</h4><p class="sub" style="margin:0">Đỉnh / thực thể trong dữ liệu</p></div>
+  <div class="card" style="margin:0"><h4>Edges</h4><p class="sub" style="margin:0">Cạnh / mối quan hệ kết nối các nodes</p></div>
+  <div class="card" style="margin:0"><h4>Properties</h4><p class="sub" style="margin:0">Metadata gắn với node <b>hoặc</b> edge<br>Node: <code>age=38</code> · Edge: <code>year=2015</code></p></div>
+</div>
+<div class="note"><b>Có hướng vs vô hướng</b><code>BORN_IN</code> phải có hướng (thành phố không “sinh ra tại” một người); <code>KNOWS</code> là quan hệ hai chiều. <b>KG hầu như luôn là Directed Labeled Graphs.</b></div>
+
+<h3>Property Graph vs RDF</h3>
+<table>
+  <tr><th style="width:200px">Property Graph</th><th>RDF</th></tr>
+  <tr>
+    <td>Neo4j, FalkorDB — nodes và edges có thể chứa nhiều siêu dữ liệu. Hiệu năng cao. <b>Tiêu chuẩn công nghiệp cho GraphRAG.</b></td>
+    <td>Resource Description Framework — tiêu chuẩn <b>học thuật</b> cho dữ liệu liên kết mở (Wikidata). Khó duy trì cho hệ thống GenAI thời gian thực.</td>
+  </tr>
+</table>
+
+<h3>Cypher — “SQL của Graph”</h3>
+<pre><span class="kw">MATCH</span> (p:<span class="nd">Person</span>)-[:<span class="nd">CO_FOUNDED</span>]->(c:<span class="nd">Company</span>)
+<span class="kw">WHERE</span>  c.name = <span class="st">'OpenAI'</span>
+<span class="kw">RETURN</span> p.name</pre>
+<p class="sub"><b>MATCH</b> tìm mẫu (pattern) · <b>WHERE</b> lọc dữ liệu · <b>RETURN</b> trả về kết quả. Ngoặc tròn <code>()</code> = node, ngoặc vuông <code>[]</code> = cạnh, mũi tên <code>-&gt;</code> = hướng.</p>
+
+<h3>The Extraction Bottleneck</h3>
+<div class="bad"><b>Phần khó nhất &amp; tốn kém nhất</b>Đồ thị không tự sinh ra — phải trích xuất nodes và edges từ văn bản thô, lộn xộn. <b>Garbage In = Garbage Out (GIGO).</b></div>
+
+<table>
+  <tr><th style="width:200px">Bước</th><th>Nội dung</th></tr>
+  <tr><td><b>NER</b><br><span class="pill w">spaCy / LLM</span></td><td>Nhận diện “Ai”, “Cái gì”, “Ở đâu”</td></tr>
+  <tr><td><b>Relation Extraction</b></td><td>Tìm ra cách các thực thể tương tác với nhau</td></tr>
+  <tr style="background:var(--warn-soft)"><td><b>Coreference Resolution</b></td><td>“Sam Altman là một doanh nhân. <b>Ông</b> đã thành lập OpenAI.” — không quy chiếu sẽ tạo node cô lập tên “Ông”. <b>Bỏ qua bước này mất 30–40% quan hệ quan trọng.</b></td></tr>
+  <tr><td><b>Entity Disambiguation</b></td><td><b>TÁCH</b>: “Apple báo cáo doanh số iPhone” vs “Apple (quả táo) là trái cây” → 2 node riêng biệt</td></tr>
+  <tr><td><b>Entity Deduplication</b></td><td><b>GỘP</b>: “OpenAI”, “Open AI”, “open-ai”, “OAI” → 1 node. Dùng string matching, vector similarity, hoặc LLM</td></tr>
+</table>
+<div class="warn"><b>Đánh đổi công cụ</b>LLM mạnh nhưng <b>chậm và đắt</b> khi xử lý hàng ngàn trang; NLP truyền thống <b>nhanh nhưng kém linh hoạt</b>.</div>
+
+<h3>5 giai đoạn xây dựng Knowledge Graph</h3>
+<div class="flow">
+  <span class="step"><b>1.</b> Đọc chunks</span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Coreference<small>xử lý đại từ</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> Trích xuất thực thể<small>&amp; phân giải</small></span><span class="arw">→</span>
+  <span class="step"><b>4.</b> Trích xuất triples</span><span class="arw">→</span>
+  <span class="step"><b>5.</b> Dedup + đẩy vào Neo4j</span>
+</div>
+<p class="sub">Thứ tự có logic chặt: phải giải quyết đại từ <b>trước</b> khi trích xuất thực thể, và phải có thực thể chuẩn hóa <b>trước</b> khi nối thành triple.</p>
+
+<h3>NetworkX vs Neo4j</h3>
+<table>
+  <tr><th style="width:130px"></th><th>NetworkX</th><th>Neo4j</th></tr>
+  <tr><td>Setup</td><td><code>pip install</code></td><td>Docker / Cloud</td></tr>
+  <tr><td>Scale</td><td>~100K nodes</td><td>Millions+</td></tr>
+  <tr><td>ACID</td><td>Không</td><td>Có</td></tr>
+  <tr><td>Algorithms</td><td>Có (BFS, PageRank)</td><td>Full library</td></tr>
+  <tr><td>Best for</td><td>Prototype</td><td>Production</td></tr>
+</table>
+<div class="ok"><b>3 mẹo tối ưu</b>① Thêm <b>embeddings</b> cho mỗi node + <b>source chunk references</b> → bật hybrid search. ② <b>Bulk insert theo batch</b> thay vì từng triple → nhanh <b>gấp 10 lần</b>. ③ Vượt 100K nodes → chuyển <b>Neo4j</b> hoặc <b>FalkorDB</b> (Redis-based).</div>
+
+<h2><span class="num">§3</span> &nbsp;Pipeline GraphRAG tiêu chuẩn</h2>
+<p class="sub">Hành trình từ câu hỏi của user đến câu trả lời của LLM.</p>
+
+<div class="flow">
+  <span class="step"><b>1.</b> Query Processing<small>trích xuất thực thể từ câu hỏi</small></span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Seed Node Matching<small>tìm node gốc trong Graph DB</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> Graph Traversal<small>BFS khám phá lân cận</small></span><span class="arw">→</span>
+  <span class="step"><b>4.</b> Textualization<small>graph → văn bản</small></span><span class="arw">→</span>
+  <span class="step"><b>5.</b> Generation<small>LLM tổng hợp</small></span>
+</div>
+
+<div class="grid g2">
+  <div class="card" style="margin:0">
+    <h4>Bước 1–2: Trích xuất &amp; Seeding</h4>
+    <p style="margin:0 0 6px;font-size:14px">“Ai đồng sáng lập Microsoft?” → LLM trích xuất <code>[Microsoft]</code></p>
+    <p class="sub" style="margin:0">Hệ thống tìm node <b>khớp hoàn toàn HOẶC có ngữ nghĩa tương đồng</b> — đây là chỗ embedding trên node phát huy tác dụng.</p>
+  </div>
+  <div class="card" style="margin:0">
+    <h4>Bước 3: BFS Traversal</h4>
+    <p style="margin:0 0 6px;font-size:13.5px">Thu thập mọi triple nối với node gốc:</p>
+    <p style="margin:0;font-size:13px"><code>(Bill Gates)—[CO_FOUNDED]—(Microsoft)</code><br><code>(Paul Allen)—[CO_FOUNDED]—(Microsoft)</code></p>
+  </div>
+</div>
+
+<h3>Độ sâu duyệt (Traversal Depth)</h3>
+<table>
+  <tr><th style="width:130px">Depth</th><th>Đánh giá</th></tr>
+  <tr><td><b>1</b></td><td>Quá nông — chỉ lấy hàng xóm trực tiếp, dễ trượt mất ngữ cảnh multi-hop</td></tr>
+  <tr style="background:var(--ok-soft)"><td><b>2</b> <span class="pill o">khuyến dùng</span></td><td>Tiêu chuẩn — lấy hàng xóm và ngữ cảnh lân cận của chúng</td></tr>
+  <tr><td><b>3+</b></td><td>Quá nhiều — kéo theo dữ liệu không liên quan, làm quá tải Context Window và <b>gây ra ảo giác</b></td></tr>
+</table>
+<div class="warn"><b>Nghịch lý cần nhớ</b>Duyệt sâu hơn <b>không</b> làm câu trả lời chính xác hơn — nó gây đúng loại lỗi mà GraphRAG được kỳ vọng khắc phục.</div>
+
+<h3>Bước 4: Textualization</h3>
+<p>LLM <b>không thể “đọc” trực tiếp</b> cơ sở dữ liệu đồ thị. Phải chuyển subgraph thành prompt văn bản.</p>
+<div class="card">
+  <p style="margin:0 0 6px;font-size:13px"><b>RAW TRIPLES:</b> <code>(Bill Gates, CO_FOUNDED, Microsoft), (Paul Allen, CO_FOUNDED, Microsoft)</code></p>
+  <p style="margin:0;font-size:13.5px">↓<br><b>VĂN BẢN HÓA:</b> <i>“Các mối quan hệ sau tồn tại trong cơ sở tri thức: Bill Gates CO_FOUNDED Microsoft. Paul Allen CO_FOUNDED Microsoft.”</i></p>
+</div>
+
+<h3>Bước 5: Generation</h3>
+<div class="card">
+  <p style="margin:0 0 6px"><b>System Prompt:</b></p>
+  <p style="margin:0;font-size:14px"><i>“Hãy trả lời câu hỏi của người dùng <b>CHỈ</b> sử dụng ngữ cảnh mối quan hệ được cung cấp sau đây.”</i></p>
+</div>
+<p class="sub">Kết quả: câu trả lời chính xác, bám sát thực tế và <b>miễn nhiễm với ảo giác RAG thông thường</b> — nhưng chỉ với ảo giác do <b>thiếu liên kết</b>. Nếu triple bị trích xuất sai (GIGO), LLM vẫn trả lời sai rất tự tin.</p>
+
+<h3>Hybrid Retrieval — bổ trợ thay vì thay thế</h3>
+<div class="vs">
+  <div class="lv"><h4>Vector DB</h4><p>Tìm kiếm ngữ nghĩa để truy xuất các <b>chunks</b> liên quan</p></div>
+  <div class="lg"><h4>Graph DB</h4><p>Duyệt đồ thị để khai thác các <b>mối quan hệ</b> thực thể phức tạp</p></div>
+</div>
+<p class="sub">Lưu vector embeddings <b>bên trong các node</b> của đồ thị. Cơ chế: dùng <b>semantic search tìm seed node</b>, sau đó dùng <b>graph traversal tìm quan hệ</b> — kết hợp cả ngữ cảnh cấu trúc lẫn phi cấu trúc trong cùng một LLM Context Window.</p>
+
+<h3>Temporal Knowledge Graph</h3>
+<p>Đồ thị thông thường là <b>tĩnh</b>, nhưng thế giới thực thay đổi. “Ai là CEO của OpenAI?” — đáp án năm 2018 khác 2024.</p>
+<div class="triple">
+  <span class="ent">Sam Altman</span>
+  <span class="rel">CEO_OF {start: 2019, end: present}</span>
+  <span class="ent">OpenAI</span>
+</div>
+<div class="note"><b>Vì sao gắn vào CẠNH?</b>Sam Altman vẫn tồn tại, OpenAI vẫn tồn tại — thứ thay đổi theo thời gian là <b>quan hệ</b> giữa họ. Validity dates thuộc về Edge Property, không phải Node Property.</div>
+
+<h3>Failure Modes</h3>
+<div class="fails">
+  <div><b>Super-nodes</b>Một node như “USA” có thể có 100.000 kết nối. Duyệt nó sẽ <b>làm sập context window</b>.</div>
+  <div><b>Đồ thị rời rạc</b>Trích xuất thất bại không nối được các subgraph → tạo ra các “hòn đảo” dữ liệu (Disconnected Components).</div>
+  <div><b>Ngữ cảnh nghèo nàn</b>Bước textualization lược bỏ quá nhiều — LLM biết ba thực thể liên quan nhưng không biết liên quan <b>thế nào</b>.</div>
+</div>
+
+<h3>Best Practices</h3>
+<div class="ok"><b>3 quy tắc</b>① Luôn duy trì <b>con trỏ từ Graph Node ngược về Document Chunk gốc</b>. ② Đặt <b>giới hạn duyệt</b>: “duyệt 2 hop, nhưng tối đa 50 cạnh”. ③ <b>Liên tục tinh chỉnh prompt NER</b>.</div>
+
+<h2><span class="num">§4</span> &nbsp;Kiến trúc SOTA</h2>
+<p class="sub">GraphRAG cơ bản dựa trên trích xuất Triple đơn giản. Hệ thống SOTA (2024+) tập trung vào <b>hiểu biết phân cấp</b> và <b>giảm chi phí xây đồ thị quy mô lớn</b>.</p>
+
+<h3>Microsoft GraphRAG <span class="pill w">giữa 2024</span></h3>
+<div class="card">
+  <p style="margin:0 0 8px"><b>Thiết kế cho Sensemaking</b> — tạo dựng ý nghĩa trên <b>toàn bộ</b> tập dữ liệu.</p>
+  <p class="sub" style="margin:0">Triết lý cốt lõi: không chỉ để trả lời câu hỏi cụ thể, mà để hỏi hệ thống <i>“Tập dữ liệu này nói về bức tranh tổng thể gì?”</i></p>
+</div>
+<p><b>Tóm tắt phân cấp:</b> khi các cộng đồng hình thành, dùng LLM tạo <b>“báo cáo tóm tắt”</b> cho từng cộng đồng ở <b>mọi cấp độ</b>; hệ thống <b>pre-compute</b> câu trả lời cho các câu hỏi chủ đề toàn cục.</p>
+<table>
+  <tr><th style="width:150px">Chế độ</th><th>Dùng cho</th><th>Cơ chế</th></tr>
+  <tr><td><b>Local Search</b></td><td>Câu hỏi cụ thể (“Ai kết nối X với Y?”)</td><td>Duyệt qua các nodes</td></tr>
+  <tr><td><b>Global Search</b></td><td>Câu hỏi chủ đề (“Đâu là rủi ro chính trong các hợp đồng này?”)</td><td>Đọc các <b>Báo cáo Cộng đồng đã tạo sẵn</b> thay vì duyệt node thô</td></tr>
+</table>
+<div class="bad"><b>Điểm yếu</b>Chi phí <b>cực đắt</b>: index 1 triệu token có thể tốn <b>$10–$50+</b> chỉ để xây đồ thị. Và <b>không phù hợp cho dữ liệu thay đổi liên tục</b> — báo cáo pre-compute lỗi thời ngay khi đồ thị đổi.</div>
+
+<h3>LightRAG — kẻ thách thức tối ưu</h3>
+<div class="card">
+  <p style="margin:0 0 8px"><b>Dual-level retrieval:</b> trích xuất cả thực thể chi tiết lẫn khái niệm trừu tượng mà <b>không cần</b> tạo trước các báo cáo cộng đồng đắt đỏ.</p>
+  <p style="margin:0 0 8px"><b>Embedding đa diện:</b> thay vì chỉ embed các chunks, LightRAG tạo vector embedding cho cả <b>Nodes VÀ Edges</b>.</p>
+  <p class="sub" style="margin:0">Kết quả: dùng vector search tìm ra nodes VÀ relationships liên quan cùng lúc, <b>bỏ qua việc tính toán duyệt đồ thị nặng nề</b>.</p>
+</div>
+
+<h3>Bảng so sánh</h3>
+<table>
+  <tr><th style="width:180px"></th><th>Chi phí Index</th><th>Khả năng Global</th><th>Multi-hop</th></tr>
+  <tr><td><b>Flat RAG</b></td><td><span class="pill o">Rẻ</span></td><td>Kém</td><td>Kém</td></tr>
+  <tr><td><b>MS GraphRAG</b></td><td><span class="pill w">Rất đắt</span></td><td>Xuất sắc</td><td>Xuất sắc</td></tr>
+  <tr style="background:var(--ok-soft)"><td><b>LightRAG</b></td><td>Trung bình</td><td>Tốt</td><td>Xuất sắc <span class="pill o">triển khai nhanh</span></td></tr>
+</table>
+
+<h3>Đánh giá GraphRAG</h3>
+<p class="sub">Khó hơn RAG truyền thống vì không chỉ đánh giá khả năng trích xuất văn bản mà còn phải đánh giá <b>khả năng suy luận trên cấu trúc đồ thị</b>.</p>
+<div class="grid g3">
+  <div class="card" style="margin:0"><h4>Tính toàn diện</h4><p class="sub" style="margin:0">Câu trả lời có giải quyết trọn vẹn và đầy đủ câu hỏi không?</p></div>
+  <div class="card" style="margin:0"><h4>Tính đa dạng</h4><p class="sub" style="margin:0">Thông tin cung cấp có phong phú và đa chiều không?</p></div>
+  <div class="card" style="margin:0"><h4>Tính chính xác</h4><p class="sub" style="margin:0">Mức độ tin cậy của các sự kiện được nêu ra.</p></div>
+</div>
+<div class="note"><b>Benchmark</b>Phải đo trên tập dữ liệu thiết kế riêng cho multi-hop: <b>HotpotQA</b>, <b>2WikiMultihopQA</b>. GraphRAG luôn cho độ chính xác <b>cao gấp 2–3 lần</b> Flat RAG trên các tập này.</div>
+
+<h2><span class="num">§5</span> &nbsp;Chiến lược doanh nghiệp &amp; ROI</h2>
+
+<h3>Thực tế về chi phí</h3>
+<div class="vs">
+  <div class="lv"><h4>Flat RAG</h4><p>✔ Rẻ khi xây dựng</p><p>✔ Rẻ khi truy vấn</p></div>
+  <div class="lg"><h4>GraphRAG</h4><p>✘ <b>Rất đắt</b> khi xây dựng (LLM trích xuất triples)</p><p>✔ Truy vấn khá rẻ và cực kỳ chính xác</p></div>
+</div>
+<div class="warn"><b>Hệ quả chiến lược</b>Đừng dùng GraphRAG cho các tài liệu <b>dùng một lần</b>. Hãy dùng nó cho <b>tri thức cốt lõi</b> của doanh nghiệp — nơi chi phí index được khấu hao qua vô số truy vấn.</div>
+
+<h3>Decision Framework</h3>
+<div class="vs">
+  <div class="lv">
+    <h4>Dùng Flat RAG khi…</h4>
+    <ul style="margin:0;padding-left:19px;font-size:14px">
+      <li>Tra cứu tài liệu IT Support (factoid lookup)</li>
+      <li>Chatbot chăm sóc khách hàng cơ bản</li>
+      <li>Tra cứu quy định nhân sự đơn lẻ</li>
+    </ul>
+    <p class="sub" style="margin:9px 0 0"><b>Nếu đáp án nằm rõ ràng trong 1 đoạn văn</b> → Flat RAG.</p>
+  </div>
+  <div class="lg">
+    <h4>Nâng cấp GraphRAG khi…</h4>
+    <ul style="margin:0;padding-left:19px;font-size:14px">
+      <li>Điều tra báo chí / phân tích tình báo</li>
+      <li>Đánh giá tài liệu y khoa chuyên sâu</li>
+      <li>Thẩm định pháp lý (legal discovery) phức tạp</li>
+    </ul>
+    <p class="sub" style="margin:9px 0 0"><b>Nếu câu trả lời cần tổng hợp từ nhiều tài liệu</b> → GraphRAG.</p>
+  </div>
+</div>
+<div class="ok"><b>Hybrid routing</b>Detect query type rồi route tương ứng: single-doc factoid → Flat RAG · multi-entity relations → GraphRAG · thematic overview → GraphRAG global.</div>
+
+<h3>3 Use Case doanh nghiệp</h3>
+<table>
+  <tr><th style="width:190px">Lĩnh vực</th><th>Ứng dụng</th></tr>
+  <tr><td><b>Pháp lý &amp; Tuân thủ</b></td><td>Lập bản đồ phụ thuộc hợp đồng — luật sư thấy ngay một thay đổi quy định vĩ mô tác động đến từng hợp đồng vendor nhỏ lẻ thế nào</td></tr>
+  <tr><td><b>Nhân sự &amp; Bản đồ tổ chức</b></td><td>“Bộ não” nội bộ: <i>“Tìm cho tôi người biết Python và từng làm một dự án tương tự Dự án X”</i> — đi qua <code>[CÓ_KỸ_NĂNG]</code> và <code>[THAM_GIA]</code></td></tr>
+  <tr><td><b>Chuỗi cung ứng</b></td><td>Ánh xạ thế giới vật lý: <i>“Nếu Nhà cung cấp A ngưng hoạt động, sản phẩm nào bị trễ?”</i> — cần tối thiểu 2 hop</td></tr>
+</table>
+
+<h2><span class="num">§6</span> &nbsp;Demo &amp; Lab 19</h2>
+
+<h3>Demo: Tech Company Corpus</h3>
+<div class="card">
+  <ol style="margin:0">
+    <li><b>Corpus:</b> 100 Wikipedia articles về AI companies → extract entities → Neo4j graph</li>
+    <li><b>Query 1</b> (flat RAG OK): “What is OpenAI?” — <b>cả hai pipeline đều đúng</b></li>
+    <li><b>Query 2</b> (multi-hop): “AI companies co-founded by former Google employees” — flat RAG <b>hallucinate</b>, GraphRAG đúng</li>
+    <li><b>Visualization:</b> Neo4j Browser hiển thị subgraph, highlight answer nodes</li>
+  </ol>
+  <p class="sub" style="margin:10px 0 0">Query 1 có chủ đích: chứng minh GraphRAG <b>không phải luôn tốt hơn</b> — factoid thì hòa, mà Flat RAG lại rẻ hơn.</p>
+</div>
+
+<h3>Lab 19 — 2 giờ</h3>
+<p><b>Mục tiêu:</b> Build Knowledge Graph + GraphRAG agent, multi-hop accuracy vượt flat RAG <b>+20%</b>.</p>
+<div class="flow">
+  <span class="step"><b>1.</b> Entity extraction<small>LLM-based NER → triples</small></span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Build graph<small>NetworkX/Neo4j + embeddings</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> GraphRAG retrieval<small>seed → BFS → text → LLM</small></span><span class="arw">→</span>
+  <span class="step"><b>4.</b> Benchmark<small>20 multi-hop questions</small></span>
+</div>
+<p class="sub"><b>Deliverable:</b> GitHub repo + Neo4j/NetworkX visualization + benchmark report (bảng accuracy, latency, cost, phân tích failure modes).</p>
+
+<h3>4 Key Takeaways</h3>
+<div class="grid g2">
+  <div class="ok" style="margin:0"><b>1 · Multi-hop reasoning</b>Knowledge graphs enable multi-hop reasoning mà flat RAG không làm được — dùng cho relational queries.</div>
+  <div class="ok" style="margin:0"><b>2 · Extraction là bottleneck</b>Invest NER + coreference resolution <b>trước</b> khi build graph.</div>
+  <div class="ok" style="margin:0"><b>3 · Graph quality beats Graph size</b>1000 high-quality triples beats 100K noisy ones.</div>
+  <div class="ok" style="margin:0"><b>4 · Production-ready starting point</b>Pipeline dùng lại được — nhưng phải customize entity extraction cho domain của bạn.</div>
+</div>
+<div class="note"><b>Tiếp theo — Ngày 20: Multi-Agent Systems</b>“Single agent mạnh, tiếp theo scale lên Multi-Agent — supervisor, debate, parallel.” Đọc: Anthropic <i>“Building Effective Agents”</i> (2024).</div>
+
+</section>
+
+<!-- ==================== TAB 2 ==================== -->
+<section class="panel" id="cheat">
+<button class="printbtn" onclick="window.print()">In cheat sheet</button>
+
+<div class="cheatgrid">
+<div>
+
+<h2>Khi nào Flat RAG thất bại</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li><b>Multi-hop relational</b> — “A liên kết B qua C”</li>
+    <li><b>Global thematic</b> — “Tổng quan chủ đề X”</li>
+    <li><b>Cross-document</b> — “So sánh Policy A với B”</li>
+  </ul>
+  <p style="margin:8px 0 0"><b>Gốc rễ:</b> quan hệ nằm ở CẤU TRÚC, không phải embedding similarity</p>
+</div>
+
+<h2>Benchmark</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>+40%</dt><dd>Comprehensiveness vs Flat RAG</dd>
+    <dt>2–3×</dt><dd>Multi-hop accuracy gain</dd>
+    <dt>Lưu ý</dt><dd>Factoid single-doc: Flat RAG nhanh &amp; rẻ hơn</dd>
+  </dl>
+</div>
+
+<h2>Knowledge Graph</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>Directed labeled graph</b> = Entity (node) + Relation (edge) + Triple</p>
+  <p style="margin:0 0 6px"><b>Triple:</b> (Chủ thể) → [Quan hệ] → (Tân ngữ)<br>
+    <code>(Sam Altman)—[CEO_OF]→(OpenAI)</code></p>
+  <p style="margin:0"><b>Properties:</b> gắn được cho CẢ node (<code>age=38</code>) lẫn edge (<code>year=2015</code>)</p>
+</div>
+
+<h2>Property Graph vs RDF</h2>
+<table>
+  <tr><th>Property Graph</th><th>RDF</th></tr>
+  <tr><td>Neo4j, FalkorDB<br>Hiệu năng cao<br><b>Chuẩn công nghiệp GraphRAG</b></td><td>Wikidata<br>Chuẩn học thuật<br>Khó duy trì cho GenAI realtime</td></tr>
+</table>
+
+<h2>Cypher</h2>
+<pre>MATCH  (p:Person)-[:CO_FOUNDED]->(c:Company)
+WHERE  c.name = 'OpenAI'
+RETURN p.name</pre>
+<p style="margin:2px 0 0">MATCH tìm pattern · WHERE lọc · RETURN trả về<br><code>()</code>=node · <code>[]</code>=cạnh · <code>-&gt;</code>=hướng</p>
+
+<h2>Extraction Bottleneck</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>NER</dt><dd>spaCy hoặc prompting LLM</dd>
+    <dt>Relation Extract</dt><dd>cách thực thể tương tác</dd>
+    <dt>Coreference</dt><dd>bỏ qua → mất <b>30–40%</b> quan hệ</dd>
+    <dt>Disambiguation</dt><dd><b>TÁCH</b>: Apple cty vs Apple quả</dd>
+    <dt>Deduplication</dt><dd><b>GỘP</b>: OpenAI/Open AI/OAI</dd>
+  </dl>
+  <p style="margin:8px 0 0"><b>GIGO</b> — Garbage In = Garbage Out</p>
+</div>
+
+<h2>5 giai đoạn build KG</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li>Đọc chunks</li>
+    <li>Coreference resolution</li>
+    <li>Trích xuất thực thể &amp; phân giải</li>
+    <li>Trích xuất triples</li>
+    <li>Dedup + đẩy vào Neo4j</li>
+  </ol>
+</div>
+
+<h2>NetworkX vs Neo4j</h2>
+<table>
+  <tr><th></th><th>NetworkX</th><th>Neo4j</th></tr>
+  <tr><td>Setup</td><td>pip</td><td>Docker/Cloud</td></tr>
+  <tr><td>Scale</td><td>~100K</td><td>Millions+</td></tr>
+  <tr><td>ACID</td><td>Không</td><td>Có</td></tr>
+  <tr><td>Best for</td><td>Prototype</td><td>Production</td></tr>
+</table>
+<p style="margin:2px 0 0">Vượt 100K → Neo4j / FalkorDB · Bulk insert <b>10× nhanh</b></p>
+
+</div>
+<div>
+
+<h2>Pipeline 5 bước</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li><b>Query Processing</b> — trích xuất thực thể từ câu hỏi</li>
+    <li><b>Seed Node Matching</b> — khớp chính xác HOẶC ngữ nghĩa</li>
+    <li><b>Graph Traversal</b> — BFS lấy nodes/edges lân cận</li>
+    <li><b>Textualization</b> — subgraph → prompt văn bản</li>
+    <li><b>Generation</b> — LLM tổng hợp</li>
+  </ol>
+</div>
+
+<h2>Traversal Depth</h2>
+<table>
+  <tr><th>Depth</th><th>Đánh giá</th></tr>
+  <tr><td>1</td><td>Quá nông — trượt multi-hop</td></tr>
+  <tr><td><b>2 ⭐</b></td><td><b>Tiêu chuẩn, khuyến dùng</b></td></tr>
+  <tr><td>3+</td><td>Quá tải context → gây ảo giác</td></tr>
+</table>
+
+<h2>Hybrid Retrieval</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>Bổ trợ, không thay thế</b></p>
+  <p style="margin:0 0 6px">Vector DB: tìm ngữ nghĩa → chunks<br>Graph DB: duyệt đồ thị → quan hệ</p>
+  <p style="margin:0">Cơ chế: semantic search tìm <b>seed node</b> → graph traversal tìm <b>quan hệ</b></p>
+</div>
+
+<h2>Temporal KG</h2>
+<div class="card">
+  <p style="margin:0 0 6px">Gắn <b>validity dates</b> vào thuộc tính của <b>CẠNH</b></p>
+  <p style="margin:0"><code>CEO_OF {start: 2019, end: present}</code><br>
+  Vì thực thể không “hết hạn” — quan hệ mới có giai đoạn hiệu lực</p>
+</div>
+
+<h2>Failure Modes</h2>
+<table>
+  <tr><th>Lỗi</th><th>Triệu chứng</th></tr>
+  <tr><td>Super-node</td><td>“USA” 100K cạnh → sập context</td></tr>
+  <tr><td>Đồ thị rời rạc</td><td>“Hòn đảo” dữ liệu, không có đường multi-hop</td></tr>
+  <tr><td>Ngữ cảnh nghèo</td><td>Textualization lược bỏ predicate</td></tr>
+</table>
+
+<h2>Best Practices</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li>Con trỏ Graph Node → Document Chunk gốc</li>
+    <li>Giới hạn: “2 hop, tối đa 50 cạnh”</li>
+    <li>Liên tục tinh chỉnh prompt NER</li>
+  </ul>
+</div>
+
+<h2>SOTA</h2>
+<table>
+  <tr><th></th><th>Index</th><th>Global</th><th>Multi-hop</th></tr>
+  <tr><td>Flat RAG</td><td>Rẻ</td><td>Kém</td><td>Kém</td></tr>
+  <tr><td>MS GraphRAG</td><td>Rất đắt</td><td>Xuất sắc</td><td>Xuất sắc</td></tr>
+  <tr><td>LightRAG</td><td>Trung bình</td><td>Tốt</td><td>Xuất sắc</td></tr>
+</table>
+<div class="card">
+  <p style="margin:0 0 6px"><b>MS GraphRAG:</b> sensemaking, báo cáo cộng đồng pre-compute mọi cấp. Local (duyệt node) vs Global (đọc báo cáo). Index 1M token = <b>$10–$50+</b></p>
+  <p style="margin:0"><b>LightRAG:</b> dual-level retrieval, embed cả <b>Nodes VÀ Edges</b>, bỏ qua traversal nặng</p>
+</div>
+
+<h2>Đánh giá &amp; Benchmark</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>3 tiêu chí:</b> Tính toàn diện · Tính đa dạng · Tính chính xác</p>
+  <p style="margin:0"><b>Bộ chuẩn:</b> HotpotQA, 2WikiMultihopQA → GraphRAG 2–3× accuracy</p>
+</div>
+
+<h2>Decision Framework</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>Flat RAG:</b> IT support, chatbot CSKH, tra quy định đơn lẻ<br>
+    <i>→ Đáp án nằm rõ trong 1 đoạn văn</i></p>
+  <p style="margin:0 0 6px"><b>GraphRAG:</b> điều tra báo chí, y khoa chuyên sâu, legal discovery<br>
+    <i>→ Cần tổng hợp từ nhiều tài liệu</i></p>
+  <p style="margin:0"><b>Chi phí:</b> GraphRAG đắt-khi-xây / rẻ-khi-truy-vấn → chỉ dùng cho <b>tri thức cốt lõi</b>, không cho tài liệu dùng một lần</p>
+</div>
+
+<h2>Takeaways</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li>KG enable multi-hop reasoning flat RAG không có</li>
+    <li>Extraction quality là bottleneck — NER + coreference TRƯỚC</li>
+    <li><b>Graph quality beats Graph size</b> — 1000 tốt &gt; 100K nhiễu</li>
+    <li>Pipeline production-ready, nhưng customize extraction theo domain</li>
+  </ul>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== TAB 3 ==================== -->
+<section class="panel" id="cards">
+<div class="fcbar">
+  <button class="fbtn on" data-f="all">Tất cả</button>
+  <button class="fbtn" data-f="why">Vì sao Graph</button>
+  <button class="fbtn" data-f="kg">Nền tảng KG</button>
+  <button class="fbtn" data-f="pipe">Pipeline</button>
+  <button class="fbtn" data-f="sota">SOTA &amp; ROI</button>
+  <span class="counter" id="cnt"></span>
+</div>
+<div class="fcgrid" id="fcgrid"></div>
+<p class="hint">Click vào thẻ để lật · Click lần nữa để úp lại</p>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); document.getElementById(b.dataset.t).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+const CARDS=[
+ ['why','3 loại query Flat RAG gặp khó?','<b>Multi-hop relational</b> (“A liên kết B qua C”) · <b>Global thematic</b> (“tổng quan chủ đề X”) · <b>Cross-document</b> (“so sánh Policy A với B”)'],
+ ['why','Nguyên nhân gốc rễ khiến Flat RAG thất bại?','Vector RAG tìm câu <b>giống nhau</b>. Nhưng quan hệ giữa entities nằm ở <b>CẤU TRÚC</b>, không phải ở embedding similarity.'],
+ ['why','Vì sao có đủ 3 chunk mà vẫn trả lời sai?','Lấy được chunk Google, chunk Transformer, chunk Startup — nhưng <b>thiếu mối LIÊN KẾT giữa chúng</b>. Thêm chunk nữa cũng vô ích.'],
+ ['why','Ẩn dụ mô tả hạn chế của Vector RAG?','Như tìm thấy <b>3 trang bách khoa toàn thư nhưng không đọc phần tham chiếu chéo</b>.'],
+ ['why','Sự dịch chuyển mô hình của GraphRAG?','Thay vì tìm “văn bản giống nhau”, ta <b>duyệt Node A → Node B → Node C</b>. Kết quả: multi-hop chính xác + tóm tắt toàn cục.'],
+ ['why','Ví dụ “bạn chung của An và Bình”?','Vector search tìm trang về An, trang về Bình — <b>không link được</b>. Graph: An → bạn → <b>Cường</b> ← bạn ← Bình.'],
+ ['why','Con số benchmark của GraphRAG?','<b>+40%</b> comprehensiveness vs Flat RAG · <b>2–3×</b> multi-hop accuracy gain.<br>Nhưng: single-doc factoid thì Flat RAG <b>nhanh &amp; rẻ hơn</b>.'],
+
+ ['kg','Knowledge Graph là loại đồ thị gì?','<b>Directed labeled graph</b>: Entity (node) + Relation (edge) + Triple (subject–predicate–object). Retrieval = graph traversal thay vì chunk search.'],
+ ['kg','Triple là gì?','<b>Nguyên tử cơ bản</b> để cấu trúc hóa kiến thức: (Chủ thể) → [Quan hệ] → (Tân ngữ).<br><code>(Sam Altman)—[CEO_OF]→(OpenAI)</code>'],
+ ['kg','Properties gắn được cho gì?','Cho <b>CẢ node lẫn edge</b>. Node Property: <code>age=38</code> · Edge Property: <code>year=2015</code>. Đây là nền tảng cho Temporal KG.'],
+ ['kg','Vì sao BORN_IN có hướng còn KNOWS thì không?','Với BORN_IN <b>chiều ngược lại không đúng</b> (thành phố không “sinh ra tại” một người); KNOWS là quan hệ hai chiều. KG hầu như luôn là Directed Labeled Graph.'],
+ ['kg','Property Graph vs RDF?','<b>Property Graph</b> (Neo4j, FalkorDB): hiệu năng cao, chuẩn công nghiệp cho GraphRAG.<br><b>RDF</b> (Wikidata): chuẩn học thuật, khó duy trì cho GenAI realtime.'],
+ ['kg','Ba mệnh đề Cypher?','<b>MATCH</b> tìm mẫu (pattern) · <b>WHERE</b> lọc dữ liệu · <b>RETURN</b> trả về kết quả. Cypher = “SQL của Graph”.'],
+ ['kg','Vì sao trích xuất là “The Extraction Bottleneck”?','Đồ thị không tự sinh ra — phải trích xuất từ văn bản thô, lộn xộn. Đây là <b>phần khó nhất và tốn kém nhất</b> của GraphRAG. GIGO.'],
+ ['kg','Bỏ qua Coreference Resolution mất gì?','<b>30–40% các mối quan hệ quan trọng.</b> “Sam Altman… <b>Ông</b> đã thành lập OpenAI” → tạo node cô lập tên “Ông”.'],
+ ['kg','Disambiguation vs Deduplication?','<b>Disambiguation TÁCH</b> một tên thành nhiều node (Apple công ty vs Apple quả táo).<br><b>Deduplication GỘP</b> nhiều tên thành một node (OpenAI/Open AI/OAI).'],
+ ['kg','3 kỹ thuật deduplication?','<b>String matching</b> (biến thể chính tả) · <b>Vector similarity</b> (cách gọi khác) · <b>LLM</b> (ca khó cần suy luận ngữ cảnh).'],
+ ['kg','5 giai đoạn xây dựng KG?','① Đọc chunks → ② <b>Coreference</b> → ③ Trích xuất thực thể &amp; phân giải → ④ Trích xuất triples → ⑤ Dedup + đẩy vào Neo4j'],
+ ['kg','NetworkX vs Neo4j?','<b>NetworkX:</b> pip install, ~100K nodes, không ACID, prototype.<br><b>Neo4j:</b> Docker/Cloud, millions+, có ACID, production.<br>Vượt 100K → Neo4j hoặc FalkorDB.'],
+ ['kg','Hai mẹo tối ưu khi build graph?','① Thêm <b>embeddings + source chunk refs</b> cho mỗi node → bật hybrid search.<br>② <b>Bulk insert theo batch</b> thay vì từng triple → nhanh <b>10×</b>.'],
+ ['kg','Đánh đổi khi chọn công cụ NER?','<b>LLM</b> mạnh nhưng chậm và đắt với hàng ngàn trang.<br><b>NLP truyền thống</b> (spaCy) nhanh nhưng kém linh hoạt.'],
+
+ ['pipe','5 bước của pipeline GraphRAG?','① Query Processing → ② Seed Node Matching → ③ Graph Traversal → ④ Textualization → ⑤ Generation'],
+ ['pipe','Bước Query Processing làm gì?','LLM <b>trích xuất các thực thể quan trọng</b> từ câu hỏi. “Ai đồng sáng lập Microsoft?” → <code>[Microsoft]</code>'],
+ ['pipe','Seed Node Matching khớp thế nào?','Tìm node <b>khớp hoàn toàn HOẶC có ngữ nghĩa tương đồng</b>. Đây là chỗ embedding trên node phát huy tác dụng.'],
+ ['pipe','Thuật toán nào cho Graph Traversal?','<b>BFS</b> (Breadth-First Search) — thu thập nodes và edges lân cận. BFS mở rộng đều theo <b>từng lớp hop</b> nên kiểm soát được “độ sâu duyệt”.'],
+ ['pipe','Traversal depth nên đặt bao nhiêu?','<b>Depth = 2</b> (khuyến dùng). Depth 1 quá nông (trượt multi-hop); depth 3+ kéo dữ liệu không liên quan, quá tải context và <b>gây ảo giác</b>.'],
+ ['pipe','Vì sao cần Textualization?','LLM <b>không thể “đọc” trực tiếp graph DB</b>. Phải chuyển subgraph thành prompt văn bản: “Các mối quan hệ sau tồn tại: Bill Gates CO_FOUNDED Microsoft…”'],
+ ['pipe','System prompt ở bước Generation?','“Hãy trả lời câu hỏi của người dùng <b>CHỈ</b> sử dụng ngữ cảnh mối quan hệ được cung cấp sau đây.” Từ khóa quan trọng: <b>CHỈ</b>.'],
+ ['pipe','GraphRAG có thay thế Vector Search không?','<b>Không — bổ trợ thay vì thay thế.</b> Lưu vector embeddings bên trong nodes: semantic search tìm <b>seed node</b>, graph traversal tìm <b>quan hệ</b>.'],
+ ['pipe','Trong kiến trúc Hybrid, mỗi bên làm gì?','<b>Vector DB:</b> tìm kiếm ngữ nghĩa → truy xuất chunks liên quan.<br><b>Graph DB:</b> duyệt đồ thị → khai thác quan hệ thực thể phức tạp.'],
+ ['pipe','Temporal KG giải quyết gì?','Đồ thị tĩnh nhưng thế giới đổi. Gắn <b>validity dates vào thuộc tính của CẠNH</b>: <code>CEO_OF {start: 2019, end: present}</code>'],
+ ['pipe','Vì sao validity dates gắn vào cạnh, không phải node?','Vì <b>quan hệ</b> mới có tính hiệu lực theo giai đoạn. Sam Altman vẫn tồn tại, OpenAI vẫn tồn tại — thứ thay đổi là quan hệ giữa họ.'],
+ ['pipe','3 failure modes của GraphRAG?','<b>Super-nodes</b> (“USA” 100K cạnh → sập context) · <b>Đồ thị rời rạc</b> (“hòn đảo” dữ liệu) · <b>Ngữ cảnh nghèo nàn</b> (textualization lược bỏ quá nhiều).'],
+ ['pipe','3 best practices?','① Con trỏ từ <b>Graph Node → Document Chunk gốc</b>.<br>② Giới hạn duyệt: <b>“2 hop, tối đa 50 cạnh”</b>.<br>③ Liên tục tinh chỉnh <b>prompt NER</b>.'],
+ ['pipe','Vì sao cần giới hạn CẢ hop lẫn số cạnh?','Giới hạn độ sâu không cứu được khi <b>một super-node ở hop đầu tiên</b> đã có hàng chục nghìn cạnh — phải chặn thêm bằng số cạnh tối đa.'],
+
+ ['sota','Microsoft GraphRAG thiết kế cho gì?','<b>Sensemaking</b> — tạo dựng ý nghĩa trên toàn bộ tập dữ liệu. Hỏi hệ thống: “Tập dữ liệu này nói về <b>bức tranh tổng thể</b> gì?” (giữa 2024)'],
+ ['sota','Tóm tắt phân cấp của MS GraphRAG?','Khi các <b>cộng đồng</b> hình thành, LLM tạo “báo cáo tóm tắt” cho từng cộng đồng ở <b>mọi cấp độ</b>; hệ thống <b>pre-compute</b> câu trả lời cho câu hỏi chủ đề toàn cục.'],
+ ['sota','Local Search vs Global Search?','<b>Local:</b> câu hỏi cụ thể (“Ai kết nối X với Y?”) → duyệt nodes.<br><b>Global:</b> câu hỏi chủ đề (“Rủi ro chính trong các hợp đồng?”) → <b>đọc Báo cáo Cộng đồng đã tạo sẵn</b>.'],
+ ['sota','Điểm yếu của MS GraphRAG?','Chi phí <b>cực đắt</b>: index 1 triệu token tốn <b>$10–$50+</b>. Và <b>không phù hợp cho dữ liệu thay đổi liên tục</b> (báo cáo pre-compute lỗi thời ngay).'],
+ ['sota','Cải tiến cốt lõi của LightRAG?','<b>Dual-level retrieval</b> — trích xuất cả thực thể chi tiết lẫn khái niệm trừu tượng mà <b>không cần</b> tạo trước báo cáo cộng đồng đắt đỏ.'],
+ ['sota','LightRAG embed những gì?','Thay vì chỉ embed chunks, LightRAG tạo embedding cho cả <b>Nodes VÀ Edges</b> → vector search tìm nodes VÀ relationships cùng lúc, <b>bỏ qua traversal nặng nề</b>.'],
+ ['sota','Bảng so sánh 3 hệ thống?','<b>Flat RAG:</b> index rẻ, Global kém, multi-hop kém.<br><b>MS GraphRAG:</b> index rất đắt, Global xuất sắc, multi-hop xuất sắc.<br><b>LightRAG:</b> index trung bình, Global tốt, multi-hop xuất sắc.'],
+ ['sota','3 tiêu chí đánh giá GraphRAG?','<b>Tính toàn diện</b> (giải quyết trọn vẹn câu hỏi?) · <b>Tính đa dạng</b> (phong phú, đa chiều?) · <b>Tính chính xác</b> (mức độ tin cậy).'],
+ ['sota','Benchmark cho multi-hop reasoning?','<b>HotpotQA</b> và <b>2WikiMultihopQA</b>. GraphRAG luôn cho độ chính xác <b>cao gấp 2–3 lần</b> Flat RAG trên các tập này.'],
+ ['sota','Cấu trúc chi phí Flat RAG vs GraphRAG?','<b>Flat RAG:</b> rẻ khi xây, rẻ khi truy vấn.<br><b>GraphRAG:</b> rất đắt khi xây (LLM trích xuất triples), truy vấn khá rẻ và cực chính xác.'],
+ ['sota','Khi nào KHÔNG nên dùng GraphRAG?','Với <b>tài liệu dùng một lần</b>. Chi phí index chỉ được khấu hao khi đồ thị phục vụ nhiều truy vấn → dùng cho <b>tri thức cốt lõi</b> của doanh nghiệp.'],
+ ['sota','3 ca dùng Flat RAG?','IT Support lookup · Chatbot CSKH cơ bản · Tra cứu quy định nhân sự đơn lẻ.<br><i>Nếu đáp án nằm rõ trong 1 đoạn văn → Flat RAG.</i>'],
+ ['sota','3 ca nâng cấp GraphRAG?','Điều tra báo chí / phân tích tình báo · Đánh giá tài liệu y khoa chuyên sâu · Thẩm định pháp lý phức tạp.<br><i>Nếu cần tổng hợp từ nhiều tài liệu → GraphRAG.</i>'],
+ ['sota','Hybrid routing hoạt động thế nào?','<b>Detect query type rồi route:</b> single-doc factoid → Flat RAG · multi-entity relations → GraphRAG · thematic overview → GraphRAG global.'],
+ ['sota','3 use case doanh nghiệp?','<b>Pháp lý:</b> bản đồ phụ thuộc hợp đồng.<br><b>Nhân sự:</b> “bộ não” nội bộ tìm đúng người đúng việc.<br><b>Chuỗi cung ứng:</b> “Nếu Nhà cung cấp A ngưng, sản phẩm nào bị trễ?”'],
+ ['sota','4 key takeaways của Day 19?','① KG enable multi-hop reasoning · ② Extraction quality là bottleneck (NER + coreference TRƯỚC) · ③ <b>Graph quality beats Graph size</b> · ④ Pipeline production-ready, customize extraction theo domain.'],
+ ['sota','“Graph quality beats Graph size” nghĩa là gì?','<b>1000 high-quality triples beats 100K noisy ones.</b> Hệ quả trực tiếp của GIGO — một triple sai tạo đường đi giả cho mọi truy vấn multi-hop qua nó.'],
+];
+const grid=document.getElementById('fcgrid'), cnt=document.getElementById('cnt');
+const NAMES={why:'Vì sao Graph',kg:'Nền tảng KG',pipe:'Pipeline',sota:'SOTA & ROI'};
+function render(f){
+  const list=f==='all'?CARDS:CARDS.filter(c=>c[0]===f);
+  grid.innerHTML=list.map(c=>`<div class="fc"><div class="fci">
+      <div class="ff"><div class="tag2">${NAMES[c[0]]}</div><div class="q">${c[1]}</div></div>
+      <div class="fb"><div class="a">${c[2]}</div></div></div></div>`).join('');
+  cnt.textContent=list.length+' thẻ';
+  grid.querySelectorAll('.fc').forEach(el=>el.onclick=()=>el.classList.toggle('flip'));
+}
+document.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); render(b.dataset.f);
+});
+render('all');
+</script>
+</body>
+</html>
