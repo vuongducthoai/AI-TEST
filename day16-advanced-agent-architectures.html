@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 16 — Advanced Agent Architectures | Tóm tắt</title>
+<style>
+:root{
+  --bg:#f7f8fa; --card:#fff; --ink:#1a1d24; --muted:#5b6472; --line:#e3e7ee;
+  --brand:#b8541a; --brand-soft:#fdf1e7; --warn:#8a6d00; --warn-soft:#fdf8e3;
+  --ok:#1d7a4f; --ok-soft:#e8f6ef; --bad:#c0392b; --bad-soft:#fdeceb;
+  --hook:#2f5fd0; --hook-soft:#eaf0fd; --lay:#6b3fa0; --lay-soft:#f2ebfa;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+
+header{background:linear-gradient(135deg,#b8541a,#8a3d5c);color:#fff;padding:34px 0 26px}
+header .wrap{padding-bottom:0}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:31px;line-height:1.2;font-weight:700}
+header p{margin:0;opacity:.9;font-size:15px}
+
+.tabbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+  box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tabbar .wrap{display:flex;gap:4px;padding-top:0;padding-bottom:0}
+.tab{appearance:none;border:0;background:none;font:inherit;font-weight:600;font-size:15px;
+  padding:15px 18px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand)}
+.panel{display:none;padding-top:28px}
+.panel.on{display:block}
+
+h2{font-size:22px;margin:36px 0 4px;padding-top:14px;border-top:2px solid var(--line)}
+h2 .num{color:var(--brand);font-weight:700}
+h2:first-child{border-top:0;padding-top:0;margin-top:0}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+h3{font-size:17px;margin:26px 0 10px}
+h4{font-size:15.5px;margin:0 0 8px}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}
+li{margin:5px 0}
+code{background:#eef1f6;padding:2px 6px;border-radius:4px;font-size:13.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#1f2430;color:#e6e9ef;padding:13px 15px;border-radius:9px;overflow-x:auto;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;margin:12px 0}
+pre .kw{color:#c792ea;font-weight:600} pre .st{color:#c3e88d} pre .cm{color:#7c85a3}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f2f5fa;font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+
+.note{border-left:4px solid var(--brand);background:var(--brand-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.warn{border-left:4px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.bad{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.ok{border-left:4px solid var(--ok);background:var(--ok-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.lay{border-left:4px solid var(--lay);background:var(--lay-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.note b,.warn b,.bad b,.ok b,.lay b{display:block;margin-bottom:3px;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.note b{color:var(--brand)} .warn b{color:var(--warn)} .bad b{color:var(--bad)}
+.ok b{color:var(--ok)} .lay b{color:var(--lay)}
+
+.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:20px;margin-right:5px}
+.pill.h{background:var(--hook-soft);color:var(--hook)}
+.pill.l{background:var(--lay-soft);color:var(--lay)}
+.pill.o{background:var(--ok-soft);color:var(--ok)}
+.pill.w{background:var(--warn-soft);color:var(--warn)}
+.pill.b{background:var(--bad-soft);color:var(--bad)}
+
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+.step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:13.5px;font-weight:600}
+.step small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.step b{color:var(--brand)}
+.arw{color:var(--muted);font-weight:700;font-size:13px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:700px){.stats{grid-template-columns:1fr}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:15px;text-align:center}
+.stat .n{font-size:25px;font-weight:700;color:var(--brand);line-height:1.15}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:5px}
+
+.hooks{counter-reset:hk;margin:14px 0}
+.hk{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+  border-radius:10px;padding:12px 15px;margin-bottom:9px}
+.hk .n{background:var(--hook);color:#fff;width:26px;height:26px;border-radius:50%;flex:0 0 26px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.hk .b{flex:1}
+.hk .b code{font-size:14px;font-weight:600;background:var(--hook-soft);color:var(--hook)}
+.hk .b p{margin:5px 0 0;font-size:13.5px;color:var(--muted)}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.vs>div{border-radius:11px;padding:15px 17px;border:1px solid var(--line);background:#fff}
+.vs .lgood{border-top:4px solid var(--ok)}
+.vs .lbad{border-top:4px solid var(--bad)}
+.vs h4{margin:0 0 8px;font-size:15px}
+.vs .lgood h4{color:var(--ok)} .vs .lbad h4{color:var(--bad)}
+.vs p,.vs li{font-size:14px}
+.vs ul{margin:6px 0;padding-left:19px}
+
+.fails{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:820px){.fails{grid-template-columns:1fr}}
+.fails div{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;font-size:14px}
+.fails div b{display:block;color:var(--bad);margin-bottom:4px;font-size:13.5px}
+
+.laws{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.law{flex:1;min-width:200px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px}
+.law b{display:block;color:var(--lay);font-size:14.5px;margin-bottom:4px}
+.law p{margin:0;font-size:13.5px;color:var(--muted)}
+
+#cheat{font-size:14px}
+#cheat h2{font-size:18px;margin:20px 0 8px;padding-top:10px}
+#cheat .card{padding:14px 16px;margin:10px 0}
+#cheat table{font-size:12.5px}
+#cheat th,#cheat td{padding:6px 8px}
+#cheat ul,#cheat ol{padding-left:19px} #cheat li{margin:3px 0}
+.cheatgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.cheatgrid{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.kv dt{font-weight:600;color:var(--brand)}
+.kv dd{margin:0;color:var(--muted)}
+.printbtn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:9px 16px;
+  font:inherit;font-weight:600;font-size:14px;cursor:pointer;margin-bottom:6px}
+.printbtn:hover{background:#9c4615}
+
+.fcbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.fbtn{background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 15px;
+  font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted)}
+.fbtn:hover{border-color:var(--brand);color:var(--brand)}
+.fbtn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.counter{margin-left:auto;font-size:13.5px;color:var(--muted)}
+.fcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fc{perspective:1100px;height:218px;cursor:pointer}
+.fci{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .fci{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:18px;
+  display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);overflow:auto}
+.ff{background:#fff}
+.fb{background:var(--brand);color:#fff;transform:rotateY(180deg);border-color:var(--brand)}
+.fb code{background:rgba(255,255,255,.2);color:#fff}
+.ff .tag2{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.ff .q{font-size:15.5px;font-weight:600;line-height:1.45}
+.fb .a{font-size:13.5px;line-height:1.55}
+.hint{text-align:center;color:var(--muted);font-size:12.5px;margin-top:10px}
+
+@media print{
+  header,.tabbar,.printbtn,.hint{display:none!important}
+  .panel{display:none!important} #cheat{display:block!important;padding-top:0}
+  body{background:#fff;font-size:10.5px} .wrap{max-width:100%;padding:0}
+  .card{break-inside:avoid;border-color:#ccc} table{break-inside:avoid}
+  pre{background:#f4f4f4;color:#222;border:1px solid #ddd}
+  pre .kw,pre .st,pre .cm{color:#222}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="kicker">AICB-P2T3 · Chương 4 · Tuần 4</p>
+    <h1>Ngày 16 — Advanced Agent Architectures</h1>
+    <p>Vì sao cùng một model, chỉ đổi harness, agent lại nhảy từ 52.8% lên 66.5%?</p>
+  </div>
+</header>
+
+<nav class="tabbar">
+  <div class="wrap">
+    <button class="tab on" data-t="detail">Tóm tắt chi tiết</button>
+    <button class="tab" data-t="cheat">Cheat sheet</button>
+    <button class="tab" data-t="cards">Flashcard</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ==================== TAB 1 ==================== -->
+<section class="panel on" id="detail">
+
+<div class="lay"><b>Ý tưởng xuyên suốt cả bài</b>Mọi “kiến trúc” có tên trong bài này <b>không phải sản phẩm đối thủ</b> của nhau — chúng là các <b>lớp (layer) của harness</b>, đều cắm vào 6 hook của §7:<br>
+critic (§2) · search (§3) · skill (§4) · persistence (§5) · plan file (§6) · subagent (§9)</div>
+
+<h2><span class="num">§1</span> &nbsp;Khi nào Single Agent thất bại?</h2>
+<p class="sub">ReAct — mạnh nhưng không biết sửa lỗi.</p>
+
+<div class="flow">
+  <span class="step">Thought<small>suy luận</small></span><span class="arw">→</span>
+  <span class="step">Action<small>gọi tool</small></span><span class="arw">→</span>
+  <span class="step">Observation<small>kết quả</small></span><span class="arw">↺ lặp đến khi có câu trả lời</span>
+</div>
+<p class="sub">ReAct = <b>“Think before you act”</b> — mỗi bước agent giải thích lý do trước khi hành động.</p>
+
+<h3>3 failure modes của ReAct</h3>
+<div class="fails">
+  <div><b>1 · Lỗi lan tỏa</b>Sai ở bước 1 → sai hết chuỗi.</div>
+  <div><b>2 · Infinite loop</b>Tool trả noise → agent lặp mãi.</div>
+  <div><b>3 · Không backtrack</b>Đi sai đường nhưng không quay lại.</div>
+</div>
+<div class="bad"><b>Root cause</b>ReAct <b>không có cơ chế tự đánh giá</b>. Khi đi sai, không có signal nào báo “dừng lại, suy nghĩ lại”.</div>
+
+<h3>Case study: lỗi lan tỏa trong PR review</h3>
+<div class="card">
+  <ol style="margin:0">
+    <li>Agent đọc nhầm module trong diff — hiểu sai file nào thực sự bị đổi</li>
+    <li>Agent chạy checker/search trên các file không liên quan</li>
+    <li>Agent tổng hợp bằng chứng sai nhưng vẫn trình bày với <b>độ tự tin cao</b></li>
+    <li>ReAct không có signal nào để dừng lại — không ai chấm điểm bước giữa chừng</li>
+  </ol>
+  <p class="sub" style="margin:10px 0 0">Evaluator giải quyết được vì nó chấm được: “kết luận có <b>grounded</b> vào diff thật và test logs thật hay không?”</p>
+</div>
+
+<h3>Đừng nâng cấp agent quá sớm</h3>
+<div class="vs">
+  <div class="lgood">
+    <h4>Nhiều tác vụ chỉ cần</h4>
+    <ul><li>Retrieval — tìm thông tin liên quan</li><li>Tools — gọi API/function có sẵn</li><li>Structured output — trả đúng format</li></ul>
+  </div>
+  <div class="lbad">
+    <h4>Chỉ escalate khi gặp 1 trong 3</h4>
+    <ul><li><b>Tool overload</b> — quá nhiều tool, 1 agent không quản nổi</li><li><b>Branching logic</b> — prompt phải rẽ nhánh phức tạp</li><li><b>Specialist ownership</b> — cần agent “sở hữu” riêng một domain</li></ul>
+  </div>
+</div>
+<div class="warn"><b>Bẫy</b>“Càng nhiều agent càng tốt” là <b>ngộ nhận</b> — mỗi agent thêm vào là thêm latency, cost, và điểm lỗi mới. Chỉ thêm agent khi có <b>evidence</b>, không phải vì “nghe cool”.</div>
+
+<div class="stats">
+  <div class="stat"><div class="n">35.1%</div><div class="l">ReAct EM trên HotpotQA<br>(Yao et al.)</div></div>
+  <div class="stat"><div class="n">Cao</div><div class="l">Fail rate trên multi-hop</div></div>
+  <div class="stat"><div class="n">0</div><div class="l">Số lần agent tự sửa lỗi</div></div>
+</div>
+
+<h2><span class="num">§2</span> &nbsp;Reflexion — dạy Agent tự phản tỉnh <span class="pill l">critic layer</span></h2>
+<p class="sub">Shinn et al. 2023 — thêm <b>Evaluator</b> (đánh giá) và <b>Reflector</b> (rút bài học) vào ReAct.</p>
+
+<div class="flow">
+  <span class="step"><b>1.</b> Generate<small>Actor</small></span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Evaluate<small>Evaluator · score 0/1</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> Reflect<small>Reflector · rút bài học</small></span><span class="arw">→</span>
+  <span class="step"><b>4.</b> Retry<small>Actor</small></span>
+  <span class="arw">↺ Reflection Memory</span>
+</div>
+<div class="note"><b>Analogy</b>Như sinh viên làm bài thi — lần 1 sai → xem đáp án, hiểu tại sao sai → lần 2 làm đúng. <b>ReAct chỉ làm 1 lần rồi nộp</b>; Reflexion cho phép “xem lại bài” và sửa.</div>
+<p><b>Điểm khác biệt vs ReAct:</b> dùng <b>text feedback thay gradient</b>. LLM đã train trên ngôn ngữ tự nhiên → critique bằng text là “natural modality”.</p>
+
+<h3>ReflexionState — 5 thành phần</h3>
+<div class="grid g2">
+  <div>
+<pre><span class="kw">class</span> ReflexionState(TypedDict):
+    messages: list[BaseMessage]
+    trajectory: list[str]
+    reflection_memory: list[str]
+    attempt_count: int
+    success: bool</pre>
+  </div>
+  <div class="card" style="margin:0">
+    <dl class="kv">
+      <dt>messages</dt><dd>conversation hiện tại</dd>
+      <dt>trajectory</dt><dd>lịch sử hành động</dd>
+      <dt>reflection_memory</dt><dd>bài học rút ra</dd>
+      <dt>attempt_count</dt><dd>đếm số lần thử</dd>
+      <dt>success</dt><dd>đã đúng chưa?</dd>
+    </dl>
+  </div>
+</div>
+<div class="warn"><b>Sliding window</b>Reflection memory quá nhỏ → agent <b>“quên”</b>; quá lớn → <b>chiếm hết context window</b>.</div>
+
+<h3>Trong LangGraph</h3>
+<div class="flow">
+  <span class="step">act</span><span class="arw">→ success? Yes →</span>
+  <span class="step">END</span>
+  <span class="arw">No ↓</span>
+  <span class="step">reflect<small>append reflection, reset, attempt++</small></span>
+  <span class="arw">→ max attempts? → END</span>
+</div>
+<p class="sub"><b>Node “reflect”:</b> ① lấy trajectory → ② gọi Reflector LLM → ③ append reflection vào memory → ④ reset messages, tăng attempt.<br>
+<b>Termination:</b> success = True, hoặc attempt ≥ max (<b>default 3</b>) — tránh infinite loop, cái mà ReAct gặp phải.</p>
+
+<div class="stats">
+  <div class="stat"><div class="n">91%</div><div class="l">HumanEval pass@1<br>(code generation)</div></div>
+  <div class="stat"><div class="n">Tăng</div><div class="l">Multi-hop QA &amp; decision-making<br>(mức tăng tuỳ task)</div></div>
+  <div class="stat"><div class="n">0</div><div class="l">Tham số model được cập nhật</div></div>
+</div>
+<p class="sub">Reflexion dùng <b>episodic memory</b> — agent “nhớ” bài học từ các lần thử trước <b>trong cùng episode</b>.</p>
+
+<h3>Thiết kế Evaluator prompt — 4 nguyên tắc</h3>
+<div class="card">
+  <ol style="margin:0">
+    <li><b>Rubric tường minh</b> — liệt kê tiêu chí cụ thể (đúng định dạng? đủ bước? khớp constraint nào?) thay vì hỏi chung chung “câu trả lời này tốt không?”</li>
+    <li><b>Bắt buộc trích dẫn bằng chứng</b> — chỉ ra đúng dòng/đoạn output nào khiến nó chấm như vậy</li>
+    <li><b>Verdict máy đọc được</b> — <code>JSON {score, reason, evidence}</code> để Reflector và code điều phối parse được</li>
+    <li><b>Tách context với Actor</b> — evaluator không được thấy lý do biện minh của Actor, nếu không dễ bị “thuyết phục”</li>
+  </ol>
+</div>
+<div class="bad"><b>Evaluator là mắt xích yếu nhất</b>Nếu nó chấm sai, cả vòng lặp Reflect–Retry đi sai hướng. Dùng chung context với Actor = mất tính độc lập → nguồn gốc của <b>correlated failure</b>.</div>
+
+<h3>Reflection memory — ghi gì, bỏ gì?</h3>
+<div class="vs">
+  <div class="lgood">
+    <h4>✔ Lưu</h4>
+    <ul>
+      <li><b>Bài học rút ra</b>: “thử X không được vì Y, lần sau thử Z” — cô đọng, hành động được</li>
+      <li><b>Chiến lược đã thất bại</b>: để Reflector không đề xuất lại chính hướng đó</li>
+      <li><b>Ràng buộc mới phát hiện</b>: constraint task không nói rõ nhưng attempt trước đã lộ ra</li>
+    </ul>
+  </div>
+  <div class="lbad">
+    <h4>✘ Không lưu</h4>
+    <ul>
+      <li><b>Lịch sử chat thô</b> của attempt cũ — chỉ tốn token, không tăng khả năng sửa lỗi</li>
+      <li><b>Tool dump đầy đủ</b> (raw JSON, log request/response) — chỉ phần kết luận mới đáng giữ</li>
+      <li><b>Diễn giải lại task</b> — không thêm thông tin mới</li>
+    </ul>
+  </div>
+</div>
+
+<h3>4 failure modes của Reflexion trong production</h3>
+<table>
+  <tr><th style="width:250px">Lỗi</th><th>Mô tả</th></tr>
+  <tr><td><b>Correlated failure</b></td><td>Evaluator và Actor dùng chung model/prompt base → evaluator “đồng ý” với câu trả lời sai thay vì bắt lỗi độc lập</td></tr>
+  <tr><td><b>Reflection không đổi chiến lược</b></td><td>Chỉ diễn đạt lại lỗi mà không đưa hướng thử khác cụ thể → attempt 2 lặp lại attempt 1</td></tr>
+  <tr><td><b>Retry không giới hạn</b></td><td>Thiếu <code>max_attempts</code> cứng → lặp vô hạn, đốt token khi task thực sự không giải được</td></tr>
+  <tr><td><b>Memory mâu thuẫn nhau</b></td><td>Bài học tích lũy chỏi nhau (“nên dùng A” rồi “không nên dùng A”) — agent bối rối hơn là học được</td></tr>
+</table>
+<div class="lay"><b>Reframe</b>Reflexion <b>không phải kiến trúc đối thủ</b> của ReAct — nó là một <b>critic layer</b> quấn quanh vòng lặp reasoning đã có. Ở §7 nó sẽ thành một <code>after_model</code> hook.</div>
+
+<h2><span class="num">§3</span> &nbsp;Bức tranh rộng hơn <span class="pill l">search layer</span></h2>
+
+<h3>LATS — khi cần tìm đường tối ưu</h3>
+<p><b>LATS = MCTS + LLM</b>: mỗi node là một trạng thái suy luận; LLM đóng vai policy + value + simulation. UCT chọn nhánh tốt.</p>
+<table>
+  <tr><th style="width:230px">Đặc điểm</th><th>Chi tiết</th></tr>
+  <tr><td>Độ chính xác</td><td>Chính xác hơn Reflexion (<b>92.7% vs 91%</b>)</td></tr>
+  <tr><td>Chi phí</td><td>Tốn <b>gấp 3–5×</b> compute</td></tr>
+  <tr><td>Điều kiện</td><td>Cần environment cho phép <b>undo</b></td></tr>
+  <tr><td>Công thức</td><td><b>ToT + Reflexion → LATS</b>: ToT chỉ expand cây, Reflexion chỉ reflect — LATS làm cả hai cộng MCTS search</td></tr>
+</table>
+<div class="warn"><b>Khi nào đáng dùng</b>Chỉ với task <b>giá trị cao, cho phép rollback</b> (code gen, game). Thêm vào khi failure mode là “đi sai một nhánh, không quay lại được” — <b>failure mode thứ 3 ở §1</b>. <i>arXiv:2310.04406</i></div>
+
+<h3>PRM vs ORM — chấm từng bước</h3>
+<div class="vs">
+  <div class="lbad">
+    <h4>ORM (outcome reward model)</h4>
+    <p>Chỉ biết đáp án cuối đúng/sai — <b>không biết bước nào đã sai</b>. Chỉ biết sau khi đã đi hết B3.</p>
+  </div>
+  <div class="lgood">
+    <h4>PRM (process reward model)</h4>
+    <p>Chấm <b>từng bước</b> suy luận, bắt lỗi sớm ở B2 <b>ngay khi nó xảy ra</b>, trước khi lan sang bước sau.</p>
+  </div>
+</div>
+<p class="sub"><b>Thinking verifier (ThinkPRM, 2025):</b> sinh verification chain-of-thought cho mỗi bước thay vì chỉ gán một điểm số rời rạc — đạt hiệu năng mạnh với <b>ít hơn nhiều bậc độ lớn</b> nhãn huấn luyện so với PRM discriminative.</p>
+
+<h3>Voyager — agent tích lũy kỹ năng</h3>
+<div class="flow">
+  <span class="step">Auto Curriculum<small>tự đặt mục tiêu</small></span><span class="arw">→ task →</span>
+  <span class="step">Code Generator</span><span class="arw">→</span>
+  <span class="step">Verify &amp; Debug</span><span class="arw">→ verified skill →</span>
+  <span class="step">Skill Library (DB)</span><span class="arw">↺ retrieve skills</span>
+</div>
+<p class="sub">Skill mới xây trên skill cũ (<b>compound learning</b>). Pattern áp dụng cho code generation, DevOps automation — bất kỳ domain nào agent cần tích lũy “thư viện kinh nghiệm”. <i>Wang et al., 2023</i></p>
+
+<h3>Đường cong chi phí — cái giá của “search thêm”</h3>
+<div class="bad"><b>Diminishing returns đến rất nhanh</b>① Accuracy tăng theo test-time compute nhưng <b>chững lại nhanh</b>. ② <b>Latency variance nới rộng</b> — outlier ngày càng xa trung vị. ③ Chi phí hạ tầng có điểm không còn justify được accuracy gain nhỏ dần.<br>→ Hướng nghiên cứu đúng không phải “search nhiều hơn” mà là <b>compute-efficient reasoning</b>. <i>arXiv:2506.04301</i></div>
+
+<h2><span class="num">§4</span> &nbsp;Tích luỹ kỹ năng <span class="pill l">skill layer</span></h2>
+<p class="sub">Skill Library của Voyager tái xuất hiện 2026 dưới dạng <b>skill files</b>.</p>
+<div class="vs">
+  <div class="lgood">
+    <h4>Skill files (on-demand)</h4>
+    <p>Kiến thức domain chi tiết, <b>chỉ load khi task chạm đến</b> — nạp progressive, không nhồi hết vào context từ đầu. Giống Skill Library retrieve theo Auto Curriculum.</p>
+  </div>
+  <div class="lgood">
+    <h4>Persistent instruction file</h4>
+    <p>Đọc <b>một lần lúc khởi động</b> (agents-file, kiểu <code>CLAUDE.md</code>) — áp dụng luôn, không đợi task chạm tới.</p>
+  </div>
+</div>
+
+<h2><span class="num">§5</span> &nbsp;Self-Evolving Agents <span class="pill l">persistence layer</span></h2>
+<p class="sub">Câu hỏi cốt lõi: <b>cái gì thay đổi — và thay đổi đó có sống qua ranh giới episode không?</b></p>
+
+<table>
+  <tr><th style="width:200px">Lớp</th><th>Sống qua episode?</th></tr>
+  <tr><td>Reflexion (§2)</td><td>✘ Sửa được trajectory, rồi <b>quên</b> khi episode kết thúc</td></tr>
+  <tr><td>Tree search (§3)</td><td>✘ Cả cây search bị <b>bỏ đi</b> ngay khi chọn xong nhánh</td></tr>
+  <tr style="background:var(--ok-soft)"><td>Voyager (§4)</td><td>✔ Skill verified ghi ra Skill Library — task sau dùng lại được. <b>Đó đã là self-evolution</b></td></tr>
+</table>
+<p class="sub"><b>Quỹ đạo 4 giai đoạn:</b> MOP (pretraining offline) → MOA (thích nghi online) → MAO (điều phối đa agent) → MASE (đa agent tự tiến hoá). <i>arXiv:2508.07407</i></p>
+
+<h3>Nấc thang tự tiến hoá — cái gì thay đổi được?</h3>
+<table>
+  <tr><th style="width:220px">Nấc thang</th><th style="width:230px">Đã gặp ở đâu</th><th>Hôm nay</th></tr>
+  <tr><td>Prompt / instructions</td><td>Persistent instruction file (§4, §7)</td><td><span class="pill o">Dùng được ngay</span></td></tr>
+  <tr><td>Skills / tools</td><td>Skill Library, skill files (§4)</td><td><span class="pill o">Dùng được ngay</span></td></tr>
+  <tr><td>Memory / kinh nghiệm</td><td>Kinh nghiệm qua nhiều phiên (Ngày 17)</td><td><span class="pill w">Đang vào production</span></td></tr>
+  <tr><td>Topology đa agent</td><td>Ai gọi ai, chia việc thế nào (§9)</td><td><span class="pill w">Phần lớn còn thủ công</span></td></tr>
+  <tr><td>Trọng số model</td><td>Fine-tune từ trajectory đã lọc, RL</td><td><span class="pill b">Offline, tốn kém</span></td></tr>
+  <tr><td>Code &amp; kiến trúc của chính agent</td><td>Agent tự sửa mã nguồn (DGM)</td><td><span class="pill b">Nghiên cứu</span></td></tr>
+</table>
+
+<h3>Darwin Gödel Machine — agent tự viết lại code của chính nó</h3>
+<div class="stats">
+  <div class="stat"><div class="n">20.0% → 50.0%</div><div class="l">SWE-bench</div></div>
+  <div class="stat"><div class="n">14.2% → 30.7%</div><div class="l">Polyglot, cùng một vòng lặp</div></div>
+  <div class="stat"><div class="n">Transfer</div><div class="l">Cải tiến vẫn hiệu quả khi đổi foundation model</div></div>
+</div>
+<p><b>Vòng lặp:</b> lấy một agent từ archive → foundation model sinh một biến thể (sửa chính mã nguồn của agent) → validate bằng benchmark → <b>chỉ giữ lại cái chạy được</b>. Archive kiểu Darwin giữ cả nhánh “kém hơn” nên cây agent đa dạng, khám phá được song song.</p>
+<div class="note"><b>Kết quả đáng chú ý không phải điểm số</b>Phần thú vị là cái nó <b>tự tìm ra</b>: tool sửa code tốt hơn, cách quản lý long-context, cơ chế peer-review giữa các bước — những cải tiến <b>nền tảng và chuyển được</b>, không chỉ overfit vào một model. <i>Sakana AI 5/2025 — arXiv:2505.22954</i></div>
+
+<h3>Không đo được thì không được tiến hoá</h3>
+<div class="card">
+  <p style="margin:0 0 8px">DGM <b>không tin biến thể nào cả</b> — mọi lần tự sửa code đều phải chạy qua benchmark, không qua thì bị loại. <b>Eval harness là điều kiện tiên quyết để được phép tiến hoá.</b></p>
+  <ul style="margin:0">
+    <li><b>Chấm tự động bằng verifier</b> — hàng trăm biến thể, không chấm bằng người được</li>
+    <li><b>Regression set bắt buộc</b> — biến thể mới không được phá kỹ năng cũ</li>
+    <li><b>Kiểm tra tính chuyển được</b> — validate trên nhiều task/model để phân biệt cải tiến thật với overfit</li>
+    <li><b>Trace hợp lệ trước đã</b> — không có trace chuẩn từ middleware (§7) thì không chấm được chiều nào</li>
+  </ul>
+</div>
+<div class="bad"><b>Cảnh báo</b>Metric yếu thì agent <b>tiến hoá theo metric, không theo mục tiêu</b> — evaluator (§2) ở đây thành hàm mục tiêu của cả quá trình, sai lệch bị khuếch đại qua từng thế hệ.</div>
+
+<h3>Ba định luật — thứ tự có chủ đích</h3>
+<div class="laws">
+  <div class="law"><b>1 · Endure</b><p>Safety adaptation — biến thể phá ràng buộc an toàn thì bị loại, <b>dù điểm có cao hơn</b>.</p></div>
+  <div class="law"><b>2 · Excel</b><p>Performance preservation — mạnh thêm ở task mới mà yếu đi ở task cũ là <b>regression</b>.</p></div>
+  <div class="law"><b>3 · Evolve</b><p>Autonomous evolution — <b>chỉ có nghĩa khi hai điều trên đã giữ được</b>.</p></div>
+</div>
+<div class="warn"><b>Vì sao Endure đứng đầu</b>Agent sửa được mã nguồn của chính nó thì <b>guardrail nằm trong mã nguồn đó cũng nằm trong tầm với</b>. Vùng agent tự sửa được và vùng chứa guardrail phải <b>tách rời</b>: allowlist, capability manifest, budget breaker nằm ở tầng infrastructure (§10) — tầng mà vòng lặp tiến hoá <b>không có quyền ghi</b>.</div>
+
+<h2><span class="num">§6</span> &nbsp;Plan — Act — Verify</h2>
+<p class="sub">Tách ba pha thay vì một vòng lặp “think then do” undifferentiated.</p>
+
+<div class="flow">
+  <span class="step">Plan</span><span class="arw">→</span>
+  <span class="step">Act</span><span class="arw">→</span>
+  <span class="step">Verify</span><span class="arw">↺ sai → replan</span>
+</div>
+<p>Mỗi pha có <b>một prompt riêng, một budget compute riêng, một tín hiệu thất bại riêng</b>. Kết quả: pha nào hỏng, biết ngay pha đó — không phải đoán lại từ một transcript lẫn lộn cả ba việc.</p>
+<div class="note"><b>Ba tín hiệu, không phải một</b><b>Plan thất bại</b> (mục tiêu sai) · <b>Act thất bại</b> (tool lỗi) · <b>Verify thất bại</b> (không đạt tiêu chí) là ba loại lỗi khác nhau — trộn chung vào một prompt xoá mất sự phân biệt này.</div>
+<div class="warn"><b>Không miễn phí</b>Mỗi pha là một lượt gọi model riêng — <b>đổi latency lấy sự ổn định và khả năng debug</b>.</div>
+
+<h3>Deep Agents — 4 thành phần</h3>
+<table>
+  <tr><th style="width:220px">Thành phần</th><th>Vai trò</th></tr>
+  <tr><td><b>Plan file</b></td><td>Artifact ghi bằng tool <code>write_todos</code> — <b>không phải text trong prompt</b></td></tr>
+  <tr><td><b>Filesystem = external memory</b></td><td><code>read/write/edit_file</code>, <code>ls/glob/grep</code> thay context window lưu trạng thái</td></tr>
+  <tr><td><b>Subagent spawning</b></td><td>Việc phụ giao subagent riêng — main thread giữ sạch (context isolation)</td></tr>
+  <tr><td><b>Auto-summarisation</b></td><td>Output tool lớn offload ra file</td></tr>
+</table>
+<div class="ok"><b>Không thành phần nào tự làm agent “deep”</b>Chính <b>sự kết hợp</b> bốn thành phần mới tạo khả năng xử lý task dài hơi.<br>Bốn lớp context: skills (§4) → memory (agents-file) → summarisation/offloading → prompt caching. <i>LangChain Deep Agents runtime, 2026</i></div>
+
+<h3>Vì sao plan file thắng plan trong context?</h3>
+<div class="vs">
+  <div class="lbad">
+    <h4>Plan trong context</h4>
+    <ul>
+      <li><b>Bị drift</b>: mỗi lần viết lại, chi tiết cũ có thể bị bỏ sót</li>
+      <li><b>Không diff được</b> giữa hai turn</li>
+      <li><b>Mất trắng nếu context bị compact</b></li>
+    </ul>
+  </div>
+  <div class="lgood">
+    <h4>Plan file trên đĩa</h4>
+    <ul>
+      <li><b>Addressable</b>: mỗi mục có vị trí cố định</li>
+      <li><b>Diffable</b>: so sánh hai thời điểm biết chính xác đã đổi gì</li>
+      <li><b>Sống sót qua compaction</b>: nằm ngoài context window</li>
+    </ul>
+  </div>
+</div>
+
+<h2><span class="num">§7</span> &nbsp;Harness &amp; Middleware</h2>
+<p class="sub">Sáu hook — nơi mọi lớp ở §2–§6 trở thành code.</p>
+
+<div class="stats">
+  <div class="stat"><div class="n">52.8% → 66.5%</div><div class="l">Terminal-Bench 2.0<br>(coding agent)</div></div>
+  <div class="stat"><div class="n">top 30+ → #5</div><div class="l">Thứ hạng</div></div>
+  <div class="stat"><div class="n">0</div><div class="l">Thay đổi ở model<br>(cùng model, cùng weights)</div></div>
+</div>
+<div class="bad"><b>Chốt</b>Toàn bộ mức tăng đến từ <b>harness engineering</b> — lớp code bao quanh model — chứ không phải từ một model mạnh hơn. <b>Hiệu năng của agent không nằm hết trong model.</b> <i>LangChain 2026</i></div>
+
+<h3>Một harness có ba núm xoay</h3>
+<table>
+  <tr><th style="width:170px">Núm</th><th>Đặc điểm</th></tr>
+  <tr><td><b>1 · System prompt</b></td><td>Rẻ nhất để thử, dễ nhất để lạm dụng. Sửa được <b>hành vi</b>, không sửa được <b>cơ chế</b>. Cấu hình <b>tĩnh</b></td></tr>
+  <tr><td><b>2 · Tools</b></td><td>Mỗi tool là một khả năng — và một bề mặt rủi ro. Thêm tool: mạnh hơn <b>và khó chọn đúng hơn</b>. Cũng <b>tĩnh</b></td></tr>
+  <tr style="background:var(--hook-soft)"><td><b>3 · Middleware</b></td><td><b>Núm duy nhất lập trình được</b>: có điều kiện, có state. Thấy thứ model không thấy (lịch sử, ngân sách, mẫu lặp). <b>Nơi §2–§6 biến thành code thật</b></td></tr>
+</table>
+<div class="note"><b>Chốt</b>Prompt và tools chỉ <b>mô tả</b> agent; middleware <b>can thiệp lúc agent đang chạy</b> — đọc được state, chặn được hành động, sửa được context, dừng được vòng lặp.</div>
+
+<h3>Sáu hook — theo đúng thứ tự</h3>
+<div class="hooks">
+  <div class="hk"><div class="n">1</div><div class="b"><code>before_agent</code><p>Chạy <b>một lần</b> khi agent khởi động — khởi tạo hạn mức (token, tool call, vòng lặp, thời gian), mở root span, gắn run-id</p></div></div>
+  <div class="hk"><div class="n">2</div><div class="b"><code>before_model</code><p>Quyết định <b>model được thấy gì</b> — context summarisation (nén cái đã dài) + context injection (nạp skill file, chèn lại plan file, chèn reflection memory)</p></div></div>
+  <div class="hk"><div class="n">3</div><div class="b"><code>wrap_model_call</code><p>Bọc bản thân <b>lời gọi</b> — retry, fallback, latency/cost</p></div></div>
+  <div class="hk"><div class="n">4</div><div class="b"><code>after_model</code><p>Nói về <b>nội dung</b> — critic layer của §2: Evaluator chấm output, Reflector sinh bài học, vòng thử lại. Cộng: validate schema, redact PII, phát hiện mẫu bất thường, đếm ngân sách</p></div></div>
+  <div class="hk"><div class="n">5</div><div class="b"><code>wrap_tool_call</code><p>Chạy <b>cả trước lẫn sau</b> lời gọi tool — <b>gating</b> (chặn/đổi tham số/trả lỗi trước mọi side effect), <b>injecting context</b> (tenant/user, scope, request-id), <b>intercepting results</b> (redact PII, cắt output khổng lồ, offload ra file)</p></div></div>
+  <div class="hk"><div class="n">6</div><div class="b"><code>after_agent</code><p>Chạy <b>một lần</b> khi kết thúc — chốt sổ ngân sách (tổng token, tổng cost, đã chạm trần nào), đóng span, gắn kết quả</p></div></div>
+</div>
+<div class="lay"><b>Gom lại</b>critic layer (§2) = <code>after_model</code> · skill layer (§4) = nạp skill file ở <code>before_model</code> · search layer (§3) = điều khiển quanh <code>wrap_model_call</code> · deep-agent context (§6) = <code>before_model</code> + <code>wrap_tool_call</code>. <b>Không cái nào là “kiến trúc đối thủ”.</b></div>
+<div class="warn"><b>Vì sao không đặt luật ở prompt?</b>“Đừng gọi tool xoá khi chưa xác nhận” trong system prompt là một <b>lời đề nghị</b>; cùng luật đó trong <code>wrap_tool_call</code> là một <b>bất biến</b>.</div>
+
+<h3>Doom loop — đóng lại câu hỏi bỏ ngỏ ở §1</h3>
+<p>Failure mode thứ hai của ReAct (<b>infinite loop</b>) đến giờ vẫn chưa được giải quyết — Reflexion chấm <b>chất lượng</b>, không chấm <b>sự lặp lại</b>.</p>
+<div class="card">
+  <p class="sub" style="margin:0 0 8px"><b>Vì sao model không tự thấy?</b> Từ bên trong context, vòng lặp thứ N trông y hệt vòng thứ nhất. Sự lặp lại là thuộc tính của <b>lịch sử</b> — mà lịch sử đó có thể đã bị nén mất. Middleware thì thấy, vì nó giữ state qua các vòng.</p>
+  <p style="margin:0 0 8px"><b>Dấu hiệu:</b> cùng tool + cùng tham số lặp quá N lần · hành động quay về đúng trạng thái cũ · plan file không đổi nhiều vòng liền.</p>
+  <p style="margin:0"><b>4 cách phá — theo thứ tự leo thang:</b></p>
+  <ol style="margin:6px 0 0">
+    <li><code>before_model</code> — cảnh báo vào context: “đã thử cách này N lần, không tiến triển”</li>
+    <li><code>wrap_tool_call</code> — chặn hành động lặp, buộc agent đổi cách</li>
+    <li><code>after_model</code> — ép đổi chiến lược: không chấp nhận output với tiêu chí “lặp lại”</li>
+    <li><code>after_agent</code> — dừng và bàn giao: hết ngân sách → dừng có kiểm soát, trả trace</li>
+  </ol>
+</div>
+
+<h2><span class="num">§8</span> &nbsp;Context Engineering cho task dài hơi</h2>
+<p class="sub">Nén context trước khi nó tràn — cắm vào đúng hook <code>before_model</code>.</p>
+
+<div class="stats">
+  <div class="stat"><div class="n">+29%</div><div class="l">Context editing (một mình)</div></div>
+  <div class="stat"><div class="n">+39%</div><div class="l">Context editing + memory tool</div></div>
+  <div class="stat"><div class="n">84%</div><div class="l">Giảm token dùng<br>(eval web-search 100 lượt)</div></div>
+</div>
+<div class="note"><b>Chốt</b>84% không chỉ là tiết kiệm chi phí — ở eval 100 lượt, nó là <b>ranh giới giữa chạy xong và hết context giữa chừng</b>. Đây là vấn đề <b>khả năng hoàn thành task</b>, không chỉ vấn đề ngân sách. <i>Anthropic 2026</i></div>
+
+<h3>Khi nào compact?</h3>
+<div class="bad"><b>Sai lầm phổ biến nhất</b>Đợi context <b>đầy</b> rồi mới nén. Lúc đó model đã bắt đầu mất chất lượng vì context quá dài — <b>nén muộn không cứu được lượt gọi vừa hỏng</b>.</div>
+<table>
+  <tr><th style="width:280px">Workload</th><th>Ngưỡng kích hoạt</th></tr>
+  <tr><td>Đơn giản</td><td><b>5–20k token</b></td></tr>
+  <tr><td>Phức tạp (nhiều tool, nhiều bước)</td><td><b>50–100k token</b></td></tr>
+</table>
+
+<h3>Compaction vs Truncation vs Eviction</h3>
+<div class="vs">
+  <div class="lgood">
+    <h4>Compaction</h4>
+    <ul>
+      <li>Một LLM viết lại toàn bộ lịch sử thành <b>bản tóm tắt holistic</b></li>
+      <li>Giữ thông tin theo <b>semantic relevance</b> — chi tiết quan trọng từ đầu hội thoại vẫn giữ được</li>
+      <li><b>Lossy</b>: chi tiết bị paraphrase, có thể trôi nghĩa</li>
+      <li>Tốn <b>một lượt gọi model</b> — có latency và chi phí riêng</li>
+    </ul>
+  </div>
+  <div class="lgood">
+    <h4>Structured eviction</h4>
+    <ul>
+      <li>Xoá theo <b>luật cố định</b> — vd. tool result cũ hơn N lượt, hoặc output đã offload ra file (§6)</li>
+      <li><b>Rẻ</b>: không gọi model, chỉ áp một điều kiện</li>
+      <li><b>Dự đoán được</b>: biết trước chính xác cái gì bị bỏ, khi nào</li>
+      <li>Không cứu được thông tin rải rác giữa lịch sử</li>
+    </ul>
+  </div>
+</div>
+<p class="sub"><b>Truncation</b> cắt theo <b>vị trí</b> — luôn mất phần cũ nhất, kể cả khi phần đó vẫn còn quan trọng. Đó là lý do compaction dùng LLM chứ không cắt cứng.</p>
+<div class="warn"><b>Ranh giới §8</b>Ngày 16 nén context <b>trong MỘT phiên đang chạy</b>. Bộ nhớ sống sót qua session, memory store, retrieval-backed memory → <b>Ngày 17</b>.</div>
+
+<h2><span class="num">§9</span> &nbsp;Orchestrator — Worker <span class="pill l">subagent layer</span></h2>
+
+<div class="card">
+  <ul style="margin:0">
+    <li>Orchestrator tách task thành các phần việc con, giao mỗi phần cho một subagent</li>
+    <li>Mỗi worker chạy với <b>context window cô lập</b> — không thấy transcript của worker khác hay của orchestrator</li>
+    <li>Worker <b>không trả nguyên transcript</b> — chỉ một bản tóm tắt cô đọng, khoảng <b>1.000–2.000 token</b></li>
+    <li>Đây chính là <b>subagent spawning ở §6</b>, nhìn ở quy mô một hệ nhiều agent</li>
+  </ul>
+</div>
+
+<h3>Kinh tế học của multi-agent</h3>
+<div class="vs">
+  <div class="lbad">
+    <h4>Khi CHƯA cần multi-agent</h4>
+    <ul>
+      <li>Một agent đơn với tool tốt vẫn thắng — ít moving part, dễ debug</li>
+      <li>Task vừa đủ trong một context window</li>
+      <li><b>Chi phí điều phối chi phối</b>: orchestrator + N worker = <b>N+1 lượt gọi model</b> cho một việc một agent làm được</li>
+      <li>Debug khó hơn: lỗi có thể nằm ở điều phối, không ở bất kỳ worker nào</li>
+    </ul>
+  </div>
+  <div class="lgood">
+    <h4>Khi multi-agent bắt đầu đáng tiền</h4>
+    <ul>
+      <li><b>Quá tải tool</b>: tách theo chuyên môn giảm nhiễu lựa chọn</li>
+      <li><b>Subtask song song thật sự</b> — không phụ thuộc kết quả của nhau</li>
+      <li><b>Chuyên môn hoá theo chủ sở hữu</b>: mỗi worker sở hữu một domain, bộ tool riêng, tiêu chí đúng/sai riêng</li>
+      <li><b>Cô lập context là mục đích</b>, không phải tác dụng phụ — worker ô nhiễm không lan sang worker khác</li>
+    </ul>
+  </div>
+</div>
+<div class="warn"><b>Ranh giới §9</b>Giao thức giao tiếp giữa agent, handoff pattern, <b>A2A (Agent-to-Agent)</b> → <b>Ngày 20</b>.</div>
+
+<h2><span class="num">§10</span> &nbsp;Guardrails &amp; Capability Control</h2>
+<p class="sub">§7 đã hứa: guardrails gắn vào <code>wrap_tool_call</code> — đến lúc trả lời tại sao.</p>
+
+<div class="bad"><b>Bề mặt tấn công mới</b>Prompt injection là <b>LLM01</b> — hạng mục <b>đứng đầu</b> OWASP Top 10 for LLM Applications ở cả bản 2023 lẫn 2025. Agentic AI cộng thêm kết nối tool/MCP mở ra bề mặt tấn công mới.</div>
+<table>
+  <tr><th style="width:250px">Kiểu tấn công</th><th>Mô tả</th></tr>
+  <tr><td><b>Tool poisoning</b></td><td>Metadata hoặc mô tả tool bị chỉnh sửa để dụ agent gọi sai</td></tr>
+  <tr><td><b>Credential theft qua tool output</b></td><td>Output tool trả về chứa lệnh ẩn đánh cắp secret trong context</td></tr>
+  <tr><td><b>Indirect injection qua retrieved content</b></td><td>Tài liệu/RAG chunk mang chỉ thị giả trang bị như dữ liệu thường</td></tr>
+</table>
+
+<h3>Defence in Depth — 5 lớp</h3>
+<div class="card">
+  <ol style="margin:0">
+    <li><b>Validate input</b> trước khi model nhìn thấy nó — lọc chỉ thị lạ ở tầng vào</li>
+    <li><b>Validate output</b> trước khi nó kích hoạt hành động</li>
+    <li><b>Enforce permission</b> qua capability manifest tại tầng tool-call — chính là hook <code>wrap_tool_call</code> (§7)</li>
+    <li><b>Gate hành động không thể hoàn tác</b> bằng một blocking pause chờ con người duyệt</li>
+    <li><b>Giới hạn budget &amp; action rate</b> như circuit breaker <b>cứng</b> — chặn cứng, không phải gợi ý</li>
+  </ol>
+</div>
+<div class="bad"><b>Nguyên tắc bất di bất dịch</b>“Một rule chỉ tồn tại trong system prompt <b>không phải một lớp phòng thủ</b>.” Model có thể bị thuyết phục bỏ qua một câu instruction — nhưng <b>không thể bỏ qua một allowlist chặn cứng ở tầng infrastructure</b>.</div>
+<p class="sub">Mọi tool có thể gọi cần đủ <b>ba thứ</b>: scope định nghĩa rõ · allowlist entry · <b>reversibility classification</b> (có rollback được không).</p>
+<div class="warn"><b>Ranh giới §10</b>Ngày 16 xây <b>khái niệm</b>. Triển khai: <b>Ngày 24</b> (guardrail cụ thể &amp; LLM-as-judge) · <b>Ngày 25</b> (circuit breaker &amp; reliability) · <b>Ngày 26</b> (MCP — capability manifest thật).</div>
+
+<h2><span class="num">§11</span> &nbsp;Grounding, Citation &amp; Hallucination Attribution</h2>
+
+<div class="stats">
+  <div class="stat"><div class="n">41.1%</div><div class="l">Step-localisation accuracy<br>của model <b>tốt nhất</b></div></div>
+  <div class="stat"><div class="n">11.6%</div><div class="l">Tool-use hallucination<br>— nhóm khó nhất</div></div>
+  <div class="stat"><div class="n">693</div><div class="l">Trajectory được gán nhãn<br>qua 5 domain</div></div>
+</div>
+<p class="sub"><i>AgentHallu — arXiv:2601.06818.</i> Bài toán khó ngay cả với model top-tier: 41.1% là điểm <b>cao nhất</b> đạt được, không phải điểm trung bình.</p>
+
+<h3>Ba loại lỗi trích dẫn — mỗi defence bắt một loại</h3>
+<table>
+  <tr><th style="width:200px">Loại lỗi</th><th>Mô tả</th><th>Defence bắt được nó</th></tr>
+  <tr><td><b>Unsupported claim</b></td><td>Câu trả lời không có nguồn nào đi kèm — claim trôi nổi</td><td>Kiểm tra “có citation không”</td></tr>
+  <tr><td><b>Misattributed claim</b></td><td>Nguồn được trích dẫn <b>có thật</b>, nhưng <b>không hề chứa</b> nội dung hỗ trợ claim đó</td><td>Phải <b>đọc lại nguồn</b></td></tr>
+  <tr><td><b>Fabricated source</b></td><td>Nguồn được trích dẫn <b>không tồn tại</b> — agent bịa cả citation</td><td>Phải <b>xác minh nguồn tồn tại</b></td></tr>
+</table>
+
+<h3>Citation-verification loop</h3>
+<div class="flow">
+  <span class="step"><b>1.</b> Parse claim<small>tách thành đơn vị kiểm được</small></span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Verify<small>đối chiếu đúng đoạn nguồn được trích</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> Abstain<small>“insufficient evidence” thay vì confabulate</small></span>
+</div>
+<div class="ok"><b>Điểm mấu chốt: abstain</b>Kiểm tra citation <b>có tồn tại</b> là chưa đủ — một citation thật vẫn có thể không hỗ trợ claim (misattributed). Và <b>abstain đúng lúc được thưởng điểm</b> — im lặng khi thiếu bằng chứng tốt hơn là bịa.</div>
+
+<h2><span class="num">§12</span> &nbsp;Đánh giá kiến trúc agent</h2>
+
+<h3>Benchmark 2026 — đo gì?</h3>
+<table>
+  <tr><th style="width:230px">Benchmark</th><th>Đo gì</th></tr>
+  <tr><td><b>Terminal-Bench 2.0</b></td><td>Agent tự động trong môi trường command-line thực tế — đọc file, chạy lệnh, sửa code, debug; chấm bằng hidden verifier tests. <b>89 task, mỗi agent thử 5 lần</b></td></tr>
+  <tr><td><b>GAIA</b></td><td><b>466 task</b> đòi hỏi multi-step web browsing, parse file và tool use; chấm đối chiếu ground-truth answer</td></tr>
+  <tr><td><b>τ²-bench</b> (tau2-bench)</td><td>Tool-agent-user interaction trong domain doanh nghiệp: user do LLM mô phỏng, agent gọi tool API domain-specific, <b>phải tuân theo policy document</b></td></tr>
+  <tr><td><b>OSWorld</b></td><td>Computer use trên desktop thật</td></tr>
+  <tr><td><b>SWE-bench Verified</b></td><td>Sửa bug GitHub thật</td></tr>
+  <tr><td><b>METR HCAST</b></td><td>Task <b>dài nhất</b> agent hoàn thành được với xác suất 50%</td></tr>
+</table>
+
+<h3>Đánh giá trajectory — không chỉ đáp án cuối</h3>
+<div class="note"><b>Vì sao</b>Final-answer accuracy chỉ nói agent đúng hay sai <b>ở đích</b> — nó <b>che giấu</b> agent đã đi lệch ở bước nào trên đường đi. Hai agent cùng ra đáp án đúng có thể có trajectory rất khác: một cái đi thẳng, một cái lạc đường rồi may mắn tìm lại được.</div>
+<p class="sub">Trajectory evaluation chấm <b>con đường</b>: agent có chọn đúng tool không · có tự phục hồi sau lỗi không · có ở trong ngân sách (budget bước/token) không.</p>
+
+<h3>Lab 16 “Agent Arena” — 3 chiều + 1 cổng</h3>
+<table>
+  <tr><th style="width:170px">Chiều</th><th>Chấm gì</th><th style="width:180px">Lớp</th></tr>
+  <tr><td><b>Grounding</b> (§11)</td><td>Citation precision/recall, phạt hallucination, thưởng abstain đúng lúc</td><td><code>citation_checker</code></td></tr>
+  <tr><td><b>Safety</b> (§10)</td><td>Injection resistance + correct abstention (từ chối hành động ngoài scope)</td><td><code>injection_guard</code></td></tr>
+  <tr><td><b>Efficiency</b> (§3)</td><td>Token cost + latency so với ngân sách</td><td><code>budget_policy</code></td></tr>
+</table>
+<div class="bad"><b>Trace-conformance gate PASS/FAIL</b>Trên cả ba chiều là một cổng: <b>không sinh được trace hợp lệ thì không chấm được chiều nào</b>. Đó là lý do middleware (§7) là <b>bắt buộc</b>.</div>
+
+<h3>Ma trận quyết định — khi nào dùng layer nào?</h3>
+<table>
+  <tr><th style="width:150px">Layer</th><th>Khi nào dùng</th><th style="width:80px">Chi phí</th><th>Dấu hiệu nên dừng lại</th></tr>
+  <tr><td><b>ReAct thuần</b></td><td>Task đơn giản, ít bước, không cần tự sửa</td><td>$</td><td>Sai ngay bước đầu, không tự sửa</td></tr>
+  <tr><td><b>+ critic</b> (§2)</td><td>Multi-step, cần tự sửa lỗi (<code>after_model</code>)</td><td>$$</td><td>Lặp self-reflect không thoát (<b>degeneration-of-thought</b>)</td></tr>
+  <tr><td><b>+ search</b> (§3)</td><td>High-stakes, cho phép rollback</td><td>$$$$$</td><td>Compute vượt giá trị, hoặc không undo được</td></tr>
+  <tr><td><b>+ skills</b> (§4)</td><td>Lặp domain, cần tích lũy kinh nghiệm</td><td>$$$</td><td>Library phình to, ít skill tái dùng (<b>skill rot</b>)</td></tr>
+  <tr><td><b>+ plan file</b> (§6)</td><td>Task dài hơi, cần checkpoint &amp; resume</td><td>$$$</td><td>Plan file rewrite toàn bộ thay vì patch</td></tr>
+  <tr><td><b>+ subagents</b> (§9)</td><td>Chia được sub-task độc lập, cần song song</td><td>$$$$</td><td>Orchestrator tốn token điều phối hơn worker làm việc</td></tr>
+</table>
+<p class="sub">Đọc thêm: <i>“AI Agents That Matter”</i> (2024) — nhiều bài toán không cần agent, đừng over-engineer.</p>
+
+<h2><span class="num">§13</span> &nbsp;Demo &amp; Lab 16</h2>
+
+<h3>Demo: ReAct vs Reflexion trên HotpotQA</h3>
+<div class="card">
+  <ol style="margin:0">
+    <li>Cùng câu hỏi 2-hop, chạy cả hai agent với <b>LangSmith tracing</b></li>
+    <li><b>ReAct:</b> sai entity ở hop 1 → lỗi lan tỏa → trả lời sai</li>
+    <li><b>Reflexion:</b> attempt 1 sai → Evaluator cho score=0 → Reflector sinh bài học → attempt 2 đúng</li>
+    <li>So sánh: trace, accuracy, cost/query</li>
+  </ol>
+</div>
+
+<h3>Lab 16 — 2 giờ</h3>
+<p><b>Mục tiêu:</b> Implement Reflexion agent <b>từ scratch</b> với LangGraph.</p>
+<div class="flow">
+  <span class="step"><b>1.</b> State machine<small>nodes = [act, evaluate, reflect, terminate]</small></span><span class="arw">→</span>
+  <span class="step"><b>2.</b> Evaluator<small>LLM-as-Judge, score 0–1 + reason, parse Pydantic</small></span><span class="arw">→</span>
+  <span class="step"><b>3.</b> Reflection memory<small>(attempt_id, failure_reason, lesson, strategy_next)</small></span><span class="arw">→</span>
+  <span class="step"><b>4.</b> Benchmark<small>20 câu HotpotQA — EM, attempts, token cost</small></span>
+</div>
+<p class="sub"><b>Deliverable:</b> GitHub repo + benchmark report — bảng so sánh EM, phân tích cost, phân loại failure modes.</p>
+<div class="warn"><b>Từ vựng dùng chung với lab</b>Scaffold của lab có sẵn stub cho <b>đúng sáu tên hook</b> ở §7, viết y hệt (kể cả dấu gạch dưới). Đổi tên, đổi thứ tự, hay viết sai một ký tự = <b>lab không chạy</b>.</div>
+
+<h3>4 Key Takeaways</h3>
+<div class="grid g2">
+  <div class="ok" style="margin:0"><b>1 · Chọn theo failure mode</b>Single agent thất bại theo ba kiểu có tên (§1): lỗi lan tỏa, infinite loop, không backtrack. Chọn kiến trúc theo failure mode <b>đang gặp</b>.</div>
+  <div class="ok" style="margin:0"><b>2 · Tất cả là lớp của harness</b>critic (§2) · search (§3) · skill (§4) · plan file (§6) · subagent (§9) — cắm vào sáu hook của §7. <b>Không phải sản phẩm đối thủ.</b></div>
+  <div class="ok" style="margin:0"><b>3 · Mỗi lớp tốn token &amp; latency</b>Thêm lớp khi có <b>bằng chứng</b> (failure mode đo được, trace, ngân sách) — không thêm mặc định; dùng ma trận §12.</div>
+  <div class="ok" style="margin:0"><b>4 · Các lớp còn lại học ngày khác</b>Memory qua session (Ngày 17) · giao thức multi-agent (Ngày 20) · guardrails triển khai (Ngày 24) · MCP (Ngày 26).</div>
+</div>
+<div class="note"><b>Câu hỏi đóng bài</b>“Bạn đang định thêm một lớp harness — <b>bằng chứng nào</b> cho thấy nó đáng chi phí token và latency?”</div>
+
+</section>
+
+<!-- ==================== TAB 2 ==================== -->
+<section class="panel" id="cheat">
+<button class="printbtn" onclick="window.print()">In cheat sheet</button>
+
+<div class="cheatgrid">
+<div>
+
+<h2>Ý tưởng xuyên suốt</h2>
+<div class="card">
+  <p style="margin:0"><b>Mọi kiến trúc = một LỚP của harness</b>, không phải sản phẩm đối thủ:<br>
+  critic (§2) · search (§3) · skill (§4) · persistence (§5) · plan file (§6) · subagent (§9)<br>
+  → tất cả cắm vào <b>6 hook</b> của §7</p>
+</div>
+
+<h2>3 failure modes của ReAct</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li><b>Lỗi lan tỏa</b> — sai bước 1 → sai hết chuỗi</li>
+    <li><b>Infinite loop</b> — tool trả noise → lặp mãi</li>
+    <li><b>Không backtrack</b> — đi sai không quay lại</li>
+  </ol>
+  <p style="margin:8px 0 0"><b>Root cause:</b> không có cơ chế tự đánh giá</p>
+</div>
+
+<h2>Khi nào escalate?</h2>
+<div class="card">
+  <p style="margin:0 0 6px">Chỉ khi gặp 1 trong 3:</p>
+  <ul style="margin:0">
+    <li><b>Tool overload</b></li>
+    <li><b>Branching logic</b> phức tạp</li>
+    <li><b>Specialist ownership</b></li>
+  </ul>
+  <p style="margin:8px 0 0"><b>Bẫy:</b> “càng nhiều agent càng tốt” là ngộ nhận</p>
+</div>
+
+<h2>Reflexion (§2)</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>4 bước:</b> Generate (Actor) → Evaluate (Evaluator, 0/1) → Reflect (Reflector) → Retry</p>
+  <p style="margin:0 0 6px"><b>State 5 phần:</b> messages, trajectory, reflection_memory, attempt_count, success</p>
+  <p style="margin:0 0 6px"><b>Số liệu:</b> 91% HumanEval pass@1 · 0 tham số model cập nhật · text feedback thay gradient</p>
+  <p style="margin:0"><b>Termination:</b> success=True hoặc attempt ≥ max (<b>default 3</b>)</p>
+</div>
+
+<h2>Evaluator prompt — 4 nguyên tắc</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li>Rubric tường minh (không hỏi chung chung)</li>
+    <li>Bắt buộc trích dẫn bằng chứng</li>
+    <li>Verdict JSON <code>{score, reason, evidence}</code></li>
+    <li><b>Tách context với Actor</b></li>
+  </ol>
+</div>
+
+<h2>Reflection memory</h2>
+<table>
+  <tr><th>Lưu</th><th>Không lưu</th></tr>
+  <tr><td>Bài học rút ra<br>Chiến lược đã thất bại<br>Ràng buộc mới phát hiện</td><td>Lịch sử chat thô<br>Tool dump đầy đủ<br>Diễn giải lại task</td></tr>
+</table>
+<p style="margin:2px 0 0">Sliding window: nhỏ quá → quên; lớn quá → chiếm context</p>
+
+<h2>4 failure modes Reflexion</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li><b>Correlated failure</b> — evaluator chung base với Actor</li>
+    <li><b>Reflection không đổi chiến lược</b></li>
+    <li><b>Retry không giới hạn</b></li>
+    <li><b>Memory mâu thuẫn nhau</b></li>
+  </ul>
+</div>
+
+<h2>LATS &amp; PRM (§3)</h2>
+<div class="card">
+  <dl class="kv">
+    <dt>LATS</dt><dd>MCTS + LLM · 92.7% vs 91% · <b>3–5× compute</b> · cần undo</dd>
+    <dt>Công thức</dt><dd>ToT + Reflexion + MCTS = LATS</dd>
+    <dt>ORM</dt><dd>chỉ chấm đáp án cuối</dd>
+    <dt>PRM</dt><dd>chấm từng bước, bắt lỗi sớm</dd>
+    <dt>ThinkPRM</dt><dd>verification CoT, ít nhãn hơn nhiều bậc</dd>
+  </dl>
+  <p style="margin:8px 0 0"><b>Đường cong chi phí:</b> diminishing returns nhanh, latency variance nới rộng → <b>compute-efficient reasoning</b></p>
+</div>
+
+<h2>Self-evolving (§5)</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>Quỹ đạo:</b> MOP → MOA → MAO → MASE</p>
+  <p style="margin:0 0 6px"><b>DGM:</b> SWE-bench 20.0→50.0% · Polyglot 14.2→30.7% · transfer được</p>
+  <p style="margin:0 0 6px"><b>3 định luật:</b> Endure (safety) → Excel (no regression) → Evolve</p>
+  <p style="margin:0"><b>Vì sao Endure đầu:</b> agent sửa được code thì sửa được cả guardrail → guardrail phải ở tầng infrastructure</p>
+</div>
+
+</div>
+<div>
+
+<h2>Plan–Act–Verify (§6)</h2>
+<div class="card">
+  <p style="margin:0 0 6px">Mỗi pha: <b>prompt riêng, budget riêng, tín hiệu thất bại riêng</b></p>
+  <p style="margin:0 0 6px"><b>3 tín hiệu:</b> Plan hỏng (mục tiêu sai) · Act hỏng (tool lỗi) · Verify hỏng (không đạt tiêu chí)</p>
+  <p style="margin:0">Đổi <b>latency</b> lấy <b>ổn định + debug được</b></p>
+</div>
+
+<h2>Deep Agents — 4 thành phần</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li><b>Plan file</b> (<code>write_todos</code>) — file thật, không phải text</li>
+    <li><b>Filesystem</b> = external memory</li>
+    <li><b>Subagent spawning</b> — context isolation</li>
+    <li><b>Auto-summarisation</b> — offload ra file</li>
+  </ul>
+  <p style="margin:8px 0 0"><b>Plan file thắng vì:</b> addressable · diffable · sống sót qua compaction</p>
+</div>
+
+<h2>3 núm xoay của harness (§7)</h2>
+<table>
+  <tr><th>Núm</th><th>Tính chất</th></tr>
+  <tr><td>System prompt</td><td>Tĩnh — sửa hành vi, không sửa cơ chế</td></tr>
+  <tr><td>Tools</td><td>Tĩnh — khai báo lúc dựng agent</td></tr>
+  <tr><td><b>Middleware</b></td><td><b>Duy nhất lập trình được</b> — có state, có điều kiện</td></tr>
+</table>
+
+<h2>6 HOOK — thuộc lòng thứ tự</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li><code>before_agent</code> — ngân sách + mở trace</li>
+    <li><code>before_model</code> — summarisation + injection</li>
+    <li><code>wrap_model_call</code> — retry, fallback, cost</li>
+    <li><code>after_model</code> — <b>critic layer §2</b>, validate, redact</li>
+    <li><code>wrap_tool_call</code> — <b>gating</b>, inject ctx, intercept</li>
+    <li><code>after_agent</code> — chốt sổ + đóng trace</li>
+  </ol>
+  <p style="margin:8px 0 0"><b>Ánh xạ:</b> critic=after_model · skill=before_model · search=quanh wrap_model_call · deep-agent ctx=before_model + wrap_tool_call</p>
+</div>
+
+<h2>Số liệu then chốt §7</h2>
+<div class="card">
+  <p style="margin:0"><b>52.8% → 66.5%</b> Terminal-Bench 2.0 · top 30+ → <b>#5</b> · <b>0</b> thay đổi model<br>→ toàn bộ từ <b>harness engineering</b></p>
+</div>
+
+<h2>Doom loop — 4 cách phá</h2>
+<div class="card">
+  <ol style="margin:0">
+    <li>Cảnh báo vào context (<code>before_model</code>)</li>
+    <li>Chặn hành động lặp (<code>wrap_tool_call</code>)</li>
+    <li>Ép đổi chiến lược (<code>after_model</code>)</li>
+    <li>Dừng &amp; bàn giao (<code>after_agent</code>)</li>
+  </ol>
+</div>
+
+<h2>Context Engineering (§8)</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>+29%</b> context editing · <b>+39%</b> + memory tool · <b>84%</b> giảm token</p>
+  <p style="margin:0 0 6px"><b>Ngưỡng:</b> đơn giản 5–20k · phức tạp 50–100k token</p>
+  <p style="margin:0 0 6px"><b>Đừng đợi đầy rồi mới nén</b> — nén muộn không cứu được lượt vừa hỏng</p>
+  <p style="margin:0"><b>Compaction</b> giữ theo <b>semantic relevance</b>; <b>truncation</b> cắt theo <b>vị trí</b></p>
+</div>
+
+<h2>Orchestrator–Worker (§9)</h2>
+<div class="card">
+  <p style="margin:0 0 6px">Worker context <b>cô lập</b>, trả tóm tắt <b>1.000–2.000 token</b></p>
+  <p style="margin:0"><b>Chi phí điều phối:</b> orchestrator + N worker = <b>N+1</b> lượt gọi model</p>
+</div>
+
+<h2>Guardrails (§10)</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>Prompt injection = LLM01</b> OWASP Top 10 (2023 &amp; 2025)</p>
+  <p style="margin:0 0 6px"><b>5 lớp:</b> validate input → validate output → capability manifest (<code>wrap_tool_call</code>) → blocking pause cho hành động không hoàn tác → budget/rate circuit breaker</p>
+  <p style="margin:0 0 6px"><b>Mỗi tool cần 3 thứ:</b> scope · allowlist entry · reversibility classification</p>
+  <p style="margin:0"><b>Rule trong prompt ≠ lớp phòng thủ</b></p>
+</div>
+
+<h2>Citation (§11)</h2>
+<div class="card">
+  <p style="margin:0 0 6px"><b>3 loại lỗi:</b> unsupported (không nguồn) · misattributed (nguồn thật, không hỗ trợ) · fabricated (nguồn không tồn tại)</p>
+  <p style="margin:0"><b>Loop:</b> parse claim → verify đối chiếu đoạn nguồn → <b>abstain</b> khi thiếu bằng chứng (được thưởng điểm)</p>
+</div>
+
+<h2>Ma trận quyết định (§12)</h2>
+<table>
+  <tr><th>Layer</th><th>$</th><th>Dừng khi</th></tr>
+  <tr><td>ReAct thuần</td><td>$</td><td>Sai bước đầu, không tự sửa</td></tr>
+  <tr><td>+ critic</td><td>$$</td><td>Degeneration-of-thought</td></tr>
+  <tr><td>+ search</td><td>$$$$$</td><td>Compute vượt giá trị / không undo</td></tr>
+  <tr><td>+ skills</td><td>$$$</td><td>Skill rot</td></tr>
+  <tr><td>+ plan file</td><td>$$$</td><td>Rewrite toàn bộ thay vì patch</td></tr>
+  <tr><td>+ subagents</td><td>$$$$</td><td>Điều phối tốn hơn làm việc</td></tr>
+</table>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== TAB 3 ==================== -->
+<section class="panel" id="cards">
+<div class="fcbar">
+  <button class="fbtn on" data-f="all">Tất cả</button>
+  <button class="fbtn" data-f="fail">Failure &amp; Reflexion</button>
+  <button class="fbtn" data-f="layer">Các lớp</button>
+  <button class="fbtn" data-f="hook">Harness &amp; Hook</button>
+  <button class="fbtn" data-f="ops">An toàn &amp; Đánh giá</button>
+  <span class="counter" id="cnt"></span>
+</div>
+<div class="fcgrid" id="fcgrid"></div>
+<p class="hint">Click vào thẻ để lật · Click lần nữa để úp lại</p>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); document.getElementById(b.dataset.t).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+const CARDS=[
+ ['fail','3 failure modes của ReAct?','<b>① Lỗi lan tỏa</b> (sai bước 1 → sai hết chuỗi) · <b>② Infinite loop</b> (tool trả noise → lặp mãi) · <b>③ Không backtrack</b> (đi sai không quay lại)'],
+ ['fail','Root cause của cả 3 failure mode?','ReAct <b>không có cơ chế tự đánh giá</b>. Khi đi sai, không có signal nào báo “dừng lại, suy nghĩ lại”.'],
+ ['fail','Khi nào MỚI nên escalate kiến trúc?','Chỉ khi gặp 1 trong 3: <b>Tool overload</b> · <b>Branching logic</b> phức tạp · <b>Specialist ownership</b>. Bẫy: “càng nhiều agent càng tốt” là ngộ nhận.'],
+ ['fail','ReAct EM trên HotpotQA?','<b>35.1%</b> (Yao et al.). Kèm: fail rate cao trên multi-hop, và <b>0</b> lần agent tự sửa lỗi.'],
+ ['fail','4 bước của Reflexion?','<b>Generate</b> (Actor) → <b>Evaluate</b> (Evaluator, score 0/1) → <b>Reflect</b> (Reflector rút bài học) → <b>Retry</b> (Actor). Ghi vào <b>Reflection Memory</b>.'],
+ ['fail','Reflexion khác ReAct ở đâu về cơ chế học?','Dùng <b>text feedback thay gradient</b>. LLM đã train trên ngôn ngữ tự nhiên → critique bằng text là “natural modality”. <b>0 tham số model được cập nhật.</b>'],
+ ['fail','5 thành phần của ReflexionState?','<code>messages</code> · <code>trajectory</code> · <code>reflection_memory</code> · <code>attempt_count</code> · <code>success</code>'],
+ ['fail','Termination của Reflexion?','<b>success = True</b>, hoặc <b>attempt ≥ max (default 3)</b>. Chính là để tránh infinite loop — failure mode #2 của ReAct.'],
+ ['fail','Con số của Reflexion?','<b>91% HumanEval pass@1</b> (code generation). Tăng trên multi-hop QA &amp; decision-making (mức tuỳ task). Dùng <b>episodic memory</b>.'],
+ ['fail','4 nguyên tắc viết Evaluator prompt?','① <b>Rubric tường minh</b> · ② <b>Bắt buộc trích dẫn bằng chứng</b> · ③ <b>Verdict JSON</b> <code>{score, reason, evidence}</code> · ④ <b>Tách context với Actor</b>'],
+ ['fail','Reflection memory nên LƯU gì?','<b>Bài học rút ra</b> (“thử X không được vì Y, lần sau thử Z”) · <b>Chiến lược đã thất bại</b> · <b>Ràng buộc mới phát hiện</b>'],
+ ['fail','Reflection memory KHÔNG nên lưu gì?','<b>Lịch sử chat thô</b> của attempt cũ · <b>Tool dump đầy đủ</b> (raw JSON, log) · <b>Diễn giải lại task</b> — không thêm thông tin mới.'],
+ ['fail','4 failure modes của Reflexion trong production?','<b>Correlated failure</b> (evaluator chung base với Actor) · <b>Reflection không đổi chiến lược</b> · <b>Retry không giới hạn</b> · <b>Memory mâu thuẫn nhau</b>'],
+ ['fail','Correlated failure đến từ đâu?','Evaluator dùng <b>chung context/model/prompt base</b> với Actor → nó “đồng ý” với câu trả lời sai thay vì bắt lỗi độc lập. Đó là lý do phải tách context.'],
+
+ ['layer','Reflexion là lớp gì của harness?','<b>Critic layer</b> — Evaluator + Reflector quấn quanh vòng lặp reasoning đã có. Không phải kiến trúc đối thủ của ReAct.'],
+ ['layer','LATS là gì và tốn bao nhiêu?','<b>MCTS + LLM</b> — mỗi node là một trạng thái suy luận. <b>92.7% vs 91%</b> của Reflexion, nhưng tốn <b>3–5× compute</b> và cần environment cho phép <b>undo</b>.'],
+ ['layer','Công thức tạo ra LATS?','<b>ToT + Reflexion → LATS.</b> ToT chỉ expand cây, Reflexion chỉ reflect — LATS làm cả hai <b>cộng MCTS search</b>.'],
+ ['layer','LATS sửa failure mode nào của §1?','Failure mode <b>#3 — không backtrack</b>: “đi sai một nhánh, không quay lại được”. LATS là <b>search layer</b>.'],
+ ['layer','ORM vs PRM?','<b>ORM</b> chỉ chấm đáp án cuối — không biết bước nào sai.<br><b>PRM</b> chấm <b>từng bước</b>, bắt lỗi ngay khi nó xảy ra thay vì sau khi đã đi hết.'],
+ ['layer','ThinkPRM khác PRM thường ở đâu?','Sinh <b>verification chain-of-thought</b> cho mỗi bước thay vì gán một điểm số rời rạc — đạt hiệu năng mạnh với <b>ít hơn nhiều bậc độ lớn</b> nhãn huấn luyện.'],
+ ['layer','Vòng lặp Voyager?','<b>Auto Curriculum</b> (tự đặt mục tiêu) → <b>Code Generator</b> → <b>Verify &amp; Debug</b> → <b>Skill Library</b> → retrieve lại. Skill mới xây trên skill cũ (<b>compound learning</b>).'],
+ ['layer','Vấn đề của “search thêm”?','<b>Diminishing returns đến rất nhanh</b>, <b>latency variance nới rộng</b>, chi phí hạ tầng đến lúc không justify được → hướng đúng là <b>compute-efficient reasoning</b>.'],
+ ['layer','Skill files vs persistent instruction file?','<b>Skill files:</b> on-demand, chỉ load khi task chạm tới (progressive).<br><b>Persistent instruction file</b> (agents-file, kiểu CLAUDE.md): đọc <b>một lần lúc khởi động</b>.'],
+ ['layer','Cái gì sống qua ranh giới episode?','<b>Reflexion:</b> quên khi episode kết thúc. <b>Tree search:</b> bỏ cả cây. <b>Voyager:</b> skill verified ghi ra Skill Library — <b>đó đã là self-evolution</b>.'],
+ ['layer','Quỹ đạo 4 giai đoạn của self-evolving agents?','<b>MOP</b> (pretraining offline) → <b>MOA</b> (thích nghi online) → <b>MAO</b> (điều phối đa agent) → <b>MASE</b> (đa agent tự tiến hoá)'],
+ ['layer','Kết quả của Darwin Gödel Machine?','SWE-bench <b>20.0% → 50.0%</b> · Polyglot <b>14.2% → 30.7%</b> · cải tiến <b>transfer được</b> sang foundation model khác.'],
+ ['layer','Vòng lặp của DGM?','Lấy agent từ <b>archive</b> → foundation model sinh <b>biến thể</b> (sửa chính mã nguồn) → <b>validate bằng benchmark</b> → chỉ giữ cái chạy được. Archive kiểu Darwin giữ cả nhánh kém → cây agent đa dạng.'],
+ ['layer','Phần thú vị nhất của DGM không phải điểm số — mà là gì?','Cái nó <b>tự tìm ra</b>: tool sửa code tốt hơn, cách quản lý long-context, cơ chế peer-review — những cải tiến <b>nền tảng và chuyển được</b>, không overfit vào một model.'],
+ ['layer','3 định luật self-evolution?','<b>① Endure</b> (safety adaptation) → <b>② Excel</b> (performance preservation) → <b>③ Evolve</b> (autonomous evolution). Evolve chỉ có nghĩa khi hai điều trên đã giữ được.'],
+ ['layer','Vì sao Endure đứng đầu, không phải Evolve?','Agent sửa được mã nguồn của chính nó thì <b>guardrail nằm trong mã nguồn đó cũng nằm trong tầm với</b> → guardrail phải ở tầng infrastructure mà vòng lặp tiến hoá không có quyền ghi.'],
+ ['layer','Vì sao tách Plan – Act – Verify?','Mỗi pha có <b>prompt riêng, budget riêng, tín hiệu thất bại riêng</b> → pha nào hỏng biết ngay pha đó. Đổi <b>latency</b> lấy <b>ổn định + debug được</b>.'],
+ ['layer','4 thành phần của Deep Agents?','<b>Plan file</b> (write_todos) · <b>Filesystem = external memory</b> · <b>Subagent spawning</b> · <b>Auto-summarisation</b>. Không cái nào tự làm agent “deep” — chính <b>sự kết hợp</b>.'],
+ ['layer','Vì sao plan file thắng plan trong context?','<b>Addressable</b> (mỗi mục có vị trí cố định) · <b>Diffable</b> (so sánh hai thời điểm) · <b>Sống sót qua compaction</b> (nằm ngoài context window).'],
+
+ ['hook','Con số then chốt của §7?','<b>52.8% → 66.5%</b> trên Terminal-Bench 2.0, từ ngoài top 30 lên <b>#5</b>, với <b>0</b> thay đổi ở model. Toàn bộ đến từ <b>harness engineering</b>.'],
+ ['hook','3 núm xoay của harness?','<b>① System prompt</b> (tĩnh, sửa hành vi không sửa cơ chế) · <b>② Tools</b> (tĩnh, khai báo lúc dựng) · <b>③ Middleware</b> — <b>núm duy nhất lập trình được</b>.'],
+ ['hook','6 hook theo đúng thứ tự?','<code>before_agent</code> → <code>before_model</code> → <code>wrap_model_call</code> → <code>after_model</code> → <code>wrap_tool_call</code> → <code>after_agent</code>'],
+ ['hook','before_model làm gì?','Quyết định <b>model được thấy gì</b>: ① <b>context summarisation</b> (nén cái đã dài) · ② <b>context injection</b> (nạp skill file, chèn lại plan file, chèn reflection memory).'],
+ ['hook','after_model làm gì?','Nói về <b>NỘI DUNG</b>: critic layer của §2 (Evaluator + Reflector + vòng thử lại), validate schema, redact PII, phát hiện mẫu bất thường, đếm ngân sách.'],
+ ['hook','after_model khác wrap_model_call thế nào?','<b>wrap_model_call</b> bọc bản thân <b>lời gọi</b> (retry, fallback, latency/cost).<br><b>after_model</b> nói về <b>nội dung</b> của output.'],
+ ['hook','3 việc chỉ wrap_tool_call làm được?','<b>Gating</b> (chặn/đổi tham số/trả lỗi trước mọi side effect) · <b>Injecting context</b> (tenant/user, scope, request-id) · <b>Intercepting results</b> (redact PII, cắt output, offload ra file).'],
+ ['hook','Vì sao luật phải nằm ở wrap_tool_call chứ không ở prompt?','“Đừng gọi tool xoá khi chưa xác nhận” trong system prompt là một <b>lời đề nghị</b>; cùng luật đó trong <code>wrap_tool_call</code> là một <b>bất biến</b>.'],
+ ['hook','before_agent / after_agent dùng làm gì?','Chạy <b>một lần</b>: <b>budget accounting</b> (khởi tạo hạn mức → chốt sổ) và <b>trace emission</b> (mở root span → đóng span). Thiếu chúng thì “task này tốn bao nhiêu?” là câu hỏi không trả lời được.'],
+ ['hook','Ánh xạ các lớp vào hook?','critic (§2) = <code>after_model</code> · skill (§4) = <code>before_model</code> · search (§3) = quanh <code>wrap_model_call</code> · deep-agent context (§6) = <code>before_model</code> + <code>wrap_tool_call</code>'],
+ ['hook','Vì sao model không tự thấy doom loop?','Từ bên trong context, <b>vòng lặp thứ N trông y hệt vòng thứ nhất</b>. Sự lặp lại là thuộc tính của <b>lịch sử</b> — mà lịch sử đó có thể đã bị nén mất. Middleware thấy vì nó giữ state.'],
+ ['hook','4 cách phá doom loop (leo thang)?','① Cảnh báo vào context (<code>before_model</code>) → ② Chặn hành động lặp (<code>wrap_tool_call</code>) → ③ Ép đổi chiến lược (<code>after_model</code>) → ④ Dừng &amp; bàn giao (<code>after_agent</code>)'],
+ ['hook','Số liệu context engineering (§8)?','<b>+29%</b> context editing một mình · <b>+39%</b> kèm memory tool · <b>84%</b> giảm token trên eval web-search 100 lượt.'],
+ ['hook','Ngưỡng kích hoạt compaction?','Workload <b>đơn giản: 5–20k token</b>. Workload <b>phức tạp: 50–100k token</b>. Cắm vào <code>before_model</code>.'],
+ ['hook','Sai lầm phổ biến nhất về compaction?','<b>Đợi context đầy rồi mới nén.</b> Lúc đó model đã mất chất lượng vì context quá dài — nén muộn không cứu được lượt gọi vừa hỏng.'],
+ ['hook','Compaction vs Truncation?','<b>Compaction:</b> LLM viết bản tóm tắt holistic, giữ theo <b>semantic relevance</b>.<br><b>Truncation:</b> cắt theo <b>vị trí</b> — luôn mất phần cũ nhất kể cả khi còn quan trọng.'],
+ ['hook','Compaction vs Structured eviction?','<b>Compaction:</b> lossy, tốn 1 lượt gọi model, giữ theo độ liên quan.<br><b>Eviction:</b> rẻ (không gọi model), <b>dự đoán được</b>, nhưng chỉ cắt theo luật/vị trí.'],
+
+ ['ops','Worker trong Orchestrator–Worker trả về gì?','<b>Không phải nguyên transcript</b> — chỉ một bản tóm tắt cô đọng khoảng <b>1.000–2.000 token</b>. Mỗi worker có context window <b>cô lập</b>.'],
+ ['ops','Chi phí điều phối của multi-agent?','Orchestrator + N worker = <b>N+1 lượt gọi model</b> cho một việc mà một agent có thể làm được. Debug cũng khó hơn — lỗi có thể ở điều phối, không ở worker nào.'],
+ ['ops','Khi nào multi-agent đáng tiền?','<b>Quá tải tool</b> · <b>Subtask song song thật sự</b> · <b>Chuyên môn hoá theo chủ sở hữu</b> · <b>Cô lập context là mục đích</b>, không phải tác dụng phụ.'],
+ ['ops','Prompt injection xếp hạng gì trong OWASP?','<b>LLM01</b> — hạng mục <b>đứng đầu</b> OWASP Top 10 for LLM Applications ở cả bản <b>2023 lẫn 2025</b>.'],
+ ['ops','3 kiểu tấn công agentic mới?','<b>Tool poisoning</b> (metadata tool bị sửa) · <b>Credential theft qua tool output</b> (lệnh ẩn trong output) · <b>Indirect injection qua retrieved content</b> (RAG chunk mang chỉ thị giả).'],
+ ['ops','5 lớp defence in depth?','① Validate input · ② Validate output · ③ <b>Enforce permission qua capability manifest</b> (<code>wrap_tool_call</code>) · ④ Blocking pause cho hành động không hoàn tác · ⑤ Budget &amp; action rate như <b>circuit breaker cứng</b>.'],
+ ['ops','Nguyên tắc bất di bất dịch về guardrail?','<b>“Một rule chỉ tồn tại trong system prompt không phải một lớp phòng thủ.”</b> Model bị thuyết phục bỏ qua instruction được — nhưng không bỏ qua được allowlist chặn cứng ở infrastructure.'],
+ ['ops','Mỗi tool cần đủ 3 thứ gì?','<b>Scope</b> định nghĩa rõ · <b>Allowlist entry</b> · <b>Reversibility classification</b> (có rollback được không).'],
+ ['ops','Số liệu AgentHallu (§11)?','<b>41.1%</b> step-localisation accuracy của model <b>tốt nhất</b> (không phải trung bình) · <b>11.6%</b> tool-use hallucination (nhóm khó nhất) · <b>693</b> trajectory qua 5 domain.'],
+ ['ops','3 loại lỗi trích dẫn?','<b>Unsupported</b> (không có nguồn nào) · <b>Misattributed</b> (nguồn có thật nhưng không hỗ trợ claim) · <b>Fabricated</b> (nguồn không tồn tại).'],
+ ['ops','Vì sao phân biệt 3 loại lỗi trích dẫn?','Mỗi defence bắt một loại: kiểm “có citation không” chỉ bắt <b>unsupported</b>; phải <b>đọc lại nguồn</b> mới bắt <b>misattributed</b>; phải <b>xác minh nguồn tồn tại</b> mới bắt <b>fabricated</b>.'],
+ ['ops','Điểm mấu chốt của citation-verification loop?','<b>Abstain</b> — agent phải trả “insufficient evidence” thay vì confabulate khi không tìm được nguồn hỗ trợ. <b>Abstain đúng lúc được thưởng điểm.</b>'],
+ ['ops','Terminal-Bench 2.0 đo gì?','Agent tự động trong môi trường <b>command-line thực tế</b> — đọc file, chạy lệnh, sửa code, debug; chấm bằng <b>hidden verifier tests</b>. <b>89 task, mỗi agent thử 5 lần</b>.'],
+ ['ops','Vì sao cần trajectory evaluation?','Final-answer accuracy <b>che giấu</b> agent đã đi lệch ở bước nào. Hai agent cùng đáp án đúng có thể có trajectory rất khác — một đi thẳng, một lạc đường rồi may mắn tìm lại.'],
+ ['ops','3 chiều chấm của Lab 16 Agent Arena?','<b>Grounding</b> (citation_checker) · <b>Safety</b> (injection_guard) · <b>Efficiency</b> (budget_policy) — và trên cả ba là <b>trace-conformance gate PASS/FAIL</b>.'],
+ ['ops','Vì sao middleware là bắt buộc trong Lab 16?','Vì <b>không sinh được trace hợp lệ thì không chấm được chiều nào</b> — trace-conformance gate là PASS/FAIL đứng trên cả ba chiều đánh giá.'],
+ ['ops','Dấu hiệu nên dừng khi dùng critic layer?','<b>Degeneration-of-thought</b> — lặp self-reflect không thoát ra được. (Với search: compute vượt giá trị; skills: skill rot; subagents: điều phối tốn hơn làm việc.)'],
+ ['ops','4 key takeaways của Day 16?','① Chọn kiến trúc theo <b>failure mode đang gặp</b> · ② Mọi kiến trúc là <b>một lớp của harness</b>, cắm vào 6 hook · ③ Mỗi lớp tốn token &amp; latency — thêm khi có <b>bằng chứng</b> · ④ Các lớp còn lại học ngày khác.'],
+];
+const grid=document.getElementById('fcgrid'), cnt=document.getElementById('cnt');
+const NAMES={fail:'Failure & Reflexion',layer:'Các lớp',hook:'Harness & Hook',ops:'An toàn & Đánh giá'};
+function render(f){
+  const list=f==='all'?CARDS:CARDS.filter(c=>c[0]===f);
+  grid.innerHTML=list.map(c=>`<div class="fc"><div class="fci">
+      <div class="ff"><div class="tag2">${NAMES[c[0]]}</div><div class="q">${c[1]}</div></div>
+      <div class="fb"><div class="a">${c[2]}</div></div></div></div>`).join('');
+  cnt.textContent=list.length+' thẻ';
+  grid.querySelectorAll('.fc').forEach(el=>el.onclick=()=>el.classList.toggle('flip'));
+}
+document.querySelectorAll('.fbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); render(b.dataset.f);
+});
+render('all');
+</script>
+</body>
+</html>
